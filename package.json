@@ -1,0 +1,32 @@
+{
+  "name": "pcpowerlab",
+  "version": "0.1.0",
+  "description": "PCPowerLab - plataforma para simulação, compatibilidade e apoio à decisão na montagem de PCs personalizados.",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "lint": "eslint src tests"
+  },
+  "keywords": [
+    "pcpowerlab",
+    "hardware",
+    "compatibilidade",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Equipe PCPowerLab",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.18.0"
+  }
+}

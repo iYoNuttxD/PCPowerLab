@@ -1,0 +1,18 @@
+import { checkBuildCompatibility } from '../services/compatibility.service.js';
+import { ok } from '../utils/api-response.js';
+
+export function checkCompatibility(req, res, next) {
+  try {
+    const result = checkBuildCompatibility(req.body.components);
+
+    return ok(
+      res,
+      result,
+      result.compatible
+        ? 'Configuração compatível.'
+        : 'Configuração possui alertas de compatibilidade.'
+    );
+  } catch (error) {
+    return next(error);
+  }
+}

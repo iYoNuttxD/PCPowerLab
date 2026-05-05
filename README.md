@@ -1,0 +1,115 @@
+# PCPowerLab
+
+PCPowerLab é uma plataforma web para apoiar a montagem de computadores personalizados. O objetivo do MVP é permitir que o usuário selecione componentes, consulte uma base inicial de hardware, verifique compatibilidade entre peças e receba alertas claros antes da compra.
+
+## Objetivo do commit inicial
+
+Este repositório já vem com uma base em JavaScript/Node.js para que a equipe continue o desenvolvimento seguindo o mesmo padrão de organização.
+
+O projeto foi estruturado para separar responsabilidades:
+
+- `routes`: definição das rotas da API;
+- `controllers`: recebem a requisição e retornam a resposta;
+- `services`: regras de negócio;
+- `models`: estruturas e validações simples dos dados;
+- `data`: base mockada inicial para desenvolvimento;
+- `middlewares`: tratamento de erro e rotas não encontradas;
+- `utils`: funções auxiliares.
+
+## Funcionalidades base incluídas
+
+- Health check da API;
+- Consulta de componentes disponíveis;
+- Filtro de componentes por categoria;
+- Seleção de componentes principais de um computador;
+- Verificação inicial de compatibilidade entre componentes;
+- Exibição de alertas de incompatibilidade;
+- Base mockada de componentes;
+- Base mockada de regras de compatibilidade;
+- Testes iniciais da regra de compatibilidade.
+
+## Como rodar o projeto
+
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
+
+A API ficará disponível em:
+
+```bash
+http://localhost:3000/api/v1
+```
+
+## Rotas iniciais
+
+### Status da API
+
+```http
+GET /api/v1/health
+```
+
+### Listar componentes
+
+```http
+GET /api/v1/components
+```
+
+### Listar componentes por categoria
+
+```http
+GET /api/v1/components?category=cpu
+GET /api/v1/components?category=gpu
+GET /api/v1/components?category=motherboard
+GET /api/v1/components?category=ram
+GET /api/v1/components?category=storage
+GET /api/v1/components?category=psu
+GET /api/v1/components?category=case
+```
+
+### Buscar componente por ID
+
+```http
+GET /api/v1/components/cpu-ryzen-5-5600
+```
+
+### Verificar compatibilidade de uma build
+
+```http
+POST /api/v1/builds/check-compatibility
+Content-Type: application/json
+
+{
+  "components": {
+    "cpu": "cpu-ryzen-5-5600",
+    "motherboard": "mb-b550m-aorus-elite",
+    "gpu": "gpu-rtx-4060",
+    "ram": "ram-kingston-fury-16gb-ddr4",
+    "storage": "ssd-kingston-nv2-1tb",
+    "psu": "psu-corsair-650w",
+    "case": "case-mid-tower-airflow"
+  }
+}
+```
+
+## Padrão de desenvolvimento da equipe
+
+1. Criar novas rotas em `src/routes`.
+2. Criar controllers em `src/controllers`.
+3. Colocar regras de negócio em `src/services`.
+4. Evitar regra de negócio diretamente na rota.
+5. Usar respostas padronizadas com `success`, `data`, `message` e `errors`.
+6. Criar testes quando alterar regras de compatibilidade ou cálculo.
+7. Usar nomes em inglês no código e mensagens em português quando forem retornadas ao usuário.
+
+## Próximos passos sugeridos
+
+- Implementar autenticação para administrador;
+- Criar CRUD real de componentes;
+- Criar CRUD real de regras de compatibilidade;
+- Persistir dados em banco de dados;
+- Implementar recomendação por orçamento;
+- Implementar cálculo de gargalo;
+- Implementar estimativa de desempenho em jogos;
+- Criar frontend integrado à API.
