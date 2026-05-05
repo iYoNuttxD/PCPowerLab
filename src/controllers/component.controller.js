@@ -3,8 +3,11 @@ import { ok, fail } from '../utils/api-response.js';
 
 export function getComponents(req, res, next) {
   try {
-    const components = listComponents({ category: req.query.category });
-    return ok(res, components, 'Componentes encontrados com sucesso.');
+    const requestedType = req.query.type ?? req.query.category;
+    const components = listComponents({ type: requestedType });
+    const message = buildListComponentsMessage(components, requestedType);
+
+    return ok(res, components, message);
   } catch (error) {
     return next(error);
   }
@@ -18,4 +21,16 @@ export function getComponentById(req, res) {
   }
 
   return ok(res, component, 'Componente encontrado com sucesso.');
+}
+
+function buildListComponentsMessage(components, requestedType) {
+  if (components.length > 0) {
+    return 'Componentes encontrados com sucesso.';
+  }
+
+  if (requestedType) {
+    return 'Nenhum componente cadastrado para a categoria informada.';
+  }
+
+  return 'Nenhum componente cadastrado.';
 }
