@@ -1,20 +1,23 @@
-import { components } from '../data/components.mock.js';
+import {
+  findComponentRecordById,
+  listComponentRecords
+} from '../data/component.repository.js';
 import { componentCategories, isValidComponentCategory } from '../models/component.model.js';
 
 export function listComponents(filters = {}) {
   const category = normalizeCategoryFilter(filters.type ?? filters.category);
 
   if (!category) {
-    return components;
+    return listComponentRecords();
   }
 
   validateComponentCategory(category);
 
-  return components.filter((component) => component.category === category);
+  return listComponentRecords().filter((component) => component.category === category);
 }
 
 export function findComponentById(componentId) {
-  return components.find((component) => component.id === componentId) || null;
+  return findComponentRecordById(componentId);
 }
 
 export function findComponentsByIds(componentIds) {
