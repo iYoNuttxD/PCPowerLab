@@ -93,6 +93,30 @@ Content-Type: application/json
 }
 ```
 
+### Listar regras de compatibilidade
+
+```http
+GET /api/v1/compatibility-rules
+```
+
+### Cadastrar regra de compatibilidade
+
+```http
+POST /api/v1/compatibility-rules
+Content-Type: application/json
+
+{
+  "name": "CPU socket must match motherboard socket",
+  "sourceType": "cpu",
+  "targetType": "motherboard",
+  "field": "socket",
+  "targetField": "socket",
+  "operator": "equals",
+  "severity": "high",
+  "message": "O socket do processador deve ser compatível com o socket da placa-mãe."
+}
+```
+
 ## Padrão de desenvolvimento da equipe
 
 1. Criar novas rotas em `src/routes`.
