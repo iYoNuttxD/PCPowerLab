@@ -134,6 +134,50 @@ Retorna um único componente quando o identificador informado existir. Caso o ID
 }
 ```
 
+## Endpoints administrativos de componentes
+
+As rotas administrativas manipulam a base mockada em memoria e preservam a consulta publica de componentes ativos.
+
+### Listar componentes administrativos
+
+`GET /api/v1/admin/components`
+
+Aceita os filtros opcionais `type`/`category` e `active=true|false`.
+
+### Buscar componente administrativo por ID
+
+`GET /api/v1/admin/components/:id`
+
+Retorna componentes ativos ou inativos.
+
+### Cadastrar componente
+
+`POST /api/v1/admin/components`
+
+Campos comuns: `id`, `name`, `type`, `brand`, `estimatedPrice`, `active` e campos tecnicos do tipo. O campo `id` e opcional; quando omitido, a API gera um ID simples por categoria.
+
+### Editar componente
+
+`PUT /api/v1/admin/components/:id`
+
+Atualiza apenas componentes existentes e aceita atualizacao parcial.
+
+### Desativar componente
+
+`DELETE /api/v1/admin/components/:id`
+
+Realiza desativacao logica (`active: false`) para preservar historico futuro.
+
+### Campos tecnicos obrigatorios por tipo
+
+- `cpu`: `socket`, `cores`, `threads`, `baseClock`, `boostClock`, `tdp`
+- `gpu`: `vram`, `tdp`, `length`, `recommendedPsu`
+- `motherboard`: `socket`, `memoryType`, `formFactor`, `chipset`
+- `ram`: `memoryType`, `capacity`, `speed`
+- `storage`: `interface`, `capacity`, `specs.type` ou `storageType`
+- `psu`: `wattage` ou `watts`, `efficiency`
+- `case`: `supportedFormFactors`, `maxGpuLength`
+
 ## Endpoints de regras de compatibilidade
 
 ### Listar regras existentes
