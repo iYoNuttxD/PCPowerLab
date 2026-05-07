@@ -52,6 +52,24 @@ Campos principais:
 - `psu`;
 - `case`.
 
+### CompatibilityRule
+
+Representa uma regra técnica de compatibilidade preparada para validações futuras.
+
+Campos principais:
+
+- `id`: identificador único da regra;
+- `name`: nome técnico da regra;
+- `sourceType`: tipo do componente de origem;
+- `targetType`: tipo do componente de destino ou `build`;
+- `field`: campo técnico analisado no componente de origem;
+- `targetField`: campo técnico analisado no destino;
+- `operator`: operador usado na comparação;
+- `severity`: severidade do alerta, podendo ser `low`, `medium` ou `high`;
+- `active`: indica se a regra está ativa;
+- `priority`: prioridade de execução futura;
+- `message`: mensagem em português para o usuário.
+
 ## Categorias aceitas
 
 - `cpu`
@@ -62,6 +80,12 @@ Campos principais:
 - `psu`
 - `case`
 
+## Operadores de regras aceitos
+
+- `equals`
+- `includes`
+- `lessThanOrEqual`
+- `greaterThanOrEqual`
 
 ## Endpoints de componentes
 
@@ -110,12 +134,46 @@ Retorna um único componente quando o identificador informado existir. Caso o ID
 }
 ```
 
+## Endpoints de regras de compatibilidade
+
+### Listar regras existentes
+
+`GET /api/v1/compatibility-rules`
+
+Retorna as regras cadastradas na base mockada. A rota aceita filtros opcionais:
+
+- `sourceType`: filtra pelo componente de origem;
+- `targetType`: filtra pelo componente de destino;
+- `active`: filtra por regras ativas ou inativas usando `true` ou `false`.
+
+### Cadastrar nova regra
+
+`POST /api/v1/compatibility-rules`
+
+Campos obrigatórios: `name`, `sourceType`, `targetType`, `field`, `operator`, `severity` e `message`.
+
+O campo `id` é opcional. Quando não informado, a API gera um identificador no padrão `rule-000`.
+
+```json
+{
+  "name": "CPU socket must match motherboard socket",
+  "sourceType": "cpu",
+  "targetType": "motherboard",
+  "field": "socket",
+  "targetField": "socket",
+  "operator": "equals",
+  "severity": "high",
+  "message": "O socket do processador deve ser compatível com o socket da placa-mãe."
+}
+```
+
 ## Regras iniciais de compatibilidade
 
-A primeira versão da API valida:
+A primeira versão da API valida e agora também cadastra/lista regras para:
 
 - socket do processador com socket da placa-mãe;
 - tipo de memória RAM com tipo aceito pela placa-mãe;
 - potência estimada da fonte;
 - tamanho da placa-mãe com gabinete;
+- tamanho da placa de vídeo com gabinete, quando a informação existir;
 - interface de armazenamento com suporte da placa-mãe.
