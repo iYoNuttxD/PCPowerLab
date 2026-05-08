@@ -1,3 +1,156 @@
+Limão
+spilledlemon38
+Compartilhando tela
+
+PxT — 15:51
+e no dela deu 9:50
+Limão — 15:52
+no meu deu 9:51
+Blêd [SOS団],  — 15:52
+o meu deu 9 e 40 e pouco
+quase 50
+PxT — 15:52
+hm
+ela falou
+"vou começar o cronometro"
+ai eu falei fudeu
+ela vai começa antes
+e o nosso ta no limite
+ai o eduardo falou rapidao
+Blêd [SOS団],  — 15:52
+é literalmente min max essa porra
+vtnc
+nem WoW era assim
+PxT — 15:52
+eu achei q era pra falr rapido
+ [SOS団], 
+PxT — 15:53
+pse
+PxT — 20:03
+AUGUSTO
+docs/API.mds
+# Documentação inicial da API - PCPowerLab
+
+## Padrão de resposta
+
+### Sucesso
+
+API.md
+7 KB
+src\controllers
+import { checkBuildCompatibility } from '../services/compatibility.service.js';
+import { selectBuildComponents } from '../services/build.service.js';
+import { ok } from '../utils/api-response.js';
+
+export function selectComponents(req, res, next) {
+  try {
+
+build.controller.js
+1 KB
+src\controllers
+import { Router } from 'express';
+import { checkCompatibility, selectComponents } from '../controllers/build.controller.js';
+
+export const buildRoutes = Router();
+
+buildRoutes.post('/selection', selectComponents);
+
+build.routes.js
+1 KB
+src\services
+import { findComponentById } from './component.service.js';
+
+export const requiredBuildSlots = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case'];
+export const optionalBuildSlots = [];
+
+const slotInputFields = {
+
+build.service.js
+3 KB
+tests\ 
+import test from 'node:test';
+import assert from 'node:assert/strict';
+
+import { selectBuildComponents } from '../src/services/build.service.js';
+
+const validSelection = {
+
+build.service.test.js
+3 KB
+PxT — 20:11
+Imagem
+PxT — 20:20
+EDUARDO -----------------------------------------------
+src\services
+import { checkBuildCompatibility } from './compatibility.service.js';
+
+const alertTemplates = {
+  CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE: {
+    title: 'Processador incompativel com a placa-mae',
+    components: ['cpu', 'motherboard'],
+
+compatibility-alert.service.js
+6 KB
+src
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+
+import { env } from './config/env.js';
+
+app.js
+2 KB
+src\controllers
+import {
+  checkBuildCompatibilityAlerts,
+  generateMissingComponentAlerts
+} from '../services/compatibility-alert.service.js';
+import { ok } from '../utils/api-response.js';
+
+compatibility.controller.js
+1 KB
+src\controllers
+import { generateCompatibilityAlerts } from '../services/compatibility-alert.service.js';
+import { checkBuildCompatibility } from '../services/compatibility.service.js';
+import { selectBuildComponents } from '../services/build.service.js';
+import { ok } from '../utils/api-response.js';
+
+export function selectComponents(req, res, next) {
+
+build.controller.js
+1 KB
+src\routes
+import { Router } from 'express';
+import { getCompatibilityAlerts } from '../controllers/compatibility.controller.js';
+
+export const compatibilityRoutes = Router();
+
+compatibilityRoutes.post('/alerts', getCompatibilityAlerts);
+
+compatibility.routes.js
+1 KB
+docs
+# Documentação inicial da API - PCPowerLab
+
+## Padrão de resposta
+
+### Sucesso
+
+API.md
+8 KB
+PxT — 20:28
+Tipo de arquivo em anexo: archive
+PCPowerLab-Augusto.zip
+4.21 MB
+Tipo de arquivo em anexo: archive
+PCPowerLab-Eduardo.zip
+4.21 MB
+ORDEM 
+1 - AUGUSTO
+
+2 - EDUARDO
+﻿
 # Documentação inicial da API - PCPowerLab
 
 ## Padrão de resposta
@@ -204,7 +357,35 @@ Tambem aceita o formato aninhado em `components`, usando os slots `cpu`, `mother
 
 `POST /api/v1/builds/check-compatibility`
 
-Recebe uma configuracao selecionada e executa as regras tecnicas iniciais de compatibilidade.
+Recebe uma configuracao selecionada e executa as regras tecnicas iniciais de compatibilidade. A resposta inclui `issues` com os problemas tecnicos originais e `alerts` com mensagens amigaveis para o front-end.
+
+### Gerar alertas de compatibilidade
+
+`POST /api/v1/compatibility/alerts`
+
+Recebe a mesma selecao usada na verificacao de compatibilidade e retorna alertas prontos para exibicao ao usuario.
+
+```json
+{
+  "success": true,
+  "data": {
+    "compatible": false,
+    "alerts": [
+      {
+        "code": "CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE",
+        "title": "Processador incompativel com a placa-mae",
+        "message": "O processador selecionado usa um socket diferente da placa-mae escolhida.",
+        "severity": "high",
+        "blocking": true,
+        "components": ["cpu", "motherboard"],
+        "suggestion": "Verifique se o processador e a placa-mae usam o mesmo socket."
+      }
+    ],
+    "issues": []
+  },
+  "message": "Alertas de compatibilidade gerados com sucesso."
+}
+```
 
 ## Endpoints de regras de compatibilidade
 
