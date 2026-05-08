@@ -1,5 +1,16 @@
 import { checkBuildCompatibility } from '../services/compatibility.service.js';
+import { selectBuildComponents } from '../services/build.service.js';
 import { ok } from '../utils/api-response.js';
+
+export function selectComponents(req, res, next) {
+  try {
+    const build = selectBuildComponents(req.body);
+
+    return ok(res, build, 'Configuracao selecionada com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}
 
 export function checkCompatibility(req, res, next) {
   try {
