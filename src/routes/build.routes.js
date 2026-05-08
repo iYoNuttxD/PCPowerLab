@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { checkCompatibility } from '../controllers/build.controller.js';
+import { checkCompatibility, selectComponents } from '../controllers/build.controller.js';
 
 export const buildRoutes = Router();
 
+buildRoutes.post('/selection', selectComponents);
 buildRoutes.post('/check-compatibility', checkCompatibility);

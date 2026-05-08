@@ -178,6 +178,34 @@ Realiza desativacao logica (`active: false`) para preservar historico futuro.
 - `psu`: `wattage` ou `watts`, `efficiency`
 - `case`: `supportedFormFactors`, `maxGpuLength`
 
+## Endpoints de builds
+
+### Selecionar componentes
+
+`POST /api/v1/builds/selection`
+
+Recebe os IDs dos componentes selecionados pelo usuario, valida se existem na base e retorna a configuracao organizada, sem executar regras de compatibilidade.
+
+```json
+{
+  "cpuId": "cpu-ryzen-5-5600",
+  "gpuId": "gpu-rtx-4060",
+  "motherboardId": "mb-b550m-aorus-elite",
+  "ramId": "ram-kingston-fury-16gb-ddr4",
+  "storageId": "ssd-kingston-nv2-1tb",
+  "psuId": "psu-corsair-650w",
+  "caseId": "case-mid-tower-airflow"
+}
+```
+
+Tambem aceita o formato aninhado em `components`, usando os slots `cpu`, `motherboard`, `gpu`, `ram`, `storage`, `psu` e `case`.
+
+### Verificar compatibilidade
+
+`POST /api/v1/builds/check-compatibility`
+
+Recebe uma configuracao selecionada e executa as regras tecnicas iniciais de compatibilidade.
+
 ## Endpoints de regras de compatibilidade
 
 ### Listar regras existentes
