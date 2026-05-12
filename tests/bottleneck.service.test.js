@@ -3,10 +3,31 @@ import assert from 'node:assert/strict';
 
 import { createAdminComponent } from '../src/services/admin-component.service.js';
 import { analyzeBuildBottlenecks } from '../src/services/bottleneck.service.js';
+import { createPerformanceParameters } from '../src/services/performanceParametersService.js';
 
 test('deve identificar gargalo moderado de processador em relacao a placa de video', () => {
+  createAdminComponent({
+    id: 'cpu-test-low-performance-score',
+    name: 'CPU Test Score Baixo',
+    type: 'cpu',
+    brand: 'Test',
+    socket: 'AM4',
+    cores: 4,
+    threads: 8,
+    baseClock: 3.2,
+    boostClock: 4.0,
+    tdp: 65
+  });
+
+  createPerformanceParameters({
+    componentId: 'cpu-test-low-performance-score',
+    type: 'cpu',
+    performanceScore: 60,
+    tdp: 65
+  });
+
   const result = analyzeBuildBottlenecks({
-    cpuId: 'cpu-ryzen-5-5600',
+    cpuId: 'cpu-test-low-performance-score',
     motherboardId: 'mb-b550m-aorus-elite',
     gpuId: 'gpu-rtx-4060',
     ramId: 'ram-kingston-fury-16gb-ddr4',
@@ -24,14 +45,14 @@ test('deve identificar gargalo moderado de processador em relacao a placa de vid
   assert.equal(cpuBottleneck.severity, 'medium');
   assert.equal(cpuBottleneck.component, 'cpu');
   assert.equal(cpuBottleneck.relatedComponent, 'gpu');
-  assert.equal(cpuBottleneck.technicalDetails.difference, 26);
+  assert.equal(cpuBottleneck.technicalDetails.difference, 25);
 });
 
 test('deve retornar build equilibrada quando scores principais estiverem proximos', () => {
   const result = analyzeBuildBottlenecks({
-    cpuId: 'cpu-intel-i5-12400f',
-    motherboardId: 'mb-h610m-ddr4',
-    gpuId: 'gpu-rx-7600',
+    cpuId: 'cpu-ryzen-5-5600',
+    motherboardId: 'mb-b550m-aorus-elite',
+    gpuId: 'gpu-rtx-4060',
     ramId: 'ram-kingston-fury-16gb-ddr4',
     storageId: 'ssd-kingston-nv2-1tb',
     psuId: 'psu-corsair-650w',
@@ -46,9 +67,9 @@ test('deve retornar build equilibrada quando scores principais estiverem proximo
 test('deve aceitar selecao aninhada em components', () => {
   const result = analyzeBuildBottlenecks({
     components: {
-      cpu: 'cpu-intel-i5-12400f',
-      motherboard: 'mb-h610m-ddr4',
-      gpu: 'gpu-rx-7600',
+      cpu: 'cpu-ryzen-5-5600',
+      motherboard: 'mb-b550m-aorus-elite',
+      gpu: 'gpu-rtx-4060',
       ram: 'ram-kingston-fury-16gb-ddr4',
       storage: 'ssd-kingston-nv2-1tb',
       psu: 'psu-corsair-650w',
@@ -63,9 +84,9 @@ test('deve aceitar selecao aninhada em components', () => {
 test('deve aceitar selecao aninhada em components com campos de ID', () => {
   const result = analyzeBuildBottlenecks({
     components: {
-      cpuId: 'cpu-intel-i5-12400f',
-      motherboardId: 'mb-h610m-ddr4',
-      gpuId: 'gpu-rx-7600',
+      cpuId: 'cpu-ryzen-5-5600',
+      motherboardId: 'mb-b550m-aorus-elite',
+      gpuId: 'gpu-rtx-4060',
       ramId: 'ram-kingston-fury-16gb-ddr4',
       storageId: 'ssd-kingston-nv2-1tb',
       psuId: 'psu-corsair-650w',
@@ -104,7 +125,7 @@ test('deve retornar erro controlado quando faltar parametro de desempenho', () =
     (error) => {
       assert.equal(error.statusCode, 400);
       assert.equal(error.message, 'Parametros de desempenho insuficientes para analise de gargalos.');
-      assert.equal(error.errors.some((message) => message.includes('cpu: performanceScore')), true);
+      assert.equal(error.errors.some((message) => message.includes('nao encontrados para cpu')), true);
       return true;
     }
   );

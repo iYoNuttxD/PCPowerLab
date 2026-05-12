@@ -6,7 +6,6 @@ export const components = [
     brand: 'AMD',
     price: 799.9,
     specs: {
-      performanceScore: 62,
       socket: 'AM4',
       cores: 6,
       threads: 12,
@@ -21,7 +20,6 @@ export const components = [
     brand: 'Intel',
     price: 849.9,
     specs: {
-      performanceScore: 72,
       socket: 'LGA1700',
       cores: 6,
       threads: 12,
@@ -63,8 +61,6 @@ export const components = [
     price: 1899.9,
     specs: {
       vramGb: 8,
-      performanceScore: 88,
-      tdpWatts: 115,
       recommendedPsuWatts: 550,
       lengthMm: 240
     }
@@ -77,8 +73,6 @@ export const components = [
     price: 1699.9,
     specs: {
       vramGb: 8,
-      performanceScore: 82,
-      tdpWatts: 165,
       recommendedPsuWatts: 550,
       lengthMm: 235
     }
@@ -90,7 +84,6 @@ export const components = [
     brand: 'Kingston',
     price: 249.9,
     specs: {
-      performanceScore: 68,
       memoryType: 'DDR4',
       capacityGb: 16,
       speedMhz: 3200
@@ -103,7 +96,6 @@ export const components = [
     brand: 'Corsair',
     price: 399.9,
     specs: {
-      performanceScore: 84,
       memoryType: 'DDR5',
       capacityGb: 16,
       speedMhz: 5200
@@ -116,10 +108,7 @@ export const components = [
     brand: 'Kingston',
     price: 349.9,
     specs: {
-      performanceScore: 78,
       interface: 'M.2 NVMe',
-      storageType: 'NVMe SSD',
-      readSpeedMbS: 3500,
       capacityGb: 1000
     }
   },

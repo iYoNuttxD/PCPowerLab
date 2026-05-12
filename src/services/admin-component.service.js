@@ -93,7 +93,6 @@ function normalizeComponentSpecs(category, componentInput, currentSpecs) {
   const specs = { ...currentSpecs };
 
   if (category === 'cpu') {
-    assignSpec(specs, 'performanceScore', componentInput.performanceScore ?? inputSpecs.performanceScore);
     assignSpec(specs, 'socket', componentInput.socket ?? inputSpecs.socket);
     assignSpec(specs, 'cores', componentInput.cores ?? inputSpecs.cores);
     assignSpec(specs, 'threads', componentInput.threads ?? inputSpecs.threads);
@@ -103,7 +102,6 @@ function normalizeComponentSpecs(category, componentInput, currentSpecs) {
   }
 
   if (category === 'gpu') {
-    assignSpec(specs, 'performanceScore', componentInput.performanceScore ?? inputSpecs.performanceScore);
     assignSpec(specs, 'vramGb', componentInput.vram ?? componentInput.vramGb ?? inputSpecs.vram ?? inputSpecs.vramGb);
     assignSpec(specs, 'tdpWatts', componentInput.tdp ?? componentInput.tdpWatts ?? inputSpecs.tdp ?? inputSpecs.tdpWatts);
     assignSpec(specs, 'lengthMm', componentInput.length ?? componentInput.lengthMm ?? inputSpecs.length ?? inputSpecs.lengthMm);
@@ -119,18 +117,15 @@ function normalizeComponentSpecs(category, componentInput, currentSpecs) {
   }
 
   if (category === 'ram') {
-    assignSpec(specs, 'performanceScore', componentInput.performanceScore ?? inputSpecs.performanceScore);
     assignSpec(specs, 'memoryType', componentInput.memoryType ?? inputSpecs.memoryType);
     assignSpec(specs, 'capacityGb', componentInput.capacity ?? componentInput.capacityGb ?? inputSpecs.capacity ?? inputSpecs.capacityGb);
     assignSpec(specs, 'speedMhz', componentInput.speed ?? componentInput.speedMhz ?? inputSpecs.speed ?? inputSpecs.speedMhz);
   }
 
   if (category === 'storage') {
-    assignSpec(specs, 'performanceScore', componentInput.performanceScore ?? inputSpecs.performanceScore);
     assignSpec(specs, 'interface', componentInput.interface ?? inputSpecs.interface);
     assignSpec(specs, 'capacityGb', componentInput.capacity ?? componentInput.capacityGb ?? inputSpecs.capacity ?? inputSpecs.capacityGb);
     assignSpec(specs, 'storageType', componentInput.storageType ?? inputSpecs.type ?? inputSpecs.storageType);
-    assignSpec(specs, 'readSpeedMbS', componentInput.readSpeed ?? componentInput.readSpeedMbS ?? inputSpecs.readSpeed ?? inputSpecs.readSpeedMbS);
   }
 
   if (category === 'psu') {

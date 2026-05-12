@@ -41,10 +41,10 @@ export function getOverallBalance(bottlenecks) {
   return 'balanced';
 }
 
-export function calculateEstimatedConsumptionWatts(build) {
+export function calculateEstimatedConsumptionWatts(performanceParameters) {
   return [
-    build.cpu.specs.tdpWatts,
-    build.gpu.specs.tdpWatts,
+    performanceParameters.cpu.tdp,
+    performanceParameters.gpu.tdp,
     bottleneckThresholds.baseSystemConsumptionWatts
   ].reduce((total, value) => total + (Number(value) || 0), 0);
 }

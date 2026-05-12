@@ -393,7 +393,7 @@ Recebe a mesma selecao usada na verificacao de compatibilidade e retorna alertas
 
 `POST /api/v1/bottlenecks/analyze`
 
-Recebe uma configuracao selecionada, valida os componentes e usa os parametros de desempenho cadastrados nos mocks para identificar desequilibrios entre CPU, GPU, RAM, armazenamento e folga da fonte.
+Recebe uma configuracao selecionada, valida os componentes e usa os parametros de desempenho cadastrados pela US-17 para identificar desequilibrios entre CPU, GPU, RAM, armazenamento e folga da fonte.
 
 ```json
 {
@@ -415,22 +415,17 @@ Exemplo de resposta:
 {
   "success": true,
   "data": {
-    "hasBottleneck": true,
-    "overallBalance": "moderate",
-    "bottlenecks": [
-      {
-        "type": "cpu_bottleneck",
-        "severity": "medium",
-        "component": "cpu",
-        "relatedComponent": "gpu",
-        "message": "O processador pode limitar parcialmente o desempenho da placa de video em jogos e tarefas graficas.",
-        "technicalDetails": {
-          "cpuScore": 62,
-          "gpuScore": 88,
-          "difference": 26
-        }
-      }
-    ]
+    "hasBottleneck": false,
+    "overallBalance": "balanced",
+    "bottlenecks": [],
+    "performanceSummary": {
+      "cpuScore": 78,
+      "gpuScore": 85,
+      "ramScore": 72,
+      "storageScore": 80,
+      "estimatedConsumptionWatts": 280,
+      "psuWatts": 650
+    }
   },
   "message": "Analise de gargalos concluida."
 }

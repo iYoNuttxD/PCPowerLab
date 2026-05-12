@@ -1,4 +1,5 @@
 import { selectBuildComponents } from './build.service.js';
+import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
 import {
   bottleneckThresholds,
   calculateEstimatedConsumptionWatts,
@@ -7,31 +8,40 @@ import {
   getScoreDifferenceSeverity
 } from '../utils/performance-score-utils.js';
 
+const requiredPerformanceParameterSlots = ['cpu', 'gpu', 'ram', 'storage', 'psu'];
 const componentsWithRequiredPerformanceScore = ['cpu', 'gpu', 'ram', 'storage'];
 
 export function analyzeBuildBottlenecks(selectionInput) {
   const build = selectBuildComponents(selectionInput);
+  const performanceParameters = mapPerformanceParameters(build);
 
-  validatePerformanceParameters(build);
+  validatePerformanceParameters(performanceParameters);
 
   const bottlenecks = [
-    analyzeCpuGpuBalance(build),
-    analyzeRamLimitations(build),
-    analyzeStorageLimitations(build),
-    analyzePsuHeadroom(build)
+    analyzeCpuGpuBalance(performanceParameters),
+    analyzeRamLimitations(performanceParameters),
+    analyzeStorageLimitations(performanceParameters),
+    analyzePsuHeadroom(performanceParameters)
   ].flat().filter(Boolean);
 
   return {
     hasBottleneck: bottlenecks.length > 0,
     overallBalance: getOverallBalance(bottlenecks),
     bottlenecks,
-    performanceSummary: buildPerformanceSummary(build)
+    performanceSummary: buildPerformanceSummary(performanceParameters)
   };
 }
 
-function analyzeCpuGpuBalance(build) {
-  const cpuScore = build.cpu.specs.performanceScore;
-  const gpuScore = build.gpu.specs.performanceScore;
+function mapPerformanceParameters(build) {
+  return requiredPerformanceParameterSlots.reduce((parametersBySlot, slot) => ({
+    ...parametersBySlot,
+    [slot]: findPerformanceParametersByComponentId(build[slot].id)
+  }), {});
+}
+
+function analyzeCpuGpuBalance(performanceParameters) {
+  const cpuScore = performanceParameters.cpu.performanceScore;
+  const gpuScore = performanceParameters.gpu.performanceScore;
   const difference = getScoreDifference(cpuScore, gpuScore);
   const severity = getScoreDifferenceSeverity(difference);
 
@@ -68,26 +78,26 @@ function analyzeCpuGpuBalance(build) {
   };
 }
 
-function analyzeRamLimitations(build) {
+function analyzeRamLimitations(performanceParameters) {
   const bottlenecks = [];
-  const { capacityGb, speedMhz, performanceScore } = build.ram.specs;
+  const { capacity, speed, performanceScore } = performanceParameters.ram;
 
-  if (capacityGb < bottleneckThresholds.minimumRamCapacityGb) {
+  if (capacity < bottleneckThresholds.minimumRamCapacityGb) {
     bottlenecks.push({
       type: 'ram_capacity_limitation',
-      severity: capacityGb < 8 ? 'high' : 'medium',
+      severity: capacity < 8 ? 'high' : 'medium',
       component: 'ram',
       relatedComponent: null,
       message: 'A capacidade de memoria RAM pode limitar multitarefas e jogos recentes.',
       technicalDetails: {
-        capacityGb,
+        capacityGb: capacity,
         minimumRecommendedGb: bottleneckThresholds.minimumRamCapacityGb,
         ramScore: performanceScore
       }
     });
   }
 
-  if (speedMhz < bottleneckThresholds.minimumRamSpeedMhz) {
+  if (speed < bottleneckThresholds.minimumRamSpeedMhz) {
     bottlenecks.push({
       type: 'ram_speed_limitation',
       severity: 'low',
@@ -95,7 +105,7 @@ function analyzeRamLimitations(build) {
       relatedComponent: 'cpu',
       message: 'A velocidade da memoria RAM pode reduzir parte do desempenho do processador.',
       technicalDetails: {
-        speedMhz,
+        speedMhz: speed,
         minimumRecommendedMhz: bottleneckThresholds.minimumRamSpeedMhz,
         ramScore: performanceScore
       }
@@ -105,10 +115,10 @@ function analyzeRamLimitations(build) {
   return bottlenecks;
 }
 
-function analyzeStorageLimitations(build) {
-  const { performanceScore, readSpeedMbS, storageType } = build.storage.specs;
+function analyzeStorageLimitations(performanceParameters) {
+  const { performanceScore, readSpeed, interface: storageInterface } = performanceParameters.storage;
   const isLowScore = performanceScore < bottleneckThresholds.minimumStorageScore;
-  const isSlowRead = readSpeedMbS < bottleneckThresholds.minimumStorageReadSpeedMbS;
+  const isSlowRead = readSpeed < bottleneckThresholds.minimumStorageReadSpeedMbS;
 
   if (!isLowScore && !isSlowRead) {
     return null;
@@ -122,17 +132,17 @@ function analyzeStorageLimitations(build) {
     message: 'O armazenamento pode aumentar tempos de carregamento e deixar o uso geral menos responsivo.',
     technicalDetails: {
       storageScore: performanceScore,
-      readSpeedMbS,
-      storageType,
+      readSpeedMbS: readSpeed,
+      storageInterface,
       minimumRecommendedScore: bottleneckThresholds.minimumStorageScore,
       minimumRecommendedReadSpeedMbS: bottleneckThresholds.minimumStorageReadSpeedMbS
     }
   };
 }
 
-function analyzePsuHeadroom(build) {
-  const estimatedConsumptionWatts = calculateEstimatedConsumptionWatts(build);
-  const psuWatts = build.psu.specs.watts;
+function analyzePsuHeadroom(performanceParameters) {
+  const estimatedConsumptionWatts = calculateEstimatedConsumptionWatts(performanceParameters);
+  const psuWatts = performanceParameters.psu.wattage;
   const headroomWatts = psuWatts - estimatedConsumptionWatts;
   const headroomPercent = Math.round((headroomWatts / estimatedConsumptionWatts) * 100);
 
@@ -155,33 +165,43 @@ function analyzePsuHeadroom(build) {
   };
 }
 
-function validatePerformanceParameters(build) {
-  const errors = componentsWithRequiredPerformanceScore
-    .filter((slot) => !isValidScore(build[slot].specs.performanceScore))
-    .map((slot) => `Parametro de desempenho ausente ou invalido para ${slot}: performanceScore.`);
+function validatePerformanceParameters(performanceParameters) {
+  const errors = requiredPerformanceParameterSlots
+    .filter((slot) => !performanceParameters[slot])
+    .map((slot) => `Parametros de desempenho nao encontrados para ${slot}.`);
 
-  if (!isValidNumber(build.ram.specs.capacityGb)) {
-    errors.push('Parametro de desempenho ausente ou invalido para ram: capacityGb.');
+  if (errors.length === 0) {
+    errors.push(...validatePerformanceParameterTypes(performanceParameters));
   }
 
-  if (!isValidNumber(build.ram.specs.speedMhz)) {
-    errors.push('Parametro de desempenho ausente ou invalido para ram: speedMhz.');
+  if (errors.length === 0) {
+    errors.push(...componentsWithRequiredPerformanceScore
+      .filter((slot) => !isValidScore(performanceParameters[slot].performanceScore))
+      .map((slot) => `Parametro de desempenho ausente ou invalido para ${slot}: performanceScore.`));
   }
 
-  if (!isValidNumber(build.storage.specs.readSpeedMbS)) {
-    errors.push('Parametro de desempenho ausente ou invalido para storage: readSpeedMbS.');
+  if (performanceParameters.ram && !isValidNumber(performanceParameters.ram.capacity)) {
+    errors.push('Parametro de desempenho ausente ou invalido para ram: capacity.');
   }
 
-  if (!isValidNumber(build.cpu.specs.tdpWatts)) {
-    errors.push('Parametro de consumo ausente ou invalido para cpu: tdpWatts.');
+  if (performanceParameters.ram && !isValidNumber(performanceParameters.ram.speed)) {
+    errors.push('Parametro de desempenho ausente ou invalido para ram: speed.');
   }
 
-  if (!isValidNumber(build.gpu.specs.tdpWatts)) {
-    errors.push('Parametro de consumo ausente ou invalido para gpu: tdpWatts.');
+  if (performanceParameters.storage && !isValidNumber(performanceParameters.storage.readSpeed)) {
+    errors.push('Parametro de desempenho ausente ou invalido para storage: readSpeed.');
   }
 
-  if (!isValidNumber(build.psu.specs.watts)) {
-    errors.push('Parametro de consumo ausente ou invalido para psu: watts.');
+  if (performanceParameters.cpu && !isValidNumber(performanceParameters.cpu.tdp)) {
+    errors.push('Parametro de consumo ausente ou invalido para cpu: tdp.');
+  }
+
+  if (performanceParameters.gpu && !isValidNumber(performanceParameters.gpu.tdp)) {
+    errors.push('Parametro de consumo ausente ou invalido para gpu: tdp.');
+  }
+
+  if (performanceParameters.psu && !isValidNumber(performanceParameters.psu.wattage)) {
+    errors.push('Parametro de consumo ausente ou invalido para psu: wattage.');
   }
 
   if (errors.length === 0) {
@@ -194,14 +214,20 @@ function validatePerformanceParameters(build) {
   throw error;
 }
 
-function buildPerformanceSummary(build) {
+function validatePerformanceParameterTypes(performanceParameters) {
+  return requiredPerformanceParameterSlots
+    .filter((slot) => performanceParameters[slot].type !== slot)
+    .map((slot) => `Parametros de desempenho de ${slot} estao cadastrados com tipo ${performanceParameters[slot].type}.`);
+}
+
+function buildPerformanceSummary(performanceParameters) {
   return {
-    cpuScore: build.cpu.specs.performanceScore,
-    gpuScore: build.gpu.specs.performanceScore,
-    ramScore: build.ram.specs.performanceScore,
-    storageScore: build.storage.specs.performanceScore,
-    estimatedConsumptionWatts: calculateEstimatedConsumptionWatts(build),
-    psuWatts: build.psu.specs.watts
+    cpuScore: performanceParameters.cpu.performanceScore,
+    gpuScore: performanceParameters.gpu.performanceScore,
+    ramScore: performanceParameters.ram.performanceScore,
+    storageScore: performanceParameters.storage.performanceScore,
+    estimatedConsumptionWatts: calculateEstimatedConsumptionWatts(performanceParameters),
+    psuWatts: performanceParameters.psu.wattage
   };
 }
 
