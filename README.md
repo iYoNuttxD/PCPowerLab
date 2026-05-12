@@ -137,3 +137,47 @@ Content-Type: application/json
 - Implementar cálculo de gargalo;
 - Implementar estimativa de desempenho em jogos;
 - Criar frontend integrado à API.
+
+## US-17 - Parâmetros de desempenho dos componentes
+
+A US-17 adiciona uma base mockada de parâmetros de desempenho para componentes. A funcionalidade segue o fluxo `routes → controllers → services → data/repository` e permite cadastrar, consultar, atualizar e remover parâmetros técnicos que serão usados por funcionalidades futuras, como identificação de gargalos, simulação de desempenho em jogos e recomendação de peças por orçamento.
+
+### Endpoints
+
+```http
+GET /api/performance-parameters
+GET /api/performance-parameters/:componentId
+POST /api/performance-parameters
+PUT /api/performance-parameters/:componentId
+DELETE /api/performance-parameters/:componentId
+```
+
+Também é possível filtrar a listagem por tipo:
+
+```http
+GET /api/performance-parameters?type=gpu
+```
+
+### Exemplo de cadastro
+
+```json
+{
+  "componentId": "gpu-rx-7600",
+  "type": "gpu",
+  "performanceScore": 83,
+  "gamingScore": 86,
+  "vram": 8,
+  "memoryType": "GDDR6",
+  "recommendedResolution": "1080p",
+  "tdp": 165,
+  "recommendedUse": ["gaming", "general"]
+}
+```
+
+### Regras principais
+
+- `componentId` é obrigatório.
+- `type` é obrigatório e deve ser compatível com o tipo real do componente cadastrado.
+- `performanceScore` é obrigatório, numérico e deve estar na escala de 0 a 100.
+- O componente precisa existir na base de componentes.
+- Não é permitido cadastrar parâmetros duplicados para o mesmo componente; para isso, use `PUT`.
