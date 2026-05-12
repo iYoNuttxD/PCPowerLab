@@ -440,6 +440,54 @@ Os limiares iniciais consideram:
 - armazenamento abaixo do score minimo ou leitura minima: possivel limitacao em carregamentos;
 - fonte com pouca folga sobre consumo estimado: alerta de atencao, sem tratar como incompatibilidade critica.
 
+## Endpoints de recomendacoes
+
+### Recomendar configuracao por orcamento
+
+`POST /api/v1/recommendations/budget`
+
+Recebe um orcamento e, opcionalmente, tipo de uso. A API monta uma configuracao inicial completa usando a base de componentes, parametros de desempenho e validacao minima de compatibilidade.
+
+```json
+{
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL",
+    "priority": "cost-benefit"
+  },
+  "usageType": "gaming"
+}
+```
+
+Prioridades aceitas: `cost-benefit`, `performance` e `lowest-price`.
+Tipos de uso aceitos: `gaming`, `general` e `productivity`.
+
+Exemplo de resposta:
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalEstimatedPrice": 4820,
+    "remainingBudget": 180,
+    "usageType": "gaming",
+    "priority": "cost-benefit",
+    "components": {
+      "cpu": {},
+      "gpu": {},
+      "motherboard": {},
+      "ram": {},
+      "storage": {},
+      "psu": {},
+      "case": {}
+    },
+    "summary": "Configuracao recomendada com foco em custo-beneficio para jogos em 1080p.",
+    "warnings": []
+  },
+  "message": "Recomendacao gerada com sucesso."
+}
+```
+
 ## Endpoints de regras de compatibilidade
 
 ### Listar regras existentes
