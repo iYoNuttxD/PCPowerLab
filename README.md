@@ -134,6 +134,25 @@ Content-Type: application/json
 }
 ```
 
+### Recomendar configuração por orçamento
+
+```http
+POST /api/v1/recommendations/budget
+Content-Type: application/json
+
+{
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL",
+    "priority": "cost-benefit"
+  },
+  "usageType": "gaming"
+}
+```
+
+Prioridades aceitas: `cost-benefit`, `performance` e `lowest-price`.
+Tipos de uso aceitos: `gaming`, `general` e `productivity`.
+
 ## Padrão de desenvolvimento da equipe
 
 1. Criar novas rotas em `src/routes`.
