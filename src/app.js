@@ -10,6 +10,7 @@ import { adminComponentRoutes } from './routes/admin-component.routes.js';
 import { buildRoutes } from './routes/build.routes.js';
 import { compatibilityRoutes } from './routes/compatibility.routes.js';
 import { compatibilityRuleRoutes } from './routes/compatibility-rule.routes.js';
+import { bottleneckRoutes } from './routes/bottleneck.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 
@@ -26,6 +27,7 @@ app.use(`${env.apiPrefix}/admin/components`, adminComponentRoutes);
 app.use(`${env.apiPrefix}/builds`, buildRoutes);
 app.use(`${env.apiPrefix}/compatibility`, compatibilityRoutes);
 app.use(`${env.apiPrefix}/compatibility-rules`, compatibilityRuleRoutes);
+app.use(`${env.apiPrefix}/bottlenecks`, bottleneckRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

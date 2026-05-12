@@ -117,6 +117,23 @@ Content-Type: application/json
 }
 ```
 
+### Analisar gargalos da build
+
+```http
+POST /api/v1/bottlenecks/analyze
+Content-Type: application/json
+
+{
+  "cpuId": "cpu-ryzen-5-5600",
+  "motherboardId": "mb-b550m-aorus-elite",
+  "gpuId": "gpu-rtx-4060",
+  "ramId": "ram-kingston-fury-16gb-ddr4",
+  "storageId": "ssd-kingston-nv2-1tb",
+  "psuId": "psu-corsair-650w",
+  "caseId": "case-mid-tower-airflow"
+}
+```
+
 ## Padrão de desenvolvimento da equipe
 
 1. Criar novas rotas em `src/routes`.

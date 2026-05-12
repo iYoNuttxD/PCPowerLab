@@ -387,6 +387,64 @@ Recebe a mesma selecao usada na verificacao de compatibilidade e retorna alertas
 }
 ```
 
+## Endpoints de gargalos
+
+### Analisar gargalos
+
+`POST /api/v1/bottlenecks/analyze`
+
+Recebe uma configuracao selecionada, valida os componentes e usa os parametros de desempenho cadastrados nos mocks para identificar desequilibrios entre CPU, GPU, RAM, armazenamento e folga da fonte.
+
+```json
+{
+  "cpuId": "cpu-ryzen-5-5600",
+  "gpuId": "gpu-rtx-4060",
+  "motherboardId": "mb-b550m-aorus-elite",
+  "ramId": "ram-kingston-fury-16gb-ddr4",
+  "storageId": "ssd-kingston-nv2-1tb",
+  "psuId": "psu-corsair-650w",
+  "caseId": "case-mid-tower-airflow"
+}
+```
+
+Tambem aceita o formato aninhado em `components`.
+
+Exemplo de resposta:
+
+```json
+{
+  "success": true,
+  "data": {
+    "hasBottleneck": true,
+    "overallBalance": "moderate",
+    "bottlenecks": [
+      {
+        "type": "cpu_bottleneck",
+        "severity": "medium",
+        "component": "cpu",
+        "relatedComponent": "gpu",
+        "message": "O processador pode limitar parcialmente o desempenho da placa de video em jogos e tarefas graficas.",
+        "technicalDetails": {
+          "cpuScore": 62,
+          "gpuScore": 88,
+          "difference": 26
+        }
+      }
+    ]
+  },
+  "message": "Analise de gargalos concluida."
+}
+```
+
+Os limiares iniciais consideram:
+
+- diferenca ate 15 pontos entre CPU e GPU: equilibrio aceitavel;
+- diferenca entre 16 e 30 pontos: gargalo moderado;
+- diferenca acima de 30 pontos: gargalo relevante;
+- RAM abaixo de 16GB ou 3000MHz: possivel limitacao de memoria;
+- armazenamento abaixo do score minimo ou leitura minima: possivel limitacao em carregamentos;
+- fonte com pouca folga sobre consumo estimado: alerta de atencao, sem tratar como incompatibilidade critica.
+
 ## Endpoints de regras de compatibilidade
 
 ### Listar regras existentes
