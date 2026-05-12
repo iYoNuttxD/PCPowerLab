@@ -11,6 +11,7 @@ import { buildRoutes } from './routes/build.routes.js';
 import { compatibilityRoutes } from './routes/compatibility.routes.js';
 import { compatibilityRuleRoutes } from './routes/compatibility-rule.routes.js';
 import { bottleneckRoutes } from './routes/bottleneck.routes.js';
+import { performanceParametersRoutes } from './routes/performanceParameters.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 
@@ -28,6 +29,7 @@ app.use(`${env.apiPrefix}/builds`, buildRoutes);
 app.use(`${env.apiPrefix}/compatibility`, compatibilityRoutes);
 app.use(`${env.apiPrefix}/compatibility-rules`, compatibilityRuleRoutes);
 app.use(`${env.apiPrefix}/bottlenecks`, bottleneckRoutes);
+app.use(`${env.apiPrefix}/performance-parameters`, performanceParametersRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
