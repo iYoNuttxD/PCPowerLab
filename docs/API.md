@@ -469,6 +469,85 @@ Limiar inicial de CPU/GPU:
 - diferenca entre 16 e 30 pontos: gargalo moderado;
 - diferenca acima de 30 pontos: gargalo relevante.
 
+## Simulacao de desempenho em jogos
+
+### Listar jogos disponiveis
+
+```http
+GET /api/v1/performance/games
+```
+
+Filtro opcional:
+
+- `category`: categoria do jogo.
+
+### Buscar jogo por ID
+
+```http
+GET /api/v1/performance/games/:id
+```
+
+### Simular desempenho esperado
+
+```http
+POST /api/v1/performance/simulate-game
+Content-Type: application/json
+
+{
+  "gameId": "game-cyberpunk-2077",
+  "targetResolution": "1080p",
+  "qualityPreset": "high",
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb"
+  }
+}
+```
+
+Campos principais:
+
+- `gameId`: ID do jogo cadastrado na base mockada;
+- `targetResolution`: `1080p`, `1440p` ou `4k`;
+- `qualityPreset`: `low`, `medium`, `high` ou `ultra`;
+- `build`: componentes usados na simulacao.
+
+A build precisa informar `cpuId`, `gpuId`, `ramId` e `storageId`. Quando tambem informar `motherboardId`, `psuId` e `caseId`, a simulacao reaproveita a analise de gargalos da US-04 para aplicar penalidade de desempenho.
+
+Exemplo de resposta:
+
+```json
+{
+  "success": true,
+  "data": {
+    "game": "Cyberpunk 2077",
+    "gameId": "game-cyberpunk-2077",
+    "targetResolution": "1080p",
+    "qualityPreset": "high",
+    "estimatedFps": 54,
+    "performanceLevel": "good",
+    "meetsMinimumRequirements": true,
+    "meetsRecommendedRequirements": false,
+    "summary": "A configuracao deve rodar Cyberpunk 2077 em qualidade high com bom desempenho, mas abaixo do ideal recomendado.",
+    "details": {
+      "cpuStatus": "belowRecommended",
+      "gpuStatus": "recommended",
+      "ramStatus": "recommended",
+      "storageStatus": "recommended"
+    },
+    "technicalDetails": {
+      "weightedPerformanceIndex": 100.26,
+      "qualityMultiplier": 0.9,
+      "resolutionMultiplier": 1,
+      "bottleneckPenalty": 1,
+      "bottlenecks": []
+    }
+  },
+  "message": "Simulacao de desempenho concluida."
+}
+```
+
 ## Orcamento
 
 ### Informar orcamento disponivel
@@ -635,6 +714,7 @@ A API atualmente cobre:
 - cadastro e listagem de regras de compatibilidade;
 - cadastro e consulta de parametros de desempenho;
 - analise inicial de gargalos;
+- simulacao inicial de desempenho em jogos;
 - registro de orcamento;
 - recomendacao por orcamento;
 - explicacoes simples para resultados tecnicos.
