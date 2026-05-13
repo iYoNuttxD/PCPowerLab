@@ -134,6 +134,25 @@ Content-Type: application/json
 }
 ```
 
+### Simular desempenho em jogos
+
+```http
+POST /api/v1/performance/simulate-game
+Content-Type: application/json
+
+{
+  "gameId": "game-cyberpunk-2077",
+  "targetResolution": "1080p",
+  "qualityPreset": "high",
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb"
+  }
+}
+```
+
 ### Informar orçamento disponível
 
 ```http
@@ -249,17 +268,17 @@ A US-17 adiciona uma base mockada de parâmetros de desempenho para componentes.
 ### Endpoints
 
 ```http
-GET /api/performance-parameters
-GET /api/performance-parameters/:componentId
-POST /api/performance-parameters
-PUT /api/performance-parameters/:componentId
-DELETE /api/performance-parameters/:componentId
+GET /api/v1/performance-parameters
+GET /api/v1/performance-parameters/:componentId
+POST /api/v1/performance-parameters
+PUT /api/v1/performance-parameters/:componentId
+DELETE /api/v1/performance-parameters/:componentId
 ```
 
 Também é possível filtrar a listagem por tipo:
 
 ```http
-GET /api/performance-parameters?type=gpu
+GET /api/v1/performance-parameters?type=gpu
 ```
 
 ### Exemplo de cadastro
