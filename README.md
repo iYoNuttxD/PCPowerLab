@@ -134,6 +134,37 @@ Content-Type: application/json
 }
 ```
 
+### Informar orçamento disponível
+
+```http
+POST /api/v1/budget
+Content-Type: application/json
+
+{
+  "amount": 5000,
+  "currency": "BRL",
+  "priority": "cost-benefit"
+}
+```
+
+Resposta esperada:
+
+```json
+{
+  "success": true,
+  "data": {
+    "amount": 5000,
+    "currency": "BRL",
+    "priority": "cost-benefit",
+    "warnings": []
+  },
+  "message": "Orçamento informado com sucesso."
+}
+```
+
+Prioridades aceitas: `lowest-price`, `cost-benefit`, `performance`, `balanced` e `upgrade-ready`.
+Quando `currency` não for informada, a API assume `BRL`. Quando `priority` não for informada, assume `balanced`.
+
 ### Recomendar configuração por orçamento
 
 ```http
