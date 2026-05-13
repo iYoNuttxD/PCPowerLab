@@ -165,6 +165,43 @@ Resposta esperada:
 Prioridades aceitas: `lowest-price`, `cost-benefit`, `performance`, `balanced` e `upgrade-ready`.
 Quando `currency` não for informada, a API assume `BRL`. Quando `priority` não for informada, assume `balanced`.
 
+### Gerar explicação simples
+
+```http
+POST /api/v1/explanations
+Content-Type: application/json
+
+{
+  "type": "bottleneck",
+  "data": {
+    "type": "cpu_bottleneck",
+    "severity": "medium",
+    "component": "cpu",
+    "relatedComponent": "gpu",
+    "cpuScore": 60,
+    "gpuScore": 85
+  }
+}
+```
+
+Resposta esperada:
+
+```json
+{
+  "success": true,
+  "data": {
+    "title": "Possivel gargalo no processador",
+    "simpleExplanation": "A placa de video escolhida e mais forte que o processador. Em alguns jogos, o processador pode limitar o desempenho total do computador.",
+    "suggestion": "Considere escolher um processador mais forte ou uma placa de video mais equilibrada com essa CPU.",
+    "severity": "medium"
+  },
+  "message": "Explicacao gerada com sucesso."
+}
+```
+
+Tipos aceitos: `incompatibility`, `compatibility`, `bottleneck`, `recommendation`, `performance`, `budget`, `warning` e `general`.
+As explicações são geradas localmente a partir dos dados técnicos já produzidos por compatibilidade, gargalos, recomendações, desempenho e orçamento.
+
 ### Recomendar configuração por orçamento
 
 ```http
