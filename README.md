@@ -238,7 +238,28 @@ Content-Type: application/json
 ```
 
 Prioridades aceitas: `cost-benefit`, `performance` e `lowest-price`.
-Tipos de uso aceitos: `gaming`, `general` e `productivity`.
+Tipos de uso aceitos: `gaming`, `general`, `productivity`, `work`, `video-editing`, `programming`, `design`, `study`, `streaming` e `upgrade`.
+
+### Recomendar configuração por tipo de uso
+
+```http
+POST /api/v1/recommendations/by-usage
+Content-Type: application/json
+
+{
+  "budget": {
+    "amount": 6000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "preferences": {
+    "targetResolution": "1080p",
+    "priority": "cost-benefit"
+  }
+}
+```
+
+O retorno inclui `usageType`, `strategy`, `summary`, `components`, `totalEstimatedPrice` e `remainingBudget`.
 
 ## Padrão de desenvolvimento da equipe
 
