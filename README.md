@@ -261,6 +261,72 @@ Content-Type: application/json
 
 O retorno inclui `usageType`, `strategy`, `summary`, `components`, `totalEstimatedPrice` e `remainingBudget`.
 
+### Gerar resumo final da configuração
+
+```http
+POST /api/v1/build-summary
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "gameId": "game-cyberpunk-2077",
+  "usageType": "gaming",
+  "targetResolution": "1080p",
+  "qualityPreset": "high"
+}
+```
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "components": {
+      "cpu": { "id": "cpu-ryzen-5-5600" },
+      "gpu": { "id": "gpu-rtx-4060" }
+    },
+    "totalEstimatedPrice": 4699.3,
+    "budgetStatus": {
+      "amount": 5000,
+      "currency": "BRL",
+      "remaining": 300.7,
+      "status": "within_budget"
+    },
+    "compatibility": {
+      "compatible": true,
+      "alerts": []
+    },
+    "bottlenecks": {
+      "hasBottleneck": false,
+      "overallBalance": "balanced"
+    },
+    "gamePerformance": {
+      "gameId": "game-cyberpunk-2077",
+      "estimatedFps": 72,
+      "performanceLevel": "good"
+    },
+    "summary": "A configuracao esta compativel, esta dentro do orcamento informado, o conjunto apresenta bom equilibrio entre os principais componentes.",
+    "finalRecommendation": "Configuracao recomendada para o perfil informado."
+  },
+  "message": "Resumo final da configuracao gerado com sucesso."
+}
+```
+
+O endpoint consolida os services de compatibilidade, alertas, gargalos, orçamento, desempenho em jogos, recomendação e explicações simples. `budget` e `gameId` são opcionais; quando alguma análise opcional não tiver dados suficientes, a seção correspondente retorna `available: false` sem impedir o resumo principal.
+
 ## Padrão de desenvolvimento da equipe
 
 1. Criar novas rotas em `src/routes`.
