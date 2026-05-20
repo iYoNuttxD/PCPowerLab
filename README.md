@@ -304,3 +304,80 @@ GET /api/v1/performance-parameters?type=gpu
 - `performanceScore` é obrigatório, numérico e deve estar na escala de 0 a 100.
 - O componente precisa existir na base de componentes.
 - Não é permitido cadastrar parâmetros duplicados para o mesmo componente; para isso, use `PUT`.
+
+
+### Salvar configuração montada
+
+```http
+POST /api/v1/saved-builds
+Content-Type: application/json
+
+{
+  "name": "Meu PC gamer custo-benefício",
+  "description": "Configuração pensada para jogos em 1080p.",
+  "components": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming"
+}
+```
+
+Resposta esperada:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "build-001",
+    "name": "Meu PC gamer custo-benefício",
+    "description": "Configuração pensada para jogos em 1080p.",
+    "components": {
+      "cpu": "cpu-ryzen-5-5600",
+      "gpu": "gpu-rtx-4060",
+      "motherboard": "mb-b550m-aorus-elite",
+      "ram": "ram-kingston-fury-16gb-ddr4",
+      "storage": "ssd-kingston-nv2-1tb",
+      "psu": "psu-corsair-650w",
+      "case": "case-mid-tower-airflow"
+    },
+    "budget": {
+      "amount": 5000,
+      "currency": "BRL"
+    },
+    "usageType": "gaming",
+    "totalEstimatedPrice": 4699.3,
+    "userId": null,
+    "createdAt": "2026-05-18T12:00:00.000Z",
+    "updatedAt": "2026-05-18T12:00:00.000Z"
+  },
+  "message": "Configuração salva com sucesso."
+}
+```
+
+### Listar configurações salvas
+
+```http
+GET /api/v1/saved-builds
+```
+
+### Buscar configuração salva por ID
+
+```http
+GET /api/v1/saved-builds/build-001
+```
+
+### Remover configuração salva
+
+```http
+DELETE /api/v1/saved-builds/build-001
+```
