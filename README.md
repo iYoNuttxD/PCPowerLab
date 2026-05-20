@@ -376,6 +376,64 @@ GET /api/v1/saved-builds
 GET /api/v1/saved-builds/build-001
 ```
 
+
+### Editar configuração salva
+
+```http
+PATCH /api/v1/saved-builds/build-001
+Content-Type: application/json
+
+{
+  "name": "Meu PC gamer atualizado",
+  "components": {
+    "cpuId": "cpu-intel-i5-12400f",
+    "gpuId": "gpu-rx-7600",
+    "motherboardId": "mb-h610m-ddr4",
+    "ramId": "ram-corsair-vengeance-16gb-ddr5",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-generic-400w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5500,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "observations": "Configuração ajustada para testar uma alternativa de CPU e GPU."
+}
+```
+
+Também é possível usar `PUT /api/v1/saved-builds/build-001`. A atualização mantém os campos não enviados e altera apenas os campos informados. Quando os componentes são alterados, os IDs são validados na base mockada e o `totalEstimatedPrice` é recalculado.
+
+Resposta esperada:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "build-001",
+    "name": "Meu PC gamer atualizado",
+    "components": {
+      "cpu": "cpu-intel-i5-12400f",
+      "gpu": "gpu-rx-7600",
+      "motherboard": "mb-h610m-ddr4",
+      "ram": "ram-corsair-vengeance-16gb-ddr5",
+      "storage": "ssd-kingston-nv2-1tb",
+      "psu": "psu-generic-400w",
+      "case": "case-mid-tower-airflow"
+    },
+    "budget": {
+      "amount": 5500,
+      "currency": "BRL"
+    },
+    "usageType": "gaming",
+    "observations": "Configuração ajustada para testar uma alternativa de CPU e GPU.",
+    "updatedAt": "2026-05-18T13:00:00.000Z"
+  },
+  "message": "Configuração atualizada com sucesso."
+}
+```
+
 ### Remover configuração salva
 
 ```http

@@ -2,7 +2,8 @@ import {
   deleteSavedBuild,
   getSavedBuildById,
   listSavedBuilds,
-  saveBuild
+  saveBuild,
+  updateSavedBuild
 } from '../services/savedBuildsService.js';
 import { created, ok } from '../utils/api-response.js';
 
@@ -29,6 +30,16 @@ export function createSavedBuild(req, res, next) {
     const savedBuild = saveBuild(req.body);
 
     return created(res, savedBuild, 'Configuração salva com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export function editSavedBuild(req, res, next) {
+  try {
+    const updatedSavedBuild = updateSavedBuild(req.params.id, req.body);
+
+    return ok(res, updatedSavedBuild, 'Configuração atualizada com sucesso.');
   } catch (error) {
     return next(error);
   }
