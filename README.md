@@ -387,6 +387,54 @@ Para consultar uma build compartilhada:
 GET /api/v1/share/build/share-001
 ```
 
+### Consultar links de compra
+
+```http
+GET /api/v1/purchase-links/gpu-rtx-4060
+```
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "componentId": "gpu-rtx-4060",
+      "storeName": "Pichau",
+      "url": "https://exemplo.com/pichau/gpu-rtx-4060",
+      "price": 1799.9,
+      "currency": "BRL",
+      "lastUpdated": "2026-05-18",
+      "isAffiliate": false,
+      "availabilityStatus": "available"
+    }
+  ],
+  "message": "Links de compra encontrados com sucesso."
+}
+```
+
+Tambem e possivel consultar links para uma build completa:
+
+```http
+POST /api/v1/purchase-links/by-build
+Content-Type: application/json
+
+{
+  "components": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  }
+}
+```
+
+Os links e precos sao mockados e cadastrados manualmente no MVP. `isAffiliate` sempre e retornado para transparencia futura, e `availabilityStatus` pode ser `available`, `unavailable` ou `unknown`.
+
 ## Padrão de desenvolvimento da equipe
 
 1. Criar novas rotas em `src/routes`.
