@@ -651,6 +651,95 @@ Resposta resumida:
 
 Pode retornar `422` quando nao houver configuracao completa dentro do orcamento.
 
+## Comparacao de builds
+
+### Comparar duas ou mais configuracoes
+
+```http
+POST /api/v1/build-comparison
+Content-Type: application/json
+
+{
+  "builds": [
+    {
+      "name": "Build custo-beneficio",
+      "components": {
+        "cpuId": "cpu-ryzen-5-5600",
+        "motherboardId": "mb-b550m-aorus-elite",
+        "gpuId": "gpu-rtx-4060",
+        "ramId": "ram-kingston-fury-16gb-ddr4",
+        "storageId": "ssd-kingston-nv2-1tb",
+        "psuId": "psu-corsair-650w",
+        "caseId": "case-mid-tower-airflow"
+      }
+    },
+    {
+      "name": "Build alternativa",
+      "components": {
+        "cpuId": "cpu-ryzen-5-5600",
+        "motherboardId": "mb-b550m-aorus-elite",
+        "gpuId": "gpu-rtx-4060",
+        "ramId": "ram-kingston-fury-16gb-ddr4",
+        "storageId": "ssd-kingston-nv2-1tb",
+        "psuId": "psu-corsair-650w",
+        "caseId": "case-mid-tower-airflow"
+      }
+    }
+  ],
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "gameId": "game-cyberpunk-2077",
+  "targetResolution": "1080p",
+  "qualityPreset": "high",
+  "comparisonCriteria": "cost-benefit"
+}
+```
+
+Regras principais:
+
+- `builds` deve conter pelo menos duas configuracoes;
+- cada build precisa informar os componentes principais;
+- `budget`, `usageType`, `gameId`, `targetResolution` e `qualityPreset` sao opcionais;
+- `comparisonCriteria` aceita `cost-benefit`, `performance`, `budget` e `balanced`.
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "comparisonCriteria": "cost-benefit",
+    "usageType": "gaming",
+    "budget": {
+      "amount": 5000,
+      "currency": "BRL",
+      "priority": "balanced"
+    },
+    "builds": [
+      {
+        "name": "Build custo-beneficio",
+        "totalEstimatedPrice": 4699.3,
+        "compatible": true,
+        "performanceScore": 100.26,
+        "costBenefitScore": 100,
+        "hasBottleneck": false,
+        "budgetStatus": "within_budget",
+        "summary": "Configuracao compativel para gaming. Esta dentro do orcamento informado. Estimativa de 54 FPS no jogo informado."
+      }
+    ],
+    "recommendedBuild": {
+      "name": "Build custo-beneficio",
+      "reason": "Melhor relacao entre desempenho, preco e orcamento informado.",
+      "comparisonScore": 150.05
+    }
+  },
+  "message": "Comparacao de configuracoes gerada com sucesso."
+}
+```
+
 ## Explicacoes
 
 ### Gerar explicacao simples
@@ -864,6 +953,7 @@ A API atualmente cobre:
 - simulacao inicial de desempenho em jogos;
 - registro de orcamento;
 - recomendacao por orcamento;
+- comparacao de duas ou mais builds;
 - explicacoes simples para resultados tecnicos;
 - compartilhamento simbolico de builds;
 - links mockados de compra por componente e por build.
