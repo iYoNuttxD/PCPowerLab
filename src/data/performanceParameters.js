@@ -35,6 +35,15 @@ export const performanceParameters = [
     recommendedUse: ['gaming', 'general']
   },
   {
+    componentId: 'ram-corsair-vengeance-16gb-ddr5',
+    type: 'ram',
+    capacity: 16,
+    speed: 5200,
+    memoryType: 'DDR5',
+    performanceScore: 82,
+    recommendedUse: ['gaming', 'general', 'productivity']
+  },
+  {
     componentId: 'ssd-kingston-nv2-1tb',
     type: 'storage',
     capacity: 1000,
@@ -53,6 +62,14 @@ export const performanceParameters = [
     recommendedUse: ['gaming', 'general']
   },
   {
+    componentId: 'psu-generic-400w',
+    type: 'psu',
+    wattage: 400,
+    efficiency: 'Nao informado',
+    performanceScore: 42,
+    recommendedUse: ['general']
+  },
+  {
     componentId: 'mb-b550m-aorus-elite',
     type: 'motherboard',
     chipset: 'B550',
@@ -60,6 +77,16 @@ export const performanceParameters = [
     memoryType: 'DDR4',
     formFactor: 'mATX',
     performanceScore: 74,
+    expansionSupport: ['PCIe 4.0', 'M.2 NVMe']
+  },
+  {
+    componentId: 'mb-h610m-ddr4',
+    type: 'motherboard',
+    chipset: 'H610',
+    socket: 'LGA1700',
+    memoryType: 'DDR4',
+    formFactor: 'mATX',
+    performanceScore: 68,
     expansionSupport: ['PCIe 4.0', 'M.2 NVMe']
   },
   {

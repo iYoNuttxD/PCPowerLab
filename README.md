@@ -1,85 +1,159 @@
 # PCPowerLab
 
-PCPowerLab é uma plataforma web para apoiar a montagem de computadores personalizados. O objetivo do MVP é permitir que o usuário selecione componentes, consulte uma base inicial de hardware, verifique compatibilidade entre peças e receba alertas claros antes da compra.
+PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links mockados de compra.
 
-## Objetivo do commit inicial
+## Objetivo
 
-Este repositório já vem com uma base em JavaScript/Node.js para que a equipe continue o desenvolvimento seguindo o mesmo padrão de organização.
+Reduzir o risco de escolha de peças incompatíveis e dar uma visão técnica simples sobre custo, desempenho e equilíbrio da configuração antes da compra.
 
-O projeto foi estruturado para separar responsabilidades:
+## Tecnologias
 
-- `routes`: definição das rotas da API;
-- `controllers`: recebem a requisição e retornam a resposta;
-- `services`: regras de negócio;
-- `models`: estruturas e validações simples dos dados;
-- `data`: base mockada inicial para desenvolvimento;
-- `middlewares`: tratamento de erro e rotas não encontradas;
-- `utils`: funções auxiliares.
+- Node.js com ES Modules
+- Express
+- dotenv
+- helmet
+- cors
+- morgan
+- Node Test Runner
+- ESLint
 
-## Funcionalidades base incluídas
+## Pré-requisitos
 
-- Health check da API;
-- Consulta de componentes disponíveis;
-- Filtro de componentes por categoria;
-- Seleção de componentes principais de um computador;
-- Verificação inicial de compatibilidade entre componentes;
-- Exibição de alertas de incompatibilidade;
-- Base mockada de componentes;
-- Base mockada de regras de compatibilidade;
-- Testes iniciais da regra de compatibilidade.
+- Node.js 18 ou superior
+- npm
 
-## Como rodar o projeto
+## Instalação
 
 ```bash
 npm install
 cp .env.example .env
+```
+
+## Ambiente
+
+Variáveis disponíveis:
+
+```env
+PORT=3000
+NODE_ENV=development
+API_PREFIX=/api/v1
+```
+
+`PORT` define a porta local, `NODE_ENV` define o ambiente e `API_PREFIX` define o prefixo das rotas. O arquivo `.env` não deve ser versionado.
+
+## Execução
+
+```bash
 npm run dev
 ```
 
 A API ficará disponível em:
 
-```bash
+```http
 http://localhost:3000/api/v1
 ```
 
-## Rotas iniciais
+Para produção/local sem watch:
 
-### Status da API
+```bash
+npm start
+```
+
+## Testes e lint
+
+```bash
+npm test
+npm run lint
+```
+
+## Estrutura
+
+```text
+src/
+  app.js
+  server.js
+  config/
+  controllers/
+  data/
+  middlewares/
+  models/
+  routes/
+  services/
+  utils/
+tests/
+docs/
+```
+
+Fluxo padrão:
+
+```text
+routes -> controllers -> services -> data/repositories/utils
+```
+
+Rotas apenas definem endpoints, controllers recebem a requisição e retornam resposta, services concentram regra de negócio, `data` mantém mocks em memória, `models` concentram estruturas/validações simples e `utils` guardam funções auxiliares reutilizáveis.
+
+## Padrão de resposta
+
+Sucesso:
+
+```json
+{
+  "success": true,
+  "message": "Mensagem clara em português.",
+  "data": {}
+}
+```
+
+Erro:
+
+```json
+{
+  "success": false,
+  "message": "Mensagem clara do erro.",
+  "errors": []
+}
+```
+
+## Principais endpoints
+
+### Saúde
 
 ```http
 GET /api/v1/health
 ```
 
-### Listar componentes
+### Componentes
 
 ```http
 GET /api/v1/components
+GET /api/v1/components?type=cpu
+GET /api/v1/components/:id
 ```
 
-### Listar componentes por categoria
+Rotas administrativas mockadas:
 
 ```http
-GET /api/v1/components?category=cpu
-GET /api/v1/components?category=gpu
-GET /api/v1/components?category=motherboard
-GET /api/v1/components?category=ram
-GET /api/v1/components?category=storage
-GET /api/v1/components?category=psu
-GET /api/v1/components?category=case
+GET    /api/v1/admin/components
+GET    /api/v1/admin/components/:id
+POST   /api/v1/admin/components
+PUT    /api/v1/admin/components/:id
+DELETE /api/v1/admin/components/:id
 ```
 
-### Buscar componente por ID
+### Builds e compatibilidade
 
 ```http
-GET /api/v1/components/cpu-ryzen-5-5600
-```
-
-### Verificar compatibilidade de uma build
-
-```http
+POST /api/v1/builds/selection
 POST /api/v1/builds/check-compatibility
-Content-Type: application/json
+POST /api/v1/compatibility/check
+POST /api/v1/compatibility/alerts
+```
 
+`/api/v1/builds/check-compatibility` foi mantida por compatibilidade. Para novos consumidores, prefira `/api/v1/compatibility/check`.
+
+Exemplo:
+
+```json
 {
   "components": {
     "cpu": "cpu-ryzen-5-5600",
@@ -93,18 +167,20 @@ Content-Type: application/json
 }
 ```
 
-### Listar regras de compatibilidade
+Também são aceitos campos planos como `cpuId`, `motherboardId`, `gpuId`, `ramId`, `storageId`, `psuId` e `caseId`.
+
+### Regras de compatibilidade
 
 ```http
-GET /api/v1/compatibility-rules
+GET    /api/v1/compatibility-rules
+POST   /api/v1/compatibility-rules
+PUT    /api/v1/compatibility-rules/:id
+DELETE /api/v1/compatibility-rules/:id
 ```
 
-### Cadastrar regra de compatibilidade
+Exemplo de cadastro:
 
-```http
-POST /api/v1/compatibility-rules
-Content-Type: application/json
-
+```json
 {
   "name": "CPU socket must match motherboard socket",
   "sourceType": "cpu",
@@ -117,29 +193,28 @@ Content-Type: application/json
 }
 ```
 
-### Analisar gargalos da build
+### Parâmetros de desempenho
+
+```http
+GET    /api/v1/performance-parameters
+GET    /api/v1/performance-parameters/:componentId
+POST   /api/v1/performance-parameters
+PUT    /api/v1/performance-parameters/:componentId
+DELETE /api/v1/performance-parameters/:componentId
+```
+
+### Gargalos e desempenho em jogos
 
 ```http
 POST /api/v1/bottlenecks/analyze
-Content-Type: application/json
-
-{
-  "cpuId": "cpu-ryzen-5-5600",
-  "motherboardId": "mb-b550m-aorus-elite",
-  "gpuId": "gpu-rtx-4060",
-  "ramId": "ram-kingston-fury-16gb-ddr4",
-  "storageId": "ssd-kingston-nv2-1tb",
-  "psuId": "psu-corsair-650w",
-  "caseId": "case-mid-tower-airflow"
-}
+GET  /api/v1/performance/games
+GET  /api/v1/performance/games/:id
+POST /api/v1/performance/simulate-game
 ```
 
-### Simular desempenho em jogos
+Exemplo de simulação:
 
-```http
-POST /api/v1/performance/simulate-game
-Content-Type: application/json
-
+```json
 {
   "gameId": "game-cyberpunk-2077",
   "targetResolution": "1080p",
@@ -153,80 +228,18 @@ Content-Type: application/json
 }
 ```
 
-### Informar orçamento disponível
+### Orçamento, recomendações e explicações
 
 ```http
 POST /api/v1/budget
-Content-Type: application/json
-
-{
-  "amount": 5000,
-  "currency": "BRL",
-  "priority": "cost-benefit"
-}
-```
-
-Resposta esperada:
-
-```json
-{
-  "success": true,
-  "data": {
-    "amount": 5000,
-    "currency": "BRL",
-    "priority": "cost-benefit",
-    "warnings": []
-  },
-  "message": "Orçamento informado com sucesso."
-}
-```
-
-Prioridades aceitas: `lowest-price`, `cost-benefit`, `performance`, `balanced` e `upgrade-ready`.
-Quando `currency` não for informada, a API assume `BRL`. Quando `priority` não for informada, assume `balanced`.
-
-### Gerar explicação simples
-
-```http
-POST /api/v1/explanations
-Content-Type: application/json
-
-{
-  "type": "bottleneck",
-  "data": {
-    "type": "cpu_bottleneck",
-    "severity": "medium",
-    "component": "cpu",
-    "relatedComponent": "gpu",
-    "cpuScore": 60,
-    "gpuScore": 85
-  }
-}
-```
-
-Resposta esperada:
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "Possivel gargalo no processador",
-    "simpleExplanation": "A placa de video escolhida e mais forte que o processador. Em alguns jogos, o processador pode limitar o desempenho total do computador.",
-    "suggestion": "Considere escolher um processador mais forte ou uma placa de video mais equilibrada com essa CPU.",
-    "severity": "medium"
-  },
-  "message": "Explicacao gerada com sucesso."
-}
-```
-
-Tipos aceitos: `incompatibility`, `compatibility`, `bottleneck`, `recommendation`, `performance`, `budget`, `warning` e `general`.
-As explicações são geradas localmente a partir dos dados técnicos já produzidos por compatibilidade, gargalos, recomendações, desempenho e orçamento.
-
-### Recomendar configuração por orçamento
-
-```http
 POST /api/v1/recommendations/budget
-Content-Type: application/json
+POST /api/v1/recommendations/by-usage
+POST /api/v1/explanations
+```
 
+Exemplo de recomendação por orçamento:
+
+```json
 {
   "budget": {
     "amount": 5000,
@@ -237,147 +250,17 @@ Content-Type: application/json
 }
 ```
 
-Prioridades aceitas: `cost-benefit`, `performance` e `lowest-price`.
-Tipos de uso aceitos: `gaming`, `general`, `productivity`, `work`, `video-editing`, `programming`, `design`, `study`, `streaming` e `upgrade`.
-
-### Recomendar configuração por tipo de uso
-
-```http
-POST /api/v1/recommendations/by-usage
-Content-Type: application/json
-
-{
-  "budget": {
-    "amount": 6000,
-    "currency": "BRL"
-  },
-  "usageType": "gaming",
-  "preferences": {
-    "targetResolution": "1080p",
-    "priority": "cost-benefit"
-  }
-}
-```
-
-O retorno inclui `usageType`, `strategy`, `summary`, `components`, `totalEstimatedPrice` e `remainingBudget`.
-
-### Gerar resumo final da configuração
+### Resumo, comparação e upgrades
 
 ```http
 POST /api/v1/build-summary
-Content-Type: application/json
-
-{
-  "build": {
-    "cpuId": "cpu-ryzen-5-5600",
-    "motherboardId": "mb-b550m-aorus-elite",
-    "gpuId": "gpu-rtx-4060",
-    "ramId": "ram-kingston-fury-16gb-ddr4",
-    "storageId": "ssd-kingston-nv2-1tb",
-    "psuId": "psu-corsair-650w",
-    "caseId": "case-mid-tower-airflow"
-  },
-  "budget": {
-    "amount": 5000,
-    "currency": "BRL"
-  },
-  "gameId": "game-cyberpunk-2077",
-  "usageType": "gaming",
-  "targetResolution": "1080p",
-  "qualityPreset": "high"
-}
-```
-
-Resposta resumida:
-
-```json
-{
-  "success": true,
-  "data": {
-    "components": {
-      "cpu": { "id": "cpu-ryzen-5-5600" },
-      "gpu": { "id": "gpu-rtx-4060" }
-    },
-    "totalEstimatedPrice": 4699.3,
-    "budgetStatus": {
-      "amount": 5000,
-      "currency": "BRL",
-      "remaining": 300.7,
-      "status": "within_budget"
-    },
-    "compatibility": {
-      "compatible": true,
-      "alerts": []
-    },
-    "bottlenecks": {
-      "hasBottleneck": false,
-      "overallBalance": "balanced"
-    },
-    "gamePerformance": {
-      "gameId": "game-cyberpunk-2077",
-      "estimatedFps": 72,
-      "performanceLevel": "good"
-    },
-    "summary": "A configuracao esta compativel, esta dentro do orcamento informado, o conjunto apresenta bom equilibrio entre os principais componentes.",
-    "finalRecommendation": "Configuracao recomendada para o perfil informado."
-  },
-  "message": "Resumo final da configuracao gerado com sucesso."
-}
-```
-
-O endpoint consolida os services de compatibilidade, alertas, gargalos, orçamento, desempenho em jogos, recomendação e explicações simples. `budget` e `gameId` são opcionais; quando alguma análise opcional não tiver dados suficientes, a seção correspondente retorna `available: false` sem impedir o resumo principal.
-
-### Comparar configurações
-
-```http
 POST /api/v1/build-comparison
-Content-Type: application/json
-
-{
-  "builds": [
-    {
-      "name": "Build custo-benefício",
-      "components": {
-        "cpuId": "cpu-ryzen-5-5600",
-        "motherboardId": "mb-b550m-aorus-elite",
-        "gpuId": "gpu-rtx-4060",
-        "ramId": "ram-kingston-fury-16gb-ddr4",
-        "storageId": "ssd-kingston-nv2-1tb",
-        "psuId": "psu-corsair-650w",
-        "caseId": "case-mid-tower-airflow"
-      }
-    },
-    {
-      "name": "Build alternativa",
-      "components": {
-        "cpuId": "cpu-ryzen-5-5600",
-        "motherboardId": "mb-b550m-aorus-elite",
-        "gpuId": "gpu-rtx-4060",
-        "ramId": "ram-kingston-fury-16gb-ddr4",
-        "storageId": "ssd-kingston-nv2-1tb",
-        "psuId": "psu-corsair-650w",
-        "caseId": "case-mid-tower-airflow"
-      }
-    }
-  ],
-  "budget": {
-    "amount": 5000,
-    "currency": "BRL"
-  },
-  "usageType": "gaming",
-  "gameId": "game-cyberpunk-2077",
-  "comparisonCriteria": "cost-benefit"
-}
+POST /api/v1/upgrades/suggest
 ```
 
-Critérios aceitos: `cost-benefit`, `performance`, `budget` e `balanced`.
+Exemplo de sugestão de upgrade:
 
-### Sugerir upgrades para uma configuração
-
-```http
-POST /api/v1/upgrades/suggest
-Content-Type: application/json
-
+```json
 {
   "build": {
     "cpuId": "cpu-ryzen-5-5600",
@@ -397,326 +280,62 @@ Content-Type: application/json
 }
 ```
 
-Tambem e possivel usar uma configuração salva:
+Também é possível enviar `buildId` quando a configuração estiver salva.
 
-```json
-{
-  "buildId": "build-001",
-  "budget": {
-    "amount": 1500,
-    "currency": "BRL"
-  },
-  "usageType": "gaming",
-  "priority": "cost-benefit"
-}
+### Builds salvas
+
+```http
+GET    /api/v1/saved-builds
+GET    /api/v1/saved-builds/:id
+POST   /api/v1/saved-builds
+PUT    /api/v1/saved-builds/:id
+PATCH  /api/v1/saved-builds/:id
+DELETE /api/v1/saved-builds/:id
 ```
 
-O retorno informa o resumo da configuração atual, os gargalos considerados, sugestões compatíveis com a build, custo estimado do upgrade, impacto esperado e motivo simples para uso futuro no front-end.
-
-### Compartilhar configuração
+### Compartilhamento e links de compra
 
 ```http
 POST /api/v1/share/build
-Content-Type: application/json
-
-{
-  "buildId": "build-001"
-}
-```
-
-Tambem e possivel compartilhar uma build direta:
-
-```json
-{
-  "name": "Build para comunidade",
-  "build": {
-    "cpuId": "cpu-ryzen-5-5600",
-    "motherboardId": "mb-b550m-aorus-elite",
-    "gpuId": "gpu-rtx-4060",
-    "ramId": "ram-kingston-fury-16gb-ddr4",
-    "storageId": "ssd-kingston-nv2-1tb",
-    "psuId": "psu-corsair-650w",
-    "caseId": "case-mid-tower-airflow"
-  },
-  "budget": {
-    "amount": 5000,
-    "currency": "BRL"
-  },
-  "usageType": "gaming"
-}
-```
-
-Resposta resumida:
-
-```json
-{
-  "success": true,
-  "data": {
-    "shareId": "share-001",
-    "shareUrl": "/shared-builds/share-001",
-    "createdAt": "2026-05-18T14:00:00.000Z",
-    "status": "active",
-    "buildSummary": {
-      "name": "Build para comunidade",
-      "totalEstimatedPrice": 4699.3,
-      "summary": "A configuracao esta compativel, esta dentro do orcamento informado.",
-      "finalRecommendation": "Configuracao recomendada para o perfil informado."
-    }
-  },
-  "message": "Link de compartilhamento gerado com sucesso."
-}
-```
-
-Para consultar uma build compartilhada:
-
-```http
-GET /api/v1/share/build/share-001
-```
-
-### Consultar links de compra
-
-```http
-GET /api/v1/purchase-links/gpu-rtx-4060
-```
-
-Resposta resumida:
-
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "componentId": "gpu-rtx-4060",
-      "storeName": "Pichau",
-      "url": "https://exemplo.com/pichau/gpu-rtx-4060",
-      "price": 1799.9,
-      "currency": "BRL",
-      "lastUpdated": "2026-05-18",
-      "isAffiliate": false,
-      "availabilityStatus": "available"
-    }
-  ],
-  "message": "Links de compra encontrados com sucesso."
-}
-```
-
-Tambem e possivel consultar links para uma build completa:
-
-```http
+GET  /api/v1/share/build/:shareId
+GET  /api/v1/purchase-links/:componentId
 POST /api/v1/purchase-links/by-build
-Content-Type: application/json
-
-{
-  "components": {
-    "cpuId": "cpu-ryzen-5-5600",
-    "motherboardId": "mb-b550m-aorus-elite",
-    "gpuId": "gpu-rtx-4060",
-    "ramId": "ram-kingston-fury-16gb-ddr4",
-    "storageId": "ssd-kingston-nv2-1tb",
-    "psuId": "psu-corsair-650w",
-    "caseId": "case-mid-tower-airflow"
-  }
-}
 ```
 
-Os links e precos sao mockados e cadastrados manualmente no MVP. `isAffiliate` sempre e retornado para transparencia futura, e `availabilityStatus` pode ser `available`, `unavailable` ou `unknown`.
+## Dados mockados
 
-## Padrão de desenvolvimento da equipe
+A aplicação atual é uma API backend com dados em memória. Os mocks ficam em `src/data` e cobrem componentes, regras de compatibilidade, parâmetros de desempenho, jogos, builds salvas, compartilhamentos e links de compra.
 
-1. Criar novas rotas em `src/routes`.
-2. Criar controllers em `src/controllers`.
-3. Colocar regras de negócio em `src/services`.
-4. Evitar regra de negócio diretamente na rota.
-5. Usar respostas padronizadas com `success`, `data`, `message` e `errors`.
-6. Criar testes quando alterar regras de compatibilidade ou cálculo.
-7. Usar nomes em inglês no código e mensagens em português quando forem retornadas ao usuário.
+Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação, integração com lojas ou frontend nesta versão.
 
-## Próximos passos sugeridos
+## Contribuição
 
-- Implementar autenticação para administrador;
-- Criar CRUD real de componentes;
-- Criar CRUD real de regras de compatibilidade;
-- Persistir dados em banco de dados;
-- Implementar recomendação por orçamento;
-- Implementar cálculo de gargalo;
-- Implementar estimativa de desempenho em jogos;
-- Criar frontend integrado à API.
+1. Crie uma branch a partir da branch principal.
+2. Siga o fluxo `routes -> controllers -> services -> data/repositories/utils`.
+3. Mantenha mensagens de usuário em português claro.
+4. Rode `npm test` e `npm run lint` antes do Pull Request.
+5. Atualize `README.md` e `docs/API.md` quando alterar rotas ou contratos.
 
-## US-17 - Parâmetros de desempenho dos componentes
+## Branches e commits
 
-A US-17 adiciona uma base mockada de parâmetros de desempenho para componentes. A funcionalidade segue o fluxo `routes → controllers → services → data/repository` e permite cadastrar, consultar, atualizar e remover parâmetros técnicos que serão usados por funcionalidades futuras, como identificação de gargalos, simulação de desempenho em jogos e recomendação de peças por orçamento.
+Padrão sugerido de branch:
 
-### Endpoints
-
-```http
-GET /api/v1/performance-parameters
-GET /api/v1/performance-parameters/:componentId
-POST /api/v1/performance-parameters
-PUT /api/v1/performance-parameters/:componentId
-DELETE /api/v1/performance-parameters/:componentId
+```text
+feature/US-XX-nome-da-tarefa
+fix/descricao-curta
+docs/descricao-curta
+refactor/descricao-curta
 ```
 
-Também é possível filtrar a listagem por tipo:
+Padrão básico de commits:
 
-```http
-GET /api/v1/performance-parameters?type=gpu
+```text
+feat: adiciona nova funcionalidade
+fix: corrige comportamento incorreto
+docs: atualiza documentação
+test: adiciona ou ajusta testes
+refactor: melhora estrutura sem alterar comportamento
+chore: manutenção de configuração
 ```
 
-### Exemplo de cadastro
-
-```json
-{
-  "componentId": "gpu-rx-7600",
-  "type": "gpu",
-  "performanceScore": 83,
-  "gamingScore": 86,
-  "vram": 8,
-  "memoryType": "GDDR6",
-  "recommendedResolution": "1080p",
-  "tdp": 165,
-  "recommendedUse": ["gaming", "general"]
-}
-```
-
-### Regras principais
-
-- `componentId` é obrigatório.
-- `type` é obrigatório e deve ser compatível com o tipo real do componente cadastrado.
-- `performanceScore` é obrigatório, numérico e deve estar na escala de 0 a 100.
-- O componente precisa existir na base de componentes.
-- Não é permitido cadastrar parâmetros duplicados para o mesmo componente; para isso, use `PUT`.
-
-
-### Salvar configuração montada
-
-```http
-POST /api/v1/saved-builds
-Content-Type: application/json
-
-{
-  "name": "Meu PC gamer custo-benefício",
-  "description": "Configuração pensada para jogos em 1080p.",
-  "components": {
-    "cpuId": "cpu-ryzen-5-5600",
-    "gpuId": "gpu-rtx-4060",
-    "motherboardId": "mb-b550m-aorus-elite",
-    "ramId": "ram-kingston-fury-16gb-ddr4",
-    "storageId": "ssd-kingston-nv2-1tb",
-    "psuId": "psu-corsair-650w",
-    "caseId": "case-mid-tower-airflow"
-  },
-  "budget": {
-    "amount": 5000,
-    "currency": "BRL"
-  },
-  "usageType": "gaming"
-}
-```
-
-Resposta esperada:
-
-```json
-{
-  "success": true,
-  "data": {
-    "id": "build-001",
-    "name": "Meu PC gamer custo-benefício",
-    "description": "Configuração pensada para jogos em 1080p.",
-    "components": {
-      "cpu": "cpu-ryzen-5-5600",
-      "gpu": "gpu-rtx-4060",
-      "motherboard": "mb-b550m-aorus-elite",
-      "ram": "ram-kingston-fury-16gb-ddr4",
-      "storage": "ssd-kingston-nv2-1tb",
-      "psu": "psu-corsair-650w",
-      "case": "case-mid-tower-airflow"
-    },
-    "budget": {
-      "amount": 5000,
-      "currency": "BRL"
-    },
-    "usageType": "gaming",
-    "totalEstimatedPrice": 4699.3,
-    "userId": null,
-    "createdAt": "2026-05-18T12:00:00.000Z",
-    "updatedAt": "2026-05-18T12:00:00.000Z"
-  },
-  "message": "Configuração salva com sucesso."
-}
-```
-
-### Listar configurações salvas
-
-```http
-GET /api/v1/saved-builds
-```
-
-### Buscar configuração salva por ID
-
-```http
-GET /api/v1/saved-builds/build-001
-```
-
-
-### Editar configuração salva
-
-```http
-PATCH /api/v1/saved-builds/build-001
-Content-Type: application/json
-
-{
-  "name": "Meu PC gamer atualizado",
-  "components": {
-    "cpuId": "cpu-intel-i5-12400f",
-    "gpuId": "gpu-rx-7600",
-    "motherboardId": "mb-h610m-ddr4",
-    "ramId": "ram-corsair-vengeance-16gb-ddr5",
-    "storageId": "ssd-kingston-nv2-1tb",
-    "psuId": "psu-generic-400w",
-    "caseId": "case-mid-tower-airflow"
-  },
-  "budget": {
-    "amount": 5500,
-    "currency": "BRL"
-  },
-  "usageType": "gaming",
-  "observations": "Configuração ajustada para testar uma alternativa de CPU e GPU."
-}
-```
-
-Também é possível usar `PUT /api/v1/saved-builds/build-001`. A atualização mantém os campos não enviados e altera apenas os campos informados. Quando os componentes são alterados, os IDs são validados na base mockada e o `totalEstimatedPrice` é recalculado.
-
-Resposta esperada:
-
-```json
-{
-  "success": true,
-  "data": {
-    "id": "build-001",
-    "name": "Meu PC gamer atualizado",
-    "components": {
-      "cpu": "cpu-intel-i5-12400f",
-      "gpu": "gpu-rx-7600",
-      "motherboard": "mb-h610m-ddr4",
-      "ram": "ram-corsair-vengeance-16gb-ddr5",
-      "storage": "ssd-kingston-nv2-1tb",
-      "psu": "psu-generic-400w",
-      "case": "case-mid-tower-airflow"
-    },
-    "budget": {
-      "amount": 5500,
-      "currency": "BRL"
-    },
-    "usageType": "gaming",
-    "observations": "Configuração ajustada para testar uma alternativa de CPU e GPU.",
-    "updatedAt": "2026-05-18T13:00:00.000Z"
-  },
-  "message": "Configuração atualizada com sucesso."
-}
-```
-
-### Remover configuração salva
-
-```http
-DELETE /api/v1/saved-builds/build-001
-```
+Mais detalhes em [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).

@@ -20,6 +20,7 @@ git checkout -b feature/US-XX-nome-da-tarefa
 
 ```bash
 npm test
+npm run lint
 ```
 
 5. Faça commit com mensagem clara:
@@ -45,3 +46,5 @@ git commit -m "feat: adiciona verificação de compatibilidade de memória"
 - Não misturar nomes em português e inglês no código.
 - Preferir código simples e legível.
 - Toda nova regra técnica deve ter pelo menos um teste.
+- Atualizar `README.md` e `docs/API.md` quando alterar rotas, payloads ou respostas.
+- Manter respostas no padrão `{ success, message, data }` para sucesso e `{ success, message, errors }` para erro.

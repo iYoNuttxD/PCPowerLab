@@ -3,9 +3,11 @@ import { findComponentById } from './component.service.js';
 const requiredBuildSlots = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case'];
 
 export function checkBuildCompatibility(selectedComponents) {
-  validateSelectedComponents(selectedComponents);
+  const selectedComponentIds = normalizeSelectedComponentsInput(selectedComponents);
 
-  const build = mapSelectedComponents(selectedComponents);
+  validateSelectedComponents(selectedComponentIds);
+
+  const build = mapSelectedComponents(selectedComponentIds);
   const alerts = [];
 
   validateCpuAndMotherboard(build, alerts);
@@ -37,6 +39,26 @@ function validateSelectedComponents(selectedComponents) {
     error.errors = missingSlots.map((slot) => `Componente obrigatório ausente: ${slot}.`);
     throw error;
   }
+}
+
+function normalizeSelectedComponentsInput(selectedComponents) {
+  if (!selectedComponents || typeof selectedComponents !== 'object' || Array.isArray(selectedComponents)) {
+    return selectedComponents;
+  }
+
+  const nestedComponents = selectedComponents.components && typeof selectedComponents.components === 'object'
+    ? selectedComponents.components
+    : {};
+
+  return requiredBuildSlots.reduce((normalizedComponents, slot) => ({
+    ...normalizedComponents,
+    [slot]: normalizeText(
+      selectedComponents[slot]
+        ?? selectedComponents[`${slot}Id`]
+        ?? nestedComponents[slot]
+        ?? nestedComponents[`${slot}Id`]
+    )
+  }), {});
 }
 
 function mapSelectedComponents(selectedComponents) {
@@ -133,4 +155,12 @@ function validateCase(build, alerts) {
 
 function calculateEstimatedPrice(build) {
   return Object.values(build).reduce((total, component) => total + component.price, 0);
+}
+
+function normalizeText(value) {
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    return null;
+  }
+
+  return value.trim();
 }

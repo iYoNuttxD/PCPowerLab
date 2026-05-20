@@ -44,6 +44,52 @@ export function createCompatibilityRule(ruleInput) {
   return rule;
 }
 
+export function updateCompatibilityRule(ruleId, ruleInput) {
+  const currentRuleIndex = findCompatibilityRuleIndex(ruleId);
+
+  if (currentRuleIndex === -1) {
+    throwCompatibilityRuleNotFoundError();
+  }
+
+  validateCompatibilityRulePatchPayload(ruleInput);
+
+  validateCompatibilityRuleInput({
+    ...compatibilityRules[currentRuleIndex],
+    ...ruleInput,
+    id: ruleId
+  });
+
+  const updatedRule = normalizeCompatibilityRule({
+    ...compatibilityRules[currentRuleIndex],
+    ...ruleInput,
+    id: ruleId
+  });
+
+  compatibilityRules[currentRuleIndex] = updatedRule;
+
+  return updatedRule;
+}
+
+function validateCompatibilityRulePatchPayload(ruleInput) {
+  if (!ruleInput || typeof ruleInput !== 'object' || Array.isArray(ruleInput)) {
+    const error = new Error('Informe os dados da regra de compatibilidade.');
+    error.statusCode = 400;
+    throw error;
+  }
+}
+
+export function deleteCompatibilityRule(ruleId) {
+  const currentRuleIndex = findCompatibilityRuleIndex(ruleId);
+
+  if (currentRuleIndex === -1) {
+    throwCompatibilityRuleNotFoundError();
+  }
+
+  const [deletedRule] = compatibilityRules.splice(currentRuleIndex, 1);
+
+  return deletedRule;
+}
+
 function normalizeCompatibilityRule(ruleInput) {
   return {
     id: trimOptionalText(ruleInput.id) || generateCompatibilityRuleId(),
@@ -148,6 +194,16 @@ function validateDuplicateRuleId(ruleId) {
 
   const error = new Error('Já existe uma regra de compatibilidade com o ID informado.');
   error.statusCode = 409;
+  throw error;
+}
+
+function findCompatibilityRuleIndex(ruleId) {
+  return compatibilityRules.findIndex((rule) => rule.id === ruleId);
+}
+
+function throwCompatibilityRuleNotFoundError() {
+  const error = new Error('Regra de compatibilidade nao encontrada.');
+  error.statusCode = 404;
   throw error;
 }
 

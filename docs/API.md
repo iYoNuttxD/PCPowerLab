@@ -15,8 +15,8 @@ O prefixo pode ser alterado pela variavel de ambiente `API_PREFIX`.
 ```json
 {
   "success": true,
-  "data": {},
-  "message": "Operacao realizada com sucesso."
+  "message": "Operacao realizada com sucesso.",
+  "data": {}
 }
 ```
 
@@ -25,7 +25,6 @@ O prefixo pode ser alterado pela variavel de ambiente `API_PREFIX`.
 ```json
 {
   "success": false,
-  "data": null,
   "message": "Nao foi possivel concluir a operacao.",
   "errors": []
 }
@@ -266,6 +265,7 @@ Formato aninhado tambem aceito:
 
 ```http
 POST /api/v1/builds/check-compatibility
+POST /api/v1/compatibility/check
 Content-Type: application/json
 
 {
@@ -288,6 +288,8 @@ A resposta inclui:
 - `alerts`: mensagens estruturadas para exibicao no front-end;
 - `selectedComponents`: componentes encontrados;
 - `estimatedPrice`: preco estimado total.
+
+`POST /api/v1/builds/check-compatibility` foi mantida por compatibilidade com as primeiras US. Para novos consumidores, prefira `POST /api/v1/compatibility/check`.
 
 ## Alertas de compatibilidade
 
@@ -356,6 +358,26 @@ Content-Type: application/json
 ```
 
 Campos obrigatorios: `name`, `sourceType`, `targetType`, `field`, `operator`, `severity` e `message`.
+
+### Editar regra
+
+```http
+PUT /api/v1/compatibility-rules/:id
+Content-Type: application/json
+
+{
+  "name": "CPU socket must match motherboard socket",
+  "severity": "high",
+  "active": true,
+  "message": "O socket do processador deve ser compativel com o socket da placa-mae."
+}
+```
+
+### Remover regra
+
+```http
+DELETE /api/v1/compatibility-rules/:id
+```
 
 ## Parametros de desempenho
 

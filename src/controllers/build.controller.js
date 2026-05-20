@@ -15,7 +15,7 @@ export function selectComponents(req, res, next) {
 
 export function checkCompatibility(req, res, next) {
   try {
-    const result = checkBuildCompatibility(req.body.components);
+    const result = checkBuildCompatibility(req.body.components ?? req.body);
     const alerts = generateCompatibilityAlerts(result);
 
     return ok(
