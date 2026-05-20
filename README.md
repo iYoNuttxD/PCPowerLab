@@ -327,6 +327,51 @@ Resposta resumida:
 
 O endpoint consolida os services de compatibilidade, alertas, gargalos, orçamento, desempenho em jogos, recomendação e explicações simples. `budget` e `gameId` são opcionais; quando alguma análise opcional não tiver dados suficientes, a seção correspondente retorna `available: false` sem impedir o resumo principal.
 
+### Comparar configurações
+
+```http
+POST /api/v1/build-comparison
+Content-Type: application/json
+
+{
+  "builds": [
+    {
+      "name": "Build custo-benefício",
+      "components": {
+        "cpuId": "cpu-ryzen-5-5600",
+        "motherboardId": "mb-b550m-aorus-elite",
+        "gpuId": "gpu-rtx-4060",
+        "ramId": "ram-kingston-fury-16gb-ddr4",
+        "storageId": "ssd-kingston-nv2-1tb",
+        "psuId": "psu-corsair-650w",
+        "caseId": "case-mid-tower-airflow"
+      }
+    },
+    {
+      "name": "Build alternativa",
+      "components": {
+        "cpuId": "cpu-ryzen-5-5600",
+        "motherboardId": "mb-b550m-aorus-elite",
+        "gpuId": "gpu-rtx-4060",
+        "ramId": "ram-kingston-fury-16gb-ddr4",
+        "storageId": "ssd-kingston-nv2-1tb",
+        "psuId": "psu-corsair-650w",
+        "caseId": "case-mid-tower-airflow"
+      }
+    }
+  ],
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "gameId": "game-cyberpunk-2077",
+  "comparisonCriteria": "cost-benefit"
+}
+```
+
+Critérios aceitos: `cost-benefit`, `performance`, `budget` e `balanced`.
+
 ### Compartilhar configuração
 
 ```http
