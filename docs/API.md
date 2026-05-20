@@ -769,6 +769,88 @@ GET /api/v1/share/build/:shareId
 
 Retorna `404` quando o identificador de compartilhamento nao existir. O `shareUrl` e simbolico e fica preparado para uma futura rota publica do frontend.
 
+## Links de compra
+
+### Buscar links por componente
+
+```http
+GET /api/v1/purchase-links/:componentId
+```
+
+Exemplo:
+
+```http
+GET /api/v1/purchase-links/gpu-rtx-4060
+```
+
+Resposta:
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "componentId": "gpu-rtx-4060",
+      "storeName": "Pichau",
+      "url": "https://exemplo.com/pichau/gpu-rtx-4060",
+      "price": 1799.9,
+      "currency": "BRL",
+      "lastUpdated": "2026-05-18",
+      "isAffiliate": false,
+      "availabilityStatus": "available"
+    }
+  ],
+  "message": "Links de compra encontrados com sucesso."
+}
+```
+
+Componentes existentes sem links cadastrados retornam lista vazia. Componentes inexistentes retornam `404`.
+
+### Buscar links por build
+
+```http
+POST /api/v1/purchase-links/by-build
+Content-Type: application/json
+
+{
+  "components": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  }
+}
+```
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "gpu": [
+      {
+        "componentId": "gpu-rtx-4060",
+        "storeName": "Pichau",
+        "url": "https://exemplo.com/pichau/gpu-rtx-4060",
+        "price": 1799.9,
+        "currency": "BRL",
+        "lastUpdated": "2026-05-18",
+        "isAffiliate": false,
+        "availabilityStatus": "available"
+      }
+    ],
+    "case": []
+  },
+  "message": "Links de compra encontrados com sucesso."
+}
+```
+
+Os links e precos sao mockados e cadastrados manualmente no MVP; a API nao consulta lojas externas nem informa preco em tempo real. `isAffiliate` fica explicito para transparencia futura.
+
 ## Resumo das regras iniciais
 
 A API atualmente cobre:
@@ -783,4 +865,5 @@ A API atualmente cobre:
 - registro de orcamento;
 - recomendacao por orcamento;
 - explicacoes simples para resultados tecnicos;
-- compartilhamento simbolico de builds.
+- compartilhamento simbolico de builds;
+- links mockados de compra por componente e por build.
