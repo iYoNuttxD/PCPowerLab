@@ -327,6 +327,66 @@ Resposta resumida:
 
 O endpoint consolida os services de compatibilidade, alertas, gargalos, orçamento, desempenho em jogos, recomendação e explicações simples. `budget` e `gameId` são opcionais; quando alguma análise opcional não tiver dados suficientes, a seção correspondente retorna `available: false` sem impedir o resumo principal.
 
+### Compartilhar configuração
+
+```http
+POST /api/v1/share/build
+Content-Type: application/json
+
+{
+  "buildId": "build-001"
+}
+```
+
+Tambem e possivel compartilhar uma build direta:
+
+```json
+{
+  "name": "Build para comunidade",
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming"
+}
+```
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "shareId": "share-001",
+    "shareUrl": "/shared-builds/share-001",
+    "createdAt": "2026-05-18T14:00:00.000Z",
+    "status": "active",
+    "buildSummary": {
+      "name": "Build para comunidade",
+      "totalEstimatedPrice": 4699.3,
+      "summary": "A configuracao esta compativel, esta dentro do orcamento informado.",
+      "finalRecommendation": "Configuracao recomendada para o perfil informado."
+    }
+  },
+  "message": "Link de compartilhamento gerado com sucesso."
+}
+```
+
+Para consultar uma build compartilhada:
+
+```http
+GET /api/v1/share/build/share-001
+```
+
 ## Padrão de desenvolvimento da equipe
 
 1. Criar novas rotas em `src/routes`.

@@ -704,6 +704,71 @@ Resposta:
 }
 ```
 
+## Compartilhamento de builds
+
+### Gerar link simbolico de compartilhamento
+
+```http
+POST /api/v1/share/build
+Content-Type: application/json
+
+{
+  "buildId": "build-001"
+}
+```
+
+Tambem aceita uma build direta:
+
+```json
+{
+  "name": "Build para comunidade",
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming"
+}
+```
+
+Resposta:
+
+```json
+{
+  "success": true,
+  "data": {
+    "shareId": "share-001",
+    "shareUrl": "/shared-builds/share-001",
+    "createdAt": "2026-05-18T14:00:00.000Z",
+    "status": "active",
+    "source": "direct_build",
+    "buildSummary": {
+      "name": "Build para comunidade",
+      "totalEstimatedPrice": 4699.3,
+      "summary": "A configuracao esta compativel, esta dentro do orcamento informado.",
+      "finalRecommendation": "Configuracao recomendada para o perfil informado."
+    }
+  },
+  "message": "Link de compartilhamento gerado com sucesso."
+}
+```
+
+### Consultar build compartilhada
+
+```http
+GET /api/v1/share/build/:shareId
+```
+
+Retorna `404` quando o identificador de compartilhamento nao existir. O `shareUrl` e simbolico e fica preparado para uma futura rota publica do frontend.
+
 ## Resumo das regras iniciais
 
 A API atualmente cobre:
@@ -717,4 +782,5 @@ A API atualmente cobre:
 - simulacao inicial de desempenho em jogos;
 - registro de orcamento;
 - recomendacao por orcamento;
-- explicacoes simples para resultados tecnicos.
+- explicacoes simples para resultados tecnicos;
+- compartilhamento simbolico de builds.
