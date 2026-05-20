@@ -2,6 +2,8 @@
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links mockados de compra.
 
+O repositório também possui um frontend React em `frontend/`, com tema retro-arcade/tech gamer e integração com a API local.
+
 ## Objetivo
 
 Reduzir o risco de escolha de peças incompatíveis e dar uma visão técnica simples sobre custo, desempenho e equilíbrio da configuração antes da compra.
@@ -57,6 +59,36 @@ Para produção/local sem watch:
 
 ```bash
 npm start
+```
+
+## Rodar backend e frontend
+
+Em um terminal, inicie o backend:
+
+```bash
+npm install
+npm run dev
+```
+
+Em outro terminal, inicie o frontend:
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Portas padrão:
+
+- Backend: `http://localhost:3000/api/v1`
+- Frontend: `http://localhost:5173`
+
+Build do frontend:
+
+```bash
+cd frontend
+npm run build
 ```
 
 ## Testes e lint
