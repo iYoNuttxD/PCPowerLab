@@ -740,6 +740,88 @@ Resposta resumida:
 }
 ```
 
+## Sugestoes de upgrade
+
+### Sugerir upgrades para uma build
+
+```http
+POST /api/v1/upgrades/suggest
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 1500,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "priority": "cost-benefit"
+}
+```
+
+Tambem aceita uma build salva:
+
+```json
+{
+  "buildId": "build-001",
+  "budget": {
+    "amount": 1500,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "priority": "cost-benefit"
+}
+```
+
+Regras principais:
+
+- deve ser informada uma `build` direta ou um `buildId` salvo;
+- `budget` e opcional, mas quando informado limita as sugestoes pelo custo estimado do componente sugerido;
+- `usageType` ajusta a prioridade dos componentes analisados;
+- gargalos identificados pela analise existente recebem prioridade;
+- cada sugestao passa pela validacao de compatibilidade antes de ser retornada.
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "currentBuildSummary": {
+      "totalEstimatedPrice": 4699.3,
+      "mainBottleneck": "gpu",
+      "hasBottleneck": true
+    },
+    "suggestions": [
+      {
+        "componentType": "gpu",
+        "currentComponent": {
+          "id": "gpu-rtx-4060"
+        },
+        "suggestedComponent": {
+          "id": "gpu-rx-7600"
+        },
+        "estimatedUpgradeCost": 1699.9,
+        "expectedImpact": "medium",
+        "scoreGain": 12,
+        "reason": "A troca de gpu deve trazer ganho perceptivel para gaming.",
+        "compatibilityStatus": "compatible"
+      }
+    ],
+    "summary": "O upgrade mais recomendado e trocar gpu, pois esse ponto limita o desempenho da configuracao."
+  },
+  "message": "Sugestoes de upgrade geradas com sucesso."
+}
+```
+
 ## Explicacoes
 
 ### Gerar explicacao simples
@@ -954,6 +1036,7 @@ A API atualmente cobre:
 - registro de orcamento;
 - recomendacao por orcamento;
 - comparacao de duas ou mais builds;
+- sugestoes de upgrade para builds salvas ou enviadas diretamente;
 - explicacoes simples para resultados tecnicos;
 - compartilhamento simbolico de builds;
 - links mockados de compra por componente e por build.

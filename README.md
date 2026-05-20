@@ -372,6 +372,47 @@ Content-Type: application/json
 
 Critérios aceitos: `cost-benefit`, `performance`, `budget` e `balanced`.
 
+### Sugerir upgrades para uma configuração
+
+```http
+POST /api/v1/upgrades/suggest
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 1500,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "priority": "cost-benefit"
+}
+```
+
+Tambem e possivel usar uma configuração salva:
+
+```json
+{
+  "buildId": "build-001",
+  "budget": {
+    "amount": 1500,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "priority": "cost-benefit"
+}
+```
+
+O retorno informa o resumo da configuração atual, os gargalos considerados, sugestões compatíveis com a build, custo estimado do upgrade, impacto esperado e motivo simples para uso futuro no front-end.
+
 ### Compartilhar configuração
 
 ```http

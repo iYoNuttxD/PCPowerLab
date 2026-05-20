@@ -21,6 +21,7 @@ import { buildSummaryRoutes } from './routes/buildSummary.routes.js';
 import { shareBuildRoutes } from './routes/shareBuild.routes.js';
 import { purchaseLinksRoutes } from './routes/purchaseLinks.routes.js';
 import { buildComparisonRoutes } from './routes/buildComparison.routes.js';
+import { upgradeSuggestionRoutes } from './routes/upgradeSuggestion.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 
@@ -48,6 +49,7 @@ app.use(`${env.apiPrefix}/build-summary`, buildSummaryRoutes);
 app.use(`${env.apiPrefix}/build-comparison`, buildComparisonRoutes);
 app.use(`${env.apiPrefix}/share`, shareBuildRoutes);
 app.use(`${env.apiPrefix}/purchase-links`, purchaseLinksRoutes);
+app.use(`${env.apiPrefix}/upgrades`, upgradeSuggestionRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
