@@ -44,6 +44,9 @@ export function saveBuild(buildInput) {
     id: generateSavedBuildId(),
     name,
     ...(normalizeText(buildInput.description) && { description: normalizeText(buildInput.description) }),
+    ...(normalizeText(buildInput.observations ?? buildInput.notes) && {
+      observations: normalizeText(buildInput.observations ?? buildInput.notes)
+    }),
     components,
     ...(buildInput.budget !== undefined && { budget: buildInput.budget }),
     ...(normalizeText(buildInput.usageType) && { usageType: normalizeText(buildInput.usageType) }),
@@ -58,6 +61,115 @@ export function saveBuild(buildInput) {
   };
 
   savedBuilds.push(savedBuild);
+
+  return savedBuild;
+}
+
+export function updateSavedBuild(savedBuildId, buildInput) {
+  validateBuildPayload(buildInput);
+
+  const savedBuild = findSavedBuildById(savedBuildId);
+
+  if (!savedBuild) {
+    const error = new Error('Configuração salva não encontrada.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const updatedFields = {};
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'name')) {
+    const name = normalizeText(buildInput.name);
+
+    if (!name) {
+      const error = new Error('O nome da configuração é obrigatório.');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    updatedFields.name = name;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'description')) {
+    const description = normalizeText(buildInput.description);
+
+    if (description) {
+      updatedFields.description = description;
+    } else {
+      updatedFields.description = undefined;
+    }
+  }
+
+  if (
+    Object.prototype.hasOwnProperty.call(buildInput, 'observations') ||
+    Object.prototype.hasOwnProperty.call(buildInput, 'notes')
+  ) {
+    const observations = normalizeText(buildInput.observations ?? buildInput.notes);
+
+    if (observations) {
+      updatedFields.observations = observations;
+    } else {
+      updatedFields.observations = undefined;
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'components')) {
+    const components = {
+      ...savedBuild.components,
+      ...normalizeSavedBuildComponents(buildInput.components)
+    };
+
+    validateRequiredComponents(components);
+    validateExistingComponents(components);
+
+    updatedFields.components = components;
+    updatedFields.totalEstimatedPrice = calculateTotalEstimatedPrice(components);
+
+    if (!Object.prototype.hasOwnProperty.call(buildInput, 'summary')) {
+      updatedFields.summary = savedBuild.summary ?? 'Configuração atualizada. A build pode ser reavaliada para gerar novo resumo.';
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'budget')) {
+    updatedFields.budget = buildInput.budget;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'usageType')) {
+    const usageType = normalizeText(buildInput.usageType);
+
+    if (usageType) {
+      updatedFields.usageType = usageType;
+    } else {
+      updatedFields.usageType = undefined;
+    }
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'totalEstimatedPrice')) {
+    updatedFields.totalEstimatedPrice = buildInput.totalEstimatedPrice;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'compatibilityStatus')) {
+    updatedFields.compatibilityStatus = buildInput.compatibilityStatus;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'summary')) {
+    updatedFields.summary = buildInput.summary;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(buildInput, 'userId')) {
+    updatedFields.userId = buildInput.userId;
+  }
+
+  Object.entries(updatedFields).forEach(([field, value]) => {
+    if (value === undefined) {
+      delete savedBuild[field];
+      return;
+    }
+
+    savedBuild[field] = value;
+  });
+
+  savedBuild.updatedAt = new Date().toISOString();
 
   return savedBuild;
 }
