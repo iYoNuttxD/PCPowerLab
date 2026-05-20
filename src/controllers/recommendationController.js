@@ -10,3 +10,13 @@ export function recommendByBudget(req, res, next) {
     return next(error);
   }
 }
+
+export function recommendByUsage(req, res, next) {
+  try {
+    const recommendation = recommendBuildByBudget(req.body);
+
+    return ok(res, recommendation, 'Recomendacoes filtradas por tipo de uso geradas com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}

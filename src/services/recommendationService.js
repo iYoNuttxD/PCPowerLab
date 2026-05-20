@@ -8,39 +8,15 @@ import {
   getEstimatedPrice,
   getPerformanceScore
 } from '../utils/costBenefitUtils.js';
+import {
+  supportedUsageTypes,
+  usageSlotWeights,
+  usageTypeSummaries,
+  usageTypeStrategies
+} from '../utils/usageTypeWeights.js';
 
 const supportedPriorities = ['cost-benefit', 'performance', 'lowest-price'];
-const supportedUsageTypes = ['gaming', 'general', 'productivity'];
 
-const usageSlotWeights = {
-  gaming: {
-    cpu: 1.25,
-    gpu: 1.55,
-    motherboard: 0.85,
-    ram: 1,
-    storage: 0.9,
-    psu: 0.9,
-    case: 0.75
-  },
-  productivity: {
-    cpu: 1.45,
-    gpu: 0.9,
-    motherboard: 0.95,
-    ram: 1.25,
-    storage: 1.2,
-    psu: 0.85,
-    case: 0.75
-  },
-  general: {
-    cpu: 1.1,
-    gpu: 1,
-    motherboard: 0.95,
-    ram: 1,
-    storage: 1,
-    psu: 0.9,
-    case: 0.8
-  }
-};
 
 export function recommendBuildByBudget(input) {
   validateRecommendationPayload(input);
@@ -245,6 +221,7 @@ function formatRecommendation({
     remainingBudget: Number((budgetAmount - recommendation.totalEstimatedPrice).toFixed(2)),
     usageType,
     priority,
+    strategy: buildStrategy(usageType),
     components,
     summary: buildSummary(usageType, priority),
     warnings,
@@ -254,6 +231,10 @@ function formatRecommendation({
       usageType
     )
   };
+}
+
+function buildStrategy(usageType) {
+  return usageTypeStrategies[usageType] || usageTypeStrategies.general;
 }
 
 function stripInternalCandidateFields(components) {
@@ -281,15 +262,9 @@ function buildWarnings(components, compatibilityAlerts) {
 }
 
 function buildSummary(usageType, priority) {
-  if (usageType === 'gaming') {
-    return `Configuracao recomendada com foco em ${translatePriority(priority)} para jogos em 1080p.`;
-  }
+  const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
 
-  if (usageType === 'productivity') {
-    return `Configuracao recomendada com foco em ${translatePriority(priority)} para produtividade.`;
-  }
-
-  return `Configuracao recomendada com foco em ${translatePriority(priority)} para uso geral.`;
+  return `${baseSummary} Foco em ${translatePriority(priority)}.`;
 }
 
 function translatePriority(priority) {

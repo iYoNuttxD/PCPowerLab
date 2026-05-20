@@ -66,7 +66,11 @@ function getUsageScoreField(usageType) {
     return 'gamingScore';
   }
 
-  if (usageType === 'productivity') {
+  if (usageType === 'streaming') {
+    return 'gamingScore';
+  }
+
+  if (usageType === 'productivity' || usageType === 'work' || usageType === 'video-editing' || usageType === 'programming') {
     return 'productivityScore';
   }
 
@@ -74,6 +78,27 @@ function getUsageScoreField(usageType) {
 }
 
 function hasRecommendedUse(performanceParameter, usageType) {
-  return Array.isArray(performanceParameter?.recommendedUse)
-    && performanceParameter.recommendedUse.includes(usageType);
+  if (!Array.isArray(performanceParameter?.recommendedUse)) {
+    return false;
+  }
+
+  const aliasType = getUsageTypeAlias(usageType);
+
+  return performanceParameter.recommendedUse.includes(aliasType);
+}
+
+function getUsageTypeAlias(usageType) {
+  if (usageType === 'work' || usageType === 'productivity' || usageType === 'programming' || usageType === 'video-editing' || usageType === 'design') {
+    return 'productivity';
+  }
+
+  if (usageType === 'streaming') {
+    return 'gaming';
+  }
+
+  if (usageType === 'study' || usageType === 'upgrade') {
+    return 'general';
+  }
+
+  return usageType;
 }
