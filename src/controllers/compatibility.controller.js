@@ -4,6 +4,22 @@ import {
 } from '../services/compatibility-alert.service.js';
 import { ok } from '../utils/api-response.js';
 
+export function checkCompatibility(req, res, next) {
+  try {
+    const result = checkBuildCompatibilityAlerts(req.body.components ?? req.body);
+
+    return ok(
+      res,
+      result,
+      result.compatible
+        ? 'Configuracao compativel.'
+        : 'Configuracao possui alertas de compatibilidade.'
+    );
+  } catch (error) {
+    return next(error);
+  }
+}
+
 export function getCompatibilityAlerts(req, res, next) {
   try {
     const result = checkBuildCompatibilityAlerts(req.body.components ?? req.body);

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 
 import {
   createCompatibilityRule,
+  deleteCompatibilityRule,
+  updateCompatibilityRule,
   listCompatibilityRules
 } from '../src/services/compatibility-rule.service.js';
 
@@ -90,4 +92,47 @@ test('deve preservar campos camelCase em regras novas', () => {
   assert.equal(result.field, 'lengthMm');
   assert.equal(result.targetField, 'maxGpuLengthMm');
   assert.equal(result.operator, 'lessThanOrEqual');
+});
+
+test('deve atualizar regra de compatibilidade existente', () => {
+  createCompatibilityRule({
+    id: 'rule-test-update',
+    name: 'Initial rule',
+    sourceType: 'cpu',
+    targetType: 'motherboard',
+    field: 'socket',
+    operator: 'equals',
+    severity: 'medium',
+    message: 'Mensagem inicial.'
+  });
+
+  const result = updateCompatibilityRule('rule-test-update', {
+    name: 'Updated rule',
+    severity: 'high',
+    message: 'Mensagem atualizada.'
+  });
+
+  assert.equal(result.id, 'rule-test-update');
+  assert.equal(result.name, 'Updated rule');
+  assert.equal(result.severity, 'high');
+  assert.equal(result.message, 'Mensagem atualizada.');
+});
+
+test('deve remover regra de compatibilidade existente', () => {
+  createCompatibilityRule({
+    id: 'rule-test-delete',
+    name: 'Rule to delete',
+    sourceType: 'gpu',
+    targetType: 'case',
+    field: 'lengthMm',
+    targetField: 'maxGpuLengthMm',
+    operator: 'lessThanOrEqual',
+    severity: 'medium',
+    message: 'A placa de video deve caber no gabinete.'
+  });
+
+  const result = deleteCompatibilityRule('rule-test-delete');
+
+  assert.equal(result.id, 'rule-test-delete');
+  assert.equal(listCompatibilityRules().some((rule) => rule.id === 'rule-test-delete'), false);
 });

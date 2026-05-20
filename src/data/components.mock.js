@@ -10,6 +10,7 @@ export const components = [
       cores: 6,
       threads: 12,
       baseClockGhz: 3.5,
+      boostClockGhz: 4.4,
       tdpWatts: 65
     }
   },
@@ -24,6 +25,7 @@ export const components = [
       cores: 6,
       threads: 12,
       baseClockGhz: 2.5,
+      boostClockGhz: 4.4,
       tdpWatts: 65
     }
   },
@@ -37,6 +39,7 @@ export const components = [
       socket: 'AM4',
       memoryType: 'DDR4',
       formFactor: 'mATX',
+      chipset: 'B550',
       storageInterfaces: ['M.2 NVMe', 'SATA']
     }
   },
@@ -50,6 +53,7 @@ export const components = [
       socket: 'LGA1700',
       memoryType: 'DDR4',
       formFactor: 'mATX',
+      chipset: 'H610',
       storageInterfaces: ['M.2 NVMe', 'SATA']
     }
   },
@@ -61,6 +65,7 @@ export const components = [
     price: 1899.9,
     specs: {
       vramGb: 8,
+      tdpWatts: 115,
       recommendedPsuWatts: 550,
       lengthMm: 240
     }
@@ -73,6 +78,7 @@ export const components = [
     price: 1699.9,
     specs: {
       vramGb: 8,
+      tdpWatts: 165,
       recommendedPsuWatts: 550,
       lengthMm: 235
     }
@@ -109,6 +115,7 @@ export const components = [
     price: 349.9,
     specs: {
       interface: 'M.2 NVMe',
+      storageType: 'SSD',
       capacityGb: 1000
     }
   },

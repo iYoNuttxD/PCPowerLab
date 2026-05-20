@@ -1,6 +1,8 @@
 import {
   createCompatibilityRule,
-  listCompatibilityRules
+  deleteCompatibilityRule,
+  listCompatibilityRules,
+  updateCompatibilityRule
 } from '../services/compatibility-rule.service.js';
 import { created, ok } from '../utils/api-response.js';
 
@@ -19,6 +21,26 @@ export function postCompatibilityRule(req, res, next) {
     const rule = createCompatibilityRule(req.body);
 
     return created(res, rule, 'Regra de compatibilidade cadastrada com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export function putCompatibilityRule(req, res, next) {
+  try {
+    const rule = updateCompatibilityRule(req.params.id, req.body);
+
+    return ok(res, rule, 'Regra de compatibilidade atualizada com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export function removeCompatibilityRule(req, res, next) {
+  try {
+    const rule = deleteCompatibilityRule(req.params.id);
+
+    return ok(res, rule, 'Regra de compatibilidade removida com sucesso.');
   } catch (error) {
     return next(error);
   }
