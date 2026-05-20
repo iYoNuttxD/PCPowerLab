@@ -17,6 +17,7 @@ import { recommendationRoutes } from './routes/recommendation.routes.js';
 import { budgetRoutes } from './routes/budget.routes.js';
 import { explanationRoutes } from './routes/explanation.routes.js';
 import { gamePerformanceRoutes } from './routes/gamePerformance.routes.js';
+import { buildSummaryRoutes } from './routes/buildSummary.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 
@@ -40,6 +41,7 @@ app.use(`${env.apiPrefix}/performance`, gamePerformanceRoutes);
 app.use(`${env.apiPrefix}/recommendations`, recommendationRoutes);
 app.use(`${env.apiPrefix}/budget`, budgetRoutes);
 app.use(`${env.apiPrefix}/explanations`, explanationRoutes);
+app.use(`${env.apiPrefix}/build-summary`, buildSummaryRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
