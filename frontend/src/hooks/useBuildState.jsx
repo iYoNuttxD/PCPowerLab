@@ -30,7 +30,11 @@ export function BuildProvider({ children }) {
   const [state, setState] = useState(() => loadInitialState());
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(state));
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    } catch (_error) {
+      // Persistência local é apenas conveniência; a UI continua funcionando sem ela.
+    }
   }, [state]);
 
   const actions = useMemo(() => ({
@@ -86,13 +90,21 @@ export function BuildProvider({ children }) {
     },
     clearBuild() {
       setState(initialState);
-      localStorage.removeItem(storageKey);
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (_error) {
+        // Sem ação: alguns navegadores podem bloquear storage local.
+      }
     },
     loadSavedBuild(savedBuild, componentMap = {}) {
-      const selectedComponents = Object.entries(savedBuild?.components || {}).reduce((selection, [type, id]) => ({
-        ...selection,
-        [type]: componentMap[id] || id
-      }), {});
+      const components = savedBuild?.components || {};
+      const selectedComponents = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'].reduce((selection, type) => {
+        const id = components[type] || components[`${type}Id`];
+
+        return id
+          ? { ...selection, [type]: componentMap[id] || { id } }
+          : selection;
+      }, {});
 
       setState((current) => ({
         ...current,

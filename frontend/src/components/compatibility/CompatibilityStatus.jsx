@@ -1,5 +1,6 @@
 import Badge from '../ui/Badge.jsx';
 import Card from '../ui/Card.jsx';
+import { translateSeverity, translateValue } from '../../utils/translations.js';
 
 export default function CompatibilityStatus({ result }) {
   if (!result) {
@@ -25,9 +26,15 @@ export default function CompatibilityStatus({ result }) {
         <div className="stack">
           {issues.map((alert, index) => (
             <article key={`${alert.code || alert.title}-${index}`} className={`issue-card severity-${alert.severity || 'medium'}`}>
-              <strong>{alert.title || alert.code || 'Alerta técnico'}</strong>
+              <strong>{alert.title || translateValue(alert.code, 'Alerta técnico')}</strong>
               <p>{alert.message}</p>
-              {alert.suggestion && <small>{alert.suggestion}</small>}
+              <small>
+                Severidade {translateSeverity(alert.severity || 'medium')}
+                {Array.isArray(alert.components) && alert.components.length > 0
+                  ? ` • Componentes: ${alert.components.map((component) => translateValue(component)).join(', ')}`
+                  : ''}
+              </small>
+              {alert.suggestion && <p className="suggestion-text">{alert.suggestion}</p>}
             </article>
           ))}
         </div>

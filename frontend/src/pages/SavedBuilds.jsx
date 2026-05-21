@@ -70,7 +70,8 @@ export default function SavedBuilds() {
   async function shareBuild(savedBuild) {
     await request.run(async () => {
       const result = await sharingService.create({ buildId: savedBuild.id });
-      setFeedback(`Link gerado: ${result.shareUrl}`);
+      const path = result?.shareUrl?.replace('/shared-builds/', '/shared/') || `/shared/${result?.shareId}`;
+      setFeedback(`Link gerado: ${window.location.origin}${path}`);
     });
   }
 
@@ -104,7 +105,7 @@ export default function SavedBuilds() {
               {componentTypes.map((type) => (
                 <li key={type}>
                   <span>{componentLabels[type]}</span>
-                  <strong>{savedBuild.components?.[type] || 'Não informado'}</strong>
+                  <strong>{getSavedComponentName(savedBuild, type, componentMap)}</strong>
                 </li>
               ))}
             </ul>
@@ -134,4 +135,10 @@ export default function SavedBuilds() {
       )}
     </div>
   );
+}
+
+function getSavedComponentName(savedBuild, type, componentMap) {
+  const id = savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`];
+
+  return componentMap[id]?.name || id || 'Não informado';
 }

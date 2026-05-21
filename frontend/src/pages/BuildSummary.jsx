@@ -19,7 +19,8 @@ import { purchaseLinksService } from '../services/purchaseLinksService.js';
 import { recommendationService } from '../services/recommendationService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { sharingService } from '../services/sharingService.js';
-import { buildToApiPayload, hasCompleteBuild, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
+import { buildToApiPayload, buildToPurchaseLinksPayload, hasCompleteBuild, normalizeBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
+import { translateValue } from '../utils/translations.js';
 
 export default function BuildSummary() {
   const build = useBuildState();
@@ -45,7 +46,7 @@ export default function BuildSummary() {
       const [summary, gamePerformance, links] = await Promise.all([
         recommendationService.summary({
           build: build.buildPayload,
-          budget: build.budget.amount ? build.budget : undefined,
+          budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
           usageType: build.usageType,
           ...build.game
         }),
@@ -53,7 +54,7 @@ export default function BuildSummary() {
           ...build.game,
           build: build.buildPayload
         }).catch(() => null),
-        purchaseLinksService.byBuild({ components: build.buildPayload }).catch(() => null)
+        purchaseLinksService.byBuild(buildToPurchaseLinksPayload(build.selectedComponents)).catch(() => null)
       ]);
 
       build.actions.setResult('summary', summary);
@@ -64,6 +65,11 @@ export default function BuildSummary() {
   }
 
   async function saveBuild() {
+    if (!hasCompleteBuild(build.selectedComponents)) {
+      setFeedback('Complete a build antes de salvar.');
+      return;
+    }
+
     await request.run(async () => {
       await savedBuildsService.create(normalizeSavedBuildPayload({
         name: 'Build final PCPowerLab',
@@ -76,11 +82,16 @@ export default function BuildSummary() {
   }
 
   async function shareBuild() {
+    if (!hasCompleteBuild(build.selectedComponents)) {
+      setFeedback('Complete a build antes de compartilhar.');
+      return;
+    }
+
     await request.run(async () => {
       const result = await sharingService.create({
         name: 'Build compartilhada',
         build: buildToApiPayload(build.selectedComponents),
-        budget: build.budget,
+        budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
         usageType: build.usageType
       });
       setShare(result);
@@ -127,7 +138,7 @@ export default function BuildSummary() {
             label="Qualidade"
             value={build.game.qualityPreset}
             onChange={(event) => build.actions.setGame({ qualityPreset: event.target.value })}
-            options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: value }))}
+            options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: translateValue(value) }))}
           />
         </div>
         <div className="button-row">
@@ -162,7 +173,7 @@ export default function BuildSummary() {
           <div className="metric-grid">
             <div><span>Jogo</span><strong>{build.gamePerformance.game}</strong></div>
             <div><span>FPS estimado</span><strong>{build.gamePerformance.estimatedFps}</strong></div>
-            <div><span>Nível</span><strong>{build.gamePerformance.performanceLevel}</strong></div>
+            <div><span>Nível</span><strong>{translateValue(build.gamePerformance.performanceLevel)}</strong></div>
           </div>
           <p>{build.gamePerformance.summary}</p>
         </Card>

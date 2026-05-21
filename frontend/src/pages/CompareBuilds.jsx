@@ -9,10 +9,13 @@ import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
 import { useApiRequest } from '../hooks/useApiRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
-import { recommendationService } from '../services/recommendationService.js';
+import { buildComparisonService } from '../services/buildComparisonService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { componentTypes, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
+import { buildToApiPayload, normalizeBudgetPayload } from '../utils/buildHelpers.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
+import { translateValue } from '../utils/translations.js';
+import { validateBudgetAmount } from '../utils/validation.js';
 
 export default function CompareBuilds() {
   const build = useBuildState();
@@ -37,6 +40,12 @@ export default function CompareBuilds() {
   }
 
   async function compare() {
+    const budgetError = validateBudgetAmount(budget);
+    if (budgetError) {
+      request.setError(budgetError);
+      return;
+    }
+
     const selectedBuilds = savedBuilds
       .filter((savedBuild) => selectedIds.includes(savedBuild.id))
       .map((savedBuild) => ({
@@ -47,10 +56,7 @@ export default function CompareBuilds() {
     if (componentTypes.every((type) => build.selectedComponents[type])) {
       selectedBuilds.unshift({
         name: 'Build atual',
-        components: componentTypes.reduce((payload, type) => ({
-          ...payload,
-          [`${type}Id`]: build.selectedComponents[type].id
-        }), {})
+        components: buildToApiPayload(build.selectedComponents)
       });
     }
 
@@ -60,12 +66,13 @@ export default function CompareBuilds() {
     }
 
     await request.run(async () => {
-      const result = await recommendationService.compare({
+      const result = await buildComparisonService.compare({
         builds: selectedBuilds,
-        budget: {
-          amount: Number(budget),
-          currency: 'BRL'
-        },
+        budget: normalizeBudgetPayload({
+          amount: budget,
+          currency: 'BRL',
+          priority: ['cost-benefit', 'performance'].includes(criteria) ? criteria : 'balanced'
+        }),
         usageType,
         comparisonCriteria: criteria
       });
@@ -86,7 +93,7 @@ export default function CompareBuilds() {
       <Card>
         <h2>Critérios</h2>
         <div className="form-grid">
-          <Input label="Orçamento de referência" type="number" value={budget} onChange={(event) => setBudget(event.target.value)} />
+          <Input label="Orçamento de referência" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Critério" value={criteria} onChange={(event) => setCriteria(event.target.value)} options={['cost-benefit', 'performance', 'budget', 'balanced'].map((value) => ({ value, label: priorityLabels[value] || value }))} />
         </div>
@@ -132,7 +139,7 @@ export default function CompareBuilds() {
                 <span>{formatCurrency(item.totalEstimatedPrice)}</span>
                 <span>{item.compatible ? 'Sim' : 'Não'}</span>
                 <span>{item.performanceScore}</span>
-                <span>{item.budgetStatus}</span>
+                <span>{translateValue(item.budgetStatus)}</span>
               </div>
             ))}
           </div>

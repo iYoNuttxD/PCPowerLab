@@ -35,3 +35,9 @@
 .upgrade-pair {
   grid-template-columns: 1fr 1fr;
 }
+
+@media (max-width: 560px) {
+  .upgrade-pair {
+    grid-template-columns: 1fr;
+  }
+}

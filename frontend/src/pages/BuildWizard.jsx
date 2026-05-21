@@ -24,7 +24,7 @@ import { performanceService } from '../services/performanceService.js';
 import { recommendationService } from '../services/recommendationService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { componentLabels, componentTypes, priorityLabels, priorityOptions, usageLabels, usageTypes } from '../utils/componentLabels.js';
-import { normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
+import { normalizeRecommendationBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { getMissingBuildSlots, validateBudgetAmount } from '../utils/validation.js';
 
 const steps = [...componentTypes, 'budget', 'review'];
@@ -53,6 +53,12 @@ export default function BuildWizard() {
       return;
     }
 
+    const budgetError = validateBudgetAmount(build.budget.amount);
+    if (budgetError) {
+      request.setError(budgetError);
+      return;
+    }
+
     await request.run(async () => {
       const [budgetResult, compatibility, alerts, bottlenecks] = await Promise.all([
         budgetService.validate(build.budget),
@@ -70,9 +76,15 @@ export default function BuildWizard() {
   }
 
   async function generateRecommendation() {
+    const budgetError = validateBudgetAmount(build.budget.amount);
+    if (budgetError) {
+      request.setError(budgetError);
+      return;
+    }
+
     await request.run(async () => {
       const recommendation = await recommendationService.byBudget({
-        budget: build.budget,
+        budget: normalizeRecommendationBudgetPayload(build.budget),
         usageType: build.usageType
       });
 

@@ -4,10 +4,16 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || fallbackBaseUrl
 
 async function request(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
+  const method = options.method || 'GET';
   const config = {
-    method: options.method || 'GET',
+    method,
+    cache: method === 'GET' ? 'no-store' : 'default',
     headers: {
       'Content-Type': 'application/json',
+      ...(method === 'GET' ? {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache'
+      } : {}),
       ...options.headers
     },
     body: options.body ? JSON.stringify(options.body) : undefined
@@ -15,6 +21,10 @@ async function request(path, options = {}) {
 
   try {
     const response = await fetch(url, config);
+    if (response.status === 304) {
+      return null;
+    }
+
     const payload = await parseResponse(response);
 
     if (!response.ok || payload?.success === false) {

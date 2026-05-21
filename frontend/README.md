@@ -97,6 +97,17 @@ src/
 
 O frontend não recria regras do backend. Compatibilidade, gargalos, recomendações, simulações, orçamento, resumo final e upgrades são consumidos da API. Se a API estiver offline, a interface mostra mensagem amigável e permite tentar novamente.
 
+Payloads importantes usados pela interface:
+
+- Orçamento: `POST /budget` recebe `{ "amount": 5000, "currency": "BRL", "priority": "cost-benefit" }`, sem wrapper `budget`.
+- Compatibilidade e gargalos usam payload plano com IDs: `{ "cpuId": "...", "gpuId": "...", "motherboardId": "...", "ramId": "...", "storageId": "...", "psuId": "...", "caseId": "..." }`.
+- Links por build usam `{ "components": { "cpuId": "...", "gpuId": "...", "...": "..." } }`.
+- Simulação de jogo usa `POST /performance/simulate-game` com `gameId`, `targetResolution`, `qualityPreset` e `build`.
+
+`GET /performance/games` pode responder `304 Not Modified` dependendo do cache. A camada `api.js` envia cabeçalhos de no-cache para GETs e a tela de resumo mantém fallback visual controlado caso a lista de jogos venha vazia.
+
+As principais chaves internas retornadas pela API, como `cpu_bottleneck`, `within_budget`, `high`, `gaming`, `motherboard`, `psu` e `storage`, são traduzidas no frontend antes de aparecerem para o usuário.
+
 ## Próximos passos
 
 - Adicionar autenticação real na área administrativa.

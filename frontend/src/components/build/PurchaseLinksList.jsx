@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import Card from '../ui/Card.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
+import { translateValue } from '../../utils/translations.js';
 
 export default function PurchaseLinksList({ linksBySlot, links }) {
   const flatLinks = Array.isArray(links)
@@ -20,7 +21,7 @@ export default function PurchaseLinksList({ linksBySlot, links }) {
             <article key={`${link.componentId}-${link.storeName}-${index}`} className="shop-link">
               <strong>{link.storeName}</strong>
               <span>{formatCurrency(link.price, link.currency)}</span>
-              <small>{link.availabilityStatus || 'unknown'} {link.isAffiliate ? '• afiliado' : '• não afiliado'}</small>
+              <small>{translateValue(link.availabilityStatus, 'Disponibilidade não informada')} {link.isAffiliate ? '• afiliado' : '• não afiliado'}</small>
               <a
                 className="btn btn-ghost btn-md"
                 href={link.url}

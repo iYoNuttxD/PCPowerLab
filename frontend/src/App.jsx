@@ -45,7 +45,7 @@ export const featureHighlights = [
   {
     icon: Gamepad2,
     title: 'Desempenho',
-    text: 'Simule jogos, gargalos e equilíbrio entre CPU, GPU, RAM e storage.'
+    text: 'Simule jogos, gargalos e equilíbrio entre CPU, GPU, RAM e armazenamento.'
   },
   {
     icon: Cpu,

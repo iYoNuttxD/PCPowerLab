@@ -1,8 +1,8 @@
 export const componentTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 
 export const componentLabels = {
-  cpu: 'CPU',
-  gpu: 'GPU',
+  cpu: 'Processador',
+  gpu: 'Placa de vídeo',
   motherboard: 'Placa-mãe',
   ram: 'Memória RAM',
   storage: 'Armazenamento',
@@ -29,7 +29,7 @@ export const usageLabels = {
   programming: 'Programação',
   design: 'Design',
   general: 'Uso geral',
-  study: 'Estudo',
+  study: 'Estudos',
   streaming: 'Streaming',
   upgrade: 'Upgrade'
 };
@@ -45,7 +45,8 @@ export const priorityOptions = [
 export const priorityLabels = {
   'cost-benefit': 'Custo-benefício',
   performance: 'Desempenho',
-  balanced: 'Equilíbrio',
+  budget: 'Orçamento',
+  balanced: 'Equilibrado',
   'lowest-price': 'Menor preço',
   'upgrade-ready': 'Preparado para upgrade'
 };

@@ -5,9 +5,9 @@ import Card from '../components/ui/Card.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
-import { compatibilityService } from '../services/compatibilityService.js';
-import { performanceService } from '../services/performanceService.js';
-import { componentTypes } from '../utils/componentLabels.js';
+import { adminService } from '../services/adminService.js';
+import { componentLabels, componentTypes } from '../utils/componentLabels.js';
+import { translateSeverity, translateValue } from '../utils/translations.js';
 
 export default function Admin() {
   const [rules, setRules] = useState([]);
@@ -18,8 +18,8 @@ export default function Admin() {
   async function loadAdminData() {
     try {
       const [rulesData, parametersData] = await Promise.all([
-        compatibilityService.listRules(),
-        performanceService.listParameters()
+        adminService.listRules(),
+        adminService.listParameters()
       ]);
       setRules(Array.isArray(rulesData) ? rulesData : []);
       setParameters(Array.isArray(parametersData) ? parametersData : []);
@@ -37,7 +37,7 @@ export default function Admin() {
     const form = new FormData(event.currentTarget);
 
     try {
-      await compatibilityService.createRule({
+      await adminService.createRule({
         name: String(form.get('name')).slice(0, 100),
         sourceType: form.get('sourceType'),
         targetType: form.get('targetType'),
@@ -57,7 +57,7 @@ export default function Admin() {
 
   async function deleteRule(id) {
     try {
-      await compatibilityService.deleteRule(id);
+      await adminService.deleteRule(id);
       setFeedback('Regra removida.');
       await loadAdminData();
     } catch (requestError) {
@@ -67,7 +67,7 @@ export default function Admin() {
 
   async function markRuleHigh(rule) {
     try {
-      await compatibilityService.updateRule(rule.id, {
+      await adminService.updateRule(rule.id, {
         ...rule,
         severity: 'high',
         active: true
@@ -89,7 +89,7 @@ export default function Admin() {
     };
 
     try {
-      await performanceService.createParameter(payload);
+      await adminService.createParameter(payload);
       event.currentTarget.reset();
       setFeedback('Parâmetro cadastrado.');
       await loadAdminData();
@@ -100,10 +100,20 @@ export default function Admin() {
 
   async function updateParameter(parameter) {
     try {
-      await performanceService.updateParameter(parameter.componentId, {
+      await adminService.updateParameter(parameter.componentId, {
         performanceScore: Math.min(Number(parameter.performanceScore || 0) + 1, 100)
       });
       setFeedback('Parâmetro atualizado.');
+      await loadAdminData();
+    } catch (requestError) {
+      setError(requestError.message);
+    }
+  }
+
+  async function deleteParameter(componentId) {
+    try {
+      await adminService.deleteParameter(componentId);
+      setFeedback('Parâmetro removido.');
       await loadAdminData();
     } catch (requestError) {
       setError(requestError.message);
@@ -129,12 +139,12 @@ export default function Admin() {
           <h2>Nova regra</h2>
           <form className="form-grid" onSubmit={createRule}>
             <Input label="Nome" name="name" required maxLength="100" />
-            <Select label="Origem" name="sourceType" options={componentTypes.map((type) => ({ value: type, label: type }))} />
-            <Select label="Destino" name="targetType" options={[...componentTypes, 'build'].map((type) => ({ value: type, label: type }))} />
+            <Select label="Origem" name="sourceType" options={componentTypes.map((type) => ({ value: type, label: componentLabels[type] }))} />
+            <Select label="Destino" name="targetType" options={[...componentTypes, 'build'].map((type) => ({ value: type, label: componentLabels[type] || 'Build completa' }))} />
             <Input label="Campo" name="field" required maxLength="60" />
             <Input label="Campo destino" name="targetField" maxLength="60" />
-            <Select label="Operador" name="operator" options={['equals', 'includes', 'lessThanOrEqual', 'greaterThanOrEqual'].map((value) => ({ value, label: value }))} />
-            <Select label="Severidade" name="severity" options={['low', 'medium', 'high'].map((value) => ({ value, label: value }))} />
+            <Select label="Operador" name="operator" options={['equals', 'includes', 'lessThanOrEqual', 'greaterThanOrEqual'].map((value) => ({ value, label: translateValue(value) }))} />
+            <Select label="Severidade" name="severity" options={['low', 'medium', 'high'].map((value) => ({ value, label: translateSeverity(value) }))} />
             <Input label="Mensagem" name="message" required maxLength="220" />
             <Button type="submit">Cadastrar regra</Button>
           </form>
@@ -144,7 +154,7 @@ export default function Admin() {
           <h2>Novo parâmetro</h2>
           <form className="form-grid" onSubmit={saveParameter}>
             <Input label="Component ID" name="componentId" required maxLength="80" />
-            <Select label="Tipo" name="type" options={componentTypes.map((type) => ({ value: type, label: type }))} />
+            <Select label="Tipo" name="type" options={componentTypes.map((type) => ({ value: type, label: componentLabels[type] }))} />
             <Input label="Performance score" name="performanceScore" type="number" min="0" max="100" required />
             <Button type="submit">Cadastrar parâmetro</Button>
           </form>
@@ -158,9 +168,9 @@ export default function Admin() {
             <article key={rule.id} className="admin-row">
               <div>
                 <strong>{rule.name}</strong>
-                <span>{rule.sourceType} → {rule.targetType} • {rule.severity}</span>
+                <span>{translateValue(rule.sourceType)} → {translateValue(rule.targetType)} • {translateSeverity(rule.severity)}</span>
               </div>
-              <Button variant="ghost" onClick={() => markRuleHigh(rule)}>Marcar high</Button>
+              <Button variant="ghost" onClick={() => markRuleHigh(rule)}>Marcar como alta</Button>
               <Button variant="danger" onClick={() => deleteRule(rule.id)}>Remover</Button>
             </article>
           ))}
@@ -174,9 +184,10 @@ export default function Admin() {
             <article key={parameter.componentId} className="admin-row">
               <div>
                 <strong>{parameter.componentId}</strong>
-                <span>{parameter.type} • score {parameter.performanceScore}</span>
+                <span>{translateValue(parameter.type)} • score {parameter.performanceScore}</span>
               </div>
               <Button variant="ghost" onClick={() => updateParameter(parameter)}>+1 score</Button>
+              <Button variant="danger" onClick={() => deleteParameter(parameter.componentId)}>Remover</Button>
             </article>
           ))}
         </div>

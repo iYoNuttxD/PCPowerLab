@@ -8,11 +8,13 @@ import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
 import { useApiRequest } from '../hooks/useApiRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
-import { recommendationService } from '../services/recommendationService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
-import { buildToApiPayload, hasCompleteBuild } from '../utils/buildHelpers.js';
+import { upgradeService } from '../services/upgradeService.js';
+import { buildToApiPayload, hasCompleteBuild, normalizeBudgetPayload } from '../utils/buildHelpers.js';
 import { componentLabels, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
+import { translateValue } from '../utils/translations.js';
+import { validateBudgetAmount } from '../utils/validation.js';
 
 export default function UpgradeSuggestions() {
   const build = useBuildState();
@@ -31,11 +33,14 @@ export default function UpgradeSuggestions() {
   }, []);
 
   async function suggest() {
+    const budgetError = validateBudgetAmount(budget);
+    if (budgetError) {
+      request.setError(budgetError);
+      return;
+    }
+
     const payload = {
-      budget: {
-        amount: Number(budget),
-        currency: 'BRL'
-      },
+      budget: normalizeBudgetPayload({ amount: budget, currency: 'BRL', priority }),
       usageType,
       priority
     };
@@ -50,7 +55,7 @@ export default function UpgradeSuggestions() {
     }
 
     await request.run(async () => {
-      const data = await recommendationService.suggestUpgrades(payload);
+      const data = await upgradeService.suggest(payload);
       setResult(data);
     });
   }
@@ -77,7 +82,7 @@ export default function UpgradeSuggestions() {
               ...savedBuilds.map((savedBuild) => ({ value: savedBuild.id, label: savedBuild.name }))
             ]}
           />
-          <Input label="Orçamento para upgrade" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} />
+          <Input label="Orçamento para upgrade" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: priorityLabels[value] }))} />
         </div>
@@ -94,7 +99,7 @@ export default function UpgradeSuggestions() {
               <Card key={`${suggestion.componentType}-${suggestion.suggestedComponent?.id}`} as="article">
                 <div className="section-heading compact">
                   <h2>{componentLabels[suggestion.componentType] || suggestion.componentType}</h2>
-                  <strong>{suggestion.expectedImpact}</strong>
+                  <strong>{translateValue(suggestion.expectedImpact)}</strong>
                 </div>
                 <p>{suggestion.reason}</p>
                 <div className="upgrade-pair">
@@ -108,7 +113,7 @@ export default function UpgradeSuggestions() {
                   </div>
                 </div>
                 <p>Custo estimado: {formatCurrency(suggestion.estimatedUpgradeCost)}</p>
-                <small>Compatibilidade: {suggestion.compatibilityStatus}</small>
+                <small>Compatibilidade: {translateValue(suggestion.compatibilityStatus)}</small>
               </Card>
             ))}
           </div>

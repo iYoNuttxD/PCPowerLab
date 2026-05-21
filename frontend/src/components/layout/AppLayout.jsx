@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { CircuitBoard, Menu } from 'lucide-react';
 
@@ -12,6 +13,8 @@ const navItems = [
 ];
 
 export default function AppLayout({ children }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -19,14 +22,22 @@ export default function AppLayout({ children }) {
           <CircuitBoard size={28} aria-hidden="true" />
           <span>PCPowerLab</span>
         </Link>
-        <nav className="main-nav" aria-label="Navegação principal">
+        <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Navegação principal">
           {navItems.map((item) => (
-            <NavLink key={item.to} to={item.to}>
+            <NavLink key={item.to} to={item.to} onClick={() => setMenuOpen(false)}>
               {item.label}
             </NavLink>
           ))}
         </nav>
-        <Menu className="mobile-menu-icon" aria-hidden="true" />
+        <button
+          className="mobile-menu-button"
+          type="button"
+          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((current) => !current)}
+        >
+          <Menu size={22} aria-hidden="true" />
+        </button>
       </header>
       <main className="page-content">
         {children}

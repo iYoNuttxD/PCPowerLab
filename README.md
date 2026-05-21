@@ -338,7 +338,7 @@ POST /api/v1/purchase-links/by-build
 
 A aplicação atual é uma API backend com dados em memória. Os mocks ficam em `src/data` e cobrem componentes, regras de compatibilidade, parâmetros de desempenho, jogos, builds salvas, compartilhamentos e links de compra.
 
-Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação, integração com lojas ou frontend nesta versão.
+Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação ou integração com lojas reais nesta versão. O frontend em `frontend/` consome esses dados mockados pela API local.
 
 ## Contribuição
 

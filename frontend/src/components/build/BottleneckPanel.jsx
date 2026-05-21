@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Badge from '../ui/Badge.jsx';
 import Card from '../ui/Card.jsx';
+import { translateBottleneckType, translateComponent, translateSeverity, translateValue } from '../../utils/translations.js';
 
 export default function BottleneckPanel({ result }) {
   if (!result) {
@@ -14,7 +15,7 @@ export default function BottleneckPanel({ result }) {
 
   const bottlenecks = Array.isArray(result.bottlenecks) ? result.bottlenecks : [];
   const chartData = Object.entries(result.performanceSummary || {}).map(([name, value]) => ({
-    name: name.replace('Score', ''),
+    name: translateComponent(name.replace('Score', '')),
     score: value
   }));
 
@@ -23,7 +24,7 @@ export default function BottleneckPanel({ result }) {
       <div className="section-heading compact">
         <h3>Análise de gargalos</h3>
         <Badge tone={result.hasBottleneck ? 'yellow' : 'green'}>
-          {result.overallBalance || (result.hasBottleneck ? 'atenção' : 'equilibrado')}
+          {translateValue(result.overallBalance || (result.hasBottleneck ? 'moderate' : 'balanced'))}
         </Badge>
       </div>
       {chartData.length > 0 && (
@@ -44,9 +45,12 @@ export default function BottleneckPanel({ result }) {
           <p>Não foram identificados gargalos relevantes para os dados enviados.</p>
         ) : bottlenecks.map((bottleneck, index) => (
           <article key={`${bottleneck.type}-${index}`} className={`issue-card severity-${bottleneck.severity}`}>
-            <strong>{bottleneck.type}</strong>
+            <strong>{translateBottleneckType(bottleneck.type)}</strong>
             <p>{bottleneck.message}</p>
-            <small>{bottleneck.component} relacionado a {bottleneck.relatedComponent || 'build'}</small>
+            <small>
+              Severidade {translateSeverity(bottleneck.severity)} • {translateComponent(bottleneck.component)}
+              {bottleneck.relatedComponent ? ` relacionado a ${translateComponent(bottleneck.relatedComponent)}` : ''}
+            </small>
           </article>
         ))}
       </div>
