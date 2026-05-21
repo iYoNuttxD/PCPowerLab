@@ -338,6 +338,15 @@ POST /api/v1/purchase-links/by-build
 
 A aplicação atual é uma API backend com dados em memória. Os mocks ficam em `src/data` e cobrem componentes, regras de compatibilidade, parâmetros de desempenho, jogos, builds salvas, compartilhamentos e links de compra.
 
+Base mockada atual:
+
+- 63 componentes: 12 CPUs, 9 placas-mãe, 11 GPUs, 8 memórias RAM, 8 armazenamentos, 8 fontes e 7 gabinetes.
+- 63 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
+- 13 jogos/perfis de simulação, incluindo perfis competitivos, AAA, simuladores, estratégia, indie e carga criativa.
+- 71 links de compra mockados em lojas fictícias/placeholder como Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
+
+Os links, preços e disponibilidades são dados mockados para fins acadêmicos e de demonstração. Eles não representam preço em tempo real, estoque real ou integração com lojas.
+
 Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação ou integração com lojas reais nesta versão. O frontend em `frontend/` consome esses dados mockados pela API local.
 
 ## Contribuição

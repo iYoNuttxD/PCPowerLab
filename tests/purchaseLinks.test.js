@@ -5,6 +5,7 @@ import {
   getPurchaseLinksByBuild,
   getPurchaseLinksByComponentId
 } from '../src/services/purchaseLinksService.js';
+import { createAdminComponent } from '../src/services/admin-component.service.js';
 
 const validBuild = {
   components: {
@@ -33,7 +34,16 @@ test('deve buscar links de compra por componentId', () => {
 });
 
 test('deve retornar lista vazia para componente existente sem link cadastrado', () => {
-  const links = getPurchaseLinksByComponentId('case-mid-tower-airflow');
+  createAdminComponent({
+    id: 'case-test-no-purchase-link',
+    name: 'Gabinete Test Sem Link',
+    type: 'case',
+    brand: 'Test',
+    supportedFormFactors: ['ATX', 'mATX'],
+    maxGpuLength: 320
+  });
+
+  const links = getPurchaseLinksByComponentId('case-test-no-purchase-link');
 
   assert.deepEqual(links, []);
 });
@@ -46,7 +56,7 @@ test('deve buscar links de compra para todos os componentes de uma build', () =>
   assert.equal(Array.isArray(linksByBuild.case), true);
   assert.equal(linksByBuild.cpu.length > 0, true);
   assert.equal(linksByBuild.gpu[0].componentId, 'gpu-rtx-4060');
-  assert.deepEqual(linksByBuild.case, []);
+  assert.equal(linksByBuild.case.length > 0, true);
 });
 
 test('deve aceitar build em formato plano', () => {

@@ -8,6 +8,7 @@ import {
   listPerformanceParameters,
   updatePerformanceParameters
 } from '../src/services/performanceParametersService.js';
+import { createAdminComponent } from '../src/services/admin-component.service.js';
 
 test('deve listar todos os parametros de desempenho cadastrados', () => {
   const result = listPerformanceParameters();
@@ -31,8 +32,19 @@ test('deve consultar parametros de desempenho por componentId', () => {
 });
 
 test('deve cadastrar parametros para um componente existente', () => {
+  createAdminComponent({
+    id: 'gpu-test-performance-create',
+    name: 'GPU Test Parametros',
+    type: 'gpu',
+    brand: 'Test',
+    vram: 8,
+    tdp: 165,
+    recommendedPsu: 550,
+    length: 235
+  });
+
   const result = createPerformanceParameters({
-    componentId: 'gpu-rx-7600',
+    componentId: 'gpu-test-performance-create',
     type: 'gpu',
     performanceScore: 83,
     gamingScore: 86,
@@ -43,7 +55,7 @@ test('deve cadastrar parametros para um componente existente', () => {
     recommendedUse: ['gaming', 'general']
   });
 
-  assert.equal(result.componentId, 'gpu-rx-7600');
+  assert.equal(result.componentId, 'gpu-test-performance-create');
   assert.equal(result.type, 'gpu');
   assert.equal(result.performanceScore, 83);
 });
