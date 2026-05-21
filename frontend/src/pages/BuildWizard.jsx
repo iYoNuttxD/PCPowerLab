@@ -60,17 +60,65 @@ export default function BuildWizard() {
     }
 
     await request.run(async () => {
-      const [budgetResult, compatibility, alerts, bottlenecks] = await Promise.all([
-        budgetService.validate(build.budget),
-        compatibilityService.check(build.buildPayload),
-        compatibilityService.alerts(build.buildPayload),
-        performanceService.analyzeBottlenecks(build.buildPayload)
-      ]);
-
+      const compatibility = await compatibilityService.check(build.buildPayload);
       build.actions.setResult('compatibility', compatibility);
+
+      const alerts = await compatibilityService.alerts(build.buildPayload);
       build.actions.setResult('alerts', alerts);
-      build.actions.setResult('bottlenecks', bottlenecks);
+
+      const budgetResult = await budgetService.validate(build.budget);
       build.actions.setBudget(budgetResult);
+
+      if (hasCompatibilityBlockers(compatibility, alerts)) {
+        build.actions.setResult('bottlenecks', {
+          status: 'unavailable',
+          reason: 'incompatible_build',
+          message: 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
+          data: null
+        });
+        setFeedback('Compatibilidade analisada. Corrija as incompatibilidades antes de analisar gargalos.');
+        return;
+      }
+
+      build.actions.setResult('bottlenecks', {
+        status: 'loading',
+        message: 'Analisando possíveis gargalos...',
+        data: null
+      });
+
+      try {
+        const bottlenecks = await performanceService.analyzeBottlenecks(build.buildPayload);
+
+        build.actions.setResult('bottlenecks', {
+          status: 'success',
+          data: bottlenecks
+        });
+      } catch (error) {
+        if (error.status === 400) {
+          build.actions.setResult('bottlenecks', {
+            status: 'unavailable',
+            reason: 'missing_performance_parameters',
+            message: buildBottleneckUnavailableMessage(error),
+            errors: error.errors || [],
+            data: null
+          });
+          setFeedback('Build analisada. Gargalos indisponíveis por dados de desempenho insuficientes.');
+          return;
+        }
+
+        build.actions.setResult('bottlenecks', {
+          status: 'error',
+          reason: error.status === 0 ? 'network_error' : 'unexpected_error',
+          message: error.status === 0
+            ? 'Falha de comunicação com o servidor. Verifique se o backend está rodando.'
+            : 'Não foi possível concluir a análise de gargalos no momento. Tente novamente.',
+          errors: error.errors || [],
+          data: null
+        });
+        setFeedback('Compatibilidade analisada. Não foi possível concluir a análise de gargalos.');
+        return;
+      }
+
       setFeedback('Build analisada com sucesso.');
     });
   }
@@ -229,4 +277,30 @@ export default function BuildWizard() {
       </aside>
     </div>
   );
+}
+
+function hasCompatibilityBlockers(compatibility, alerts) {
+  const compatibilityAlerts = [
+    ...(Array.isArray(compatibility?.alerts) ? compatibility.alerts : []),
+    ...(Array.isArray(compatibility?.issues) ? compatibility.issues : []),
+    ...(Array.isArray(alerts?.alerts) ? alerts.alerts : []),
+    ...(Array.isArray(alerts?.issues) ? alerts.issues : [])
+  ];
+
+  const hasCriticalIssues = compatibilityAlerts.some((issue) => issue?.severity === 'high');
+
+  return compatibility?.compatible !== true || alerts?.compatible === false || hasCriticalIssues;
+}
+
+function buildBottleneckUnavailableMessage(error) {
+  const complement = 'Cadastre os parâmetros de desempenho dos componentes na área administrativa para liberar esta análise.';
+  const fallback = `Não foi possível analisar gargalos porque alguns componentes ainda não possuem parâmetros de desempenho cadastrados. ${complement}`;
+
+  if (!error?.message) {
+    return fallback;
+  }
+
+  return error.message.includes('área administrativa')
+    ? error.message
+    : `${error.message} ${complement}`;
 }

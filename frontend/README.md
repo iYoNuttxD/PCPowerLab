@@ -108,6 +108,24 @@ Payloads importantes usados pela interface:
 
 As principais chaves internas retornadas pela API, como `cpu_bottleneck`, `within_budget`, `high`, `gaming`, `motherboard`, `psu` e `storage`, são traduzidas no frontend antes de aparecerem para o usuário.
 
+## Fluxo de compatibilidade e gargalos
+
+A análise principal segue esta ordem:
+
+1. `POST /compatibility/check`
+2. `POST /compatibility/alerts`
+3. `POST /budget`
+4. `POST /bottlenecks/analyze`, somente quando a build estiver compatível e sem alertas críticos.
+
+Quando a build é incompatível, o painel de gargalos fica indisponível e orienta o usuário a corrigir a compatibilidade antes de analisar desempenho. Quando `/bottlenecks/analyze` retorna `400` por parâmetros insuficientes, a UI trata como estado controlado, mostra a mensagem do backend e direciona para `/admin` para cadastro dos parâmetros de desempenho.
+
+Para testar rapidamente:
+
+- Socket incompatível: Ryzen 5 5600 + H610M DDR4 deve exibir alerta de socket e gargalos indisponíveis.
+- RAM incompatível: i5-12400F + H610M DDR4 + Corsair DDR5 deve exibir alerta de memória e gargalos indisponíveis.
+- Build compatível: Ryzen 5 5600 + B550M + RTX 4060 + Kingston DDR4 + NV2 + Corsair 650W + gabinete airflow deve liberar gargalos ou exibir dados de desempenho insuficientes.
+- Backend desligado: a UI deve exibir falha de conexão, não erro técnico cru.
+
 ## Próximos passos
 
 - Adicionar autenticação real na área administrativa.

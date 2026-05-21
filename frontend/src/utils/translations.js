@@ -39,6 +39,13 @@ export const statusLabels = {
   greaterThanOrEqual: 'Maior ou igual'
 };
 
+export const bottleneckReasonLabels = {
+  incompatible_build: 'Build incompatível',
+  missing_performance_parameters: 'Parâmetros de desempenho insuficientes',
+  network_error: 'Falha de conexão',
+  unexpected_error: 'Erro inesperado'
+};
+
 export const specLabels = {
   socket: 'Socket',
   cores: 'Núcleos',
@@ -90,6 +97,7 @@ export function translateValue(value, fallback = 'Não informado') {
     || statusLabels[value]
     || bottleneckTypeLabels[value]
     || issueCodeLabels[value]
+    || bottleneckReasonLabels[value]
     || specLabels[value]
     || String(value);
 }

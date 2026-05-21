@@ -40,7 +40,7 @@ async function request(path, options = {}) {
     throw {
       isApiError: true,
       status: 0,
-      message: `Não foi possível conectar ao backend do PCPowerLab. Verifique se a API está rodando em ${API_BASE_URL}.`,
+      message: `Falha de comunicação com o servidor. Verifique se o backend está rodando em ${API_BASE_URL}.`,
       errors: []
     };
   }

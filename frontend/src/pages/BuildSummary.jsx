@@ -53,7 +53,12 @@ export default function BuildSummary() {
         performanceService.simulateGame({
           ...build.game,
           build: build.buildPayload
-        }).catch(() => null),
+        }).catch((error) => ({
+          status: 'unavailable',
+          message: error.status === 0
+            ? 'Não foi possível conectar ao servidor para simular desempenho.'
+            : 'Não foi possível simular desempenho com os dados atuais.'
+        })),
         purchaseLinksService.byBuild(buildToPurchaseLinksPayload(build.selectedComponents)).catch(() => null)
       ]);
 
@@ -167,7 +172,14 @@ export default function BuildSummary() {
       <CompatibilityStatus result={build.summary?.compatibility ? { ...build.summary.compatibility, alerts: build.summary.compatibility.alerts } : build.alerts} />
       <BottleneckPanel result={build.summary?.bottlenecks || build.bottlenecks} />
 
-      {build.gamePerformance && (
+      {build.gamePerformance?.status === 'unavailable' && (
+        <Card>
+          <h2>Simulação em jogos indisponível</h2>
+          <p>{build.gamePerformance.message}</p>
+        </Card>
+      )}
+
+      {build.gamePerformance && build.gamePerformance.status !== 'unavailable' && (
         <Card>
           <h2>Simulação em jogos</h2>
           <div className="metric-grid">
