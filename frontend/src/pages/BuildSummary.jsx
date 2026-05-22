@@ -122,7 +122,7 @@ export default function BuildSummary() {
       {request.error && <ErrorState message={request.error} />}
       {feedback && <Alert type="success">{feedback}</Alert>}
 
-      <Card>
+      <Card className="summary-actions-card">
         <div className="form-grid">
           <Select
             label="Selecione um jogo para simular o desempenho"

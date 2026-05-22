@@ -139,7 +139,7 @@ p:last-child {
 .page-content {
   width: min(1220px, calc(100% - 32px));
   margin: 0 auto;
-  padding: var(--space-12) 0 5rem;
+  padding: var(--space-8) 0 4rem;
 }
 
 .footer {
@@ -164,7 +164,7 @@ p:last-child {
 .compact-hero {
   display: block;
   min-height: auto;
-  padding: var(--space-8) 0 var(--space-5);
+  padding: var(--space-6) 0 var(--space-3);
 }
 
 .hero h1,
@@ -230,7 +230,7 @@ p:last-child {
 
 .page-stack {
   display: grid;
-  gap: var(--space-10);
+  gap: var(--space-6);
 }
 
 .feature-grid,
@@ -239,7 +239,7 @@ p:last-child {
 .admin-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 
 .compact-cards {
@@ -249,7 +249,7 @@ p:last-child {
 .panel-card {
   display: grid;
   gap: var(--space-4);
-  padding: var(--space-8);
+  padding: var(--space-6);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--panel);
@@ -261,9 +261,31 @@ p:last-child {
   margin-bottom: var(--space-4);
 }
 
+.summary-actions-card {
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.summary-actions-card .button-row {
+  margin-top: var(--space-3);
+}
+
+.budget-panel,
+.build-summary-card {
+  align-content: start;
+}
+
+.budget-panel .metric-grid {
+  gap: var(--space-3);
+}
+
+.budget-panel .metric-grid div {
+  padding: var(--space-3);
+}
+
 .section-heading {
   justify-content: space-between;
-  gap: var(--space-5);
+  gap: var(--space-4);
   flex-wrap: wrap;
 }
 
@@ -274,8 +296,8 @@ p:last-child {
 
 .button-row {
   flex-wrap: wrap;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
 }
 
 .btn {
@@ -283,7 +305,7 @@ p:last-child {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-height: 48px;
+  min-height: 42px;
   border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
@@ -316,7 +338,7 @@ p:last-child {
 }
 
 .btn-md {
-  padding: var(--space-3) var(--space-6);
+  padding: 0.65rem var(--space-4);
 }
 
 .btn-primary {
@@ -375,7 +397,7 @@ p:last-child {
 
 .field {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   color: var(--muted);
   font-weight: 700;
 }
@@ -383,7 +405,7 @@ p:last-child {
 .field input,
 .field select {
   width: 100%;
-  min-height: 48px;
+  min-height: 44px;
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -404,7 +426,7 @@ p:last-child {
 .toolbar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--space-6);
+  gap: var(--space-4);
   align-items: end;
 }
 
@@ -435,7 +457,7 @@ p:last-child {
 
 .component-card {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
   align-content: start;
 }
 
@@ -457,7 +479,7 @@ p:last-child {
 
 .spec-grid {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   margin: 0;
 }
 
@@ -468,9 +490,9 @@ p:last-child {
 .upgrade-pair {
   display: grid;
   grid-template-columns: minmax(110px, 0.9fr) minmax(0, 1.6fr) auto;
-  gap: var(--space-4);
+  gap: var(--space-3);
   align-items: center;
-  padding: var(--space-4);
+  padding: var(--space-3);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.035);
@@ -492,7 +514,7 @@ p:last-child {
 .build-parts-list,
 .admin-list {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -501,13 +523,13 @@ p:last-child {
 .wizard-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
-  gap: var(--space-8);
+  gap: var(--space-6);
   align-items: start;
 }
 
 .wizard-main {
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 .wizard-sidebar {
@@ -517,7 +539,7 @@ p:last-child {
 
 .wizard-controls {
   justify-content: space-between;
-  gap: var(--space-5);
+  gap: var(--space-4);
   flex-wrap: wrap;
 }
 
@@ -543,8 +565,8 @@ p:last-child {
 
 .alert {
   display: flex;
-  gap: var(--space-4);
-  padding: var(--space-5);
+  gap: var(--space-3);
+  padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(9, 16, 33, 0.9);
@@ -562,11 +584,11 @@ p:last-child {
 
 .stack {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .issue-card {
-  padding: var(--space-5);
+  padding: var(--space-4);
   border-left: 4px solid var(--yellow);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.04);
@@ -589,14 +611,14 @@ p:last-child {
 
 .chart-box {
   height: 260px;
-  margin: var(--space-5) 0 var(--space-3);
+  margin: var(--space-4) 0 var(--space-2);
 }
 
 .performance-chart-panel {
   display: grid;
-  gap: var(--space-4);
-  margin: var(--space-6) 0;
-  padding: var(--space-5);
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
   border: 1px solid rgba(255, 79, 216, 0.2);
   border-radius: var(--radius);
   background: rgba(255, 79, 216, 0.035);
@@ -617,9 +639,9 @@ p:last-child {
 
 .energy-panel {
   display: grid;
-  gap: var(--space-5);
-  margin: var(--space-6) 0;
-  padding: var(--space-6);
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
   border: 1px solid rgba(54, 242, 255, 0.24);
   border-radius: var(--radius);
   background: rgba(54, 242, 255, 0.045);
@@ -632,7 +654,7 @@ p:last-child {
 .manual-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-3);
   align-items: center;
 }
 
@@ -658,8 +680,8 @@ p:last-child {
 
 .technical-details {
   display: grid;
-  gap: var(--space-3);
-  margin: var(--space-5) 0 0;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
 }
 
 .technical-details div {
@@ -715,7 +737,7 @@ p:last-child {
   width: min(780px, 100%);
   max-height: min(760px, 90vh);
   overflow: auto;
-  padding: var(--space-6);
+  padding: var(--space-5);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--panel-strong);
@@ -729,13 +751,13 @@ p:last-child {
 .links-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .shop-link {
   display: grid;
-  gap: var(--space-4);
-  padding: var(--space-5);
+  gap: var(--space-3);
+  padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
@@ -791,7 +813,7 @@ p:last-child {
   .hero,
   .wizard-layout {
     grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: var(--space-6);
   }
 
   .hero-console {
@@ -804,7 +826,7 @@ p:last-child {
 
   .page-stack,
   .wizard-main {
-    gap: var(--space-8);
+    gap: var(--space-6);
   }
 
   .comparison-row {
@@ -819,8 +841,8 @@ p:last-child {
 
 @media (max-width: 560px) {
   .page-content {
-    width: min(100% - 28px, 1220px);
-    padding-top: var(--space-6);
+    width: min(100% - 24px, 1220px);
+    padding-top: var(--space-5);
   }
 
   .topbar {
@@ -833,7 +855,11 @@ p:last-child {
   }
 
   .panel-card {
-    padding: var(--space-6);
+    padding: var(--space-4);
+  }
+
+  .summary-actions-card {
+    padding: var(--space-4);
   }
 
   .button-row,
@@ -848,12 +874,12 @@ p:last-child {
   }
 
   .chart-box {
-    height: 320px;
+    height: 300px;
   }
 
   .performance-chart,
   .energy-chart {
-    min-height: 340px;
+    min-height: 320px;
   }
 
   .spec-grid div,
