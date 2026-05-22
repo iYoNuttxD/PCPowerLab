@@ -199,7 +199,7 @@ export default function BuildSummary() {
         </Card>
       )}
 
-      <PurchaseLinksList linksBySlot={linksByBuild} />
+      <PurchaseLinksList linksBySlot={linksByBuild} selectedComponents={build.selectedComponents} />
     </div>
   );
 }
