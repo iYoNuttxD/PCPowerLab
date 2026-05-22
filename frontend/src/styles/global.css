@@ -538,8 +538,7 @@ p:last-child {
 .spec-grid div,
 .build-parts-list li,
 .admin-row,
-.comparison-row,
-.upgrade-pair {
+.comparison-row {
   display: grid;
   grid-template-columns: minmax(110px, 0.9fr) minmax(0, 1.6fr) auto;
   gap: var(--space-3);
@@ -553,7 +552,7 @@ p:last-child {
 .spec-grid dt,
 .build-parts-list span,
 .metric-grid span,
-.upgrade-pair span {
+.upgrade-pair__label {
   color: var(--muted);
   font-size: 0.86rem;
 }
@@ -889,6 +888,54 @@ p:last-child {
   color: var(--muted);
 }
 
+.upgrade-card {
+  gap: var(--space-4);
+}
+
+.upgrade-card__description {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.upgrade-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.upgrade-pair__item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.upgrade-pair__label {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.upgrade-pair__value {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.upgrade-card__meta {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.upgrade-card__meta small {
+  color: var(--muted);
+}
+
 .comparison-table {
   display: grid;
   gap: var(--space-3);
@@ -1000,6 +1047,10 @@ p:last-child {
   }
 
   .purchase-store-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .upgrade-pair {
     grid-template-columns: 1fr;
   }
 

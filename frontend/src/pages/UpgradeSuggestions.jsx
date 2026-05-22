@@ -96,24 +96,26 @@ export default function UpgradeSuggestions() {
           </Alert>
           <div className="cards-grid">
             {(result.suggestions || []).map((suggestion) => (
-              <Card key={`${suggestion.componentType}-${suggestion.suggestedComponent?.id}`} as="article">
+              <Card key={`${suggestion.componentType}-${suggestion.suggestedComponent?.id}`} className="upgrade-card" as="article">
                 <div className="section-heading compact">
                   <h2>{componentLabels[suggestion.componentType] || suggestion.componentType}</h2>
                   <strong>{translateValue(suggestion.expectedImpact)}</strong>
                 </div>
-                <p>{suggestion.reason}</p>
+                <p className="upgrade-card__description">{translateUpgradeText(suggestion.reason)}</p>
                 <div className="upgrade-pair">
-                  <div>
-                    <span>Atual</span>
-                    <strong>{suggestion.currentComponent?.name}</strong>
+                  <div className="upgrade-pair__item">
+                    <span className="upgrade-pair__label">Atual</span>
+                    <strong className="upgrade-pair__value">{suggestion.currentComponent?.name}</strong>
                   </div>
-                  <div>
-                    <span>Sugerido</span>
-                    <strong>{suggestion.suggestedComponent?.name}</strong>
+                  <div className="upgrade-pair__item">
+                    <span className="upgrade-pair__label">Sugerido</span>
+                    <strong className="upgrade-pair__value">{suggestion.suggestedComponent?.name}</strong>
                   </div>
                 </div>
-                <p>Custo estimado: {formatCurrency(suggestion.estimatedUpgradeCost)}</p>
-                <small>Compatibilidade: {translateValue(suggestion.compatibilityStatus)}</small>
+                <div className="upgrade-card__meta">
+                  <span>Custo estimado: <strong>{formatCurrency(suggestion.estimatedUpgradeCost)}</strong></span>
+                  <small>Compatibilidade: {translateValue(suggestion.compatibilityStatus)}</small>
+                </div>
               </Card>
             ))}
           </div>
@@ -121,4 +123,17 @@ export default function UpgradeSuggestions() {
       )}
     </div>
   );
+}
+
+function translateUpgradeText(text = '') {
+  return String(text)
+    .replace(/\bcpu\b/gi, 'processador')
+    .replace(/\bgpu\b/gi, 'placa de vídeo')
+    .replace(/\bram\b/gi, 'memória RAM')
+    .replace(/\bstorage\b/gi, 'armazenamento')
+    .replace(/\bpsu\b/gi, 'fonte de alimentação')
+    .replace(/\bgaming\b/gi, 'jogos')
+    .replace(/\blow\b/gi, 'baixo')
+    .replace(/\bmedium\b/gi, 'médio')
+    .replace(/\bhigh\b/gi, 'alto');
 }

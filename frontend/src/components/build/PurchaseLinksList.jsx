@@ -4,8 +4,14 @@ import { formatCurrency } from '../../utils/formatCurrency.js';
 import { translateValue } from '../../utils/translations.js';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
 
-export default function PurchaseLinksList({ linksBySlot, links, selectedComponents }) {
+export default function PurchaseLinksList({
+  linksBySlot,
+  links,
+  selectedComponents,
+  variant = 'grouped'
+}) {
   const groups = groupPurchaseLinksByComponent({ linksBySlot, links, selectedComponents });
+  const flatLinks = normalizeLinks({ linksBySlot, links });
   const hasAnyLink = groups.some((group) => group.links.length > 0);
 
   const renderEstimatedPrice = (link) => (
@@ -18,9 +24,13 @@ export default function PurchaseLinksList({ linksBySlot, links, selectedComponen
     <Card>
       <h3>Links de compra</h3>
       <p className="hint-text">
-        Os links direcionam para buscas em lojas externas. Preços e disponibilidade devem ser confirmados diretamente na loja.
+        {variant === 'single'
+          ? 'Os links direcionam para buscas em lojas externas. Confirme preço e disponibilidade na loja.'
+          : 'Os links direcionam para buscas em lojas externas. Preços e disponibilidade devem ser confirmados diretamente na loja.'}
       </p>
-      {!hasAnyLink ? (
+      {variant === 'single' ? (
+        <SingleLinksGrid links={flatLinks} renderEstimatedPrice={renderEstimatedPrice} />
+      ) : !hasAnyLink ? (
         <p>Nenhum link de compra disponível para esta configuração.</p>
       ) : (
         <div className="purchase-links-section">
@@ -41,21 +51,11 @@ export default function PurchaseLinksList({ linksBySlot, links, selectedComponen
               ) : (
                 <div className="purchase-store-grid">
                   {group.links.map((link, index) => (
-                    <article key={`${link.componentId}-${link.storeName}-${index}`} className="shop-link">
-                      <strong>{link.storeName}</strong>
-                      <span>{renderEstimatedPrice(link)}</span>
-                      <small>Status: {translateValue(link.availabilityStatus, 'Consultar na loja')}</small>
-                      <small>{link.isAffiliate ? 'Link afiliado' : 'Sem link afiliado'}</small>
-                      <a
-                        className="btn btn-ghost btn-md"
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink size={16} aria-hidden="true" />
-                        Ver na loja
-                      </a>
-                    </article>
+                    <ShopLinkCard
+                      key={`${link.componentId}-${link.storeName}-${index}`}
+                      link={link}
+                      renderEstimatedPrice={renderEstimatedPrice}
+                    />
                   ))}
                 </div>
               )}
@@ -64,6 +64,44 @@ export default function PurchaseLinksList({ linksBySlot, links, selectedComponen
         </div>
       )}
     </Card>
+  );
+}
+
+function SingleLinksGrid({ links, renderEstimatedPrice }) {
+  if (!Array.isArray(links) || links.length === 0) {
+    return <p>Nenhum link cadastrado para este componente.</p>;
+  }
+
+  return (
+    <div className="purchase-store-grid">
+      {links.map((link, index) => (
+        <ShopLinkCard
+          key={`${link.componentId}-${link.storeName}-${index}`}
+          link={link}
+          renderEstimatedPrice={renderEstimatedPrice}
+        />
+      ))}
+    </div>
+  );
+}
+
+function ShopLinkCard({ link, renderEstimatedPrice }) {
+  return (
+    <article className="shop-link">
+      <strong>{link.storeName}</strong>
+      <span>{renderEstimatedPrice(link)}</span>
+      <small>Status: {translateValue(link.availabilityStatus, 'Consultar na loja')}</small>
+      <small>{link.isAffiliate ? 'Link afiliado' : 'Sem link afiliado'}</small>
+      <a
+        className="btn btn-ghost btn-md"
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <ExternalLink size={16} aria-hidden="true" />
+        Ver na loja
+      </a>
+    </article>
   );
 }
 

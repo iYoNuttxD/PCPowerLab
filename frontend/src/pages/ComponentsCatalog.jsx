@@ -72,7 +72,7 @@ export default function ComponentsCatalog() {
       </div>
 
       <Modal open={links !== null} title={modalTitle} onClose={() => setLinks(null)}>
-        <PurchaseLinksList links={links || []} />
+        <PurchaseLinksList links={links || []} variant="single" />
       </Modal>
     </div>
   );
