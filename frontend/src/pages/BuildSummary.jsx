@@ -125,7 +125,7 @@ export default function BuildSummary() {
       <Card>
         <div className="form-grid">
           <Select
-            label="Jogo"
+            label="Selecione um jogo para simular o desempenho"
             value={build.game.gameId}
             onChange={(event) => build.actions.setGame({ gameId: event.target.value })}
             options={(games.length ? games : [{ id: 'game-cyberpunk-2077', name: 'Cyberpunk 2077' }]).map((game) => ({

@@ -1,4 +1,4 @@
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Cell, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Link } from 'react-router-dom';
 import Badge from '../ui/Badge.jsx';
 import Button from '../ui/Button.jsx';
@@ -63,11 +63,19 @@ export default function BottleneckPanel({ result }) {
   const bottlenecks = Array.isArray(analysis.bottlenecks) ? analysis.bottlenecks : [];
   const performanceSummary = analysis.performanceSummary || {};
   const scoreKeys = ['cpuScore', 'gpuScore', 'ramScore', 'storageScore'];
+  const performanceColors = {
+    cpuScore: 'var(--cyan)',
+    gpuScore: 'var(--magenta)',
+    ramScore: 'var(--green)',
+    storageScore: 'var(--yellow)'
+  };
   const chartData = scoreKeys
     .filter((name) => Number.isFinite(Number(performanceSummary[name])))
     .map((name) => ({
+      key: name,
       name: translateMetricLabel(name),
-      score: performanceSummary[name]
+      score: performanceSummary[name],
+      color: performanceColors[name]
     }));
   const powerData = buildPowerData(performanceSummary);
   const safetyMargin = Number(performanceSummary.psuWatts) - Number(performanceSummary.estimatedConsumptionWatts);
@@ -95,19 +103,33 @@ export default function BottleneckPanel({ result }) {
         </Badge>
       </div>
       {chartData.length > 0 && (
-        <div className="chart-box" aria-label="Gráfico de desempenho dos componentes">
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#234" />
-              <XAxis dataKey="name" stroke="#b9f8ff" />
-              <YAxis stroke="#b9f8ff" />
-              <Tooltip
-                formatter={tooltipFormatter}
-                contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }}
-              />
-              <Bar dataKey="score" fill="#39ff88" radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="performance-chart-panel" aria-label="Gráfico de desempenho dos componentes">
+          <div className="chart-box performance-chart">
+            <ResponsiveContainer width="100%" height={240}>
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#234" />
+                <XAxis dataKey="name" stroke="#b9f8ff" />
+                <YAxis stroke="#b9f8ff" />
+                <Tooltip
+                  formatter={tooltipFormatter}
+                  contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }}
+                />
+                <Bar dataKey="score" radius={[6, 6, 0, 0]}>
+                  {chartData.map((entry) => (
+                    <Cell key={entry.key} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="manual-legend performance-legend" aria-label="Legenda do desempenho dos componentes">
+            {chartData.map((entry) => (
+              <span key={entry.key}>
+                <i style={{ background: entry.color }} aria-hidden="true" />
+                {entry.name}
+              </span>
+            ))}
+          </div>
         </div>
       )}
       {hasPowerData && (

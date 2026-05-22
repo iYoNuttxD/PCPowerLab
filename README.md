@@ -342,8 +342,10 @@ Base mockada atual:
 
 - 63 componentes: 12 CPUs, 9 placas-mãe, 11 GPUs, 8 memórias RAM, 8 armazenamentos, 8 fontes e 7 gabinetes.
 - 63 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
-- 13 jogos/perfis de simulação, incluindo perfis competitivos, AAA, simuladores, estratégia, indie e carga criativa.
+- 20 jogos reais para simulação estimada, incluindo competitivos, battle royale, RPGs, mundo aberto, corrida, simuladores e jogos AAA pesados.
 - 315 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
+
+Os jogos da simulação usam requisitos simplificados e scores estimados para fins acadêmicos. Eles não representam requisitos oficiais nem garantem FPS real; o desempenho pode variar conforme drivers, sistema operacional, configurações gráficas, resolução, temperatura e otimização de cada jogo.
 
 Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. Os preços retornados continuam sendo estimativas baseadas no mock de componentes, e a disponibilidade fica como `unknown`; o usuário deve confirmar valor e estoque diretamente na loja.
 

@@ -503,6 +503,8 @@ Filtro opcional:
 
 - `category`: categoria do jogo.
 
+Os jogos cadastrados na base mockada usam nomes reais apenas como referencia textual para a simulacao. Os requisitos e scores sao estimativas simplificadas para fins academicos; eles nao representam requisitos oficiais e nao garantem FPS real.
+
 ### Buscar jogo por ID
 
 ```http
