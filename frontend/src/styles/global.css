@@ -242,6 +242,11 @@ p:last-child {
   gap: var(--space-5);
 }
 
+.cards-grid {
+  align-items: start;
+  gap: var(--space-4);
+}
+
 .dashboard-grid {
   align-items: start;
 }
@@ -466,8 +471,11 @@ p:last-child {
 
 .component-card {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   align-content: start;
+  height: auto;
+  min-height: 0;
+  padding: var(--space-5);
 }
 
 .component-card.is-selected,
@@ -478,18 +486,53 @@ p:last-child {
 
 .component-card-header {
   justify-content: space-between;
+  gap: var(--space-3);
   color: var(--cyan);
+}
+
+.component-card h3 {
+  margin-bottom: 0;
+  line-height: 1.22;
+}
+
+.component-card p {
+  margin-bottom: 0;
+  line-height: 1.35;
+}
+
+.component-card .badge {
+  padding: 0.35rem var(--space-3);
+}
+
+.component-card .button-row {
+  margin-top: var(--space-2);
+  gap: var(--space-2);
+}
+
+.component-card .btn {
+  min-height: 40px;
+}
+
+.component-card .btn-md {
+  padding: 0.55rem var(--space-4);
 }
 
 .price {
   color: var(--green);
   font-size: 1.2rem;
+  line-height: 1.1;
 }
 
 .spec-grid {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   margin: 0;
+}
+
+.component-card .spec-grid div {
+  grid-template-columns: minmax(96px, 0.9fr) minmax(0, 1.4fr);
+  gap: var(--space-2);
+  padding: 0.65rem var(--space-3);
 }
 
 .spec-grid div,
@@ -891,6 +934,15 @@ p:last-child {
 
   .panel-card {
     padding: var(--space-4);
+  }
+
+  .component-card {
+    padding: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .component-card .spec-grid div {
+    padding: 0.6rem var(--space-2);
   }
 
   .summary-actions-card {
