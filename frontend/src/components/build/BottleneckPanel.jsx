@@ -111,8 +111,7 @@ export default function BottleneckPanel({ result }) {
                 <XAxis dataKey="name" stroke="#b9f8ff" />
                 <YAxis stroke="#b9f8ff" />
                 <Tooltip
-                  formatter={tooltipFormatter}
-                  contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }}
+                  content={<PerformanceTooltip />}
                 />
                 <Bar dataKey="score" radius={[6, 6, 0, 0]}>
                   {chartData.map((entry) => (
@@ -199,6 +198,25 @@ export default function BottleneckPanel({ result }) {
         ))}
       </div>
     </Card>
+  );
+}
+
+function PerformanceTooltip({ active, payload }) {
+  if (!active || !Array.isArray(payload) || payload.length === 0) {
+    return null;
+  }
+
+  const entry = payload[0]?.payload || {};
+  const value = Number(entry.score);
+
+  return (
+    <div className="chart-tooltip">
+      <strong>{entry.name || 'Pontuação de desempenho'}</strong>
+      <div className="chart-tooltip__row">
+        <span>Pontuação</span>
+        <strong>{Number.isFinite(value) ? `${value} pontos` : 'Não disponível'}</strong>
+      </div>
+    </div>
   );
 }
 

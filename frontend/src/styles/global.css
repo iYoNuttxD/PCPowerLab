@@ -242,6 +242,10 @@ p:last-child {
   gap: var(--space-5);
 }
 
+.dashboard-grid {
+  align-items: start;
+}
+
 .compact-cards {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
@@ -273,6 +277,11 @@ p:last-child {
 .budget-panel,
 .build-summary-card {
   align-content: start;
+}
+
+.budget-panel {
+  height: auto;
+  min-height: 0;
 }
 
 .budget-panel .metric-grid {
@@ -622,11 +631,13 @@ p:last-child {
   border: 1px solid rgba(255, 79, 216, 0.2);
   border-radius: var(--radius);
   background: rgba(255, 79, 216, 0.035);
+  overflow: visible;
 }
 
 .performance-chart {
   min-height: 280px;
   margin-bottom: 0;
+  overflow: visible;
 }
 
 .performance-legend {
@@ -672,6 +683,30 @@ p:last-child {
   height: 0.85rem;
   border-radius: 999px;
   box-shadow: 0 0 12px currentColor;
+}
+
+.chart-tooltip {
+  min-width: 190px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(54, 242, 255, 0.55);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: rgba(8, 9, 18, 0.96);
+  box-shadow: 0 0 24px rgba(54, 242, 255, 0.22);
+  z-index: 9999;
+}
+
+.chart-tooltip strong {
+  color: var(--text);
+}
+
+.chart-tooltip__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .energy-note {
