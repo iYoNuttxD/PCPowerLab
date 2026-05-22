@@ -10,9 +10,18 @@ export default function PurchaseLinksList({ linksBySlot, links }) {
       Array.isArray(slotLinks) ? slotLinks.map((link) => ({ ...link, slot })) : []
     ));
 
+  const renderEstimatedPrice = (link) => (
+    Number.isFinite(Number(link.price))
+      ? `Preço estimado: ${formatCurrency(link.price, link.currency)}`
+      : 'Preço estimado não informado'
+  );
+
   return (
     <Card>
       <h3>Links de compra</h3>
+      <p className="hint-text">
+        Os links direcionam para buscas em lojas externas. Preços e disponibilidade devem ser confirmados diretamente na loja.
+      </p>
       {flatLinks.length === 0 ? (
         <p>Nenhum link cadastrado para os componentes selecionados.</p>
       ) : (
@@ -20,8 +29,11 @@ export default function PurchaseLinksList({ linksBySlot, links }) {
           {flatLinks.map((link, index) => (
             <article key={`${link.componentId}-${link.storeName}-${index}`} className="shop-link">
               <strong>{link.storeName}</strong>
-              <span>{formatCurrency(link.price, link.currency)}</span>
-              <small>{translateValue(link.availabilityStatus, 'Disponibilidade não informada')} {link.isAffiliate ? '• afiliado' : '• não afiliado'}</small>
+              <span>{renderEstimatedPrice(link)}</span>
+              <small>
+                {translateValue(link.availabilityStatus, 'Consultar na loja')} • consulte o valor atualizado na loja
+                {link.isAffiliate ? ' • afiliado' : ' • sem link afiliado'}
+              </small>
               <a
                 className="btn btn-ghost btn-md"
                 href={link.url}

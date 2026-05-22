@@ -576,6 +576,11 @@ p:last-child {
   font-weight: 700;
 }
 
+.hint-text {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .severity-high { border-left-color: var(--red); }
 .severity-medium { border-left-color: var(--yellow); }
 .severity-low { border-left-color: var(--cyan); }

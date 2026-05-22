@@ -25,7 +25,7 @@ export const statusLabels = {
   minimum: 'Mínimo',
   available: 'Disponível',
   unavailable: 'Indisponível',
-  unknown: 'Não informado',
+  unknown: 'Consultar na loja',
   in_stock: 'Em estoque',
   out_of_stock: 'Fora de estoque',
   limited_stock: 'Estoque limitado',
