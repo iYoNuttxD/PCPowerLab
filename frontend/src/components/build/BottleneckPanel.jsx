@@ -1,9 +1,9 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Link } from 'react-router-dom';
 import Badge from '../ui/Badge.jsx';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
-import { translateBottleneckType, translateComponent, translateSeverity, translateValue } from '../../utils/translations.js';
+import { translateBottleneckType, translateComponent, translateMetricLabel, translateSeverity, translateValue } from '../../utils/translations.js';
 
 export default function BottleneckPanel({ result }) {
   if (!result) {
@@ -61,10 +61,30 @@ export default function BottleneckPanel({ result }) {
 
   const analysis = result.data || result;
   const bottlenecks = Array.isArray(analysis.bottlenecks) ? analysis.bottlenecks : [];
-  const chartData = Object.entries(analysis.performanceSummary || {}).map(([name, value]) => ({
-    name: translateComponent(name.replace('Score', '')),
-    score: value
-  }));
+  const performanceSummary = analysis.performanceSummary || {};
+  const scoreKeys = ['cpuScore', 'gpuScore', 'ramScore', 'storageScore'];
+  const chartData = scoreKeys
+    .filter((name) => Number.isFinite(Number(performanceSummary[name])))
+    .map((name) => ({
+      name: translateMetricLabel(name),
+      score: performanceSummary[name]
+    }));
+  const powerData = buildPowerData(performanceSummary);
+  const safetyMargin = Number(performanceSummary.psuWatts) - Number(performanceSummary.estimatedConsumptionWatts);
+  const hasPowerData = powerData.length > 0;
+
+  const tooltipFormatter = (value, name) => [
+    `${value}${name === 'score' ? ' pts' : ' W'}`,
+    name === 'score' ? 'Pontuação' : translateMetricLabel(name)
+  ];
+
+  const tooltipLabelFormatter = (label) => translateMetricLabel(label) || label;
+
+  const powerLegendItems = [
+    ['estimatedConsumptionWatts', 'var(--cyan)'],
+    ['recommendedWatts', 'var(--yellow)'],
+    ['psuWatts', 'var(--green)']
+  ];
 
   return (
     <Card>
@@ -75,16 +95,61 @@ export default function BottleneckPanel({ result }) {
         </Badge>
       </div>
       {chartData.length > 0 && (
-        <div className="chart-box" aria-label="Gráfico de scores dos componentes">
+        <div className="chart-box" aria-label="Gráfico de desempenho dos componentes">
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#234" />
               <XAxis dataKey="name" stroke="#b9f8ff" />
               <YAxis stroke="#b9f8ff" />
-              <Tooltip contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }} />
+              <Tooltip
+                formatter={tooltipFormatter}
+                contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }}
+              />
               <Bar dataKey="score" fill="#39ff88" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
+        </div>
+      )}
+      {hasPowerData && (
+        <div className="energy-panel">
+          <div>
+            <h4>Consumo energético</h4>
+            <p>Veja se a fonte selecionada tem folga suficiente para a configuração.</p>
+          </div>
+          <div className="chart-box energy-chart" aria-label="Gráfico de consumo energético da build">
+            <ResponsiveContainer width="100%" height={230}>
+              <BarChart data={powerData} margin={{ top: 12, right: 12, bottom: 8, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#234" />
+                <XAxis dataKey="name" stroke="#b9f8ff" tickFormatter={tooltipLabelFormatter} />
+                <YAxis stroke="#b9f8ff" unit=" W" />
+                <Tooltip
+                  formatter={tooltipFormatter}
+                  labelFormatter={tooltipLabelFormatter}
+                  contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }}
+                />
+                <Legend
+                  formatter={(value) => translateMetricLabel(value)}
+                  wrapperStyle={{ color: '#eefbff', paddingTop: 12 }}
+                />
+                <Bar dataKey="estimatedConsumptionWatts" fill="#36f2ff" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="recommendedWatts" fill="#ffd166" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="psuWatts" fill="#39ff88" radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="manual-legend" aria-label="Legenda do consumo energético">
+            {powerLegendItems.map(([key, color]) => (
+              <span key={key}>
+                <i style={{ background: color }} aria-hidden="true" />
+                {translateMetricLabel(key)}
+              </span>
+            ))}
+          </div>
+          {Number.isFinite(safetyMargin) && (
+            <p className="energy-note">
+              Margem de segurança da fonte: <strong>{safetyMargin} W</strong>.
+            </p>
+          )}
         </div>
       )}
       <div className="stack">
@@ -98,11 +163,53 @@ export default function BottleneckPanel({ result }) {
               Severidade {translateSeverity(bottleneck.severity)} • {translateComponent(bottleneck.component)}
               {bottleneck.relatedComponent ? ` relacionado a ${translateComponent(bottleneck.relatedComponent)}` : ''}
             </small>
+            {bottleneck.technicalDetails && (
+              <dl className="technical-details">
+                {Object.entries(bottleneck.technicalDetails).map(([key, value]) => (
+                  <div key={key}>
+                    <dt>{translateMetricLabel(key)}</dt>
+                    <dd>{formatTechnicalValue(key, value)}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </article>
         ))}
       </div>
     </Card>
   );
+}
+
+function buildPowerData(performanceSummary) {
+  const estimated = Number(performanceSummary.estimatedConsumptionWatts);
+  const psu = Number(performanceSummary.psuWatts);
+
+  if (!Number.isFinite(estimated) || !Number.isFinite(psu)) {
+    return [];
+  }
+
+  return [{
+    name: 'powerUsage',
+    estimatedConsumptionWatts: estimated,
+    recommendedWatts: Math.ceil((estimated * 1.35) / 50) * 50,
+    psuWatts: psu
+  }];
+}
+
+function formatTechnicalValue(key, value) {
+  if (!Number.isFinite(Number(value))) {
+    return String(value);
+  }
+
+  if (key.toLowerCase().includes('watts') || key.toLowerCase().includes('power') || key === 'tdpTotal') {
+    return `${value} W`;
+  }
+
+  if (key.toLowerCase().includes('percent')) {
+    return `${value}%`;
+  }
+
+  return String(value);
 }
 
 function hasMissingParameterMessage(result) {

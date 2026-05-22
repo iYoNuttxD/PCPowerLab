@@ -6,7 +6,7 @@ export const componentLabels = {
   motherboard: 'Placa-mãe',
   ram: 'Memória RAM',
   storage: 'Armazenamento',
-  psu: 'Fonte',
+  psu: 'Fonte de alimentação',
   case: 'Gabinete'
 };
 

@@ -147,7 +147,7 @@ export default function BuildSummary() {
           />
         </div>
         <div className="button-row">
-          <Button disabled={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
+          <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
           <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar</Button>
           <Button variant="ghost" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Compartilhar</Button>
           <Link className="btn btn-secondary btn-md" to="/build">Voltar e editar</Link>

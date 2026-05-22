@@ -48,6 +48,11 @@ p {
 p {
   color: var(--muted);
   line-height: 1.65;
+  margin-bottom: var(--space-4);
+}
+
+p:last-child {
+  margin-bottom: 0;
 }
 
 .app-shell {
@@ -75,8 +80,8 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 16px clamp(18px, 5vw, 64px);
+  gap: var(--space-6);
+  padding: var(--space-4) clamp(18px, 5vw, 64px);
   border-bottom: 1px solid var(--border);
   background: rgba(5, 7, 17, 0.84);
   backdrop-filter: blur(18px);
@@ -94,7 +99,7 @@ p {
 }
 
 .brand {
-  gap: 10px;
+  gap: var(--space-3);
   font-weight: 900;
   color: var(--cyan);
   letter-spacing: 0;
@@ -103,11 +108,11 @@ p {
 .main-nav {
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 6px;
+  gap: var(--space-2);
 }
 
 .main-nav a {
-  padding: 9px 12px;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid transparent;
   border-radius: var(--radius);
   color: var(--muted);
@@ -134,16 +139,16 @@ p {
 .page-content {
   width: min(1220px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 36px 0 64px;
+  padding: var(--space-10) 0 4rem;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-4);
   width: min(1220px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 24px 0 36px;
+  padding: var(--space-6) 0 var(--space-10);
   color: var(--muted);
 }
 
@@ -151,7 +156,7 @@ p {
 .page-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
-  gap: 32px;
+  gap: var(--space-8);
   align-items: center;
   min-height: 66vh;
 }
@@ -159,12 +164,12 @@ p {
 .compact-hero {
   display: block;
   min-height: auto;
-  padding: 26px 0 18px;
+  padding: var(--space-8) 0 var(--space-5);
 }
 
 .hero h1,
 .page-hero h1 {
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   font-size: clamp(3rem, 9vw, 7.4rem);
   line-height: 0.9;
   color: var(--text);
@@ -177,7 +182,7 @@ p {
 
 .eyebrow {
   display: inline-flex;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
   color: var(--green);
   font-size: 0.84rem;
   font-weight: 800;
@@ -194,7 +199,7 @@ p {
   display: grid;
   place-items: center;
   min-height: 360px;
-  padding: 28px;
+  padding: var(--space-8);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: linear-gradient(145deg, rgba(9, 16, 33, 0.8), rgba(12, 35, 54, 0.88));
@@ -204,7 +209,7 @@ p {
 
 .console-screen {
   width: min(280px, 100%);
-  padding: 22px;
+  padding: var(--space-6);
   border: 1px solid rgba(57, 255, 136, 0.45);
   background: rgba(57, 255, 136, 0.07);
   text-align: center;
@@ -225,7 +230,7 @@ p {
 
 .page-stack {
   display: grid;
-  gap: 22px;
+  gap: var(--space-8);
 }
 
 .feature-grid,
@@ -234,7 +239,7 @@ p {
 .admin-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 18px;
+  gap: var(--space-5);
 }
 
 .compact-cards {
@@ -242,7 +247,7 @@ p {
 }
 
 .panel-card {
-  padding: 20px;
+  padding: var(--space-6);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--panel);
@@ -251,12 +256,13 @@ p {
 
 .panel-card h2,
 .panel-card h3 {
-  margin-bottom: 10px;
+  margin-bottom: var(--space-4);
 }
 
 .section-heading {
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
 .section-heading.compact h2,
@@ -266,8 +272,8 @@ p {
 
 .button-row {
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 16px;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }
 
 .btn {
@@ -275,7 +281,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 42px;
+  min-height: 46px;
   border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
@@ -293,13 +299,22 @@ p {
   opacity: 0.55;
 }
 
+.btn-loader {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
 .btn-sm {
-  min-height: 32px;
-  padding: 6px 10px;
+  min-height: 36px;
+  padding: var(--space-2) var(--space-3);
 }
 
 .btn-md {
-  padding: 10px 16px;
+  padding: var(--space-3) var(--space-5);
 }
 
 .btn-primary {
@@ -341,8 +356,10 @@ p {
 
 .badge {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: fit-content;
-  padding: 5px 9px;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid currentColor;
   border-radius: 999px;
   font-size: 0.78rem;
@@ -356,7 +373,7 @@ p {
 
 .field {
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
   color: var(--muted);
   font-weight: 700;
 }
@@ -365,7 +382,7 @@ p {
 .field select {
   width: 100%;
   min-height: 44px;
-  padding: 10px 12px;
+  padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text);
@@ -385,7 +402,7 @@ p {
 .toolbar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  gap: var(--space-5);
   align-items: end;
 }
 
@@ -393,13 +410,13 @@ p {
 .stepper {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .segmented-control button,
 .stepper button {
   min-height: 38px;
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--muted);
@@ -416,7 +433,8 @@ p {
 
 .component-card {
   display: grid;
-  gap: 10px;
+  gap: var(--space-4);
+  align-content: start;
 }
 
 .component-card.is-selected,
@@ -437,7 +455,7 @@ p {
 
 .spec-grid {
   display: grid;
-  gap: 8px;
+  gap: var(--space-3);
   margin: 0;
 }
 
@@ -448,9 +466,9 @@ p {
 .upgrade-pair {
   display: grid;
   grid-template-columns: minmax(110px, 0.9fr) minmax(0, 1.6fr) auto;
-  gap: 10px;
+  gap: var(--space-3);
   align-items: center;
-  padding: 10px;
+  padding: var(--space-3);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.035);
@@ -472,7 +490,7 @@ p {
 .build-parts-list,
 .admin-list {
   display: grid;
-  gap: 8px;
+  gap: var(--space-3);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -481,13 +499,13 @@ p {
 .wizard-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
-  gap: 22px;
+  gap: var(--space-6);
   align-items: start;
 }
 
 .wizard-main {
   display: grid;
-  gap: 18px;
+  gap: var(--space-6);
 }
 
 .wizard-sidebar {
@@ -497,17 +515,18 @@ p {
 
 .wizard-controls {
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
+  gap: var(--space-4);
 }
 
 .metric-grid div {
-  padding: 14px;
+  padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(54, 242, 255, 0.055);
@@ -522,8 +541,8 @@ p {
 
 .alert {
   display: flex;
-  gap: 12px;
-  padding: 14px;
+  gap: var(--space-3);
+  padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(9, 16, 33, 0.9);
@@ -541,11 +560,11 @@ p {
 
 .stack {
   display: grid;
-  gap: 12px;
+  gap: var(--space-4);
 }
 
 .issue-card {
-  padding: 14px;
+  padding: var(--space-4);
   border-left: 4px solid var(--yellow);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.04);
@@ -562,8 +581,79 @@ p {
 .severity-low { border-left-color: var(--cyan); }
 
 .chart-box {
-  height: 240px;
-  margin: 14px 0;
+  height: 260px;
+  margin: var(--space-5) 0;
+}
+
+.energy-chart {
+  min-height: 280px;
+}
+
+.energy-panel {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  padding: var(--space-5);
+  border: 1px solid rgba(54, 242, 255, 0.24);
+  border-radius: var(--radius);
+  background: rgba(54, 242, 255, 0.045);
+}
+
+.energy-panel h4 {
+  margin: 0 0 var(--space-2);
+}
+
+.manual-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.manual-legend span {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.manual-legend i {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.energy-note {
+  color: var(--text);
+}
+
+.technical-details {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+}
+
+.technical-details div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.technical-details dt {
+  color: var(--muted);
+}
+
+.technical-details dd {
+  margin: 0;
+  color: var(--text);
+  font-weight: 800;
 }
 
 .loading-state,
@@ -571,7 +661,7 @@ p {
 .not-found {
   display: grid;
   place-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   min-height: 180px;
   text-align: center;
 }
@@ -591,7 +681,7 @@ p {
   z-index: 100;
   display: grid;
   place-items: center;
-  padding: 20px;
+  padding: var(--space-5);
   background: rgba(2, 4, 10, 0.78);
 }
 
@@ -599,7 +689,7 @@ p {
   width: min(780px, 100%);
   max-height: min(760px, 90vh);
   overflow: auto;
-  padding: 20px;
+  padding: var(--space-5);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--panel-strong);
@@ -607,26 +697,27 @@ p {
 
 .modal-header {
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .links-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 12px;
+  gap: var(--space-4);
 }
 
 .shop-link {
   display: grid;
-  gap: 8px;
-  padding: 14px;
+  gap: var(--space-3);
+  padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
 
 .comparison-table {
   display: grid;
-  gap: 8px;
+  gap: var(--space-3);
+  overflow-x: auto;
 }
 
 .comparison-row {
@@ -687,6 +778,11 @@ p {
   .comparison-row {
     grid-template-columns: 1fr;
   }
+
+  .dashboard-grid,
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 560px) {
@@ -702,6 +798,25 @@ p {
   .hero h1,
   .page-hero h1 {
     font-size: 2.8rem;
+  }
+
+  .panel-card {
+    padding: var(--space-5);
+  }
+
+  .button-row,
+  .wizard-controls {
+    align-items: stretch;
+  }
+
+  .btn,
+  .button-row .btn,
+  .button-row button {
+    width: 100%;
+  }
+
+  .chart-box {
+    height: 300px;
   }
 
   .spec-grid div,

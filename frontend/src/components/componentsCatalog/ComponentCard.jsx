@@ -4,7 +4,7 @@ import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
 import { componentLabels } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
-import { translateValue } from '../../utils/translations.js';
+import { translateSpecLabel } from '../../utils/translations.js';
 
 export default function ComponentCard({ component, onSelect, onLinks, selected = false }) {
   const specs = component?.specs && typeof component.specs === 'object' ? component.specs : {};
@@ -21,8 +21,8 @@ export default function ComponentCard({ component, onSelect, onLinks, selected =
       <dl className="spec-grid">
         {Object.entries(specs).slice(0, 5).map(([key, value]) => (
           <div key={key}>
-            <dt>{translateValue(key)}</dt>
-            <dd>{Array.isArray(value) ? value.join(', ') : String(value)}</dd>
+            <dt>{translateSpecLabel(key)}</dt>
+            <dd>{formatSpecValue(key, value)}</dd>
           </div>
         ))}
       </dl>
@@ -42,4 +42,29 @@ export default function ComponentCard({ component, onSelect, onLinks, selected =
       </div>
     </Card>
   );
+}
+
+function formatSpecValue(key, value) {
+  const units = {
+    baseClockGhz: 'GHz',
+    boostClockGhz: 'GHz',
+    tdpWatts: 'W',
+    recommendedPsuWatts: 'W',
+    lengthMm: 'mm',
+    maxGpuLengthMm: 'mm',
+    speedMhz: 'MHz',
+    capacityGb: 'GB',
+    vramGb: 'GB',
+    readSpeedMbS: 'MB/s',
+    writeSpeedMbS: 'MB/s',
+    watts: 'W'
+  };
+
+  if (Array.isArray(value)) {
+    return value.join(', ');
+  }
+
+  return units[key] && Number.isFinite(Number(value))
+    ? `${value} ${units[key]}`
+    : String(value);
 }
