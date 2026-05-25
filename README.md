@@ -2,6 +2,8 @@
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links mockados de compra.
 
+O repositório também possui um frontend React em `frontend/`, com tema retro-arcade/tech gamer e integração com a API local.
+
 ## Objetivo
 
 Reduzir o risco de escolha de peças incompatíveis e dar uma visão técnica simples sobre custo, desempenho e equilíbrio da configuração antes da compra.
@@ -57,6 +59,36 @@ Para produção/local sem watch:
 
 ```bash
 npm start
+```
+
+## Rodar backend e frontend
+
+Em um terminal, inicie o backend:
+
+```bash
+npm install
+npm run dev
+```
+
+Em outro terminal, inicie o frontend:
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Portas padrão:
+
+- Backend: `http://localhost:3000/api/v1`
+- Frontend: `http://localhost:5173`
+
+Build do frontend:
+
+```bash
+cd frontend
+npm run build
 ```
 
 ## Testes e lint
@@ -306,7 +338,18 @@ POST /api/v1/purchase-links/by-build
 
 A aplicação atual é uma API backend com dados em memória. Os mocks ficam em `src/data` e cobrem componentes, regras de compatibilidade, parâmetros de desempenho, jogos, builds salvas, compartilhamentos e links de compra.
 
-Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação, integração com lojas ou frontend nesta versão.
+Base mockada atual:
+
+- 63 componentes: 12 CPUs, 9 placas-mãe, 11 GPUs, 8 memórias RAM, 8 armazenamentos, 8 fontes e 7 gabinetes.
+- 63 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
+- 20 jogos reais para simulação estimada, incluindo competitivos, battle royale, RPGs, mundo aberto, corrida, simuladores e jogos AAA pesados.
+- 315 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
+
+Os jogos da simulação usam requisitos simplificados e scores estimados para fins acadêmicos. Eles não representam requisitos oficiais nem garantem FPS real; o desempenho pode variar conforme drivers, sistema operacional, configurações gráficas, resolução, temperatura e otimização de cada jogo.
+
+Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. Os preços retornados continuam sendo estimativas baseadas no mock de componentes, e a disponibilidade fica como `unknown`; o usuário deve confirmar valor e estoque diretamente na loja.
+
+Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação ou integração com lojas reais nesta versão. O frontend em `frontend/` consome esses dados mockados pela API local.
 
 ## Contribuição
 

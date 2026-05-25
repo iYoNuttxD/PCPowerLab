@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
+import { createAdminComponent } from '../src/services/admin-component.service.js';
 import { generateBuildSummary } from '../src/services/buildSummaryService.js';
 
 const validBuild = {
@@ -74,11 +75,23 @@ test('deve destacar incompatibilidades no resumo final', () => {
 });
 
 test('deve informar quando analise opcional nao tiver dados suficientes', () => {
+  createAdminComponent({
+    id: 'cpu-build-summary-no-performance-score',
+    name: 'CPU Build Summary Sem Score',
+    type: 'cpu',
+    brand: 'Test',
+    socket: 'AM4',
+    cores: 4,
+    threads: 8,
+    baseClock: 3.2,
+    boostClock: 4.0,
+    tdp: 65
+  });
+
   const summary = generateBuildSummary({
     build: {
       ...validBuild,
-      cpuId: 'cpu-intel-i5-12400f',
-      motherboardId: 'mb-h610m-ddr4'
+      cpuId: 'cpu-build-summary-no-performance-score'
     }
   });
 

@@ -45,7 +45,7 @@ test('deve identificar gargalo moderado de processador em relacao a placa de vid
   assert.equal(cpuBottleneck.severity, 'medium');
   assert.equal(cpuBottleneck.component, 'cpu');
   assert.equal(cpuBottleneck.relatedComponent, 'gpu');
-  assert.equal(cpuBottleneck.technicalDetails.difference, 25);
+  assert.equal(cpuBottleneck.technicalDetails.difference, 16);
 });
 
 test('deve retornar build equilibrada quando scores principais estiverem proximos', () => {

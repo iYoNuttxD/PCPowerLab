@@ -24,15 +24,17 @@ test('deve listar jogos mockados para simulacao', () => {
   const result = listGames();
 
   assert.equal(Array.isArray(result), true);
-  assert.equal(result.length >= 3, true);
+  assert.equal(result.length >= 15, true);
   assert.equal(result.some((game) => game.id === 'game-cyberpunk-2077'), true);
+  assert.equal(result.some((game) => game.name === 'Counter-Strike 2'), true);
+  assert.equal(result.some((game) => game.name === 'Alan Wake 2'), true);
 });
 
 test('deve filtrar jogos por categoria', () => {
-  const result = listGames({ category: ' COMPETITIVE ' });
+  const result = listGames({ category: ' COMPETITIVO ' });
 
   assert.equal(result.length > 0, true);
-  assert.equal(result.every((game) => game.category === 'competitive'), true);
+  assert.equal(result.every((game) => game.category === 'competitivo'), true);
 });
 
 test('deve simular desempenho esperado em jogo com build parcial', () => {
@@ -43,9 +45,9 @@ test('deve simular desempenho esperado em jogo com build parcial', () => {
   assert.equal(result.qualityPreset, 'high');
   assert.equal(result.meetsMinimumRequirements, true);
   assert.equal(result.meetsRecommendedRequirements, false);
-  assert.equal(result.performanceLevel, 'good');
+  assert.equal(result.performanceLevel, 'basic');
   assert.equal(result.details.cpuStatus, 'belowRecommended');
-  assert.equal(result.details.gpuStatus, 'recommended');
+  assert.equal(result.details.gpuStatus, 'belowRecommended');
   assert.equal(result.details.ramStatus, 'recommended');
   assert.equal(Number.isInteger(result.estimatedFps), true);
   assert.equal(result.estimatedFps > 0, true);
@@ -55,7 +57,11 @@ test('deve retornar desempenho otimo quando atender requisitos recomendados', ()
   const result = simulateGamePerformance({
     ...baseSimulationInput,
     gameId: 'game-valorant',
-    qualityPreset: 'ultra'
+    qualityPreset: 'ultra',
+    build: {
+      ...baseSimulationInput.build,
+      storageId: 'ssd-wd-black-sn770-1tb'
+    }
   });
 
   assert.equal(result.meetsMinimumRequirements, true);
@@ -133,12 +139,25 @@ test('deve retornar erro controlado quando build estiver incompleta', () => {
 });
 
 test('deve retornar erro controlado quando parametros de desempenho nao existirem', () => {
+  createAdminComponent({
+    id: 'cpu-test-game-no-score',
+    name: 'CPU Test Game Sem Score',
+    type: 'cpu',
+    brand: 'Test',
+    socket: 'AM4',
+    cores: 4,
+    threads: 8,
+    baseClock: 3.2,
+    boostClock: 4.0,
+    tdp: 65
+  });
+
   assert.throws(
     () => simulateGamePerformance({
       ...baseSimulationInput,
       build: {
         ...baseSimulationInput.build,
-        cpuId: 'cpu-intel-i5-12400f'
+        cpuId: 'cpu-test-game-no-score'
       }
     }),
     (error) => {

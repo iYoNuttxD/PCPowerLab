@@ -4,6 +4,8 @@ node_modules/
 coverage/
 dist/
 build/
+!frontend/src/components/build/
+!frontend/src/components/build/**
 npm-debug.log*
 .DS_Store
 .vscode/

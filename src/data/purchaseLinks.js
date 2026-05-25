@@ -1,82 +1,72 @@
-export const purchaseLinks = [
+import { components } from './components.mock.js';
+
+const lastUpdated = '2026-05-22';
+
+const stores = [
   {
-    componentId: 'cpu-ryzen-5-5600',
     storeName: 'Kabum',
-    url: 'https://exemplo.com/kabum/cpu-ryzen-5-5600',
-    price: 749.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'available'
+    buildUrl: ({ hyphenTerm }) => `https://www.kabum.com.br/busca/${hyphenTerm}`
   },
   {
-    componentId: 'cpu-ryzen-5-5600',
     storeName: 'Pichau',
-    url: 'https://exemplo.com/pichau/cpu-ryzen-5-5600',
-    price: 779.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'available'
+    buildUrl: ({ encodedTerm }) => `https://www.pichau.com.br/search?q=${encodedTerm}`
   },
   {
-    componentId: 'gpu-rtx-4060',
-    storeName: 'Pichau',
-    url: 'https://exemplo.com/pichau/gpu-rtx-4060',
-    price: 1799.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'available'
-  },
-  {
-    componentId: 'gpu-rx-7600',
     storeName: 'Terabyte',
-    url: 'https://exemplo.com/terabyte/gpu-rx-7600',
-    price: 1649.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'unknown'
+    buildUrl: ({ encodedTerm }) => `https://www.terabyteshop.com.br/busca?str=${encodedTerm}`
   },
   {
-    componentId: 'mb-b550m-aorus-elite',
-    storeName: 'Kabum',
-    url: 'https://exemplo.com/kabum/mb-b550m-aorus-elite',
-    price: 699.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'available'
+    storeName: 'Amazon Brasil',
+    buildUrl: ({ encodedTerm }) => `https://www.amazon.com.br/s?k=${encodedTerm}`
   },
   {
-    componentId: 'ram-kingston-fury-16gb-ddr4',
-    storeName: 'Terabyte',
-    url: 'https://exemplo.com/terabyte/ram-kingston-fury-16gb-ddr4',
-    price: 239.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'available'
-  },
-  {
-    componentId: 'ssd-kingston-nv2-1tb',
-    storeName: 'Kabum',
-    url: 'https://exemplo.com/kabum/ssd-kingston-nv2-1tb',
-    price: 349.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'available'
-  },
-  {
-    componentId: 'psu-corsair-650w',
-    storeName: 'Pichau',
-    url: 'https://exemplo.com/pichau/psu-corsair-650w',
-    price: 399.9,
-    currency: 'BRL',
-    lastUpdated: '2026-05-18',
-    isAffiliate: false,
-    availabilityStatus: 'unavailable'
+    storeName: 'Mercado Livre',
+    buildUrl: ({ hyphenTerm }) => `https://lista.mercadolivre.com.br/${hyphenTerm}`
   }
 ];
+
+export const purchaseLinks = components.flatMap((component) => {
+  const searchTerm = buildSearchTerm(component);
+  const terms = {
+    hyphenTerm: toHyphenTerm(searchTerm),
+    encodedTerm: encodeURIComponent(searchTerm.toLowerCase())
+  };
+
+  return stores.map((store) => ({
+    componentId: component.id,
+    storeName: store.storeName,
+    url: store.buildUrl(terms),
+    price: Number.isFinite(component.price) ? component.price : null,
+    currency: 'BRL',
+    lastUpdated,
+    isAffiliate: false,
+    availabilityStatus: 'unknown'
+  }));
+});
+
+function buildSearchTerm(component) {
+  const name = component.name || component.id;
+
+  if (component.category === 'cpu') {
+    return name
+      .replace(/^AMD\s+/i, '')
+      .replace(/^Intel\s+/i, '');
+  }
+
+  if (component.category === 'gpu') {
+    return name
+      .replace(/^NVIDIA\s+GeForce\s+/i, '')
+      .replace(/^AMD\s+Radeon\s+/i, '');
+  }
+
+  return name;
+}
+
+function toHyphenTerm(value) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}

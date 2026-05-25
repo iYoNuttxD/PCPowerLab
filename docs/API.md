@@ -503,6 +503,8 @@ Filtro opcional:
 
 - `category`: categoria do jogo.
 
+Os jogos cadastrados na base mockada usam nomes reais apenas como referencia textual para a simulacao. Os requisitos e scores sao estimativas simplificadas para fins academicos; eles nao representam requisitos oficiais e nao garantem FPS real.
+
 ### Buscar jogo por ID
 
 ```http
@@ -984,13 +986,13 @@ Resposta:
   "data": [
     {
       "componentId": "gpu-rtx-4060",
-      "storeName": "Pichau",
-      "url": "https://exemplo.com/pichau/gpu-rtx-4060",
+      "storeName": "Kabum",
+      "url": "https://www.kabum.com.br/busca/rtx-4060-8gb",
       "price": 1799.9,
       "currency": "BRL",
-      "lastUpdated": "2026-05-18",
+      "lastUpdated": "2026-05-22",
       "isAffiliate": false,
-      "availabilityStatus": "available"
+      "availabilityStatus": "unknown"
     }
   ],
   "message": "Links de compra encontrados com sucesso."
@@ -1028,12 +1030,12 @@ Resposta resumida:
       {
         "componentId": "gpu-rtx-4060",
         "storeName": "Pichau",
-        "url": "https://exemplo.com/pichau/gpu-rtx-4060",
+        "url": "https://www.pichau.com.br/search?q=rtx%204060%208gb",
         "price": 1799.9,
         "currency": "BRL",
-        "lastUpdated": "2026-05-18",
+        "lastUpdated": "2026-05-22",
         "isAffiliate": false,
-        "availabilityStatus": "available"
+        "availabilityStatus": "unknown"
       }
     ],
     "case": []
@@ -1042,7 +1044,7 @@ Resposta resumida:
 }
 ```
 
-Os links e precos sao mockados e cadastrados manualmente no MVP; a API nao consulta lojas externas nem informa preco em tempo real. `isAffiliate` fica explicito para transparencia futura.
+Os links sao URLs reais de busca em lojas externas, geradas a partir do nome dos componentes. Os precos sao estimativas mockadas do catalogo interno, a disponibilidade nao e atualizada em tempo real e `isAffiliate` permanece `false`. A API nao faz scraping, nao usa APIs de lojas e o usuario deve confirmar preco e estoque diretamente na loja.
 
 ## Resumo das regras iniciais
 
