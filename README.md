@@ -287,7 +287,29 @@ Exemplo de recomendação por orçamento:
 ```http
 POST /api/v1/build-summary
 POST /api/v1/build-comparison
+POST /api/v1/build-score
 POST /api/v1/upgrades/suggest
+```
+
+Exemplo de nota geral da configuração:
+
+```json
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming"
+}
 ```
 
 Exemplo de sugestão de upgrade:
