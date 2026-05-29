@@ -677,6 +677,55 @@ Pode retornar `422` quando nao houver configuracao completa dentro do orcamento.
 
 ## Comparacao de builds
 
+## Nota geral da configuracao
+
+### Calcular nota geral
+
+```http
+POST /api/v1/build-score
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming"
+}
+```
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "overallScore": 86,
+    "classification": "Muito boa",
+    "criteria": {
+      "compatibilityScore": 100,
+      "performanceScore": 82,
+      "balanceScore": 100,
+      "budgetScore": 95.6,
+      "costBenefitScore": 80
+    },
+    "summary": "A configuracao apresenta boa compatibilidade, o conjunto esta equilibrado entre os principais componentes, esta dentro do orcamento informado."
+  },
+  "message": "Nota geral da configuracao calculada com sucesso."
+}
+```
+
+A nota varia de 0 a 100 e consolida compatibilidade, desempenho, equilibrio/gargalos, orcamento e custo-beneficio. Quando faltarem parametros de desempenho, a API retorna nota parcial com `warnings`.
+
 ### Comparar duas ou mais configuracoes
 
 ```http
