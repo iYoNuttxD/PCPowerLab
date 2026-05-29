@@ -1,4 +1,4 @@
-import { recommendBuildByBudget } from '../services/recommendationService.js';
+import { recommendBuildByBudget, recommendBuildsByBudgetRange } from '../services/recommendationService.js';
 import { ok } from '../utils/api-response.js';
 
 export function recommendByBudget(req, res, next) {
@@ -16,6 +16,17 @@ export function recommendByUsage(req, res, next) {
     const recommendation = recommendBuildByBudget(req.body);
 
     return ok(res, recommendation, 'Recomendacoes filtradas por tipo de uso geradas com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+export function recommendBuildsByBudgetRangeController(req, res, next) {
+  try {
+    const recommendations = recommendBuildsByBudgetRange(req.body);
+
+    return ok(res, recommendations, 'Configurações recomendadas por faixa de orçamento geradas com sucesso.');
   } catch (error) {
     return next(error);
   }

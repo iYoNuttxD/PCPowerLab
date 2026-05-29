@@ -15,8 +15,48 @@ import {
   usageTypeStrategies
 } from '../utils/usageTypeWeights.js';
 
-const supportedPriorities = ['cost-benefit', 'performance', 'lowest-price'];
+const supportedPriorities = ['cost-benefit', 'performance', 'lowest-price', 'balanced'];
+const rangeRecommendationLimit = 3;
 
+
+
+export function recommendBuildsByBudgetRange(input) {
+  validateRecommendationPayload(input);
+
+  const budgetRange = normalizeBudgetRange(input.budgetRange);
+  const usageType = normalizeUsageType(input.usageType);
+  const priority = normalizeRangePriority(input.priority);
+  const performanceParameters = listPerformanceParameters();
+  const performanceByComponentId = new Map(
+    performanceParameters.map((parameter) => [parameter.componentId, parameter])
+  );
+
+  const candidatesBySlot = buildCandidatesBySlot({
+    usageType,
+    priority,
+    performanceByComponentId
+  });
+
+  validateCandidateAvailability(candidatesBySlot);
+
+  const recommendations = findCompatibleBuildsByBudgetRange({
+    candidatesBySlot,
+    budgetRange,
+    usageType,
+    priority,
+    performanceByComponentId,
+    limit: rangeRecommendationLimit
+  });
+
+  if (recommendations.length === 0) {
+    const error = new Error('Nao foi possivel gerar uma build completa dentro da faixa de orcamento informada.');
+    error.statusCode = 422;
+    error.errors = ['Tente ampliar a faixa de orcamento ou cadastrar mais componentes compativeis na base.'];
+    throw error;
+  }
+
+  return recommendations;
+}
 
 export function recommendBuildByBudget(input) {
   validateRecommendationPayload(input);
@@ -68,11 +108,27 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }
       .filter((candidate) => candidate.performanceScore >= 40)
       .sort(compareCandidates(priority));
 
+    const balancedCandidates = selectBalancedCandidatePool(components, priority);
+
     return {
       ...candidatesBySlot,
-      [slot]: components
+      [slot]: balancedCandidates
     };
   }, {});
+}
+
+
+function selectBalancedCandidatePool(components, priority) {
+  const preferredCandidates = components.slice(0, 5);
+  const cheapestCandidates = [...components]
+    .sort((candidateA, candidateB) => candidateA.estimatedPrice - candidateB.estimatedPrice)
+    .slice(0, 3);
+  const performanceCandidates = [...components]
+    .sort((candidateA, candidateB) => candidateB.performanceScore - candidateA.performanceScore)
+    .slice(0, priority === 'performance' ? 4 : 2);
+
+  return [...preferredCandidates, ...cheapestCandidates, ...performanceCandidates]
+    .filter((candidate, index, allCandidates) => allCandidates.findIndex((item) => item.id === candidate.id) === index);
 }
 
 function enrichCandidate(component, { usageType, priority, performanceByComponentId, slot }) {
@@ -97,6 +153,66 @@ function enrichCandidate(component, { usageType, priority, performanceByComponen
   };
 }
 
+
+function findCompatibleBuildsByBudgetRange({
+  candidatesBySlot,
+  budgetRange,
+  usageType,
+  priority,
+  performanceByComponentId,
+  limit
+}) {
+  const rankedRecommendations = [];
+
+  visitBuildCombinations({
+    candidatesBySlot,
+    slotIndex: 0,
+    selectedComponents: {},
+    maxBudget: budgetRange.max,
+    onCombination: (components) => {
+      const totalEstimatedPrice = calculateTotalEstimatedPrice(components);
+
+      if (totalEstimatedPrice < budgetRange.min || totalEstimatedPrice > budgetRange.max) {
+        return;
+      }
+
+      const compatibilityResult = checkBuildCompatibility(mapComponentsToIds(components));
+
+      if (!compatibilityResult.compatible) {
+        return;
+      }
+
+      const score = calculateRecommendationScore({
+        components,
+        totalEstimatedPrice,
+        budgetAmount: budgetRange.max,
+        usageType,
+        priority,
+        performanceByComponentId
+      });
+
+      rankedRecommendations.push({
+        score,
+        compatibilityResult,
+        components,
+        totalEstimatedPrice
+      });
+    }
+  });
+
+  return rankedRecommendations
+    .sort((recommendationA, recommendationB) => recommendationB.score - recommendationA.score)
+    .slice(0, limit)
+    .map((recommendation, index) => formatBudgetRangeRecommendation({
+      recommendation,
+      budgetRange,
+      usageType,
+      priority,
+      performanceByComponentId,
+      position: index + 1
+    }));
+}
+
 function findBestCompatibleBuild({
   candidatesBySlot,
   budgetAmount,
@@ -110,6 +226,7 @@ function findBestCompatibleBuild({
     candidatesBySlot,
     slotIndex: 0,
     selectedComponents: {},
+    maxBudget: budgetAmount,
     onCombination: (components) => {
       const totalEstimatedPrice = calculateTotalEstimatedPrice(components);
 
@@ -156,7 +273,16 @@ function findBestCompatibleBuild({
   });
 }
 
-function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponents, onCombination }) {
+function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponents, onCombination, maxBudget = null }) {
+  if (maxBudget) {
+    const currentEstimatedPrice = calculateTotalEstimatedPrice(selectedComponents);
+    const minimumRemainingPrice = calculateMinimumRemainingPrice(candidatesBySlot, slotIndex);
+
+    if (currentEstimatedPrice > maxBudget || currentEstimatedPrice + minimumRemainingPrice > maxBudget) {
+      return;
+    }
+  }
+
   if (slotIndex === requiredBuildSlots.length) {
     onCombination(selectedComponents);
     return;
@@ -165,16 +291,71 @@ function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponent
   const slot = requiredBuildSlots[slotIndex];
 
   for (const candidate of candidatesBySlot[slot]) {
+    const nextSelectedComponents = {
+      ...selectedComponents,
+      [slot]: candidate
+    };
+
+    if (!isPartialSelectionViable(nextSelectedComponents)) {
+      continue;
+    }
+
     visitBuildCombinations({
       candidatesBySlot,
       slotIndex: slotIndex + 1,
-      selectedComponents: {
-        ...selectedComponents,
-        [slot]: candidate
-      },
-      onCombination
+      selectedComponents: nextSelectedComponents,
+      onCombination,
+      maxBudget
     });
   }
+}
+
+
+
+function isPartialSelectionViable(components) {
+  if (components.cpu && components.motherboard && components.cpu.specs.socket !== components.motherboard.specs.socket) {
+    return false;
+  }
+
+  if (components.ram && components.motherboard && components.ram.specs.memoryType !== components.motherboard.specs.memoryType) {
+    return false;
+  }
+
+  if (components.storage && components.motherboard && !components.motherboard.specs.storageInterfaces.includes(components.storage.specs.interface)) {
+    return false;
+  }
+
+  if (components.psu && components.cpu && components.gpu) {
+    const minimumRecommended = Math.max(
+      components.gpu.specs.recommendedPsuWatts || 0,
+      (components.cpu.specs.tdpWatts || 0) + 350
+    );
+
+    if (components.psu.specs.watts < minimumRecommended) {
+      return false;
+    }
+  }
+
+  if (components.case && components.motherboard && !components.case.specs.supportedFormFactors.includes(components.motherboard.specs.formFactor)) {
+    return false;
+  }
+
+  if (components.case && components.gpu && components.gpu.specs.lengthMm > components.case.specs.maxGpuLengthMm) {
+    return false;
+  }
+
+  return true;
+}
+
+function calculateMinimumRemainingPrice(candidatesBySlot, slotIndex) {
+  return requiredBuildSlots.slice(slotIndex).reduce((total, slot) => {
+    const cheapestCandidate = candidatesBySlot[slot].reduce(
+      (cheapest, candidate) => candidate.estimatedPrice < cheapest.estimatedPrice ? candidate : cheapest,
+      candidatesBySlot[slot][0]
+    );
+
+    return total + (cheapestCandidate?.estimatedPrice || 0);
+  }, 0);
 }
 
 function calculateRecommendationScore({
@@ -206,6 +387,39 @@ function calculateRecommendationScore({
   return (costBenefitScore * 100) + performanceScore + (budgetUseRatio * 5) - balancePenalty;
 }
 
+
+function formatBudgetRangeRecommendation({
+  recommendation,
+  budgetRange,
+  usageType,
+  priority,
+  performanceByComponentId,
+  position
+}) {
+  const components = stripInternalCandidateFields(recommendation.components);
+  const warnings = buildWarnings(recommendation.components, recommendation.compatibilityResult.alerts);
+  const performanceScore = calculateBuildPerformanceScore(
+    recommendation.components,
+    performanceByComponentId,
+    usageType
+  );
+
+  return {
+    name: buildRecommendationName(usageType, priority, position),
+    usageType,
+    priority,
+    components,
+    totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
+    budgetStatus: getBudgetStatus(recommendation.totalEstimatedPrice, budgetRange),
+    compatibilityStatus: recommendation.compatibilityResult.compatible ? 'compatible' : 'incompatible',
+    estimatedPerformanceLevel: getEstimatedPerformanceLevel(performanceScore),
+    performanceScore,
+    costBenefitScore: Number((recommendation.score / 100).toFixed(2)),
+    bottleneckWarnings: warnings,
+    summary: buildBudgetRangeSummary(usageType, priority, performanceScore, warnings)
+  };
+}
+
 function formatRecommendation({
   recommendation,
   budgetAmount,
@@ -231,6 +445,70 @@ function formatRecommendation({
       usageType
     )
   };
+}
+
+
+function buildRecommendationName(usageType, priority, position) {
+  const usageLabels = {
+    gaming: 'Gamer',
+    work: 'Trabalho',
+    'video-editing': 'Edicao de Video',
+    programming: 'Programacao',
+    design: 'Design',
+    general: 'Uso Geral',
+    study: 'Estudo',
+    streaming: 'Streaming',
+    upgrade: 'Upgrade',
+    productivity: 'Produtividade'
+  };
+
+  const priorityLabels = {
+    'cost-benefit': 'Custo-beneficio',
+    performance: 'Desempenho',
+    'lowest-price': 'Menor preco',
+    balanced: 'Equilibrada'
+  };
+
+  const suffix = position > 1 ? ` ${position}` : '';
+
+  return `Build ${usageLabels[usageType] || usageLabels.general} ${priorityLabels[priority] || priorityLabels.balanced}${suffix}`;
+}
+
+function getBudgetStatus(totalEstimatedPrice, budgetRange) {
+  if (totalEstimatedPrice < budgetRange.min) {
+    return 'below_range';
+  }
+
+  if (totalEstimatedPrice > budgetRange.max) {
+    return 'above_range';
+  }
+
+  return 'within_range';
+}
+
+function getEstimatedPerformanceLevel(performanceScore) {
+  if (performanceScore >= 85) {
+    return 'excellent';
+  }
+
+  if (performanceScore >= 70) {
+    return 'good';
+  }
+
+  if (performanceScore >= 55) {
+    return 'basic';
+  }
+
+  return 'entry';
+}
+
+function buildBudgetRangeSummary(usageType, priority, performanceScore, warnings) {
+  const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
+  const bottleneckSummary = warnings.length > 0
+    ? ' Ha possiveis gargalos basicos indicados nos avisos.'
+    : ' Nao foram identificados gargalos basicos relevantes.';
+
+  return `${baseSummary} Foco em ${translatePriority(priority)} com nivel estimado ${getEstimatedPerformanceLevel(performanceScore)}.${bottleneckSummary}`;
 }
 
 function buildStrategy(usageType) {
@@ -328,6 +606,35 @@ function validateRecommendationPayload(input) {
   }
 }
 
+
+function normalizeBudgetRange(budgetRangeInput) {
+  if (!budgetRangeInput || typeof budgetRangeInput !== 'object' || Array.isArray(budgetRangeInput)) {
+    const error = new Error('Faixa de orcamento obrigatoria.');
+    error.statusCode = 400;
+    error.errors = ['budgetRange.min e budgetRange.max devem ser informados.'];
+    throw error;
+  }
+
+  const min = Number(budgetRangeInput.min);
+  const max = Number(budgetRangeInput.max);
+
+  if (!Number.isFinite(min) || !Number.isFinite(max) || min <= 0 || max <= 0) {
+    const error = new Error('Faixa de orcamento invalida.');
+    error.statusCode = 400;
+    error.errors = ['budgetRange.min e budgetRange.max devem ser numeros positivos.'];
+    throw error;
+  }
+
+  if (min >= max) {
+    const error = new Error('Faixa de orcamento invalida.');
+    error.statusCode = 400;
+    error.errors = ['budgetRange.min deve ser menor que budgetRange.max.'];
+    throw error;
+  }
+
+  return { min, max };
+}
+
 function normalizeBudget(budgetInput) {
   if (!budgetInput || typeof budgetInput !== 'object' || Array.isArray(budgetInput)) {
     const error = new Error('Orcamento obrigatorio.');
@@ -362,6 +669,21 @@ function normalizeUsageType(usageTypeInput) {
   error.statusCode = 400;
   error.errors = [`Tipos aceitos: ${supportedUsageTypes.join(', ')}.`];
   throw error;
+}
+
+
+function normalizeRangePriority(priorityInput) {
+  const priority = normalizeText(priorityInput) || 'cost-benefit';
+
+  if (priority === 'balanced') {
+    return priority;
+  }
+
+  if (supportedPriorities.includes(priority)) {
+    return priority;
+  }
+
+  return 'cost-benefit';
 }
 
 function normalizePriority(priorityInput) {
