@@ -5,6 +5,7 @@ import { app } from '../src/app.js';
 import { compatibilityRoutes } from '../src/routes/compatibility.routes.js';
 import { compatibilityFixRoutes } from '../src/routes/compatibilityFix.routes.js';
 import { compatibilityRuleRoutes } from '../src/routes/compatibility-rule.routes.js';
+import { gamePerformanceRoutes } from '../src/routes/gamePerformance.routes.js';
 import { recommendationRoutes } from '../src/routes/recommendation.routes.js';
 import { buildScoreRoutes } from '../src/routes/buildScore.routes.js';
 import { fail } from '../src/utils/api-response.js';
@@ -47,6 +48,12 @@ test('deve expor endpoint de nota geral da build', () => {
   const scorePaths = getRoutePaths(buildScoreRoutes);
 
   assert.equal(scorePaths.includes('POST /'), true);
+});
+
+test('deve expor endpoint de comparacao de desempenho entre jogos', () => {
+  const performancePaths = getRoutePaths(gamePerformanceRoutes);
+
+  assert.equal(performancePaths.includes('POST /compare-games'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
