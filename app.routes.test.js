@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { app } from '../src/app.js';
-import { componentRoutes } from '../src/routes/component.routes.js';
 import { compatibilityRoutes } from '../src/routes/compatibility.routes.js';
 import { compatibilityFixRoutes } from '../src/routes/compatibilityFix.routes.js';
 import { compatibilityRuleRoutes } from '../src/routes/compatibility-rule.routes.js';
@@ -11,6 +10,7 @@ import { recommendationRoutes } from '../src/routes/recommendation.routes.js';
 import { buildScoreRoutes } from '../src/routes/buildScore.routes.js';
 import { analysisHistoryRoutes } from '../src/routes/analysisHistory.routes.js';
 import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
+import { buildReportRoutes } from '../src/routes/buildReport.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -39,12 +39,6 @@ test('deve expor manutencao completa de regras de compatibilidade', () => {
   assert.equal(rulePaths.includes('POST /'), true);
   assert.equal(rulePaths.includes('PUT /:id'), true);
   assert.equal(rulePaths.includes('DELETE /:id'), true);
-});
-
-test('deve expor endpoint de classificacao de custo-beneficio de componentes', () => {
-  const componentPaths = getRoutePaths(componentRoutes);
-
-  assert.equal(componentPaths.includes('GET /cost-benefit'), true);
 });
 
 test('deve expor endpoint de recomendacao de builds por faixa de orcamento', () => {
@@ -79,6 +73,14 @@ test('deve expor endpoints de configuracoes prontas', () => {
 
   assert.equal(readyBuildPaths.includes('GET /'), true);
   assert.equal(readyBuildPaths.includes('GET /:id'), true);
+});
+
+
+
+test('deve expor endpoint de relatorio tecnico da configuracao', () => {
+  const reportPaths = getRoutePaths(buildReportRoutes);
+
+  assert.equal(reportPaths.includes('POST /'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {

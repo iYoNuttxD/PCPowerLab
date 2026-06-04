@@ -1,0 +1,65 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+
+import { env } from './config/env.js';
+import { healthRoutes } from './routes/health.routes.js';
+import { componentRoutes } from './routes/component.routes.js';
+import { adminComponentRoutes } from './routes/admin-component.routes.js';
+import { buildRoutes } from './routes/build.routes.js';
+import { savedBuildsRoutes } from './routes/savedBuilds.routes.js';
+import { compatibilityRoutes } from './routes/compatibility.routes.js';
+import { compatibilityFixRoutes } from './routes/compatibilityFix.routes.js';
+import { compatibilityRuleRoutes } from './routes/compatibility-rule.routes.js';
+import { bottleneckRoutes } from './routes/bottleneck.routes.js';
+import { performanceParametersRoutes } from './routes/performanceParameters.routes.js';
+import { recommendationRoutes } from './routes/recommendation.routes.js';
+import { budgetRoutes } from './routes/budget.routes.js';
+import { explanationRoutes } from './routes/explanation.routes.js';
+import { gamePerformanceRoutes } from './routes/gamePerformance.routes.js';
+import { buildSummaryRoutes } from './routes/buildSummary.routes.js';
+import { shareBuildRoutes } from './routes/shareBuild.routes.js';
+import { purchaseLinksRoutes } from './routes/purchaseLinks.routes.js';
+import { buildComparisonRoutes } from './routes/buildComparison.routes.js';
+import { upgradeSuggestionRoutes } from './routes/upgradeSuggestion.routes.js';
+import { buildScoreRoutes } from './routes/buildScore.routes.js';
+import { analysisHistoryRoutes } from './routes/analysisHistory.routes.js';
+import { readyBuildsRoutes } from './routes/readyBuilds.routes.js';
+import { buildReportRoutes } from './routes/buildReport.routes.js';
+import { notFoundHandler } from './middlewares/not-found.middleware.js';
+import { errorHandler } from './middlewares/error.middleware.js';
+
+export const app = express();
+
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
+
+app.use(`${env.apiPrefix}/health`, healthRoutes);
+app.use(`${env.apiPrefix}/components`, componentRoutes);
+app.use(`${env.apiPrefix}/admin/components`, adminComponentRoutes);
+app.use(`${env.apiPrefix}/builds`, buildRoutes);
+app.use(`${env.apiPrefix}/saved-builds`, savedBuildsRoutes);
+app.use(`${env.apiPrefix}/compatibility`, compatibilityRoutes);
+app.use(`${env.apiPrefix}/compatibility`, compatibilityFixRoutes);
+app.use(`${env.apiPrefix}/compatibility-rules`, compatibilityRuleRoutes);
+app.use(`${env.apiPrefix}/bottlenecks`, bottleneckRoutes);
+app.use(`${env.apiPrefix}/performance-parameters`, performanceParametersRoutes);
+app.use(`${env.apiPrefix}/performance`, gamePerformanceRoutes);
+app.use(`${env.apiPrefix}/recommendations`, recommendationRoutes);
+app.use(`${env.apiPrefix}/budget`, budgetRoutes);
+app.use(`${env.apiPrefix}/explanations`, explanationRoutes);
+app.use(`${env.apiPrefix}/build-summary`, buildSummaryRoutes);
+app.use(`${env.apiPrefix}/build-comparison`, buildComparisonRoutes);
+app.use(`${env.apiPrefix}/build-score`, buildScoreRoutes);
+app.use(`${env.apiPrefix}/share`, shareBuildRoutes);
+app.use(`${env.apiPrefix}/purchase-links`, purchaseLinksRoutes);
+app.use(`${env.apiPrefix}/upgrades`, upgradeSuggestionRoutes);
+app.use(`${env.apiPrefix}/analysis-history`, analysisHistoryRoutes);
+app.use(`${env.apiPrefix}/ready-builds`, readyBuildsRoutes);
+app.use(`${env.apiPrefix}/build-report`, buildReportRoutes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
