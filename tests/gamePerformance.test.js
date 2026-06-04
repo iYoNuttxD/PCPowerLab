@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import { createAdminComponent } from '../src/services/admin-component.service.js';
 import {
+  compareGamePerformance,
   listGames,
   simulateGamePerformance
 } from '../src/services/gamePerformanceService.js';
@@ -67,6 +68,64 @@ test('deve retornar desempenho otimo quando atender requisitos recomendados', ()
   assert.equal(result.meetsMinimumRequirements, true);
   assert.equal(result.meetsRecommendedRequirements, true);
   assert.equal(result.performanceLevel, 'excellent');
+});
+
+test('deve comparar desempenho da mesma build em varios jogos preservando a ordem', () => {
+  const result = compareGamePerformance({
+    gameIds: [
+      'game-counter-strike-2',
+      'game-cyberpunk-2077',
+      'game-red-dead-redemption-2'
+    ],
+    targetResolution: '1080p',
+    qualityPreset: 'high',
+    build: baseSimulationInput.build
+  });
+
+  assert.equal(result.targetResolution, '1080p');
+  assert.equal(result.qualityPreset, 'high');
+  assert.deepEqual(
+    result.results.map((gameResult) => gameResult.gameId),
+    [
+      'game-counter-strike-2',
+      'game-cyberpunk-2077',
+      'game-red-dead-redemption-2'
+    ]
+  );
+  assert.equal(result.results.length, 3);
+  assert.equal(Number.isInteger(result.results[0].estimatedFps), true);
+  assert.equal(typeof result.results[0].performanceLevel, 'string');
+  assert.equal(typeof result.results[0].meetsRecommendedRequirements, 'boolean');
+  assert.equal(result.summary.includes('FPS'), true);
+});
+
+test('deve retornar erro controlado quando comparar menos de dois jogos', () => {
+  assert.throws(
+    () => compareGamePerformance({
+      gameIds: ['game-counter-strike-2'],
+      build: baseSimulationInput.build
+    }),
+    (error) => {
+      assert.equal(error.statusCode, 400);
+      assert.equal(error.message, 'Informe pelo menos dois jogos para comparar.');
+      return true;
+    }
+  );
+});
+
+test('deve retornar erro controlado com IDs invalidos na comparacao de jogos', () => {
+  assert.throws(
+    () => compareGamePerformance({
+      gameIds: ['game-counter-strike-2', 'game-inexistente'],
+      build: baseSimulationInput.build
+    }),
+    (error) => {
+      assert.equal(error.statusCode, 404);
+      assert.equal(error.message, 'Um ou mais jogos nao foram encontrados.');
+      assert.equal(error.errors.includes('Jogo nao encontrado: game-inexistente.'), true);
+      return true;
+    }
+  );
 });
 
 test('deve aplicar penalidade de gargalo quando build completa estiver disponivel', () => {

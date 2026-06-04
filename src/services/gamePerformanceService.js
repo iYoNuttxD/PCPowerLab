@@ -18,6 +18,7 @@ import {
 
 const requiredSimulationSlots = ['cpu', 'gpu', 'ram', 'storage'];
 const fullBuildSlots = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case'];
+const maxGamesPerComparison = 10;
 
 export function listGames(filters = {}) {
   const category = normalizeOptionalText(filters.category);
@@ -93,6 +94,34 @@ export function simulateGamePerformance(simulationInput) {
       bottleneckPenalty,
       bottlenecks: bottleneckAnalysis?.bottlenecks ?? []
     }
+  };
+}
+
+export function compareGamePerformance(comparisonInput) {
+  validateComparisonPayload(comparisonInput);
+
+  const gameIds = comparisonInput.gameIds.map((gameId) => normalizeRequiredText(gameId, 'gameId'));
+  const invalidGameIds = gameIds.filter((gameId) => !findGameById(gameId));
+
+  if (invalidGameIds.length > 0) {
+    const error = new Error('Um ou mais jogos nao foram encontrados.');
+    error.statusCode = 404;
+    error.errors = invalidGameIds.map((gameId) => `Jogo nao encontrado: ${gameId}.`);
+    throw error;
+  }
+
+  const simulations = gameIds.map((gameId) => simulateGamePerformance({
+    gameId,
+    targetResolution: comparisonInput.targetResolution,
+    qualityPreset: comparisonInput.qualityPreset,
+    build: comparisonInput.build
+  }));
+
+  return {
+    targetResolution: simulations[0].targetResolution,
+    qualityPreset: simulations[0].qualityPreset,
+    results: simulations.map(formatGameComparisonResult),
+    summary: buildGameComparisonSummary(simulations)
   };
 }
 
@@ -202,6 +231,67 @@ function validateSimulationPayload(simulationInput) {
     error.statusCode = 400;
     throw error;
   }
+}
+
+function validateComparisonPayload(comparisonInput) {
+  if (!comparisonInput || typeof comparisonInput !== 'object' || Array.isArray(comparisonInput)) {
+    const error = new Error('Informe os dados da comparacao de desempenho entre jogos.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (!Array.isArray(comparisonInput.gameIds)) {
+    const error = new Error('gameIds deve ser um array.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (comparisonInput.gameIds.length < 2) {
+    const error = new Error('Informe pelo menos dois jogos para comparar.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (comparisonInput.gameIds.length > maxGamesPerComparison) {
+    const error = new Error('Limite maximo de jogos por comparacao excedido.');
+    error.statusCode = 400;
+    error.errors = [`Informe no maximo ${maxGamesPerComparison} jogos por comparacao.`];
+    throw error;
+  }
+}
+
+function formatGameComparisonResult(simulation) {
+  return {
+    gameId: simulation.gameId,
+    gameName: simulation.game,
+    estimatedFps: simulation.estimatedFps,
+    performanceLevel: simulation.performanceLevel,
+    meetsMinimumRequirements: simulation.meetsMinimumRequirements,
+    meetsRecommendedRequirements: simulation.meetsRecommendedRequirements
+  };
+}
+
+function buildGameComparisonSummary(simulations) {
+  const excellentCount = simulations.filter((simulation) => simulation.performanceLevel === 'excellent').length;
+  const goodCount = simulations.filter((simulation) => simulation.performanceLevel === 'good').length;
+  const insufficientCount = simulations.filter((simulation) => simulation.performanceLevel === 'insufficient').length;
+  const averageFps = Math.round(
+    simulations.reduce((total, simulation) => total + simulation.estimatedFps, 0) / simulations.length
+  );
+
+  if (insufficientCount > 0) {
+    return `A configuracao apresenta media estimada de ${averageFps} FPS, mas pode ficar abaixo do minimo em ${insufficientCount} jogo(s).`;
+  }
+
+  if (excellentCount === simulations.length) {
+    return `A configuracao apresenta desempenho excelente nos ${simulations.length} jogos comparados, com media estimada de ${averageFps} FPS.`;
+  }
+
+  if (excellentCount + goodCount === simulations.length) {
+    return `A configuracao apresenta desempenho bom ou excelente nos jogos comparados, com media estimada de ${averageFps} FPS.`;
+  }
+
+  return `A configuracao apresenta desempenho variado nos jogos comparados, com media estimada de ${averageFps} FPS.`;
 }
 
 function normalizeBuildInput(buildInput) {

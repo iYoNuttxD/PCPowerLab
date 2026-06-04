@@ -1,4 +1,5 @@
 import {
+  compareGamePerformance,
   findGameById,
   listGames,
   simulateGamePerformance
@@ -30,6 +31,16 @@ export function simulateGame(req, res, next) {
     const simulation = simulateGamePerformance(req.body);
 
     return ok(res, simulation, 'Simulacao de desempenho concluida.');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export function compareGames(req, res, next) {
+  try {
+    const comparison = compareGamePerformance(req.body);
+
+    return ok(res, comparison, 'Comparacao de desempenho entre jogos concluida com sucesso.');
   } catch (error) {
     return next(error);
   }
