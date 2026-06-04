@@ -9,6 +9,7 @@ import { gamePerformanceRoutes } from '../src/routes/gamePerformance.routes.js';
 import { recommendationRoutes } from '../src/routes/recommendation.routes.js';
 import { buildScoreRoutes } from '../src/routes/buildScore.routes.js';
 import { analysisHistoryRoutes } from '../src/routes/analysisHistory.routes.js';
+import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -64,6 +65,13 @@ test('deve expor endpoints de historico de analises', () => {
   assert.equal(analysisHistoryPaths.includes('GET /:id'), true);
   assert.equal(analysisHistoryPaths.includes('POST /'), true);
   assert.equal(analysisHistoryPaths.includes('DELETE /:id'), true);
+});
+
+test('deve expor endpoints de configuracoes prontas', () => {
+  const readyBuildPaths = getRoutePaths(readyBuildsRoutes);
+
+  assert.equal(readyBuildPaths.includes('GET /'), true);
+  assert.equal(readyBuildPaths.includes('GET /:id'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
