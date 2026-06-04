@@ -8,6 +8,7 @@ import { compatibilityRuleRoutes } from '../src/routes/compatibility-rule.routes
 import { gamePerformanceRoutes } from '../src/routes/gamePerformance.routes.js';
 import { recommendationRoutes } from '../src/routes/recommendation.routes.js';
 import { buildScoreRoutes } from '../src/routes/buildScore.routes.js';
+import { analysisHistoryRoutes } from '../src/routes/analysisHistory.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -54,6 +55,15 @@ test('deve expor endpoint de comparacao de desempenho entre jogos', () => {
   const performancePaths = getRoutePaths(gamePerformanceRoutes);
 
   assert.equal(performancePaths.includes('POST /compare-games'), true);
+});
+
+test('deve expor endpoints de historico de analises', () => {
+  const analysisHistoryPaths = getRoutePaths(analysisHistoryRoutes);
+
+  assert.equal(analysisHistoryPaths.includes('GET /'), true);
+  assert.equal(analysisHistoryPaths.includes('GET /:id'), true);
+  assert.equal(analysisHistoryPaths.includes('POST /'), true);
+  assert.equal(analysisHistoryPaths.includes('DELETE /:id'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
