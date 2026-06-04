@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import { app } from '../src/app.js';
 import { compatibilityRoutes } from '../src/routes/compatibility.routes.js';
+import { compatibilityFixRoutes } from '../src/routes/compatibilityFix.routes.js';
 import { compatibilityRuleRoutes } from '../src/routes/compatibility-rule.routes.js';
 import { recommendationRoutes } from '../src/routes/recommendation.routes.js';
 import { buildScoreRoutes } from '../src/routes/buildScore.routes.js';
@@ -19,6 +20,12 @@ test('deve expor endpoints padronizados de compatibilidade', () => {
 
   assert.equal(compatibilityPaths.includes('POST /check'), true);
   assert.equal(compatibilityPaths.includes('POST /alerts'), true);
+});
+
+test('deve expor endpoint de sugestoes de correcao de compatibilidade', () => {
+  const compatibilityFixPaths = getRoutePaths(compatibilityFixRoutes);
+
+  assert.equal(compatibilityFixPaths.includes('POST /fix-suggestions'), true);
 });
 
 test('deve expor manutencao completa de regras de compatibilidade', () => {
