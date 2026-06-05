@@ -235,13 +235,16 @@ PUT    /api/v1/performance-parameters/:componentId
 DELETE /api/v1/performance-parameters/:componentId
 ```
 
-### Gargalos e desempenho em jogos
+### Gargalos, jogos e softwares profissionais
 
 ```http
 POST /api/v1/bottlenecks/analyze
 GET  /api/v1/performance/games
 GET  /api/v1/performance/games/:id
 POST /api/v1/performance/simulate-game
+GET  /api/v1/professional-software
+GET  /api/v1/professional-software/:id
+POST /api/v1/performance/simulate-software
 ```
 
 Exemplo de simulação:
@@ -259,6 +262,22 @@ Exemplo de simulação:
   }
 }
 ```
+
+Exemplo de simulacao em software profissional:
+
+```json
+{
+  "softwareId": "software-adobe-premiere-pro",
+  "build": {
+    "cpuId": "cpu-ryzen-7-5700x",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-32gb-ddr4",
+    "storageId": "ssd-samsung-980-pro-2tb"
+  }
+}
+```
+
+Os softwares profissionais usam uma base mockada com requisitos estimados por scores internos. Os resultados sao simplificados para fins academicos e nao substituem benchmarks reais.
 
 ### Orçamento, recomendações e explicações
 

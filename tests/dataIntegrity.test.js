@@ -5,6 +5,7 @@ import { compatibilityRules } from '../src/data/compatibility-rules.mock.js';
 import { components } from '../src/data/components.mock.js';
 import { games } from '../src/data/games.js';
 import { performanceParameters } from '../src/data/performanceParameters.js';
+import { professionalSoftware } from '../src/data/professionalSoftware.js';
 import { purchaseLinks } from '../src/data/purchaseLinks.js';
 import { componentCategories } from '../src/models/component.model.js';
 
@@ -49,6 +50,28 @@ test('deve manter dados mockados principais consistentes', () => {
     assert.equal(Number.isFinite(game.recommendedRamGb), true);
     assert.equal(game.minimumRamGb <= game.recommendedRamGb, true);
     gameIds.add(game.id);
+  }
+
+  const softwareIds = new Set();
+
+  for (const software of professionalSoftware) {
+    assert.equal(/^software-[a-z0-9-]+$/.test(software.id), true);
+    assert.equal(softwareIds.has(software.id), false);
+    assert.equal(typeof software.name, 'string');
+    assert.equal(software.name.length > 0, true);
+    assert.equal(Number.isFinite(software.minimumCpuScore), true);
+    assert.equal(Number.isFinite(software.recommendedCpuScore), true);
+    assert.equal(Number.isFinite(software.minimumGpuScore), true);
+    assert.equal(Number.isFinite(software.recommendedGpuScore), true);
+    assert.equal(software.minimumCpuScore <= software.recommendedCpuScore, true);
+    assert.equal(software.minimumGpuScore <= software.recommendedGpuScore, true);
+    assert.equal(software.minimumRamGb <= software.recommendedRamGb, true);
+    assert.equal(software.minimumStorageScore <= software.recommendedStorageScore, true);
+    assert.equal(
+      Number((software.cpuWeight + software.gpuWeight + software.ramWeight + software.storageWeight).toFixed(2)),
+      1
+    );
+    softwareIds.add(software.id);
   }
 
   for (const rule of compatibilityRules) {

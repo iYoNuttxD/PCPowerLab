@@ -8,6 +8,7 @@ import { compatibilityRuleRoutes } from '../src/routes/compatibility-rule.routes
 import { gamePerformanceRoutes } from '../src/routes/gamePerformance.routes.js';
 import { recommendationRoutes } from '../src/routes/recommendation.routes.js';
 import { buildScoreRoutes } from '../src/routes/buildScore.routes.js';
+import { professionalSoftwareRoutes } from '../src/routes/professionalSoftware.routes.js';
 import { analysisHistoryRoutes } from '../src/routes/analysisHistory.routes.js';
 import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
 import { fail } from '../src/utils/api-response.js';
@@ -50,6 +51,15 @@ test('deve expor endpoint de nota geral da build', () => {
   const scorePaths = getRoutePaths(buildScoreRoutes);
 
   assert.equal(scorePaths.includes('POST /'), true);
+});
+
+test('deve expor endpoints de softwares profissionais', () => {
+  const softwarePaths = getRoutePaths(professionalSoftwareRoutes);
+  const performancePaths = getRoutePaths(gamePerformanceRoutes);
+
+  assert.equal(softwarePaths.includes('GET /'), true);
+  assert.equal(softwarePaths.includes('GET /:id'), true);
+  assert.equal(performancePaths.includes('POST /simulate-software'), true);
 });
 
 test('deve expor endpoint de comparacao de desempenho entre jogos', () => {
