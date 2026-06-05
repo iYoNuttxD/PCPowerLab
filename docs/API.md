@@ -572,6 +572,78 @@ Exemplo de resposta:
 }
 ```
 
+## Simulacao de desempenho em softwares profissionais
+
+### Listar softwares profissionais
+
+```http
+GET /api/v1/professional-software
+```
+
+Filtro opcional:
+
+- `category`: categoria do software.
+
+Os softwares cadastrados na base mockada usam requisitos estimados por scores internos do PCPowerLab. Esses dados sao simplificados para fins academicos e nao representam requisitos oficiais dos fabricantes.
+
+### Buscar software profissional por ID
+
+```http
+GET /api/v1/professional-software/:id
+```
+
+### Simular desempenho esperado em software profissional
+
+```http
+POST /api/v1/performance/simulate-software
+Content-Type: application/json
+
+{
+  "softwareId": "software-adobe-premiere-pro",
+  "build": {
+    "cpuId": "cpu-ryzen-7-5700x",
+    "gpuId": "gpu-rtx-4060",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-32gb-ddr4",
+    "storageId": "ssd-samsung-980-pro-2tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  }
+}
+```
+
+Campos principais:
+
+- `softwareId`: ID do software profissional cadastrado na base mockada;
+- `build`: componentes usados na simulacao.
+
+A simulacao exige `cpuId`, `gpuId`, `ramId` e `storageId`. Os demais componentes podem ser enviados para manter o mesmo formato das builds usadas nas outras analises.
+
+Exemplo de resposta:
+
+```json
+{
+  "success": true,
+  "data": {
+    "software": "Adobe Premiere Pro",
+    "softwareId": "software-adobe-premiere-pro",
+    "category": "Edicao de video",
+    "performanceScore": 84,
+    "performanceLevel": "Muito bom",
+    "meetsMinimumRequirements": true,
+    "meetsRecommendedRequirements": true,
+    "details": {
+      "cpuStatus": "recommended",
+      "gpuStatus": "recommended",
+      "ramStatus": "recommended",
+      "storageStatus": "recommended"
+    },
+    "summary": "A configuracao deve apresentar bom desempenho para Adobe Premiere Pro."
+  },
+  "message": "Simulação de desempenho em software profissional concluída com sucesso."
+}
+```
+
 ## Orcamento
 
 ### Informar orcamento disponivel
