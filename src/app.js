@@ -27,6 +27,7 @@ import { upgradeSuggestionRoutes } from './routes/upgradeSuggestion.routes.js';
 import { buildScoreRoutes } from './routes/buildScore.routes.js';
 import { analysisHistoryRoutes } from './routes/analysisHistory.routes.js';
 import { readyBuildsRoutes } from './routes/readyBuilds.routes.js';
+import { usageProfilesRoutes } from './routes/usageProfiles.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 
@@ -60,6 +61,7 @@ app.use(`${env.apiPrefix}/purchase-links`, purchaseLinksRoutes);
 app.use(`${env.apiPrefix}/upgrades`, upgradeSuggestionRoutes);
 app.use(`${env.apiPrefix}/analysis-history`, analysisHistoryRoutes);
 app.use(`${env.apiPrefix}/ready-builds`, readyBuildsRoutes);
+app.use(`${env.apiPrefix}/usage-profiles`, usageProfilesRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
