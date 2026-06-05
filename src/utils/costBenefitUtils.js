@@ -102,3 +102,59 @@ function getUsageTypeAlias(usageType) {
 
   return usageType;
 }
+
+
+export function classifyCostBenefitScore(score) {
+  if (score >= 85) {
+    return 'Excelente';
+  }
+
+  if (score >= 70) {
+    return 'Muito bom';
+  }
+
+  if (score >= 55) {
+    return 'Bom';
+  }
+
+  if (score >= 40) {
+    return 'Regular';
+  }
+
+  return 'Baixo custo-benefício';
+}
+
+export function buildCostBenefitSummary(component, score) {
+  const categoryLabel = getCategoryLabel(component?.category);
+  if (score >= 85) {
+    return `Excelente relação entre preço e desempenho para ${categoryLabel}.`;
+  }
+
+  if (score >= 70) {
+    return `Boa relação entre preço e desempenho para ${categoryLabel}.`;
+  }
+
+  if (score >= 55) {
+    return `Relação equilibrada entre preço e desempenho para ${categoryLabel}.`;
+  }
+
+  if (score >= 40) {
+    return `Custo-benefício regular para ${categoryLabel}; compare com alternativas da mesma categoria.`;
+  }
+
+  return `Baixo custo-benefício para ${categoryLabel}, considerando preço e desempenho informados.`;
+}
+
+function getCategoryLabel(category) {
+  const labels = {
+    cpu: 'processadores',
+    gpu: 'placas de vídeo',
+    motherboard: 'placas-mãe',
+    ram: 'memórias RAM',
+    storage: 'armazenamento',
+    psu: 'fontes',
+    case: 'gabinetes'
+  };
+
+  return labels[category] || 'componentes desta categoria';
+}
