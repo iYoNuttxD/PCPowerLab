@@ -286,6 +286,11 @@ POST /api/v1/budget
 POST /api/v1/recommendations/budget
 POST /api/v1/recommendations/by-usage
 POST /api/v1/explanations
+GET    /api/v1/usage-profiles
+GET    /api/v1/usage-profiles/:id
+POST   /api/v1/usage-profiles
+PUT    /api/v1/usage-profiles/:id
+DELETE /api/v1/usage-profiles/:id
 ```
 
 Exemplo de recomendação por orçamento:
@@ -300,6 +305,29 @@ Exemplo de recomendação por orçamento:
   "usageType": "gaming"
 }
 ```
+
+Exemplo de perfil personalizado de uso:
+
+```json
+{
+  "name": "Jogos + Streaming",
+  "description": "Perfil voltado para jogar e transmitir ao vivo com boa estabilidade.",
+  "weights": {
+    "cpu": 30,
+    "gpu": 35,
+    "ram": 20,
+    "storage": 10,
+    "costBenefit": 5
+  },
+  "recommendedMinimums": {
+    "ramGb": 16,
+    "storageType": "SSD",
+    "gpuVramGb": 8
+  }
+}
+```
+
+Os pesos dos perfis personalizados sao normalizados automaticamente quando a soma informada for diferente de 100.
 
 ### Resumo, comparação e upgrades
 

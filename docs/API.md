@@ -747,6 +747,94 @@ Resposta resumida:
 
 Pode retornar `422` quando nao houver configuracao completa dentro do orcamento.
 
+## Perfis personalizados de uso
+
+### Listar perfis
+
+```http
+GET /api/v1/usage-profiles
+```
+
+### Consultar perfil por ID
+
+```http
+GET /api/v1/usage-profiles/:id
+```
+
+### Criar perfil
+
+```http
+POST /api/v1/usage-profiles
+Content-Type: application/json
+
+{
+  "name": "Jogos + Streaming",
+  "description": "Perfil voltado para jogar e transmitir ao vivo com boa estabilidade.",
+  "weights": {
+    "cpu": 30,
+    "gpu": 35,
+    "ram": 20,
+    "storage": 10,
+    "costBenefit": 5
+  },
+  "recommendedMinimums": {
+    "ramGb": 16,
+    "storageType": "SSD",
+    "gpuVramGb": 8
+  }
+}
+```
+
+Campos principais:
+
+- `name`: obrigatorio;
+- `description`: opcional, padrao string vazia;
+- `weights`: obrigatorio, com pesos numericos para `cpu`, `gpu`, `ram`, `storage`, `costBenefit` e opcionalmente `budget`;
+- `recommendedMinimums`: opcional, com limites como `ramGb`, `storageType` e `gpuVramGb`.
+
+Se a soma dos pesos for diferente de 100, a API normaliza os valores automaticamente para facilitar uso futuro em recomendacoes.
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "usage-profile-jogos-streaming",
+    "name": "Jogos + Streaming",
+    "description": "Perfil voltado para jogar e transmitir ao vivo com boa estabilidade.",
+    "weights": {
+      "cpu": 30,
+      "gpu": 35,
+      "ram": 20,
+      "storage": 10,
+      "costBenefit": 5,
+      "budget": 0
+    },
+    "recommendedMinimums": {
+      "ramGb": 16,
+      "storageType": "SSD",
+      "gpuVramGb": 8
+    },
+    "createdAt": "2026-05-22T12:00:00.000Z",
+    "updatedAt": "2026-05-22T12:00:00.000Z"
+  },
+  "message": "Perfil de uso criado com sucesso."
+}
+```
+
+### Atualizar perfil
+
+```http
+PUT /api/v1/usage-profiles/:id
+```
+
+### Remover perfil
+
+```http
+DELETE /api/v1/usage-profiles/:id
+```
+
 ## Comparacao de builds
 
 ## Nota geral da configuracao
