@@ -14,6 +14,7 @@ import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
 import { usageProfilesRoutes } from '../src/routes/usageProfiles.routes.js';
 import { buildExportRoutes } from '../src/routes/buildExport.routes.js';
 import { savedBuildsRoutes } from '../src/routes/savedBuilds.routes.js';
+import { recommendationFeedbackRoutes } from '../src/routes/recommendationFeedback.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -103,6 +104,15 @@ test('deve expor endpoints de exportacao JSON de builds', () => {
 
   assert.equal(buildExportPaths.includes('POST /json'), true);
   assert.equal(savedBuildPaths.includes('GET /:id/export/json'), true);
+});
+
+test('deve expor endpoints de avaliacoes de recomendacoes', () => {
+  const recommendationFeedbackPaths = getRoutePaths(recommendationFeedbackRoutes);
+
+  assert.equal(recommendationFeedbackPaths.includes('GET /'), true);
+  assert.equal(recommendationFeedbackPaths.includes('GET /:id'), true);
+  assert.equal(recommendationFeedbackPaths.includes('POST /'), true);
+  assert.equal(recommendationFeedbackPaths.includes('DELETE /:id'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
