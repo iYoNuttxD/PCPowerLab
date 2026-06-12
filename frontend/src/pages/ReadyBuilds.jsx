@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, Upload, Wand2 } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
@@ -11,6 +11,7 @@ import Input from '../components/ui/Input.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Modal from '../components/ui/Modal.jsx';
 import Select from '../components/ui/Select.jsx';
+import UsageProfilesManager from '../components/usageProfiles/UsageProfilesManager.jsx';
 import { useApiRequest } from '../hooks/useApiRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
@@ -19,6 +20,7 @@ import { readyBuildsService } from '../services/readyBuildsService.js';
 import { componentLabels, componentTypes, priorityLabels, priorityOptions } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
+import { consumeSelectedUsageProfile, inferUsageSettingsFromProfile } from '../utils/usageProfileHelpers.js';
 
 const readyBuildProfiles = [
   'all',
@@ -48,13 +50,18 @@ export default function ReadyBuilds() {
   const { components, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
   const request = useApiRequest();
   const recommendationRequest = useApiRequest();
+  const recommendationSectionRef = useRef(null);
+  const consumedProfileRef = useRef(false);
   const [selectedProfile, setSelectedProfile] = useState('all');
   const [readyBuilds, setReadyBuilds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState('');
   const [detailsBuild, setDetailsBuild] = useState(null);
   const [budgetRange, setBudgetRange] = useState(initialBudgetRange);
-  const [recommendation, setRecommendation] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
+  const [usageProfiles, setUsageProfiles] = useState([]);
+  const [selectedUsageProfileId, setSelectedUsageProfileId] = useState('');
+  const [highlightRecommendation, setHighlightRecommendation] = useState(false);
 
   const componentMap = useMemo(() => (
     Object.fromEntries(components.map((component) => [component.id, component]))
@@ -103,8 +110,30 @@ export default function ReadyBuilds() {
     }
   }
 
+  function openReadyBuildFeedback(readyBuild) {
+    const feedbackBuild = createFeedbackBuildContext(readyBuild.components, componentMap);
+
+    navigate('/feedback/new', {
+      state: {
+        mode: 'contextual',
+        recommendationType: 'ready-build',
+        recommendationId: readyBuild.id || readyBuild.name,
+        title: readyBuild.name,
+        recommendationTitle: readyBuild.name,
+        build: readyBuild.components,
+        ...feedbackBuild,
+        summary: readyBuild.description,
+        totalEstimatedPrice: readyBuild.estimatedTotalPrice,
+        compatibilityStatus: 'compatible',
+        performanceLevel: readyBuild.expectedPerformanceLevel,
+        usageType: readyBuild.usageProfile,
+        source: 'ready-build'
+      }
+    });
+  }
+
   function applyRecommendation(recommendationData, destination = '/summary') {
-    const selectedComponents = normalizeRecommendationComponents(recommendationData?.components);
+    const selectedComponents = normalizeRecommendationComponents(recommendationData, componentMap);
 
     if (!hasAllComponents(selectedComponents)) {
       setFeedback('A recomendação não retornou todos os componentes necessários para aplicar a build.');
@@ -142,16 +171,60 @@ export default function ReadyBuilds() {
       const result = await buildRecommendationService.byBudgetRange({
         budgetRange: {
           min: Number(budgetRange.min),
-          max: Number(budgetRange.max),
-          currency: 'BRL'
+          max: Number(budgetRange.max)
         },
         usageType: budgetRange.usageType,
         priority: budgetRange.priority
       });
 
-      setRecommendation(result);
+      setRecommendations(normalizeRecommendationList(result));
       setFeedback('Recomendação por faixa de orçamento gerada com sucesso.');
     });
+  }
+
+  function applyUsageProfile(profileOrId, profiles = usageProfiles, shouldFocusRecommendation = false) {
+    const profileId = typeof profileOrId === 'string' ? profileOrId : profileOrId?.id || '';
+    setSelectedUsageProfileId(profileId);
+    if (!profileId) {
+      return;
+    }
+
+    const profile = typeof profileOrId === 'object'
+      ? profileOrId
+      : profiles.find((item) => item.id === profileId);
+    if (!profile) {
+      return;
+    }
+
+    const settings = inferUsageSettingsFromProfile(profile);
+    setBudgetRange((current) => ({
+      ...current,
+      usageType: settings.usageType,
+      priority: settings.priority
+    }));
+    setFeedback(`Perfil "${profile.name}" aplicado aos critérios da recomendação.`);
+
+    if (shouldFocusRecommendation) {
+      setHighlightRecommendation(true);
+      recommendationSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.setTimeout(() => setHighlightRecommendation(false), 1600);
+    }
+  }
+
+  function handleProfilesLoaded(profiles) {
+    setUsageProfiles(profiles);
+
+    if (selectedUsageProfileId && !profiles.some((profile) => profile.id === selectedUsageProfileId)) {
+      setSelectedUsageProfileId('');
+    }
+
+    if (!consumedProfileRef.current) {
+      consumedProfileRef.current = true;
+      const pendingProfileId = consumeSelectedUsageProfile();
+      if (pendingProfileId) {
+        applyUsageProfile(pendingProfileId, profiles, true);
+      }
+    }
   }
 
   const renderReadyBuilds = () => {
@@ -189,6 +262,7 @@ export default function ReadyBuilds() {
             componentMap={componentMap}
             onApply={() => applyReadyBuild(readyBuild)}
             onDetails={() => setDetailsBuild(readyBuild)}
+            onFeedback={() => openReadyBuildFeedback(readyBuild)}
           />
         ))}
       </div>
@@ -225,7 +299,14 @@ export default function ReadyBuilds() {
 
       {renderReadyBuilds()}
 
-      <Card>
+      <UsageProfilesManager
+        appliedProfileId={selectedUsageProfileId}
+        onProfilesLoaded={handleProfilesLoaded}
+        onApplyProfile={(profile) => applyUsageProfile(profile, usageProfiles, true)}
+      />
+
+      <div ref={recommendationSectionRef}>
+      <Card className={highlightRecommendation ? 'recommendation-section is-highlighted' : 'recommendation-section'}>
         <div className="section-heading compact">
           <div>
             <h2>Recomendar build por orçamento</h2>
@@ -250,6 +331,15 @@ export default function ReadyBuilds() {
             value={budgetRange.max}
             onChange={(event) => setBudgetRange((current) => ({ ...current, max: event.target.value }))}
             required
+          />
+          <Select
+            label="Perfil personalizado"
+            value={selectedUsageProfileId}
+            onChange={(event) => applyUsageProfile(event.target.value)}
+            options={[
+              { value: '', label: 'Nenhum perfil personalizado' },
+              ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
+            ]}
           />
           <Select
             label="Tipo de uso"
@@ -283,10 +373,42 @@ export default function ReadyBuilds() {
           />
         )}
         {recommendationRequest.loading && <LoadingSpinner />}
-        {!recommendationRequest.loading && recommendation && (
-          <RecommendationResultCard recommendation={recommendation} onApply={() => applyRecommendation(recommendation)} />
+        {!recommendationRequest.loading && recommendations.length > 0 && (
+          <div className="cards-grid">
+            {recommendations.map((recommendation, index) => (
+              <RecommendationResultCard
+                key={recommendation.id || recommendation.name || index}
+                recommendation={recommendation}
+                componentMap={componentMap}
+                onApply={() => applyRecommendation(recommendation)}
+                onFeedback={() => {
+                  const feedbackBuild = createFeedbackBuildContext(recommendation.components || recommendation.build || recommendation, componentMap);
+                  navigate('/feedback/new', {
+                    state: {
+                      mode: 'contextual',
+                      recommendationType: 'build-recommendation',
+                      recommendationId: recommendation.id || recommendation.name || `budget-range-${index + 1}`,
+                      title: recommendation.name || 'Build recomendada',
+                      recommendationTitle: recommendation.name || 'Build recomendada',
+                      recommendation,
+                      build: recommendation.components || recommendation.build,
+                      ...feedbackBuild,
+                      summary: recommendation.summary,
+                      totalEstimatedPrice: getRecommendationPrice(recommendation),
+                      compatibilityStatus: recommendation.compatibilityStatus,
+                      performanceLevel: recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel,
+                      usageType: budgetRange.usageType,
+                      priority: budgetRange.priority,
+                      source: 'builds-by-budget'
+                    }
+                  });
+                }}
+              />
+            ))}
+          </div>
         )}
       </Card>
+      </div>
 
       <Modal
         open={Boolean(detailsBuild)}
@@ -294,20 +416,25 @@ export default function ReadyBuilds() {
         onClose={() => setDetailsBuild(null)}
       >
         {detailsBuild && (
-          <ReadyBuildDetails readyBuild={detailsBuild} componentMap={componentMap} onApply={() => applyReadyBuild(detailsBuild)} />
+          <ReadyBuildDetails
+            readyBuild={detailsBuild}
+            componentMap={componentMap}
+            onApply={() => applyReadyBuild(detailsBuild)}
+            onFeedback={() => openReadyBuildFeedback(detailsBuild)}
+          />
         )}
       </Modal>
     </div>
   );
 }
 
-function ReadyBuildCard({ readyBuild, componentMap, onApply, onDetails }) {
+function ReadyBuildCard({ readyBuild, componentMap, onApply, onDetails, onFeedback }) {
   return (
     <Card as="article" className="ready-build-card">
       <div className="section-heading compact">
         <div>
           <h2>{readyBuild.name}</h2>
-          <Badge color="cyan">{translateValue(readyBuild.usageProfile)}</Badge>
+          <Badge tone="cyan">{translateValue(readyBuild.usageProfile)}</Badge>
         </div>
         <strong className="price">{formatCurrency(readyBuild.estimatedTotalPrice)}</strong>
       </div>
@@ -327,12 +454,13 @@ function ReadyBuildCard({ readyBuild, componentMap, onApply, onDetails }) {
       <div className="button-row">
         <Button onClick={onApply}><Upload size={18} /> Usar esta build</Button>
         <Button variant="ghost" onClick={onDetails}><Eye size={18} /> Ver detalhes</Button>
+        <Button variant="ghost" onClick={onFeedback}>Avaliar build</Button>
       </div>
     </Card>
   );
 }
 
-function ReadyBuildDetails({ readyBuild, componentMap, onApply }) {
+function ReadyBuildDetails({ readyBuild, componentMap, onApply, onFeedback }) {
   return (
     <div className="page-stack">
       <p>{readyBuild.description}</p>
@@ -362,13 +490,17 @@ function ReadyBuildDetails({ readyBuild, componentMap, onApply }) {
       <InfoList title="Limitações" items={readyBuild.limitations} emptyMessage="Nenhuma limitação informada." />
       <div className="button-row">
         <Button onClick={onApply}><Upload size={18} /> Usar esta build</Button>
+        <Button variant="ghost" onClick={onFeedback}>Avaliar build</Button>
         <Link className="btn btn-secondary btn-md" to="/build">Abrir no wizard</Link>
       </div>
     </div>
   );
 }
 
-function RecommendationResultCard({ recommendation, onApply }) {
+function RecommendationResultCard({ recommendation, componentMap, onApply, onFeedback }) {
+  const components = normalizeRecommendationComponents(recommendation, componentMap);
+  const totalPrice = getRecommendationPrice(recommendation);
+
   return (
     <Card className="recommendation-result-card">
       <div className="section-heading compact">
@@ -376,7 +508,7 @@ function RecommendationResultCard({ recommendation, onApply }) {
           <h2>Build recomendada</h2>
           <p>{recommendation.summary || 'Configuração completa recomendada para a faixa informada.'}</p>
         </div>
-        <strong className="price">{formatCurrency(recommendation.totalEstimatedPrice)}</strong>
+        <strong className="price">{formatCurrency(totalPrice)}</strong>
       </div>
       <div className="metric-grid">
         <div>
@@ -385,23 +517,24 @@ function RecommendationResultCard({ recommendation, onApply }) {
         </div>
         <div>
           <span>Compatibilidade</span>
-          <strong>{recommendation.compatible === false ? 'Incompatível' : 'Compatível'}</strong>
+          <strong>{translateValue(recommendation.compatibilityStatus || (recommendation.compatible === false ? 'incompatible' : 'compatible'))}</strong>
         </div>
         <div>
           <span>Desempenho</span>
-          <strong>{translateValue(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || 'good')}</strong>
+          <strong>{translateValue(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel || 'good')}</strong>
         </div>
       </div>
       <ul className="build-parts-list">
         {componentTypes.map((type) => (
           <li key={type}>
             <span>{componentLabels[type]}</span>
-            <strong>{recommendation.components?.[type]?.name || recommendation.components?.[type]?.id || 'Não informado'}</strong>
+            <strong>{components[type]?.name || components[type]?.id || 'Não informado'}</strong>
           </li>
         ))}
       </ul>
       <div className="button-row">
         <Button onClick={onApply}><CheckCircle2 size={18} /> Usar recomendação como build atual</Button>
+        <Button variant="ghost" onClick={onFeedback}>Avaliar recomendação</Button>
         <Link className="btn btn-secondary btn-md" to="/summary">Ir para resumo</Link>
       </div>
     </Card>
@@ -440,15 +573,22 @@ function InfoList({ title, items = [], emptyMessage }) {
 
 function mapReadyBuildToSelectedComponents(readyBuild, componentMap) {
   return componentTypes.reduce((selection, type) => {
-    const componentId = readyBuild.components?.[`${type}Id`] || readyBuild.components?.[type];
+    const componentValue = readyBuild.components?.[`${type}Id`] || readyBuild.components?.[type];
+    const componentId = typeof componentValue === 'string' ? componentValue : componentValue?.id;
 
-    return componentId
-      ? { ...selection, [type]: componentMap[componentId] || { id: componentId } }
+    return componentId || componentValue
+      ? { ...selection, [type]: componentMap[componentId] || componentValue || { id: componentId } }
       : selection;
   }, {});
 }
 
-function normalizeRecommendationComponents(componentsInput = {}) {
+function normalizeRecommendationComponents(recommendationOrComponents = {}, componentMap = {}) {
+  const componentsInput = recommendationOrComponents.components
+    || recommendationOrComponents.build?.components
+    || recommendationOrComponents.build
+    || recommendationOrComponents.selectedComponents
+    || recommendationOrComponents;
+
   return componentTypes.reduce((selection, type) => {
     const component = componentsInput[type] || componentsInput[`${type}Id`];
 
@@ -456,11 +596,47 @@ function normalizeRecommendationComponents(componentsInput = {}) {
       return selection;
     }
 
+    if (typeof component === 'string') {
+      return {
+        ...selection,
+        [type]: componentMap[component] || { id: component }
+      };
+    }
+
     return {
       ...selection,
-      [type]: typeof component === 'string' ? { id: component } : component
+      [type]: component?.id && componentMap[component.id] ? { ...componentMap[component.id], ...component } : component
     };
   }, {});
+}
+
+function createFeedbackBuildContext(componentsInput = {}, componentMap = {}) {
+  const selectedComponents = normalizeRecommendationComponents(componentsInput, componentMap);
+
+  if (!hasAllComponents(selectedComponents)) {
+    return {};
+  }
+
+  return {
+    buildSnapshot: componentTypes.reduce((snapshot, type) => ({
+      ...snapshot,
+      [`${type}Id`]: selectedComponents[type].id
+    }), {}),
+    buildDetails: componentTypes.reduce((details, type) => {
+      const component = selectedComponents[type];
+
+      return {
+        ...details,
+        [type]: {
+          id: component.id,
+          ...(component.name && { name: component.name }),
+          ...(component.category && { category: component.category }),
+          ...(component.brand && { brand: component.brand }),
+          ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+        }
+      };
+    }, {})
+  };
 }
 
 function hasAllComponents(selectedComponents) {
@@ -468,9 +644,10 @@ function hasAllComponents(selectedComponents) {
 }
 
 function getComponentName(componentsInput, type, componentMap) {
-  const componentId = componentsInput?.[`${type}Id`] || componentsInput?.[type];
+  const componentValue = componentsInput?.[`${type}Id`] || componentsInput?.[type];
+  const componentId = typeof componentValue === 'string' ? componentValue : componentValue?.id;
 
-  return componentMap[componentId]?.name || componentId || 'Não informado';
+  return componentMap[componentId]?.name || componentValue?.name || componentId || 'Não informado';
 }
 
 function formatBudgetRange(range) {
@@ -498,4 +675,31 @@ function validateBudgetRange(range) {
   }
 
   return '';
+}
+
+function normalizeRecommendationList(result) {
+  if (Array.isArray(result)) {
+    return result;
+  }
+
+  if (Array.isArray(result?.recommendations)) {
+    return result.recommendations;
+  }
+
+  if (Array.isArray(result?.builds)) {
+    return result.builds;
+  }
+
+  return result ? [result] : [];
+}
+
+function getRecommendationPrice(recommendation) {
+  return recommendation.totalEstimatedPrice
+    ?? recommendation.estimatedTotalPrice
+    ?? recommendation.totalPrice
+    ?? recommendation.price
+    ?? recommendation.build?.totalEstimatedPrice
+    ?? recommendation.build?.estimatedTotalPrice
+    ?? recommendation.build?.totalPrice
+    ?? null;
 }

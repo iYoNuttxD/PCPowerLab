@@ -11,6 +11,7 @@ import SavedBuilds from './pages/SavedBuilds.jsx';
 import ReadyBuilds from './pages/ReadyBuilds.jsx';
 import PerformanceLab from './pages/PerformanceLab.jsx';
 import Insights from './pages/Insights.jsx';
+import Feedback from './pages/Feedback.jsx';
 import UpgradeSuggestions from './pages/UpgradeSuggestions.jsx';
 import SharedBuild from './pages/SharedBuild.jsx';
 import Admin from './pages/Admin.jsx';
@@ -29,6 +30,8 @@ export default function App() {
           <Route path="/performance-lab" element={<PerformanceLab />} />
           <Route path="/compare" element={<CompareBuilds />} />
           <Route path="/insights" element={<Insights />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/feedback/new" element={<Feedback />} />
           <Route path="/ready-builds" element={<ReadyBuilds />} />
           <Route path="/saved-builds" element={<SavedBuilds />} />
           <Route path="/upgrades" element={<UpgradeSuggestions />} />

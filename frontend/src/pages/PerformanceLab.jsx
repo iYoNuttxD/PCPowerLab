@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3, BriefcaseBusiness, Gamepad2 } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -361,36 +362,157 @@ function GameComparisonResult({ result }) {
       <div className="section-heading compact">
         <div>
           <h3>Resultado da comparação</h3>
-          <p>{result.summary || 'Comparação concluída para os jogos selecionados.'}</p>
+          <p>{getComparisonSummary(result, games)}</p>
         </div>
         <Badge tone="cyan">{result.targetResolution} • {translateValue(result.qualityPreset)}</Badge>
       </div>
       {games.length === 0 ? (
         <p>Nenhum resultado retornado para os jogos selecionados.</p>
       ) : (
-        <div className="game-result-grid">
-          {games.map((game) => (
-            <article key={game.gameId || game.id || game.gameName} className="game-result-card">
-              <div>
-                <strong>{game.gameName || game.name || game.game}</strong>
-                <span>{translateValue(game.performanceLevel)}</span>
-              </div>
-              <div className="metric-grid compact-metric-grid">
-                <div>
-                  <span>FPS estimado</span>
-                  <strong>{formatNumber(game.estimatedFps)}</strong>
-                </div>
-                <div>
-                  <span>Recomendado</span>
-                  <strong>{formatBoolean(game.meetsRecommendedRequirements)}</strong>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <>
+          <div className="game-comparison-chart" aria-label="Gráfico comparativo de FPS estimado por jogo">
+            <ResponsiveContainer width="100%" height={380}>
+              <BarChart data={games.map(formatGameChartEntry)} margin={{ top: 16, right: 24, bottom: 78, left: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#234" />
+                <XAxis
+                  dataKey="name"
+                  interval={0}
+                  angle={-24}
+                  textAnchor="end"
+                  height={92}
+                  stroke="#b9f8ff"
+                  tick={{ fontSize: 12 }}
+                />
+                <YAxis stroke="#b9f8ff" tick={{ fontSize: 12 }} />
+                <Tooltip content={<GameComparisonTooltip />} />
+                <ReferenceLine y={60} stroke="#ffd166" strokeDasharray="4 4" label={{ value: '60 FPS', fill: '#ffd166', position: 'insideTopRight' }} />
+                <Bar dataKey="estimatedFps" fill="#36f2ff" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="metric-grid compact-metric-grid">
+            <div>
+              <span>Média estimada</span>
+              <strong>{calculateAverageFps(games)} FPS</strong>
+            </div>
+            <div>
+              <span>Jogos comparados</span>
+              <strong>{games.length}</strong>
+            </div>
+            <div>
+              <span>Abaixo de 60 FPS</span>
+              <strong>{countGamesBelowRecommended(games)}</strong>
+            </div>
+            <div>
+              <span>Resolução</span>
+              <strong>{result.targetResolution || 'N/D'}</strong>
+            </div>
+            <div>
+              <span>Qualidade</span>
+              <strong>{translateValue(result.qualityPreset)}</strong>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
+}
+
+function GameComparisonTooltip({ active, payload }) {
+  if (!active || !Array.isArray(payload) || payload.length === 0) {
+    return null;
+  }
+
+  const game = payload[0]?.payload || {};
+
+  return (
+    <div className="chart-tooltip">
+      <strong>{game.name}</strong>
+      <div className="chart-tooltip__row">
+        <span>FPS estimado</span>
+        <strong>{formatNumber(game.estimatedFps)} FPS</strong>
+      </div>
+      <div className="chart-tooltip__row">
+        <span>Nível</span>
+        <strong>{getPerformanceLevelFromFps(game.estimatedFps) || translateValue(game.performanceLevel)}</strong>
+      </div>
+      <div className="chart-tooltip__row">
+        <span>Atende recomendado</span>
+        <strong>{formatRecommendedStatus(game.estimatedFps)}</strong>
+      </div>
+    </div>
+  );
+}
+
+function formatGameChartEntry(game) {
+  const estimatedFps = parseEstimatedFps(game.estimatedFps);
+
+  return {
+    name: game.gameName || game.name || game.game || 'Jogo',
+    estimatedFps,
+    performanceLevel: getPerformanceLevelFromFps(estimatedFps) || game.performanceLevel
+  };
+}
+
+function calculateAverageFps(games) {
+  const validValues = games.map((game) => parseEstimatedFps(game.estimatedFps)).filter(Number.isFinite);
+
+  if (validValues.length === 0) {
+    return 'N/D';
+  }
+
+  return Math.round(validValues.reduce((total, fps) => total + fps, 0) / validValues.length);
+}
+
+function countGamesBelowRecommended(games) {
+  return games
+    .map((game) => parseEstimatedFps(game.estimatedFps))
+    .filter((fps) => Number.isFinite(fps) && fps < 60)
+    .length;
+}
+
+function getComparisonSummary(result, games) {
+  const averageFps = calculateAverageFps(games);
+  const belowRecommended = countGamesBelowRecommended(games);
+
+  if (averageFps === 'N/D') {
+    return result.summary || 'Comparação concluída, mas o FPS estimado não está disponível para os jogos selecionados.';
+  }
+
+  if (belowRecommended > 0) {
+    return `A configuração apresenta média estimada de ${averageFps} FPS, com ${belowRecommended} jogo(s) abaixo da referência visual de 60 FPS.`;
+  }
+
+  return `A configuração apresenta média estimada de ${averageFps} FPS e todos os jogos comparados ficam na referência recomendada de 60 FPS ou acima.`;
+}
+
+function parseEstimatedFps(value) {
+  const fps = Number(value);
+
+  return Number.isFinite(fps) ? fps : null;
+}
+
+function formatRecommendedStatus(estimatedFps) {
+  const fps = parseEstimatedFps(estimatedFps);
+
+  if (!Number.isFinite(fps)) {
+    return 'Indisponível';
+  }
+
+  return fps >= 60 ? 'Sim' : 'Não';
+}
+
+function getPerformanceLevelFromFps(estimatedFps) {
+  const fps = parseEstimatedFps(estimatedFps);
+
+  if (!Number.isFinite(fps)) {
+    return 'Indisponível';
+  }
+
+  if (fps >= 120) return 'Excelente';
+  if (fps >= 60) return 'Bom';
+  if (fps >= 30) return 'Regular';
+  return 'Baixo';
 }
 
 function getPerformanceErrorMessage(error, fallback) {

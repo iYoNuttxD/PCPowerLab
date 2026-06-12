@@ -12,6 +12,7 @@ const navItems = [
   { to: '/ready-builds', label: 'Builds prontas' },
   { to: '/saved-builds', label: 'Builds salvas' },
   { to: '/upgrades', label: 'Upgrades' },
+  { to: '/feedback', label: 'Feedback' },
   { to: '/admin', label: 'Admin' }
 ];
 

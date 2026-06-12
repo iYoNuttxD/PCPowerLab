@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Route, Zap } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
@@ -12,16 +13,21 @@ import { useBuildState } from '../hooks/useBuildState.jsx';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { upgradeRoadmapService } from '../services/upgradeRoadmapService.js';
 import { upgradeService } from '../services/upgradeService.js';
+import { usageProfilesService } from '../services/usageProfilesService.js';
 import { buildToApiPayload, hasCompleteBuild, normalizeBudgetPayload } from '../utils/buildHelpers.js';
-import { componentLabels, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
+import { componentLabels, componentTypes, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
+import { consumeSelectedUsageProfile, inferUsageSettingsFromProfile } from '../utils/usageProfileHelpers.js';
 import { validateBudgetAmount } from '../utils/validation.js';
 
 export default function UpgradeSuggestions() {
+  const navigate = useNavigate();
   const build = useBuildState();
   const request = useApiRequest();
   const [savedBuilds, setSavedBuilds] = useState([]);
+  const [usageProfiles, setUsageProfiles] = useState([]);
+  const [selectedUsageProfileId, setSelectedUsageProfileId] = useState('');
   const [buildId, setBuildId] = useState('');
   const [budget, setBudget] = useState(1500);
   const [usageType, setUsageType] = useState(build.usageType);
@@ -32,12 +38,41 @@ export default function UpgradeSuggestions() {
   const [roadmapResult, setRoadmapResult] = useState(null);
   const [roadmapLoading, setRoadmapLoading] = useState(false);
   const [roadmapError, setRoadmapError] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState('');
 
   useEffect(() => {
     savedBuildsService.list()
       .then((data) => setSavedBuilds(Array.isArray(data) ? data : []))
       .catch(() => setSavedBuilds([]));
+
+    usageProfilesService.list()
+      .then((data) => {
+        const profiles = Array.isArray(data) ? data : [];
+        setUsageProfiles(profiles);
+        const pendingProfileId = consumeSelectedUsageProfile();
+        if (pendingProfileId) {
+          applyUsageProfile(pendingProfileId, profiles);
+        }
+      })
+      .catch(() => setUsageProfiles([]));
   }, []);
+
+  function applyUsageProfile(profileId, profiles = usageProfiles) {
+    setSelectedUsageProfileId(profileId);
+    if (!profileId) {
+      return;
+    }
+
+    const profile = profiles.find((item) => item.id === profileId);
+    if (!profile) {
+      return;
+    }
+
+    const settings = inferUsageSettingsFromProfile(profile);
+    setUsageType(settings.usageType);
+    setPriority(settings.priority);
+    setFeedbackMessage(`Perfil "${profile.name}" aplicado ao plano de upgrades.`);
+  }
 
   async function suggest() {
     const budgetError = validateBudgetAmount(budget);
@@ -128,6 +163,7 @@ export default function UpgradeSuggestions() {
       </section>
 
       {request.error && <ErrorState message={request.error} />}
+      {feedbackMessage && <Alert type="success">{feedbackMessage}</Alert>}
 
       <Card>
         <h2>Origem da build</h2>
@@ -142,6 +178,15 @@ export default function UpgradeSuggestions() {
             ]}
           />
           <Input label="Orçamento para upgrade" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
+          <Select
+            label="Perfil personalizado"
+            value={selectedUsageProfileId}
+            onChange={(event) => applyUsageProfile(event.target.value)}
+            options={[
+              { value: '', label: 'Nenhum perfil personalizado' },
+              ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
+            ]}
+          />
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: priorityLabels[value] }))} />
         </div>
@@ -174,6 +219,21 @@ export default function UpgradeSuggestions() {
                 <div className="upgrade-card__meta">
                   <span>Custo estimado: <strong>{formatCurrency(suggestion.estimatedUpgradeCost)}</strong></span>
                   <small>Compatibilidade: {translateValue(suggestion.compatibilityStatus)}</small>
+                </div>
+                <div className="button-row">
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate('/feedback/new', {
+                      state: createUpgradeFeedbackState({
+                        suggestion,
+                        selectedComponents: build.selectedComponents,
+                        title: `Upgrade de ${componentLabels[suggestion.componentType] || translateValue(suggestion.componentType)}`,
+                        source: 'upgrade'
+                      })
+                    })}
+                  >
+                    Avaliar recomendação
+                  </Button>
                 </div>
               </Card>
             ))}
@@ -234,12 +294,24 @@ export default function UpgradeSuggestions() {
         </div>
       </Card>
 
-      {roadmapResult && <UpgradeRoadmap result={roadmapResult} />}
+      {roadmapResult && (
+        <UpgradeRoadmap
+          result={roadmapResult}
+          onFeedback={(step) => navigate('/feedback/new', {
+            state: createUpgradeFeedbackState({
+              suggestion: step,
+              selectedComponents: build.selectedComponents,
+              title: `Etapa ${step.step || step.orderRecommended || ''} do roadmap`.trim(),
+              source: 'upgrade'
+            })
+          })}
+        />
+      )}
     </div>
   );
 }
 
-function UpgradeRoadmap({ result }) {
+function UpgradeRoadmap({ result, onFeedback }) {
   const steps = Array.isArray(result.steps) ? result.steps : [];
 
   return (
@@ -312,6 +384,11 @@ function UpgradeRoadmap({ result }) {
                 {step.dependencyWarning && (
                   <Alert type="warning">{translateUpgradeText(step.dependencyWarning)}</Alert>
                 )}
+                <div className="button-row">
+                  <Button variant="ghost" onClick={() => onFeedback(step)}>
+                    Avaliar recomendação
+                  </Button>
+                </div>
               </div>
             </article>
           ))}
@@ -332,6 +409,62 @@ function translateUpgradeText(text = '') {
     .replace(/\blow\b/gi, 'baixo')
     .replace(/\bmedium\b/gi, 'médio')
     .replace(/\bhigh\b/gi, 'alto');
+}
+
+function createUpgradeFeedbackState({ suggestion, selectedComponents, title, source }) {
+  const nextComponents = createSuggestedBuildComponents(selectedComponents, suggestion);
+  const hasSuggestedBuild = hasCompleteBuild(nextComponents);
+
+  return {
+    mode: 'contextual',
+    recommendationType: 'upgrade-suggestion',
+    recommendationId: suggestion.suggestedComponent?.id || suggestion.componentType || `${suggestion.step || suggestion.orderRecommended || 'upgrade'}`,
+    recommendationTitle: title,
+    summary: translateUpgradeText(suggestion.reason),
+    currentComponent: suggestion.currentComponent,
+    suggestedComponent: suggestion.suggestedComponent,
+    totalEstimatedPrice: suggestion.estimatedUpgradeCost || suggestion.estimatedCost,
+    source,
+    ...(hasSuggestedBuild && {
+      build: nextComponents,
+      buildSnapshot: buildToApiPayload(nextComponents),
+      buildDetails: buildDetailsFromSelectedComponents(nextComponents)
+    })
+  };
+}
+
+function createSuggestedBuildComponents(selectedComponents = {}, suggestion = {}) {
+  const componentType = suggestion.componentType;
+
+  if (!componentType || !suggestion.suggestedComponent) {
+    return selectedComponents;
+  }
+
+  return {
+    ...selectedComponents,
+    [componentType]: suggestion.suggestedComponent
+  };
+}
+
+function buildDetailsFromSelectedComponents(selectedComponents = {}) {
+  return componentTypes.reduce((details, type) => {
+    const component = selectedComponents[type];
+
+    if (!component) {
+      return details;
+    }
+
+    return {
+      ...details,
+      [type]: {
+        id: component.id,
+        ...(component.name && { name: component.name }),
+        ...(component.category && { category: component.category }),
+        ...(component.brand && { brand: component.brand }),
+        ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+      }
+    };
+  }, {});
 }
 
 function getImpactTone(value) {

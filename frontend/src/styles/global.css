@@ -253,6 +253,97 @@ p:last-child {
   align-items: start;
 }
 
+.summary-section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.summary-section-heading {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.summary-section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.summary-overview {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.summary-overview-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.summary-overview-build,
+.summary-overview-side,
+.summary-analysis-stack {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.summary-overview-build > .panel-card {
+  height: 100%;
+}
+
+.summary-overview-side .panel-card,
+.summary-analysis-stack .panel-card {
+  min-width: 0;
+}
+
+.summary-score-full {
+  min-width: 0;
+}
+
+.summary-score-full .build-score-card {
+  overflow: visible;
+}
+
+.summary-score-full .score-overview {
+  grid-template-columns: minmax(150px, 0.28fr) minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+.summary-score-full .score-circle {
+  width: min(160px, 100%);
+  min-height: 150px;
+}
+
+.summary-score-full .score-circle strong {
+  font-size: clamp(2.7rem, 5vw, 4rem);
+}
+
+.summary-score-full .criteria-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: var(--space-3);
+}
+
+.build-status-card {
+  align-content: start;
+}
+
+.status-text {
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.status-text.success {
+  color: var(--green);
+}
+
+.status-text.warning {
+  color: var(--yellow);
+}
+
+.summary-action-row {
+  align-items: center;
+}
+
 .compact-cards {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
@@ -300,32 +391,34 @@ p:last-child {
 }
 
 .build-score-card {
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .score-overview {
   display: grid;
-  grid-template-columns: minmax(150px, 0.28fr) minmax(0, 1fr);
-  gap: var(--space-5);
+  grid-template-columns: minmax(118px, 0.22fr) minmax(0, 1fr);
+  gap: var(--space-4);
   align-items: center;
 }
 
 .score-circle {
   display: grid;
   place-items: center;
-  min-height: 150px;
+  width: min(124px, 100%);
+  min-height: 118px;
   aspect-ratio: 1;
   border: 1px solid rgba(54, 242, 255, 0.42);
   border-radius: 999px;
   background:
     radial-gradient(circle, rgba(54, 242, 255, 0.22), rgba(255, 79, 216, 0.08) 54%, rgba(9, 16, 33, 0.86));
-  box-shadow: 0 0 26px rgba(54, 242, 255, 0.18);
+  box-shadow: 0 0 18px rgba(54, 242, 255, 0.16);
   text-align: center;
+  justify-self: center;
 }
 
 .score-circle strong {
   display: block;
-  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
   line-height: 1;
 }
 
@@ -336,38 +429,42 @@ p:last-child {
 
 .criteria-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: var(--space-2);
 }
 
 .criterion-card {
   display: grid;
-  gap: var(--space-3);
-  padding: var(--space-4);
+  gap: var(--space-2);
+  padding: var(--space-3);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.045);
+  min-width: 0;
 }
 
 .criterion-card > div:first-child {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2);
   align-items: baseline;
 }
 
 .criterion-card span {
   color: var(--muted);
+  font-size: 0.86rem;
   font-weight: 700;
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 .criterion-card strong {
   color: var(--text);
-  font-size: 1.2rem;
+  font-size: 1.05rem;
 }
 
 .score-bar {
-  height: 8px;
+  height: 7px;
   overflow: hidden;
   border-radius: 999px;
   background: rgba(148, 163, 184, 0.18);
@@ -928,6 +1025,15 @@ p:last-child {
   font-size: 0.88rem;
 }
 
+.game-comparison-chart {
+  min-height: 410px;
+  padding: var(--space-3);
+  border: 1px solid rgba(54, 242, 255, 0.18);
+  border-radius: var(--radius);
+  background: rgba(3, 9, 22, 0.34);
+  overflow: visible;
+}
+
 .energy-note {
   color: var(--text);
 }
@@ -1075,13 +1181,15 @@ p:last-child {
 
 .performance-lab-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
-  align-items: start;
+  align-items: stretch;
+  width: 100%;
 }
 
 .performance-lab-card {
   align-content: start;
+  width: 100%;
 }
 
 .performance-lab-card h2 {
@@ -1096,9 +1204,9 @@ p:last-child {
 
 .game-checkbox-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-3);
-  max-height: 360px;
+  max-height: 320px;
   overflow: auto;
   padding-right: var(--space-1);
 }
@@ -1212,16 +1320,135 @@ p:last-child {
   gap: var(--space-4);
 }
 
+.usage-profiles-manager {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.85fr) minmax(480px, 1.35fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.recommendation-section {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.recommendation-section.is-highlighted {
+  border-color: rgba(57, 255, 136, 0.62);
+  background: rgba(57, 255, 136, 0.055);
+  box-shadow: 0 0 28px rgba(57, 255, 136, 0.16);
+}
+
 .weight-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: var(--space-3);
 }
 
-.cost-benefit-grid,
-.usage-profile-list {
+.cost-benefit-grid {
   display: grid;
   gap: var(--space-4);
+}
+
+.usage-profile-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+  max-height: 680px;
+  overflow: auto;
+  padding-right: var(--space-1);
+}
+
+.feedback-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.feedback-summary-card,
+.feedback-form-card,
+.feedback-actions-card {
+  align-content: start;
+}
+
+.feedback-summary-card .build-parts-list {
+  margin-top: var(--space-2);
+}
+
+.feedback-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-end;
+}
+
+.feedback-filter {
+  flex: 1;
+  min-width: 280px;
+}
+
+.feedback-toolbar-actions {
+  display: flex;
+  align-items: flex-end;
+}
+
+.feedback-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.feedback-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4);
+  border: 1px solid rgba(54, 242, 255, 0.16);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.feedback-list-item__content {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.feedback-list-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  max-width: 360px;
+}
+
+.feedback-list-item h3 {
+  margin: var(--space-2) 0;
+}
+
+.feedback-list-item small {
+  color: var(--muted);
+}
+
+.feedback-build-snapshot {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid rgba(54, 242, 255, 0.16);
+  border-radius: var(--radius);
+  background: rgba(8, 10, 28, 0.42);
+}
+
+.feedback-build-snapshot h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.compact-build-list {
+  gap: var(--space-2);
+}
+
+.compact-build-list li {
+  padding: 0.55rem 0.7rem;
 }
 
 .cost-benefit-card {
@@ -1258,16 +1485,48 @@ p:last-child {
 
 .usage-profile-card {
   display: grid;
-  gap: var(--space-4);
-  padding: var(--space-4);
+  gap: var(--space-3);
+  padding: var(--space-3);
   border: 1px solid rgba(255, 79, 216, 0.22);
   border-radius: var(--radius);
   background: rgba(255, 79, 216, 0.04);
 }
 
+.usage-profile-card.is-selected {
+  border-color: rgba(57, 255, 136, 0.45);
+  background: rgba(57, 255, 136, 0.055);
+}
+
 .weight-bars {
   display: grid;
   gap: var(--space-3);
+}
+
+.profile-weight-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.profile-weight-summary > div {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.profile-weight-summary span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.profile-weight-summary strong {
+  color: var(--text);
+  font-size: 0.8rem;
 }
 
 .weight-bars > div {
@@ -1303,15 +1562,16 @@ p:last-child {
 
 .profile-minimums {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-2);
 }
 
 .profile-minimums span {
-  padding: var(--space-3);
+  padding: var(--space-2);
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: calc(var(--radius) - 4px);
   color: var(--muted);
+  font-size: 0.84rem;
   background: rgba(255, 255, 255, 0.035);
 }
 
@@ -1604,8 +1864,51 @@ p:last-child {
 
   .dashboard-grid,
   .admin-grid,
-  .insights-grid {
+  .insights-grid,
+  .usage-profiles-manager,
+  .summary-overview-top,
+  .feedback-layout {
     grid-template-columns: 1fr;
+  }
+
+  .score-overview {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .summary-score-full .score-overview {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .score-circle {
+    width: 116px;
+    min-height: 116px;
+  }
+
+  .summary-score-full .score-circle {
+    width: 132px;
+    min-height: 132px;
+  }
+
+  .feedback-list-item {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-list-item__actions {
+    justify-content: flex-start;
+    max-width: none;
+  }
+
+  .feedback-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feedback-filter,
+  .feedback-toolbar-actions,
+  .feedback-toolbar-actions .btn {
+    width: 100%;
   }
 }
 
@@ -1644,6 +1947,24 @@ p:last-child {
 
   .purchase-store-grid {
     grid-template-columns: 1fr;
+  }
+
+  .criteria-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .criterion-card span {
+    white-space: normal;
+  }
+
+  .game-comparison-chart {
+    min-height: 340px;
+    padding: var(--space-2);
+  }
+
+  .game-checkbox-grid {
+    grid-template-columns: 1fr;
+    max-height: 300px;
   }
 
   .upgrade-pair {

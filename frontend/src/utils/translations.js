@@ -7,6 +7,11 @@ export const severityLabels = {
 };
 
 export const statusLabels = {
+  'Within Range': 'Dentro da faixa',
+  'within range': 'Dentro da faixa',
+  within_range: 'Dentro da faixa',
+  'within-range': 'Dentro da faixa',
+  withinRange: 'Dentro da faixa',
   within_budget: 'Dentro do orçamento',
   above_budget: 'Acima do orçamento',
   over_budget: 'Acima do orçamento',

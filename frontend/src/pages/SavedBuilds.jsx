@@ -15,7 +15,6 @@ import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { analysisHistoryService } from '../services/analysisHistoryService.js';
 import { notificationsService } from '../services/notificationsService.js';
-import { recommendationFeedbackService } from '../services/recommendationFeedbackService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { savedBuildVersionsService } from '../services/savedBuildVersionsService.js';
 import { sharingService } from '../services/sharingService.js';
@@ -35,15 +34,6 @@ const analysisTypeLabels = {
   'upgrade-suggestion': 'Sugestão de upgrade'
 };
 
-const recommendationTypeOptions = [
-  { value: 'budget-recommendation', label: 'Recomendação por orçamento' },
-  { value: 'build-recommendation', label: 'Build recomendada' },
-  { value: 'upgrade-suggestion', label: 'Sugestão de upgrade' },
-  { value: 'ready-build', label: 'Build pronta' },
-  { value: 'compatibility-fix', label: 'Correção de compatibilidade' },
-  { value: 'general', label: 'Geral' }
-];
-
 export default function SavedBuilds() {
   const navigate = useNavigate();
   const buildState = useBuildState();
@@ -59,14 +49,6 @@ export default function SavedBuilds() {
   const [detailModal, setDetailModal] = useState({ open: false, title: '', data: null });
   const [revalidationResult, setRevalidationResult] = useState(null);
   const [operationLoading, setOperationLoading] = useState('');
-  const [feedbackForm, setFeedbackForm] = useState({
-    recommendationType: 'general',
-    recommendationId: '',
-    rating: 5,
-    comment: '',
-    wouldFollowRecommendation: 'true'
-  });
-
   const componentMap = useMemo(() => Object.fromEntries(components.map((component) => [component.id, component])), [components]);
 
   async function loadBuilds() {
@@ -222,35 +204,6 @@ export default function SavedBuilds() {
     });
   }
 
-  async function submitRecommendationFeedback(event) {
-    event.preventDefault();
-    setFeedback('');
-
-    const rating = Number(feedbackForm.rating);
-    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
-      request.setError('Informe uma nota entre 1 e 5.');
-      return;
-    }
-
-    await request.run(async () => {
-      await recommendationFeedbackService.create({
-        recommendationType: feedbackForm.recommendationType,
-        ...(feedbackForm.recommendationId.trim() && { recommendationId: feedbackForm.recommendationId.trim() }),
-        rating,
-        ...(feedbackForm.comment.trim() && { comment: feedbackForm.comment.trim().slice(0, 500) }),
-        wouldFollowRecommendation: feedbackForm.wouldFollowRecommendation === 'true'
-      });
-      setFeedback('Avaliação de recomendação registrada.');
-      setFeedbackForm({
-        recommendationType: 'general',
-        recommendationId: '',
-        rating: 5,
-        comment: '',
-        wouldFollowRecommendation: 'true'
-      });
-    });
-  }
-
   return (
     <div className="page-stack">
       <section className="page-hero compact-hero">
@@ -312,6 +265,25 @@ export default function SavedBuilds() {
               <Button variant="ghost" onClick={() => createVersion(savedBuild)}>Criar versão atual</Button>
               <Button variant="ghost" onClick={() => openHistory(savedBuild)}><History size={18} /> Histórico</Button>
               <Button
+                variant="ghost"
+                onClick={() => navigate('/feedback/new', {
+                  state: {
+                    mode: 'contextual',
+                    recommendationType: 'general',
+                    recommendationId: savedBuild.id,
+                    recommendationTitle: 'Feedback sobre build salva',
+                    summary: savedBuild.description || 'Avalie esta configuração salva.',
+                    build: savedBuild.components,
+                    buildSnapshot: feedbackSnapshotFromSavedBuild(savedBuild),
+                    buildDetails: feedbackDetailsFromSavedBuild(savedBuild, componentMap),
+                    totalEstimatedPrice: savedBuild.totalEstimatedPrice,
+                    source: 'saved-builds'
+                  }
+                })}
+              >
+                <MessageSquare size={18} /> Enviar feedback
+              </Button>
+              <Button
                 variant="secondary"
                 loading={operationLoading === `revalidate-${savedBuild.id}`}
                 disabled={request.loading || operationLoading === `revalidate-${savedBuild.id}`}
@@ -339,64 +311,6 @@ export default function SavedBuilds() {
           </form>
         </Card>
       )}
-
-      <Card>
-        <div className="section-heading compact">
-          <div>
-            <span className="eyebrow">Avaliar recomendação</span>
-            <h2><MessageSquare size={22} aria-hidden="true" /> Feedback de recomendação</h2>
-            <p>Registre uma avaliação simples para futuras melhorias das recomendações.</p>
-          </div>
-        </div>
-        <form className="form-grid" onSubmit={submitRecommendationFeedback}>
-          <label className="field">
-            <span>Tipo de recomendação</span>
-            <select
-              value={feedbackForm.recommendationType}
-              onChange={(event) => setFeedbackForm((current) => ({ ...current, recommendationType: event.target.value }))}
-            >
-              {recommendationTypeOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
-          </label>
-          <Input
-            label="ID da recomendação (opcional)"
-            value={feedbackForm.recommendationId}
-            onChange={(event) => setFeedbackForm((current) => ({ ...current, recommendationId: event.target.value }))}
-          />
-          <Input
-            label="Nota"
-            type="number"
-            min="1"
-            max="5"
-            value={feedbackForm.rating}
-            onChange={(event) => setFeedbackForm((current) => ({ ...current, rating: event.target.value }))}
-          />
-          <label className="field">
-            <span>Seguiria a recomendação?</span>
-            <select
-              value={feedbackForm.wouldFollowRecommendation}
-              onChange={(event) => setFeedbackForm((current) => ({ ...current, wouldFollowRecommendation: event.target.value }))}
-            >
-              <option value="true">Sim</option>
-              <option value="false">Não</option>
-            </select>
-          </label>
-          <label className="field">
-            <span>Comentário</span>
-            <textarea
-              rows={3}
-              maxLength={500}
-              value={feedbackForm.comment}
-              onChange={(event) => setFeedbackForm((current) => ({ ...current, comment: event.target.value }))}
-            />
-          </label>
-          <div className="button-row">
-            <Button disabled={request.loading} type="submit">Enviar avaliação</Button>
-          </div>
-        </form>
-      </Card>
 
       <VersionsModal
         state={versionsModal}
@@ -544,6 +458,39 @@ function buildSnapshotFromSavedBuild(savedBuild) {
     totalEstimatedPrice: savedBuild.totalEstimatedPrice,
     updatedAt: savedBuild.updatedAt
   };
+}
+
+function feedbackSnapshotFromSavedBuild(savedBuild) {
+  return componentTypes.reduce((snapshot, type) => {
+    const componentId = savedBuild.components?.[`${type}Id`] || savedBuild.components?.[type];
+
+    return componentId
+      ? { ...snapshot, [`${type}Id`]: typeof componentId === 'string' ? componentId : componentId.id }
+      : snapshot;
+  }, {});
+}
+
+function feedbackDetailsFromSavedBuild(savedBuild, componentMap) {
+  return componentTypes.reduce((details, type) => {
+    const componentId = savedBuild.components?.[`${type}Id`] || savedBuild.components?.[type];
+    const id = typeof componentId === 'string' ? componentId : componentId?.id;
+    const component = componentMap[id] || componentId;
+
+    if (!component) {
+      return details;
+    }
+
+    return {
+      ...details,
+      [type]: {
+        id,
+        ...(component.name && { name: component.name }),
+        ...(component.category && { category: component.category }),
+        ...(component.brand && { brand: component.brand }),
+        ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+      }
+    };
+  }, {});
 }
 
 function getAnalysisTypeLabel(value) {

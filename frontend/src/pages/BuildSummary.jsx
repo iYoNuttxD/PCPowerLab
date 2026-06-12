@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
 import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
-import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -26,11 +25,12 @@ import { recommendationService } from '../services/recommendationService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { sharingService } from '../services/sharingService.js';
 import { buildToApiPayload, buildToPurchaseLinksPayload, hasCompleteBuild, normalizeBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
-import { componentLabels } from '../utils/componentLabels.js';
+import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
 
 export default function BuildSummary() {
+  const navigate = useNavigate();
   const build = useBuildState();
   const request = useApiRequest();
   const [games, setGames] = useState([]);
@@ -233,139 +233,217 @@ export default function BuildSummary() {
       </section>
 
       {request.error && <ErrorState message={request.error} />}
-      {feedback && <Alert type="success">{feedback}</Alert>}
 
-      <Card className="summary-actions-card">
-        <div className="form-grid">
-          <Select
-            label="Selecione um jogo para simular o desempenho"
-            value={build.game.gameId}
-            onChange={(event) => build.actions.setGame({ gameId: event.target.value })}
-            options={(games.length ? games : [{ id: 'game-cyberpunk-2077', name: 'Cyberpunk 2077' }]).map((game) => ({
-              value: game.id,
-              label: game.name
-            }))}
-          />
-          <Select
-            label="Resolução"
-            value={build.game.targetResolution}
-            onChange={(event) => build.actions.setGame({ targetResolution: event.target.value })}
-            options={['1080p', '1440p', '4k'].map((value) => ({ value, label: value }))}
-          />
-          <Select
-            label="Qualidade"
-            value={build.game.qualityPreset}
-            onChange={(event) => build.actions.setGame({ qualityPreset: event.target.value })}
-            options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: translateValue(value) }))}
-          />
-        </div>
-        <div className="button-row">
-          <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
-          <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar</Button>
-          <Button variant="ghost" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Compartilhar</Button>
-          <Link className="btn btn-secondary btn-md" to="/build">Voltar e editar</Link>
-          <Link className="btn btn-primary btn-md" to="/compare">Comparar build</Link>
-          <Link className="btn btn-ghost btn-md" to="/upgrades">Sugerir upgrade</Link>
-        </div>
-      </Card>
-
-      <Card className="summary-actions-card">
-        <div className="section-heading compact">
-          <div>
-            <h2>Análises avançadas</h2>
-            <p>Calcule a nota geral, veja correções automáticas e gere materiais técnicos para compartilhar.</p>
+      <SummarySection eyebrow="Painel da build" title="Visão geral">
+        <div className="summary-overview">
+          <div className="summary-overview-top">
+            <div className="summary-overview-build">
+              <BuildSummaryCard selectedComponents={build.selectedComponents} totalPrice={build.totalPrice} />
+            </div>
+            <div className="summary-overview-side">
+              <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
+              <BuildStatusCard
+                incompatible={isIncompatible}
+                loading={loadingAction === 'fixes'}
+                disabled={Boolean(loadingAction)}
+                onFixes={loadFixSuggestions}
+              />
+            </div>
           </div>
-          <Badge tone="cyan">Sprint analítica</Badge>
+          <div className="summary-score-full">
+            <BuildScorePanel
+              score={buildScore}
+              onCalculate={calculateBuildScore}
+              loading={loadingAction === 'score'}
+              disabled={Boolean(loadingAction)}
+            />
+          </div>
         </div>
-        {analyticsError && <Alert type="error">{analyticsError}</Alert>}
-        <div className="button-row">
-          <Button
-            variant="secondary"
-            disabled={Boolean(loadingAction)}
-            loading={loadingAction === 'score'}
-            onClick={calculateBuildScore}
-          >
-            <Sparkles size={18} /> Calcular nota da build
-          </Button>
-          <Button
-            variant={isIncompatible ? 'secondary' : 'ghost'}
-            disabled={Boolean(loadingAction) || !isIncompatible}
-            loading={loadingAction === 'fixes'}
-            onClick={loadFixSuggestions}
-          >
-            <Wrench size={18} /> Ver sugestões de correção
-          </Button>
-          <Button
-            variant="ghost"
-            disabled={Boolean(loadingAction)}
-            loading={loadingAction === 'report'}
-            onClick={generateTechnicalReport}
-          >
-            <FileText size={18} /> Gerar relatório técnico
-          </Button>
-          <Button
-            variant="ghost"
-            disabled={Boolean(loadingAction)}
-            loading={loadingAction === 'export'}
-            onClick={exportBuildJson}
-          >
-            <FileJson size={18} /> Exportar JSON
-          </Button>
+      </SummarySection>
+
+      <SummarySection eyebrow="Próximos passos" title="Ações">
+        <Card className="summary-actions-card">
+          <div className="button-row summary-action-row">
+            <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
+            <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar</Button>
+            <Button variant="secondary" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Compartilhar</Button>
+            <Link className="btn btn-ghost btn-md" to="/build">Voltar e editar</Link>
+            <Link className="btn btn-secondary btn-md" to="/compare">Comparar build</Link>
+            <Link className="btn btn-ghost btn-md" to="/upgrades">Sugerir upgrade</Link>
+          </div>
+          {feedback && <Alert type="success">{feedback}</Alert>}
+          {request.loading && <LoadingSpinner />}
+        </Card>
+      </SummarySection>
+
+      <SummarySection eyebrow="Diagnóstico" title="Ferramentas técnicas">
+        <Card className="summary-actions-card">
+          <div className="section-heading compact">
+            <div>
+              <h3>Relatórios e correções</h3>
+              <p>Use ferramentas extras para consultar correções automáticas, gerar relatório técnico e exportar dados.</p>
+            </div>
+            <Badge tone="cyan">Sprint analítica</Badge>
+          </div>
+          {analyticsError && <Alert type="error">{analyticsError}</Alert>}
+          <div className="button-row">
+            <Button
+              variant={isIncompatible ? 'secondary' : 'ghost'}
+              disabled={Boolean(loadingAction) || !isIncompatible}
+              loading={loadingAction === 'fixes'}
+              onClick={loadFixSuggestions}
+            >
+              <Wrench size={18} /> Ver sugestões de correção
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={Boolean(loadingAction)}
+              loading={loadingAction === 'report'}
+              onClick={generateTechnicalReport}
+            >
+              <FileText size={18} /> Gerar relatório técnico
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={Boolean(loadingAction)}
+              loading={loadingAction === 'export'}
+              onClick={exportBuildJson}
+            >
+              <FileJson size={18} /> Exportar JSON
+            </Button>
+          </div>
+          {!isIncompatible && (
+            <p className="hint-text">Sugestões de correção ficam disponíveis quando a análise de compatibilidade identifica incompatibilidades.</p>
+          )}
+        </Card>
+      </SummarySection>
+
+      <SummarySection eyebrow="Compatibilidade e desempenho" title="Análises da configuração">
+        <div className="summary-analysis-stack">
+          {fixSuggestions && (
+            <FixSuggestionsPanel
+              suggestions={fixSuggestions}
+              onApply={applyFixSuggestion}
+              onFeedback={(suggestion, index) => {
+                const suggestedComponent = suggestion.suggestedComponent
+                  || suggestion.recommendedComponent
+                  || suggestion.replacementComponent
+                  || suggestion.componentSuggestion;
+                navigate('/feedback/new', {
+                  state: {
+                    mode: 'contextual',
+                    recommendationType: 'compatibility-fix',
+                    recommendationId: suggestedComponent?.id || suggestion.type || `compatibility-fix-${index + 1}`,
+                    recommendationTitle: suggestedComponent?.name || 'Correção de compatibilidade',
+                    summary: suggestion.reason || suggestion.message || suggestion.summary,
+                    problem: suggestion.problem || suggestion.issue || suggestion.type,
+                    currentComponent: suggestion.currentComponent || suggestion.current || suggestion.componentCurrent,
+                    suggestedComponent,
+                    ...(hasCompleteBuild(build.selectedComponents) && {
+                      buildSnapshot: buildToApiPayload(build.selectedComponents),
+                      buildDetails: buildDetailsFromSelectedComponents(build.selectedComponents)
+                    }),
+                    source: 'compatibility-fix'
+                  }
+                });
+              }}
+            />
+          )}
+          <BottleneckPanel result={build.summary?.bottlenecks || build.bottlenecks} />
         </div>
-        {!isIncompatible && (
-          <p className="hint-text">Sugestões de correção ficam disponíveis quando a análise de compatibilidade identifica incompatibilidades.</p>
+      </SummarySection>
+
+      <SummarySection eyebrow="Jogos" title="Simulação em jogos">
+        <Card className="summary-actions-card">
+          <div className="section-heading compact">
+            <div>
+              <h3>Desempenho esperado</h3>
+              <p>Escolha o jogo, resolução e qualidade para atualizar a estimativa de FPS.</p>
+            </div>
+          </div>
+          <div className="form-grid">
+            <Select
+              label="Selecione um jogo para simular o desempenho"
+              value={build.game.gameId}
+              onChange={(event) => build.actions.setGame({ gameId: event.target.value })}
+              options={(games.length ? games : [{ id: 'game-cyberpunk-2077', name: 'Cyberpunk 2077' }]).map((game) => ({
+                value: game.id,
+                label: game.name
+              }))}
+            />
+            <Select
+              label="Resolução"
+              value={build.game.targetResolution}
+              onChange={(event) => build.actions.setGame({ targetResolution: event.target.value })}
+              options={['1080p', '1440p', '4k'].map((value) => ({ value, label: value }))}
+            />
+            <Select
+              label="Qualidade"
+              value={build.game.qualityPreset}
+              onChange={(event) => build.actions.setGame({ qualityPreset: event.target.value })}
+              options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: translateValue(value) }))}
+            />
+          </div>
+          <div className="button-row">
+            <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>
+              Simular desempenho
+            </Button>
+          </div>
+        </Card>
+
+        {build.gamePerformance?.status === 'unavailable' && (
+          <Card>
+            <h3>Simulação indisponível</h3>
+            <p>{build.gamePerformance.message}</p>
+          </Card>
         )}
-      </Card>
 
-      {request.loading && <LoadingSpinner />}
-      {share && (
-        <Alert type="info" title="Compartilhamento">
-          <p>ID: {share.shareId} • URL: {share.shareUrl}</p>
-          <Button variant="ghost" onClick={copyShareLink}><Copy size={18} /> Copiar link</Button>
-        </Alert>
-      )}
+        {build.gamePerformance && build.gamePerformance.status !== 'unavailable' && (
+          <Card className="game-summary-card">
+            <div className="section-heading compact">
+              <div>
+                <h3>{build.gamePerformance.game || 'Jogo simulado'}</h3>
+                <p>{build.gamePerformance.summary}</p>
+              </div>
+              <Badge tone="green">{translateValue(build.gamePerformance.performanceLevel)}</Badge>
+            </div>
+            <div className="metric-grid">
+              <div><span>FPS estimado</span><strong>{build.gamePerformance.estimatedFps}</strong></div>
+              <div><span>Nível</span><strong>{translateValue(build.gamePerformance.performanceLevel)}</strong></div>
+            </div>
+          </Card>
+        )}
 
-      <div className="dashboard-grid">
-        <BuildSummaryCard selectedComponents={build.selectedComponents} totalPrice={build.totalPrice} />
-        <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
-      </div>
+        {build.summary && (
+          <Card>
+            <h3>Recomendação final</h3>
+            <p>{build.summary.summary}</p>
+            <strong>{build.summary.finalRecommendation}</strong>
+          </Card>
+        )}
+      </SummarySection>
 
-      <BuildScorePanel score={buildScore} />
-
-      <CompatibilityStatus result={build.summary?.compatibility ? { ...build.summary.compatibility, alerts: build.summary.compatibility.alerts } : build.alerts} />
-      {fixSuggestions && (
-        <FixSuggestionsPanel suggestions={fixSuggestions} onApply={applyFixSuggestion} />
-      )}
-      <BottleneckPanel result={build.summary?.bottlenecks || build.bottlenecks} />
-
-      {build.gamePerformance?.status === 'unavailable' && (
-        <Card>
-          <h2>Simulação em jogos indisponível</h2>
-          <p>{build.gamePerformance.message}</p>
-        </Card>
-      )}
-
-      {build.gamePerformance && build.gamePerformance.status !== 'unavailable' && (
-        <Card>
-          <h2>Simulação em jogos</h2>
-          <div className="metric-grid">
-            <div><span>Jogo</span><strong>{build.gamePerformance.game}</strong></div>
-            <div><span>FPS estimado</span><strong>{build.gamePerformance.estimatedFps}</strong></div>
-            <div><span>Nível</span><strong>{translateValue(build.gamePerformance.performanceLevel)}</strong></div>
+      <SummarySection eyebrow="Saída" title="Compartilhamento e exportação">
+        <Card className="summary-actions-card">
+          <div className="button-row">
+            <Button variant="secondary" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Gerar link de compartilhamento</Button>
+            <Button variant="ghost" disabled={Boolean(loadingAction)} loading={loadingAction === 'report'} onClick={generateTechnicalReport}><FileText size={18} /> Gerar relatório técnico</Button>
+            <Button variant="ghost" disabled={Boolean(loadingAction)} loading={loadingAction === 'export'} onClick={exportBuildJson}><FileJson size={18} /> Exportar JSON</Button>
           </div>
-          <p>{build.gamePerformance.summary}</p>
+          {share ? (
+            <Alert type="info" title="Link de compartilhamento">
+              <p>ID: {share.shareId} • URL: {share.shareUrl}</p>
+              <Button variant="ghost" onClick={copyShareLink}><Copy size={18} /> Copiar link</Button>
+            </Alert>
+          ) : (
+            <p className="hint-text">Gere um link para compartilhar esta configuração com outras pessoas.</p>
+          )}
         </Card>
-      )}
+      </SummarySection>
 
-      {build.summary && (
-        <Card>
-          <h2>Recomendação final</h2>
-          <p>{build.summary.summary}</p>
-          <strong>{build.summary.finalRecommendation}</strong>
-        </Card>
-      )}
-
-      <PurchaseLinksList linksBySlot={linksByBuild} selectedComponents={build.selectedComponents} />
+      <SummarySection eyebrow="Compra" title="Links de compra">
+        <PurchaseLinksList linksBySlot={linksByBuild} selectedComponents={build.selectedComponents} />
+      </SummarySection>
 
       <Modal open={reportOpen} title="Relatório técnico da configuração" onClose={() => setReportOpen(false)}>
         <TechnicalReportView report={technicalReport} />
@@ -384,9 +462,60 @@ export default function BuildSummary() {
   );
 }
 
-function BuildScorePanel({ score }) {
+function SummarySection({ eyebrow, title, children }) {
+  return (
+    <section className="summary-section">
+      <div className="summary-section-heading">
+        <span className="eyebrow">{eyebrow}</span>
+        <h2>{title}</h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function BuildStatusCard({ incompatible, loading = false, disabled = false, onFixes }) {
+  return (
+    <Card className="build-status-card">
+      <div className="section-heading compact">
+        <div>
+          <h3>Status da build</h3>
+          <p>{incompatible ? 'Há incompatibilidades técnicas que precisam de atenção.' : 'Nenhuma incompatibilidade crítica.'}</p>
+        </div>
+        <Badge tone={incompatible ? 'yellow' : 'green'}>
+          {incompatible ? 'Atenção' : 'OK'}
+        </Badge>
+      </div>
+      <strong className={incompatible ? 'status-text warning' : 'status-text success'}>
+        {incompatible ? 'Incompatível' : 'Compatível'}
+      </strong>
+      {incompatible && (
+        <div className="button-row">
+          <Button variant="secondary" disabled={disabled} loading={loading} onClick={onFixes}>
+            <Wrench size={18} /> Ver correções
+          </Button>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function BuildScorePanel({ score, onCalculate, loading = false, disabled = false }) {
   if (!score) {
-    return null;
+    return (
+      <Card className="build-score-card build-score-card--empty">
+        <div className="section-heading compact">
+          <div>
+            <h3>Nota geral</h3>
+            <p>Calcule uma nota consolidada para compatibilidade, desempenho, orçamento e custo-benefício.</p>
+          </div>
+          <Badge tone="cyan">0-100</Badge>
+        </div>
+        <Button variant="secondary" disabled={disabled} loading={loading} onClick={onCalculate}>
+          <Sparkles size={18} /> Calcular nota da build
+        </Button>
+      </Card>
+    );
   }
 
   const criteria = score.criteria || {};
@@ -402,7 +531,7 @@ function BuildScorePanel({ score }) {
     <Card className="build-score-card">
       <div className="section-heading compact">
         <div>
-          <h2>Nota geral</h2>
+          <h3>Nota geral</h3>
           <p>{score.summary || 'Nota consolidada da configuração atual.'}</p>
         </div>
         <Badge tone={getScoreTone(score.overallScore)}>{score.classification || classifyScore(score.overallScore)}</Badge>
@@ -426,11 +555,16 @@ function BuildScorePanel({ score }) {
           ))}
         </div>
       </div>
+      <div className="button-row">
+        <Button variant="ghost" disabled={disabled} loading={loading} onClick={onCalculate}>
+          <Sparkles size={18} /> Recalcular nota
+        </Button>
+      </div>
     </Card>
   );
 }
 
-function FixSuggestionsPanel({ suggestions, onApply }) {
+function FixSuggestionsPanel({ suggestions, onApply, onFeedback }) {
   const items = normalizeSuggestionItems(suggestions);
 
   return (
@@ -480,9 +614,14 @@ function FixSuggestionsPanel({ suggestions, onApply }) {
                   </div>
                 </div>
                 {suggestedComponent?.id && (
-                  <Button variant="secondary" onClick={() => onApply(suggestion)}>
-                    Aplicar sugestão
-                  </Button>
+                  <div className="button-row">
+                    <Button variant="secondary" onClick={() => onApply(suggestion)}>
+                      Aplicar sugestão
+                    </Button>
+                    <Button variant="ghost" onClick={() => onFeedback(suggestion, index)}>
+                      Avaliar recomendação
+                    </Button>
+                  </div>
                 )}
               </article>
             );
@@ -600,6 +739,27 @@ function formatScore(value) {
 
 function clampScore(value) {
   return Math.max(0, Math.min(100, formatScore(value)));
+}
+
+function buildDetailsFromSelectedComponents(selectedComponents = {}) {
+  return componentTypes.reduce((details, type) => {
+    const component = selectedComponents[type];
+
+    if (!component) {
+      return details;
+    }
+
+    return {
+      ...details,
+      [type]: {
+        id: component.id,
+        ...(component.name && { name: component.name }),
+        ...(component.category && { category: component.category }),
+        ...(component.brand && { brand: component.brand }),
+        ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+      }
+    };
+  }, {});
 }
 
 function getScoreTone(value) {
