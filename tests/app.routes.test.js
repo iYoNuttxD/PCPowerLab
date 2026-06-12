@@ -12,6 +12,7 @@ import { professionalSoftwareRoutes } from '../src/routes/professionalSoftware.r
 import { analysisHistoryRoutes } from '../src/routes/analysisHistory.routes.js';
 import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
 import { usageProfilesRoutes } from '../src/routes/usageProfiles.routes.js';
+import { recommendationFeedbackRoutes } from '../src/routes/recommendationFeedback.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -93,6 +94,15 @@ test('deve expor CRUD de perfis personalizados de uso', () => {
   assert.equal(usageProfilePaths.includes('POST /'), true);
   assert.equal(usageProfilePaths.includes('PUT /:id'), true);
   assert.equal(usageProfilePaths.includes('DELETE /:id'), true);
+});
+
+test('deve expor endpoints de avaliacoes de recomendacoes', () => {
+  const recommendationFeedbackPaths = getRoutePaths(recommendationFeedbackRoutes);
+
+  assert.equal(recommendationFeedbackPaths.includes('GET /'), true);
+  assert.equal(recommendationFeedbackPaths.includes('GET /:id'), true);
+  assert.equal(recommendationFeedbackPaths.includes('POST /'), true);
+  assert.equal(recommendationFeedbackPaths.includes('DELETE /:id'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
