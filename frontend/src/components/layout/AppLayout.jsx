@@ -6,7 +6,10 @@ const navItems = [
   { to: '/components', label: 'Componentes' },
   { to: '/build', label: 'Montar PC' },
   { to: '/summary', label: 'Resumo' },
+  { to: '/performance-lab', label: 'Performance' },
   { to: '/compare', label: 'Comparar' },
+  { to: '/insights', label: 'Insights' },
+  { to: '/ready-builds', label: 'Builds prontas' },
   { to: '/saved-builds', label: 'Builds salvas' },
   { to: '/upgrades', label: 'Upgrades' },
   { to: '/admin', label: 'Admin' }

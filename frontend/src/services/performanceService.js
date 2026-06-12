@@ -8,5 +8,7 @@ export const performanceService = {
   deleteParameter: (componentId) => api.delete(`/performance-parameters/${encodeURIComponent(componentId)}`),
   analyzeBottlenecks: (build) => api.post('/bottlenecks/analyze', build),
   listGames: () => api.get('/performance/games'),
-  simulateGame: (payload) => api.post('/performance/simulate-game', payload)
+  simulateGame: (payload) => api.post('/performance/simulate-game', payload),
+  compareGames: (payload) => api.post('/performance/compare-games', payload),
+  simulateSoftware: (payload) => api.post('/performance/simulate-software', payload)
 };

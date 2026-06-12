@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Zap } from 'lucide-react';
+import { Route, Zap } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
+import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
 import Card from '../components/ui/Card.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
@@ -9,6 +10,7 @@ import Select from '../components/ui/Select.jsx';
 import { useApiRequest } from '../hooks/useApiRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { savedBuildsService } from '../services/savedBuildsService.js';
+import { upgradeRoadmapService } from '../services/upgradeRoadmapService.js';
 import { upgradeService } from '../services/upgradeService.js';
 import { buildToApiPayload, hasCompleteBuild, normalizeBudgetPayload } from '../utils/buildHelpers.js';
 import { componentLabels, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
@@ -25,6 +27,11 @@ export default function UpgradeSuggestions() {
   const [usageType, setUsageType] = useState(build.usageType);
   const [priority, setPriority] = useState('cost-benefit');
   const [result, setResult] = useState(null);
+  const [roadmapBudget, setRoadmapBudget] = useState(2500);
+  const [maxSteps, setMaxSteps] = useState(3);
+  const [roadmapResult, setRoadmapResult] = useState(null);
+  const [roadmapLoading, setRoadmapLoading] = useState(false);
+  const [roadmapError, setRoadmapError] = useState('');
 
   useEffect(() => {
     savedBuildsService.list()
@@ -58,6 +65,58 @@ export default function UpgradeSuggestions() {
       const data = await upgradeService.suggest(payload);
       setResult(data);
     });
+  }
+
+  function resolveBuildPayload() {
+    if (buildId) {
+      const savedBuild = savedBuilds.find((item) => item.id === buildId);
+      return savedBuild?.components || null;
+    }
+
+    if (hasCompleteBuild(build.selectedComponents)) {
+      return buildToApiPayload(build.selectedComponents);
+    }
+
+    return null;
+  }
+
+  async function generateRoadmap() {
+    const budgetError = validateBudgetAmount(roadmapBudget);
+    if (budgetError) {
+      setRoadmapError(budgetError);
+      return;
+    }
+
+    const normalizedMaxSteps = Number(maxSteps);
+    if (!Number.isFinite(normalizedMaxSteps) || normalizedMaxSteps <= 0) {
+      setRoadmapError('Informe uma quantidade de etapas maior que zero.');
+      return;
+    }
+
+    const selectedBuild = resolveBuildPayload();
+    if (!selectedBuild) {
+      setRoadmapError('Escolha uma build salva ou monte uma build completa antes de gerar o plano.');
+      return;
+    }
+
+    setRoadmapError('');
+    setRoadmapLoading(true);
+
+    try {
+      const data = await upgradeRoadmapService.generate({
+        build: selectedBuild,
+        totalBudget: Number(roadmapBudget),
+        maxSteps: normalizedMaxSteps,
+        usageType,
+        priority
+      });
+      setRoadmapResult(data);
+    } catch (error) {
+      setRoadmapError(error.message || 'Não foi possível gerar o plano de upgrades.');
+      setRoadmapResult(null);
+    } finally {
+      setRoadmapLoading(false);
+    }
   }
 
   return (
@@ -121,7 +180,144 @@ export default function UpgradeSuggestions() {
           </div>
         </>
       )}
+
+      <Card>
+        <div className="section-heading compact">
+          <div>
+            <span className="eyebrow">Plano em etapas</span>
+            <h2><Route size={22} aria-hidden="true" /> Plano de upgrades em etapas</h2>
+            <p>Monte uma sequência de trocas compatíveis respeitando orçamento total, tipo de uso e prioridade.</p>
+          </div>
+          <Badge tone="cyan">Roadmap</Badge>
+        </div>
+
+        {roadmapError && <Alert type="error">{roadmapError}</Alert>}
+
+        <div className="form-grid">
+          <Input
+            label="Orçamento total"
+            type="number"
+            min="1"
+            value={roadmapBudget}
+            onChange={(event) => setRoadmapBudget(event.target.value)}
+            error={validateBudgetAmount(roadmapBudget)}
+          />
+          <Input
+            label="Número máximo de etapas"
+            type="number"
+            min="1"
+            max="5"
+            value={maxSteps}
+            onChange={(event) => setMaxSteps(event.target.value)}
+          />
+          <Select
+            label="Tipo de uso"
+            value={usageType}
+            onChange={(event) => setUsageType(event.target.value)}
+            options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))}
+          />
+          <Select
+            label="Prioridade"
+            value={priority}
+            onChange={(event) => setPriority(event.target.value)}
+            options={['cost-benefit', 'performance', 'balanced', 'lowest-price', 'upgrade-ready'].map((value) => ({
+              value,
+              label: priorityLabels[value]
+            }))}
+          />
+        </div>
+
+        <div className="button-row">
+          <Button disabled={roadmapLoading} loading={roadmapLoading} onClick={generateRoadmap}>
+            <Route size={18} /> Gerar plano de upgrades
+          </Button>
+        </div>
+      </Card>
+
+      {roadmapResult && <UpgradeRoadmap result={roadmapResult} />}
     </div>
+  );
+}
+
+function UpgradeRoadmap({ result }) {
+  const steps = Array.isArray(result.steps) ? result.steps : [];
+
+  return (
+    <Card className="upgrade-roadmap-card">
+      <div className="section-heading compact">
+        <div>
+          <h2>Roadmap de upgrades</h2>
+          <p>{translateUpgradeText(result.summary || 'Plano de upgrades gerado para a configuração atual.')}</p>
+        </div>
+        <Badge tone={steps.length ? 'green' : 'yellow'}>{steps.length} etapa(s)</Badge>
+      </div>
+
+      <div className="metric-grid">
+        <div>
+          <span>Orçamento total</span>
+          <strong>{formatCurrency(result.totalBudget)}</strong>
+        </div>
+        <div>
+          <span>Custo estimado</span>
+          <strong>{formatCurrency(result.totalEstimatedCost)}</strong>
+        </div>
+        <div>
+          <span>Saldo estimado</span>
+          <strong>{formatCurrency(result.remainingBudget)}</strong>
+        </div>
+      </div>
+
+      {steps.length === 0 ? (
+        <Alert type="warning">
+          Não foi encontrado um plano de upgrade dentro do orçamento informado.
+        </Alert>
+      ) : (
+        <div className="upgrade-roadmap-timeline">
+          {steps.map((step) => (
+            <article key={`${step.step}-${step.componentType}-${step.suggestedComponent?.id}`} className="upgrade-roadmap-step">
+              <div className="roadmap-step-marker">
+                <span>{step.step || step.orderRecommended}</span>
+              </div>
+              <div className="roadmap-step-content">
+                <div className="section-heading compact">
+                  <div>
+                    <span className="eyebrow">{componentLabels[step.componentType] || translateValue(step.componentType)}</span>
+                    <h3>Trocar {componentLabels[step.componentType] || translateValue(step.componentType)}</h3>
+                  </div>
+                  <div className="button-row">
+                    <Badge tone={getImpactTone(step.expectedImpact)}>{translateValue(step.expectedImpact)}</Badge>
+                    <Badge tone={getImpactTone(step.priority)}>{translateValue(step.priority)}</Badge>
+                  </div>
+                </div>
+
+                <p>{translateUpgradeText(step.reason)}</p>
+
+                <div className="upgrade-pair">
+                  <div className="upgrade-pair__item">
+                    <span className="upgrade-pair__label">Atual</span>
+                    <strong className="upgrade-pair__value">{step.currentComponent?.name || 'Não informado'}</strong>
+                  </div>
+                  <div className="upgrade-pair__item">
+                    <span className="upgrade-pair__label">Sugerido</span>
+                    <strong className="upgrade-pair__value">{step.suggestedComponent?.name || 'Não informado'}</strong>
+                  </div>
+                </div>
+
+                <div className="roadmap-step-meta">
+                  <span>Custo da etapa: <strong>{formatCurrency(step.estimatedCost)}</strong></span>
+                  <span>Custo acumulado: <strong>{formatCurrency(step.cumulativeCost)}</strong></span>
+                  <span>Compatibilidade após troca: <strong>{formatCompatibility(step.compatibilityAfterStep)}</strong></span>
+                </div>
+
+                {step.dependencyWarning && (
+                  <Alert type="warning">{translateUpgradeText(step.dependencyWarning)}</Alert>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </Card>
   );
 }
 
@@ -136,4 +332,19 @@ function translateUpgradeText(text = '') {
     .replace(/\blow\b/gi, 'baixo')
     .replace(/\bmedium\b/gi, 'médio')
     .replace(/\bhigh\b/gi, 'alto');
+}
+
+function getImpactTone(value) {
+  if (value === 'high') return 'green';
+  if (value === 'medium') return 'yellow';
+  if (value === 'low') return 'cyan';
+  return 'cyan';
+}
+
+function formatCompatibility(compatibility) {
+  if (!compatibility || compatibility.available === false) {
+    return 'Não disponível';
+  }
+
+  return compatibility.compatible ? 'Compatível' : 'Incompatível';
 }

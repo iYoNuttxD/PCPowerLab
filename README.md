@@ -91,6 +91,14 @@ cd frontend
 npm run build
 ```
 
+Telas principais do frontend:
+
+- `/components`, `/build`, `/summary`, `/compare`, `/saved-builds`, `/upgrades`.
+- `/ready-builds` para builds prontas e recomendação por faixa de orçamento.
+- `/performance-lab` para softwares profissionais e comparação entre jogos.
+- `/insights` para ranking de custo-benefício e perfis personalizados.
+- `/admin`, `/shared/:shareId` e `/about`.
+
 ## Testes e lint
 
 ```bash

@@ -8,6 +8,9 @@ import BuildWizard from './pages/BuildWizard.jsx';
 import BuildSummary from './pages/BuildSummary.jsx';
 import CompareBuilds from './pages/CompareBuilds.jsx';
 import SavedBuilds from './pages/SavedBuilds.jsx';
+import ReadyBuilds from './pages/ReadyBuilds.jsx';
+import PerformanceLab from './pages/PerformanceLab.jsx';
+import Insights from './pages/Insights.jsx';
 import UpgradeSuggestions from './pages/UpgradeSuggestions.jsx';
 import SharedBuild from './pages/SharedBuild.jsx';
 import Admin from './pages/Admin.jsx';
@@ -23,7 +26,10 @@ export default function App() {
           <Route path="/components" element={<ComponentsCatalog />} />
           <Route path="/build" element={<BuildWizard />} />
           <Route path="/summary" element={<BuildSummary />} />
+          <Route path="/performance-lab" element={<PerformanceLab />} />
           <Route path="/compare" element={<CompareBuilds />} />
+          <Route path="/insights" element={<Insights />} />
+          <Route path="/ready-builds" element={<ReadyBuilds />} />
           <Route path="/saved-builds" element={<SavedBuilds />} />
           <Route path="/upgrades" element={<UpgradeSuggestions />} />
           <Route path="/shared/:shareId" element={<SharedBuild />} />
