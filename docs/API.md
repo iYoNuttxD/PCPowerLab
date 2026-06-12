@@ -1055,6 +1055,76 @@ Resposta resumida:
 }
 ```
 
+## Builds salvas e notificacoes
+
+### Revalidar todas as builds salvas
+
+```http
+POST /api/v1/saved-builds/revalidate
+```
+
+### Revalidar uma build salva
+
+```http
+POST /api/v1/saved-builds/:id/revalidate
+```
+
+Resposta resumida:
+
+```json
+{
+  "success": true,
+  "data": {
+    "checkedBuilds": 2,
+    "notificationsCreated": 1,
+    "results": [
+      {
+        "buildId": "build-001",
+        "status": "compatible",
+        "notifications": []
+      },
+      {
+        "buildId": "build-002",
+        "status": "incompatible",
+        "notifications": [
+          {
+            "id": "notification-001",
+            "buildId": "build-002",
+            "type": "compatibility_changed",
+            "severity": "high",
+            "message": "A configuracao salva passou a apresentar incompatibilidade entre processador e placa-mae.",
+            "read": false,
+            "createdAt": "2026-05-22T12:00:00.000Z"
+          }
+        ]
+      }
+    ]
+  },
+  "message": "Revalidacao de configuracoes salvas concluida."
+}
+```
+
+A revalidacao reaproveita a verificacao de compatibilidade e os alertas existentes. Notificacoes duplicadas para o mesmo problema da mesma build sao reaproveitadas em vez de recriadas.
+
+### Listar notificacoes
+
+```http
+GET /api/v1/notifications
+GET /api/v1/notifications?buildId=build-001
+```
+
+### Marcar notificacao como lida
+
+```http
+PATCH /api/v1/notifications/:id/read
+```
+
+### Remover notificacao
+
+```http
+DELETE /api/v1/notifications/:id
+```
+
 ## Explicacoes
 
 ### Gerar explicacao simples

@@ -391,8 +391,16 @@ GET    /api/v1/saved-builds/:id
 POST   /api/v1/saved-builds
 PUT    /api/v1/saved-builds/:id
 PATCH  /api/v1/saved-builds/:id
+POST   /api/v1/saved-builds/revalidate
+POST   /api/v1/saved-builds/:id/revalidate
 DELETE /api/v1/saved-builds/:id
+GET    /api/v1/notifications
+GET    /api/v1/notifications?buildId=build-001
+PATCH  /api/v1/notifications/:id/read
+DELETE /api/v1/notifications/:id
 ```
+
+As rotas de revalidação verificam novamente a compatibilidade das configurações salvas e registram notificações quando uma build passar a apresentar incompatibilidades após mudanças na base técnica.
 
 ### Compartilhamento e links de compra
 
