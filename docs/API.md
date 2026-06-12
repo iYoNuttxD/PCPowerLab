@@ -156,6 +156,15 @@ GET /api/v1/components/:id
 
 Retorna `404` quando o componente nao existir.
 
+### Ranking de custo-beneficio
+
+```http
+GET /api/v1/components/cost-benefit
+GET /api/v1/components/cost-benefit?category=gpu&limit=5
+```
+
+Retorna componentes com parametros de desempenho e preco valido ordenados por score de custo-beneficio.
+
 ## Componentes administrativos
 
 As rotas administrativas manipulam a base mockada em memoria e podem listar componentes ativos ou inativos.
@@ -324,6 +333,14 @@ Exemplo de resposta com alerta:
   "message": "Alertas de compatibilidade gerados com sucesso."
 }
 ```
+
+### Sugerir correcoes de compatibilidade
+
+```http
+POST /api/v1/compatibility/fix-suggestions
+```
+
+Recebe a mesma build usada na verificacao de compatibilidade e retorna alternativas de componentes existentes que resolvem o problema sem criar uma nova incompatibilidade conhecida.
 
 ## Regras de compatibilidade
 
@@ -572,6 +589,27 @@ Exemplo de resposta:
 }
 ```
 
+### Comparar desempenho entre jogos
+
+```http
+POST /api/v1/performance/compare-games
+Content-Type: application/json
+
+{
+  "gameIds": ["game-cyberpunk-2077", "game-forza-horizon-5"],
+  "targetResolution": "1080p",
+  "qualityPreset": "high",
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb"
+  }
+}
+```
+
+`gameIds` deve conter pelo menos dois jogos e no maximo dez. A ordem enviada e preservada na resposta.
+
 ## Simulacao de desempenho em softwares profissionais
 
 ### Listar softwares profissionais
@@ -747,6 +785,25 @@ Resposta resumida:
 
 Pode retornar `422` quando nao houver configuracao completa dentro do orcamento.
 
+### Recomendar configuracao por faixa de orcamento
+
+```http
+POST /api/v1/recommendations/builds-by-budget-range
+Content-Type: application/json
+
+{
+  "budgetRange": {
+    "min": 4000,
+    "max": 6000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming",
+  "priority": "cost-benefit"
+}
+```
+
+Retorna uma build completa compativel dentro da faixa informada, quando existir combinacao possivel.
+
 ## Perfis personalizados de uso
 
 ### Listar perfis
@@ -836,6 +893,23 @@ DELETE /api/v1/usage-profiles/:id
 ```
 
 ## Comparacao de builds
+
+## Configuracoes prontas
+
+### Listar configuracoes prontas
+
+```http
+GET /api/v1/ready-builds
+GET /api/v1/ready-builds?profile=gaming
+```
+
+### Buscar configuracao pronta por ID
+
+```http
+GET /api/v1/ready-builds/:id
+```
+
+As configuracoes prontas usam apenas componentes existentes na base mockada e sao revalidadas pelos testes de integridade.
 
 ## Nota geral da configuracao
 
@@ -1057,6 +1131,28 @@ Resposta resumida:
 
 ## Builds salvas e notificacoes
 
+### Listar e manter builds salvas
+
+```http
+GET    /api/v1/saved-builds
+GET    /api/v1/saved-builds/:id
+POST   /api/v1/saved-builds
+PUT    /api/v1/saved-builds/:id
+PATCH  /api/v1/saved-builds/:id
+DELETE /api/v1/saved-builds/:id
+```
+
+### Versoes de builds salvas
+
+```http
+GET    /api/v1/saved-builds/:id/versions
+GET    /api/v1/saved-builds/:id/versions/:versionId
+POST   /api/v1/saved-builds/:id/versions
+DELETE /api/v1/saved-builds/:id/versions/:versionId
+```
+
+Cada versao guarda um snapshot independente da configuracao no momento do registro.
+
 ### Revalidar todas as builds salvas
 
 ```http
@@ -1124,6 +1220,57 @@ PATCH /api/v1/notifications/:id/read
 ```http
 DELETE /api/v1/notifications/:id
 ```
+
+## Historico de analises
+
+```http
+GET    /api/v1/analysis-history
+GET    /api/v1/analysis-history/:id
+GET    /api/v1/analysis-history?buildId=build-001
+POST   /api/v1/analysis-history
+DELETE /api/v1/analysis-history/:id
+```
+
+O historico registra analises executadas para consulta posterior. `buildId` e opcional em alguns cenarios de analise avulsa.
+
+## Relatorio tecnico e exportacao
+
+### Gerar relatorio tecnico
+
+```http
+POST /api/v1/build-report
+```
+
+O relatorio orquestra resumo, compatibilidade, gargalos, nota, simulacoes e links de compra quando solicitados. Secoes opcionais com erro controlado sao retornadas como indisponiveis em vez de quebrar a resposta.
+
+### Exportar configuracao em JSON
+
+```http
+POST /api/v1/build-export/json
+GET  /api/v1/saved-builds/:id/export/json
+```
+
+A exportacao aceita build direta ou build salva por ID e nao inclui dados sensiveis.
+
+## Avaliacoes de recomendacoes
+
+```http
+GET    /api/v1/recommendation-feedback
+GET    /api/v1/recommendation-feedback/:id
+GET    /api/v1/recommendation-feedback?recommendationType=upgrade-suggestion
+POST   /api/v1/recommendation-feedback
+DELETE /api/v1/recommendation-feedback/:id
+```
+
+`rating` deve ficar entre 1 e 5. Comentarios sao opcionais e limitados em tamanho.
+
+## Roadmap de upgrades
+
+```http
+POST /api/v1/upgrades/roadmap
+```
+
+Gera proximas etapas de upgrade a partir de uma build, respeitando orcamento total, compatibilidade e limite de passos.
 
 ## Explicacoes
 

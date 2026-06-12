@@ -160,6 +160,7 @@ GET /api/v1/health
 GET /api/v1/components
 GET /api/v1/components?type=cpu
 GET /api/v1/components/:id
+GET /api/v1/components/cost-benefit
 ```
 
 Rotas administrativas mockadas:
@@ -179,6 +180,7 @@ POST /api/v1/builds/selection
 POST /api/v1/builds/check-compatibility
 POST /api/v1/compatibility/check
 POST /api/v1/compatibility/alerts
+POST /api/v1/compatibility/fix-suggestions
 ```
 
 `/api/v1/builds/check-compatibility` foi mantida por compatibilidade. Para novos consumidores, prefira `/api/v1/compatibility/check`.
@@ -242,6 +244,7 @@ POST /api/v1/bottlenecks/analyze
 GET  /api/v1/performance/games
 GET  /api/v1/performance/games/:id
 POST /api/v1/performance/simulate-game
+POST /api/v1/performance/compare-games
 GET  /api/v1/professional-software
 GET  /api/v1/professional-software/:id
 POST /api/v1/performance/simulate-software
@@ -285,6 +288,7 @@ Os softwares profissionais usam uma base mockada com requisitos estimados por sc
 POST /api/v1/budget
 POST /api/v1/recommendations/budget
 POST /api/v1/recommendations/by-usage
+POST /api/v1/recommendations/builds-by-budget-range
 POST /api/v1/explanations
 GET    /api/v1/usage-profiles
 GET    /api/v1/usage-profiles/:id
@@ -335,7 +339,10 @@ Os pesos dos perfis personalizados sao normalizados automaticamente quando a som
 POST /api/v1/build-summary
 POST /api/v1/build-comparison
 POST /api/v1/build-score
+POST /api/v1/build-report
+POST /api/v1/build-export/json
 POST /api/v1/upgrades/suggest
+POST /api/v1/upgrades/roadmap
 ```
 
 Exemplo de nota geral da configuração:
@@ -388,9 +395,14 @@ Também é possível enviar `buildId` quando a configuração estiver salva.
 ```http
 GET    /api/v1/saved-builds
 GET    /api/v1/saved-builds/:id
+GET    /api/v1/saved-builds/:id/export/json
 POST   /api/v1/saved-builds
 PUT    /api/v1/saved-builds/:id
 PATCH  /api/v1/saved-builds/:id
+GET    /api/v1/saved-builds/:id/versions
+GET    /api/v1/saved-builds/:id/versions/:versionId
+POST   /api/v1/saved-builds/:id/versions
+DELETE /api/v1/saved-builds/:id/versions/:versionId
 POST   /api/v1/saved-builds/revalidate
 POST   /api/v1/saved-builds/:id/revalidate
 DELETE /api/v1/saved-builds/:id
@@ -401,6 +413,24 @@ DELETE /api/v1/notifications/:id
 ```
 
 As rotas de revalidação verificam novamente a compatibilidade das configurações salvas e registram notificações quando uma build passar a apresentar incompatibilidades após mudanças na base técnica.
+
+### Configurações prontas, histórico e feedback
+
+```http
+GET    /api/v1/ready-builds
+GET    /api/v1/ready-builds/:id
+GET    /api/v1/ready-builds?profile=gaming
+GET    /api/v1/analysis-history
+GET    /api/v1/analysis-history/:id
+GET    /api/v1/analysis-history?buildId=build-001
+POST   /api/v1/analysis-history
+DELETE /api/v1/analysis-history/:id
+GET    /api/v1/recommendation-feedback
+GET    /api/v1/recommendation-feedback/:id
+GET    /api/v1/recommendation-feedback?recommendationType=upgrade-suggestion
+POST   /api/v1/recommendation-feedback
+DELETE /api/v1/recommendation-feedback/:id
+```
 
 ### Compartilhamento e links de compra
 
