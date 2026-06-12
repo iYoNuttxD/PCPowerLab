@@ -30,6 +30,7 @@ import { analysisHistoryRoutes } from './routes/analysisHistory.routes.js';
 import { readyBuildsRoutes } from './routes/readyBuilds.routes.js';
 import { usageProfilesRoutes } from './routes/usageProfiles.routes.js';
 import { buildReportRoutes } from './routes/buildReport.routes.js';
+import { buildExportRoutes } from './routes/buildExport.routes.js';
 import { recommendationFeedbackRoutes } from './routes/recommendationFeedback.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
@@ -67,6 +68,7 @@ app.use(`${env.apiPrefix}/analysis-history`, analysisHistoryRoutes);
 app.use(`${env.apiPrefix}/ready-builds`, readyBuildsRoutes);
 app.use(`${env.apiPrefix}/usage-profiles`, usageProfilesRoutes);
 app.use(`${env.apiPrefix}/build-report`, buildReportRoutes);
+app.use(`${env.apiPrefix}/build-export`, buildExportRoutes);
 app.use(`${env.apiPrefix}/recommendation-feedback`, recommendationFeedbackRoutes);
 
 app.use(notFoundHandler);

@@ -3,6 +3,7 @@ import {
   createSavedBuild,
   editSavedBuild,
   getSavedBuild,
+  getSavedBuildJsonExport,
   getSavedBuilds,
   removeSavedBuild
 } from '../controllers/savedBuildsController.js';
@@ -10,6 +11,7 @@ import {
 export const savedBuildsRoutes = Router();
 
 savedBuildsRoutes.get('/', getSavedBuilds);
+savedBuildsRoutes.get('/:id/export/json', getSavedBuildJsonExport);
 savedBuildsRoutes.get('/:id', getSavedBuild);
 savedBuildsRoutes.post('/', createSavedBuild);
 savedBuildsRoutes.put('/:id', editSavedBuild);
