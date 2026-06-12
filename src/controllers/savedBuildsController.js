@@ -5,6 +5,7 @@ import {
   saveBuild,
   updateSavedBuild
 } from '../services/savedBuildsService.js';
+import { exportSavedBuildToJson } from '../services/buildExportService.js';
 import { created, ok } from '../utils/api-response.js';
 
 export function getSavedBuilds(_req, res, next) {
@@ -20,6 +21,16 @@ export function getSavedBuild(req, res, next) {
     const savedBuild = getSavedBuildById(req.params.id);
 
     return ok(res, savedBuild, 'Configuração salva encontrada com sucesso.');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export function getSavedBuildJsonExport(req, res, next) {
+  try {
+    const exportedBuild = exportSavedBuildToJson(req.params.id, req.query);
+
+    return ok(res, exportedBuild, 'Configuracao exportada em JSON com sucesso.');
   } catch (error) {
     return next(error);
   }

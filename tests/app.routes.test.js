@@ -12,6 +12,8 @@ import { professionalSoftwareRoutes } from '../src/routes/professionalSoftware.r
 import { analysisHistoryRoutes } from '../src/routes/analysisHistory.routes.js';
 import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
 import { usageProfilesRoutes } from '../src/routes/usageProfiles.routes.js';
+import { buildExportRoutes } from '../src/routes/buildExport.routes.js';
+import { savedBuildsRoutes } from '../src/routes/savedBuilds.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -93,6 +95,14 @@ test('deve expor CRUD de perfis personalizados de uso', () => {
   assert.equal(usageProfilePaths.includes('POST /'), true);
   assert.equal(usageProfilePaths.includes('PUT /:id'), true);
   assert.equal(usageProfilePaths.includes('DELETE /:id'), true);
+});
+
+test('deve expor endpoints de exportacao JSON de builds', () => {
+  const buildExportPaths = getRoutePaths(buildExportRoutes);
+  const savedBuildPaths = getRoutePaths(savedBuildsRoutes);
+
+  assert.equal(buildExportPaths.includes('POST /json'), true);
+  assert.equal(savedBuildPaths.includes('GET /:id/export/json'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
