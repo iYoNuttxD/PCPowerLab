@@ -16,6 +16,7 @@ import { buildExportRoutes } from '../src/routes/buildExport.routes.js';
 import { savedBuildsRoutes } from '../src/routes/savedBuilds.routes.js';
 import { savedBuildVersionsRoutes } from '../src/routes/savedBuildVersions.routes.js';
 import { recommendationFeedbackRoutes } from '../src/routes/recommendationFeedback.routes.js';
+import { notificationsRoutes } from '../src/routes/notifications.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
 test('deve registrar rotas principais no app Express', () => {
@@ -109,11 +110,14 @@ test('deve expor endpoints de exportacao JSON de builds', () => {
 
 test('deve expor endpoints de versoes de configuracoes salvas', () => {
   const versionPaths = getRoutePaths(savedBuildVersionsRoutes);
+  const savedBuildPaths = getRoutePaths(savedBuildsRoutes);
 
   assert.equal(versionPaths.includes('GET /'), true);
   assert.equal(versionPaths.includes('GET /:versionId'), true);
   assert.equal(versionPaths.includes('POST /'), true);
   assert.equal(versionPaths.includes('DELETE /:versionId'), true);
+  assert.equal(savedBuildPaths.includes('POST /revalidate'), true);
+  assert.equal(savedBuildPaths.includes('POST /:id/revalidate'), true);
 });
 
 test('deve expor endpoints de avaliacoes de recomendacoes', () => {
@@ -123,6 +127,14 @@ test('deve expor endpoints de avaliacoes de recomendacoes', () => {
   assert.equal(recommendationFeedbackPaths.includes('GET /:id'), true);
   assert.equal(recommendationFeedbackPaths.includes('POST /'), true);
   assert.equal(recommendationFeedbackPaths.includes('DELETE /:id'), true);
+});
+
+test('deve expor endpoints de notificacoes', () => {
+  const notificationPaths = getRoutePaths(notificationsRoutes);
+
+  assert.equal(notificationPaths.includes('GET /'), true);
+  assert.equal(notificationPaths.includes('PATCH /:id/read'), true);
+  assert.equal(notificationPaths.includes('DELETE /:id'), true);
 });
 
 test('deve manter resposta de erro sem campo data', () => {
