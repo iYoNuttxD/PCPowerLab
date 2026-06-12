@@ -7,11 +7,13 @@ import {
   getSavedBuilds,
   removeSavedBuild
 } from '../controllers/savedBuildsController.js';
+import { savedBuildVersionsRoutes } from './savedBuildVersions.routes.js';
 
 export const savedBuildsRoutes = Router();
 
 savedBuildsRoutes.get('/', getSavedBuilds);
 savedBuildsRoutes.get('/:id/export/json', getSavedBuildJsonExport);
+savedBuildsRoutes.use('/:id/versions', savedBuildVersionsRoutes);
 savedBuildsRoutes.get('/:id', getSavedBuild);
 savedBuildsRoutes.post('/', createSavedBuild);
 savedBuildsRoutes.put('/:id', editSavedBuild);
