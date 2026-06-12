@@ -6,6 +6,7 @@ import {
   updateSavedBuild
 } from '../services/savedBuildsService.js';
 import { exportSavedBuildToJson } from '../services/buildExportService.js';
+import { createSavedBuildVersion } from '../services/savedBuildVersionsService.js';
 import { created, ok } from '../utils/api-response.js';
 
 export function getSavedBuilds(_req, res, next) {
@@ -39,6 +40,10 @@ export function getSavedBuildJsonExport(req, res, next) {
 export function createSavedBuild(req, res, next) {
   try {
     const savedBuild = saveBuild(req.body);
+    createSavedBuildVersion(savedBuild.id, {
+      reason: 'Versao inicial da configuracao salva.',
+      buildSnapshot: savedBuild
+    });
 
     return created(res, savedBuild, 'Configuração salva com sucesso.');
   } catch (error) {
@@ -49,6 +54,10 @@ export function createSavedBuild(req, res, next) {
 export function editSavedBuild(req, res, next) {
   try {
     const updatedSavedBuild = updateSavedBuild(req.params.id, req.body);
+    createSavedBuildVersion(updatedSavedBuild.id, {
+      reason: 'Atualizacao da configuracao salva.',
+      buildSnapshot: updatedSavedBuild
+    });
 
     return ok(res, updatedSavedBuild, 'Configuração atualizada com sucesso.');
   } catch (error) {

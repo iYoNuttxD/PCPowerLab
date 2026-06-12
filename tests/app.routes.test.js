@@ -14,6 +14,7 @@ import { readyBuildsRoutes } from '../src/routes/readyBuilds.routes.js';
 import { usageProfilesRoutes } from '../src/routes/usageProfiles.routes.js';
 import { buildExportRoutes } from '../src/routes/buildExport.routes.js';
 import { savedBuildsRoutes } from '../src/routes/savedBuilds.routes.js';
+import { savedBuildVersionsRoutes } from '../src/routes/savedBuildVersions.routes.js';
 import { recommendationFeedbackRoutes } from '../src/routes/recommendationFeedback.routes.js';
 import { fail } from '../src/utils/api-response.js';
 
@@ -104,6 +105,15 @@ test('deve expor endpoints de exportacao JSON de builds', () => {
 
   assert.equal(buildExportPaths.includes('POST /json'), true);
   assert.equal(savedBuildPaths.includes('GET /:id/export/json'), true);
+});
+
+test('deve expor endpoints de versoes de configuracoes salvas', () => {
+  const versionPaths = getRoutePaths(savedBuildVersionsRoutes);
+
+  assert.equal(versionPaths.includes('GET /'), true);
+  assert.equal(versionPaths.includes('GET /:versionId'), true);
+  assert.equal(versionPaths.includes('POST /'), true);
+  assert.equal(versionPaths.includes('DELETE /:versionId'), true);
 });
 
 test('deve expor endpoints de avaliacoes de recomendacoes', () => {
