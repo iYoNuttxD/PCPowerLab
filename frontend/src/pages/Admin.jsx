@@ -10,10 +10,23 @@ import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { translateSeverity, translateValue } from '../utils/translations.js';
 
 export default function Admin() {
+  const [authenticated, setAuthenticated] = useState(null);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
   const [rules, setRules] = useState([]);
   const [parameters, setParameters] = useState([]);
   const [error, setError] = useState('');
   const [feedback, setFeedback] = useState('');
+
+  function handleAdminError(requestError) {
+    if (requestError.status === 401) {
+      setAuthenticated(false);
+      setAuthError('A sessão expirou. Digite a senha novamente.');
+      return;
+    }
+    setError(requestError.message);
+  }
 
   async function loadAdminData() {
     try {
@@ -24,13 +37,51 @@ export default function Admin() {
       setRules(Array.isArray(rulesData) ? rulesData : []);
       setParameters(Array.isArray(parametersData) ? parametersData : []);
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
 
   useEffect(() => {
-    loadAdminData();
+    adminService.session()
+      .then((session) => setAuthenticated(session.authenticated === true))
+      .catch(() => {
+        setAuthenticated(false);
+        setAuthError('Não foi possível verificar o acesso administrativo.');
+      });
   }, []);
+
+  useEffect(() => {
+    if (authenticated) loadAdminData();
+  }, [authenticated]);
+
+  async function unlock(event) {
+    event.preventDefault();
+    setAuthLoading(true);
+    setAuthError('');
+    try {
+      await adminService.unlock(password);
+      setPassword('');
+      setError('');
+      setAuthenticated(true);
+    } catch (requestError) {
+      setAuthError(requestError.message);
+    } finally {
+      setAuthLoading(false);
+    }
+  }
+
+  async function logout() {
+    try {
+      await adminService.logout();
+      setAuthenticated(false);
+      setRules([]);
+      setParameters([]);
+      setError('');
+      setFeedback('');
+    } catch (requestError) {
+      handleAdminError(requestError);
+    }
+  }
 
   async function createRule(event) {
     event.preventDefault();
@@ -51,7 +102,7 @@ export default function Admin() {
       setFeedback('Regra cadastrada.');
       await loadAdminData();
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
 
@@ -61,7 +112,7 @@ export default function Admin() {
       setFeedback('Regra removida.');
       await loadAdminData();
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
 
@@ -75,7 +126,7 @@ export default function Admin() {
       setFeedback('Regra atualizada.');
       await loadAdminData();
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
 
@@ -94,7 +145,7 @@ export default function Admin() {
       setFeedback('Parâmetro cadastrado.');
       await loadAdminData();
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
 
@@ -106,7 +157,7 @@ export default function Admin() {
       setFeedback('Parâmetro atualizado.');
       await loadAdminData();
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
 
@@ -116,9 +167,28 @@ export default function Admin() {
       setFeedback('Parâmetro removido.');
       await loadAdminData();
     } catch (requestError) {
-      setError(requestError.message);
+      handleAdminError(requestError);
     }
   }
+
+  if (authenticated === null) return <div className="page-stack"><p>Verificando acesso administrativo...</p></div>;
+
+  if (!authenticated) return (
+    <div className="page-stack">
+      <section className="page-hero compact-hero">
+        <span className="eyebrow">PCPowerLab</span>
+        <h1>Área Administrativa</h1>
+      </section>
+      <Card>
+        <form className="form-grid" onSubmit={unlock}>
+          <Input label="Senha de acesso" name="password" type="password" autoComplete="current-password"
+            value={password} onChange={(event) => setPassword(event.target.value)} required />
+          {authError && <Alert type="error">{authError}</Alert>}
+          <Button type="submit" loading={authLoading}>Entrar</Button>
+        </form>
+      </Card>
+    </div>
+  );
 
   return (
     <div className="page-stack">
@@ -126,11 +196,8 @@ export default function Admin() {
         <span className="eyebrow">MVP admin</span>
         <h1>Administração técnica</h1>
         <p>Gerencie regras e parâmetros de desempenho disponíveis na API mockada.</p>
+        <Button type="button" variant="ghost" onClick={logout}>Sair</Button>
       </section>
-
-      <Alert type="warning" title="Área acadêmica/MVP">
-        Esta área ainda não possui autenticação. Use apenas em ambiente local de desenvolvimento.
-      </Alert>
       {error && <ErrorState message={error} onRetry={loadAdminData} />}
       {feedback && <Alert type="success">{feedback}</Alert>}
 

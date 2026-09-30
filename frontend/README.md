@@ -28,7 +28,7 @@ cp .env.example .env
 ## Configuração
 
 ```env
-VITE_API_BASE_URL=http://localhost:3000/api/v1
+VITE_API_BASE_URL=/api/v1
 ```
 
 ## Rodar em desenvolvimento
@@ -76,10 +76,11 @@ src/
 Todas as chamadas HTTP passam por `src/services/api.js`, que usa:
 
 ```env
-VITE_API_BASE_URL=http://localhost:3000/api/v1
+VITE_API_BASE_URL=/api/v1
 ```
 
-Se a variável não estiver configurada, o fallback é `http://localhost:3000/api/v1`.
+Se a variável não estiver configurada, o fallback é `/api/v1`. O proxy do Vite
+encaminha essas chamadas ao backend local durante o desenvolvimento.
 
 Services disponíveis para os endpoints atuais e novos:
 
@@ -187,13 +188,13 @@ Pontos verificados:
 
 Limitações atuais:
 
-- Ainda não há autenticação; `/admin` e CRUDs auxiliares são apenas para MVP acadêmico.
+- `/admin` exige a senha definida em `ADMIN_PASSWORD` no `.env` do backend. A sessão
+  é temporária e as APIs administrativas são verificadas pelo backend.
 - Os dados são mockados em memória e reiniciam com o backend.
 - O build do Vite pode emitir aviso de chunk grande; isso não impede execução, mas code splitting é recomendado para evolução.
 
 ## Próximos passos
 
-- Adicionar autenticação real na área administrativa.
 - Melhorar code splitting conforme o app crescer.
 - Evoluir gráficos e comparação visual.
 - Adicionar testes automatizados de interface.

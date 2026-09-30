@@ -8,7 +8,7 @@ export function errorHandler(error, _req, res, _next) {
   return fail(
     res,
     error.statusCode || 500,
-    error.message || 'Erro interno no servidor.',
-    error.errors || []
+    error.statusCode && error.statusCode < 500 ? error.message : 'Erro interno no servidor.',
+    error.statusCode && error.statusCode < 500 ? error.errors || [] : []
   );
 }

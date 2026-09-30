@@ -35,24 +35,28 @@ import { recommendationFeedbackRoutes } from './routes/recommendationFeedback.ro
 import { notificationsRoutes } from './routes/notifications.routes.js';
 import { notFoundHandler } from './middlewares/not-found.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
+import { adminSession, logoutAdmin, requireAdmin, unlockAdmin } from './middlewares/admin-auth.middleware.js';
 
 export const app = express();
 
 app.use(helmet());
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
 
 app.use(`${env.apiPrefix}/health`, healthRoutes);
 app.use(`${env.apiPrefix}/components`, componentRoutes);
-app.use(`${env.apiPrefix}/admin/components`, adminComponentRoutes);
+app.get(`${env.apiPrefix}/admin/session`, adminSession);
+app.post(`${env.apiPrefix}/admin/unlock`, unlockAdmin);
+app.post(`${env.apiPrefix}/admin/logout`, requireAdmin, logoutAdmin);
+app.use(`${env.apiPrefix}/admin/components`, requireAdmin, adminComponentRoutes);
 app.use(`${env.apiPrefix}/builds`, buildRoutes);
 app.use(`${env.apiPrefix}/saved-builds`, savedBuildsRoutes);
 app.use(`${env.apiPrefix}/compatibility`, compatibilityRoutes);
 app.use(`${env.apiPrefix}/compatibility`, compatibilityFixRoutes);
-app.use(`${env.apiPrefix}/compatibility-rules`, compatibilityRuleRoutes);
+app.use(`${env.apiPrefix}/compatibility-rules`, requireAdmin, compatibilityRuleRoutes);
 app.use(`${env.apiPrefix}/bottlenecks`, bottleneckRoutes);
-app.use(`${env.apiPrefix}/performance-parameters`, performanceParametersRoutes);
+app.use(`${env.apiPrefix}/performance-parameters`, requireAdmin, performanceParametersRoutes);
 app.use(`${env.apiPrefix}/performance`, gamePerformanceRoutes);
 app.use(`${env.apiPrefix}/professional-software`, professionalSoftwareRoutes);
 app.use(`${env.apiPrefix}/recommendations`, recommendationRoutes);

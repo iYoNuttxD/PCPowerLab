@@ -173,6 +173,16 @@ GET /api/v1/components/cost-benefit
 
 Rotas administrativas mockadas:
 
+Defina `ADMIN_PASSWORD` no `.env` do backend antes de usar `/admin`. O painel usa
+`POST /api/v1/admin/unlock`, `GET /api/v1/admin/session` e
+`POST /api/v1/admin/logout`. O cookie de sessão dura até 2 horas e fica apenas no
+navegador; reiniciar o backend encerra todas as sessões. As rotas abaixo e o CRUD
+de `/api/v1/compatibility-rules` e `/api/v1/performance-parameters` exigem a sessão.
+
+Para acesso por Cloudflare Tunnel, publique o frontend na mesma origem usada pela
+API, com proxy de `/api` para o backend local. Use `VITE_API_BASE_URL=/api/v1` no
+frontend. O backend escuta apenas em `127.0.0.1`.
+
 ```http
 GET    /api/v1/admin/components
 GET    /api/v1/admin/components/:id
