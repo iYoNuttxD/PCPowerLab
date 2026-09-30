@@ -9,5 +9,4 @@ build/
 npm-debug.log*
 .DS_Store
 .vscode/
-iniciar-pcpowerlab.ps1
 instalar-pcpowerlab.ps1

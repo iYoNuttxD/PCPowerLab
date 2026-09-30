@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { env } from './config/env.js';
 import { healthRoutes } from './routes/health.routes.js';
@@ -76,6 +78,21 @@ app.use(`${env.apiPrefix}/build-report`, buildReportRoutes);
 app.use(`${env.apiPrefix}/build-export`, buildExportRoutes);
 app.use(`${env.apiPrefix}/recommendation-feedback`, recommendationFeedbackRoutes);
 app.use(`${env.apiPrefix}/notifications`, notificationsRoutes);
+
+if (env.nodeEnv === 'production') {
+  const frontendDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../frontend/dist');
+  const serveFrontend = express.static(frontendDist);
+  app.use((req, res, next) => {
+    if (req.path === '/api' || req.path.startsWith('/api/')) return next();
+    return serveFrontend(req, res, next);
+  });
+  app.get('*', (req, res, next) => {
+    if (req.path === '/api' || req.path.startsWith('/api/')) return next();
+    return res.sendFile(path.join(frontendDist, 'index.html'), (error) => {
+      if (error) next(error);
+    });
+  });
+}
 
 app.use(notFoundHandler);
 app.use(errorHandler);

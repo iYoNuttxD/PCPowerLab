@@ -39,6 +39,7 @@ Variáveis disponíveis:
 PORT=3000
 NODE_ENV=development
 API_PREFIX=/api/v1
+ADMIN_PASSWORD=
 ```
 
 `PORT` define a porta local, `NODE_ENV` define o ambiente e `API_PREFIX` define o prefixo das rotas. O arquivo `.env` não deve ser versionado.
@@ -60,6 +61,30 @@ Para produção/local sem watch:
 ```bash
 npm start
 ```
+
+Com `NODE_ENV=production`, o Express também serve `frontend/dist` na mesma porta
+da API. Gere o frontend antes de iniciar (`cd frontend && npm run build`).
+
+## Hospedagem temporária no Windows
+
+O computador em `C:\PCPowerLab` precisa ter Git, Node.js e `cloudflared`
+instalados, além de um `.env` na raiz com `ADMIN_PASSWORD` preenchida. O launcher
+instala dependências quando necessário, compila o frontend para usar `/api/v1`,
+inicia o Express em `127.0.0.1:3000` e abre um Cloudflare Quick Tunnel.
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass -Force
+.\iniciar-pcpowerlab.ps1
+```
+
+Para atualizar antes de iniciar:
+
+```powershell
+.\iniciar-pcpowerlab.ps1 -Atualizar
+```
+
+Pressione `Ctrl+C` para encerrar Node e `cloudflared`. A URL do Quick Tunnel é
+temporária e muda a cada execução. Os logs ficam em `%TEMP%\PCPowerLab`.
 
 ## Rodar backend e frontend
 
@@ -179,9 +204,9 @@ Defina `ADMIN_PASSWORD` no `.env` do backend antes de usar `/admin`. O painel us
 navegador; reiniciar o backend encerra todas as sessões. As rotas abaixo e o CRUD
 de `/api/v1/compatibility-rules` e `/api/v1/performance-parameters` exigem a sessão.
 
-Para acesso por Cloudflare Tunnel, publique o frontend na mesma origem usada pela
-API, com proxy de `/api` para o backend local. Use `VITE_API_BASE_URL=/api/v1` no
-frontend. O backend escuta apenas em `127.0.0.1`.
+Para acesso por Cloudflare Tunnel, use o launcher Windows: o próprio Express serve
+o frontend e a API na mesma origem. O build usa `VITE_API_BASE_URL=/api/v1` e o
+backend escuta apenas em `127.0.0.1`.
 
 ```http
 GET    /api/v1/admin/components
