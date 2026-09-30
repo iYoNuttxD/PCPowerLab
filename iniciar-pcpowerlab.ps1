@@ -161,7 +161,7 @@ namespace PCPowerLab {
 }
 '@
     }
-    if ([PCPowerLab.PowerState]::SetThreadExecutionState(0x80000001) -eq 0) {
+    if ([PCPowerLab.PowerState]::SetThreadExecutionState([uint32]2147483651) -eq 0) {
         throw '[ERRO] Nao foi possivel impedir a suspensao do Windows.'
     }
     $PowerStateActive = $true
@@ -219,7 +219,7 @@ namespace PCPowerLab {
     while ($true) {
         $backendOnline = (Test-Running $BackendProcess) -and (Test-Health)
         $tunnelOnline = Test-Running $TunnelProcess
-        [PCPowerLab.PowerState]::SetThreadExecutionState(0x80000001) | Out-Null
+        [PCPowerLab.PowerState]::SetThreadExecutionState([uint32]2147483651) | Out-Null
         Clear-Host
         Write-Host '============================================================'
         Write-Host '                    PCPowerLab'
@@ -256,7 +256,7 @@ finally {
     Stop-OwnedProcess $TunnelProcess
     Stop-OwnedProcess $BackendProcess
     if ($PowerStateActive) {
-        [PCPowerLab.PowerState]::SetThreadExecutionState(0x80000000) | Out-Null
+        [PCPowerLab.PowerState]::SetThreadExecutionState([uint32]2147483648) | Out-Null
     }
     if ($null -eq $OriginalNodeEnv) { Remove-Item Env:\NODE_ENV -ErrorAction SilentlyContinue }
     else { $env:NODE_ENV = $OriginalNodeEnv }
