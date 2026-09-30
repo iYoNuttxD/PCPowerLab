@@ -5,5 +5,6 @@ dotenv.config();
 export const env = {
   port: Number(process.env.PORT) || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
-  apiPrefix: process.env.API_PREFIX || '/api/v1'
+  apiPrefix: process.env.API_PREFIX || '/api/v1',
+  adminPassword: process.env.ADMIN_PASSWORD
 };

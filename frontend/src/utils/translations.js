@@ -1,12 +1,17 @@
 import { componentLabels, priorityLabels, usageLabels } from './componentLabels.js';
 
 export const severityLabels = {
-  low: 'Baixa',
-  medium: 'Média',
-  high: 'Alta'
+  low: 'Baixo',
+  medium: 'Médio',
+  high: 'Alto'
 };
 
 export const statusLabels = {
+  'Within Range': 'Dentro da faixa',
+  'within range': 'Dentro da faixa',
+  within_range: 'Dentro da faixa',
+  'within-range': 'Dentro da faixa',
+  withinRange: 'Dentro da faixa',
   within_budget: 'Dentro do orçamento',
   above_budget: 'Acima do orçamento',
   over_budget: 'Acima do orçamento',
@@ -18,14 +23,18 @@ export const statusLabels = {
   incompatible: 'Incompatível',
   excellent: 'Excelente',
   good: 'Bom',
+  entry: 'Entrada',
   basic: 'Básico',
   poor: 'Insuficiente',
+  insufficient: 'Insuficiente',
   recommended: 'Recomendado',
   belowRecommended: 'Abaixo do recomendado',
+  belowMinimum: 'Abaixo do mínimo',
   minimum: 'Mínimo',
+  Basico: 'Básico',
   available: 'Disponível',
   unavailable: 'Indisponível',
-  unknown: 'Consultar na loja',
+  unknown: 'Consultar',
   in_stock: 'Em estoque',
   out_of_stock: 'Fora de estoque',
   limited_stock: 'Estoque limitado',

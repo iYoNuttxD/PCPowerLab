@@ -1,0 +1,152 @@
+@baseUrl = http://localhost:3000/api/v1
+
+### Health
+GET {{baseUrl}}/health
+
+### Componentes
+GET {{baseUrl}}/components
+
+### Componentes por custo-beneficio
+GET {{baseUrl}}/components/cost-benefit?category=gpu&limit=5
+
+### Ready builds
+GET {{baseUrl}}/ready-builds?profile=gaming
+
+### Compatibilidade
+POST {{baseUrl}}/compatibility/check
+Content-Type: application/json
+
+{
+  "cpuId": "cpu-ryzen-5-5600",
+  "gpuId": "gpu-rtx-4060",
+  "motherboardId": "mb-b550m-aorus-elite",
+  "ramId": "ram-kingston-fury-16gb-ddr4",
+  "storageId": "ssd-kingston-nv2-1tb",
+  "psuId": "psu-corsair-650w",
+  "caseId": "case-mid-tower-airflow"
+}
+
+### Sugestoes de correcao de compatibilidade
+POST {{baseUrl}}/compatibility/fix-suggestions
+Content-Type: application/json
+
+{
+  "cpuId": "cpu-ryzen-5-5600",
+  "gpuId": "gpu-rtx-4060",
+  "motherboardId": "mb-h610m-ddr4",
+  "ramId": "ram-kingston-fury-16gb-ddr4",
+  "storageId": "ssd-kingston-nv2-1tb",
+  "psuId": "psu-corsair-650w",
+  "caseId": "case-mid-tower-airflow"
+}
+
+### Nota geral
+POST {{baseUrl}}/build-score
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "usageType": "gaming"
+}
+
+### Simulacao em software profissional
+POST {{baseUrl}}/performance/simulate-software
+Content-Type: application/json
+
+{
+  "softwareId": "software-adobe-premiere-pro",
+  "build": {
+    "cpuId": "cpu-ryzen-7-5700x",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-32gb-ddr4",
+    "storageId": "ssd-samsung-980-pro-2tb"
+  }
+}
+
+### Comparar jogos
+POST {{baseUrl}}/performance/compare-games
+Content-Type: application/json
+
+{
+  "gameIds": ["game-cyberpunk-2077", "game-forza-horizon-5"],
+  "targetResolution": "1080p",
+  "qualityPreset": "high",
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb"
+  }
+}
+
+### Relatorio tecnico
+POST {{baseUrl}}/build-report
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "budget": {
+    "amount": 5000,
+    "currency": "BRL"
+  },
+  "gameIds": ["game-cyberpunk-2077"],
+  "includePurchaseLinks": true
+}
+
+### Exportar JSON
+POST {{baseUrl}}/build-export/json
+Content-Type: application/json
+
+{
+  "build": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow"
+  },
+  "includeSummary": true
+}
+
+### Perfil personalizado de uso
+POST {{baseUrl}}/usage-profiles
+Content-Type: application/json
+
+{
+  "name": "Jogos + Streaming",
+  "description": "Perfil voltado para jogar e transmitir ao vivo com boa estabilidade.",
+  "weights": {
+    "cpu": 30,
+    "gpu": 35,
+    "ram": 20,
+    "storage": 10,
+    "costBenefit": 5
+  },
+  "recommendedMinimums": {
+    "ramGb": 16,
+    "storageType": "SSD",
+    "gpuVramGb": 8
+  }
+}

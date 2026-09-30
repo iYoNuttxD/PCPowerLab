@@ -72,7 +72,11 @@ export function limitText(value, maxLength) {
 }
 
 function getComponentId(selectedComponents, type) {
-  const component = selectedComponents?.[type] ?? selectedComponents?.[`${type}Id`];
+  const nestedComponents = selectedComponents?.components || {};
+  const component = selectedComponents?.[type]
+    ?? selectedComponents?.[`${type}Id`]
+    ?? nestedComponents[type]
+    ?? nestedComponents[`${type}Id`];
 
   if (typeof component === 'string') {
     return component;

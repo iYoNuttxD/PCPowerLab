@@ -31,7 +31,9 @@ export const usageLabels = {
   general: 'Uso geral',
   study: 'Estudos',
   streaming: 'Streaming',
-  upgrade: 'Upgrade'
+  upgrade: 'Upgrade',
+  'cost-benefit': 'Custo-benefício',
+  'high-performance': 'Alto desempenho'
 };
 
 export const priorityOptions = [

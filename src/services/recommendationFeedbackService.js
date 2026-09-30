@@ -45,6 +45,14 @@ export function createRecommendationFeedback(feedbackInput) {
   const recommendationId = normalizeRecommendationId(feedbackInput.recommendationId);
   const comment = normalizeComment(feedbackInput.comment);
   const wouldFollowRecommendation = normalizeWouldFollowRecommendation(feedbackInput.wouldFollowRecommendation);
+  const source = normalizeOptionalLimitedText(feedbackInput.source, 'source', 80);
+  const recommendationTitle = normalizeOptionalLimitedText(feedbackInput.recommendationTitle, 'recommendationTitle', 120);
+  const recommendationSummary = normalizeOptionalLimitedText(feedbackInput.recommendationSummary, 'recommendationSummary', 500);
+  const totalEstimatedPrice = normalizeOptionalPositiveNumber(feedbackInput.totalEstimatedPrice, 'totalEstimatedPrice');
+  const compatibilityStatus = normalizeOptionalLimitedText(feedbackInput.compatibilityStatus, 'compatibilityStatus', 80);
+  const performanceLevel = normalizeOptionalLimitedText(feedbackInput.performanceLevel, 'performanceLevel', 80);
+  const buildSnapshot = normalizeBuildSnapshot(feedbackInput.buildSnapshot);
+  const buildDetails = normalizeBuildDetails(feedbackInput.buildDetails);
 
   const feedback = {
     id: generateRecommendationFeedbackId(),
@@ -53,6 +61,14 @@ export function createRecommendationFeedback(feedbackInput) {
     rating,
     ...(comment && { comment }),
     ...(wouldFollowRecommendation !== null && { wouldFollowRecommendation }),
+    ...(source && { source }),
+    ...(recommendationTitle && { recommendationTitle }),
+    ...(recommendationSummary && { recommendationSummary }),
+    ...(totalEstimatedPrice !== null && { totalEstimatedPrice }),
+    ...(compatibilityStatus && { compatibilityStatus }),
+    ...(performanceLevel && { performanceLevel }),
+    ...(buildSnapshot && { buildSnapshot }),
+    ...(buildDetails && { buildDetails }),
     createdAt: new Date().toISOString()
   };
 
@@ -185,6 +201,111 @@ function normalizeWouldFollowRecommendation(value) {
   }
 
   return value;
+}
+
+function normalizeOptionalLimitedText(value, fieldName, maxLength) {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  if (typeof value !== 'string') {
+    const error = new Error('Campo opcional da avaliacao invalido.');
+    error.statusCode = 400;
+    error.errors = [`${fieldName} deve ser string quando informado.`];
+    throw error;
+  }
+
+  const normalized = value.trim();
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (normalized.length > maxLength) {
+    const error = new Error('Campo opcional da avaliacao muito longo.');
+    error.statusCode = 400;
+    error.errors = [`${fieldName} deve ter no maximo ${maxLength} caracteres.`];
+    throw error;
+  }
+
+  return normalized;
+}
+
+function normalizeOptionalPositiveNumber(value, fieldName) {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  const number = Number(value);
+
+  if (!Number.isFinite(number) || number < 0) {
+    const error = new Error('Valor numerico opcional da avaliacao invalido.');
+    error.statusCode = 400;
+    error.errors = [`${fieldName} deve ser um numero positivo quando informado.`];
+    throw error;
+  }
+
+  return number;
+}
+
+function normalizeBuildSnapshot(value) {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  if (typeof value !== 'object' || Array.isArray(value)) {
+    const error = new Error('Snapshot da build avaliada invalido.');
+    error.statusCode = 400;
+    error.errors = ['buildSnapshot deve ser um objeto quando informado.'];
+    throw error;
+  }
+
+  const allowedKeys = ['cpuId', 'gpuId', 'motherboardId', 'ramId', 'storageId', 'psuId', 'caseId'];
+  const snapshot = allowedKeys.reduce((normalizedSnapshot, key) => {
+    const componentId = normalizeOptionalText(value[key]);
+
+    return componentId
+      ? { ...normalizedSnapshot, [key]: componentId }
+      : normalizedSnapshot;
+  }, {});
+
+  return Object.keys(snapshot).length > 0 ? { ...snapshot } : null;
+}
+
+function normalizeBuildDetails(value) {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  if (typeof value !== 'object' || Array.isArray(value)) {
+    const error = new Error('Detalhes da build avaliada invalidos.');
+    error.statusCode = 400;
+    error.errors = ['buildDetails deve ser um objeto quando informado.'];
+    throw error;
+  }
+
+  const allowedTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
+  const details = allowedTypes.reduce((normalizedDetails, type) => {
+    const component = value[type];
+
+    if (!component || typeof component !== 'object' || Array.isArray(component)) {
+      return normalizedDetails;
+    }
+
+    const normalizedComponent = {
+      ...(normalizeOptionalText(component.id) && { id: normalizeOptionalText(component.id) }),
+      ...(normalizeOptionalText(component.name) && { name: normalizeOptionalText(component.name) }),
+      ...(normalizeOptionalText(component.category) && { category: normalizeOptionalText(component.category) }),
+      ...(normalizeOptionalText(component.brand) && { brand: normalizeOptionalText(component.brand) }),
+      ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+    };
+
+    return Object.keys(normalizedComponent).length > 0
+      ? { ...normalizedDetails, [type]: normalizedComponent }
+      : normalizedDetails;
+  }, {});
+
+  return Object.keys(details).length > 0 ? { ...details } : null;
 }
 
 function generateRecommendationFeedbackId() {

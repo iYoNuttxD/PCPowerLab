@@ -91,6 +91,82 @@ test('deve permitir registrar avaliacao sem campos opcionais', () => {
   assert.equal(Object.prototype.hasOwnProperty.call(feedback, 'wouldFollowRecommendation'), false);
 });
 
+test('deve registrar metadados e snapshot da build avaliada', () => {
+  clearRecommendationFeedbackForTests();
+
+  const feedback = createRecommendationFeedback({
+    ...validFeedbackInput,
+    source: 'ready-builds',
+    recommendationTitle: 'Build Gamer Custo-beneficio',
+    recommendationSummary: 'Build recomendada para jogos em 1080p.',
+    totalEstimatedPrice: 4999.9,
+    compatibilityStatus: 'compatible',
+    performanceLevel: 'good',
+    buildSnapshot: {
+      cpuId: 'cpu-ryzen-5-5600',
+      gpuId: 'gpu-rtx-4060',
+      motherboardId: 'mb-b550m-aorus-elite',
+      ramId: 'ram-kingston-fury-16gb-ddr4',
+      storageId: 'ssd-kingston-nv2-1tb',
+      psuId: 'psu-corsair-650w',
+      caseId: 'case-mid-tower-airflow'
+    },
+    buildDetails: {
+      cpu: {
+        id: 'cpu-ryzen-5-5600',
+        name: 'AMD Ryzen 5 5600',
+        category: 'cpu',
+        brand: 'AMD',
+        price: 799.9
+      },
+      gpu: {
+        id: 'gpu-rtx-4060',
+        name: 'NVIDIA GeForce RTX 4060 8GB',
+        category: 'gpu',
+        brand: 'NVIDIA',
+        price: 1899.9
+      }
+    }
+  });
+
+  assert.equal(feedback.source, 'ready-builds');
+  assert.equal(feedback.recommendationTitle, 'Build Gamer Custo-beneficio');
+  assert.equal(feedback.recommendationSummary, 'Build recomendada para jogos em 1080p.');
+  assert.equal(feedback.totalEstimatedPrice, 4999.9);
+  assert.equal(feedback.compatibilityStatus, 'compatible');
+  assert.equal(feedback.performanceLevel, 'good');
+  assert.deepEqual(feedback.buildSnapshot, {
+    cpuId: 'cpu-ryzen-5-5600',
+    gpuId: 'gpu-rtx-4060',
+    motherboardId: 'mb-b550m-aorus-elite',
+    ramId: 'ram-kingston-fury-16gb-ddr4',
+    storageId: 'ssd-kingston-nv2-1tb',
+    psuId: 'psu-corsair-650w',
+    caseId: 'case-mid-tower-airflow'
+  });
+  assert.deepEqual(feedback.buildDetails, {
+    cpu: {
+      id: 'cpu-ryzen-5-5600',
+      name: 'AMD Ryzen 5 5600',
+      category: 'cpu',
+      brand: 'AMD',
+      price: 799.9
+    },
+    gpu: {
+      id: 'gpu-rtx-4060',
+      name: 'NVIDIA GeForce RTX 4060 8GB',
+      category: 'gpu',
+      brand: 'NVIDIA',
+      price: 1899.9
+    }
+  });
+
+  const feedbackList = listRecommendationFeedback();
+
+  assert.deepEqual(feedbackList[0].buildSnapshot, feedback.buildSnapshot);
+  assert.deepEqual(feedbackList[0].buildDetails, feedback.buildDetails);
+});
+
 test('deve retornar erro controlado quando campos obrigatorios estiverem ausentes', () => {
   clearRecommendationFeedbackForTests();
 
