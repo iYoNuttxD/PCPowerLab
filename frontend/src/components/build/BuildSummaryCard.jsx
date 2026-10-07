@@ -4,7 +4,7 @@ import Card from '../ui/Card.jsx';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
-export default function BuildSummaryCard({ selectedComponents, totalPrice, onRemove }) {
+export default function BuildSummaryCard({ selectedComponents, totalPrice, onRemove, onEdit }) {
   return (
     <Card className="build-summary-card">
       <div className="section-heading compact">
@@ -17,7 +17,12 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
 
           return (
             <li key={type}>
-              <span>{componentLabels[type]}</span>
+              {onEdit ? (
+                <button className="build-part-edit" type="button" onClick={() => onEdit(type)}
+                  aria-label={`${component ? 'Alterar' : 'Escolher'} ${componentLabels[type]}`}>
+                  {componentLabels[type]}<small>{component ? 'Alterar peça' : 'Escolher peça'}</small>
+                </button>
+              ) : <span>{componentLabels[type]}</span>}
               <strong>{component?.name || 'Não selecionado'}</strong>
               {component && onRemove && (
                 <Button variant="ghost" size="sm" onClick={() => onRemove(type)} aria-label={`Remover ${componentLabels[type]}`}>

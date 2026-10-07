@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Save, Wand2 } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Save, Wand2 } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
+import WizardNavigation from '../components/build/WizardNavigation.jsx';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import RecommendationCard from '../components/recommendations/RecommendationCard.jsx';
@@ -24,32 +25,127 @@ import { performanceService } from '../services/performanceService.js';
 import { recommendationService } from '../services/recommendationService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { componentLabels, componentTypes, priorityLabels, priorityOptions, usageLabels, usageTypes } from '../utils/componentLabels.js';
-import { normalizeRecommendationBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
+import { normalizeBudgetPayload, normalizeRecommendationBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { getMissingBuildSlots, validateBudgetAmount } from '../utils/validation.js';
-
-const steps = [...componentTypes, 'budget', 'review'];
+import { wizardDescriptions, wizardLabels, wizardSteps } from '../utils/wizardSteps.js';
 
 export default function BuildWizard() {
   const navigate = useNavigate();
   const { byType, loading, error, reload } = useComponents();
   const build = useBuildState();
   const request = useApiRequest();
-  const [stepIndex, setStepIndex] = useState(0);
-  const [feedback, setFeedback] = useState('');
-  const currentStep = steps[stepIndex];
+  const [feedback, setFeedback] = useState(null);
+  const currentStep = build.wizardStep;
+  const stepIndex = wizardSteps.indexOf(currentStep);
+  const layoutRef = useRef(null);
+  const controlsRef = useRef(null);
+  const headingRef = useRef(null);
+  const previousStep = useRef(currentStep);
+  const activeRequest = useRef(0);
+  const pendingBottlenecks = useRef(false);
+  const configurationKey = JSON.stringify([build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType]);
+  const latestConfiguration = useRef(configurationKey);
+  latestConfiguration.current = configurationKey;
 
   const missingSlots = getMissingBuildSlots(build.selectedComponents);
-  const canAdvance = componentTypes.includes(currentStep)
+  const budgetError = validateBudgetAmount(build.budget.amount);
+  const isComponentStep = componentTypes.includes(currentStep);
+  const canAdvance = isComponentStep
     ? Boolean(build.selectedComponents[currentStep])
     : currentStep === 'budget'
-      ? !validateBudgetAmount(build.budget.amount)
+      ? !budgetError
       : missingSlots.length === 0;
 
   const stepComponents = useMemo(() => byType[currentStep] || [], [byType, currentStep]);
+  const completedSteps = wizardSteps.filter((step) => componentTypes.includes(step)
+    ? Boolean(build.selectedComponents[step])
+    : step === 'budget' ? !budgetError
+      : !missingSlots.length && !budgetError && build.bottlenecks?.status === 'success'
+        && !hasCompatibilityBlockers(build.compatibility, build.alerts));
+
+  const guidance = isComponentStep
+    ? canAdvance ? `Peça selecionada. Avance para ${wizardLabels[wizardSteps[stepIndex + 1]]}.`
+      : loading ? 'Aguarde o catálogo carregar para escolher uma peça.'
+        : error ? 'Não foi possível carregar as peças. Use Tentar novamente abaixo.'
+          : !stepComponents.length ? 'Não há peças nesta categoria. Tente atualizar o catálogo abaixo.'
+            : `Selecione uma peça de ${componentLabels[currentStep]} para avançar.`
+    : currentStep === 'budget'
+      ? budgetError || 'Orçamento definido. Avance para revisar as peças e analisar a montagem.'
+      : missingSlots.length ? `${missingSlots.length === 1 ? 'Falta 1 peça' : `Faltam ${missingSlots.length} peças`}. Use Ver etapas para completar antes de analisar ou salvar.`
+        : budgetError ? 'Defina um orçamento maior que zero na etapa Orçamento antes de analisar.'
+          : completedSteps.includes('review') ? 'Análises concluídas. Você pode salvar a build ou abrir o resumo.'
+            : 'Use Analisar build para verificar compatibilidade, orçamento e desempenho.';
+
+  useEffect(() => {
+    const header = document.querySelector('.topbar');
+    function measureOffsets() {
+      const top = (header?.getBoundingClientRect().height || 0) + 8;
+      layoutRef.current?.style.setProperty('--wizard-top-offset', `${top}px`);
+      layoutRef.current?.style.setProperty('--wizard-scroll-offset', `${top + (controlsRef.current?.offsetHeight || 0) + 16}px`);
+    }
+    const observer = new ResizeObserver(measureOffsets);
+    if (header) observer.observe(header);
+    if (controlsRef.current) observer.observe(controlsRef.current);
+    measureOffsets();
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (previousStep.current === currentStep) return;
+    previousStep.current = currentStep;
+    const frame = focusStepContent();
+    return () => cancelAnimationFrame(frame);
+  }, [currentStep]);
+
+  function focusStepContent() {
+    return requestAnimationFrame(() => {
+      // The guidance can wrap differently on the new step. Measure this render
+      // before scrolling; ResizeObserver runs after animation-frame callbacks.
+      const top = (document.querySelector('.topbar')?.getBoundingClientRect().height || 0) + 8;
+      layoutRef.current?.style.setProperty('--wizard-scroll-offset', `${top + (controlsRef.current?.offsetHeight || 0) + 16}px`);
+      headingRef.current?.focus({ preventScroll: true });
+      headingRef.current?.scrollIntoView({
+        block: 'start',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+      });
+    });
+  }
+
+  useEffect(() => () => {
+    activeRequest.current += 1;
+    if (pendingBottlenecks.current) build.actions.setResult('bottlenecks', null);
+  }, [build.actions]);
+
+  function clearMessages() {
+    setFeedback(null);
+    request.setError('');
+  }
+
+  function changeStep(step) {
+    clearMessages();
+    if (step === currentStep) focusStepContent();
+    build.actions.setWizardStep(step);
+  }
+
+  // Ignore late responses if the configuration changed or the user left the wizard.
+  async function runWizardRequest(callback) {
+    clearMessages();
+    const requestId = ++activeRequest.current;
+    const isCurrent = () => activeRequest.current === requestId && latestConfiguration.current === configurationKey;
+    try {
+      await request.run(async () => {
+        try { await callback(isCurrent); }
+        catch (error) { if (isCurrent()) throw error; }
+      });
+    } catch (_error) {
+      // useApiRequest already exposes the error to the accessible feedback region.
+    }
+  }
 
   async function runAnalysis() {
+    clearMessages();
     if (missingSlots.length > 0) {
-      setFeedback(`Complete: ${missingSlots.map((slot) => componentLabels[slot]).join(', ')}.`);
+      request.setError(`Selecione as peças que faltam: ${missingSlots.map((slot) => componentLabels[slot]).join(', ')}. Use Ver etapas para voltar à categoria.`);
       return;
     }
 
@@ -58,28 +154,40 @@ export default function BuildWizard() {
       request.setError(budgetError);
       return;
     }
-
-    await request.run(async () => {
+    await runWizardRequest(async (isCurrent) => {
       const compatibility = await compatibilityService.check(build.buildPayload);
+      if (!isCurrent()) return;
       build.actions.setResult('compatibility', compatibility);
 
       const alerts = await compatibilityService.alerts(build.buildPayload);
+      if (!isCurrent()) return;
       build.actions.setResult('alerts', alerts);
 
       const budgetResult = await budgetService.validate(build.budget);
-      build.actions.setBudget(budgetResult);
+      if (!isCurrent()) return;
+
+      function finishAnalysis(bottlenecks) {
+        pendingBottlenecks.current = false;
+        // Commit normalized budget and its matching results together. A rounded
+        // API amount must not leave the previous configuration marked as analyzed.
+        build.actions.setBudget(budgetResult);
+        build.actions.setResult('compatibility', compatibility);
+        build.actions.setResult('alerts', alerts);
+        build.actions.setResult('bottlenecks', bottlenecks);
+      }
 
       if (hasCompatibilityBlockers(compatibility, alerts)) {
-        build.actions.setResult('bottlenecks', {
+        finishAnalysis({
           status: 'unavailable',
           reason: 'incompatible_build',
           message: 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
           data: null
         });
-        setFeedback('Compatibilidade analisada. Corrija as incompatibilidades antes de analisar gargalos.');
+        setFeedback({ type: 'warning', message: 'Há peças incompatíveis. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.' });
         return;
       }
 
+      pendingBottlenecks.current = true;
       build.actions.setResult('bottlenecks', {
         status: 'loading',
         message: 'Analisando possíveis gargalos...',
@@ -88,25 +196,27 @@ export default function BuildWizard() {
 
       try {
         const bottlenecks = await performanceService.analyzeBottlenecks(build.buildPayload);
+        if (!isCurrent()) return;
 
-        build.actions.setResult('bottlenecks', {
+        finishAnalysis({
           status: 'success',
           data: bottlenecks
         });
       } catch (error) {
+        if (!isCurrent()) return;
         if (error.status === 400) {
-          build.actions.setResult('bottlenecks', {
+          finishAnalysis({
             status: 'unavailable',
             reason: 'missing_performance_parameters',
             message: buildBottleneckUnavailableMessage(error),
             errors: error.errors || [],
             data: null
           });
-          setFeedback('Build analisada. Gargalos indisponíveis por dados de desempenho insuficientes.');
+          setFeedback({ type: 'warning', message: 'Compatibilidade analisada. Faltam dados de desempenho para avaliar os gargalos; confira os detalhes abaixo.' });
           return;
         }
 
-        build.actions.setResult('bottlenecks', {
+        finishAnalysis({
           status: 'error',
           reason: error.status === 0 ? 'network_error' : 'unexpected_error',
           message: error.status === 0
@@ -115,88 +225,90 @@ export default function BuildWizard() {
           errors: error.errors || [],
           data: null
         });
-        setFeedback('Compatibilidade analisada. Não foi possível concluir a análise de gargalos.');
+        setFeedback({ type: 'warning', message: 'Compatibilidade analisada. Não foi possível concluir os gargalos. Use Analisar build para tentar novamente.' });
         return;
       }
 
-      setFeedback('Build analisada com sucesso.');
+      setFeedback({ type: 'success', message: 'Build analisada com sucesso. Confira os resultados abaixo.' });
     });
   }
 
   async function generateRecommendation() {
+    clearMessages();
     const budgetError = validateBudgetAmount(build.budget.amount);
     if (budgetError) {
       request.setError(budgetError);
       return;
     }
 
-    await request.run(async () => {
+    await runWizardRequest(async (isCurrent) => {
       const recommendation = await recommendationService.byBudget({
         budget: normalizeRecommendationBudgetPayload(build.budget),
         usageType: build.usageType
       });
-
+      if (!isCurrent()) return;
       build.actions.setResult('recommendation', recommendation);
-      setFeedback('Recomendação gerada com sucesso.');
+      setFeedback({ type: 'success', message: 'Recomendação gerada. Confira as peças antes de aplicá-la à sua montagem.' });
     });
   }
 
   async function saveCurrentBuild() {
+    clearMessages();
     if (missingSlots.length > 0) {
-      setFeedback('Complete a build antes de salvar.');
+      request.setError(`Antes de salvar, selecione: ${missingSlots.map(slot => componentLabels[slot]).join(', ')}.`);
       return;
     }
-
-    await request.run(async () => {
+    await runWizardRequest(async (isCurrent) => {
       await savedBuildsService.create(normalizeSavedBuildPayload({
         name: `Build ${new Date().toLocaleDateString('pt-BR')}`,
         selectedComponents: build.selectedComponents,
         budget: build.budget,
         usageType: build.usageType
       }));
-      setFeedback('Build salva com sucesso.');
+      if (isCurrent()) setFeedback({ type: 'success', message: 'Build salva com sucesso.' });
     });
   }
 
   return (
-    <div className="wizard-layout">
+    <div className="wizard-layout" ref={layoutRef}>
       <section className="wizard-main">
         <div className="page-hero compact-hero">
           <span className="eyebrow">Assistente de montagem</span>
-          <h1>Monte seu PC passo a passo</h1>
+          <h1>Monte seu PC</h1>
           <p>Escolha cada peça, defina seu orçamento e confira se tudo funciona bem junto.</p>
         </div>
 
-        <div className="stepper" role="group" aria-label="Etapas do assistente">
-          {steps.map((step, index) => (
-            <button
-              key={step}
-              type="button"
-              aria-current={index === stepIndex ? 'step' : undefined}
-              className={index === stepIndex ? 'active' : ''}
-              onClick={() => setStepIndex(index)}
-            >
-              {componentLabels[step] || (step === 'budget' ? 'Orçamento' : 'Revisão')}
-            </button>
-          ))}
-        </div>
+        <WizardNavigation currentStep={currentStep} completedSteps={completedSteps}
+          canAdvance={canAdvance} guidance={guidance} onStepChange={changeStep}
+          onSummary={() => navigate('/summary')} controlsRef={controlsRef} />
 
-        {request.error && <ErrorState message={request.error} />}
-        {feedback && <Alert type="success">{feedback}</Alert>}
+        <section className="wizard-step-content" aria-labelledby="wizard-step-heading" aria-busy={request.loading || (isComponentStep && loading)}>
+          <div className="wizard-step-intro">
+            <h2 id="wizard-step-heading" ref={headingRef} tabIndex={-1}>{wizardLabels[currentStep]}</h2>
+            <p>{wizardDescriptions[currentStep]}</p>
+          </div>
+          {request.loading && <LoadingSpinner label="Aguarde, processando sua montagem..." />}
+          {request.error && <ErrorState message={request.error} />}
+          {feedback && <Alert type={feedback.type}>{feedback.message}</Alert>}
 
-        {componentTypes.includes(currentStep) && (
+        {isComponentStep && (
           <>
-            <h2>{componentLabels[currentStep]}</h2>
+            {build.selectedComponents[currentStep] && (
+              <p className="wizard-selection"><strong>Peça atual: {build.selectedComponents[currentStep].name || 'Componente selecionado'}</strong>
+                <span>Para substituir, selecione outra opção. As demais peças serão mantidas.</span></p>
+            )}
             {loading && <LoadingSpinner />}
             {error && <ErrorState message={error} onRetry={reload} />}
-            {!loading && !error && stepComponents.length === 0 && <EmptyState title="Nenhuma peça nesta categoria" />}
+            {!loading && !error && stepComponents.length === 0 && <EmptyState title="Nenhuma peça nesta categoria">
+              <Button variant="secondary" onClick={reload}>Atualizar catálogo</Button>
+            </EmptyState>}
             {!loading && !error && <div className="cards-grid component-grid">
               {stepComponents.map((component) => (
                 <ComponentCard
                   key={component.id}
                   component={component}
                   selected={build.selectedComponents[currentStep]?.id === component.id}
-                  onSelect={(selected) => build.actions.selectComponent(currentStep, selected)}
+                  onSelect={(selected) => { clearMessages(); build.actions.selectComponent(currentStep, selected); }}
                 />
               ))}
             </div>}
@@ -205,26 +317,27 @@ export default function BuildWizard() {
 
         {currentStep === 'budget' && (
           <Card>
-            <h2>Orçamento e tipo de uso</h2>
+            <h3>Orçamento e tipo de uso</h3>
             <div className="form-grid">
               <Input
                 label="Orçamento"
                 type="number"
                 min="1"
                 value={build.budget.amount}
-                onChange={(event) => build.actions.setBudget({ amount: event.target.value })}
+                onChange={(event) => { clearMessages(); build.actions.setBudget({ amount: event.target.value }); }}
+                hint="Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento."
                 error={validateBudgetAmount(build.budget.amount)}
               />
               <Select
                 label="Prioridade"
                 value={build.budget.priority}
-                onChange={(event) => build.actions.setBudget({ priority: event.target.value })}
+                onChange={(event) => { clearMessages(); build.actions.setBudget({ priority: event.target.value }); }}
                 options={priorityOptions.map((priority) => ({ value: priority, label: priorityLabels[priority] }))}
               />
               <Select
                 label="Tipo de uso"
                 value={build.usageType}
-                onChange={(event) => build.actions.setUsageType(event.target.value)}
+                onChange={(event) => { clearMessages(); build.actions.setUsageType(event.target.value); }}
                 options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
@@ -235,8 +348,11 @@ export default function BuildWizard() {
         {currentStep === 'review' && (
           <div className="page-stack">
             <Card>
-              <h2>Revisão e análises</h2>
+              <h3>Revisão e análises</h3>
               <p>Execute compatibilidade, alertas, gargalos e orçamento antes de gerar o resumo final.</p>
+              {!build.compatibility && <p>Ao alterar peças ou orçamento, execute as análises novamente para conferir a configuração atual.</p>}
+              {missingSlots.length > 0 && <Alert type="warning">Faltam peças: {missingSlots.map(slot => componentLabels[slot]).join(', ')}. Volte à categoria para escolher.</Alert>}
+              {budgetError && <Alert type="warning">{budgetError} Volte à etapa Orçamento para corrigir.</Alert>}
               <div className="button-row">
                 <Button disabled={request.loading} onClick={runAnalysis}>
                   <Wand2 size={18} /> Analisar build
@@ -247,34 +363,27 @@ export default function BuildWizard() {
                 <Button variant="ghost" disabled={request.loading} onClick={saveCurrentBuild}>
                   <Save size={18} /> Salvar build
                 </Button>
-                <Link className="btn btn-primary btn-md" to="/summary">Ver resumo final</Link>
               </div>
             </Card>
             <CompatibilityStatus result={build.alerts || build.compatibility} />
             <BottleneckPanel result={build.bottlenecks} />
-            <RecommendationCard recommendation={build.recommendation} onApply={build.actions.applyRecommendation} />
+            <RecommendationCard recommendation={build.recommendation} onApply={(recommendation) => {
+              clearMessages();
+              build.actions.applyRecommendation(recommendation);
+              setFeedback({ type: 'info', message: 'As peças da recomendação foram aplicadas. Execute Analisar build para conferir esta configuração.' });
+            }} />
           </div>
         )}
 
-        <div className="wizard-controls">
-          <Button variant="ghost" disabled={stepIndex === 0} onClick={() => setStepIndex((index) => Math.max(index - 1, 0))}>
-            <ArrowLeft size={18} /> Voltar
-          </Button>
-          {stepIndex < steps.length - 1 ? (
-            <Button disabled={!canAdvance} onClick={() => setStepIndex((index) => Math.min(index + 1, steps.length - 1))}>
-              Avançar <ArrowRight size={18} />
-            </Button>
-          ) : (
-            <Button onClick={() => navigate('/summary')}>Ir para resumo</Button>
-          )}
-        </div>
+        </section>
       </section>
 
       <aside className="wizard-sidebar">
         <BuildSummaryCard
           selectedComponents={build.selectedComponents}
           totalPrice={build.totalPrice}
-          onRemove={build.actions.removeComponent}
+          onEdit={changeStep}
+          onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
       </aside>
     </div>

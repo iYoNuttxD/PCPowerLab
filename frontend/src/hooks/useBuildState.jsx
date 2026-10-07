@@ -1,9 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { buildToApiPayload, calculateBuildPrice } from '../utils/buildHelpers.js';
+import { normalizeWizardStep } from '../utils/wizardSteps.js';
 
 const storageKey = 'pcpowerlab-build-state';
 
+const emptyResults = {
+  compatibility: null,
+  alerts: null,
+  bottlenecks: null,
+  recommendation: null,
+  gamePerformance: null,
+  summary: null
+};
+
 const initialState = {
+  wizardStep: 'cpu',
   selectedComponents: {},
   budget: {
     amount: '',
@@ -16,12 +27,7 @@ const initialState = {
     targetResolution: '1080p',
     qualityPreset: 'high'
   },
-  compatibility: null,
-  alerts: null,
-  bottlenecks: null,
-  recommendation: null,
-  gamePerformance: null,
-  summary: null
+  ...emptyResults
 };
 
 const BuildContext = createContext(null);
@@ -38,9 +44,13 @@ export function BuildProvider({ children }) {
   }, [state]);
 
   const actions = useMemo(() => ({
+    setWizardStep(step) {
+      setState((current) => ({ ...current, wizardStep: normalizeWizardStep(step) }));
+    },
     selectComponent(type, component) {
-      setState((current) => ({
+      setState((current) => current.selectedComponents[type] === component ? current : ({
         ...current,
+        ...emptyResults,
         selectedComponents: {
           ...current.selectedComponents,
           [type]: component
@@ -54,22 +64,24 @@ export function BuildProvider({ children }) {
 
         return {
           ...current,
+          ...emptyResults,
           selectedComponents: nextComponents
         };
       });
     },
     setBudget(budget) {
-      setState((current) => ({
-        ...current,
-        budget: {
-          ...current.budget,
-          ...budget
-        }
-      }));
+      setState((current) => {
+        const nextBudget = { ...current.budget, ...budget };
+        const changed = Number(nextBudget.amount) !== Number(current.budget.amount)
+          || nextBudget.currency !== current.budget.currency
+          || nextBudget.priority !== current.budget.priority;
+        return { ...current, ...(changed ? emptyResults : {}), budget: nextBudget };
+      });
     },
     setUsageType(usageType) {
       setState((current) => ({
         ...current,
+        ...(current.usageType !== usageType ? emptyResults : {}),
         usageType
       }));
     },
@@ -108,6 +120,8 @@ export function BuildProvider({ children }) {
 
       setState((current) => ({
         ...current,
+        ...emptyResults,
+        wizardStep: 'cpu',
         selectedComponents,
         budget: savedBuild?.budget || current.budget,
         usageType: savedBuild?.usageType || current.usageType
@@ -116,6 +130,7 @@ export function BuildProvider({ children }) {
     applyRecommendation(recommendation) {
       setState((current) => ({
         ...current,
+        ...emptyResults,
         selectedComponents: recommendation?.components || {},
         recommendation
       }));
@@ -151,7 +166,7 @@ function loadInitialState() {
     const stored = JSON.parse(localStorage.getItem(storageKey));
 
     return stored && typeof stored === 'object'
-      ? { ...initialState, ...stored }
+      ? { ...initialState, ...stored, wizardStep: normalizeWizardStep(stored.wizardStep) }
       : initialState;
   } catch (_error) {
     return initialState;

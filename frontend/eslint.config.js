@@ -2,6 +2,11 @@ import globals from 'globals';
 
 export default [
   {
+    files: ['tests/**/*.js', 'playwright.config.js'],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+    rules: { 'no-undef': 'error' }
+  },
+  {
     files: ['src/**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 'latest',

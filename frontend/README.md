@@ -14,7 +14,7 @@ Interface web do PCPowerLab, criada com Vite + React para consumir a API REST lo
 
 ## Pré-requisitos
 
-- Node.js 18 ou superior
+- Node.js 22.12 ou superior
 - Backend do PCPowerLab rodando em `http://localhost:3000/api/v1`
 
 ## Instalação
@@ -49,6 +49,22 @@ http://localhost:5173
 npm run build
 npm run preview
 ```
+
+## Testes do assistente
+
+Os testes E2E usam Playwright em desktop e celular. As respostas da API são controladas pelos testes, sem depender do backend nem gravar dados nele. O servidor Vite de teste inicia automaticamente na porta 4173, que deve estar livre.
+
+```bash
+cd frontend # a partir da raiz do repositório
+npm ci
+npx playwright install chromium
+npm test
+npm run lint
+```
+
+Para usar uma instalação local do Google Chrome: `PLAYWRIGHT_CHANNEL=chrome npm test` (PowerShell: `$env:PLAYWRIGHT_CHANNEL='chrome'; npm test`). Falhas geram screenshot e trace em `test-results/`, ignorado pelo Git. Não há retries automáticos.
+
+A suíte cobre avanço e retorno, bloqueios e validação, substituição sem perda de peças, persistência da etapa, navegação entre páginas, foco e rolagem com movimento reduzido, falhas de API, respostas tardias e aplicação/salvamento de recomendações. Os testes de regras técnicas do backend continuam na raiz: `npm test`.
 
 ## Estrutura
 
