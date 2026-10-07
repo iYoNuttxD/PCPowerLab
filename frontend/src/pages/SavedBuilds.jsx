@@ -53,6 +53,7 @@ export default function SavedBuilds() {
 
   async function loadBuilds() {
     setLoading(true);
+    request.setError('');
     try {
       const data = await savedBuildsService.list();
       setSavedBuilds(Array.isArray(data) ? data : []);
@@ -215,7 +216,9 @@ export default function SavedBuilds() {
       {request.error && <ErrorState message={request.error} onRetry={loadBuilds} />}
       {feedback && <Alert type="success">{feedback}</Alert>}
       {loading && <LoadingSpinner />}
-      {!loading && savedBuilds.length === 0 && <EmptyState title="Nenhuma build salva" message="Salve uma configuração no wizard ou no resumo final." />}
+      {!loading && !request.error && savedBuilds.length === 0 && <EmptyState title="Nenhuma build salva" message="Salve uma configuração no assistente ou no resumo final.">
+        <Link className="btn btn-primary btn-md" to="/build">Montar meu PC</Link>
+      </EmptyState>}
 
       <Card>
         <div className="section-heading compact">

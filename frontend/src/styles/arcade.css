@@ -1,23 +1,20 @@
 .panel-card,
-.hero-console,
-.topbar {
+.hero-console {
   position: relative;
 }
 
-.panel-card::before,
 .hero-console::before {
   position: absolute;
-  inset: 0;
+  inset: 0 0 auto;
+  height: 1px;
   border-radius: inherit;
   pointer-events: none;
   content: "";
-  background:
-    linear-gradient(90deg, transparent, rgba(54, 242, 255, 0.14), transparent) top left / 100% 1px no-repeat,
-    linear-gradient(180deg, transparent, rgba(255, 79, 216, 0.12), transparent) top right / 1px 100% no-repeat;
+  background: linear-gradient(90deg, transparent, rgba(54, 242, 255, 0.14), transparent);
 }
 
 .panel-card:hover {
-  border-color: rgba(54, 242, 255, 0.42);
+  border-color: var(--border-strong);
 }
 
 .status-compatible {

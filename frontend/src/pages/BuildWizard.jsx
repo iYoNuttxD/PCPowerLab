@@ -164,13 +164,15 @@ export default function BuildWizard() {
         <div className="page-hero compact-hero">
           <span className="eyebrow">Assistente de montagem</span>
           <h1>Monte seu PC passo a passo</h1>
-          <p>Escolha cada peça, informe orçamento e execute as análises do backend.</p>
+          <p>Escolha cada peça, defina seu orçamento e confira se tudo funciona bem junto.</p>
         </div>
 
-        <div className="stepper" aria-label="Etapas do assistente">
+        <div className="stepper" role="group" aria-label="Etapas do assistente">
           {steps.map((step, index) => (
             <button
               key={step}
+              type="button"
+              aria-current={index === stepIndex ? 'step' : undefined}
               className={index === stepIndex ? 'active' : ''}
               onClick={() => setStepIndex(index)}
             >
@@ -188,7 +190,7 @@ export default function BuildWizard() {
             {loading && <LoadingSpinner />}
             {error && <ErrorState message={error} onRetry={reload} />}
             {!loading && !error && stepComponents.length === 0 && <EmptyState title="Nenhuma peça nesta categoria" />}
-            <div className="cards-grid">
+            {!loading && !error && <div className="cards-grid component-grid">
               {stepComponents.map((component) => (
                 <ComponentCard
                   key={component.id}
@@ -197,7 +199,7 @@ export default function BuildWizard() {
                   onSelect={(selected) => build.actions.selectComponent(currentStep, selected)}
                 />
               ))}
-            </div>
+            </div>}
           </>
         )}
 

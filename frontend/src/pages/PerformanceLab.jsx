@@ -261,7 +261,7 @@ export default function PerformanceLab() {
                 />
               </div>
 
-              <div className="game-checkbox-grid" aria-label="Jogos para comparação">
+              <div className="game-checkbox-grid" role="group" aria-label="Jogos para comparação">
                 {games.map((game) => (
                   <label key={game.id} className="game-checkbox-card">
                     <input

@@ -1,5 +1,8 @@
+import { useId } from 'react';
+
 export default function Select({ label, id, options = [], className = '', ...props }) {
-  const selectId = id || props.name;
+  const generatedId = useId();
+  const selectId = id || generatedId;
 
   return (
     <label className={`field ${className}`} htmlFor={selectId}>
