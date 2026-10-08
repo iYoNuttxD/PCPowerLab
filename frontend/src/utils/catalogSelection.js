@@ -13,7 +13,7 @@ export function selectCatalogComponent(selection, actions, component) {
   return true;
 }
 
-export const catalogMethodology = 'Desempenho estimado de 0 a 100: compare peças da mesma categoria. Não é FPS medido. Índice por R$ 1.000 = pontuação ÷ preço × 1.000. Os índices comparam somente este catálogo; dados ausentes aparecem como Não informado.';
+export const catalogMethodology = 'Pontuações simuladas de 0 a 100: compare peças da mesma categoria. Sem benchmark medido; os pontos não são FPS. Índice por R$ 1.000 = pontuação ÷ preço × 1.000. Os índices comparam somente este catálogo; dados ausentes aparecem como Não informado.';
 
 export function formatCatalogScore(value) {
   return typeof value === 'number' && Number.isFinite(value) ? value.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : 'Não informado';

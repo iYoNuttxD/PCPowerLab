@@ -45,8 +45,8 @@ for (const component of additions) {
     assert.equal(summary.budgetStatus.remaining, missingIds.length ? null : Number((1000 - total).toFixed(2)));
     const score = calculateBuildScore({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming' });
     assert.equal(score.criteria.compatibilityScore, 100);
-    if (performanceUnavailable) assert.equal(score.criteria.performanceScore, null);
-    else assert.ok(score.criteria.performanceScore > 0);
+    assert.ok(score.criteria.performanceScore > 0);
+    if (performanceUnavailable) assert.equal(score.criteria.balanceScore, null);
     assert.equal(score.available, missingIds.length === 0);
     if (missingIds.length) {
       assert.equal(score.overallScore, null);
@@ -59,7 +59,10 @@ for (const component of additions) {
       assert.equal(score.warnings, undefined);
     }
     const parameter = performanceParameters.find(entry => entry.componentId === component.id);
-    if (performanceUnavailable) assert.equal(parameter, undefined);
+    if (performanceUnavailable) {
+      assert.equal(parameter.scoreKind, 'synthetic-provisional');
+      assert.equal(parameter.simulationSupported, false);
+    }
     else {
       assert.equal(parameter.capacity, component.specs.capacityGb);
       if (component.category === 'ram') assert.equal(parameter.memoryType, component.specs.memoryType);

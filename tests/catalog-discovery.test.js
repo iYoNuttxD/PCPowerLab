@@ -17,7 +17,7 @@ test('catalog exposes only recorded meaningful scores with explicit internal met
   for (const component of listComponents()) {
     if (['cpu', 'gpu', 'ram', 'storage'].includes(component.category)) {
       assert.equal(component.performanceScore, findPerformanceParameterRecordByComponentId(component.id)?.performanceScore ?? null);
-      if (component.performanceScore !== null) assert.match(component.performanceMethodology, /mesma categoria/);
+      if (component.performanceScore !== null) assert.match(component.performanceMethodology.description, /mesma categoria/);
     } else {
       assert.equal(component.performanceScore, null);
       assert.equal(component.performanceMethodology, null);

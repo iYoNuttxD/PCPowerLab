@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { listComponents } from './component.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -78,7 +79,9 @@ function formatCostBenefitEntry(entry, maxRawScore) {
   const costBenefitScore = normalizeCostBenefitScore(entry.rawCostBenefitScore, maxRawScore);
 
   return {
+    ...performanceMetadata({ component: entry.component }),
     component: {
+      performanceMethodology: entry.component.performanceMethodology,
       id: entry.component.id,
       name: entry.component.name,
       category: entry.component.category,

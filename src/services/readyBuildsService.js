@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { selectBuildComponents } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { readyBuilds } from '../data/readyBuilds.js';
@@ -83,6 +84,7 @@ function formatReadyBuild(readyBuild) {
   const pricing = summarizeBuildPricing(selectBuildComponents(readyBuild.components));
   return {
     ...readyBuild,
+    ...performanceMetadata(selectBuildComponents(readyBuild.components)),
     compatibility,
     estimatedTotalPrice: pricing.estimatedTotal,
     budgetStatus: pricing.estimatedTotal === null ? 'unknown'

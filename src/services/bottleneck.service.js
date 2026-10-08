@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { getCoolingPower } from './cooling.service.js';
 import { selectBuildComponents } from './build.service.js';
@@ -16,7 +17,7 @@ const componentsWithRequiredPerformanceScore = ['cpu', 'gpu', 'ram', 'storage'];
 export function analyzeBuildBottlenecks(selectionInput) {
   const build = selectBuildComponents(selectionInput);
   const unavailable = unavailablePerformance(build);
-  if (unavailable) return { ...unavailable, hasBottleneck: null, overallBalance: 'unavailable', bottlenecks: [], performanceSummary: null };
+  if (unavailable) return { ...performanceMetadata(build), ...unavailable, hasBottleneck: null, overallBalance: 'unavailable', bottlenecks: [], performanceSummary: null };
   const performanceParameters = mapPerformanceParameters(build);
   const coolingPower = getCoolingPower(build);
 
@@ -30,6 +31,7 @@ export function analyzeBuildBottlenecks(selectionInput) {
   ].flat().filter(Boolean);
 
   return {
+    ...performanceMetadata(build),
     hasBottleneck: bottlenecks.length > 0,
     overallBalance: getOverallBalance(bottlenecks),
     bottlenecks,

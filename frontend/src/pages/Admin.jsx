@@ -229,7 +229,7 @@ export default function Admin() {
           <form className="form-grid" onSubmit={saveParameter}>
             <Input label="Component ID" name="componentId" required maxLength="80" />
             <Select label="Tipo" name="type" options={componentTypes.map((type) => ({ value: type, label: componentLabels[type] }))} />
-            <Input label="Performance score" name="performanceScore" type="number" min="0" max="100" required />
+            <Input label="Pontuação simulada" name="performanceScore" type="number" min="0" max="100" required />
             <Button type="submit">Cadastrar parâmetro</Button>
           </form>
         </Card>
@@ -259,9 +259,9 @@ export default function Admin() {
             <article key={parameter.componentId} className="admin-row">
               <div>
                 <ComponentIdentity component={parameter.componentId} category={parameter.type}><small>{parameter.componentId}</small></ComponentIdentity>
-                <span>{translateValue(parameter.type)} • score {parameter.performanceScore}</span>
+                <span>{translateValue(parameter.type)} • pontuação simulada {parameter.performanceScore}</span>
               </div>
-              <Button variant="ghost" onClick={() => updateParameter(parameter)}>+1 score</Button>
+              <Button variant="ghost" onClick={() => updateParameter(parameter)}>+1 ponto</Button>
               <Button variant="danger" onClick={() => deleteParameter(parameter.componentId)}>Remover</Button>
             </article>
           ))}

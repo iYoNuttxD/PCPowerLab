@@ -99,7 +99,10 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
   const dialog = page.getByRole('dialog', { name: 'Comparar componentes' });
   await expect(dialog.getByRole('columnheader', { name: ram16.name, exact: true })).toBeVisible();
   const capacityRow = dialog.getByRole('rowheader', { name: /^Capacidade(?:\s*Diferença)?$/ }).locator('..');
-  await expect(capacityRow.getByRole('cell')).toHaveText(['16 GB', '32 GB']);
+  const columnNames = (await dialog.getByRole('columnheader').allTextContents()).slice(1).map(name => name.trim());
+  const capacityByName = new Map([[ram16.name, '16 GB'], [ram32.name, '32 GB']]);
+  expect(columnNames.slice().sort()).toEqual([ram16.name, ram32.name].sort());
+  await expect(capacityRow.getByRole('cell')).toHaveText(columnNames.map(name => capacityByName.get(name)));
   await expect(dialog.getByRole('row').filter({ hasText: 'Taxa de transferência' })).toContainText('3.600 MT/s');
   await expect(dialog.getByRole('row').filter({ hasText: 'Modelo / código' })).toContainText(ram32.partNumber);
   await page.keyboard.press('Escape');
@@ -156,19 +159,33 @@ test('imagem sem origem não é carregada; preços ausentes não aparecem como z
 });
 
 test('preço tem fonte direta e créditos têm destino único, sem explicações ocultas', async ({ page }) => {
-  const pricing = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', queriedAt: '2026-10-08', model: photo.partNumber, paymentCondition: 'PIX à vista', productUrl: 'https://www.kabum.com.br/produto/fixture', observedAvailability: 'unknown' };
+  const pricing = { ...photo.pricing, price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false,
+    referenceScope: 'exact', identityMatch: 'exact', verificationMethod: 'rendered_product_page',
+    observedAvailability: 'available', availabilityEvidence: 'Test fixture: buy button enabled for this exact SKU',
+    observationSource: { kind: 'manual_public_page_observation', authorizedApi: false },
+    observedAt: '2026-10-08T12:00:00Z', store: 'KaBuM!', queriedAt: '2026-10-08', model: photo.partNumber,
+    paymentCondition: 'PIX à vista', productUrl: 'https://www.kabum.com.br/produto/fixture' };
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, [{ ...photo, price: pricing.price, pricing, image: { ...photo.image, rightsBasis: null, author: null, license: null, licenseUrl: null } }]));
   await page.goto('/components');
   const card = page.locator('.component-card');
   await expect(card.locator('img')).toBeVisible();
   const priceNote = card.locator('.reference-price-note');
-  await expect(priceNote).toHaveText('Referência PIX · KaBuM! · 2026-10-08');
+  await expect(priceNote).toHaveText('Referência PIX · KaBuM! · 08/10/2026, 12:00 UTC');
   await expect(priceNote.locator('details')).toHaveCount(0);
   await expect(priceNote.getByRole('link')).toHaveAttribute('href', pricing.productUrl);
   await page.getByRole('link', { name: 'Créditos das imagens', exact: true }).click();
   const credit = page.locator('.image-credit');
   await expect(credit.getByRole('link', { name: 'Origem da fotografia', exact: true })).toHaveAttribute('href', photo.image.imageSource);
   await expect(credit).not.toContainText('undefined');
+});
+
+test('referência com estoque desconhecido não exibe cotação nem link elegível', async ({ page }) => {
+  const pricing = { ...photo.pricing, observedAvailability: 'unknown' };
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, [{ ...photo, pricing }]));
+  await page.goto('/components');
+  const note = page.locator('.component-card .reference-price-note');
+  await expect(note).toHaveText('Sem cotação');
+  await expect(note.getByRole('link')).toHaveCount(0);
 });
 
 test('catálogo diferencia carregamento, falha, vazio e recuperação', async ({ page }) => {

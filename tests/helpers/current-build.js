@@ -76,6 +76,7 @@ export function installScenarioBuild() {
     components.push({ id, name: `Synthetic ${id}`, category, brand: 'Test only', active: true,
       price: scenarioPrices[id], specs: globalThis.structuredClone(technical) });
     if (performance) performanceParameters.push({ componentId: id, type: category,
+      simulationSupported: true, simulationProfileVersion: 'test-fixture-simulator-v1',
       recommendedUse: ['gaming', 'general', 'programming'], ...performance });
   };
   for (const [slot, id] of Object.entries(scenarioBuildSlots)) add(id, slot, specs[slot], scores[slot]);

@@ -1,6 +1,7 @@
+import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { Link } from 'react-router-dom';
 import { selectedComparisonBuilds } from '../utils/buildComparisonSelection.js';
-import { formatPerformanceNumber } from '../utils/performancePresentation.js';
+import { formatPerformanceNumber, numericValue } from '../utils/performancePresentation.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import BuildComponentsPreview from '../components/build/BuildComponentsPreview.jsx';
 import { useEffect, useState } from 'react';
@@ -167,7 +168,7 @@ export default function CompareBuilds() {
                         </div>
                       )}
                     </td>
-                    <td>{formatPerformanceNumber(item.performanceScore)} / 100</td>
+                    <td>{formatPerformanceNumber(item.performanceScore)}{numericValue(item.performanceScore) !== null && <> / 100{hasSimulatedPerformance(item) && <small>Pontuação simulada</small>}</>}</td>
                     <td>{formatPerformanceNumber(item.costBenefitScore)} / 100<small>Índice interno relativo; não equivale a desconto ou economia.</small></td>
                     <td><p>{item.alertSummary?.total ?? 'Não informado'} alerta(s) de compatibilidade</p><p>{item.bottleneckStatus === 'analyzed' ? `${item.bottleneckSummary?.total ?? 'Não informado'} possível(is) gargalo(s)` : 'Gargalos: sem conclusão para esta configuração'}</p></td>
                     <td>{translateValue(item.budgetStatus)}</td><td>{formatPerformanceNumber(item.comparisonScore)}<small>Combina o critério escolhido com orçamento, compatibilidade e alertas; pode ultrapassar 100.</small></td>

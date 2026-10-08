@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { selectBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
@@ -67,6 +68,7 @@ export function generateUpgradeRoadmap(input) {
   const totalEstimatedCost = calculateTotalEstimatedCost(steps);
 
   return {
+    ...performanceMetadata(currentBuild),
     totalBudget,
     maxSteps,
     totalEstimatedCost,
@@ -144,6 +146,8 @@ function formatRoadmapStep({
   const { suggestion, stepPriority } = candidate;
 
   return removeNullishFields({
+    performanceBasis: suggestion.performanceBasis,
+    performanceMethodology: suggestion.performanceMethodology,
     step: stepNumber,
     orderRecommended: stepNumber,
     componentType: suggestion.componentType,

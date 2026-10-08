@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { requiredBuildSlots, selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { getSavedBuildById } from './savedBuildsService.js';
@@ -49,6 +50,7 @@ function buildExportPayload({
   totalEstimatedPrice
 }) {
   const exportPayload = {
+    ...exportPerformanceMetadata(components),
     exportVersion,
     exportedAt: new Date().toISOString(),
     source: exportSource,
@@ -78,6 +80,15 @@ function buildExportPayload({
   }
 
   return exportPayload;
+}
+
+// Exporting historical IDs must stay possible when live resolution is unavailable.
+function exportPerformanceMetadata(components) {
+  try { return performanceMetadata(selectBuildComponents(components)); }
+  catch (error) {
+    if (!error.statusCode || error.statusCode >= 500) throw error;
+    return performanceMetadata();
+  }
 }
 
 function validateExportPayload(exportInput) {
@@ -132,6 +143,8 @@ function buildSummaryForExport({
 
     return {
       summary: {
+        performanceBasis: generatedSummary.performanceBasis,
+        performanceMethodology: generatedSummary.performanceMethodology,
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
         pricing: generatedSummary.pricing,
         compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')

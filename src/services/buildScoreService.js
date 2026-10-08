@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -48,6 +49,7 @@ export function calculateBuildScore(input) {
   const overallScore = available ? calculateWeightedOverallScore(criteria) : null;
 
   return removeEmptyFields({
+    ...performanceMetadata(summary.components, performanceByComponentId),
     overallScore,
     classification: available ? classifyBuildScore(overallScore) : 'Indisponível',
     available,

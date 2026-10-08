@@ -1,4 +1,4 @@
-import { corePerformanceCategories, isValidCorePerformanceParameter } from './performanceAvailability.js';
+import { corePerformanceCategories, isUsableScoreParameter } from './performanceAvailability.js';
 import { requiredBuildSlots } from '../services/build.service.js';
 
 const defaultPerformanceScore = 50;
@@ -14,7 +14,7 @@ export function getEstimatedPrice(component) {
 }
 
 export function getPerformanceScore(component, performanceParameter, usageType = 'general') {
-  if (!component || component.performanceModelStatus === 'unavailable') {
+  if (!component || (component.performanceModelStatus === 'unavailable' && !isUsableScoreParameter(component, performanceParameter))) {
     return null;
   }
 
@@ -22,7 +22,7 @@ export function getPerformanceScore(component, performanceParameter, usageType =
     return 0;
   }
 
-  if (corePerformanceCategories.includes(component.category) && !isValidCorePerformanceParameter(component, performanceParameter)) return null;
+  if (corePerformanceCategories.includes(component.category) && !isUsableScoreParameter(component, performanceParameter)) return null;
 
   const usageScoreField = getUsageScoreField(usageType);
   const usageScore = performanceParameter?.[usageScoreField];

@@ -8,6 +8,7 @@ import Modal from '../ui/Modal.jsx';
 import { componentLabels } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { formatSpecValue, specKeys, specLabel, catalogPerformanceScore, componentValueScore } from '../../utils/componentPresentation.js';
+import { performanceScoreLabel } from '../../utils/performanceMethodology.js';
 import { formatCatalogScore } from '../../utils/catalogSelection.js';
 import ComponentImage from './ComponentImage.jsx';
 
@@ -18,6 +19,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
   const primaryKeys = component?.category === 'fan' ? ['diameterMm', 'connector', 'unitsPerPack', 'powerWatts']
     : component?.category === 'cpu' ? ['socket', 'cores', 'threads', 'boostClockGhz'] : keys.slice(0, 4);
   const name = component?.name || 'Componente sem nome';
+  const performanceScore = catalogPerformanceScore(component);
 
   return (
     <>
@@ -37,6 +39,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
           ))}
         </dl>
         <div className="component-card-context">
+        {performanceScore !== null && <p className="hint-text">{performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)} / 100</p>}
         {compatibilityPreview && <div className="catalog-compatibility-note">
           <p>{compatibilityPreview.status === 'compatible' ? 'Compatível nas regras verificadas' : compatibilityPreview.status === 'incompatible' ? 'Conflito na montagem resultante' : 'Verificação incompleta'}</p>
           {[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].length > 0 && <details><summary>Ver motivos de compatibilidade</summary><ul>{[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].map((item, index) => <li key={`${item.code}-${index}`}>{item.message}</li>)}</ul></details>}
@@ -74,7 +77,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         <p className="price">{formatCurrency(component?.price)}</p>
         <ReferencePriceNote component={component} />
         {Array.isArray(component?.selectionNotes) && component.selectionNotes.length > 0 && <section><h3>Cuidados ao escolher</h3><ul>{component.selectionNotes.map(note => <li key={note}>{note}</li>)}</ul></section>}
-        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices estimados, comparáveis apenas na mesma categoria. Veja a metodologia do catálogo.">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
+        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices do modelo, comparáveis apenas na mesma categoria. Sem benchmark medido.">{performanceScore === null ? 'Pontuação de desempenho' : performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)}{performanceScore !== null && ' / 100'}<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
         <dl className="spec-grid component-details">
           {keys.map((key) => (
             <div key={key}><dt>{specLabel(key)}</dt><dd>{formatSpecValue(key, specs[key])}</dd></div>

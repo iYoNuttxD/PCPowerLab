@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
@@ -55,6 +56,7 @@ export function suggestUpgrades(input) {
   });
 
   return {
+    ...performanceMetadata(currentBuild),
     methodology: buildDecisionMethodology({ usageType, ranking: 'Ganho de indice simulado, custo estimado integral da peca, prioridade, capacidade preservada e compatibilidade pelas regras do catalogo. Nao desconta revenda da peca antiga.' }),
     currentBuildSummary: {
       totalEstimatedPrice: pricing.estimatedTotal,
@@ -203,7 +205,8 @@ function buildCandidateSuggestion({
     suggestedComponent: candidate,
     estimatedUpgradeCost,
     estimatedCostBasis: 'full_replacement_reference_price',
-    performanceBasis: 'simulated_score_difference',
+    ...performanceMetadata({ currentComponent, candidate }, performanceByComponentId),
+    performanceCalculation: 'simulated_score_difference',
     expectedImpact,
     scoreGain,
     reason: buildUpgradeReason({

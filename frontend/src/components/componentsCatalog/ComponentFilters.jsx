@@ -31,7 +31,7 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
           }).filter(value => typeof value !== 'object').map(String))].sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true }));
           return <Select key={key} label={specLabel(key)} value={filters.specs?.[key] || ''}
             onChange={event => update('specs', { ...filters.specs, [key]: event.target.value })}
-            options={[{ value: '', label: 'Qualquer valor cadastrado' }, ...values.map(value => ({ value, label: formatSpecValue(key, value) }))]} />;
+            options={[{ value: '', label: 'Todos os valores' }, ...values.map(value => ({ value, label: formatSpecValue(key, value) }))]} />;
         })}
         {performanceAvailable && <>
           <Input label="Desempenho mínimo estimado" type="number" min="0" max="100" value={filters.minPerformance || ''} onChange={event => update('minPerformance', event.target.value)} />
@@ -41,7 +41,7 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
           { value: 'name-asc', label: 'Nome: A–Z' }, { value: 'name-desc', label: 'Nome: Z–A' },
           { value: 'price-asc', label: 'Menor preço' }, { value: 'price-desc', label: 'Maior preço' },
           ...(performanceAvailable ? [
-            { value: 'performance-desc', label: 'Maior desempenho estimado' }, { value: 'performance-asc', label: 'Menor desempenho estimado' },
+            { value: 'performance-desc', label: 'Maior desempenho' }, { value: 'performance-asc', label: 'Menor desempenho' },
             { value: 'value-desc', label: 'Maior índice por real' }, { value: 'value-asc', label: 'Menor índice por real' }
           ] : [])
         ]} />

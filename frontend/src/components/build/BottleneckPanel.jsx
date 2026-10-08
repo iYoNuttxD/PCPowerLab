@@ -1,3 +1,4 @@
+import { hasSimulatedPerformance } from '../../utils/performanceMethodology.js';
 import { useId } from 'react';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Alert from '../ui/Alert.jsx';
@@ -97,7 +98,7 @@ export default function BottleneckPanel({ result }) {
       <AnalysisHelp topics={['bottleneck', 'score', 'energy']} />
       <div className="performance-chart-panel" role="group" aria-label="Gráfico de desempenho dos componentes" aria-describedby={scoreDescriptionId}>
         <h4>Pontuação de desempenho por componente</h4>
-        <p id={scoreDescriptionId} className="chart-caption">Pontuações de 0 a 100 por componente. Barras maiores indicam maior pontuação no cadastro; os pontos não são FPS. Avalie o equilíbrio junto dos alertas abaixo.</p>
+        <p id={scoreDescriptionId} className="chart-caption">{chartData.length > 0 && hasSimulatedPerformance(analysis, performanceSummary) ? 'Pontuações simuladas' : 'Pontuações'} de 0 a 100 por componente. Barras maiores indicam maior pontuação no cadastro; os pontos não são FPS. Avalie o equilíbrio junto dos alertas abaixo.</p>
         {chartData.length > 0 ? (
           <div className="chart-box performance-chart">
             <ResponsiveContainer width="100%" height={240}>

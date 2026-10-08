@@ -1,3 +1,4 @@
+import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
@@ -542,7 +543,7 @@ function ReadyBuildCard({ readyBuild, componentMap, currentSelection, currentBud
           <span>{getBudgetFitLabel(pricing, readyBuild.targetBudgetRange)}</span>
         </div>
         <div>
-          <span>Desempenho estimado</span>
+          <span>{hasSimulatedPerformance(readyBuild) ? 'Desempenho simulado' : 'Desempenho estimado'}</span>
           <strong>{translateValue(readyBuild.expectedPerformanceLevel)}</strong>
         </div>
       </div>
@@ -634,7 +635,7 @@ function RecommendationResultCard({ recommendation, componentMap, budgetRange, c
           <strong>{preservesCooling ? 'Não verificada' : translateValue(recommendation.compatibilityStatus || (recommendation.unverifiedChecks?.length ? 'unverified' : recommendation.compatible === true ? 'compatible' : recommendation.compatible === false ? 'incompatible' : 'unverified'))}</strong>
         </div>
         <div>
-          <span>Desempenho estimado</span>
+          <span>{hasSimulatedPerformance(recommendation) ? 'Desempenho simulado' : 'Desempenho estimado'}</span>
           <strong>{(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel) ? translateValue(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel) : 'Não informado'}</strong>
         </div>
       </div>

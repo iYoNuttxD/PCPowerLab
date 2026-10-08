@@ -39,7 +39,11 @@ test('preset displays current price and real budget mismatch without obsolete ra
   const card = page.locator('.ready-build-card');
   await expect(card.locator('.price')).toContainText('6.983,64');
   await expect(card).toContainText('Acima do seu orçamento');
-  await expect(card).not.toContainText('5.500,00');
+  const historicalRange = card.getByText('Faixa-alvo original', { exact: true }).locator('..');
+  await expect(historicalRange).toContainText('4.000,00');
+  await expect(historicalRange).toContainText('5.500,00');
+  await expect(historicalRange).toContainText('Acima da faixa informada');
+  await expect(card.getByText('Seu orçamento: R$ 5.000,00', { exact: true })).toBeVisible();
   await expect(card).not.toContainText('5.100,00');
   await card.getByRole('button', { name: 'Ver detalhes', exact: true }).click();
   await expect(page.getByRole('dialog')).toContainText('6.983,64');

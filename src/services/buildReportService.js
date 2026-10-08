@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { calculateBuildScore } from './buildScoreService.js';
 import { simulateGamePerformance } from './gamePerformanceService.js';
@@ -45,6 +46,7 @@ export function generateBuildReport(input) {
     : undefined;
 
   return removeUndefinedFields({
+    ...performanceMetadata(summary.components),
     metadata: {
       generatedAt: new Date().toISOString(),
       usageType,

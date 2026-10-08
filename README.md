@@ -493,7 +493,7 @@ A aplicação atual é uma API backend com dados em memória. Os mocks ficam em 
 Base mockada atual:
 
 - Catálogo ativo: 97 componentes (12 CPUs, 9 placas-mãe, 11 GPUs, 21 RAM, 20 armazenamentos, 8 fontes, 7 gabinetes, 5 coolers e 4 produtos de fans), além de 20 identidades anteriores preservadas. Recalcule pelo comando `npm run inventory`; a API lista o estado atual, inclusive alterações administrativas.
-- 89 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
+- 133 registros de parâmetros de desempenho (incluindo oito perfis provisórios apenas de score), cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
 - 20 jogos reais para simulação estimada, incluindo competitivos, battle royale, RPGs, mundo aberto, corrida, simuladores e jogos AAA pesados.
 - 490 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
 
@@ -572,3 +572,7 @@ A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificaç
 - A auditoria corrigiu orientação final contraditória, fração de centavo no total local, validação de listas técnicas e fixture fotográfica; ver regressões e demais achados no relatório
 - Servidor mantém dados globais em memória. Não há persistência durável, isolamento de contas ou qualificação de produção
 - Nenhum merge/deploy/autoaprovação faz parte desta entrega. Revisão do responsável necessária
+
+## Pontuação provisória explícita
+
+O catálogo aceita oito perfis de pontuação inventada quando não há dados reais verificados, identificados como “Pontuação simulada”. A escala é versionada e separada das especificações. Esses perfis não habilitam FPS, requisitos de software ou gargalos sem modelo próprio. Consulte [metodologia e limites](docs/RA2-SYNTHETIC-PERFORMANCE.md).

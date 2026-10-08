@@ -1,3 +1,4 @@
+import { performanceScoreLabel } from '../utils/performanceMethodology.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentImage from '../components/componentsCatalog/ComponentImage.jsx';
 import { useEffect, useState } from 'react';
@@ -162,7 +163,7 @@ function RankingList({ ranking }) {
                   <strong>{formatCurrency(component.price)}</strong>
                 </div>
                 <div>
-                  <span>Índice estimado cadastrado</span>
+                  <span>{numericValue(entry.performanceScore) === null ? 'Pontuação de desempenho' : performanceScoreLabel(entry, component)}</span>
                   <strong>{formatNumber(entry.performanceScore)}{numericValue(entry.performanceScore) !== null && ' / 100'}</strong>
                 </div>
                 <div>

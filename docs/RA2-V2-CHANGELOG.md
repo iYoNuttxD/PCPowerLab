@@ -50,3 +50,7 @@ Catálogo 69→98; RAM/storage 11→21 cada; 3 air/2 AIO/4 fan, packs/custo/seri
 ## v2.0 — diagnóstico
 
 Linha de base sem alterar aplicação, matriz R01–R22, inventário e bloqueios de ambiente. Origem `d433bf9`.
+
+## 2026-10-08 — perfis sintéticos explícitos
+
+Após autorização do usuário, oito lacunas de score recebem coeficientes inventados versionados e rotulados. Preços, identidades antigas e especificações permanecem intactos; sem FPS, consumo ou gargalos inventados. Detalhes: [metodologia](RA2-SYNTHETIC-PERFORMANCE.md).

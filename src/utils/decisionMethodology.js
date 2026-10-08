@@ -19,7 +19,7 @@ export function buildDecisionMethodology({ scope = 'catalog_candidates', ranking
       fallbackScore,
       description: !performanceUsed
         ? 'Desempenho nao utilizado para classificar estas correcoes.'
-        : `Indices simulados do catalogo, nao benchmarks medidos nem garantia de FPS. ${fallbackScore === null ? 'Entradas sem indice de desempenho sao excluidas.' : 'CPU, GPU, RAM e armazenamento sem modelo ficam sem estimativa e fora da classificação; apenas componentes auxiliares podem usar peso neutro 50.'}`
+        : `Indices simulados do catalogo, nao benchmarks medidos nem garantia de FPS. ${fallbackScore === null ? 'Entradas sem índice de desempenho são excluídas; perfis sintéticos provisórios são identificados e usados apenas para scores.' : 'CPU, GPU, RAM e armazenamento podem usar perfis sintéticos provisórios explícitos para scores; sem perfil válido ficam fora da classificação. Esses perfis não habilitam FPS, software ou gargalos; apenas componentes auxiliares podem usar peso neutro 50.'}`
     },
     specifications: {
       basis: 'catalog_specs',

@@ -56,3 +56,7 @@ Não há um “total geral” somando testes, scripts, passos, arquivos, fotos e
 ## O que os testes não comprovam
 
 Contagem não é cobertura instrumental: não há relatório percentual de statements/branches configurado. Testes de rota estrutural não substituem HTTP real; paridade de dois serviços prova consistência, não exatidão física; SSR não executa CSS/hidratação. As 32 combinações opacas de contraste são apenas tokens. Fonte antiga vermelha sustenta correção causal, mas não garante ausência de falhas desconhecidas. Veredito geral permanece **NÃO HOMOLOGADA**.
+
+## 2026-10-08 — pontuação provisória
+
+834/835 testes Node, sem skips, passaram na união sintética. Cobertura inclui oito perfis exatos, identidade/insumos, nota real revisada com prioridade, ranking, orçamento, exportação, simuladores bloqueados e rótulos. Execução real de navegador do novo patch ainda pendente. [Método](RA2-SYNTHETIC-PERFORMANCE.md).

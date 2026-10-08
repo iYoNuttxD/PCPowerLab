@@ -148,3 +148,7 @@ Os registros históricos acima são preservados. O [mapa público R01–R22](RA2
 - R22 não possui validação empírica nesta execução; hipóteses não são apresentadas como resultados
 
 O [relatório V2.10](RA2-V2.10-CONTINUIDADE.md) e seus resumos de execução descrevem as melhorias e as pendências. Os testes técnicos não promovem, sozinhos, requisitos completos a VALIDADO. A revisão visual do SHA publicado permanece necessária.
+
+## Política adicional — pontuação inventada autorizada
+
+Atendido em patch de revisão: oito perfis provisórios, prioridade para evidência real revisada, proveniência na API/UI e em exportações. Não exige inventar especificações, FPS ou temperatura. Validação: [metodologia e testes](RA2-SYNTHETIC-PERFORMANCE.md).

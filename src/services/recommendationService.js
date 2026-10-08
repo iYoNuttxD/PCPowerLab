@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { isNonEmptyTextArray } from '../models/component.model.js';
 import { listComponents } from './component.service.js';
@@ -418,6 +419,7 @@ function formatBudgetRangeRecommendation({
   );
 
   return {
+    ...performanceMetadata(recommendation.components, performanceByComponentId),
     methodology: recommendationMethodology(usageType, priority),
     name: buildRecommendationName(usageType, priority, position),
     usageType,
@@ -446,6 +448,7 @@ function formatRecommendation({
 
   return {
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
+    ...performanceMetadata(recommendation.components, performanceByComponentId),
     methodology: recommendationMethodology(usageType, priority),
     remainingBudget: Number((budgetAmount - recommendation.totalEstimatedPrice).toFixed(2)),
     usageType,

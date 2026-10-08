@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { normalizeSelectedComponentIds } from './build.service.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
@@ -49,7 +50,7 @@ export function simulateGamePerformance(simulationInput) {
   const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);
   const unavailable = unavailablePerformance(components);
-  if (unavailable) return { ...unavailable, game: game.name, gameId: game.id, targetResolution, qualityPreset, estimatedFps: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
+  if (unavailable) return { ...performanceMetadata(components), ...unavailable, game: game.name, gameId: game.id, targetResolution, qualityPreset, estimatedFps: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
   const performanceParameters = mapPerformanceParameters(components);
   const details = buildRequirementDetails({ game, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
@@ -78,6 +79,7 @@ export function simulateGamePerformance(simulationInput) {
   });
 
   return {
+    ...performanceMetadata(components),
     game: game.name,
     gameId: game.id,
     targetResolution,
@@ -125,6 +127,8 @@ export function compareGamePerformance(comparisonInput) {
   }));
 
   return {
+    performanceBasis: simulations[0].performanceBasis,
+    performanceMethodology: simulations[0].performanceMethodology,
     targetResolution: simulations[0].targetResolution,
     qualityPreset: simulations[0].qualityPreset,
     compatibility: simulations[0].technicalDetails.compatibility,
@@ -260,6 +264,8 @@ function validateComparisonPayload(comparisonInput) {
 
 function formatGameComparisonResult(simulation) {
   return {
+    performanceBasis: simulation.performanceBasis,
+    performanceMethodology: simulation.performanceMethodology,
     ...(simulation.available === false ? { available: false, reason: simulation.reason } : {}),
     gameId: simulation.gameId,
     gameName: simulation.game,

@@ -1,3 +1,4 @@
+import { hasSimulatedPerformance } from '../../utils/performanceMethodology.js';
 import { useState } from 'react';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Button from '../ui/Button.jsx';
@@ -28,6 +29,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(displayedTotal)}</strong>
       </div>
       {retainsCooling ? <p>Inclui sua refrigeração atual. Confira a compatibilidade após aplicar.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
+      {hasSimulatedPerformance(recommendation) && <p className="hint-text">Sugestão com pontuações simuladas</p>}
       <ul className="build-parts-list">
         {[...componentTypes, ...(recommendation.components?.cooler ? ['cooler'] : [])].map((type) => {
           const component = recommendation.components?.[type];

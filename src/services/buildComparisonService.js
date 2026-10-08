@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { generateBuildSummary } from './buildSummaryService.js';
@@ -45,6 +46,7 @@ export function compareBuilds(input) {
   const recommendedBuild = selectRecommendedBuild({ builds, comparisonCriteria });
 
   return removeEmptyFields({
+    ...performanceMetadata(builds.flatMap(build => Object.values(build.components)), performanceByComponentId),
     methodology: buildDecisionMethodology({ usageType, scope: 'submitted_builds_only', ranking: 'Compara somente as builds enviadas; combina desempenho simulado, custo de referencia, compatibilidade, orçamento e penalidades de alertas/gargalos conforme o critério.' }),
     comparisonCriteria,
     usageType,
@@ -100,7 +102,7 @@ function analyzeBuildForComparison({
     totalEstimatedPrice: summary.totalEstimatedPrice,
     pricing: summary.pricing,
     priceBasis: 'catalog_reference_estimate',
-    performanceBasis: performanceScore === null ? 'unavailable' : 'simulated_catalog_parameters',
+    ...performanceMetadata(summary.components, performanceByComponentId),
     performanceAvailable: performanceScore !== null,
     compatible: summary.compatibility.compatible,
     compatibilityStatus: summary.compatibility.status,
@@ -154,6 +156,8 @@ function selectRecommendedBuild({ builds, comparisonCriteria }) {
   }, null);
 
   return {
+    performanceBasis: selectedBuild.performanceBasis,
+    performanceMethodology: selectedBuild.performanceMethodology,
     comparisonIndex: selectedBuild.comparisonIndex,
     name: selectedBuild.name,
     reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild })

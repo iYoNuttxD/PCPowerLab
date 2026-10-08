@@ -1,4 +1,4 @@
-import { corePerformanceCategories, isValidCorePerformanceParameter } from '../utils/performanceAvailability.js';
+import { corePerformanceCategories, isUsableScoreParameter, hasVerifiedMeasurementEvidence, isSimulationParameterUsable } from '../utils/performanceAvailability.js';
 import { referencePrice } from './marketPriceService.js';
 import { findPerformanceParameterRecordByComponentId } from '../data/performance-parameter.repository.js';
 import {
@@ -24,7 +24,7 @@ export function listComponents(filters = {}) {
 
 export function findComponentById(componentId) {
   const component = resolveComponentRecordById(componentId);
-  return component ? withCatalogIdentity(component) : null;
+  return component ? withCatalogPerformance(component) : null;
 }
 
 export function findComponentsByIds(componentIds) {
@@ -53,11 +53,19 @@ function validateComponentCategory(category) {
 export function withCatalogPerformance(component) {
   const parameter = ['cpu', 'gpu', 'ram', 'storage'].includes(component.category)
     ? findPerformanceParameterRecordByComponentId(component.id) : null;
-  const score = component.performanceModelStatus === 'unavailable' || (corePerformanceCategories.includes(component.category) && !isValidCorePerformanceParameter(component, parameter)) ? null : parameter?.performanceScore;
+  const score = corePerformanceCategories.includes(component.category) && !isUsableScoreParameter(component, parameter) ? null : parameter?.performanceScore;
   const performanceScore = typeof score === 'number' && Number.isFinite(score) && score >= 0 && score <= 100 ? score : null;
   return { ...withCatalogIdentity(component), performanceScore,
     performanceMethodology: performanceScore === null ? null
-      : 'Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS.' };
+      : {
+        basis: hasVerifiedMeasurementEvidence(parameter, component) ? 'measured' : 'simulated',
+        kind: parameter?.scoreKind || 'internal-calibration',
+        modelVersion: parameter?.modelVersion || 'catalog-internal-v1',
+        shortLabel: hasVerifiedMeasurementEvidence(parameter, component) ? 'Índice baseado em benchmark' : 'Pontuação simulada',
+        simulationSupported: isSimulationParameterUsable(component, parameter),
+        measuredBenchmark: hasVerifiedMeasurementEvidence(parameter, component),
+        description: 'Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS.'
+      } };
 }
 
 function withCatalogIdentity(component) {

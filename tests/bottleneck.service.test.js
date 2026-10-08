@@ -20,6 +20,7 @@ test('deve identificar gargalo moderado de processador em relacao a placa de vid
   });
 
   createPerformanceParameters({
+    simulationSupported: true, simulationProfileVersion: 'test-fixture-simulator-v1',
     componentId: 'cpu-test-low-performance-score',
     type: 'cpu',
     performanceScore: 60,

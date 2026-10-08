@@ -1,3 +1,4 @@
+import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { summarySimulationHint } from '../utils/summarySimulationHint.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
@@ -630,7 +631,7 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
         </div>
         <Badge tone={getScoreTone(overallScore)}>{overallScore === null ? 'Não disponível' : score.classification ? translateValue(score.classification) : classifyScore(overallScore)}</Badge>
       </div>
-      <p className="chart-caption">Nota calculada de 0 a 100. As barras detalham os critérios usados; não representam FPS nem resultados de um teste real.</p>
+      <p className="chart-caption">{hasSimulatedPerformance(score) && numericValue(criteria.performanceScore) !== null && 'Desempenho com pontuação simulada. '}Nota calculada de 0 a 100. As barras detalham os critérios usados; não representam FPS nem resultados de um teste real.</p>
       {Array.isArray(score.warnings) && score.warnings.length > 0 && <Alert type="warning" title="Limitações desta nota"><ul>{score.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
       <AnalysisHelp topics={['buildScore', 'score', 'compatibility']} title="Como interpretar a nota e seus critérios" />
       <div className="score-overview">

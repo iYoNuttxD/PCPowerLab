@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { checkBuildCompatibilityAlerts } from './compatibility-alert.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
@@ -51,6 +52,7 @@ export function generateBuildSummary(input) {
   });
 
   return removeEmptySections({
+    ...performanceMetadata(compatibility.selectedComponents),
     components: compatibility.selectedComponents,
     pricing,
     totalEstimatedPrice,

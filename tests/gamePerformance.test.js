@@ -143,6 +143,7 @@ test('deve aplicar penalidade de gargalo quando build completa estiver disponive
   });
 
   createPerformanceParameters({
+    simulationSupported: true, simulationProfileVersion: 'test-fixture-simulator-v1',
     componentId: 'cpu-test-game-low-score',
     type: 'cpu',
     performanceScore: 50,

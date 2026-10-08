@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { normalizeSelectedComponentIds } from './build.service.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
@@ -38,7 +39,7 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
   const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);
   const unavailable = unavailablePerformance(components);
-  if (unavailable) return { ...unavailable, software: software.name, softwareId: software.id, category: software.category, performanceScore: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
+  if (unavailable) return { ...performanceMetadata(components), ...unavailable, software: software.name, softwareId: software.id, category: software.category, performanceScore: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
   const performanceParameters = mapPerformanceParameters(components);
   const details = buildRequirementDetails({ software, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
@@ -51,6 +52,7 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
   });
 
   return {
+    ...performanceMetadata(components),
     software: software.name,
     softwareId: software.id,
     category: software.category,

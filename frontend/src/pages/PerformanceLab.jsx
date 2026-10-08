@@ -1,3 +1,4 @@
+import { performanceScoreLabel } from '../utils/performanceMethodology.js';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3, BriefcaseBusiness, Gamepad2 } from 'lucide-react';
@@ -20,7 +21,7 @@ import { professionalSoftwareService } from '../services/professionalSoftwareSer
 import { buildToApiPayload, hasCompleteBuild } from '../utils/buildHelpers.js';
 import { componentLabels } from '../utils/componentLabels.js';
 import { getMissingBuildSlots } from '../utils/validation.js';
-import { formatPerformanceNumber, formatRequirement, getPerformanceErrorMessage } from '../utils/performancePresentation.js';
+import { formatPerformanceNumber, formatRequirement, getPerformanceErrorMessage, numericValue } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
 import { analysisIdentity, isOptionalNumber, isOptionalText, isRecord, isSessionId, readAnalysisSession, writeAnalysisSession } from '../utils/analysisSession.js';
 
@@ -219,7 +220,7 @@ export function SoftwareResult({ result }) {
     <div className="section-heading compact"><div><h3>{result.software}</h3><p>{result.category}</p></div><Badge tone={result.meetsMinimumRequirements === false ? 'red' : 'cyan'}>{translateValue(result.performanceLevel)}</Badge></div>
     <p className="analysis-note">Avaliação estimada a partir dos requisitos cadastrados, em uma escala normalizada de 0 a 100 pontos. Pontos não são FPS nem porcentagem de velocidade. Nenhum teste foi executado no seu computador.</p>
     <div className="metric-grid">
-      <div><span>Pontuação estimada (0–100 pontos)</span><strong>{formatPerformanceNumber(result.performanceScore)}</strong></div>
+      <div><span>{numericValue(result.performanceScore) === null ? 'Pontuação estimada' : performanceScoreLabel(result)} (0–100 pontos)</span><strong>{formatPerformanceNumber(result.performanceScore)}</strong></div>
       <div><span>Atende requisitos mínimos</span><strong>{formatRequirement(result.meetsMinimumRequirements)}</strong></div>
       <div><span>Atende requisitos recomendados</span><strong>{formatRequirement(result.meetsRecommendedRequirements)}</strong></div>
     </div>

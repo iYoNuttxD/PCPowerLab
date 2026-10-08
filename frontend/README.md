@@ -273,3 +273,7 @@ Fotos: 98/98. Créditos, escopo visual e variantes ficam em detalhes opcionais; 
 ## Continuação v2.12
 
 Cards compactos, créditos em `/image-credits`, referências comerciais com link direto e identificação de variante/exemplo. Preços ausentes deixam o orçamento pendente com subtotal conhecido, preservando análise técnica e salvamento. [Escopo e limites](../docs/RA2-V2.12-SIMPLICIDADE-PRECOS.md). O reteste visual deve corresponder ao SHA publicado desta continuação.
+
+## Proveniência das pontuações
+
+Catálogo, comparação, ranking e resultados mostram “Pontuação simulada” quando a base é um modelo interno ou provisório. Perfis provisórios são score-only: FPS/software indisponíveis permanecem vazios, inclusive em comparações com respostas antigas. [Contrato](../docs/RA2-SYNTHETIC-PERFORMANCE.md).

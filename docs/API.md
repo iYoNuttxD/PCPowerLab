@@ -1571,3 +1571,11 @@ O campo `image` mantém caminhos locais e vínculo ao ID/identidade do catálogo
 Compatibilidade e análises técnicas não falham apenas pela falta de preço. Resumos/salvos/exportações preservam `totalEstimatedPrice: null`; `pricing.knownReferenceSubtotal` soma somente preços conhecidos, `componentsWithoutReference` identifica pendências e `unavailableReferenceUnits` conta suas unidades/pacotes. Orçamento usa `status: unavailable` e `remaining: null`, nunca um saldo calculado tratando ausentes como zero. A função interna estrita de custo mantém seu erro 422 quando um total completo é obrigatório.
 
 Nota geral/custo-benefício dependentes do custo usam `null` e `available: false`. Comparação por custo pode retornar `recommendedBuild: { available: false, reason }` se nenhuma alternativa tiver total completo. Critérios técnicos e comparação de desempenho continuam disponíveis.
+
+## Pontuação simulada provisória (08/10/2026)
+
+Componentes expõem `performanceScore` e `performanceMethodology` como objeto (`basis`, `kind`, `modelVersion`, `shortLabel`, `simulationSupported`, `measuredBenchmark`, `description`). `performanceModelStatus` legado permanece como dado histórico da calibração; use `performanceMethodology.simulationSupported` e a resposta da análise para disponibilidade de simulação. Agregados expõem `performanceBasis` e proveniência dos contribuintes. Perfis score-only retornam `available:false`, `scoreOnly:true` e `reason:synthetic_model_not_simulation_calibrated` em FPS/software/gargalos; isso não torna o score do componente nulo. [Metodologia](RA2-SYNTHETIC-PERFORMANCE.md).
+
+Scores novos, mesmo baseados em benchmark revisado, não habilitam simulação por ausência de campo. A elegibilidade exige `simulationSupported:true` e `simulationProfileVersion` explícito, além de parâmetro válido; os modelos internos anteriores são identificados como `catalog-simulator-v1`.
+
+A evidência de benchmark revisada precisa incluir `componentIdentity`, hash da identidade e especificações exatas correntes. Editar SKU, marca, nome, categoria ou especificações invalida a nota revisada até nova revisão. A base dos contribuintes é resolvida dos parâmetros registrados, sem confiar em metadados enviados pelo cliente.

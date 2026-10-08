@@ -10,10 +10,13 @@ export default function GameComparisonResult({ result }) {
   const descriptionId = useId();
   if (!result) return null;
   const games = Array.isArray(result.results) ? result.results : Array.isArray(result.games) ? result.games : [];
-  const chartData = games.map(game => ({ ...game, name: game.gameName || game.name || game.game || 'Jogo', estimatedFps: numericValue(game.estimatedFps) }));
+  const chartData = games.map(game => ({ ...game, name: game.gameName || game.name || game.game || 'Jogo',
+    estimatedFps: game.available === false ? null : numericValue(game.estimatedFps),
+    ...(game.available === false && { performanceLevel: null, meetsMinimumRequirements: null, meetsRecommendedRequirements: null })
+  }));
   const fpsValues = chartData.map(game => game.estimatedFps).filter(value => value !== null);
   const average = fpsValues.length ? Math.round(fpsValues.reduce((sum, fps) => sum + fps, 0) / fpsValues.length) : null;
-  const belowMinimum = games.filter(game => game.meetsMinimumRequirements === false).length;
+  const belowMinimum = chartData.filter(game => game.meetsMinimumRequirements === false).length;
 
   return (
     <section className="performance-result-panel" aria-label="Resultado da comparação de jogos">
@@ -56,7 +59,7 @@ export default function GameComparisonResult({ result }) {
                 <caption>Valores estimados e requisitos retornados pela simulação · {result.targetResolution || 'Resolução não informada'} · {translateValue(result.qualityPreset)}</caption>
                 <thead><tr><th scope="col">Jogo</th><th scope="col">FPS estimado</th><th scope="col">Classificação</th><th scope="col">Atende mínimos</th><th scope="col">Atende recomendados</th></tr></thead>
                 <tbody>{chartData.map((game, index) => <tr key={game.gameId || index}>
-                  <th scope="row">{game.name}</th><td>{formatPerformanceNumber(game.estimatedFps)}</td><td>{translateValue(game.performanceLevel)}</td><td>{formatRequirement(game.meetsMinimumRequirements)}</td><td>{formatRequirement(game.meetsRecommendedRequirements)}</td>
+                  <th scope="row">{game.name}</th><td>{formatPerformanceNumber(game.estimatedFps)}</td><td>{game.available === false ? 'Sem estimativa' : translateValue(game.performanceLevel)}</td><td>{formatRequirement(game.meetsMinimumRequirements)}</td><td>{formatRequirement(game.meetsRecommendedRequirements)}</td>
                 </tr>)}</tbody>
               </table>
             </div>

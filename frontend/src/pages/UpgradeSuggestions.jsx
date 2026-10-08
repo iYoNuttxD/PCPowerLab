@@ -1,3 +1,4 @@
+import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
@@ -328,6 +329,7 @@ export default function UpgradeSuggestions() {
                   <strong>{translateValue(suggestion.expectedImpact)}</strong>
                 </div>
                 <p className="upgrade-card__description">{translateUpgradeText(suggestion.reason)}</p>
+                {hasSimulatedPerformance(suggestion, suggestion.currentComponent, suggestion.suggestedComponent, result) && <p className="hint-text">Impacto com pontuações simuladas</p>}
                 <div className="upgrade-pair">
                   <div className="upgrade-pair__item">
                     <span className="upgrade-pair__label">Atual</span>
@@ -502,6 +504,7 @@ function UpgradeRoadmap({ result, currentSelection, onPreview, onFeedback }) {
                 </div>
 
                 <p>{translateUpgradeText(step.reason)}</p>
+                {hasSimulatedPerformance(step, step.currentComponent, step.suggestedComponent, result) && <p className="hint-text">Impacto com pontuações simuladas</p>}
 
                 <div className="upgrade-pair">
                   <div className="upgrade-pair__item">

@@ -1,3 +1,4 @@
+import { createSyntheticPerformanceParameter } from './synthetic-performance-profiles.js';
 import { replacementCatalog } from './catalogReplacements.js';
 import { marketRevalidationCatalog } from './market-revalidation-catalog.js';
 import { catalogV21 } from './catalog.v21.js';
@@ -844,3 +845,19 @@ performanceParameters.push(...marketRevalidationCatalog.filter(c => c.performanc
     scoreKind: 'internal-family-estimate', performanceFamilyId: component.performanceFamilyId,
     scoreDisclaimer: 'Modelo interno da família do chip; sem benchmark desta placa e sem ganho presumido por overclock.' };
 }));
+
+// Existing simulator calibration is explicitly identified; a newly supplied score
+// (including a measured score) does not inherit this simulation permission.
+for (const parameter of performanceParameters) {
+  if (['cpu', 'gpu', 'ram', 'storage'].includes(parameter.type)) {
+    parameter.simulationSupported = true;
+    parameter.simulationProfileVersion = 'catalog-simulator-v1';
+  }
+}
+
+// Explicit score-only fallback profiles; existing calibrated parameters take precedence.
+for (const component of marketRevalidationCatalog) {
+  if (performanceParameters.some(parameter => parameter.componentId === component.id)) continue;
+  const provisional = createSyntheticPerformanceParameter(component);
+  if (provisional) performanceParameters.push(provisional);
+}
