@@ -1,40 +1,39 @@
 import { useState } from 'react';
-import { Check, CircuitBoard, Cpu, ExternalLink, Fan, HardDrive, MemoryStick, Monitor, PlusCircle, Zap } from 'lucide-react';
+import { Check, ExternalLink, PlusCircle } from 'lucide-react';
 import Badge from '../ui/Badge.jsx';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
 import Modal from '../ui/Modal.jsx';
 import { componentLabels } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
-import { translateSpecLabel } from '../../utils/translations.js';
+import { formatSpecValue, specKeys, specLabel } from '../../utils/componentPresentation.js';
+import ComponentImage from './ComponentImage.jsx';
 
-const categoryIcons = { cpu: Cpu, gpu: Monitor, motherboard: CircuitBoard, ram: MemoryStick, storage: HardDrive, psu: Zap, case: Fan };
-
-export default function ComponentCard({ component, onSelect, onLinks, selected = false }) {
+export default function ComponentCard({ component, onSelect, onLinks, onCompare, compared = false, compareDisabled = false, selected = false }) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const specs = component?.specs && typeof component.specs === 'object' ? component.specs : {};
-  const Icon = categoryIcons[component?.category] || Cpu;
+  const keys = specKeys([component]);
   const name = component?.name || 'Componente sem nome';
 
   return (
     <>
       <Card className={`component-card ${selected ? 'is-selected' : ''}`} as="article">
         <div className="component-card-header">
-          <Icon size={24} aria-hidden="true" />
           <Badge tone={selected ? 'green' : 'cyan'}>{componentLabels[component?.category] || component?.category}</Badge>
         </div>
+        <ComponentImage component={component} />
         <h3 title={name}>{name}</h3>
         <p className="component-brand" title={component?.brand}>{component?.brand || 'Marca não informada'}</p>
         <dl className="spec-grid">
-          {Object.entries(specs).slice(0, 5).map(([key, value]) => (
+          {keys.slice(0, 5).map((key) => (
             <div key={key}>
-              <dt>{translateSpecLabel(key)}</dt>
-              <dd>{formatSpecValue(key, value)}</dd>
+              <dt>{specLabel(key)}</dt>
+              <dd>{formatSpecValue(key, specs[key])}</dd>
             </div>
           ))}
         </dl>
         <div className="component-card-price">
-          <span>Preço de referência</span>
+          <span>Preço estimado · base demonstrativa</span>
           <strong className="price">{formatCurrency(component?.price)}</strong>
         </div>
         <div className="button-row">
@@ -52,43 +51,26 @@ export default function ComponentCard({ component, onSelect, onLinks, selected =
             </Button>
           )}
           <Button type="button" variant="ghost" onClick={() => setDetailsOpen(true)} aria-label={`Detalhes de ${name}`}>Detalhes</Button>
+          {onCompare && <Button type="button" variant={compared ? 'success' : 'secondary'} disabled={compareDisabled}
+            aria-pressed={compared} aria-label={`${compared ? 'Retirar da comparação' : 'Comparar'}: ${name}`} onClick={() => onCompare(component)}>
+            {compared ? 'Na comparação' : 'Comparar'}
+          </Button>}
         </div>
       </Card>
       <Modal open={detailsOpen} title={name} onClose={() => setDetailsOpen(false)}>
+        <ComponentImage component={component} />
         <p>{component?.brand || 'Marca não informada'} · {componentLabels[component?.category]}</p>
-        <p className="price">{formatCurrency(component?.price)}</p>
+        {component?.partNumber && <p>Modelo: {component.partNumber}</p>}
+        <p><span className="price">{formatCurrency(component?.price)}</span> · Preço estimado, sem atualização em tempo real.</p>
+        <p className="hint-text">Especificações do cadastro; taxas máximas dependem do sistema. Confira os dados do fabricante antes da compra.</p>
         <dl className="spec-grid component-details">
-          {Object.entries(specs).map(([key, value]) => (
-            <div key={key}><dt>{translateSpecLabel(key)}</dt><dd>{formatSpecValue(key, value)}</dd></div>
+          {keys.map((key) => (
+            <div key={key}><dt>{specLabel(key)}</dt><dd>{formatSpecValue(key, specs[key])}</dd></div>
           ))}
         </dl>
         {Object.keys(specs).length === 0 && <p>Especificações não informadas para este componente.</p>}
+        {component?.specSourceUrl?.startsWith('https://') && <p><a href={component.specSourceUrl} target="_blank" rel="noopener noreferrer">Consultar especificações do fabricante</a></p>}
       </Modal>
     </>
   );
-}
-
-function formatSpecValue(key, value) {
-  const units = {
-    baseClockGhz: 'GHz',
-    boostClockGhz: 'GHz',
-    tdpWatts: 'W',
-    recommendedPsuWatts: 'W',
-    lengthMm: 'mm',
-    maxGpuLengthMm: 'mm',
-    speedMhz: 'MHz',
-    capacityGb: 'GB',
-    vramGb: 'GB',
-    readSpeedMbS: 'MB/s',
-    writeSpeedMbS: 'MB/s',
-    watts: 'W'
-  };
-
-  if (Array.isArray(value)) {
-    return value.join(', ');
-  }
-
-  return units[key] && Number.isFinite(Number(value))
-    ? `${value} ${units[key]}`
-    : String(value);
 }

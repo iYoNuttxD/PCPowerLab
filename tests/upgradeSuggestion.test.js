@@ -70,9 +70,14 @@ test('deve sugerir upgrade para build direta respeitando orcamento e compatibili
 
   const firstSuggestion = result.suggestions[0];
 
-  assert.equal(firstSuggestion.componentType, 'gpu');
-  assert.equal(firstSuggestion.currentComponent.id, 'gpu-rtx-4060');
-  assert.equal(firstSuggestion.suggestedComponent.id, 'gpu-test-upgrade-4070');
+  // The expanded catalog offers a 1TB SSD with higher gain/cost in this fixture.
+  // Keep the ranking assertion and verify that the injected GPU remains next.
+  assert.equal(firstSuggestion.componentType, 'storage');
+  assert.equal(firstSuggestion.currentComponent.id, 'ssd-kingston-nv2-1tb');
+  assert.equal(firstSuggestion.suggestedComponent.id, 'ssd-samsung-980-pro-1tb');
+  assert.equal(firstSuggestion.scoreGain, 20);
+  assert.equal(result.suggestions[1].suggestedComponent.id, 'gpu-test-upgrade-4070');
+  assert.equal(result.suggestions[1].currentComponent.id, 'gpu-rtx-4060');
   assert.equal(firstSuggestion.estimatedUpgradeCost <= 1500, true);
   assert.equal(['low', 'medium', 'high'].includes(firstSuggestion.expectedImpact), true);
   assert.equal(firstSuggestion.compatibilityStatus, 'compatible');
@@ -100,7 +105,9 @@ test('deve sugerir upgrade para build salva por ID', () => {
   });
 
   assert.equal(result.suggestions.length > 0, true);
-  assert.equal(result.suggestions[0].suggestedComponent.id, 'gpu-test-upgrade-4070');
+  assert.equal(result.suggestions[0].suggestedComponent.id, 'ssd-samsung-980-pro-1tb');
+  const direct = suggestUpgrades({ build: validBuild, budget: { amount: 1500, currency: 'BRL' }, usageType: 'gaming' });
+  assert.deepEqual(result.suggestions, direct.suggestions);
 });
 
 test('deve retornar mensagem clara quando nao houver upgrade dentro do orcamento', () => {

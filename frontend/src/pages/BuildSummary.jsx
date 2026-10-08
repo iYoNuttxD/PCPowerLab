@@ -4,6 +4,7 @@ import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
+import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import GameSimulationResult from '../components/build/GameSimulationResult.jsx';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
@@ -48,6 +49,7 @@ export default function BuildSummary() {
   const [exportedJson, setExportedJson] = useState(null);
   const [reportOpen, setReportOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
+  const [replacement, setReplacement] = useState(null);
 
   useEffect(() => {
     performanceService.listGames()
@@ -204,7 +206,7 @@ export default function BuildSummary() {
     setFeedback('JSON copiado.');
   }
 
-  function applyFixSuggestion(suggestion) {
+  function previewFixSuggestion(suggestion) {
     const componentType = suggestion.componentType
       || suggestion.category
       || suggestion.component
@@ -220,8 +222,29 @@ export default function BuildSummary() {
       return;
     }
 
-    build.actions.selectComponent(componentType, suggestedComponent);
-    setFeedback(`${componentLabels[componentType] || 'Componente'} atualizado com a sugestão escolhida.`);
+    if (request.loading || loadingAction) return;
+    setReplacement({ type: componentType, component: suggestedComponent });
+  }
+
+  function applyReplacement(type, component, summary) {
+    build.actions.selectComponent(type, component);
+    build.actions.setResult('summary', summary);
+    build.actions.setResult('compatibility', summary.compatibility);
+    build.actions.setResult('alerts', summary.compatibility);
+    build.actions.setResult('bottlenecks', summary.bottlenecks);
+    build.actions.setResult('gamePerformance', summary.gamePerformance?.available === false
+      ? { status: 'unavailable', message: summary.gamePerformance.message }
+      : summary.gamePerformance || null);
+    setLinksByBuild(null);
+    setBuildScore(null);
+    setFixSuggestions(null);
+    setShare(null);
+    setTechnicalReport(null);
+    setExportedJson(null);
+    setAnalyticsError('');
+    request.setError('');
+    setReplacement(null);
+    setFeedback(`${componentLabels[type]} substituído. Compatibilidade e resumo verificados novamente; as demais escolhas foram mantidas. Recalcule a nota ou gere novos relatórios quando precisar.`);
   }
 
   const compatibilityData = build.summary?.compatibility || build.compatibility || build.alerts;
@@ -241,7 +264,8 @@ export default function BuildSummary() {
         <div className="summary-overview">
           <div className="summary-overview-top">
             <div className="summary-overview-build">
-              <BuildSummaryCard selectedComponents={build.selectedComponents} totalPrice={build.totalPrice} />
+              <BuildSummaryCard selectedComponents={build.selectedComponents} totalPrice={build.totalPrice}
+                onEdit={request.loading || loadingAction ? undefined : type => setReplacement({ type })} />
             </div>
             <div className="summary-overview-side">
               <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
@@ -328,7 +352,7 @@ export default function BuildSummary() {
           {fixSuggestions && (
             <FixSuggestionsPanel
               suggestions={fixSuggestions}
-              onApply={applyFixSuggestion}
+              onApply={previewFixSuggestion}
               onFeedback={(suggestion, index) => {
                 const suggestedComponent = suggestion.suggestedComponent
                   || suggestion.recommendedComponent
@@ -441,6 +465,9 @@ export default function BuildSummary() {
       <Modal open={reportOpen} title="Relatório técnico da configuração" onClose={() => setReportOpen(false)}>
         <TechnicalReportView report={technicalReport} />
       </Modal>
+
+      {replacement && <ComponentReplacement type={replacement.type} initialComponent={replacement.component}
+        build={build} onApply={applyReplacement} onClose={() => setReplacement(null)} />}
 
       <Modal open={exportOpen} title="Exportação JSON da build" onClose={() => setExportOpen(false)}>
         <div className="stack">
@@ -613,7 +640,7 @@ function FixSuggestionsPanel({ suggestions, onApply, onFeedback }) {
                 {suggestedComponent?.id && (
                   <div className="button-row">
                     <Button variant="secondary" onClick={() => onApply(suggestion)}>
-                      Aplicar sugestão
+                      Revisar substituição
                     </Button>
                     <Button variant="ghost" onClick={() => onFeedback(suggestion, index)}>
                       Avaliar recomendação

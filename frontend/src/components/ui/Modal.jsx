@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef } from 'react';
 import Button from './Button.jsx';
 
-export default function Modal({ open, title, children, onClose }) {
+export default function Modal({ open, title, children, onClose, className = '' }) {
   const dialogRef = useRef(null);
   const titleId = useId();
 
@@ -23,7 +23,7 @@ export default function Modal({ open, title, children, onClose }) {
   if (!open) return null;
 
   return (
-    <dialog ref={dialogRef} className="modal-panel" aria-labelledby={titleId}
+    <dialog ref={dialogRef} className={`modal-panel ${className}`} aria-labelledby={titleId}
       onKeyDown={(event) => {
         if (event.key !== 'Tab') return;
         const controls = [...event.currentTarget.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]

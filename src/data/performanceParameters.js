@@ -703,5 +703,98 @@ export const performanceParameters = [
     maxGpuLength: 330,
     airflowScore: 76,
     performanceScore: 74
+  },
+  {
+    componentId: 'ram-kingston-fury-16gb-ddr4-3600',
+    type: 'ram',
+    capacity: 16,
+    speed: 3600,
+    memoryType: 'DDR4',
+    performanceScore: 64,
+    gamingScore: 66,
+    productivityScore: 62,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ram-crucial-32gb-ddr4-3200',
+    type: 'ram',
+    capacity: 32,
+    speed: 3200,
+    memoryType: 'DDR4',
+    performanceScore: 72,
+    gamingScore: 70,
+    productivityScore: 78,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ram-kingston-fury-16gb-ddr5-5200',
+    type: 'ram',
+    capacity: 16,
+    speed: 5200,
+    memoryType: 'DDR5',
+    performanceScore: 70,
+    gamingScore: 72,
+    productivityScore: 70,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ssd-kingston-a400-960gb',
+    type: 'storage',
+    capacity: 960,
+    interface: 'SATA',
+    readSpeed: 500,
+    writeSpeed: 450,
+    performanceScore: 45,
+    gamingScore: 45,
+    productivityScore: 42,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ssd-samsung-970-evo-plus-250gb',
+    type: 'storage',
+    capacity: 250,
+    interface: 'M.2 NVMe',
+    readSpeed: 3500,
+    writeSpeed: 2300,
+    performanceScore: 68,
+    gamingScore: 66,
+    productivityScore: 68,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ssd-samsung-980-pro-1tb',
+    type: 'storage',
+    capacity: 1000,
+    interface: 'M.2 NVMe',
+    readSpeed: 7000,
+    writeSpeed: 5000,
+    performanceScore: 88,
+    gamingScore: 86,
+    productivityScore: 90,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
   }
 ];

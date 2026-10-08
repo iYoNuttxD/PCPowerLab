@@ -50,7 +50,7 @@ npm run build
 npm run preview
 ```
 
-## Testes do assistente
+## Testes de interface
 
 Os testes E2E usam Playwright em desktop e celular. As respostas da API são controladas pelos testes, sem depender do backend nem gravar dados nele. O servidor Vite de teste inicia automaticamente na porta 4173, que deve estar livre.
 
@@ -66,7 +66,9 @@ Para usar uma instalação local do Google Chrome: `PLAYWRIGHT_CHANNEL=chrome np
 
 A suíte cobre avanço e retorno, bloqueios e validação, substituição sem perda de peças, persistência da etapa, navegação entre páginas, foco e rolagem com movimento reduzido, falhas de API, respostas tardias e aplicação/salvamento de recomendações. Os testes de regras técnicas do backend continuam na raiz: `npm test`.
 
-Também inclui `tests/e2e/performance-lab.spec.js`: simulação de um jogo, comparação de 2 a 10 jogos, contratos das APIs, classificações e requisitos, carregamento, parâmetros ausentes, recuperação de erros, respostas tardias, navegação por teclado e explicações dos painéis técnicos. O mesmo comando executa as duas suítes em desktop e celular. Veja as decisões e evidências em [RA2 — Análises e simulação de jogos](../docs/RA2-CICLO2-ANALISES.md).
+Também inclui `tests/e2e/performance-lab.spec.js`: simulação de um jogo, comparação de 2 a 10 jogos, contratos das APIs, classificações e requisitos, carregamento, parâmetros ausentes, recuperação de erros, respostas tardias, navegação por teclado e explicações dos painéis técnicos. Veja as decisões e evidências em [RA2 — Análises e simulação de jogos](../docs/RA2-CICLO2-ANALISES.md).
+
+`tests/e2e/catalog.spec.js` cobre filtros combinados, comparação de peças, imagens e fallbacks, preços estimados e substituição no resumo com prévia da API, incompatibilidade, orçamento excedido, falhas, respostas tardias e preservação da montagem. O mesmo comando executa todas as suítes em desktop e celular. Diagnóstico, fontes dos dados, implementação e limites estão em [RA2 — Catálogo e substituição de peças](../docs/RA2-CICLO2-CATALOGO.md).
 
 ## Estrutura
 
@@ -117,9 +119,9 @@ As telas atuais já consomem visualmente os endpoints das Sprints 4, 5 e 6 para 
 ## Telas implementadas
 
 - `/` Home retro-arcade com CTAs.
-- `/components` catálogo de componentes com busca, filtros e links de compra.
+- `/components` catálogo com busca, filtros por categoria/marca/preço estimado, imagens opcionais, comparação de peças e links de busca em lojas.
 - `/build` wizard completo de montagem.
-- `/summary` resumo final com compatibilidade, gargalos, simulação, orçamento, nota geral, relatório técnico, exportação JSON, sugestões de correção, salvamento e compartilhamento.
+- `/summary` resumo final com substituição de peças verificada pela API, compatibilidade, gargalos, simulação, orçamento, nota geral, relatório técnico, exportação JSON, sugestões de correção, salvamento e compartilhamento.
 - `/performance-lab` simulação em softwares profissionais e comparação de desempenho entre jogos.
 - `/compare` comparação de builds.
 - `/insights` ranking de custo-benefício e CRUD de perfis personalizados de uso.
@@ -215,4 +217,4 @@ Limitações atuais:
 
 - Melhorar code splitting conforme o app crescer.
 - Evoluir gráficos e comparação visual.
-- Adicionar testes automatizados de interface.
+- Ampliar a cobertura automatizada conforme novos fluxos forem implementados.

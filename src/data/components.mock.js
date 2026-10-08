@@ -820,5 +820,111 @@ export const components = [
       supportedFormFactors: ['ATX', 'mATX', 'ITX'],
       maxGpuLengthMm: 330
     }
+  },
+  {
+    id: 'ram-kingston-fury-16gb-ddr4-3600',
+    name: 'Kingston Fury Beast 16GB DDR4-3600',
+    category: 'ram',
+    brand: 'Kingston',
+    price: 299.9,
+    partNumber: 'KF436C18BB/16',
+    specSourceUrl: 'https://www.kingston.com/dataSheets/KF436C18BB_16.pdf',
+    specs: {
+      memoryType: 'DDR4',
+      capacityGb: 16,
+      speedMhz: 3600
+    }
+  },
+  {
+    id: 'ram-crucial-32gb-ddr4-3200',
+    name: 'Crucial 32GB DDR4-3200 UDIMM',
+    category: 'ram',
+    brand: 'Crucial',
+    price: 529.9,
+    partNumber: 'CT32G4DFD832A',
+    specSourceUrl: 'https://eu.crucial.com/memory/ddr4/ct32g4dfd832a/ct26139276',
+    specs: {
+      memoryType: 'DDR4',
+      capacityGb: 32,
+      speedMhz: 3200
+    }
+  },
+  {
+    id: 'ram-kingston-fury-16gb-ddr5-5200',
+    name: 'Kingston Fury Beast 16GB DDR5-5200',
+    category: 'ram',
+    brand: 'Kingston',
+    price: 419.9,
+    partNumber: 'KF552C40BB-16',
+    specSourceUrl: 'https://www.kingston.com/dataSheets/KF552C40BB-16.pdf',
+    specs: {
+      memoryType: 'DDR5',
+      capacityGb: 16,
+      speedMhz: 5200
+    }
+  },
+  {
+    id: 'ssd-kingston-a400-960gb',
+    name: 'Kingston A400 960GB SATA SSD',
+    category: 'storage',
+    brand: 'Kingston',
+    price: 329.9,
+    partNumber: 'SA400S37/960G',
+    specSourceUrl: 'https://www.kingston.com/en/ssd/a400-solid-state-drive',
+    specs: {
+      interface: 'SATA',
+      storageType: 'SSD',
+      capacityGb: 960,
+      readSpeedMbS: 500,
+      writeSpeedMbS: 450
+    }
+  },
+  {
+    id: 'ssd-samsung-970-evo-plus-250gb',
+    name: 'Samsung 970 EVO Plus 250GB NVMe',
+    category: 'storage',
+    brand: 'Samsung',
+    price: 249.9,
+    partNumber: 'MZ-V7S250',
+    specSourceUrl: 'https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_NVMe_SSD_970_EVO_Plus_Data_Sheet_Rev.3.0_10129514071343.pdf',
+    specs: {
+      interface: 'M.2 NVMe',
+      storageType: 'SSD',
+      capacityGb: 250,
+      readSpeedMbS: 3500,
+      writeSpeedMbS: 2300
+    },
+    image: {
+      url: '/images/components/samsung-970-evo-plus-250gb.jpg',
+      alt: 'Samsung 970 EVO Plus com identificação de 250GB na etiqueta',
+      author: 'Jacek Halicki',
+      sourceUrl: 'https://commons.wikimedia.org/wiki/File:2023_Nap%C4%99d_Samsung_970_EVO_Plus_250GB_(1).jpg',
+      license: 'CC BY-SA 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/'
+    }
+  },
+  {
+    id: 'ssd-samsung-980-pro-1tb',
+    name: 'Samsung 980 PRO 1TB NVMe',
+    category: 'storage',
+    brand: 'Samsung',
+    price: 699.9,
+    partNumber: 'MZ-V8P1T0',
+    specSourceUrl: 'https://download.semiconductor.samsung.com/resources/data-sheet/Samsung-NVMe-SSD-980-PRO-Data-Sheet_Rev.2.1_230509_10129500052824.pdf',
+    specs: {
+      interface: 'M.2 NVMe',
+      storageType: 'SSD',
+      capacityGb: 1000,
+      readSpeedMbS: 7000,
+      writeSpeedMbS: 5000
+    },
+    image: {
+      url: '/images/components/samsung-980-pro-1tb.jpg',
+      alt: 'Samsung 980 PRO com identificação de 1TB na etiqueta',
+      author: 'D-Kuru/Wikimedia Commons',
+      sourceUrl: 'https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg',
+      license: 'CC BY-SA 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/'
+    }
   }
 ];

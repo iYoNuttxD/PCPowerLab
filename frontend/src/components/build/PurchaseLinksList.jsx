@@ -15,7 +15,7 @@ export default function PurchaseLinksList({
   const hasAnyLink = groups.some((group) => group.links.length > 0);
 
   const renderEstimatedPrice = (link) => (
-    Number.isFinite(Number(link.price))
+    link.price !== null && link.price !== undefined && link.price !== '' && Number.isFinite(Number(link.price))
       ? `Preço estimado: ${formatCurrency(link.price, link.currency)}`
       : 'Preço estimado não informado'
   );
@@ -23,6 +23,7 @@ export default function PurchaseLinksList({
   return (
     <Card>
       <h3>Links de compra</h3>
+      <p className="analysis-note">Valores demonstrativos, não cotações de cada loja. Não há consulta de preço ou estoque em tempo real.</p>
       <p className="hint-text">
         {variant === 'single'
           ? 'Os links direcionam para buscas em lojas externas. Confirme preço e disponibilidade na loja.'
@@ -99,7 +100,7 @@ function ShopLinkCard({ link, renderEstimatedPrice }) {
         rel="noopener noreferrer"
       >
         <ExternalLink size={16} aria-hidden="true" />
-        Ver na loja
+        Buscar na loja
       </a>
     </article>
   );

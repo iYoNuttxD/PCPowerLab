@@ -9,7 +9,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
     <Card className="build-summary-card">
       <div className="section-heading compact">
         <span>Build atual</span>
-        <strong>{formatCurrency(totalPrice)}</strong>
+        <strong><small className="estimated-price-label">Total estimado</small>{formatCurrency(totalPrice)}</strong>
       </div>
       <ul className="build-parts-list">
         {componentTypes.map((type) => {

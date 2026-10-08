@@ -1,35 +1,33 @@
 import { useEffect, useMemo, useState } from 'react';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
 import Modal from '../components/ui/Modal.jsx';
-import Input from '../components/ui/Input.jsx';
 import Button from '../components/ui/Button.jsx';
+import ComponentFilters from '../components/componentsCatalog/ComponentFilters.jsx';
+import ComponentComparison from '../components/componentsCatalog/ComponentComparison.jsx';
 import EmptyState from '../components/ui/EmptyState.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { purchaseLinksService } from '../services/purchaseLinksService.js';
-import { componentLabels, componentTypes } from '../utils/componentLabels.js';
+import { emptyCatalogFilters, filterComponents, priceRangeError } from '../utils/componentPresentation.js';
+import { componentLabels } from '../utils/componentLabels.js';
 
 export default function ComponentsCatalog() {
   const { components, loading, error, reload } = useComponents();
-  const [activeType, setActiveType] = useState('all');
-  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState(emptyCatalogFilters);
+  const [comparisonIds, setComparisonIds] = useState([]);
+  const [comparisonOpen, setComparisonOpen] = useState(false);
   const [links, setLinks] = useState(null);
   const [linksComponent, setLinksComponent] = useState(null);
   const [linksError, setLinksError] = useState('');
   const [linksLoading, setLinksLoading] = useState(false);
   const [linksAttempt, setLinksAttempt] = useState(0);
 
-  const filteredComponents = useMemo(() => components.filter((component) => {
-    const matchesType = activeType === 'all' || component.category === activeType;
-    const term = search.trim().toLowerCase();
-    const matchesSearch = !term
-      || component.name?.toLowerCase().includes(term)
-      || component.brand?.toLowerCase().includes(term);
-
-    return matchesType && matchesSearch;
-  }), [components, activeType, search]);
+  const filteredComponents = useMemo(() => filterComponents(components, filters), [components, filters]);
+  const comparedComponents = components.filter(component => comparisonIds.includes(component.id));
+  const comparisonCategory = comparedComponents[0]?.category;
+  const filterError = priceRangeError(filters);
 
   useEffect(() => {
     if (!linksComponent) return;
@@ -48,9 +46,14 @@ export default function ComponentsCatalog() {
     setLinksComponent(component);
   }
 
-  function clearFilters() {
-    setSearch('');
-    setActiveType('all');
+  function toggleComparison(component) {
+    setComparisonIds(current => current.includes(component.id) ? current.filter(id => id !== component.id)
+      : current.length < 4 && (!comparisonCategory || comparisonCategory === component.category) ? [...current, component.id] : current);
+  }
+
+  function removeCompared(id) {
+    setComparisonIds(current => current.filter(value => value !== id));
+    if (comparedComponents.length <= 1) setComparisonOpen(false);
   }
 
   return (
@@ -58,40 +61,43 @@ export default function ComponentsCatalog() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Catálogo técnico</span>
         <h1>Componentes disponíveis</h1>
-        <p>Encontre as peças para seu próximo PC. Compare especificações, preços de referência e opções de compra.</p>
+        <p>Encontre as peças para seu próximo PC. Compare especificações, preços estimados e opções de compra.</p>
       </section>
 
       <div className="catalog-toolbar panel-card">
-        <Input
-          label="Buscar por nome ou marca"
-          value={search}
-          onChange={(event) => setSearch(event.target.value.slice(0, 80))}
-          placeholder="Ex.: Ryzen, RTX, Kingston"
-          type="search"
-        />
-        <div className="segmented-control" role="group" aria-label="Filtro de categoria">
-          <button type="button" aria-pressed={activeType === 'all'} className={activeType === 'all' ? 'active' : ''} onClick={() => setActiveType('all')}>Todos</button>
-          {componentTypes.map((type) => (
-            <button type="button" key={type} aria-pressed={activeType === type} className={activeType === type ? 'active' : ''} onClick={() => setActiveType(type)}>
-              {componentLabels[type]}
-            </button>
-          ))}
-        </div>
+        <ComponentFilters components={components} filters={filters} onChange={setFilters} />
+        <p className="analysis-note">Preços estimados da base demonstrativa, sem atualização em tempo real. Os links das lojas são buscas; confirme o modelo, o preço e a disponibilidade antes de comprar.</p>
       </div>
 
       {!loading && !error && <div className="section-heading catalog-results">
-        <p role="status">{filteredComponents.length} {filteredComponents.length === 1 ? 'componente encontrado' : 'componentes encontrados'}</p>
-        {(search || activeType !== 'all') && <Button variant="ghost" onClick={clearFilters}>Limpar filtros</Button>}
+        <p role="status">{filterError ? 'Corrija a faixa de preço para consultar os resultados.' : `${filteredComponents.length} ${filteredComponents.length === 1 ? 'componente encontrado' : 'componentes encontrados'}`}</p>
       </div>}
+
+      {!loading && !error && <section className="panel-card catalog-compare-bar" aria-label="Peças selecionadas para comparar">
+        <p role="status">{comparedComponents.length ? `${comparedComponents.length} de 4 peças selecionadas · ${componentLabels[comparisonCategory]}. A seleção é mantida ao filtrar.` : 'Selecione de 2 a 4 peças da mesma categoria para comparar.'}</p>
+        {comparedComponents.length > 0 && <>
+          <ul>{comparedComponents.map(component => <li key={component.id}>{component.name}<Button variant="ghost" size="sm" onClick={() => removeCompared(component.id)} aria-label={`Retirar ${component.name} da seleção`}>Retirar</Button></li>)}</ul>
+          <p className="hint-text">Para comparar outra categoria, limpe esta seleção. Os filtros não removem as peças escolhidas.</p>
+        </>}
+        <div className="button-row">
+          <Button disabled={comparedComponents.length < 2} onClick={() => setComparisonOpen(true)}>Comparar peças ({comparedComponents.length})</Button>
+          {comparedComponents.length > 0 && <Button variant="ghost" onClick={() => setComparisonIds([])}>Limpar seleção</Button>}
+        </div>
+      </section>}
 
       {loading && <LoadingSpinner />}
       {error && <ErrorState message={error} onRetry={reload} />}
-      {!loading && !error && filteredComponents.length === 0 && <EmptyState title="Nenhum componente encontrado" message="Tente outro nome, marca ou categoria. Use Limpar filtros para ver todas as peças." />}
+      {!loading && !error && !filterError && filteredComponents.length === 0 && <EmptyState title="Nenhum componente encontrado" message="Tente outro nome, marca, categoria ou faixa de preço. Use Limpar filtros para ver todas as peças." />}
       {!loading && !error && <div className="cards-grid component-grid">
         {filteredComponents.map((component) => (
-          <ComponentCard key={component.id} component={component} onLinks={openLinks} />
+          <ComponentCard key={component.id} component={component} onLinks={openLinks} onCompare={toggleComparison}
+            compared={comparisonIds.includes(component.id)} compareDisabled={!comparisonIds.includes(component.id) && (comparedComponents.length >= 4 || Boolean(comparisonCategory && comparisonCategory !== component.category))} />
         ))}
       </div>}
+
+      <Modal open={comparisonOpen} title="Comparar componentes" onClose={() => setComparisonOpen(false)}>
+        <ComponentComparison components={comparedComponents} onRemove={removeCompared} />
+      </Modal>
 
       <Modal open={linksComponent !== null} title={`Lojas para ${linksComponent?.name || ''}`} onClose={() => setLinksComponent(null)}>
         {linksLoading && <LoadingSpinner label="Buscando opções de compra..." />}
