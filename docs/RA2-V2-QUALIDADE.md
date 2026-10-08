@@ -1,5 +1,7 @@
 # RA2 V2.7 — Auditoria de qualidade, regressões e limites
 
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+
 08/10/2026 UTC · branch `codex/pcpowerlab-ra2-ciclo2` · base `0dd5473470ce218b4f6499d7f909fa3e459c86ca`.
 
 ## Parecer

@@ -1,3 +1,5 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { compatibilityDisplayLabel } from '../utils/coolingAssessment.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -262,7 +264,7 @@ export default function Feedback() {
 
       {isNewFeedbackRoute ? (
         <>
-          <div className={isContextual ? 'feedback-layout' : 'page-stack'}>
+          <div className="page-stack">
             {isContextual && <RecommendationSummary
               context={context}
               selectedComponents={selectedComponents}
@@ -290,22 +292,22 @@ export default function Feedback() {
             <div className="button-row">
               {isContextual && hasRecommendationBuild && (
                 <>
-                  <Button variant="secondary" onClick={() => useRecommendationBuild()}>
-                    <Upload size={18} /> Usar esta build inteira
-                  </Button>
                   <Button onClick={() => useRecommendationBuild('/summary')}>
                     <CheckCircle2 size={18} /> Usar build inteira e ir para resumo
+                  </Button>
+                  <details className="task-disclosure"><summary>Outras ações</summary><div className="button-row">
+                  <Button variant="secondary" onClick={() => useRecommendationBuild()}>
+                    <Upload size={18} /> Usar esta build inteira
                   </Button>
                   <Button variant="ghost" loading={savingBuild} disabled={savingBuild} onClick={saveRecommendationBuild}>
                     <Save size={18} /> Salvar build
                   </Button>
+                  </div></details>
                 </>
               )}
-              <Link className="btn btn-secondary btn-md" to={returnLink.to}>{returnLink.label}</Link>
+              <Link className="btn btn-secondary btn-md" to={returnLink.to}>{!hasRecommendationBuild && isContextual ? getFallbackActionLabel(context) : returnLink.label}</Link>
               {!isContextual && <Link className="btn btn-ghost btn-md" to="/ready-builds">Explorar builds prontas</Link>}
-              {!hasRecommendationBuild && isContextual && (
-                <Link className="btn btn-ghost btn-md" to={returnLink.to}>{getFallbackActionLabel(context)}</Link>
-              )}
+
             </div>
           </Card>
         </>
@@ -399,19 +401,14 @@ function CentralFeedback({
 
   return (
     <>
-      <div className="metric-grid">
-        <div><span>Total de avaliações</span><strong>{stats.total}</strong></div>
-        <div><span>Nota média</span><strong>{stats.averageRating}</strong></div>
-        <div><span>Seguiriam</span><strong>{stats.wouldFollow}</strong></div>
-        <div><span>Não seguiriam / N/D</span><strong>{stats.wouldNotFollow}</strong></div>
-      </div>
+
 
       <Card>
         <div className="section-heading compact">
           <div>
             <span className="eyebrow">Avaliações registradas</span>
             <h2>Histórico de feedbacks</h2>
-            <p>As avaliações aparecerão aqui quando você compartilhar sua experiência com o projeto ou avaliar builds, upgrades e correções.</p>
+
           </div>
           <div className="feedback-toolbar">
             <div className="feedback-filter">
@@ -463,6 +460,7 @@ function CentralFeedback({
                       </small>
                     </div>
 
+                    <CoolingAssessmentNotice result={item} />
                     {hasLinkedBuild ? (
                       <FeedbackBuildSnapshot
                         selectedComponents={feedbackDisplayComponents}
@@ -504,6 +502,14 @@ function CentralFeedback({
           </div>
         )}
       </Card>
+      <details className="task-disclosure"><summary>Resumo das avaliações</summary>
+      <div className="metric-grid">
+        <div><span>Total de avaliações</span><strong>{stats.total}</strong></div>
+        <div><span>Nota média</span><strong>{stats.averageRating}</strong></div>
+        <div><span>Seguiriam</span><strong>{stats.wouldFollow}</strong></div>
+        <div><span>Não seguiriam / N/D</span><strong>{stats.wouldNotFollow}</strong></div>
+      </div>
+      </details>
     </>
   );
 }
@@ -520,6 +526,7 @@ function FeedbackBuildSnapshot({ selectedComponents, totalEstimatedPrice }) {
           <strong className="price"><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(totalEstimatedPrice)}</strong>
         )}
       </div>
+      <details className="task-disclosure"><summary>Ver peças vinculadas</summary>
       <ul className="build-parts-list compact-build-list">
         {componentTypes.map((type) => (
           <li key={type}>
@@ -529,6 +536,7 @@ function FeedbackBuildSnapshot({ selectedComponents, totalEstimatedPrice }) {
         ))}
         <CoolingParts components={selectedComponents} />
       </ul>
+      </details>
     </div>
   );
 }
@@ -548,6 +556,7 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
         <Badge tone="cyan">{recommendationTypeLabels[context.recommendationType] || 'Geral'}</Badge>
       </div>
 
+      <CoolingAssessmentNotice result={context} />
       {isUpgrade && <UpgradeSummary context={context} />}
       {isFix && <CompatibilityFixSummary context={context} />}
 
@@ -568,9 +577,10 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
             </div>
             <div>
               <span>Compatibilidade</span>
-              <strong>{translateValue(context.compatibilityStatus || (context.unverifiedChecks?.length ? 'unverified' : context.compatible === true ? 'compatible' : context.compatible === false ? 'incompatible' : 'unverified'))}</strong>
+              <strong>{compatibilityDisplayLabel(context.compatibilityStatus || (context.unverifiedChecks?.length ? 'unverified' : context.compatible === true ? 'compatible' : context.compatible === false ? 'incompatible' : 'unverified'), context)}</strong>
             </div>
           </div>
+          <details className="task-disclosure"><summary>Ver peças da recomendação</summary>
           <ul className="build-parts-list">
             {componentTypes.map((type) => (
               <li key={type}>
@@ -580,6 +590,7 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
             ))}
             <CoolingParts components={selectedComponents} />
           </ul>
+          </details>
         </>
       )}
     </Card>

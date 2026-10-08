@@ -425,6 +425,7 @@ function formatBudgetRangeRecommendation({
     usageType,
     priority,
     components,
+    coolingAssessment: recommendation.compatibilityResult.coolingAssessment,
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
     budgetStatus: getBudgetStatus(recommendation.totalEstimatedPrice, budgetRange),
     compatibilityStatus: recommendation.compatibilityResult.compatible ? 'compatible' : 'incompatible',
@@ -455,6 +456,7 @@ function formatRecommendation({
     priority,
     strategy: buildStrategy(usageType),
     components,
+    coolingAssessment: recommendation.compatibilityResult.coolingAssessment,
     summary: buildSummary(usageType, priority),
     warnings,
     performanceScore: calculateBuildPerformanceScore(

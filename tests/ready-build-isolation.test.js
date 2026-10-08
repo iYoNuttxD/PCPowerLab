@@ -29,7 +29,10 @@ function removeOnePresetsBoardLimits(t) {
 function assertVerifiedRemainder(result, excludedId) {
   assert.deepEqual(result.map(build => build.id), readyBuilds.filter(build => build.id !== excludedId).map(build => build.id));
   for (const build of result) {
-    assert.deepEqual(build.compatibility, { compatible: true, status: 'compatible', alerts: [], unverifiedChecks: [] });
+    const { coolingAssessment, ...core } = build.compatibility;
+    assert.deepEqual(core, { compatible: true, status: 'compatible', alerts: [], unverifiedChecks: [] });
+    assert.equal(coolingAssessment.status, 'unverified');
+    assert.equal(coolingAssessment.scope, 'cooling_not_assessed');
     assert.equal(checkBuildCompatibility(build.components).compatible, true);
   }
 }

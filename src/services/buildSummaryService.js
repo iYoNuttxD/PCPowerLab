@@ -62,6 +62,7 @@ export function generateBuildSummary(input) {
       status: compatibility.status,
       unverifiedChecks: compatibility.unverifiedChecks,
       coolingPower: compatibility.coolingPower,
+      coolingAssessment: compatibility.coolingAssessment,
       alerts: compatibility.alerts
     },
     bottlenecks,
@@ -242,7 +243,9 @@ function buildSummaryText({
   const parts = [];
 
   parts.push(compatibility.compatible
-    ? 'A configuração está compatível'
+    ? compatibility.coolingAssessment?.status === 'unverified'
+      ? 'As verificações principais estão compatíveis; refrigeração não verificada'
+      : 'A configuração está compatível'
     : compatibility.status === 'unverified'
       ? 'A compatibilidade não foi verificada por falta de dados técnicos'
       : 'A configuração possui incompatibilidades que precisam de revisão');

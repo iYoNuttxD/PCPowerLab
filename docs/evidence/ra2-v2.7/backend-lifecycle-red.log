@@ -16,7 +16,7 @@ test at tests/build-lifecycle-integrity.test.js:11:1
   
   true !== false
   
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/build-lifecycle-integrity.test.js:27:10)
+      at TestContext.<anonymous> (file://tests/build-lifecycle-integrity.test.js:27:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)

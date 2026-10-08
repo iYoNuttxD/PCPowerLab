@@ -1,3 +1,5 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { summarySimulationHint } from '../utils/summarySimulationHint.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
@@ -320,7 +322,7 @@ export default function BuildSummary() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Painel final</span>
         <h1>Resumo da configuração</h1>
-        <p>Consolide componentes, orçamento, compatibilidade, desempenho, gargalos e links de compra.</p>
+        <p>Revise as peças e a compatibilidade antes de salvar ou comprar.</p>
       </section>
 
       {build.canUndo && <Card>
@@ -333,12 +335,17 @@ export default function BuildSummary() {
         <div className="summary-overview">
           <div className="summary-overview-top">
             <div className="summary-overview-build">
+              {!hasCompleteBuild(build.selectedComponents) && <Alert type="warning">Montagem incompleta. Escolha as peças que faltam antes de analisar.</Alert>}
+              <details className="task-disclosure">
+                <summary>Ver ou trocar peças</summary>
               <BuildSummaryCard selectedComponents={build.selectedComponents} totalPrice={build.totalPrice}
                 onEdit={request.loading || loadingAction ? undefined : type => setReplacement({ type })} />
+              </details>
             </div>
             <div className="summary-overview-side">
               <BudgetPanel selectedComponents={build.selectedComponents} budget={build.budget} totalPrice={build.totalPrice} pricing={build.summary?.pricing} />
               <BuildStatusCard
+                compatibility={compatibilityData}
                 verified={typeof compatibilityData?.compatible === 'boolean' && compatibilityData?.status !== 'unverified'}
                 incompatible={isIncompatible}
                 loading={loadingAction === 'fixes'}
@@ -347,14 +354,15 @@ export default function BuildSummary() {
               />
             </div>
           </div>
-          <div className="summary-score-full">
+          <details className="task-disclosure summary-score-full">
+            <summary>Pontuação da configuração</summary>
             <BuildScorePanel
               score={buildScore}
               onCalculate={calculateBuildScore}
               loading={loadingAction === 'score'}
               disabled={Boolean(loadingAction)}
             />
-          </div>
+          </details>
         </div>
       </SummarySection>
 
@@ -368,50 +376,22 @@ export default function BuildSummary() {
             <Link className="btn btn-secondary btn-md" to="/compare">Comparar build</Link>
             <Link className="btn btn-ghost btn-md" to="/upgrades">Sugerir upgrade</Link>
           </div>
+          <details className="task-disclosure">
+            <summary>Relatório e exportação</summary>
+            <div className="button-row">
+              <Button variant="ghost" disabled={Boolean(loadingAction)} loading={loadingAction === 'report'} onClick={generateTechnicalReport}><FileText size={18} /> Gerar relatório técnico</Button>
+              <Button variant="ghost" disabled={Boolean(loadingAction)} loading={loadingAction === 'export'} onClick={exportBuildJson}><FileJson size={18} /> Exportar JSON</Button>
+            </div>
+          </details>
+          {share ? (
+            <Alert type="info" title="Link de compartilhamento">
+              <p>ID: {share.shareId} • URL: {share.shareUrl}</p>
+              <Button variant="ghost" onClick={copyShareLink}><Copy size={18} /> Copiar link</Button>
+            </Alert>
+          ) : null}
+          {analyticsError && <Alert type="error">{analyticsError}</Alert>}
           {feedback && <Alert type="success">{feedback}</Alert>}
           {request.loading && <LoadingSpinner />}
-        </Card>
-      </SummarySection>
-
-      <SummarySection eyebrow="Diagnóstico" title="Ferramentas técnicas">
-        <Card className="summary-actions-card">
-          <div className="section-heading compact">
-            <div>
-              <h3>Relatórios e correções</h3>
-              <p>Use ferramentas extras para consultar correções automáticas, gerar relatório técnico e exportar dados.</p>
-            </div>
-            <Badge tone="cyan">Análises complementares</Badge>
-          </div>
-          {analyticsError && <Alert type="error">{analyticsError}</Alert>}
-          <div className="button-row">
-            <Button
-              variant={isIncompatible ? 'secondary' : 'ghost'}
-              disabled={Boolean(loadingAction) || !isIncompatible}
-              loading={loadingAction === 'fixes'}
-              onClick={loadFixSuggestions}
-            >
-              <Wrench size={18} /> Ver sugestões de correção
-            </Button>
-            <Button
-              variant="ghost"
-              disabled={Boolean(loadingAction)}
-              loading={loadingAction === 'report'}
-              onClick={generateTechnicalReport}
-            >
-              <FileText size={18} /> Gerar relatório técnico
-            </Button>
-            <Button
-              variant="ghost"
-              disabled={Boolean(loadingAction)}
-              loading={loadingAction === 'export'}
-              onClick={exportBuildJson}
-            >
-              <FileJson size={18} /> Exportar JSON
-            </Button>
-          </div>
-          {!isIncompatible && (
-            <p className="hint-text">Sugestões de correção ficam disponíveis quando a análise de compatibilidade identifica incompatibilidades.</p>
-          )}
         </Card>
       </SummarySection>
 
@@ -434,6 +414,7 @@ export default function BuildSummary() {
                     recommendationId: suggestedComponent?.id || suggestion.type || `compatibility-fix-${index + 1}`,
                     recommendationTitle: suggestedComponent?.name || 'Correção de compatibilidade',
                     summary: suggestion.reason || suggestion.message || suggestion.summary,
+                    coolingAssessment: suggestion.coolingAssessment || fixSuggestions?.coolingAssessment,
                     problem: suggestion.problem || suggestion.issue || suggestion.type,
                     currentComponent: suggestion.currentComponent || suggestion.current || suggestion.componentCurrent,
                     suggestedComponent,
@@ -465,7 +446,7 @@ export default function BuildSummary() {
           <div className="form-grid field-row-grid summary-game-controls">
             <Select
               revealSelectedValue
-              label="Selecione um jogo para simular o desempenho"
+              label="Jogo"
               value={gameAvailable ? build.game.gameId : ''}
               onChange={(event) => changeGame({ gameId: event.target.value })}
               disabled={gamesLoading || Boolean(gamesError) || !games.length}
@@ -512,24 +493,6 @@ export default function BuildSummary() {
         )}
       </SummarySection>
 
-      <SummarySection eyebrow="Saída" title="Compartilhamento e exportação">
-        <Card className="summary-actions-card">
-          <div className="button-row">
-            <Button variant="secondary" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Gerar link de compartilhamento</Button>
-            <Button variant="ghost" disabled={Boolean(loadingAction)} loading={loadingAction === 'report'} onClick={generateTechnicalReport}><FileText size={18} /> Gerar relatório técnico</Button>
-            <Button variant="ghost" disabled={Boolean(loadingAction)} loading={loadingAction === 'export'} onClick={exportBuildJson}><FileJson size={18} /> Exportar JSON</Button>
-          </div>
-          {share ? (
-            <Alert type="info" title="Link de compartilhamento">
-              <p>ID: {share.shareId} • URL: {share.shareUrl}</p>
-              <Button variant="ghost" onClick={copyShareLink}><Copy size={18} /> Copiar link</Button>
-            </Alert>
-          ) : (
-            <p className="hint-text">Gere um link para compartilhar esta configuração com outras pessoas.</p>
-          )}
-        </Card>
-      </SummarySection>
-
       <SummarySection eyebrow="Compra" title="Links de compra">
         <PurchaseLinksList linksBySlot={linksByBuild} selectedComponents={build.selectedComponents} />
       </SummarySection>
@@ -545,6 +508,7 @@ export default function BuildSummary() {
       <Modal open={exportOpen} title="Exportação JSON da build" onClose={() => setExportOpen(false)}>
         <div className="stack">
           <p className="hint-text">Use este JSON para compartilhar a configuração em integrações externas ou salvar uma cópia estruturada.</p>
+          <CoolingAssessmentNotice result={exportedJson} />
           <pre className="json-preview">{JSON.stringify(exportedJson || {}, null, 2)}</pre>
           <div className="button-row">
             <Button variant="secondary" onClick={copyExportedJson}><Copy size={18} /> Copiar JSON</Button>
@@ -567,7 +531,8 @@ function SummarySection({ eyebrow, title, children }) {
   );
 }
 
-function BuildStatusCard({ incompatible, verified, loading = false, disabled = false, onFixes }) {
+function BuildStatusCard({ compatibility, incompatible, verified, loading = false, disabled = false, onFixes }) {
+  const coolingPending = hasUnverifiedCooling(compatibility);
   return (
     <Card className="build-status-card">
       <div className="section-heading compact">
@@ -575,13 +540,14 @@ function BuildStatusCard({ incompatible, verified, loading = false, disabled = f
           <h3>Status da build</h3>
           <p>{!verified ? 'Gere o resumo ou analise a montagem para verificar as peças.' : incompatible ? 'Há incompatibilidades técnicas que precisam de atenção.' : 'Nenhuma incompatibilidade crítica identificada nos dados analisados.'}</p>
         </div>
-        <Badge tone={!verified ? 'cyan' : incompatible ? 'yellow' : 'green'}>
-          {!verified ? 'Pendente' : incompatible ? 'Atenção' : 'Verificado'}
+        <Badge tone={!verified ? 'cyan' : incompatible || coolingPending ? 'yellow' : 'green'}>
+          {!verified ? 'Pendente' : incompatible ? 'Atenção' : coolingPending ? 'Parcial' : 'Verificado'}
         </Badge>
       </div>
-      <strong className={!verified ? 'status-text' : incompatible ? 'status-text warning' : 'status-text success'}>
-        {!verified ? 'Compatibilidade não verificada' : incompatible ? 'Incompatível' : 'Compatível'}
+      <strong className={!verified ? 'status-text' : incompatible || coolingPending ? 'status-text warning' : 'status-text success'}>
+        {!verified ? 'Compatibilidade não verificada' : incompatible ? 'Incompatível' : coolingPending ? 'Peças principais compatíveis' : 'Compatível'}
       </strong>
+      <CoolingAssessmentNotice result={compatibility} />
       {incompatible && (
         <div className="button-row">
           <Button variant="secondary" disabled={disabled} loading={loading} onClick={onFixes}>
@@ -633,6 +599,7 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
       </div>
       <p className="chart-caption">{hasSimulatedPerformance(score) && numericValue(criteria.performanceScore) !== null && 'Desempenho com pontuação simulada. '}Nota calculada de 0 a 100. As barras detalham os critérios usados; não representam FPS nem resultados de um teste real.</p>
       {Array.isArray(score.warnings) && score.warnings.length > 0 && <Alert type="warning" title="Limitações desta nota"><ul>{score.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
+      <CoolingAssessmentNotice result={score} />
       <AnalysisHelp topics={['buildScore', 'score', 'compatibility']} title="Como interpretar a nota e seus critérios" />
       <div className="score-overview">
         <div className="score-circle" role="img" aria-label={overallScore === null ? 'Nota geral não disponível' : `Nota ${formatScore(overallScore)} de 100`}>
@@ -667,6 +634,7 @@ function FixSuggestionsPanel({ suggestions, onApply, onFeedback }) {
 
   return (
     <Card>
+      <CoolingAssessmentNotice result={suggestions} />
       <div className="section-heading compact">
         <div>
           <h2>Sugestões para corrigir incompatibilidades</h2>
@@ -740,6 +708,7 @@ function TechnicalReportView({ report }) {
 
   return (
     <div className="technical-report stack">
+      <CoolingAssessmentNotice result={reportData} />
       {sections.map(([key, value]) => (
         <article key={key} className="report-section">
           <h3>{translateValue(key)}</h3>
@@ -781,7 +750,7 @@ function ReportValue({ value }) {
         {Object.entries(value).map(([key, nestedValue]) => (
           <div key={key}>
             <dt>{translateValue(key)}</dt>
-            <dd><ReportValue value={nestedValue} /></dd>
+            <dd>{((key === 'compatible' && nestedValue === true) || (key === 'status' && nestedValue === 'compatible')) && hasUnverifiedCooling(value) ? 'Peças principais compatíveis' : <ReportValue value={nestedValue} />}</dd>
           </div>
         ))}
       </dl>

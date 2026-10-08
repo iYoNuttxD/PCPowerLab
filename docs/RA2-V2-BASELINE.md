@@ -1,12 +1,14 @@
 # PCPowerLab — linha de base v2.0
 
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+
 ## Identificação e escopo
 
 - Data: **08/10/2026 (UTC)**
 - Repositório: `iYoNuttxD/PCPowerLab`
 - Branch: `codex/pcpowerlab-ra2-ciclo2`
 - Commit inspecionado e testado antes de alterações de aplicação: **`d433bf930d7373eec073921427e146bc8c173f26`**
-- Checkout novo, inicialmente limpo: `/workspace/shared/pcpowerlab-v2-baseline`
+- Checkout novo, inicialmente limpo: checkout isolado da fonte identificada
 - Escopo desta etapa: diagnóstico, inventário, requisitos e registro de verificações. **Nenhuma funcionalidade, fórmula, dependência, configuração de aplicação ou correção de bug foi alterada. Nenhum merge ou deploy.**
 - `AGENTS.md` e `.agents/skills` não estavam presentes neste checkout. Lidos os README da raiz e frontend, `docs/API.md` e os cinco relatórios `RA2-CICLO2-*`; inspecionadas as camadas de frontend, serviços, modelos, mocks e testes relevantes.
 
@@ -101,7 +103,7 @@ A execução ocorreu antes de qualquer alteração de código da aplicação. Os
 
 | Comando | Resultado inicial real |
 | --- | --- |
-| `npm ci` (raiz e frontend) | Falhou com ENOENT no cache `/home/agent/.npm`; recuperação com `--cache /tmp/pcpowerlab-v2-tests/npm-cache-{root,frontend}` aprovada, lockfiles intactos |
+| `npm ci` (raiz e frontend) | Falhou com ENOENT no cache padrão; recuperação com cache temporário separado por pacote, lockfiles intactos |
 | `npm test` (raiz) | **255/255 passaram**, zero falhas/skips/cancelados/todo |
 | `npm run lint` (raiz) | Passou, exit 0 |
 | `npm run lint` (frontend) | Passou, exit 0 |
@@ -116,7 +118,7 @@ A execução ocorreu antes de qualquer alteração de código da aplicação. Os
 
 Instalações oficiais do Chromium completo e headless shell falharam com arquivo ZIP truncado (`End of central directory record signature not found`) nas tentativas internas do instalador. O Chromium 154.0.8037.57 já instalado também falhou por restrição de socket, inclusive no smoke test pela via de revisão de permissão. As tentativas foram encerradas; não houve contorno de restrição. Os 105 casos descobertos são os mesmos nas duas tentativas, **não 210 testes únicos**. São falhas de infraestrutura, não 105 regressões de produto comprovadas. Nenhuma captura foi possível porque nenhuma página abriu. Não há workflows versionados em `.github` neste checkout; não se presume CI verde.
 
-[Evidência e comandos exatos](evidence/ra2-v2-baseline/README.md), [resultados estruturados](evidence/ra2-v2-baseline/results.json), [excertos literais e hashes dos logs](evidence/ra2-v2-baseline/command-output-excerpts.log) e [estado por caso](evidence/ra2-v2-baseline/browser-case-results.json). Logs integrais locais em `/tmp/pcpowerlab-v2-tests/`. A validação comportamental de navegador permanece pendente em uma rota autorizada capaz de executar esses testes; este bloqueio não prova que todas as ferramentas de navegador estejam indisponíveis.
+[Evidência e comandos exatos](evidence/ra2-v2-baseline/README.md), [resultados estruturados](evidence/ra2-v2-baseline/results.json), [excertos literais e hashes dos logs](evidence/ra2-v2-baseline/command-output-excerpts.log) e [estado por caso](evidence/ra2-v2-baseline/browser-case-results.json). Os arquivos públicos de evidência estão no diretório relativo indicado acima. A validação comportamental de navegador permanece pendente em uma rota autorizada capaz de executar esses testes; este bloqueio não prova que todas as ferramentas de navegador estejam indisponíveis.
 
 ## Cobertura existente e lacunas
 

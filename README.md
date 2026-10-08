@@ -1,6 +1,8 @@
 # PCPowerLab
 
-> Revisão do catálogo: [substituições, compatibilidade e preservação de configurações](docs/RA2-CATALOG-REPLACEMENTS.md). 97 componentes ativos com referência datada e fotografia; 20 modelos anteriores preservados. Disponibilidade observada não é estoque ao vivo.
+> [Consolidação técnica atual](docs/RA2-CONSOLIDACAO-FINAL.md): catálogo, pontuações, refrigeração, revisão de interface e evidências por fonte. A união final ainda requer reteste; **NÃO HOMOLOGADA**.
+
+> Revisão do catálogo: [substituições, compatibilidade e preservação de configurações](docs/RA2-CATALOG-REPLACEMENTS.md). 81 componentes ativos com referência datada e fotografia; 117 identidades legadas preservadas. Disponibilidade observada não é estoque ao vivo.
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
@@ -547,7 +549,7 @@ As verificações retornam `compatible`, `incompatible` ou `unverified`; dados i
 
 ## Fotografias do catálogo — v2.11
 
-Fotografias locais de produtos e embalagens: 97/97 componentes ativos; as imagens dos registros anteriores também são preservadas. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos completos ficam em uma página própria, acessível pelo rodapé. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
+Fotografias locais de produtos e embalagens: 81/81 componentes ativos, sendo 71 de modelo exato e 10 de família visual; as imagens dos registros anteriores também são preservadas. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos completos ficam em uma página própria, acessível pelo rodapé. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
 
 - [Implementação e verificação](docs/RA2-V2.11-FOTOS-E-UI.md)
 - [Cobertura e inventário dinâmico](docs/RA2-COBERTURA-IMAGENS.md)
@@ -555,20 +557,20 @@ Fotografias locais de produtos e embalagens: 97/97 componentes ativos; as imagen
 
 ### Transparência comercial v2.6
 
-Preços do catálogo são referências estimadas. As lojas oferecem links de pesquisa; nenhuma API de preços está conectada. O modelo de ofertas validáveis e totais separados foi implementado e testado com fixtures, sem inventar estoque ou preço atual. Veja [relatório v2.6](docs/RA2-V2.6-INTEGRACAO.md), [fontes autorizadas e bloqueios](docs/RA2-V2.6-MARKET-SOURCES.md).
+Esta seção registra a etapa v2.6. O estado atual contém 81 observações manuais datadas de SKU exato; não são cotações ao vivo. As lojas também oferecem links de pesquisa; nenhuma API de preços está conectada. O modelo de ofertas validáveis e totais separados foi implementado e testado com fixtures, sem inventar estoque ou preço atual. Veja [relatório v2.6](docs/RA2-V2.6-INTEGRACAO.md), [fontes autorizadas e bloqueios](docs/RA2-V2.6-MARKET-SOURCES.md).
 
 ### Auditoria de qualidade v2.7
 
-[Defeitos reproduzidos, correções, testes e pendências](docs/RA2-V2-QUALIDADE.md). Inclui percursos HTTP reais e regressões de estado; execução em navegador permanece pendente no ambiente desta entrega. Testes automáticos aprovados não significam ausência total de bugs nem homologação de produção.
+[Defeitos reproduzidos, correções, testes e pendências](docs/RA2-V2-QUALIDADE.md). Inclui percursos HTTP reais e regressões de estado; a execução em navegador estava pendente na etapa v2.7. Resultados posteriores e reteste da união estão separados na consolidação atual. Testes automáticos aprovados não significam ausência total de bugs nem homologação de produção.
 
 ## Auditoria final v2.9
 
-A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificações locais. O estado consolidado está no relatório acima; documentos de etapas anteriores são históricos. [Inventário histórico v2.9 dos então 98 ativos](docs/RA2-V2.9-INVENTARIO.json), incluindo 3 air coolers, 2 AIOs e 4 produtos fan. Os 69 IDs da base foram preservados.
+A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificações locais. O estado atual está na [consolidação técnica](docs/RA2-CONSOLIDACAO-FINAL.md); documentos de etapas anteriores são históricos. [Inventário histórico v2.9 dos então 98 ativos](docs/RA2-V2.9-INVENTARIO.json), incluindo 3 air coolers, 2 AIOs e 4 produtos fan. Os 69 IDs da base foram preservados.
 
 - As três jornadas são percursos técnicos com adaptadores frontend e HTTP real; não testes com participantes
 - A suíte Node da raiz inclui os testes frontend em `frontend/tests/*.test.js`; não somar uma reexecução isolada
-- Suítes Playwright foram somente coletadas nesta rodada; nenhum screenshot atual ou aprovação de responsividade
-- Fotos faltantes, preços reais e dados físicos insuficientes são pendências obrigatórias; fallback não é foto
+- Na rodada histórica v2.9, suítes Playwright foram somente coletadas; nenhum screenshot atual ou aprovação de responsividade
+- A v2.9 registrava fotos e preços faltantes; a cobertura atual distingue fotos exatas/de família e referências datadas. Dados físicos insuficientes continuam desconhecidos; fallback não é foto
 - A auditoria corrigiu orientação final contraditória, fração de centavo no total local, validação de listas técnicas e fixture fotográfica; ver regressões e demais achados no relatório
 - Servidor mantém dados globais em memória. Não há persistência durável, isolamento de contas ou qualificação de produção
 - Nenhum merge/deploy/autoaprovação faz parte desta entrega. Revisão do responsável necessária

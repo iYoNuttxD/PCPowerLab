@@ -194,7 +194,7 @@ test('erro ao carregar peças salvas impede abrir com preços zerados e permite 
 });
 
 async function alignedFormControls(page) {
-  return page.locator('.field-row-grid').evaluateAll(grids => grids.length > 0 && grids.every(grid => {
+  return page.locator('.field-row-grid:visible').evaluateAll(grids => grids.length > 0 && grids.every(grid => {
     const rows = new Map();
     const heights = [];
     for (const field of grid.querySelectorAll(':scope > .field')) {
@@ -217,6 +217,7 @@ test('erros de orçamento e etapas preservam o alinhamento e descrevem o campo i
   await seed(page);
   await page.goto('/upgrades');
   await page.getByRole('spinbutton', { name: 'Orçamento para upgrade', exact: true }).fill('0');
+  await page.getByRole('tab', { name: 'Plano em etapas', exact: true }).click();
   await page.getByRole('spinbutton', { name: 'Orçamento total', exact: true }).fill('0');
   const steps = page.getByRole('spinbutton', { name: 'Número máximo de etapas', exact: true });
   await steps.fill('0');
@@ -224,8 +225,11 @@ test('erros de orçamento e etapas preservam o alinhamento e descrevem o campo i
   await expect(steps).toHaveAccessibleDescription('Informe uma quantidade inteira de etapas entre 1 e 5.');
   for (const width of [1440, 1024, 768, 390, 320]) {
     await page.setViewportSize({ width, height: 900 });
-    await expect.poll(() => alignedFormControls(page)).toBe(true);
-    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    for (const task of ['Uma troca', 'Plano em etapas']) {
+      await page.getByRole('tab', { name: task, exact: true }).click();
+      await expect.poll(() => alignedFormControls(page)).toBe(true);
+      await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
   }
   await steps.fill('3');
   await expect(steps).toHaveAttribute('aria-invalid', 'false');
@@ -240,6 +244,7 @@ test('erros de orçamento e etapas preservam o alinhamento e descrevem o campo i
 
 test('pesos do perfil mantêm armazenamento legível e controles iguais em telas estreitas', async ({ page }) => {
   await page.goto('/ready-builds');
+  await page.getByRole('tab', { name: 'Meus perfis', exact: true }).click();
   const storage = page.locator('.weight-grid').getByRole('spinbutton', { name: 'Armazenamento', exact: true });
   await expect(storage).toBeVisible();
   for (const width of [1440, 1024, 768, 390, 320]) {
@@ -274,13 +279,13 @@ test('nomes selecionados permanecem completos sem abreviar builds nem jogos', as
   await source.selectOption(saved.id);
   await expect(source.locator('option:checked')).toHaveText(name);
   await expect(fullName).toHaveCount(0);
-  const priority = page.locator('.upgrade-source-grid').getByRole('combobox', { name: 'Prioridade', exact: true });
+  const priority = page.getByRole('tabpanel').getByRole('combobox', { name: 'Prioridade', exact: true });
   await priority.selectOption('lowest-price');
   await expect(priority.locator('option:checked')).toHaveText('Menor preço');
 
   await page.goto('/summary');
   await page.setViewportSize({ width: 768, height: 900 });
-  const game = page.getByRole('combobox', { name: 'Selecione um jogo para simular o desempenho', exact: true });
+  const game = page.getByRole('combobox', { name: 'Jogo', exact: true });
   await game.selectOption('game-microsoft-flight-simulator');
   await expect(game.locator('option:checked')).toHaveText('Microsoft Flight Simulator');
   await expect.poll(() => game.evaluate(select => {
@@ -288,4 +293,54 @@ test('nomes selecionados permanecem completos sem abreviar builds nem jogos', as
     return Math.abs(select.getBoundingClientRect().width - grid.width) <= 1;
   })).toBe(true);
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+
+test('upgrade task tabs retain source, independent inputs and completed results with keyboard switching', async ({ page }) => {
+  await seed(page);
+  const requests = [];
+  await page.route('**/api/v1/upgrades/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    requests.push(route.request().postDataJSON());
+    return ok(route, path.endsWith('/roadmap') ? { summary: 'Plano preservado', steps: [] } : { summary: 'Sugestão preservada', suggestions: [] });
+  });
+  await page.goto('/upgrades?buildId=qa-saved');
+  const source = page.getByRole('combobox', { name: 'Build salva', exact: true });
+  const single = page.getByRole('tab', { name: 'Uma troca', exact: true });
+  const plan = page.getByRole('tab', { name: 'Plano em etapas', exact: true });
+  await expect(source).toHaveValue(saved.id);
+  await expect(page.getByRole('tabpanel')).toHaveCount(1);
+  await page.getByRole('spinbutton', { name: 'Orçamento para upgrade', exact: true }).fill('1650');
+  await page.getByRole('button', { name: 'Gerar sugestões', exact: true }).click();
+  await expect(page.getByText('Sugestão preservada', { exact: true })).toBeVisible();
+  await single.focus(); await single.press('ArrowRight');
+  await expect(plan).toBeFocused();
+  await expect(page.getByText('Sugestão preservada', { exact: true })).toBeHidden();
+  await expect(source).toHaveValue(saved.id);
+  await page.getByRole('spinbutton', { name: 'Orçamento total', exact: true }).fill('3600');
+  await page.getByRole('spinbutton', { name: 'Número máximo de etapas', exact: true }).fill('4');
+  await page.getByRole('button', { name: 'Gerar plano de upgrades', exact: true }).click();
+  await expect(page.getByText('Plano preservado', { exact: true })).toBeVisible();
+  await plan.focus(); await plan.press('Home');
+  await expect(single).toBeFocused();
+  await expect(page.getByRole('spinbutton', { name: 'Orçamento para upgrade', exact: true })).toHaveValue('1650');
+  await expect(page.getByText('Sugestão preservada', { exact: true })).toBeVisible();
+  await expect(page.getByText('Plano preservado', { exact: true })).toBeHidden();
+  await single.press('End');
+  await expect(page.getByRole('spinbutton', { name: 'Orçamento total', exact: true })).toHaveValue('3600');
+  await expect(page.getByRole('spinbutton', { name: 'Número máximo de etapas', exact: true })).toHaveValue('4');
+  await expect(page.getByText('Plano preservado', { exact: true })).toBeVisible();
+  expect(requests).toHaveLength(2);
+  expect(requests[0]).toMatchObject({ buildId: saved.id, budget: { amount: 1650 } });
+  expect(requests[1]).toMatchObject({ build: saved.components, totalBudget: 3600, maxSteps: 4 });
+  for (const value of ['balanced', 'upgrade-ready']) {
+    await page.getByRole('tabpanel').getByRole('combobox', { name: 'Prioridade', exact: true }).selectOption(value);
+    await single.click();
+    const priority = page.getByRole('tabpanel').getByRole('combobox', { name: 'Prioridade', exact: true });
+    await expect(priority).toHaveValue(value);
+    await expect(priority.locator('option:checked')).not.toHaveText('');
+    await plan.click();
+    await expect(page.getByRole('tabpanel').getByRole('combobox', { name: 'Prioridade', exact: true })).toHaveValue(value);
+  }
+  expect((await stored(page)).selectedComponents).toEqual(selection);
 });

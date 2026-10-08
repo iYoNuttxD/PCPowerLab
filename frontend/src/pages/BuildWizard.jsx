@@ -30,7 +30,7 @@ import { savedBuildsService } from '../services/savedBuildsService.js';
 import { componentLabels, componentTypes, priorityLabels, priorityOptions, usageLabels, usageTypes } from '../utils/componentLabels.js';
 import { normalizeBudgetPayload, normalizeRecommendationBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { getMissingBuildSlots, validateBudgetAmount } from '../utils/validation.js';
-import { hasWizardCompatibilityBlockers, wizardDescriptions, wizardLabels, wizardSteps } from '../utils/wizardSteps.js';
+import { hasWizardCompatibilityBlockers, requiredWizardSteps, wizardDescriptions, wizardHelpDescriptions, wizardLabels, wizardSteps } from '../utils/wizardSteps.js';
 
 export default function BuildWizard() {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export default function BuildWizard() {
   const immediateConflicts = stepSelectionConflicts(build.selectedComponents, currentStep);
   const canAdvance = isComponentStep
     ? Boolean(build.selectedComponents[currentStep]) && immediateConflicts.length === 0
-    : currentStep === 'budget'
+    : currentStep === 'cooling' ? true : currentStep === 'budget'
       ? !budgetError
       : missingSlots.length === 0;
 
@@ -66,7 +66,7 @@ export default function BuildWizard() {
   // directly. Both represent a completed analysis of the current configuration.
   const bottlenecksComplete = build.bottlenecks?.status === 'success'
     || (!build.bottlenecks?.status && typeof build.bottlenecks?.hasBottleneck === 'boolean' && build.bottlenecks?.available !== false);
-  const completedSteps = wizardSteps.filter((step) => componentTypes.includes(step)
+  const completedSteps = requiredWizardSteps.filter((step) => componentTypes.includes(step)
     ? Boolean(build.selectedComponents[step]) && stepSelectionConflicts(build.selectedComponents, step).length === 0
     : step === 'budget' ? !budgetError
       : !missingSlots.length && !budgetError && bottlenecksComplete
@@ -79,7 +79,7 @@ export default function BuildWizard() {
         : error ? 'Não foi possível carregar as peças. Use Tentar novamente abaixo.'
           : !stepComponents.length ? 'Não há peças nesta categoria. Tente atualizar o catálogo abaixo.'
             : `Selecione uma peça de ${componentLabels[currentStep]} para avançar.`
-    : currentStep === 'budget'
+    : currentStep === 'cooling' ? 'Opcional. Continue para definir o orçamento.' : currentStep === 'budget'
       ? budgetError || 'Orçamento definido. Avance para revisar as peças e analisar a montagem.'
       : missingSlots.length ? `${missingSlots.length === 1 ? 'Falta 1 peça' : `Faltam ${missingSlots.length} peças`}. Use Ver etapas para completar antes de analisar ou salvar.`
         : budgetError ? 'Defina um orçamento maior que zero na etapa Orçamento antes de analisar.'
@@ -283,7 +283,6 @@ export default function BuildWizard() {
         <div className="page-hero compact-hero">
           <span className="eyebrow">Assistente de montagem</span>
           <h1>Monte seu PC</h1>
-          <p>Escolha cada peça, defina seu orçamento e confira se tudo funciona bem junto.</p>
         </div>
 
         <WizardNavigation currentStep={currentStep} completedSteps={completedSteps}
@@ -294,6 +293,7 @@ export default function BuildWizard() {
           <div className="wizard-step-intro">
             <h2 id="wizard-step-heading" ref={headingRef} tabIndex={-1}>{wizardLabels[currentStep]}</h2>
             <p>{wizardDescriptions[currentStep]}</p>
+            {isComponentStep && <details><summary>Como escolher</summary><p>{wizardHelpDescriptions[currentStep]}</p></details>}
           </div>
           {request.loading && <LoadingSpinner label="Aguarde, processando sua montagem..." />}
           {request.error && <ErrorState message={request.error} />}
@@ -303,7 +303,7 @@ export default function BuildWizard() {
           <>
             {build.selectedComponents[currentStep] && (
               <p className="wizard-selection"><strong>Peça atual: {build.selectedComponents[currentStep].name || 'Componente selecionado'}</strong>
-                <span>Para substituir, selecione outra opção. As demais peças serão mantidas.</span></p>
+</p>
             )}
             {immediateConflicts.length > 0 && <Alert type="error" title="Conflito entre as peças escolhidas">
               {immediateConflicts.map(conflict => <div key={conflict.code}><p>{conflict.message}</p>
@@ -329,7 +329,7 @@ export default function BuildWizard() {
           </>
         )}
 
-        {(currentStep === 'case' || currentStep === 'review') && <CoolingPanel build={build} byType={byType} loading={loading} error={error} onRetry={reload} onChange={clearMessages} />}
+        {currentStep === 'cooling' && <CoolingPanel build={build} byType={byType} loading={loading} error={error} onRetry={reload} onChange={clearMessages} />}
 
         {currentStep === 'budget' && (
           <Card>
@@ -365,8 +365,8 @@ export default function BuildWizard() {
           <div className="page-stack">
             <Card>
               <h3>Revisão e análises</h3>
-              <p>Execute compatibilidade, alertas, gargalos e orçamento antes de gerar o resumo final.</p>
-              {!build.compatibility && <p>Ao alterar peças ou orçamento, execute as análises novamente para conferir a configuração atual.</p>}
+              <div className="cooling-review-row"><span>{build.selectedComponents.cooler?.name || 'Nenhum cooler adicional'}{build.selectedComponents.fans?.length > 0 ? ' · Ventoinhas extras selecionadas' : ''}</span><Button variant="ghost" onClick={() => changeStep('cooling')}>Alterar refrigeração</Button></div>
+              {!build.compatibility && <p>Análise pendente. Analise novamente após alterar peças ou orçamento.</p>}
               {missingSlots.length > 0 && <Alert type="warning">Faltam peças: {missingSlots.map(slot => componentLabels[slot]).join(', ')}. Volte à categoria para escolher.</Alert>}
               {budgetError && <Alert type="warning">{budgetError} Volte à etapa Orçamento para corrigir.</Alert>}
               <div className="button-row">
@@ -399,7 +399,7 @@ export default function BuildWizard() {
         <BuildSummaryCard
           selectedComponents={build.selectedComponents}
           totalPrice={build.totalPrice}
-          onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'case' : type)}
+          onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'cooling' : type)}
           onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
       </aside>

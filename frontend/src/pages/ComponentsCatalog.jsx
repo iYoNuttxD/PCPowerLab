@@ -100,7 +100,7 @@ export default function ComponentsCatalog() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Catálogo técnico</span>
         <h1>Catálogo de componentes</h1>
-        <p>Encontre as peças para seu próximo PC. Compare especificações, preços estimados e opções de compra.</p>
+        <p>Escolha peças, filtre e compare.</p>
       </section>
 
       {legacy?.catalogStatus === 'legacy' && <section className="panel-card"><p>Alternativa para {legacy.name}. Sua montagem não foi alterada.</p>{Array.isArray(legacy.replacementNotes) && <ul>{legacy.replacementNotes.map(note => <li key={note}>{note}</li>)}</ul>}</section>}
@@ -109,23 +109,18 @@ export default function ComponentsCatalog() {
         {!loading && !error && <p className="hint-text">{components.filter(datedReference).length}/{components.length} referências datadas · confirme preço e estoque na loja</p>}
       </div>
 
-      <details className="panel-card catalog-methodology"><summary>Como interpretar desempenho, valor e compatibilidade</summary>
-        <p>{catalogMethodology}</p>
-        <p>Selecionar troca somente esta peça. A compatibilidade considera sua montagem atual; dados ausentes deixam a verificação pendente. Ajuste a quantidade de ventoinhas no assistente.</p>
-      </details>
-      <p role="status">{selectionNotice}</p>
-      <Link to="/summary">Ver minha montagem e analisar compatibilidade</Link>
+      {selectionNotice && <p role="status">{selectionNotice}</p>}
+      <div className="context-strip"><span>{hasBuild ? 'Sua montagem está em andamento' : 'Selecione peças para começar'}</span><Link to="/summary">Ver minha montagem</Link></div>
       {compatibilityLoading && <LoadingSpinner label="Verificando candidatos com a montagem atual..." />}
       {compatibilityError && <ErrorState message={compatibilityError} onRetry={() => { setCompatibility({ key: '', data: {}, error: '' }); setCompatibilityAttempt(value => value + 1); }} />}
       {!loading && !error && !compatibilityLoading && !compatibilityError && <div className="section-heading catalog-results">
         <p role="status">{filterError ? 'Corrija a faixa de preço ou desempenho para consultar os resultados.' : `${filteredComponents.length} ${filteredComponents.length === 1 ? 'componente encontrado' : 'componentes encontrados'}`}</p>
       </div>}
 
-      {!loading && !error && <section className="panel-card catalog-compare-bar" aria-label="Peças selecionadas para comparar">
-        <p role="status">{comparedComponents.length ? `${comparedComponents.length} de 4 peças selecionadas · ${componentLabels[comparisonCategory]}. A seleção é mantida ao filtrar.` : 'Selecione de 2 a 4 peças da mesma categoria para comparar.'}</p>
+      {!loading && !error && comparedComponents.length > 0 && <section className="catalog-compare-bar" aria-label="Peças selecionadas para comparar">
+        <p role="status">{comparedComponents.length} de 4 · {componentLabels[comparisonCategory]}</p>
         {comparedComponents.length > 0 && <>
-          <ul>{comparedComponents.map(component => <li key={component.id}><ComponentIdentity component={component} /><Button variant="ghost" size="sm" onClick={() => removeCompared(component.id)} aria-label={`Retirar ${component.name} da seleção`}>Retirar</Button></li>)}</ul>
-          <p className="hint-text">Para comparar outra categoria, limpe esta seleção. Os filtros não removem as peças escolhidas.</p>
+          <ul>{comparedComponents.map(component => <li key={component.id}><span>{component.name}</span><Button variant="ghost" size="sm" onClick={() => removeCompared(component.id)} aria-label={`Retirar ${component.name} da seleção`}>Retirar</Button></li>)}</ul>
         </>}
         <div className="button-row">
           <Button disabled={comparedComponents.length < 2} onClick={() => setComparisonOpen(true)}>Comparar peças ({comparedComponents.length})</Button>
@@ -142,6 +137,8 @@ export default function ComponentsCatalog() {
             compared={comparisonIds.includes(component.id)} compareDisabled={!comparisonIds.includes(component.id) && (comparedComponents.length >= 4 || Boolean(comparisonCategory && comparisonCategory !== component.category))} />
         ))}
       </div>}
+
+      <details className="task-disclosure catalog-methodology"><summary>Sobre os índices e filtros</summary><p>{catalogMethodology}</p><p>Compatibilidade considera a montagem atual. Dados ausentes permanecem pendentes.</p></details>
 
       <Modal open={comparisonOpen} title="Comparar componentes" onClose={() => setComparisonOpen(false)}>
         <ComponentComparison components={comparedComponents} onRemove={removeCompared} onSelect={addToBuild} selectedComponents={build.selectedComponents} />

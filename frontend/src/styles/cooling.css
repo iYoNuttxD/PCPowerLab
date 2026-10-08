@@ -1,0 +1,51 @@
+
+/* Optional cooling is separate from the seven required component categories. */
+.cooling-fans summary, .cooling-help summary { cursor: pointer; font-weight: 600; }
+.cooling-fans[open] > :not(summary) { margin-top: .8rem; }
+.cooling-fans fieldset { margin-block: .8rem; }
+.cooling-review-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+.cooling-review-row > span { min-width: 0; overflow-wrap: anywhere; }
+.thermal-benchmark-panel { display: grid; gap: var(--space-3); min-width: 0; }
+.thermal-benchmark-panel > h3, .thermal-benchmark-panel > p { margin: 0; }
+.thermal-benchmark-pair { font-weight: 600; overflow-wrap: anywhere; }
+.thermal-benchmark-conditions { font-size: .9rem; }
+.thermal-benchmark-chart { margin: 0; min-width: 0; }
+.thermal-benchmark-chart figcaption { margin-bottom: var(--space-3); color: var(--muted); }
+.thermal-benchmark-bars { display: grid; gap: var(--space-3); list-style: none; padding: 0; margin: 0; }
+.thermal-benchmark-bar-label, .thermal-benchmark-axis { display: flex; justify-content: space-between; gap: var(--space-3); }
+.thermal-benchmark-bar-label { margin-bottom: var(--space-1); }
+.thermal-benchmark-bar-track { height: 14px; overflow: hidden; border-radius: 6px; background: var(--border); }
+.thermal-benchmark-bar-fill { display: block; height: 100%; border-radius: inherit; background: var(--cyan); }
+.thermal-benchmark-bar-fill--load { background: var(--magenta); }
+.thermal-benchmark-axis { margin-top: var(--space-1); color: var(--muted); font-size: .8rem; }
+.thermal-benchmark-details a { text-decoration: underline; text-underline-offset: 3px; }
+.wizard-step-intro details { margin-top: .5rem; }
+.wizard-step-intro summary { cursor: pointer; }
+
+.cooling-simulation { display: grid; gap: .85rem; min-width: 0; }
+.cooling-simulation h3, .cooling-simulation h4, .cooling-simulation p { margin: 0; }
+.cooling-simulation-heading, .cooling-noise-result > div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+.cooling-simulation-controls summary, .cooling-simulation-method summary { cursor: pointer; font-weight: 600; }
+.cooling-simulation-controls[open] > :not(summary), .cooling-simulation-method[open] > :not(summary) { margin-top: .75rem; }
+.cooling-simulation-controls .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cooling-temperature-chart { margin: 0; min-width: 0; }
+.cooling-temperature-chart figcaption { font-weight: 600; margin-bottom: .75rem; }
+.cooling-temperature-chart ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.cooling-temperature-label { display: flex; gap: .75rem; justify-content: space-between; align-items: baseline; }
+.cooling-temperature-label span { display: flex; gap: .5rem; align-items: baseline; }
+.cooling-temperature-label small { color: var(--muted); }
+.cooling-temperature-track { position: relative; background: var(--border); height: 14px; border-radius: 5px; margin-top: .4rem; overflow: hidden; }
+.cooling-temperature-band { position: absolute; top: 0; bottom: 0; background: var(--cyan); opacity: .65; }
+.cooling-temperature-central { position: absolute; width: 3px; top: 0; bottom: 0; background: var(--text); transform: translateX(-100%); }
+.cooling-limit-warning { color: var(--yellow); line-height: 1.5; }
+.cooling-simulation-notice { color: var(--muted); line-height: 1.5; }
+.cooling-noise-result { display: grid; gap: .5rem; border-top: 1px solid var(--border); padding-top: .85rem; }
+.cooling-noise-result strong { font-size: 1.15rem; }
+.cooling-simulation-method a { overflow-wrap: anywhere; text-decoration: underline; }
+@media (max-width: 600px) {
+  .cooling-simulation-controls .form-grid { grid-template-columns: 1fr; }
+  .cooling-temperature-label { flex-wrap: wrap; gap: .25rem; }
+}
+.cooling-simulation-method dl { display: grid; gap: .5rem; }
+.cooling-simulation-method dd { margin-left: 0; color: var(--muted); }
+.cooling-temperature-chart figcaption small { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; margin-top: .2rem; }

@@ -1,0 +1,1211 @@
+{
+  "modelVersion": "thermal-priors-0.1-proposal",
+  "status": "research-design-no-implementation",
+  "reviewedAt": "2026-10-08",
+  "packageAnchor": {
+    "profileId": "shared-package-contact-v1",
+    "low": 0.1,
+    "central": 0.2,
+    "high": 0.3,
+    "unit": "degreeC-per-watt",
+    "basis": "shared-unidentified-design-anchor",
+    "scope": "All active CPUs; no brand/family-specific claim."
+  },
+  "composition": "T_cpu=T_inlet+Q_cpu*(R_package+R_cooler_grid(Q_cpu,speed))",
+  "important": "resistanceNodes already include the high-load increment; do not add it again.",
+  "interpolation": {
+    "method": "piecewise-linear-in-Q-and-relative-rpm",
+    "basis": "design-choice",
+    "extrapolation": "none outside computational domain; return explicit domain result"
+  },
+  "scenarioWatts": {
+    "factors": [
+      0.25,
+      0.6,
+      1
+    ],
+    "referenceControlWatts": [
+      5,
+      300
+    ],
+    "powerSensitivity": "none in v0.1; Q held fixed per scenario"
+  },
+  "provenancePolicy": {
+    "allNumericCoefficients": "assumed-design-prior",
+    "observationsSeparate": true,
+    "confidenceInterval": false,
+    "calibratedAccuracyClaim": false,
+    "bulkPublisherDataImported": false
+  },
+  "coolerProfiles": [
+    {
+      "id": "cooler-bequiet-pure-rock-3-black",
+      "name": "be quiet! Pure Rock 3 Black",
+      "partNumber": "BK039",
+      "modelVersion": "thermal-priors-0.1-proposal",
+      "profileRevision": "2026-10-08-r1",
+      "reviewedAt": "2026-10-08",
+      "status": "proposed-not-calibrated",
+      "unit": "degreeC-per-watt",
+      "coefficientBasis": "assumed-design-prior",
+      "modelBasis": "source-informed-internal-prior",
+      "supportedSockets": [
+        "AM4",
+        "AM5",
+        "LGA1851",
+        "LGA1700",
+        "LGA1200",
+        "LGA1150",
+        "LGA1151",
+        "LGA1155"
+      ],
+      "stockFanCount": 1,
+      "speedDefinition": {
+        "reference": "fraction-of-manufacturer-nominal-maximum-fan-rpm",
+        "nominalMaxRpm": 2000,
+        "fractions": [
+          0.5,
+          0.75,
+          1
+        ],
+        "nominalRpmNodes": [
+          1000.0,
+          1500.0,
+          2000
+        ],
+        "pwmFractionEquivalent": false
+      },
+      "pumpCondition": null,
+      "baseResistanceNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "low": 0.16,
+          "central": 0.3,
+          "high": 0.48,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "low": 0.12,
+          "central": 0.22,
+          "high": 0.35,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 1,
+          "low": 0.1,
+          "central": 0.18,
+          "high": 0.28,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "highLoadIncrementNodes": [
+        {
+          "heatWatts": 190,
+          "low": 0,
+          "central": 0,
+          "high": 0,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "low": 0,
+          "central": 0.04,
+          "high": 0.14,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "resistanceNodes": [
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.5,
+          "low": 0.16,
+          "central": 0.3,
+          "high": 0.48,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.75,
+          "low": 0.12,
+          "central": 0.22,
+          "high": 0.35,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 1,
+          "low": 0.1,
+          "central": 0.18,
+          "high": 0.28,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.5,
+          "low": 0.16,
+          "central": 0.3,
+          "high": 0.48,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.75,
+          "low": 0.12,
+          "central": 0.22,
+          "high": 0.35,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 1,
+          "low": 0.1,
+          "central": 0.18,
+          "high": 0.28,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 190,
+          "speedRpmFraction": 0.5,
+          "low": 0.16,
+          "central": 0.3,
+          "high": 0.48,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 190,
+          "speedRpmFraction": 0.75,
+          "low": 0.12,
+          "central": 0.22,
+          "high": 0.35,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 190,
+          "speedRpmFraction": 1,
+          "low": 0.1,
+          "central": 0.18,
+          "high": 0.28,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.5,
+          "low": 0.16,
+          "central": 0.34,
+          "high": 0.62,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.75,
+          "low": 0.12,
+          "central": 0.26,
+          "high": 0.49,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 1,
+          "low": 0.1,
+          "central": 0.22,
+          "high": 0.42,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "supportedDomain": {
+        "computationalHeatWatts": [
+          1,
+          300
+        ],
+        "baselineAssumptionHeatWatts": [
+          10,
+          190
+        ],
+        "speedRpmFraction": [
+          0.5,
+          1
+        ],
+        "inletTemperatureC": [
+          15,
+          35
+        ],
+        "measuredCalibrationDomain": null,
+        "meaning": "Bounded scenario domain, not validated operating capacity or manufacturer TDP."
+      },
+      "domainWarnings": [
+        {
+          "condition": "heatWatts<10",
+          "code": "low-load-prior",
+          "messagePt": "Carga muito baixa: hipótese simplificada; não representa temperatura ociosa medida."
+        },
+        {
+          "condition": "heatWatts>190",
+          "code": "high-load-prior",
+          "messagePt": "Carga elevada: faixa ampliada por hipótese; potência sustentada não garantida."
+        }
+      ],
+      "sources": [
+        {
+          "sourceId": "bequiet-pr3",
+          "url": "https://www.bequiet.com/en/cpucooler/5591",
+          "kind": "manufacturer",
+          "use": "Exact BK039 identity, stock fan count, nominal 2000 rpm. No resistance coefficient."
+        },
+        {
+          "sourceId": "t4g-pr3",
+          "url": "https://tech4gamers.com/be-quiet-pure-rock-3-black-air-cooler-review/",
+          "kind": "original-review",
+          "use": "Exact cooler and i7-13700K. Configured 190/253W, full PWM, 30-minute Cinebench R23.2; retained 95C/23C reference at 190W is not a measured-Q fit."
+        }
+      ],
+      "transferAssumptions": [
+        "Exact stock cooler; use on every supported CPU shares an explicit generic CPU/package anchor rather than measured pair calibration.",
+        "100% PWM observation is used only as a full-speed qualitative condition; 50/75% of nominal rpm nodes are independent assumptions.",
+        "Configured190W is not independently measured CPU heat. The0.18 central cooler coefficient is an anchor-consistent rounded prior, not an observed cooler-only quantity."
+      ]
+    },
+    {
+      "id": "cooler-bequiet-pure-rock-pro3-black",
+      "name": "be quiet! Pure Rock Pro 3 Black",
+      "partNumber": "BK042",
+      "modelVersion": "thermal-priors-0.1-proposal",
+      "profileRevision": "2026-10-08-r1",
+      "reviewedAt": "2026-10-08",
+      "status": "proposed-not-calibrated",
+      "unit": "degreeC-per-watt",
+      "coefficientBasis": "assumed-design-prior",
+      "modelBasis": "source-informed-internal-prior",
+      "supportedSockets": [
+        "AM4",
+        "AM5",
+        "LGA1851",
+        "LGA1700",
+        "LGA1200",
+        "LGA1150",
+        "LGA1151",
+        "LGA1155"
+      ],
+      "stockFanCount": 2,
+      "speedDefinition": {
+        "reference": "fraction-of-manufacturer-nominal-maximum-fan-rpm",
+        "nominalMaxRpm": 2000,
+        "fractions": [
+          0.5,
+          0.75,
+          1
+        ],
+        "nominalRpmNodes": [
+          1000.0,
+          1500.0,
+          2000
+        ],
+        "pwmFractionEquivalent": false
+      },
+      "pumpCondition": null,
+      "baseResistanceNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "low": 0.11,
+          "central": 0.23,
+          "high": 0.39,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "low": 0.08,
+          "central": 0.16,
+          "high": 0.29,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.1,
+          "high": 0.22,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "highLoadIncrementNodes": [
+        {
+          "heatWatts": 220,
+          "low": 0,
+          "central": 0,
+          "high": 0,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "low": 0,
+          "central": 0.02,
+          "high": 0.07,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "resistanceNodes": [
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.5,
+          "low": 0.11,
+          "central": 0.23,
+          "high": 0.39,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.75,
+          "low": 0.08,
+          "central": 0.16,
+          "high": 0.29,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.1,
+          "high": 0.22,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.5,
+          "low": 0.11,
+          "central": 0.23,
+          "high": 0.39,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.75,
+          "low": 0.08,
+          "central": 0.16,
+          "high": 0.29,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.1,
+          "high": 0.22,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 220,
+          "speedRpmFraction": 0.5,
+          "low": 0.11,
+          "central": 0.23,
+          "high": 0.39,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 220,
+          "speedRpmFraction": 0.75,
+          "low": 0.08,
+          "central": 0.16,
+          "high": 0.29,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 220,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.1,
+          "high": 0.22,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.5,
+          "low": 0.11,
+          "central": 0.25,
+          "high": 0.46,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.75,
+          "low": 0.08,
+          "central": 0.18,
+          "high": 0.36,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.12,
+          "high": 0.29,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "supportedDomain": {
+        "computationalHeatWatts": [
+          1,
+          300
+        ],
+        "baselineAssumptionHeatWatts": [
+          10,
+          220
+        ],
+        "speedRpmFraction": [
+          0.5,
+          1
+        ],
+        "inletTemperatureC": [
+          15,
+          35
+        ],
+        "measuredCalibrationDomain": null,
+        "meaning": "Bounded scenario domain, not validated operating capacity or manufacturer TDP."
+      },
+      "domainWarnings": [
+        {
+          "condition": "heatWatts<10",
+          "code": "low-load-prior",
+          "messagePt": "Carga muito baixa: hipótese simplificada; não representa temperatura ociosa medida."
+        },
+        {
+          "condition": "heatWatts>220",
+          "code": "high-load-prior",
+          "messagePt": "Carga elevada: faixa ampliada por hipótese; potência sustentada não garantida."
+        }
+      ],
+      "sources": [
+        {
+          "sourceId": "bequiet-pro3",
+          "url": "https://www.bequiet.com/en/cpucooler/5600",
+          "kind": "manufacturer",
+          "use": "Exact black BK042 identity, two stock fans, nominal 2000 rpm. No resistance coefficient."
+        },
+        {
+          "sourceId": "t4g-pro3-silver",
+          "url": "https://tech4gamers.com/be-quiet-pure-rock-pro-3-air-cooler-review/",
+          "kind": "original-review",
+          "use": "Explicit SILVER tested variant; i7-13700K, configured 253W, full PWM, reported 96C. Actual Q and exact inlet not established here; related-model qualitative/scale check only."
+        },
+        {
+          "sourceId": "hwb-pro3-method",
+          "url": "https://hwbusters.com/cooling/be-quiet-pure-rock-pro-3-cpu-cooler-review/4/",
+          "kind": "original-review",
+          "use": "25C climate chamber and CPU-based method. Does not establish exact black-model coefficients."
+        },
+        {
+          "sourceId": "hwb-pro3-result",
+          "url": "https://hwbusters.com/cooling/be-quiet-pure-rock-pro-3-cpu-cooler-review/7/",
+          "kind": "original-review",
+          "use": "AM5 thermal-control feedback means temperature alone is inadequate; requires contemporaneous power/frequency. No chart dataset imported."
+        }
+      ],
+      "transferAssumptions": [
+        "Performance evidence includes SILVER Pure Rock Pro3, not exact BK042 black. Shared structure/fans motivate a same-scale prior; coating and sample differences are deliberately unresolved inside wide bands.",
+        "No fixed color correction is claimed. The0.10 full-speed center is a weak scale choice informed by the silver configured253W/96C observation, not an independently measured resistance.",
+        "CPU and socket transfer use the shared generic package anchor; no AMD/Intel multiplier or inferred delta from thermally controlled AM5 temperatures."
+      ]
+    },
+    {
+      "id": "cooler-noctua-nh-l9a-am4-chromax-black",
+      "name": "Noctua NH-L9a-AM4 chromax.black",
+      "partNumber": "NH-L9A-AM4-CH.BK",
+      "modelVersion": "thermal-priors-0.1-proposal",
+      "profileRevision": "2026-10-08-r1",
+      "reviewedAt": "2026-10-08",
+      "status": "proposed-not-calibrated",
+      "unit": "degreeC-per-watt",
+      "coefficientBasis": "assumed-design-prior",
+      "modelBasis": "source-informed-internal-prior",
+      "supportedSockets": [
+        "AM4"
+      ],
+      "stockFanCount": 1,
+      "speedDefinition": {
+        "reference": "fraction-of-manufacturer-nominal-maximum-fan-rpm",
+        "nominalMaxRpm": 2500,
+        "fractions": [
+          0.5,
+          0.75,
+          1
+        ],
+        "nominalRpmNodes": [
+          1250.0,
+          1875.0,
+          2500
+        ],
+        "pwmFractionEquivalent": false
+      },
+      "pumpCondition": null,
+      "baseResistanceNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "low": 0.28,
+          "central": 0.44,
+          "high": 0.7,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "low": 0.22,
+          "central": 0.34,
+          "high": 0.53,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 1,
+          "low": 0.16,
+          "central": 0.26,
+          "high": 0.4,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "highLoadIncrementNodes": [
+        {
+          "heatWatts": 120,
+          "low": 0,
+          "central": 0,
+          "high": 0,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 200,
+          "low": 0,
+          "central": 0.02,
+          "high": 0.14,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "low": 0,
+          "central": 0.13,
+          "high": 0.4,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "resistanceNodes": [
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.5,
+          "low": 0.28,
+          "central": 0.44,
+          "high": 0.7,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.75,
+          "low": 0.22,
+          "central": 0.34,
+          "high": 0.53,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 1,
+          "low": 0.16,
+          "central": 0.26,
+          "high": 0.4,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.5,
+          "low": 0.28,
+          "central": 0.44,
+          "high": 0.7,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.75,
+          "low": 0.22,
+          "central": 0.34,
+          "high": 0.53,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 1,
+          "low": 0.16,
+          "central": 0.26,
+          "high": 0.4,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 120,
+          "speedRpmFraction": 0.5,
+          "low": 0.28,
+          "central": 0.44,
+          "high": 0.7,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 120,
+          "speedRpmFraction": 0.75,
+          "low": 0.22,
+          "central": 0.34,
+          "high": 0.53,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 120,
+          "speedRpmFraction": 1,
+          "low": 0.16,
+          "central": 0.26,
+          "high": 0.4,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 200,
+          "speedRpmFraction": 0.5,
+          "low": 0.28,
+          "central": 0.46,
+          "high": 0.84,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 200,
+          "speedRpmFraction": 0.75,
+          "low": 0.22,
+          "central": 0.36,
+          "high": 0.67,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 200,
+          "speedRpmFraction": 1,
+          "low": 0.16,
+          "central": 0.28,
+          "high": 0.54,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.5,
+          "low": 0.28,
+          "central": 0.57,
+          "high": 1.1,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.75,
+          "low": 0.22,
+          "central": 0.47,
+          "high": 0.93,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 1,
+          "low": 0.16,
+          "central": 0.39,
+          "high": 0.8,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "supportedDomain": {
+        "computationalHeatWatts": [
+          1,
+          300
+        ],
+        "baselineAssumptionHeatWatts": [
+          10,
+          120
+        ],
+        "speedRpmFraction": [
+          0.5,
+          1
+        ],
+        "inletTemperatureC": [
+          15,
+          35
+        ],
+        "measuredCalibrationDomain": null,
+        "meaning": "Bounded scenario domain, not validated operating capacity or manufacturer TDP."
+      },
+      "domainWarnings": [
+        {
+          "condition": "heatWatts<10",
+          "code": "low-load-prior",
+          "messagePt": "Carga muito baixa: hipótese simplificada; não representa temperatura ociosa medida."
+        },
+        {
+          "condition": "heatWatts>120",
+          "code": "high-load-prior",
+          "messagePt": "Carga elevada: faixa ampliada por hipótese; potência sustentada não garantida."
+        },
+        {
+          "condition": "heatWatts>200",
+          "code": "severe-stress-extrapolation",
+          "messagePt": "Cenário de estresse além da região de referência; não usar como recomendação de capacidade."
+        }
+      ],
+      "sources": [
+        {
+          "sourceId": "noctua-exact",
+          "url": "https://www.noctua.at/en/products/nh-l9a-am4-chromax-black/specifications",
+          "kind": "manufacturer",
+          "use": "Exact AM4-only cooler; nominal fan maximum 2500rpm and high-heat-load caution. NSPR is not used numerically."
+        },
+        {
+          "sourceId": "noctua-infosheet",
+          "url": "https://cdn.noctua.at/media/noctua_nh_l9a_am4_chromax_black_infosheet_en_web.pdf?download=true",
+          "kind": "manufacturer",
+          "use": "2500rpm nominal, no adaptor; maximum electrical fan power2.52W is unrelated to CPU heat or resistance."
+        },
+        {
+          "sourceId": "thelab-l9a",
+          "url": "https://www.thelab.gr/reviews/heatsinks-coolers-watercooling-reviews/noctua-nh-l9a-am4-chromaxblack-top-flow-extra-small-cpu-cooler-_-review-r769/",
+          "kind": "original-review",
+          "use": "Exact chromax.black artificial-heater testing, stock push fan; reports 2700/2040/1560rpm sample conditions and approximately21.6C/30C rise at90W for high/low airflow. Heater-to-CPU and nominal-speed transfer are assumptions."
+        }
+      ],
+      "transferAssumptions": [
+        "Exact chromax.black source, stock slim fan in push. No transfer from the plain finish, AM5 version, L9i, thicker replacement fan, pull arrangement or low-noise adaptor.",
+        "Heater source temperature is not CPU junction temperature; its rise/power gives only a heater/apparatus equivalent scale. Do not add it as an independently measured CPU cooler R.",
+        "Manufacturer nominal2500rpm differs from tested sample2700rpm. Nominal1250/1875/2500 nodes are assumptions, including below the source1560rpm low node.",
+        "Artificial-heater heat spreading differs from real AM4 packages. Above120W receives an explicit high-load-prior warning; above200W is a severe stress extrapolation and cannot support a purchase/safety recommendation."
+      ]
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+      "name": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+      "partNumber": "ACFRE00186A",
+      "modelVersion": "thermal-priors-0.1-proposal",
+      "profileRevision": "2026-10-08-r1",
+      "reviewedAt": "2026-10-08",
+      "status": "proposed-not-calibrated",
+      "unit": "degreeC-per-watt",
+      "coefficientBasis": "assumed-design-prior",
+      "modelBasis": "source-informed-internal-prior",
+      "supportedSockets": [
+        "AM4",
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "stockFanCount": 2,
+      "speedDefinition": {
+        "reference": "fraction-of-manufacturer-nominal-maximum-fan-rpm",
+        "nominalMaxRpm": 3000,
+        "fractions": [
+          0.5,
+          0.75,
+          1
+        ],
+        "nominalRpmNodes": [
+          1500.0,
+          2250.0,
+          3000
+        ],
+        "pwmFractionEquivalent": false
+      },
+      "pumpCondition": {
+        "mode": "fixed-full",
+        "nominalRpm": 2800
+      },
+      "baseResistanceNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "low": 0.12,
+          "central": 0.25,
+          "high": 0.43,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "low": 0.09,
+          "central": 0.18,
+          "high": 0.32,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 1,
+          "low": 0.07,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "highLoadIncrementNodes": [
+        {
+          "heatWatts": 250,
+          "low": 0,
+          "central": 0,
+          "high": 0,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "low": 0,
+          "central": 0.01,
+          "high": 0.04,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "resistanceNodes": [
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.5,
+          "low": 0.12,
+          "central": 0.25,
+          "high": 0.43,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.75,
+          "low": 0.09,
+          "central": 0.18,
+          "high": 0.32,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 1,
+          "low": 0.07,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.5,
+          "low": 0.12,
+          "central": 0.25,
+          "high": 0.43,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.75,
+          "low": 0.09,
+          "central": 0.18,
+          "high": 0.32,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 1,
+          "low": 0.07,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 250,
+          "speedRpmFraction": 0.5,
+          "low": 0.12,
+          "central": 0.25,
+          "high": 0.43,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 250,
+          "speedRpmFraction": 0.75,
+          "low": 0.09,
+          "central": 0.18,
+          "high": 0.32,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 250,
+          "speedRpmFraction": 1,
+          "low": 0.07,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.5,
+          "low": 0.12,
+          "central": 0.26,
+          "high": 0.47,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.75,
+          "low": 0.09,
+          "central": 0.19,
+          "high": 0.36,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 1,
+          "low": 0.07,
+          "central": 0.15,
+          "high": 0.29,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "supportedDomain": {
+        "computationalHeatWatts": [
+          1,
+          300
+        ],
+        "baselineAssumptionHeatWatts": [
+          10,
+          250
+        ],
+        "speedRpmFraction": [
+          0.5,
+          1
+        ],
+        "inletTemperatureC": [
+          15,
+          35
+        ],
+        "measuredCalibrationDomain": null,
+        "meaning": "Bounded scenario domain, not validated operating capacity or manufacturer TDP."
+      },
+      "domainWarnings": [
+        {
+          "condition": "heatWatts<10",
+          "code": "low-load-prior",
+          "messagePt": "Carga muito baixa: hipótese simplificada; não representa temperatura ociosa medida."
+        },
+        {
+          "condition": "heatWatts>250",
+          "code": "high-load-prior",
+          "messagePt": "Carga elevada: faixa ampliada por hipótese; potência sustentada não garantida."
+        }
+      ],
+      "sources": [
+        {
+          "sourceId": "arctic-240-exact",
+          "url": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240-A-RGB-White/ACFRE00186A",
+          "kind": "manufacturer",
+          "use": "Exact white A-RGB240 identity, two P12Pro A-RGB fans600-3000rpm, pump800-2800rpm. No thermal coefficient."
+        },
+        {
+          "sourceId": "arctic-360-exact",
+          "url": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A",
+          "kind": "manufacturer",
+          "use": "Exact non-A-RGB black360 identity, three P12Pro fans600-3000rpm, pump800-2800rpm. No thermal coefficient."
+        },
+        {
+          "sourceId": "hwb-360-method",
+          "url": "https://hwbusters.com/cooling/arctic-liquid-freezer-iii-pro-360-aio-review/4/",
+          "kind": "original-review",
+          "use": "25C chamber, 285K and7900X, power metering, full pump throughout thermal runs. Not a pair-specific calibration for the active CPU matrix."
+        },
+        {
+          "sourceId": "hwb-360-result",
+          "url": "https://hwbusters.com/cooling/arctic-liquid-freezer-iii-pro-360-aio-review/7/",
+          "kind": "original-review",
+          "use": "Original noise-normalized/full-speed CPU results; qualitative strong performance only. No chart or publisher dataset copied."
+        }
+      ],
+      "transferAssumptions": [
+        "No exact ACFRE00186A thermal curve was verified in this pass. Use a deliberately broad related-family prior, not an exact-model measured label.",
+        "360 non-ARGB family evidence is weak context only. The smaller radiator, two A-RGB fans and finish differences receive no measured transfer factor; do not scale resistance by360/240 or fan count.",
+        "Full pump at nominal2800rpm is fixed at every radiator-fan node. Stock installation/contact frame/offset arrangement assumed; no alternative pump-speed or case-orientation calibration."
+      ]
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-360",
+      "name": "ARCTIC Liquid Freezer III Pro 360 Black",
+      "partNumber": "ACFRE00180A",
+      "modelVersion": "thermal-priors-0.1-proposal",
+      "profileRevision": "2026-10-08-r1",
+      "reviewedAt": "2026-10-08",
+      "status": "proposed-not-calibrated",
+      "unit": "degreeC-per-watt",
+      "coefficientBasis": "assumed-design-prior",
+      "modelBasis": "source-informed-internal-prior",
+      "supportedSockets": [
+        "AM4",
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "stockFanCount": 3,
+      "speedDefinition": {
+        "reference": "fraction-of-manufacturer-nominal-maximum-fan-rpm",
+        "nominalMaxRpm": 3000,
+        "fractions": [
+          0.5,
+          0.75,
+          1
+        ],
+        "nominalRpmNodes": [
+          1500.0,
+          2250.0,
+          3000
+        ],
+        "pwmFractionEquivalent": false
+      },
+      "pumpCondition": {
+        "mode": "fixed-full",
+        "nominalRpm": 2800
+      },
+      "baseResistanceNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "low": 0.09,
+          "central": 0.2,
+          "high": 0.34,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "low": 0.06,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.11,
+          "high": 0.21,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "highLoadIncrementNodes": [
+        {
+          "heatWatts": 300,
+          "low": 0,
+          "central": 0,
+          "high": 0,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "resistanceNodes": [
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.5,
+          "low": 0.09,
+          "central": 0.2,
+          "high": 0.34,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 0.75,
+          "low": 0.06,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 1,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.11,
+          "high": 0.21,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.5,
+          "low": 0.09,
+          "central": 0.2,
+          "high": 0.34,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 0.75,
+          "low": 0.06,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 10,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.11,
+          "high": 0.21,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.5,
+          "low": 0.09,
+          "central": 0.2,
+          "high": 0.34,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 0.75,
+          "low": 0.06,
+          "central": 0.14,
+          "high": 0.25,
+          "coefficientBasis": "assumed-design-prior"
+        },
+        {
+          "heatWatts": 300,
+          "speedRpmFraction": 1,
+          "low": 0.05,
+          "central": 0.11,
+          "high": 0.21,
+          "coefficientBasis": "assumed-design-prior"
+        }
+      ],
+      "supportedDomain": {
+        "computationalHeatWatts": [
+          1,
+          300
+        ],
+        "baselineAssumptionHeatWatts": [
+          10,
+          300
+        ],
+        "speedRpmFraction": [
+          0.5,
+          1
+        ],
+        "inletTemperatureC": [
+          15,
+          35
+        ],
+        "measuredCalibrationDomain": null,
+        "meaning": "Bounded scenario domain, not validated operating capacity or manufacturer TDP."
+      },
+      "domainWarnings": [
+        {
+          "condition": "heatWatts<10",
+          "code": "low-load-prior",
+          "messagePt": "Carga muito baixa: hipótese simplificada; não representa temperatura ociosa medida."
+        }
+      ],
+      "sources": [
+        {
+          "sourceId": "arctic-360-exact",
+          "url": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A",
+          "kind": "manufacturer",
+          "use": "Exact non-A-RGB black360 identity, three P12Pro fans600-3000rpm, pump800-2800rpm. No thermal coefficient."
+        },
+        {
+          "sourceId": "hwb-360-identity",
+          "url": "https://hwbusters.com/cooling/arctic-liquid-freezer-iii-pro-360-aio-review/",
+          "kind": "original-review",
+          "use": "Tests Liquid Freezer III Pro360 with three non-ARGB P12Pro fans; exact model class matches ACFRE00180A."
+        },
+        {
+          "sourceId": "hwb-360-method",
+          "url": "https://hwbusters.com/cooling/arctic-liquid-freezer-iii-pro-360-aio-review/4/",
+          "kind": "original-review",
+          "use": "25C chamber, 285K and7900X, power metering, full pump throughout thermal runs. Not a pair-specific calibration for the active CPU matrix."
+        },
+        {
+          "sourceId": "hwb-360-result",
+          "url": "https://hwbusters.com/cooling/arctic-liquid-freezer-iii-pro-360-aio-review/7/",
+          "kind": "original-review",
+          "use": "Original noise-normalized/full-speed CPU results; qualitative strong performance only. No chart or publisher dataset copied."
+        }
+      ],
+      "transferAssumptions": [
+        "Exact non-ARGB black model class is verified; do not silently reuse for non-Pro, A-RGB or other radiator-size variants.",
+        "Source CPU/load/assembly conditions do not calibrate active catalog pairs. Internal resistance values are engineering priors informed by broad performance scale, not regression of publisher charts.",
+        "Full pump at nominal2800rpm fixed at every radiator-fan node; stock contact frame/offset arrangement assumed. Review case/chamber transfer to explicit inlet is an assumption."
+      ]
+    }
+  ]
+}

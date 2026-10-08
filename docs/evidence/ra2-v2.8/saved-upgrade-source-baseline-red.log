@@ -12,7 +12,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
 -   '/upgrades?buildId=saved-b%20%2F%C3%A7%3F'
   ]
 
-    at file:///workspace/shared/pcpowerlab-v2-baseline/frontend/scripts/check-saved-upgrade-source.mjs:115:10
+    at file://frontend/scripts/check-saved-upgrade-source.mjs:115:10
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
   generatedMessage: true,
   code: 'ERR_ASSERTION',

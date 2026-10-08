@@ -15,7 +15,15 @@ original.fans = [{ ...byId('fan-arctic-p12-pro'), quantity: 2 }];
 const errors = new WeakMap();
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const getState = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), storageKey);
-const select = (page, label, value) => page.getByRole('combobox', { name: label, exact: true }).selectOption(value);
+async function openAdvanced(page) {
+  const disclosure = page.locator('.catalog-advanced-filters');
+  if (await disclosure.getAttribute('open') === null) await disclosure.locator(':scope > summary').click();
+  await expect(disclosure).toHaveAttribute('open', '');
+}
+async function select(page, label, value) {
+  if (!['Categoria', 'Ordenar por'].includes(label)) await openAdvanced(page);
+  return page.getByRole('combobox', { name: label, exact: true }).selectOption(value);
+}
 const cardNames = page => page.locator('.component-card h3').allTextContents();
 
 async function expectCards(page, expected) {
@@ -65,7 +73,7 @@ test('v2.3 combina CPU AMD AM4 até R$ 1000 e limpa filtros técnicos ao trocar 
   await select(page, 'Categoria', 'cpu');
   await select(page, 'Marca', 'AMD');
   await select(page, 'Encaixe (socket)', 'AM4');
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('1000');
+  await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill('1000');
   await expectCards(page, activeComponents.filter(component => component.category === 'cpu' && component.brand === 'AMD' && component.specs.socket === 'AM4' && component.price <= 1000));
   await select(page, 'Marca', 'all');
   await select(page, 'Categoria', 'ram');
@@ -74,7 +82,7 @@ test('v2.3 combina CPU AMD AM4 até R$ 1000 e limpa filtros técnicos ao trocar 
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
   await expectCards(page, activeComponents);
   await expect(page.getByRole('combobox', { name: 'Categoria', exact: true })).toHaveValue('all');
-  await expect(page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true })).toHaveValue('');
+  await expect(page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true })).toHaveValue('');
 });
 
 for (const scenario of [
@@ -108,7 +116,7 @@ test('v2.3 ordena preço, desempenho e custo-benefício depois dos filtros, mant
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
   await select(page, 'Encaixe (socket)', 'AM4');
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('1000');
+  await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill('1000');
   for (const [order, indices] of [
     ['price-asc', [1, 3, 0, 2]], ['price-desc', [2, 0, 3, 1]],
     ['performance-desc', [2, 0, 1, 3]], ['performance-asc', [1, 0, 2, 3]],
@@ -117,8 +125,8 @@ test('v2.3 ordena preço, desempenho e custo-benefício depois dos filtros, mant
     await select(page, 'Ordenar por', order);
     await expect(page.locator('.component-card h3')).toHaveText(indices.map(index => fixtures[index].name));
   }
-  await page.getByRole('spinbutton', { name: 'Desempenho mínimo estimado', exact: true }).fill('70');
-  await page.getByRole('spinbutton', { name: 'Desempenho máximo estimado', exact: true }).fill('85');
+  await page.getByRole('spinbutton', { name: 'Desempenho mínimo', exact: true }).fill('70');
+  await page.getByRole('spinbutton', { name: 'Desempenho máximo', exact: true }).fill('85');
   await expectCards(page, [fixtures[0]]);
 });
 
@@ -248,17 +256,18 @@ test('v2.3 adicionar fan pela comparação mantém quantidades existentes e não
 test('v2.3 faixa de desempenho inválida tem orientação e muda de categoria sem filtros invisíveis', async ({ page }) => {
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
-  await page.getByRole('spinbutton', { name: 'Desempenho mínimo estimado', exact: true }).fill('80');
-  await page.getByRole('spinbutton', { name: 'Desempenho máximo estimado', exact: true }).fill('20');
-  await expect(page.getByText('O índice mínimo deve ser menor ou igual ao máximo.', { exact: true })).toBeVisible();
-  await expect(page.getByRole('spinbutton', { name: 'Desempenho máximo estimado', exact: true })).toHaveAttribute('aria-invalid', 'true');
+  await openAdvanced(page);
+  await page.getByRole('spinbutton', { name: 'Desempenho mínimo', exact: true }).fill('80');
+  await page.getByRole('spinbutton', { name: 'Desempenho máximo', exact: true }).fill('20');
+  await expect(page.getByRole('alert').filter({ hasText: 'O índice mínimo deve ser menor ou igual ao máximo.' })).toBeVisible();
+  await expect(page.getByRole('spinbutton', { name: 'Desempenho máximo', exact: true })).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toHaveCount(0);
   await select(page, 'Categoria', 'fan');
-  await expect(page.getByRole('spinbutton', { name: 'Desempenho mínimo estimado', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('spinbutton', { name: 'Desempenho mínimo', exact: true })).toHaveCount(0);
   await expectCards(page, activeComponents.filter(component => component.category === 'fan'));
   await select(page, 'Categoria', 'cpu');
-  await expect(page.getByRole('spinbutton', { name: 'Desempenho mínimo estimado', exact: true })).toHaveValue('');
-  await expect(page.getByRole('spinbutton', { name: 'Desempenho máximo estimado', exact: true })).toHaveValue('');
+  await expect(page.getByRole('spinbutton', { name: 'Desempenho mínimo', exact: true })).toHaveValue('');
+  await expect(page.getByRole('spinbutton', { name: 'Desempenho máximo', exact: true })).toHaveValue('');
 });
 
 test('v2.3 falha de compatibilidade permite tentar novamente e resposta antiga não filtra outra montagem', async ({ page }) => {
@@ -305,6 +314,7 @@ test('filtros mantêm controles alinhados com rótulos e erros em todas as largu
   await seed(page);
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
+  await openAdvanced(page);
   const grid = page.locator('.catalog-filter-grid');
   async function geometry() {
     return grid.locator(':scope > .field').evaluateAll(fields => {
@@ -334,10 +344,39 @@ test('filtros mantêm controles alinhados com rótulos e erros em todas as largu
   for (const width of [1440, 1024, 768, 390, 320]) {
     await page.setViewportSize({ width, height: 900 });
     for (const invalid of [false, true]) {
-      await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill(invalid ? '1000' : '');
-      await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(invalid ? '100' : '');
+      await page.getByRole('spinbutton', { name: 'Preço mínimo (R$)', exact: true }).fill(invalid ? '1000' : '');
+      await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill(invalid ? '100' : '');
       if (invalid) await expect(grid.locator('.field-error')).toBeVisible();
       await expect.poll(geometry).toEqual({ peersAligned: true, equalHeights: true, usableHeight: true, contained: true, noPageOverflow: true });
     }
   }
+});
+
+test('filtros avançados começam recolhidos, chips ficam acessíveis e a comparação aparece só com seleção', async ({ page }) => {
+  await page.goto('/components');
+  const advanced = page.locator('.catalog-advanced-filters');
+  await expect(advanced).not.toHaveAttribute('open', '');
+  for (const [role, name] of [['searchbox', 'Buscar componente'], ['combobox', 'Categoria'], ['spinbutton', 'Preço mínimo (R$)'], ['spinbutton', 'Preço máximo (R$)'], ['combobox', 'Ordenar por']]) {
+    await expect(page.getByRole(role, { name, exact: true })).toBeVisible();
+  }
+  await expect(page.getByRole('combobox', { name: 'Marca', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Peças selecionadas para comparar' })).toHaveCount(0);
+  await select(page, 'Categoria', 'cpu');
+  await select(page, 'Marca', 'AMD');
+  await select(page, 'Encaixe (socket)', 'AM4');
+  await expect(advanced.locator(':scope > summary')).toHaveText('Mais filtros (2)');
+  await advanced.locator(':scope > summary').click();
+  await expect(advanced).not.toHaveAttribute('open', '');
+  await expect(page.getByRole('button', { name: 'Remover filtro AMD', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Remover filtro Encaixe (socket): AM4', exact: true }).click();
+  await expectCards(page, activeComponents.filter(component => component.category === 'cpu' && component.brand === 'AMD'));
+  await expect(page.getByRole('button', { name: 'Remover filtro AMD', exact: true })).toBeVisible();
+  await expect(advanced).not.toHaveAttribute('open', '');
+  const cpu = activeComponents.find(component => component.category === 'cpu' && component.brand === 'AMD');
+  await page.getByRole('button', { name: `Comparar: ${cpu.name}`, exact: true }).click();
+  const comparison = page.getByRole('region', { name: 'Peças selecionadas para comparar' });
+  await expect(comparison).toBeVisible();
+  await expect(comparison.getByRole('button', { name: 'Comparar peças (1)', exact: true })).toBeDisabled();
+  await comparison.getByRole('button', { name: 'Limpar seleção', exact: true }).click();
+  await expect(comparison).toHaveCount(0);
 });

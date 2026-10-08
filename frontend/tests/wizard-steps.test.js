@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { hasWizardCompatibilityBlockers, normalizeWizardStep, wizardDescriptions, wizardSteps } from '../src/utils/wizardSteps.js';
+import { hasWizardCompatibilityBlockers, normalizeWizardStep, optionalWizardSteps, requiredWizardSteps, wizardDescriptions, wizardSteps } from '../src/utils/wizardSteps.js';
 
-test('wizard preserves its nine ordered steps and explains every step', () => {
-  assert.deepEqual(wizardSteps, ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case', 'budget', 'review']);
+test('wizard preserves nine required steps and adds one optional cooling stop', () => {
+  assert.deepEqual(wizardSteps, ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case', 'cooling', 'budget', 'review']);
+  assert.deepEqual(optionalWizardSteps, ['cooling']);
+  assert.deepEqual(requiredWizardSteps, ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case', 'budget', 'review']);
   for (const step of wizardSteps) {
     assert.equal(normalizeWizardStep(step), step);
     assert.ok(wizardDescriptions[step].length > 30);

@@ -32,7 +32,8 @@ test('deve gerar resumo final estruturado para uma build completa', () => {
   assert.equal(summary.budgetStatus.status, 'within_budget');
   assert.equal(summary.gamePerformance.gameId, 'game-cyberpunk-2077');
   assert.equal(Number.isInteger(summary.gamePerformance.estimatedFps), true);
-  assert.equal(summary.summary.includes('configuração está compatível'), true);
+  assert.equal(summary.summary.includes('verificações principais estão compatíveis'), true);
+  assert.equal(summary.summary.includes('refrigeração não verificada'), true);
   assert.equal(summary.finalRecommendation, 'Configuração recomendada para o perfil informado.');
 });
 

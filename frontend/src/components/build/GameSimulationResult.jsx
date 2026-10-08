@@ -1,3 +1,4 @@
+import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
 import Alert from '../ui/Alert.jsx';
 import Badge from '../ui/Badge.jsx';
 import AnalysisHelp, { EstimateNotice } from './AnalysisHelp.jsx';
@@ -12,6 +13,7 @@ export default function GameSimulationResult({ result }) {
         <div><h3>{result.game || 'Jogo simulado'}</h3><p>{result.targetResolution || 'Resolução não informada'} · Nível gráfico: {translateValue(result.qualityPreset)}</p></div>
         <Badge tone="yellow">Sem estimativa</Badge>
       </div>
+      <CoolingAssessmentNotice result={result} />
       <Alert type="warning">{translateValue('performance_model_unavailable')}</Alert>
     </section>
   );
@@ -31,6 +33,7 @@ export default function GameSimulationResult({ result }) {
         <div><span>Atende requisitos mínimos</span><strong>{formatRequirement(result.meetsMinimumRequirements)}</strong></div>
         <div><span>Atende requisitos recomendados</span><strong>{formatRequirement(result.meetsRecommendedRequirements)}</strong></div>
       </div>
+      <CoolingAssessmentNotice result={result} />
       <EstimateNotice />
       {belowMinimum ? <Alert type="warning">A configuração está abaixo dos requisitos mínimos cadastrados. Pode haver limitações mesmo que o FPS estimado pareça alto.</Alert>
         : result.meetsRecommendedRequirements === false && <Alert type="warning">A configuração não atende a todos os requisitos recomendados cadastrados. Confira as limitações por componente nos detalhes.</Alert>}

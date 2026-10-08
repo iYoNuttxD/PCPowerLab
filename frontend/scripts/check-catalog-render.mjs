@@ -47,6 +47,31 @@ try {
           assert(html.includes('Ordenar por'), category + ': missing sort selector');
         }
         console.log('PASS: server rendering includes technical fields, compatibility and sorting for all 9 categories');
+        const allNodes = (node, predicate) => !node || typeof node !== 'object' ? [] : Array.isArray(node) ? node.flatMap(child => allNodes(child, predicate)) : [...(predicate(node) ? [node] : []), ...allNodes(node.props?.children, predicate)];
+        let filters = { ...emptyCatalogFilters, category: 'cpu', search: 'Ryzen', minPrice: '100', maxPrice: '1500', brand: 'AMD', specs: { socket: 'AM4' }, minPerformance: '50', maxPerformance: '90', compatibility: 'compatible', sort: 'price-asc' };
+        const filterTree = () => ComponentFilters({ components, filters, onChange: next => { filters = next; }, hasBuild: true });
+        let tree = filterTree();
+        const primary = tree.props.children[0];
+        assert.deepEqual(allNodes(primary, node => Boolean(node.props?.label)).map(node => node.props.label), ['Buscar componente', 'Categoria', 'Preço mínimo (R$)', 'Preço máximo (R$)', 'Ordenar por']);
+        const advanced = allNodes(tree, node => node.type === 'details')[0];
+        assert.equal(advanced.props.open, undefined, 'Advanced fields start natively collapsed');
+        assert.equal(advanced.props.children[0].type, 'summary');
+        const advancedLabels = allNodes(advanced, node => Boolean(node.props?.label)).map(node => node.props.label);
+        for (const label of ['Marca', 'Encaixe (socket)', 'Desempenho mínimo', 'Desempenho máximo', 'Compatibilidade']) assert(advancedLabels.includes(label), label);
+        assert.equal(allNodes(advanced, node => node.props?.['aria-label'] === 'Filtros aplicados').length, 0, 'Applied chips must stay outside the closed disclosure');
+        let chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
+        assert.equal(chips.props.children.length, 5);
+        chips.props.children.find(node => node.props['aria-label'] === 'Remover filtro Encaixe (socket): AM4').props.onClick();
+        assert.equal(filters.specs.socket, ''); assert.equal(filters.brand, 'AMD'); assert.equal(filters.search, 'Ryzen'); assert.equal(filters.minPrice, '100');
+        tree = filterTree(); chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
+        assert.equal(chips.props.children.length, 4);
+        chips.props.children.find(node => node.props['aria-label'] === 'Remover filtro AMD').props.onClick();
+        assert.equal(filters.brand, 'all'); assert.equal(filters.compatibility, 'compatible');
+        tree = filterTree(); allNodes(tree, node => node.props?.label === 'Categoria')[0].props.onChange({ target: { value: 'ram' } });
+        assert.deepEqual(filters.specs, {}); assert.equal(filters.minPerformance, ''); assert.equal(filters.maxPerformance, ''); assert.equal(filters.sort, 'name-asc');
+        assert.equal(filters.search, 'Ryzen'); assert.equal(filters.minPrice, '100'); assert.equal(filters.maxPrice, '1500');
+        console.log('PASS: primary/advanced filters retain native disclosure semantics; visible active chips remove only their criterion and category changes clear obsolete advanced settings');
+
 
         const cpu = components.find(component => component.category === 'cpu');
         const compared = [cpu, { ...cpu, id: 'ssr-unknown', name: 'Unknown CPU', specs: { ...cpu.specs, cores: null } }];

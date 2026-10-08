@@ -124,8 +124,8 @@ function validateExistingComponents(readyBuild) {
 }
 
 function validateCompatibility(readyBuild) {
-  const { compatible, status, alerts, unverifiedChecks } = checkBuildCompatibility(readyBuild.components);
-  const compatibility = { compatible, status, alerts, unverifiedChecks };
+  const { compatible, status, alerts, unverifiedChecks, coolingAssessment } = checkBuildCompatibility(readyBuild.components);
+  const compatibility = { compatible, status, alerts, unverifiedChecks, coolingAssessment };
 
   if (compatible) {
     return compatibility;

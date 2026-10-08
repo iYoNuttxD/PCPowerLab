@@ -2,6 +2,7 @@ import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
+import Alert from '../components/ui/Alert.jsx';
 import Card from '../components/ui/Card.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
@@ -28,28 +29,37 @@ export default function SharedBuild() {
   const error = request.shareId === shareId ? request.error : '';
   const summary = sharedBuild?.buildSummary || sharedBuild?.summary || {};
   const components = summary.components || sharedBuild?.components || {};
+  const compatibility = summary.compatibility;
+  const hasCompatibilityEvidence = compatibility && typeof compatibility === 'object' && !Array.isArray(compatibility)
+    && (typeof compatibility.compatible === 'boolean' || ['compatible', 'incompatible', 'unverified'].includes(compatibility.status));
+  const compatibilityResult = hasCompatibilityEvidence ? {
+    ...compatibility,
+    compatible: typeof compatibility.compatible === 'boolean' ? compatibility.compatible : compatibility.status === 'compatible'
+  } : null;
 
   return (
     <div className="page-stack">
-      <section className="page-hero compact-hero">
-        <span className="eyebrow">Build compartilhada</span>
-        <h1>{summary.name || sharedBuild?.name || 'Configuração compartilhada'}</h1>
-        <p>Visualização somente leitura de uma configuração compartilhada.</p>
+      <section className="page-hero compact-hero shared-build-overview">
+        <div>
+          <span className="eyebrow">Build compartilhada</span>
+          <h1>{summary.name || sharedBuild?.name || 'Configuração compartilhada'}</h1>
+          <p className="shared-build-meta">Somente leitura · Compartilhamento: {shareId}</p>
+          {sharedBuild?.buildId && <p className="shared-build-meta">Build de origem: {sharedBuild.buildId}</p>}
+        </div>
+        {!loading && !error && <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(summary.totalEstimatedPrice)}</strong>}
       </section>
 
       {loading && <LoadingSpinner label="Carregando configuração compartilhada..." />}
       {error && <ErrorState message={error} onRetry={() => setAttempt(value => value + 1)} />}
       {!loading && !error && <>
-      <Card>
-        <div className="section-heading compact">
-          <h2>Resumo</h2>
-          <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(summary.totalEstimatedPrice)}</strong>
-        </div>
+      <div className="shared-build-verdict">
         <p>{summary.summary || 'Resumo não informado.'}</p>
-        <p>{summary.finalRecommendation}</p>
-      </Card>
+        {summary.finalRecommendation && <p>{summary.finalRecommendation}</p>}
+      </div>
 
-      {summary.compatibility && <CompatibilityStatus result={summary.compatibility} />}
+      {compatibilityResult ? <CompatibilityStatus result={compatibilityResult} /> : (
+        <Alert type="warning" title="Compatibilidade não verificada">Este compartilhamento não inclui uma análise de compatibilidade.</Alert>
+      )}
 
       <Card>
         <h2>Componentes</h2>
@@ -68,7 +78,7 @@ export default function SharedBuild() {
           )}
           {(Array.isArray(components.fans) ? components.fans : []).map((fan, index) => (
             <li key={fan.id || fan.fanId || index}>
-              <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+              <span>{componentLabels.fan} · {fan.quantity ?? 1} pacote(s)</span>
               <ComponentIdentity component={fan} category="fan" />
             </li>
           ))}

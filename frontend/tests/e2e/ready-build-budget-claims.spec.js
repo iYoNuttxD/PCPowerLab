@@ -16,8 +16,9 @@ const preset = {
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const stored = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
 
-async function prepare(page, { unknown = false, recommendation } = {}) {
-  const parts = [...catalog.map(part => unknown && part.category === 'ram' ? { ...part, price: null, catalogStatus: 'legacy', active: false, selectable: false } : part), oldCpu];
+async function prepare(page, { unknown = false, recommendation, longNames = false } = {}) {
+  const source = catalog.map(part => longNames ? { ...part, name: `${part.name} modelo profissional com identificação completa de fabricante` } : part);
+  const parts = [...source.map(part => unknown && part.category === 'ram' ? { ...part, price: null, catalogStatus: 'legacy', active: false, selectable: false } : part), oldCpu];
   await page.addInitScript(({ key, budget, parts, oldCpu }) => {
     localStorage.setItem(key, JSON.stringify({ budget, selectedComponents: { ...Object.fromEntries(parts.filter(part => part.id !== oldCpu.id).map(part => [part.category, part])), cpu: oldCpu, fans: [] } }));
   }, { key, budget, parts, oldCpu });
@@ -25,12 +26,13 @@ async function prepare(page, { unknown = false, recommendation } = {}) {
     const path = new URL(route.request().url()).pathname.replace('/api/v1', '');
     if (path === '/components') return ok(route, parts);
     if (path === '/ready-builds') return ok(route, [preset]);
-    if (path === '/recommendations/builds-by-budget-range') return ok(route, [recommendation || preset]);
+    if (path === '/recommendations/builds-by-budget-range') return ok(route, Array.isArray(recommendation) ? recommendation : [recommendation || preset]);
     if (['/usage-profiles', '/notifications', '/performance/games'].includes(path)) return ok(route, []);
     if (path === '/purchase-links/build') return ok(route, {});
     return route.fulfill({ status: 500, json: { success: false, message: `Endpoint inesperado: ${path}` } });
   });
   await page.goto('/ready-builds');
+  await page.getByRole('tab', { name: 'Explorar', exact: true }).click();
   await expect(page.locator('.ready-build-card')).toBeVisible();
 }
 
@@ -94,6 +96,7 @@ test('unknown current legacy price is partial and never becomes a budget fit fro
 for (const unknown of [false, true]) {
   test(`range recommendation uses actual ${unknown ? 'unknown' : 'above-range'} price instead of stale fit claims`, async ({ page }) => {
     await prepare(page, { unknown, recommendation: { ...preset, budgetStatus: 'compatible', totalEstimatedPrice: 5100, summary: 'Dentro do orçamento.' } });
+    await page.getByRole('tab', { name: 'Recomendar', exact: true }).click();
     await page.getByRole('spinbutton', { name: 'Orçamento mínimo', exact: true }).fill('4000');
     await page.getByRole('spinbutton', { name: 'Orçamento máximo', exact: true }).fill('5500');
     await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
@@ -105,3 +108,30 @@ for (const unknown of [false, true]) {
     expect((await stored(page)).budget).toEqual(budget);
   });
 }
+
+
+test('multiple budget recommendations keep model names readable at desktop, tablet and mobile widths', async ({ page }) => {
+  await prepare(page, { longNames: true, recommendation: [0, 1, 2].map(index => ({ ...preset, id: `layout-${index}`, name: `Alternativa ${index + 1}` })) });
+  await page.getByRole('tab', { name: 'Recomendar', exact: true }).click();
+  await page.getByLabel('Orçamento mínimo', { exact: true }).fill('5000');
+  await page.getByLabel('Orçamento máximo', { exact: true }).fill('6000');
+  await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
+  await expect(page.locator('.recommendation-result-card')).toHaveCount(3);
+  for (const width of [1440, 1024, 768, 390, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const geometry = await page.locator('.recommendation-result-card').evaluateAll(cards => cards.flatMap(card => [...card.querySelectorAll('.build-parts-list > li')].map(row => {
+      const identity = row.querySelector('.component-identity');
+      const name = row.querySelector('.component-identity-text');
+      return { cardWidth: card.getBoundingClientRect().width, rowWidth: row.getBoundingClientRect().width,
+        identityWidth: identity.getBoundingClientRect().width, nameWidth: name.getBoundingClientRect().width,
+        nameScroll: name.scrollWidth, nameClient: name.clientWidth };
+    })));
+    expect(geometry).toHaveLength(21);
+    for (const part of geometry) {
+      expect(part.identityWidth).toBeGreaterThan(part.rowWidth * .8);
+      expect(part.nameWidth).toBeGreaterThanOrEqual(Math.min(180, part.cardWidth * .5));
+      expect(part.nameScroll).toBeLessThanOrEqual(part.nameClient + 1);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});

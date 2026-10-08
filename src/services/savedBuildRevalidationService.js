@@ -30,12 +30,14 @@ function revalidateSavedBuildRecord(savedBuild) {
       return {
         buildId: savedBuild.id,
         status: 'compatible',
+        coolingAssessment: compatibilityResult.coolingAssessment,
         notificationsCreated: 0,
         notifications: []
       };
     }
 
-    return buildIncompatibleResult(savedBuild, compatibilityResult.alerts, compatibilityResult.status);
+    return { ...buildIncompatibleResult(savedBuild, compatibilityResult.alerts, compatibilityResult.status),
+      coolingAssessment: compatibilityResult.coolingAssessment };
   } catch (error) {
     return buildIncompatibleResult(savedBuild, [buildCompatibilityErrorAlert(error)]);
   }

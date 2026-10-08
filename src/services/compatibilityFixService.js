@@ -31,6 +31,7 @@ export function suggestCompatibilityFixes(selectedComponents) {
     methodology: buildDecisionMethodology({ performanceUsed: false, fallbackScore: null, ranking: 'Ate tres alternativas do catalogo por problema; remove o alerta alvo sem adicionar codigos de alerta e rejeita verificacoes pendentes. Nao ordena por menor preco nem garante resolver outros alertas existentes.' }),
     compatible: compatibilityResult.compatible,
     status: compatibilityResult.status,
+    coolingAssessment: compatibilityResult.coolingAssessment,
     unverifiedChecks: compatibilityResult.unverifiedChecks ?? [],
     issues: compatibilityResult.alerts.map(formatIssue),
     suggestions: compatibilityResult.alerts.flatMap((alert) => (

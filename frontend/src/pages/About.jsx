@@ -7,17 +7,15 @@ export default function About() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Sobre</span>
         <h1>PCPowerLab</h1>
-        <p>Uma ferramenta para escolher peças e planejar um computador de acordo com seu uso e orçamento.</p>
+        <p>Escolha peças e planeje um computador para seu uso e orçamento.</p>
       </section>
-      <DecisionMethodology />
       <Card>
-        <h2>Como funciona</h2>
-        <p>
-          Escolha peças, compare alternativas e confira encaixes, custos e desempenho estimado.
-          As análises usam especificações e regras do catálogo. Dados ausentes são sinalizados;
-          uma simulação não substitui medidas reais nem a conferência dos manuais antes da compra.
-        </p>
+        <h2>Da escolha à montagem</h2>
+        <p>Explore o catálogo ou comece com uma build pronta. Compare alternativas, confira a compatibilidade e salve sua configuração.</p>
+        <h2>Antes de comprar</h2>
+        <p>As análises usam os dados do catálogo; informações ausentes são sinalizadas. Confira preços, estoque e manuais do fabricante.</p>
       </Card>
+      <DecisionMethodology />
     </div>
   );
 }

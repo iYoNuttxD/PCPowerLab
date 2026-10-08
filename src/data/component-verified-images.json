@@ -2385,7 +2385,7 @@
     "lastVerifiedAt": "2026-10-08",
     "pixelVerified": true,
     "modifications": "Redimensionamento proporcional até 1000 px e conversão WebP qualidade 88, sem recorte.",
-    "productIdentity": "1731fbdee2c3500db566ddee6d8828cfb2e0ce56dcef2e5bcc7057b44a444ebc",
+    "productIdentity": "a8fc85165ba644df370165935eb59c9f41e52abbe1a766aef5b72ef2501412b6",
     "width": 1000,
     "height": 1000,
     "sourceWidth": 1200,
@@ -3473,7 +3473,7 @@
     "fileType": "JPEG",
     "model": "E301-WGNN-S00",
     "partNumber": "E301-WGNN-S00",
-    "productIdentity": "e92be064202f107255a5e1aa4082955f9003fe1e089ebcc8929200b5886f5b20"
+    "productIdentity": "1b51cd47afae34391ce66901266a2f80fcb8bf749c90e18a308bca26093b134e"
   },
   "cpu-intel-i5-14600k-box": {
     "componentId": "cpu-intel-i5-14600k-box",

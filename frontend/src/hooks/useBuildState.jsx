@@ -31,6 +31,11 @@ export function BuildProvider({ children }) {
     setWizardStep(step) {
       setState((current) => ({ ...current, wizardStep: normalizeWizardStep(step) }));
     },
+    setCoolingConditions(conditions) {
+      // Local what-if inputs do not change the purchased build or its API analyses.
+      // The pure thermal/acoustic model recomputes directly from these inputs.
+      setState(current => ({ ...current, coolingConditions: { ...current.coolingConditions, ...conditions } }));
+    },
     selectComponent(type, component) {
       component = currentCatalog.current?.[component?.id] || component;
       if (!isSelectableComponent(component)) return;
@@ -105,7 +110,8 @@ export function BuildProvider({ children }) {
         wizardStep: 'cpu',
         selectedComponents,
         budget: { ...initialState.budget, ...(savedBuild?.budget || {}) },
-        usageType: savedBuild?.usageType || current.usageType
+        usageType: savedBuild?.usageType || current.usageType,
+        coolingConditions: { ...initialState.coolingConditions }
       }));
     },
     applyRecommendation(recommendation, { replaceCooling = false } = {}) {

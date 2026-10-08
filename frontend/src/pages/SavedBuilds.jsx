@@ -1,3 +1,5 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { compatibilityDisplayLabel } from '../utils/coolingAssessment.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -45,6 +47,7 @@ export default function SavedBuilds() {
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState('');
   const [editing, setEditing] = useState(null);
+  const [pendingRemoval, setPendingRemoval] = useState(null);
   const [editSaved, setEditSaved] = useState(false);
   const editSession = useRef(0);
   const editIsSaved = useRef(false);
@@ -88,6 +91,7 @@ export default function SavedBuilds() {
   async function removeBuild(id) {
     await request.run(async () => {
       await savedBuildsService.remove(id);
+      setPendingRemoval(null);
       setFeedback('Build removida com sucesso.');
       await loadBuilds();
     });
@@ -251,7 +255,6 @@ export default function SavedBuilds() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Garagem digital</span>
         <h1>Builds salvas</h1>
-        <p>Visualize, edite, compartilhe, remova ou reabra uma configuração no assistente.</p>
       </section>
 
       {request.error && <ErrorState message={request.error} onRetry={loadBuilds} />}
@@ -263,13 +266,9 @@ export default function SavedBuilds() {
         <Link className="btn btn-primary btn-md" to="/build">Montar meu PC</Link>
       </EmptyState>}
 
-      <Card>
+      <Card className="saved-build-monitoring">
         <div className="section-heading compact">
-          <div>
-            <span className="eyebrow">Revalidação e notificações</span>
-            <h2><Bell size={22} aria-hidden="true" /> Monitoramento das builds salvas</h2>
-            <p>Reavalie compatibilidade e acompanhe alertas gerados por mudanças na base técnica.</p>
-          </div>
+          <h2><Bell size={20} aria-hidden="true" /> Compatibilidade das builds salvas</h2>
           <Button
             variant="secondary"
             loading={operationLoading === 'revalidate-all'}
@@ -319,47 +318,63 @@ export default function SavedBuilds() {
               ))}
             </ul>
             </details>
-            <div className="button-row">
+            <div className="button-row saved-build-primary-actions">
               <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir montagem</Button>
               <Button variant="secondary" disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild, '/summary')}>Trocar peça</Button>
-              <Button variant="ghost" onClick={() => openEditor(savedBuild)}><Edit3 size={18} /> Editar</Button>
-              <Button variant="ghost" disabled={request.loading} onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
-              <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>
-              <Button variant="ghost" disabled={request.loading} onClick={() => createVersion(savedBuild)}>Criar versão</Button>
-              <Button variant="ghost" onClick={() => openHistory(savedBuild)}><History size={18} /> Histórico</Button>
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/feedback/new', {
-                  state: {
-                    mode: 'contextual',
-                    recommendationType: 'general',
-                    recommendationId: savedBuild.id,
-                    recommendationTitle: 'Feedback sobre build salva',
-                    summary: savedBuild.description || 'Avalie esta configuração salva.',
-                    build: savedBuild.components,
-                    buildSnapshot: feedbackSnapshotFromSavedBuild(savedBuild),
-                    buildDetails: feedbackDetailsFromSavedBuild(savedBuild, componentMap),
-                    totalEstimatedPrice: savedBuild.totalEstimatedPrice,
-                    source: 'saved-builds'
-                  }
-                })}
-              >
-                <MessageSquare size={18} /> Enviar feedback
-              </Button>
-              <Button
-                variant="secondary"
-                loading={operationLoading === `revalidate-${savedBuild.id}`}
-                disabled={request.loading || operationLoading === `revalidate-${savedBuild.id}`}
-                onClick={() => revalidateBuild(savedBuild)}
-              >
-                <RefreshCw size={18} /> Revalidar compatibilidade
-              </Button>
-              <Link className="btn btn-secondary btn-md" to={`/upgrades?buildId=${encodeURIComponent(savedBuild.id)}`}>Upgrade</Link>
-              <Button variant="danger" disabled={request.loading} onClick={() => removeBuild(savedBuild.id)}><Trash2 size={18} /> Excluir</Button>
             </div>
+            <details className="saved-build-actions" onKeyDown={closeActionsOnEscape}>
+              <summary aria-label={`Mais ações de ${savedBuild.name}`}>Mais ações</summary>
+              <div className="button-row">
+                <Button variant="ghost" onClick={() => openEditor(savedBuild)}><Edit3 size={18} /> Nome e descrição</Button>
+                <Button variant="ghost" disabled={request.loading} onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
+                <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>
+                <Button variant="ghost" disabled={request.loading} onClick={() => createVersion(savedBuild)}>Criar versão</Button>
+                <Button variant="ghost" onClick={() => openHistory(savedBuild)}><History size={18} /> Histórico</Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => navigate('/feedback/new', {
+                    state: {
+                      mode: 'contextual',
+                      recommendationType: 'general',
+                      recommendationId: savedBuild.id,
+                      recommendationTitle: 'Feedback sobre build salva',
+                      summary: savedBuild.description || 'Avalie esta configuração salva.',
+                      build: savedBuild.components,
+                      buildSnapshot: feedbackSnapshotFromSavedBuild(savedBuild),
+                      buildDetails: feedbackDetailsFromSavedBuild(savedBuild, componentMap),
+                      totalEstimatedPrice: savedBuild.totalEstimatedPrice,
+                      source: 'saved-builds'
+                    }
+                  })}
+                >
+                  <MessageSquare size={18} /> Enviar feedback
+                </Button>
+                <Button
+                  variant="secondary"
+                  loading={operationLoading === `revalidate-${savedBuild.id}`}
+                  disabled={request.loading || operationLoading === `revalidate-${savedBuild.id}`}
+                  onClick={() => revalidateBuild(savedBuild)}
+                >
+                  <RefreshCw size={18} /> Revalidar compatibilidade
+                </Button>
+                <Link className="btn btn-secondary btn-md" to={`/upgrades?buildId=${encodeURIComponent(savedBuild.id)}`}>Upgrade</Link>
+                <Button variant="danger" disabled={request.loading} onClick={() => { request.setError(''); setPendingRemoval(savedBuild); }}><Trash2 size={18} /> Excluir</Button>
+              </div>
+            </details>
           </Card>
         ))}
       </div>
+
+      <Modal open={Boolean(pendingRemoval)} title="Excluir build salva" onClose={() => setPendingRemoval(null)}>
+        {pendingRemoval && <>
+          <p>Excluir “{pendingRemoval.name}” das builds salvas?</p>
+          <div className="button-row">
+            <Button variant="ghost" autoFocus disabled={request.loading} onClick={() => setPendingRemoval(null)}>Cancelar</Button>
+            <Button variant="danger" disabled={request.loading} loading={request.loading} onClick={() => removeBuild(pendingRemoval.id)}>Confirmar exclusão</Button>
+          </div>
+          {request.error && <Alert type="error">{request.error}</Alert>}
+        </>}
+      </Modal>
 
       <Modal open={Boolean(editing)} title="Editar build salva" onClose={closeEditor}>
         {editing && <form key={editing.id} className="form-grid" onSubmit={updateBuild}
@@ -398,6 +413,14 @@ export default function SavedBuilds() {
       </Modal>
     </div>
   );
+}
+
+function closeActionsOnEscape(event) {
+  if (event.key !== 'Escape' || !event.currentTarget.open) return;
+  event.preventDefault();
+  event.stopPropagation();
+  event.currentTarget.open = false;
+  event.currentTarget.querySelector('summary')?.focus();
 }
 
 function NotificationsPanel({ busy, notifications, onRead, onRemove }) {
@@ -447,7 +470,8 @@ function RevalidationResult({ result }) {
           {results.map((item) => (
             <div key={item.buildId} className="admin-row">
               <span>{item.buildId}</span>
-              <strong>{translateValue(item.status)}</strong>
+              <strong>{compatibilityDisplayLabel(item.status, item)}</strong>
+              <CoolingAssessmentNotice result={item} />
             </div>
           ))}
         </div>

@@ -65,6 +65,7 @@ export function calculateBuildScore(input) {
       totalEstimatedPrice: summary.totalEstimatedPrice,
       pricing: summary.pricing,
       compatible: summary.compatibility.compatible,
+      coolingAssessment: summary.compatibility.coolingAssessment,
       hasBottleneck: bottleneckVerdict(summary.bottlenecks),
       budgetStatus: summary.budgetStatus?.status
     }

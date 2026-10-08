@@ -1,3 +1,5 @@
+import { evaluateFanLayout } from './cooling-layout.service.js';
+
 const knownNumber = (value) => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 
 export function getCoolingPower(build) {
@@ -19,12 +21,23 @@ export function getCoolingPower(build) {
 export function checkCoolingCompatibility(build) {
   const alerts = [];
   const unverifiedChecks = [];
+  const scopeWarnings = [];
   const unknown = (code, message) => unverifiedChecks.push({ code, severity: 'medium', verification: 'unverified', message });
   const conflict = (code, message) => alerts.push({ code, severity: 'high', message });
   const caseSpecs = build.case?.specs || {};
   let radiatorFans = 0;
   let radiatorDiameter = null;
-  const cooler = build.cooler?.specs;
+  let viableRadiatorPositions = null;
+  const stock = build.cpu?.specs?.includedCpuCooler;
+  const verifiedStock = !build.cooler && build.cpu?.specs?.includesCpuCooler === true
+    && stock?.name && stock?.specSourceUrl && stock?.specs?.coolingType === 'air'
+    && knownNumber(stock.specs.heightMm) && stock.specs.heightMm > 0;
+  const cooler = build.cooler?.specs || (verifiedStock ? stock.specs : null);
+  if (!build.cooler && !verifiedStock) {
+    scopeWarnings.push({ code: 'CPU_COOLING_FIT_UNVERIFIED', severity: 'medium', verification: 'unverified', message: build.cpu?.specs?.includesCpuCooler === false
+      ? 'Este processador não inclui cooler. Informe a refrigeração que será utilizada; não é necessário comprar outro cooler se você já possui um compatível.'
+      : 'Nenhum cooler avulso selecionado. A identidade e as medidas do cooler incluído ou já disponível não foram verificadas; isso não significa que seja necessário comprar outro.' });
+  }
   if (cooler) {
     if (!Array.isArray(cooler.supportedSockets) || !cooler.supportedSockets.length || !build.cpu?.specs?.socket) {
       unknown('COOLER_SOCKET_UNVERIFIED', 'Socket suportado pelo cooler não verificado.');
@@ -44,6 +57,22 @@ export function checkCoolingCompatibility(build) {
       } else if (!caseSpecs.radiatorSizesMm.includes(cooler.radiatorSizeMm)) {
         conflict('CASE_RADIATOR_SIZE_INCOMPATIBLE', 'O gabinete não suporta o tamanho do radiador.');
       }
+      if (knownNumber(cooler.radiatorThicknessMm) && knownNumber(caseSpecs.maxRadiatorThicknessMm)
+        && cooler.radiatorThicknessMm > caseSpecs.maxRadiatorThicknessMm) {
+        conflict('CASE_RADIATOR_THICKNESS_INCOMPATIBLE', 'A espessura do radiador excede o limite declarado do gabinete.');
+      }
+      const positions = Object.entries(caseSpecs.radiatorLayouts || {}).filter(([, sizes]) =>
+        Array.isArray(sizes) && sizes.includes(cooler.radiatorSizeMm));
+      if (positions.length) {
+        const dimensions = { ...cooler.radiatorDimensionsMm, thickness: cooler.radiatorThicknessMm };
+        viableRadiatorPositions = positions.filter(([position]) => {
+          const limits = caseSpecs.radiatorLimitsMm?.[position] || {};
+          return !['length', 'width', 'thickness'].some(axis => knownNumber(limits[axis])
+            && knownNumber(dimensions[axis]) && dimensions[axis] > limits[axis]);
+        }).map(([position]) => position);
+        if (!viableRadiatorPositions.length) conflict('CASE_RADIATOR_DIMENSIONS_INCOMPATIBLE',
+          'As dimensões do radiador excedem os limites em todas as posições que suportam seu tamanho nominal.');
+      }
       // A nominal radiator length does not prove thickness, RAM or GPU clearance.
       unknown('RADIATOR_CLEARANCE_UNVERIFIED', 'Verifique a espessura, a posição do radiador e a folga para RAM e GPU no manual do gabinete.');
       if ([120, 240, 360, 480].includes(cooler.radiatorSizeMm)) radiatorDiameter = 120;
@@ -52,7 +81,7 @@ export function checkCoolingCompatibility(build) {
     } else unknown('COOLER_TYPE_UNVERIFIED', 'Tipo de cooler não informado.');
   }
   const fans = build.fans || [];
-  if (fans.length) {
+  if (fans.length || cooler?.coolingType === 'aio') {
     const mounts = caseSpecs.fanMounts;
     const validMounts = Array.isArray(mounts) && mounts.every((mount) => knownNumber(mount.diameterMm)
       && Number.isInteger(mount.capacity) && mount.capacity >= 0);
@@ -70,7 +99,7 @@ export function checkCoolingCompatibility(build) {
       } else if (specs.thicknessMm > caseSpecs.maxFanThicknessMm) {
         conflict('CASE_FAN_THICKNESS_INCOMPATIBLE', `A espessura de ${fan.name} excede o limite do gabinete.`);
       }
-      if (!Number.isInteger(specs.unitsPerPack) || specs.unitsPerPack < 1 || !knownNumber(specs.diameterMm)) {
+      if (!Number.isInteger(specs.unitsPerPack) || specs.unitsPerPack < 1 || !Number.isInteger(fan.quantity) || fan.quantity < 1 || !knownNumber(specs.diameterMm) || specs.diameterMm <= 0) {
         unitsKnown = false;
       } else selectedByDiameter.set(specs.diameterMm, (selectedByDiameter.get(specs.diameterMm) || 0) + specs.unitsPerPack * fan.quantity);
     }
@@ -80,7 +109,15 @@ export function checkCoolingCompatibility(build) {
     } else {
       const capacity = new Map();
       for (const mount of mounts) capacity.set(mount.diameterMm, Math.max(capacity.get(mount.diameterMm) || 0, mount.capacity));
-      for (const [diameter, count] of selectedByDiameter) {
+      const layoutFit = evaluateFanLayout(caseSpecs, selectedByDiameter, radiatorDiameter
+        ? { diameter: radiatorDiameter, count: radiatorFans, size: cooler.radiatorSizeMm, positions: viableRadiatorPositions } : null);
+      if (layoutFit === false) conflict('CASE_FAN_CAPACITY_EXCEEDED', 'Fans adicionais, incluídos e do radiador não cabem simultaneamente nos layouts declarados. Nenhum fan foi removido.');
+      const totalByDiameter = new Map(selectedByDiameter);
+      if (caseSpecs.includedFanCount && knownNumber(caseSpecs.includedFanDiameterMm)) {
+        totalByDiameter.set(caseSpecs.includedFanDiameterMm, (totalByDiameter.get(caseSpecs.includedFanDiameterMm) || 0) + caseSpecs.includedFanCount);
+      }
+      if (radiatorDiameter && !totalByDiameter.has(radiatorDiameter)) totalByDiameter.set(radiatorDiameter, 0);
+      for (const [diameter, count] of totalByDiameter) {
         if (count + (diameter === radiatorDiameter ? radiatorFans : 0) > (capacity.get(diameter) || 0)) {
           conflict('CASE_FAN_CAPACITY_EXCEEDED', `Fans de ${diameter}mm (incluindo radiador) excedem a capacidade nominal.`);
         }
@@ -90,13 +127,18 @@ export function checkCoolingCompatibility(build) {
       const conservativeCapacity = Math.max(0, ...capacity.values());
       if (capacity.size === 1 && requested + caseSpecs.includedFanCount + radiatorFans > conservativeCapacity) {
         conflict('CASE_FAN_CAPACITY_EXCEEDED', 'Fans adicionais, incluídos e do radiador excedem os suportes disponíveis.');
-      } else if (capacity.size > 1) {
+      } else if (capacity.size > 1 && layoutFit === null) {
         unknown('FAN_LAYOUT_UNVERIFIED', 'Suportes de diâmetros diferentes podem compartilhar posições; confirme o layout e os fans incluídos.');
       }
     }
+    unknown('FAN_PLACEMENT_UNVERIFIED', 'Capacidade nominal não confirma posição instalada nem interferências entre fans, radiador, RAM e GPU.');
     unknown('FAN_CONNECTORS_UNVERIFIED', 'Confirme os conectores da placa-mãe, a corrente máxima e a necessidade de divisores ou controladoras para as ventoinhas.');
   }
   const power = getCoolingPower(build);
   if (!power.complete) unknown('COOLING_POWER_UNVERIFIED', 'Consumo de um ou mais componentes de refrigeração não informado.');
-  return { alerts, unverifiedChecks };
+  return { alerts, unverifiedChecks, coolingAssessment: {
+    status: alerts.length ? 'incompatible' : (unverifiedChecks.length || scopeWarnings.length) ? 'unverified' : 'compatible',
+    scope: cooler ? (build.cooler ? 'selected_cooler' : 'included_cooler') : 'cooling_not_assessed',
+    unverifiedChecks: [...scopeWarnings, ...unverifiedChecks], alerts: [...alerts]
+  } };
 }

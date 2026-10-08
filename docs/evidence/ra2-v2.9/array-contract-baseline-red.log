@@ -18,7 +18,7 @@
 test at tests/core-spec-array-contract.test.js:14:3
 ✖ admin rejects malformed storageInterfaces atomically (1.882303ms)
   AssertionError [ERR_ASSERTION]: Missing expected exception.
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/core-spec-array-contract.test.js:18:16)
+      at TestContext.<anonymous> (file://tests/core-spec-array-contract.test.js:18:16)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)
@@ -34,7 +34,7 @@ test at tests/core-spec-array-contract.test.js:14:3
 test at tests/core-spec-array-contract.test.js:14:3
 ✖ admin rejects malformed supportedFormFactors atomically (0.267746ms)
   AssertionError [ERR_ASSERTION]: Missing expected exception.
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/core-spec-array-contract.test.js:18:16)
+      at TestContext.<anonymous> (file://tests/core-spec-array-contract.test.js:18:16)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -59,7 +59,7 @@ test at tests/core-spec-array-contract.test.js:43:3
   -   statusCode: 422
   - }
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/core-spec-array-contract.test.js:52:16)
+      at TestContext.<anonymous> (file://tests/core-spec-array-contract.test.js:52:16)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -69,15 +69,15 @@ test at tests/core-spec-array-contract.test.js:43:3
     generatedMessage: true,
     code: 'ERR_ASSERTION',
     actual: TypeError: Cannot read properties of undefined (reading 'includes')
-        at isPartialSelectionViable (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:333:103)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:308:10)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at findBestCompatibleBuild (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:234:3)
-        at recommendBuildByBudget (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:86:26)
-        at assert.throws.statusCode (file:///workspace/shared/pcpowerlab-v2-baseline/tests/core-spec-array-contract.test.js:52:29)
+        at isPartialSelectionViable (file://src/services/recommendationService.js:333:103)
+        at visitBuildCombinations (file://src/services/recommendationService.js:308:10)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at findBestCompatibleBuild (file://src/services/recommendationService.js:234:3)
+        at recommendBuildByBudget (file://src/services/recommendationService.js:86:26)
+        at assert.throws.statusCode (file://tests/core-spec-array-contract.test.js:52:29)
         at getActual (node:assert:611:5),
     expected: { statusCode: 422 },
     operator: 'throws',
@@ -94,7 +94,7 @@ test at tests/core-spec-array-contract.test.js:43:3
   -   statusCode: 422
   - }
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/core-spec-array-contract.test.js:52:16)
+      at TestContext.<anonymous> (file://tests/core-spec-array-contract.test.js:52:16)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -104,16 +104,16 @@ test at tests/core-spec-array-contract.test.js:43:3
     generatedMessage: true,
     code: 'ERR_ASSERTION',
     actual: TypeError: Cannot read properties of undefined (reading 'includes')
-        at isPartialSelectionViable (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:348:96)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:308:10)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-        at findBestCompatibleBuild (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:234:3)
-        at recommendBuildByBudget (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:86:26),
+        at isPartialSelectionViable (file://src/services/recommendationService.js:348:96)
+        at visitBuildCombinations (file://src/services/recommendationService.js:308:10)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+        at findBestCompatibleBuild (file://src/services/recommendationService.js:234:3)
+        at recommendBuildByBudget (file://src/services/recommendationService.js:86:26),
     expected: { statusCode: 422 },
     operator: 'throws',
     diff: 'simple'
@@ -122,13 +122,13 @@ test at tests/core-spec-array-contract.test.js:43:3
 test at tests/core-spec-array-contract.test.js:61:1
 ✖ a malformed legacy candidate is skipped while healthy recommendations and fixes remain usable (2.063321ms)
   TypeError: components.case.specs.supportedFormFactors.includes is not a function
-      at isPartialSelectionViable (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:348:96)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:308:10)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-      at visitBuildCombinations (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:312:5)
-      at findBestCompatibleBuild (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:234:3)
-      at recommendBuildByBudget (file:///workspace/shared/pcpowerlab-v2-baseline/src/services/recommendationService.js:86:26)
+      at isPartialSelectionViable (file://src/services/recommendationService.js:348:96)
+      at visitBuildCombinations (file://src/services/recommendationService.js:308:10)
+      at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+      at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+      at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+      at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+      at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+      at visitBuildCombinations (file://src/services/recommendationService.js:312:5)
+      at findBestCompatibleBuild (file://src/services/recommendationService.js:234:3)
+      at recommendBuildByBudget (file://src/services/recommendationService.js:86:26)

@@ -16,7 +16,7 @@ Não somar testes focados novamente: os 40 casos de auditoria estão incluídos 
 
 ## Navegação bloqueada
 
-`NODE_ENV=production PORT=3000 node src/server.js` iniciou e reportou a API na porta 3000. Uma primeira abertura do navegador cloud antes da inicialização retornou `net::ERR_CONNECTION_REFUSED`. Após iniciar o servidor, a navegação pela ferramenta cloud foi recusada por política de URL (`Browser Use rejected this action due to browser security policy`). Nenhuma página foi aberta/aprovada. A rota Chromium local negada por socket no baseline não foi repetida. Sem túnel/contorno/uso do Mac. Não existem screenshots de aplicação novos.
+`NODE_ENV=production PORT=3000 node src/server.js` iniciou e reportou a API na porta 3000. Uma primeira tentativa de navegação antes da inicialização falhou por conexão recusada. Após iniciar o servidor, a rota de navegador disponível também não permitiu abrir a aplicação. Nenhuma página ou asserção de aplicação foi executada; não existem screenshots novos. O bloqueio de navegador não foi reclassificado como falha funcional nem como aprovação.
 
 ## Inspeção de pixels dos arquivos finais
 

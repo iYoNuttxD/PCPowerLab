@@ -1,3 +1,6 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { compatibilityDisplayLabel, getCoolingAssessment } from '../utils/coolingAssessment.js';
+import TaskTabs, { TaskPanel } from '../components/ui/TaskTabs.jsx';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
@@ -30,6 +33,7 @@ import { analysisIdentity, isOptionalNumber, isOptionalText, isRecord, isSession
 
 export default function UpgradeSuggestions() {
   const navigate = useNavigate();
+  const [task, setTask] = useState('single');
   const [searchParams, setSearchParams] = useSearchParams();
   const build = useBuildState();
   const { componentMap, loading: catalogLoading, error: catalogError, reload: reloadCatalog } = useComponents();
@@ -273,7 +277,6 @@ export default function UpgradeSuggestions() {
         <h1>Sugestões de upgrade</h1>
         <p>Use gargalos, orçamento, compatibilidade e perfil de uso para encontrar o próximo passo da build.</p>
       </section>
-      <DecisionMethodology />
 
       {suggestionError && <ErrorState message={suggestionError} />}
       {feedbackMessage && <Alert type="success">{feedbackMessage}</Alert>}
@@ -298,7 +301,7 @@ export default function UpgradeSuggestions() {
               ...savedBuilds.map((savedBuild) => ({ value: savedBuild.id, label: savedBuild.name }))
             ]}
           />
-          <Input label="Orçamento para upgrade" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
+
           <Select
             label="Perfil personalizado"
             revealSelectedValue
@@ -309,8 +312,20 @@ export default function UpgradeSuggestions() {
               ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
             ]}
           />
+
+        </div>
+
+      </Card>
+
+      <TaskTabs id="upgrade-tasks" label="Tipo de upgrade" value={task} onChange={setTask}
+        tabs={[{ id: 'single', label: 'Uma troca' }, { id: 'plan', label: 'Plano em etapas' }]} />
+      <TaskPanel id="upgrade-tasks" value="single" active={task === 'single'}>
+      <Card>
+        <h2>Próxima troca</h2>
+        <div className="form-grid field-row-grid">
+          <Input label="Orçamento para upgrade" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
-          <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: value === 'lowest-price' ? 'Menor preço' : value === 'upgrade-ready' ? 'Próximos upgrades' : priorityLabels[value] }))} />
+          <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'balanced', 'lowest-price', 'upgrade-ready'].map((value) => ({ value, label: value === 'lowest-price' ? 'Menor preço' : value === 'upgrade-ready' ? 'Próximos upgrades' : priorityLabels[value] }))} />
         </div>
         <Button disabled={Boolean(sourceError)} loading={request.status === 'loading'} onClick={suggest}><Zap size={18} /> Gerar sugestões</Button>
       </Card>
@@ -342,7 +357,8 @@ export default function UpgradeSuggestions() {
                 </div>
                 <div className="upgrade-card__meta">
                   <span>Custo estimado: <strong>{formatCurrency(suggestion.estimatedUpgradeCost)}</strong></span>
-                  <small>Compatibilidade: {translateValue(suggestion.compatibilityStatus)}</small>
+                  <small>Compatibilidade: {compatibilityDisplayLabel(suggestion.compatibilityStatus, suggestion)}</small>
+                  <CoolingAssessmentNotice result={suggestion} />
                 </div>
                 <div className="button-row">
                   {canPreviewSuggestion(suggestion, build.selectedComponents) ? <Button onClick={() => previewSuggestion(suggestion)}>Pré-visualizar esta peça na build atual</Button>
@@ -367,6 +383,8 @@ export default function UpgradeSuggestions() {
         </>
       )}
 
+      </TaskPanel>
+      <TaskPanel id="upgrade-tasks" value="plan" active={task === 'plan'}>
       <Card>
         <div className="section-heading compact">
           <div>
@@ -436,6 +454,8 @@ export default function UpgradeSuggestions() {
           })}
         />
       )}
+      </TaskPanel>
+      <DecisionMethodology />
       {replacement && replacement.revision === build.revision && <ComponentReplacement
         key={`${replacement.revision}:${replacement.type}:${replacement.component.id}`}
         type={replacement.type} build={build} initialComponent={replacement.component}
@@ -478,6 +498,7 @@ function UpgradeRoadmap({ result, currentSelection, onPreview, onFeedback }) {
           <strong>{formatCurrency(result.remainingBudget)}</strong>
         </div>
       </div>
+      <CoolingAssessmentNotice result={result.initialCompatibility} />
       {steps.length > 0 && <p>A prévia aplica somente a peça escolhida à build atual. Etapas anteriores não são aplicadas automaticamente; dependências e compatibilidade serão verificadas novamente.</p>}
 
       {steps.length === 0 ? (
@@ -521,6 +542,7 @@ function UpgradeRoadmap({ result, currentSelection, onPreview, onFeedback }) {
                   <span>Custo estimado da etapa: <strong>{formatCurrency(step.estimatedCost)}</strong></span>
                   <span>Custo estimado acumulado: <strong>{formatCurrency(step.cumulativeCost)}</strong></span>
                   <span>Compatibilidade após troca: <strong>{formatCompatibility(step.compatibilityAfterStep)}</strong></span>
+                  <CoolingAssessmentNotice result={step.compatibilityAfterStep} />
                 </div>
 
                 {step.dependencyWarning && (
@@ -622,6 +644,7 @@ function createUpgradeFeedbackState({ suggestion, selectedComponents, title, sou
     recommendationId: suggestion.suggestedComponent?.id || suggestion.componentType || `${suggestion.step || suggestion.orderRecommended || 'upgrade'}`,
     recommendationTitle: title,
     summary: translateUpgradeText(suggestion.reason),
+    coolingAssessment: getCoolingAssessment(suggestion) || getCoolingAssessment(suggestion.compatibilityAfterStep),
     currentComponent: suggestion.currentComponent,
     suggestedComponent: suggestion.suggestedComponent,
     totalEstimatedPrice: hasSuggestedBuild && hasCompletePrice ? calculateBuildPrice(nextComponents) : undefined,
@@ -703,5 +726,5 @@ function formatCompatibility(compatibility) {
 
   if (compatibility.status === 'incompatible' || compatibility.compatibilityStatus === 'incompatible') return 'Incompatível';
   if (compatibility.status === 'unverified' || compatibility.compatibilityStatus === 'unverified' || compatibility.unverifiedChecks?.length) return 'Não verificada';
-  return compatibility.compatible === true ? 'Compatível' : compatibility.compatible === false ? 'Incompatível' : 'Não verificada';
+  return compatibility.compatible === true ? compatibilityDisplayLabel('compatible', compatibility) : compatibility.compatible === false ? 'Incompatível' : 'Não verificada';
 }

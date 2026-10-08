@@ -35,7 +35,7 @@ Running 1 test using 1 worker
       146 |   await expect(page.getByRole('button', { name: 'Usar recomendação como build atual', exact: true })).toBeVisible();
       147 |   expect(inputs).toHaveLength(2);
       148 |   expect(inputs[1]).toEqual(inputs[0]);
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:145:89
+        at frontend/tests/e2e/qa-regressions.spec.js:145:89
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/qa-regressions-tentar-nova-36f30-çamento-e-repete-a-consulta-desktop/test-failed-1.png

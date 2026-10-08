@@ -1,5 +1,7 @@
 # Documentacao da API - PCPowerLab
 
+> Contratos incrementais históricos estão identificados por etapa. Para o estado atual e os limites de validação, consulte a [consolidação técnica](RA2-CONSOLIDACAO-FINAL.md).
+
 Base padrao da API:
 
 ```http
@@ -1534,11 +1536,11 @@ Resumo acrescenta `pricing`: total estimado, subtotal exclusivamente de cotaçõ
 
 Evidências, cenários, limitações e mudanças de persistência: [auditoria v2.7](RA2-V2-QUALIDADE.md). Nenhum contrato implica preço real, benchmark ou compatibilidade física integral.
 
-## V2.9 — Resultado final de auditoria e contratos atuais
+## V2.9 — Resultado histórico da auditoria e contratos introduzidos
 
 [Relatório final](RA2-V2-RELATORIO-FINAL.md): **NÃO HOMOLOGADA**. [Testes deduplicados](RA2-V2-REGISTRO-TESTES.md). A execução HTTP real desta rodada não certifica implantação pública, segurança completa, hardware físico ou oferta de mercado.
 
-- Catálogo versionado: 98 ativos, 89 parâmetros das categorias principais e 490 links de pesquisa. Admin em memória pode alterar o estado de um processo; inventário de imports não é snapshot de outro servidor
+- Catálogo versionado naquela etapa: 98 ativos, 89 parâmetros das categorias principais e 490 links de pesquisa. Admin em memória pode alterar o estado de um processo; inventário de imports não é snapshot de outro servidor
 - `POST /components/compatibility` usa `{components: <seleção>, category?: <categoria>}`; resposta por candidato inclui `componentId`, `status`, `compatible`, `alerts`, `unverifiedChecks`. Montagem parcial/ausente não é automaticamente compatível
 - `POST /upgrades/roadmap` exige `maxSteps` inteiro positivo; fração é 400. Sugestões aceitam `buildId` explícito; a interface mantém essa origem durante carregamento e falhas
 - `POST /build-summary`: `finalRecommendation` não aprova desempenho insuficiente, jogo solicitado indisponível ou falta de parâmetros. Sem jogo, a orientação explicita que desempenho específico não foi simulado. Compatibilidade/orçamento mantêm precedência; fórmulas de FPS não foram alteradas
@@ -1553,7 +1555,7 @@ Documentação de schemas anteriores descreve o contrato aditivo histórico. Pre
 
 ## V2.10 — referências manuais datadas e identidade de comparação
 
-A seção V2.6 acima é histórica. `price` continua referência para cálculos, agora com 42 registros manuais datados e 56 estimativas demonstrativas. `pricing.source=dated_public_reference`, `updateStatus=dated_snapshot`, `isMarketQuote=false` identifica pesquisa pontual. Expõe loja, vendedor, SKU, pagamento, cartão, data da consulta, idade do conteúdo, condição e `observedAvailability`; `availability` atual continua unknown e `validUntil` nulo. Nunca passa pelo gate de oferta `authorized_api`. Nenhum provedor ao vivo foi configurado.
+As contagens desta seção pertencem à V2.10: 42 registros manuais datados e 56 estimativas demonstrativas. `price` continua referência para cálculos. `pricing.source=dated_public_reference`, `updateStatus=dated_snapshot`, `isMarketQuote=false` identifica pesquisa pontual. Expõe loja, vendedor, SKU, pagamento, cartão, data da consulta, idade do conteúdo, condição e `observedAvailability`; `availability` atual continua unknown e `validUntil` nulo. Nunca passa pelo gate de oferta `authorized_api`. Nenhum provedor ao vivo foi configurado.
 
 `pricing` do resumo acrescenta `datedReferenceUnits`/`estimatedReferenceUnits`; quantidades de fans contam pacotes. Totais à vista podem combinar as duas bases com metodologia explícita; cartão e subtotal de ofertas ao vivo ficam separados. Links permanecem `kind=research` com `referencePricing` adicional, sem atribuir o preço consultado às outras lojas.
 
@@ -1566,7 +1568,7 @@ O campo `image` mantém caminhos locais e vínculo ao ID/identidade do catálogo
 
 ### Preços ausentes e escopo comercial — v2.12
 
-`pricing.referenceScope` distingue `exact`, `family` e `benchmark`; `sourceVariantName` e `model` identificam o produto observado. Há 78 referências datadas e 20 componentes com `price: null`/`priceKind: unavailable`. Nenhum deles vira oferta ao vivo. Especificações não são copiadas da variante da fonte.
+`pricing.referenceScope` distingue `exact`, `family` e `benchmark`; `sourceVariantName` e `model` identificam o produto observado. Na etapa V2.12 havia 78 referências datadas e 20 componentes com `price: null`/`priceKind: unavailable`. Nenhum deles vira oferta ao vivo. Especificações não são copiadas da variante da fonte.
 
 Compatibilidade e análises técnicas não falham apenas pela falta de preço. Resumos/salvos/exportações preservam `totalEstimatedPrice: null`; `pricing.knownReferenceSubtotal` soma somente preços conhecidos, `componentsWithoutReference` identifica pendências e `unavailableReferenceUnits` conta suas unidades/pacotes. Orçamento usa `status: unavailable` e `remaining: null`, nunca um saldo calculado tratando ausentes como zero. A função interna estrita de custo mantém seu erro 422 quando um total completo é obrigatório.
 
@@ -1579,3 +1581,10 @@ Componentes expõem `performanceScore` e `performanceMethodology` como objeto (`
 Scores novos, mesmo baseados em benchmark revisado, não habilitam simulação por ausência de campo. A elegibilidade exige `simulationSupported:true` e `simulationProfileVersion` explícito, além de parâmetro válido; os modelos internos anteriores são identificados como `catalog-simulator-v1`.
 
 A evidência de benchmark revisada precisa incluir `componentIdentity`, hash da identidade e especificações exatas correntes. Editar SKU, marca, nome, categoria ou especificações invalida a nota revisada até nova revisão. A base dos contribuintes é resolvida dos parâmetros registrados, sem confiar em metadados enviados pelo cliente.
+
+
+## Estado comercial consolidado — 08/10/2026
+
+O catálogo ativo contém 81 produtos e 81 observações manuais datadas elegíveis: 33 KaBuM, 33 Terabyte, 14 Pichau e 1 Amazon. A disponibilidade foi observada no momento registrado; não há API de preço/estoque ao vivo. SKU, vendedor, pagamento, horário e fonte acompanham a referência. Total de checkout, frete e menor preço de mercado não foram estabelecidos. As 117 identidades legadas permanecem preservadas; referências antigas não se tornam preços atuais e seleções salvas não são substituídas automaticamente.
+
+As contagens anteriores neste documento são históricas. Fotografias dos 81 ativos dividem-se em 71 de modelo exato e 10 de família visual; metadados estruturais não certificam SKU ou direito de reutilização. Os novos contratos de cenário térmico/acústico e compatibilidade posicional serão consolidados após conferência da fonte final; até lá, não interpretar pontuação sintética nem socket compatível como comprovação térmica ou de encaixe.

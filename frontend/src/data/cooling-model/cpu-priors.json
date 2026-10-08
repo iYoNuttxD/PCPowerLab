@@ -1,0 +1,340 @@
+{
+  "status": "proposed-for-independent-review",
+  "modelVersion": "thermal-scenario-v1-draft",
+  "cpuCount": 10,
+  "sharedPackagePrior": {
+    "id": "shared-package-contact-v1",
+    "units": "Celsius/W",
+    "low": 0.1,
+    "central": 0.2,
+    "high": 0.3,
+    "basis": "explicit modelling anchor and explored sensitivity range, not measured or manufacturer-rated",
+    "rationale": "Sparse paired observations identify total resistance only. A shared anchor avoids fabricated brand or CPU-model offsets. Same heat input and cooler yield equal simulated values for CPUs sharing this prior. Actual values can fall outside this explored range."
+  },
+  "scenarioDefaults": {
+    "inletCelsius": 25,
+    "speedFraction": 0.75,
+    "heatLoadFraction": 0.6,
+    "heatLoadRange": {
+      "minWatts": 5,
+      "maxWatts": 300
+    },
+    "inputDomainBasis": "product scenario controls, not hardware capability",
+    "ambientRange": {
+      "min": 15,
+      "max": 35
+    },
+    "displayRoundingDegrees": 5,
+    "timeSeries": false,
+    "thermalInputsExclude": [
+      "caseFans",
+      "case",
+      "gpu",
+      "psu"
+    ]
+  },
+  "profiles": [
+    {
+      "id": "cpu-ryzen-5-5500",
+      "identity": {
+        "name": "AMD Ryzen 5 5500",
+        "category": "cpu",
+        "socket": "AM4"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 65,
+        "referenceKind": "default-tdp",
+        "maximumTurboPowerWatts": null,
+        "tjMaxCelsius": null,
+        "sourceUrl": "https://ir.amd.com/news-events/press-releases/detail/1053/amd-launches-the-ultimate-gaming-processor-brings-enthusiast-performance-to-an-expanded-lineup-of-ryzen-desktop-processors",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 65,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption",
+        "Tjmax not verified from an accessible primary specification in this pass; omit limit classification"
+      ]
+    },
+    {
+      "id": "cpu-ryzen-7-5700x",
+      "identity": {
+        "name": "AMD Ryzen 7 5700X",
+        "category": "cpu",
+        "socket": "AM4"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 65,
+        "referenceKind": "default-tdp",
+        "maximumTurboPowerWatts": null,
+        "tjMaxCelsius": null,
+        "sourceUrl": "https://ir.amd.com/news-events/press-releases/detail/1053/amd-launches-the-ultimate-gaming-processor-brings-enthusiast-performance-to-an-expanded-lineup-of-ryzen-desktop-processors",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 65,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption",
+        "Tjmax not verified from an accessible primary specification in this pass; omit limit classification"
+      ]
+    },
+    {
+      "id": "cpu-ryzen-7-5800x3d",
+      "identity": {
+        "name": "AMD Ryzen 7 5800X3D",
+        "category": "cpu",
+        "socket": "AM4"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 105,
+        "referenceKind": "default-tdp",
+        "maximumTurboPowerWatts": null,
+        "tjMaxCelsius": 90,
+        "sourceUrl": "https://shop-us-en.amd.com/amd-ryzen-7-5800x3d-gaming-processor/",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 105,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-ryzen-5-7600",
+      "identity": {
+        "name": "AMD Ryzen 5 7600",
+        "category": "cpu",
+        "socket": "AM5"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 65,
+        "referenceKind": "default-tdp",
+        "maximumTurboPowerWatts": null,
+        "tjMaxCelsius": 95,
+        "sourceUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 65,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-ryzen-7-7700",
+      "identity": {
+        "name": "AMD Ryzen 7 7700",
+        "category": "cpu",
+        "socket": "AM5"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 65,
+        "referenceKind": "default-tdp",
+        "maximumTurboPowerWatts": null,
+        "tjMaxCelsius": 95,
+        "sourceUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 65,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-intel-i3-12100f",
+      "identity": {
+        "name": "Intel Core i3-12100F",
+        "category": "cpu",
+        "socket": "LGA1700"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 58,
+        "referenceKind": "processor-base-power",
+        "maximumTurboPowerWatts": 89,
+        "tjMaxCelsius": 100,
+        "sourceUrl": "https://www.intel.com/content/www/us/en/products/sku/132223/intel-core-i312100f-processor-12m-cache-up-to-4-30-ghz/specifications.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 58,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-intel-i5-12400f",
+      "identity": {
+        "name": "Intel Core i5-12400F",
+        "category": "cpu",
+        "socket": "LGA1700"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 65,
+        "referenceKind": "processor-base-power",
+        "maximumTurboPowerWatts": 117,
+        "tjMaxCelsius": 100,
+        "sourceUrl": "https://www.intel.com/content/www/us/en/products/sku/134587/intel-core-i512400f-processor-18m-cache-up-to-4-40-ghz/specifications.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 65,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-intel-i7-13700k",
+      "identity": {
+        "name": "Intel Core i7-13700K",
+        "category": "cpu",
+        "socket": "LGA1700"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 125,
+        "referenceKind": "processor-base-power",
+        "maximumTurboPowerWatts": 253,
+        "tjMaxCelsius": 100,
+        "sourceUrl": "https://www.intel.com/content/www/us/en/products/sku/230500/intel-core-i713700k-processor-30m-cache-up-to-5-40-ghz/specifications.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 125,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-intel-i5-14400f",
+      "identity": {
+        "name": "Intel Core i5-14400F",
+        "category": "cpu",
+        "socket": "LGA1700"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 65,
+        "referenceKind": "processor-base-power",
+        "maximumTurboPowerWatts": 148,
+        "tjMaxCelsius": 100,
+        "sourceUrl": "https://www.intel.com/content/www/us/en/products/sku/236777/intel-core-i5-processor-14400f-20m-cache-up-to-4-70-ghz/specifications.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 65,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    },
+    {
+      "id": "cpu-intel-i5-14600k-box",
+      "identity": {
+        "name": "Intel Core i5-14600K Box",
+        "category": "cpu",
+        "socket": "LGA1700"
+      },
+      "manufacturerFacts": {
+        "referenceWatts": 125,
+        "referenceKind": "processor-base-power",
+        "maximumTurboPowerWatts": 181,
+        "tjMaxCelsius": 100,
+        "sourceUrl": "https://www.intel.com/content/www/us/en/products/sku/236799/intel-core-i5-processor-14600k-24m-cache-up-to-5-30-ghz/specifications.html",
+        "verifiedAt": "2026-10-08"
+      },
+      "simulationAssumptions": {
+        "defaultScenarioHeatWatts": 125,
+        "defaultHeatBasis": "scenario initialized from nominal manufacturer thermal/base-power value, not measured CPU heat or maximum draw",
+        "packagePriorId": "shared-package-contact-v1",
+        "powerPresets": {
+          "light": 0.25,
+          "mixed": 0.6,
+          "sustained": 1.0
+        }
+      },
+      "limitations": [
+        "Shared effective package prior; no CPU-specific thermal calibration",
+        "Scenario heat fractions are not CPU utilization or measured workload consumption"
+      ]
+    }
+  ]
+}

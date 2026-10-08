@@ -1,8 +1,11 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { compatibilityDisplayLabel } from '../utils/coolingAssessment.js';
+import TaskTabs, { TaskPanel } from '../components/ui/TaskTabs.jsx';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, Upload, Wand2 } from 'lucide-react';
 import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import { SuggestedPiecePicker } from '../components/recommendations/RecommendationCard.jsx';
@@ -52,6 +55,11 @@ const initialBudgetRange = {
 
 export default function ReadyBuilds() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const taskForHash = hash => ({ '#ready-build-catalog': 'explore', '#ready-build-profiles': 'profiles' })[hash] || 'recommend';
+  const [task, setTask] = useState(() => taskForHash(location.hash));
+  useEffect(() => { setTask(taskForHash(location.hash)); }, [location.hash]);
+  const [focusRecommendationPending, setFocusRecommendationPending] = useState(false);
   const buildState = useBuildState();
   const { componentMap, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
   const request = useApiRequest();
@@ -143,6 +151,7 @@ export default function ReadyBuilds() {
         summary: readyBuild.description,
         totalEstimatedPrice: getCurrentBuildPricing(readyBuild, componentMap).total,
         compatibilityStatus: getReadyBuildCompatibility(readyBuild),
+        coolingAssessment: readyBuild.compatibility?.coolingAssessment || readyBuild.coolingAssessment,
         performanceLevel: readyBuild.expectedPerformanceLevel,
         usageType: readyBuild.usageProfile,
         source: 'ready-build'
@@ -249,24 +258,21 @@ export default function ReadyBuilds() {
     }
   }
 
-  function focusSection(sectionRef, event) {
-    // Modified link clicks retain their native open/copy-link behavior.
-    if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0)) return;
-    const section = sectionRef.current;
-    if (!section) return;
-    event?.preventDefault();
-    const headerHeight = document.querySelector('.topbar')?.getBoundingClientRect().height || 0;
-    section.style.scrollMarginTop = `${headerHeight + 16}px`;
-    section.focus({ preventScroll: true });
-    section.scrollIntoView({
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      block: 'start'
-    });
-  }
+  useEffect(() => {
+    if (!focusRecommendationPending || task !== 'recommend') return;
+    const section = recommendationSectionRef.current;
+    if (section) {
+      const headerHeight = document.querySelector('.topbar')?.getBoundingClientRect().height || 0;
+      section.style.scrollMarginTop = `${headerHeight + 16}px`;
+      section.focus({ preventScroll: true });
+      section.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+    setFocusRecommendationPending(false);
+  }, [task, focusRecommendationPending]);
 
-  function focusRecommendation(event) {
-    focusSection(recommendationSectionRef, event);
-    if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0)) return;
+  function focusRecommendation() {
+    setTask('recommend');
+    setFocusRecommendationPending(true);
     setHighlightRecommendation(true);
     clearTimeout(recommendationHighlightTimer.current);
     recommendationHighlightTimer.current = setTimeout(() => setHighlightRecommendation(false), 1600);
@@ -339,16 +345,14 @@ export default function ReadyBuilds() {
         <span className="eyebrow">Atalhos inteligentes</span>
         <h1>Builds prontas</h1>
         <p>Consulte configurações completas por perfil de uso ou consulte sugestões para sua faixa de orçamento.</p>
-        <nav className="button-row" aria-label="Seções de builds prontas">
-          <a className="btn btn-primary btn-md" href="#budget-recommendation" onClick={focusRecommendation}>Recomendar por orçamento</a>
-          <a className="btn btn-secondary btn-md" href="#ready-build-catalog" onClick={(event) => focusSection(readyBuildsSectionRef, event)}>Explorar builds prontas</a>
-          <a className="btn btn-ghost btn-md" href="#ready-build-profiles" onClick={(event) => focusSection(usageProfilesSectionRef, event)}>Gerenciar perfis</a>
-        </nav>
+
       </section>
-      <DecisionMethodology />
+      <TaskTabs id="ready-build-tasks" label="Builds prontas" value={task} onChange={setTask}
+        tabs={[{ id: 'recommend', label: 'Recomendar' }, { id: 'explore', label: 'Explorar' }, { id: 'profiles', label: 'Meus perfis' }]} />
 
       {feedback && <Alert type="success">{feedback}</Alert>}
 
+      <TaskPanel id="ready-build-tasks" value="recommend" active={task === 'recommend'}>
       <section id="budget-recommendation" ref={recommendationSectionRef} tabIndex={-1} aria-labelledby="budget-recommendation-heading">
         <Card className={highlightRecommendation ? 'recommendation-section is-highlighted' : 'recommendation-section'}>
           <div className="section-heading compact">
@@ -418,7 +422,7 @@ export default function ReadyBuilds() {
           )}
           {recommendationRequest.loading && <LoadingSpinner />}
           {!recommendationRequest.loading && recommendationContext === recommendationKey && recommendations.length > 0 && (
-            <div className="cards-grid">
+            <div className="cards-grid recommendation-results-grid">
               {recommendations.map((recommendation, index) => (
                 <RecommendationResultCard
                   key={recommendation.id || recommendation.name || index}
@@ -443,6 +447,7 @@ export default function ReadyBuilds() {
                         summary: recommendation.summary,
                         totalEstimatedPrice: getCurrentBuildPricing(recommendation, componentMap).total,
                         compatibilityStatus: recommendation.compatibilityStatus,
+                        coolingAssessment: recommendation.coolingAssessment,
                         performanceLevel: recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel,
                         usageType: budgetRange.usageType,
                         priority: budgetRange.priority,
@@ -456,7 +461,9 @@ export default function ReadyBuilds() {
           )}
         </Card>
       </section>
+      </TaskPanel>
 
+      <TaskPanel id="ready-build-tasks" value="explore" active={task === 'explore'}>
       <section id="ready-build-catalog" ref={readyBuildsSectionRef} tabIndex={-1} aria-labelledby="ready-build-catalog-heading" className="page-stack">
         <Card>
           <div className="section-heading compact">
@@ -478,7 +485,9 @@ export default function ReadyBuilds() {
 
         {renderReadyBuilds()}
       </section>
+      </TaskPanel>
 
+      <TaskPanel id="ready-build-tasks" value="profiles" active={task === 'profiles'}>
       <section id="ready-build-profiles" ref={usageProfilesSectionRef} tabIndex={-1} aria-label="Perfis personalizados">
         <UsageProfilesManager
           appliedProfileId={selectedUsageProfileId}
@@ -486,6 +495,9 @@ export default function ReadyBuilds() {
           onApplyProfile={(profile) => applyUsageProfile(profile, usageProfiles, true)}
         />
       </section>
+      </TaskPanel>
+
+      <DecisionMethodology />
 
       <Modal
         open={Boolean(detailsBuild)}
@@ -632,7 +644,8 @@ function RecommendationResultCard({ recommendation, componentMap, budgetRange, c
         </div>
         <div>
           <span>Compatibilidade</span>
-          <strong>{preservesCooling ? 'Não verificada' : translateValue(recommendation.compatibilityStatus || (recommendation.unverifiedChecks?.length ? 'unverified' : recommendation.compatible === true ? 'compatible' : recommendation.compatible === false ? 'incompatible' : 'unverified'))}</strong>
+          <strong>{preservesCooling ? 'Não verificada' : compatibilityDisplayLabel(recommendation.compatibilityStatus || (recommendation.unverifiedChecks?.length ? 'unverified' : recommendation.compatible === true ? 'compatible' : recommendation.compatible === false ? 'incompatible' : 'unverified'), recommendation)}</strong>
+          <CoolingAssessmentNotice result={recommendation} />
         </div>
         <div>
           <span>{hasSimulatedPerformance(recommendation) ? 'Desempenho simulado' : 'Desempenho estimado'}</span>
@@ -767,11 +780,11 @@ function hasAllComponents(selectedComponents) {
 
 function ReadyBuildChecks({ readyBuild, pricing }) {
   const compatibilityStatus = getReadyBuildCompatibility(readyBuild);
-  return <p className="hint-text">
+  return <><p className="hint-text">
     {!pricing.complete && 'Há peças sem preço atual. O subtotal conhecido não confirma o custo total nem o enquadramento no orçamento. '}
-    Compatibilidade: {translateValue(compatibilityStatus)}.
+    Compatibilidade: {compatibilityDisplayLabel(compatibilityStatus, readyBuild)}.
     {compatibilityStatus !== 'compatible' && ' Confira as verificações no resumo antes de comprar.'}
-  </p>;
+  </p><CoolingAssessmentNotice result={readyBuild} /></>;
 }
 
 function getReadyBuildCompatibility(readyBuild) {

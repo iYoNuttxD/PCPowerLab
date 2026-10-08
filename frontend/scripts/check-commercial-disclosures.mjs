@@ -38,7 +38,7 @@ try {
   const { PurchaseLinksList, BudgetPanel, ReferencePriceNote, ComponentCard, ComponentImageCredits, ImageCredit, React, MemoryRouter, ComponentsProvider, renderToStaticMarkup, DecisionMethodology, RecommendationCard, ReadyBuildCard, RecommendationResultCard } = await import(pathToFileURL(output).href);
   const render = (Component, props = {}) => renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(ComponentsProvider, null, React.createElement(Component, props))));
   const methodology = render(DecisionMethodology);
-  for (const text of ['somente as peças', 'não garantem a melhor compra', 'Desempenho estimado, não medido', 'Compatibilidade pendente', 'BIOS']) assert(methodology.includes(text));
+  for (const text of ['somente as peças', 'não garantem a melhor compra', 'pontuações simuladas, sem benchmark medido', 'Compatibilidade pendente', 'BIOS']) assert(methodology.includes(text));
   const recommendation = render(RecommendationCard, { recommendation: { components: {}, totalEstimatedPrice: 1000 } });
   assert(recommendation.includes('Total estimado de referência'));
   assert(!recommendation.includes('Como interpretar os resultados'), 'Do not repeat global methodology in every recommendation card');
@@ -67,23 +67,23 @@ try {
   for (const text of ['Cotação:', 'Consultado em:', 'Válido até:', 'Synthetic test source', 'Ver produto na loja']) assert(offer.includes(text));
   const budget = render(BudgetPanel, { totalPrice: 500, budget: { amount: 600 }, pricing: { availableMarketQuotesTotal: 90, marketTotalComplete: false, componentsWithoutCurrentQuote: ['missing'], methodology: 'Valores nunca são misturados' } });
   assert(budget.includes('subtotal incompleto')); assert(budget.includes('Separadas do total de referência'));
-  const dated = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', seller: 'DAXFY', model: 'MZ-77E500B/EU', queriedAt: '2026-10-08', productUrl: 'https://www.kabum.com.br/produto/647831/fixture', paymentCondition: 'PIX à vista', cardTotal: 139.72, installments: '10x sem juros', retrievalCrawlLabel: '5 days ago', observedAvailability: 'unknown', condition: 'unknown', shipping: 'Não verificado', taxes: 'Não discriminados' };
+  const dated = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', seller: 'DAXFY', model: 'MZ-77E500B/EU', queriedAt: '2026-10-08', productUrl: 'https://www.kabum.com.br/produto/647831/fixture', paymentCondition: 'PIX à vista', cardTotal: 139.72, installments: '10x sem juros', retrievalCrawlLabel: '5 days ago', observedAvailability: 'available', referenceScope: 'exact', identityMatch: 'exact', verificationMethod: 'rendered_product_page', availabilityEvidence: 'Test fixture: available for purchase', observedAt: '2026-10-08T10:00:00Z', observationSource: { kind: 'manual_public_page_observation', authorizedApi: false }, condition: 'new', shipping: 'Não verificado', taxes: 'Não discriminados' };
   const datedComponent = { id: 'fixture', name: 'Fixture', category: 'storage', price: dated.price, pricing: dated };
   for (const compact of [true, false]) {
     const note = render(ReferencePriceNote, { component: datedComponent, compact });
     assert.match(note, /^<p[^>]*>/);
     assert(!note.includes('<details') && !note.includes('<summary'), 'No hidden explanatory wall');
-    assert(note.includes('Referência PIX · KaBuM! · 2026-10-08'));
+    assert(note.includes('Referência PIX · KaBuM! · 08/10/2026, 10:00 UTC'));
     assert(note.includes(dated.productUrl), 'Direct source remains accessible');
   }
   const card = render(ComponentCard, { component: datedComponent });
-  assert.equal((card.match(/Referência PIX · KaBuM! · 2026-10-08/g) || []).length, 1, 'A card should display the reference label only once');
+  assert.equal((card.match(/Referência PIX · KaBuM! · 08\/10\/2026, 10:00 UTC/g) || []).length, 1, 'A card should display the reference label only once');
   const estimatedNote = render(ReferencePriceNote, { component: { price: 200 } });
   assert(estimatedNote.includes('Estimativa do catálogo'));
   assert(!estimatedNote.includes('<details'));
   assert(!/<details[^>]*\bopen(?:=|\s|>)/.test(estimatedNote));
   const staleNote = render(ReferencePriceNote, { component: { ...datedComponent, price: 100 } });
-  assert(staleNote.includes('Estimativa do catálogo') && !staleNote.includes(dated.productUrl));
+  assert(staleNote.includes('Sem cotação') && !staleNote.includes(dated.productUrl));
   const media = { componentId: 'fixture', status: 'verified', imageType: 'photo', imagePath: '/images/components/fixture.webp', lastVerifiedAt: '2026-10-08', imageSource: 'https://example.org/source', manufacturerProductUrl: 'https://example.org/model', author: 'Photographer', license: 'CC BY 4.0', licenseUrl: 'https://creativecommons.org/licenses/by/4.0/', modifications: 'Redimensionada' };
   const credits = render(ImageCredit, { component: { id: 'fixture', name: 'Fixture', image: media } });
   for (const value of [media.imageSource, media.manufacturerProductUrl, media.licenseUrl, media.author, media.modifications]) assert(credits.includes(value), 'Dedicated credits retain required attribution');
@@ -93,11 +93,11 @@ try {
   const representativeCredits = render(ComponentImageCredits, { media: { ...media, identityLevel: 'representative-product' } });
   assert(representativeCredits.includes('Imagem ilustrativa') && !representativeCredits.includes('<details'));
   const familyPrice = render(ReferencePriceNote, { component: { ...datedComponent, pricing: { ...dated, referenceScope: 'family', sourceVariantName: 'Commercial model' } } });
-  assert(familyPrice.includes('Variante: Commercial model'));
+  assert(familyPrice.includes('Sem cotação') && !familyPrice.includes(dated.productUrl), 'A family source cannot price an exact model');
   const benchmarkPrice = render(ReferencePriceNote, { component: { ...datedComponent, pricing: { ...dated, referenceScope: 'benchmark', sourceVariantName: 'Example model' } } });
-  assert(benchmarkPrice.includes('Exemplo de preço: Example model'));
+  assert(benchmarkPrice.includes('Sem cotação') && !benchmarkPrice.includes(dated.productUrl), 'A benchmark source cannot price an exact model');
   const datedResearch = render(PurchaseLinksList, { variant: 'single', links: [{ kind: 'research', componentId: 'fixture', storeName: 'KaBuM!', url: 'https://www.kabum.com.br/busca/fixture', price: 125.75, currency: 'BRL', availabilityStatus: 'unknown', referencePricing: dated }] });
-  for (const text of ['2026-10-08', 'Referência PIX', dated.productUrl, 'Buscar este componente']) assert(datedResearch.includes(text));
+  for (const text of ['08/10/2026', 'Referência PIX', dated.productUrl, 'Buscar este componente']) assert(datedResearch.includes(text));
   assert(!datedResearch.includes('Cotação:'));
   const mixedBudget = render(BudgetPanel, { totalPrice: 451.5, budget: { amount: 500 }, selectedComponents: { cpu: { id: 'estimated', price: 200 }, fans: [{ id: 'dated', price: 125.75, pricing: dated, quantity: 2 }] } });
   for (const text of ['1 item estimado', 'sem frete e montagem']) assert(mixedBudget.includes(text));
@@ -105,7 +105,7 @@ try {
   const missingBudget = render(BudgetPanel, { totalPrice: null, budget: { amount: 500 }, selectedComponents: { cpu: { id: 'priced', price: 123.45 }, gpu: { id: 'missing', price: null } } });
   assert(missingBudget.includes('Subtotal conhecido:') && missingBudget.includes('123,45') && missingBudget.includes('1 sem cotação'));
   assert(missingBudget.includes('Pendente') && !missingBudget.includes('>Dentro<') && !missingBudget.includes('2 itens estimados'));
-  console.log('PASS: concise direct price sources; distinct variant/benchmark identities; image credits preserved in a dedicated destination');
+  console.log('PASS: concise exact price sources; family/benchmark sources rejected; image credits preserved in a dedicated destination');
   console.log('PASS: scope, estimate labels and missing-performance states render honestly across recommendation cards');
   console.log('LIMITATION: static rendering does not validate browser layout, focus or interaction');
 } finally {

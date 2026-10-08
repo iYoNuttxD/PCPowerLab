@@ -2,6 +2,7 @@ import { hydrateBuildComponents } from './buildHelpers.js';
 import { usageTypes, priorityOptions } from './componentLabels.js';
 import { emptyResults } from './buildTransitions.js';
 import { normalizeWizardStep } from './wizardSteps.js';
+import { DEFAULT_COOLING_CONDITIONS, normalizeCoolingConditions } from './coolingSimulation.js';
 
 export const buildStorageKey = 'pcpowerlab-build-state';
 export const initialBuildState = {
@@ -12,6 +13,7 @@ export const initialBuildState = {
   budget: { amount: '', currency: 'BRL', priority: 'cost-benefit' },
   usageType: 'gaming',
   game: { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' },
+  coolingConditions: DEFAULT_COOLING_CONDITIONS,
   ...emptyResults
 };
 const record = value => value && typeof value === 'object' && !Array.isArray(value) ? value : {};
@@ -23,6 +25,7 @@ export function normalizePersistedBuild(value) {
   const stored = record(value);
   const budget = record(stored.budget);
   const game = record(stored.game);
+  const cooling = normalizeCoolingConditions(stored.coolingConditions);
   return {
     ...initialBuildState,
     revision: Number.isSafeInteger(stored.revision) && stored.revision >= 0 ? stored.revision : 0,
@@ -36,6 +39,7 @@ export function normalizePersistedBuild(value) {
       priority: priorityOptions.includes(budget.priority) ? budget.priority : initialBuildState.budget.priority
     },
     usageType: [...usageTypes, 'cost-benefit', 'high-performance'].includes(stored.usageType) ? stored.usageType : initialBuildState.usageType,
+    coolingConditions: cooling.valid ? cooling.conditions : DEFAULT_COOLING_CONDITIONS,
     game: Object.fromEntries(Object.entries(initialBuildState.game).map(([key, fallback]) => [key, nonEmptyString(game[key], fallback)]))
   };
 }

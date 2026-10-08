@@ -7,7 +7,7 @@ AssertionError [ERR_ASSERTION]: API must not receive SPA HTML: /quality-api/v2/m
 
 200 !== 404
 
-    at file:///workspace/shared/pcpowerlab-v2-baseline/scripts/check-quality-production.mjs:16:12
+    at file://scripts/check-quality-production.mjs:16:12
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
   generatedMessage: false,
   code: 'ERR_ASSERTION',

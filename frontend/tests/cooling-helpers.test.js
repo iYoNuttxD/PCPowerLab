@@ -2,17 +2,19 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, hasCompleteBuild, normalizeSavedBuildPayload, recommendationSelection } from '../src/utils/buildHelpers.js';
 import { componentTypes, catalogComponentTypes } from '../src/utils/componentLabels.js';
-import { wizardSteps } from '../src/utils/wizardSteps.js';
+import { requiredWizardSteps, wizardSteps } from '../src/utils/wizardSteps.js';
 import { specKeys, filterComponents, emptyCatalogFilters, formatSpecValue } from '../src/utils/componentPresentation.js';
 
 const core = Object.fromEntries(componentTypes.map(type => [type, { id: `${type}-test`, price: 100 }]));
 const cooler = { id: 'cooler-test', category: 'cooler', price: 250 };
 const fan = { id: 'fan-kit', category: 'fan', price: 90, quantity: 2, specs: { unitsPerPack: 3, powerWatts: 2 } };
 
-test('cooling is optional and does not create wizard steps', () => {
+test('cooling has an optional stop without adding required build slots', () => {
   assert.equal(hasCompleteBuild(core), true);
   assert.equal(componentTypes.length, 7);
-  assert.equal(wizardSteps.length, 9);
+  assert.equal(wizardSteps.length, 10);
+  assert.equal(requiredWizardSteps.length, 9);
+  assert.equal(wizardSteps.includes('cooling'), true);
   assert.equal(wizardSteps.includes('cooler'), false);
   assert.equal(catalogComponentTypes.includes('cooler'), true);
   assert.equal(catalogComponentTypes.includes('fan'), true);

@@ -442,7 +442,9 @@ test('upgrades price actual new core parts and quantified cooling without silent
   assert.deepEqual(result.suggestions, []);
   const roadmap = generateUpgradeRoadmap({ build, totalBudget: 1 });
   assert.equal(roadmap.currentBuildSummary.totalEstimatedPrice, total);
-  assert.equal(roadmap.initialCompatibility.status, 'unverified');
+  // Two three-packs plus three included fans exceed the six physical mounts.
+  assert.equal(roadmap.initialCompatibility.status, 'incompatible');
+  assert.ok(roadmap.initialCompatibility.alerts.some(issue => issue.code === 'CASE_FAN_CAPACITY_EXCEEDED'));
   assert.deepEqual(roadmap.steps, []);
   assert.deepEqual(build, original);
 });

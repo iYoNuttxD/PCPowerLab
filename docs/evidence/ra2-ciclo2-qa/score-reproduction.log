@@ -29,7 +29,7 @@ Running 1 test using 1 worker
       137 |     await capture(page, testInfo, 'summary-score', page.getByRole('heading', { name: 'Nota geral', exact: true }));
       138 |   } finally {
       139 |     if (saved?.id) expect((await request.delete(`/api/v1/saved-builds/${saved.id}`)).ok()).toBe(true);
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/integration/cycle2.spec.js:136:24
+        at frontend/tests/integration/cycle2.spec.js:136:24
 
     attachment #1: wizard-review (image/png) ───────────────────────────────────────────────────────
     integration-test-results/cycle2-montagem-manual-orç-4d0e1-eração-e-lojas-com-API-real-desktop/attachments/wizard-review-3e4803deb5d82799e067f3393b05555119346e51.png

@@ -797,6 +797,47 @@
         "maxRadiatorThicknessMm": null,
         "coolingSupportNotes": "Frente 3x120/140; topo 3x120 ou2x140; traseira1x120. Três120ARGB incluídos na frente. Frente até420mm limitado457x140x27mm; topo até360mm. GPU410mm somente sem radiador frontal; 360mm com montagem HDD indicada. E-ATX até305x277mm. Confirmar layout/folgas no manual.",
         "frontRadiatorMaxThicknessMm": 27,
+        "radiatorLayouts": {
+          "front": [
+            120,
+            140,
+            240,
+            280,
+            360,
+            420
+          ],
+          "top": [
+            120,
+            140,
+            240,
+            280,
+            360
+          ],
+          "rear": [
+            120
+          ]
+        },
+        "radiatorLimitsMm": {
+          "front": {
+            "length": 457,
+            "width": 140,
+            "thickness": 27
+          }
+        },
+        "fanLayouts": {
+          "front": [
+            "3x120",
+            "3x140"
+          ],
+          "top": [
+            "3x120",
+            "2x140"
+          ],
+          "rear": [
+            "1x120"
+          ]
+        },
+        "includedFansPosition": "front",
         "maxGpuLengthWithHddBracketMm": 360,
         "includedFanDiameterMm": 120,
         "color": "White",
@@ -3811,12 +3852,17 @@
           "width": 203.5,
           "height": 430
         },
-        "maxCoolerHeightMm": null,
+        "maxCoolerHeightMm": 163.5,
         "maxGpuLengthMm": null,
         "maxGpuLengthWithoutFrontFansAndRadiatorMm": 365,
         "maxPsuLengthMm": 160,
         "psuFormFactor": "ATX",
-        "radiatorSizesMm": null,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280
+        ],
         "radiatorLayouts": {
           "front": [
             120,
@@ -3834,12 +3880,21 @@
         },
         "maxRadiatorThicknessMm": null,
         "maxFanThicknessMm": null,
-        "includedFanCount": null,
+        "includedFanCount": 3,
         "includedFanDiameterMm": 120,
         "includedFanModel": "CF120 ARGB",
         "includedFansPosition": "front",
         "includedFanPowerWatts": null,
-        "fanMounts": null,
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 2
+          }
+        ],
         "fanLayouts": {
           "front": [
             "3x120"
@@ -3860,7 +3915,7 @@
         "supportedPsuFormFactors": [
           "ATX"
         ],
-        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+        "coolingSupportNotes": "Agora branco, mATX/ITX e três fans frontais. O limite de GPU de 365 mm só vale sem fans/radiador frontal; folga na montagem padrão não confirmada."
       }
     },
     "demonstrativePrice": null,

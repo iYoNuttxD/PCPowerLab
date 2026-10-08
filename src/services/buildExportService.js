@@ -147,6 +147,7 @@ function buildSummaryForExport({
         performanceMethodology: generatedSummary.performanceMethodology,
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
         pricing: generatedSummary.pricing,
+        coolingAssessment: generatedSummary.compatibility.coolingAssessment,
         compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')
       }
     };

@@ -169,14 +169,15 @@ try {
 
   const actionCalls = [];
   const cooler = { id: 'cooler-one', name: 'Cooler', category: 'cooler' }; const fan = { id: 'fan-one', name: 'Fan', category: 'fan', quantity: 1 };
-  const cooling = () => CoolingPanel({ build: { selectedComponents: { cooler, fans: [fan] }, actions: Object.fromEntries(['setFans', 'selectComponent', 'removeComponent'].map(name => [name, (...args) => actionCalls.push([name, ...args])])) }, byType: { cooler: [cooler], fan: [fan, { ...fan, id: 'fan-two' }] }, onChange: () => actionCalls.push(['clear']) });
-  const exercise = callback => { actionCalls.length = 0; callback(cooling()); assert.equal(actionCalls[0][0], 'clear'); assert.equal(actionCalls.length, 2); };
+  const cooling = runtime(() => CoolingPanel({ build: { selectedComponents: { cooler, fans: [fan] }, actions: Object.fromEntries(['setFans', 'selectComponent', 'removeComponent'].map(name => [name, (...args) => actionCalls.push([name, ...args])])) }, byType: { cooler: [cooler], fan: [fan, { ...fan, id: 'fan-two' }] }, onChange: () => actionCalls.push(['clear']) }));
+  const exercise = callback => { actionCalls.length = 0; callback(cooling.render()); assert.equal(actionCalls[0][0], 'clear'); assert.equal(actionCalls.length, 2); };
   exercise(tree => find(tree, node => node.props?.label === 'Cooler do processador').props.onChange({ target: { value: 'cooler-one' } }));
   exercise(tree => button(tree, 'Remover cooler').props.onClick());
   exercise(tree => find(tree, node => node.props?.label === 'Modelo de ventoinha 1').props.onChange({ target: { value: 'fan-two' } }));
   exercise(tree => find(tree, node => node.props?.label === 'Pacotes de ventoinhas 1').props.onChange({ target: { value: '2' } }));
   exercise(tree => button(tree, 'Remover ventoinhas 1').props.onClick());
   exercise(tree => find(tree, node => node.props?.label === 'Adicionar ventoinhas').props.onChange({ target: { value: 'fan-two' } }));
+  cooling.close();
   console.log('PASS: each cooler/fan edit clears the old wizard message before changing the configuration');
 
   const requests = [];

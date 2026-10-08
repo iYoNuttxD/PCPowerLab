@@ -6,7 +6,7 @@ AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
 
 'a' !== 'b'
 
-    at file:///workspace/shared/pcpowerlab-v2-baseline/frontend/scripts/check-async-regressions.mjs:111:34
+    at file://frontend/scripts/check-async-regressions.mjs:111:34
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
   generatedMessage: true,
   code: 'ERR_ASSERTION',

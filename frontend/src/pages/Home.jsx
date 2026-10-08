@@ -1,48 +1,39 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Layers3 } from 'lucide-react';
-import { featureHighlights } from '../App.jsx';
-import Card from '../components/ui/Card.jsx';
+import { ArrowRight, Cpu, ShieldCheck, Sparkles, Gamepad2 } from 'lucide-react';
+import { useBuildState } from '../hooks/useBuildState.jsx';
+
+const features = [
+  { icon: ShieldCheck, label: 'Compatibilidade' },
+  { icon: Gamepad2, label: 'Desempenho simulado' },
+  { icon: Cpu, label: 'Recomendações' },
+  { icon: Sparkles, label: 'Resumo da montagem' }
+];
 
 export default function Home() {
+  const { selectedComponents, wizardStep, budget } = useBuildState();
+  const hasProgress = Object.values(selectedComponents).some(component => Array.isArray(component) ? component.length > 0 : Boolean(component))
+    || wizardStep !== 'cpu' || Number(budget.amount) > 0;
+
   return (
-    <div className="home-page">
-      <section className="hero">
-        <div className="hero-copy">
-          <span className="eyebrow">Retro-arcade PC builder</span>
-          <h1>PCPowerLab</h1>
-          <p>
-            Monte uma configuração personalizada, valide compatibilidade, simule desempenho
-            e receba recomendações claras antes de investir nas peças.
-          </p>
-          <div className="button-row">
-            <Link className="btn btn-primary btn-md" to="/build">Montar meu PC <ArrowRight size={18} /></Link>
-            <Link className="btn btn-secondary btn-md" to="/components">Ver componentes</Link>
-          </div>
-        </div>
-        <div className="hero-console" aria-hidden="true">
-          <Layers3 size={64} />
-          <div className="console-screen">
-            <span>CPU + GPU SYNC</span>
-            <strong>98%</strong>
-            <span>Exemplo ilustrativo</span>
-          </div>
-          <div className="scan-lines" />
+    <div className="home-page page-stack">
+      <section className="page-hero compact-hero home-task-hero">
+        <span className="eyebrow">PCPowerLab</span>
+        <h1>Monte seu próximo PC</h1>
+        <p>Escolha as peças, confira a compatibilidade e planeje seu orçamento.</p>
+        <div className="button-row">
+          <Link className="btn btn-primary btn-md" to="/build">
+            {hasProgress ? 'Continuar montagem' : 'Montar meu PC'} <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+          <Link className="btn btn-secondary btn-md" to="/components">Ver componentes</Link>
+          <Link className="btn btn-ghost btn-md" to="/ready-builds">Explorar builds prontas</Link>
         </div>
       </section>
 
-      <section className="feature-grid" aria-label="Benefícios">
-        {featureHighlights.map((feature) => {
-          const Icon = feature.icon;
-
-          return (
-            <Card key={feature.title}>
-              <Icon size={28} aria-hidden="true" />
-              <h2>{feature.title}</h2>
-              <p>{feature.text}</p>
-            </Card>
-          );
-        })}
-      </section>
+      <ul className="home-feature-list" aria-label="Recursos">
+        {features.map(({ icon: Icon, label }) => (
+          <li key={label}><Icon size={22} aria-hidden="true" /><span>{label}</span></li>
+        ))}
+      </ul>
     </div>
   );
 }

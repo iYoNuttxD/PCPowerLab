@@ -73,7 +73,7 @@ test.afterEach(async ({ page }) => {
   expect(pageErrors.get(page)).toEqual([]);
 });
 
-test('avança pelas nove etapas, mantém ações visíveis e retorna sem perder peças', async ({ page }) => {
+test('avança pelas etapas e refrigeração opcional sem perder peças', async ({ page }) => {
   await page.goto('/build');
   const next = page.getByRole('button', { name: 'Avançar', exact: true });
   await expect(next).toHaveCount(1);
@@ -84,7 +84,7 @@ test('avança pelas nove etapas, mantém ações visíveis e retorna sem perder 
 
   for (let index = 0; index < types.length; index += 1) {
     await expect(page.locator('#wizard-step-heading')).toHaveText(labels[index]);
-    await expect(page.locator('.wizard-step-intro p')).not.toBeEmpty();
+    await expect(page.locator('.wizard-step-intro > p')).not.toBeEmpty();
     await page.getByRole('button', { name: `Selecionar: ${selection[types[index]].name}`, exact: true }).click();
     await expect(page.getByRole('progressbar')).toHaveAttribute('value', String(index + 1));
     await page.evaluate(() => window.scrollTo(0, document.querySelector('.component-grid').getBoundingClientRect().bottom + scrollY - innerHeight));
@@ -93,6 +93,9 @@ test('avança pelas nove etapas, mantém ações visíveis e retorna sem perder 
     await next.click();
     await expectPositionedHeading(page);
   }
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Refrigeração');
+  await expect(page.getByRole('progressbar')).toHaveAttribute('max', '9');
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
   await expect(next).toBeDisabled();
   await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('5000');
@@ -381,6 +384,7 @@ test('editar refrigeração limpa sucesso antigo e mantém revisão pendente', a
   await page.goto('/build');
   await analyze(page);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Alterar refrigeração', exact: true }).click();
   await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(activePart(components, 'cooler-noctua-nh-l9a-am4-chromax-black').id);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toHaveCount(0);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');

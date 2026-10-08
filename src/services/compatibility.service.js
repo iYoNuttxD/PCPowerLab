@@ -19,7 +19,7 @@ export function evaluateResolvedBuildCompatibility(selectedBuild) {
   }
   const caseEvidence = supplementalCompatibilityEvidence(build.case);
   if (caseEvidence) build.case = { ...build.case, specs: { ...caseEvidence.specs, ...build.case.specs } };
-  const { alerts, unverifiedChecks } = checkCoolingCompatibility(build);
+  const { alerts, unverifiedChecks, coolingAssessment } = checkCoolingCompatibility(build);
   validateCpuAndMotherboard(build, alerts, unverifiedChecks);
   validateRamAndMotherboard(build, alerts, unverifiedChecks);
   validateStorageAndMotherboard(build, alerts, unverifiedChecks);
@@ -28,7 +28,7 @@ export function evaluateResolvedBuildCompatibility(selectedBuild) {
   validatePsu(build, alerts, unverifiedChecks);
   validateCase(build, alerts, unverifiedChecks);
   const status = alerts.length ? 'incompatible' : unverifiedChecks.length ? 'unverified' : 'compatible';
-  return { compatible: status === 'compatible', status, alerts, unverifiedChecks,
+  return { compatible: status === 'compatible', status, alerts, unverifiedChecks, coolingAssessment,
     ...(caseEvidence ? { verificationSources: [{ componentId: build.case.id,
       sourceUrl: caseEvidence.sourceUrl, verifiedAt: caseEvidence.verifiedAt, note: caseEvidence.note }] } : {}) };
 }

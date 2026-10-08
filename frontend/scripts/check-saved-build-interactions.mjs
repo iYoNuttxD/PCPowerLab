@@ -46,6 +46,7 @@ try {
   const buttons = (tree, text) => named(tree, 'Button').filter(node => label(node).trim() === text);
   const button = (tree, text) => { const result = buttons(tree, text)[0]; assert(result, `Missing button: ${text}`); return result; };
   const form = tree => all(tree, node => node.type === 'form')[0];
+  const removalDialog = tree => named(tree, 'Modal').find(node => node.props.title === 'Excluir build salva');
   const editDialog = tree => named(tree, 'Modal').find(node => node.props.title === 'Editar build salva');
   const render = tree => renderToStaticMarkup(React.createElement(MemoryRouter, { initialEntries: ['/saved-builds'] }, tree));
   const tick = async () => { for (let i = 0; i < 16; i++) await Promise.resolve(); };
@@ -73,9 +74,9 @@ try {
   let fixture;
   function reset() {
     const components = [cpu, { id: 'cooler-a', name: 'Cooler independente' }, { id: 'fan-a', name: 'Ventoinhas de gabinete' }];
-    fixture = { calls: [], routes: [], loads: [], build: { actions: { loadSavedBuild: (...args) => fixture.loads.push(args) } }, catalog: { components, componentMap: Object.fromEntries(components.map(item => [item.id, item])), loading: false, error: '' }, navigate: (...args) => fixture.routes.push(args), service(name, method, args) {
+    fixture = { notifications: [], calls: [], routes: [], loads: [], build: { actions: { loadSavedBuild: (...args) => fixture.loads.push(args) } }, catalog: { components, componentMap: Object.fromEntries(components.map(item => [item.id, item])), loading: false, error: '' }, navigate: (...args) => fixture.routes.push(args), service(name, method, args) {
       if (name === 'savedBuildsService' && method === 'list') return Promise.resolve(saved);
-      if (name === 'notificationsService' && method === 'list') return Promise.resolve([]);
+      if (name === 'notificationsService' && method === 'list') return Promise.resolve(fixture.notifications);
       if (name === 'savedBuildVersionsService' && method === 'list') return Promise.resolve([version]);
       fixture.calls.push({ name, method, args });
       if (name === 'savedBuildsService' && method === 'update') return update(...args);
@@ -91,9 +92,26 @@ try {
   assert.equal(componentDetails.length, 2);
   assert(componentDetails.every(node => !node.props.open), 'Saved component galleries start closed');
   assert(componentDetails.every(node => named(node, 'Button').length === 0), 'Primary actions must remain outside collapsed galleries');
-  assert(button(tree, 'Abrir montagem') && button(tree, 'Trocar peça') && button(tree, 'Editar'));
+  assert(button(tree, 'Abrir montagem') && button(tree, 'Trocar peça') && button(tree, 'Nome e descrição'));
+  const actionDetails = all(tree, node => node.type === 'details' && node.props.className === 'saved-build-actions');
+  assert.equal(actionDetails.length, saved.length);
+  for (const [index, disclosure] of actionDetails.entries()) {
+    assert(!disclosure.props.open, 'Secondary actions start closed');
+    assert.equal(all(disclosure, node => node.type === 'summary')[0].props['aria-label'], `Mais ações de ${saved[index].name}`);
+    assert.deepEqual(named(disclosure, 'Button').map(node => label(node).trim()), [
+      'Nome e descrição', 'Compartilhar', 'Ver versões', 'Criar versão', 'Histórico', 'Enviar feedback', 'Revalidar compatibilidade', 'Excluir'
+    ], 'All eight secondary buttons remain available in the disclosure');
+    assert.equal(all(disclosure, node => node.props?.to?.startsWith('/upgrades?buildId=')).length, 1, 'Upgrade is the ninth secondary action');
+    for (const primary of ['Abrir montagem', 'Trocar peça']) assert.equal(buttons(disclosure, primary).length, 0);
+  }
+  let focusedSummary = false, prevented = false;
+  const disclosureElement = { open: true, querySelector: selector => { assert.equal(selector, 'summary'); return { focus: () => { focusedSummary = true; } }; } };
+  actionDetails[0].props.onKeyDown({ key: 'Escape', currentTarget: disclosureElement, preventDefault() { prevented = true; }, stopPropagation() {} });
+  assert.equal(disclosureElement.open, false); assert(focusedSummary && prevented);
+  console.log('PASS: every saved card retains 11 actions, with Open/Swap outside closed native secondary details and Escape returning to its summary');
+
   if (!versionsOnly) {
-    button(tree, 'Editar').props.onClick(); tree = page.render();
+    button(tree, 'Nome e descrição').props.onClick(); tree = page.render();
     const pending = deferred(); update = () => pending.promise;
     const first = submit(tree); const duplicate = submit(tree);
     assert.equal(fixture.calls.length, 1, 'Two submits in one render must call update only once');
@@ -118,11 +136,11 @@ try {
     assert.deepEqual(fixture.routes, []);
     console.log('PASS: changed fields permit another save; errors remain visible in the editor, retry works, explicit close stays on saved builds');
 
-    button(tree, 'Editar').props.onClick(); tree = page.render();
+    button(tree, 'Nome e descrição').props.onClick(); tree = page.render();
     assert(!button(tree, 'Salvar alterações').props.disabled);
     const late = deferred(); update = () => late.promise; const old = submit(tree);
     editDialog(tree).props.onClose(); tree = page.render();
-    buttons(tree, 'Editar')[1].props.onClick(); tree = page.render();
+    buttons(tree, 'Nome e descrição')[1].props.onClick(); tree = page.render();
     late.resolve({}); await old; tree = page.render();
     assert.equal(named(tree, 'Input').find(node => node.props.name === 'name').props.defaultValue, 'Outro PC');
     assert(!button(tree, 'Salvar alterações').props.disabled, 'A late old save cannot mark a newly opened editor as saved');
@@ -159,6 +177,47 @@ try {
     console.log('PASS: saved cards opt into narrowly scoped component-row layout; viewport rendering remains unverified');
   }
   page.close();
+  if (!baseline) {
+    reset();
+    const removalPage = runtime(); removalPage.render(); await tick(); let removalTree = removalPage.render();
+    button(removalTree, 'Excluir').props.onClick(); removalTree = removalPage.render();
+    assert(removalDialog(removalTree).props.open);
+    assert(label(removalDialog(removalTree)).includes(saved[0].name), 'Confirmation identifies the exact saved build');
+    assert.equal(fixture.calls.length, 0, 'Opening confirmation must not delete');
+    assert(button(removalDialog(removalTree), 'Cancelar').props.autoFocus, 'Cancel is the initial focus target');
+    assert.deepEqual(named(removalDialog(removalTree), 'Button').map(node => label(node).trim()), ['Cancelar', 'Confirmar exclusão']);
+    button(removalDialog(removalTree), 'Cancelar').props.onClick(); removalTree = removalPage.render();
+    assert(!removalDialog(removalTree).props.open); assert.equal(fixture.calls.length, 0);
+    button(removalTree, 'Excluir').props.onClick(); removalTree = removalPage.render();
+    removalDialog(removalTree).props.onClose(); removalTree = removalPage.render();
+    assert.equal(fixture.calls.length, 0, 'Escape/backdrop close must not delete');
+    const service = fixture.service;
+    const pendingDelete = deferred();
+    fixture.service = (name, method, args) => name === 'savedBuildsService' && method === 'remove'
+      ? (fixture.calls.push({ name, method, args }), pendingDelete.promise) : service(name, method, args);
+    button(removalTree, 'Excluir').props.onClick(); removalTree = removalPage.render();
+    const firstDelete = button(removalTree, 'Confirmar exclusão').props.onClick();
+    const repeatDelete = button(removalTree, 'Confirmar exclusão').props.onClick();
+    assert.equal(fixture.calls.length, 1); assert.deepEqual(fixture.calls[0].args, [saved[0].id]);
+    removalTree = removalPage.render(); assert(button(removalTree, 'Confirmar exclusão').props.disabled);
+    pendingDelete.reject(new Error('Não foi possível excluir')); await firstDelete; await repeatDelete; removalTree = removalPage.render();
+    assert(removalDialog(removalTree).props.open); assert(render(removalDialog(removalTree)).includes('Não foi possível excluir'));
+    fixture.service = service;
+    await button(removalTree, 'Confirmar exclusão').props.onClick(); removalTree = removalPage.render();
+    assert(!removalDialog(removalTree).props.open); assert.equal(fixture.calls.length, 2);
+    removalPage.close();
+    console.log('PASS: named delete confirmation is non-mutating until confirmed; cancel/Escape, duplicate confirmation, failure and retry are covered');
+
+    reset();
+    fixture.notifications = [{ id: 'notice-a', buildId: saved[0].id, message: 'Atenção: fonte incompatível', severity: 'high', read: false }];
+    const noticePage = runtime(); noticePage.render(); await tick(); const noticeTree = noticePage.render();
+    const monitoring = named(noticeTree, 'Card').find(node => node.props.className === 'saved-build-monitoring');
+    assert(monitoring); assert.equal(all(monitoring, node => node.type === 'details').length, 0, 'Compatibility notifications must not be collapsed');
+    assert(render(monitoring).includes('Atenção: fonte incompatível'));
+    assert(render(monitoring).includes('Marcar como lida')); assert(button(monitoring, 'Revalidar todas'));
+    noticePage.close();
+    console.log('PASS: actionable saved-build compatibility notices remain expanded beside revalidation');
+  }
   console.log('LIMITATION: hook/handler and SSR contracts only; pointer retargeting, native dialog focus, 390/768/1440 layouts, and browser navigation history require actual UI QA');
 } finally {
   globalThis.FormData = originalFormData;

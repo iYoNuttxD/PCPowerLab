@@ -49,6 +49,12 @@ try {
         if (dropRevision) contents = contents.replace(' && latestConfiguration.current === configurationKey', '');
         return { contents, loader: 'jsx' };
       });
+      if (process.argv.includes('--drop-task-retention') || process.argv.includes('--drop-task-revision')) builder.onLoad({ filter: /pages\/PerformanceLab\.jsx$/ }, async ({ path }) => {
+        let contents = await readFile(path, 'utf8');
+        if (process.argv.includes('--drop-task-retention')) contents = contents.replace('analysisIdentity([identity, gameId, targetResolution, qualityPreset])', 'analysisIdentity([identity, task, gameId, targetResolution, qualityPreset])');
+        if (process.argv.includes('--drop-task-revision')) contents = contents.replace('analysisIdentity([build.revision, build.selectedComponents, build.game])', 'analysisIdentity([build.selectedComponents, build.game])');
+        return { contents, loader: 'jsx' };
+      });
       builder.onResolve({ filter: /^react$/ }, () => ({ path: 'react-proxy', namespace: 'fixture' }));
       builder.onResolve({ filter: /^react-router-dom$/ }, () => ({ path: 'router-proxy', namespace: 'fixture' }));
       builder.onResolve({ filter: /\/hooks\/useBuildState\.jsx$/ }, () => ({ path: 'build-fixture', namespace: 'fixture' }));
@@ -105,12 +111,12 @@ try {
   const named = (tree, name) => all(tree, node => node.type?.name === name);
   const button = (tree, label) => { const result = named(tree, 'Button').find(node => childrenText(node).trim() === label); verify(result, `Missing button: ${label}`); return result; };
   const select = (tree, label) => { const result = named(tree, 'Select').find(node => node.props.label === label); verify(result, `Missing select: ${label}`); return result; };
-  const hint = tree => childrenText(all(tree, node => node.props?.id === 'game-action-hint')[0]);
+  const hint = tree => childrenText(all(tree, node => ['game-action-hint', 'comparison-action-hint'].includes(node.props?.id))[0]);
   const gameResults = tree => [...named(tree, 'GameSimulationResult'), ...named(tree, 'GameComparisonResult')];
   const markup = tree => renderToStaticMarkup(React.createElement(MemoryRouter, null, tree));
   const requestErrors = tree => named(tree, 'RequestError').filter(node => node.props.error);
   const setSelection = (page, label, value) => { select(page.render(), label).props.onChange({ target: { value } }); return page.render(); };
-  const setMode = (page, mode) => { all(page.render(), node => node.type === 'input' && node.props.type === 'radio' && node.props.value === mode)[0].props.onChange(); return page.render(); };
+  const setMode = (page, mode) => { const tabs = named(page.render(), 'TaskTabs')[0]; verify(tabs, 'Performance task tabs exist'); tabs.props.onChange(mode); return page.render(); };
   function setGameCount(page, count) {
     const checkboxes = all(page.render(), node => node.type === 'input' && node.props.type === 'checkbox');
     checkboxes.forEach((checkbox, index) => { if (checkbox.props.checked !== (index < count)) checkbox.props.onChange(); });
@@ -158,14 +164,17 @@ try {
   let page = runtime(PerformanceLab);
   let tree = page.render();
   verify(markup(tree).includes('Carregando jogos...'));
-  verify(markup(tree).includes('Carregando softwares...'));
+  verify(!markup(tree).includes('Carregando softwares...'), 'Inactive software controls are absent');
+  verify(markup(setMode(page, 'software')).includes('Carregando softwares...'));
+  tree = setMode(page, 'single');
   verify(button(tree, 'Simular jogo').props.disabled);
   equal(hint(tree), 'Aguarde o carregamento dos jogos.');
   await button(tree, 'Simular jogo').props.onClick();
   equal(fixtures.calls.length, 0, 'Loading catalog must block direct handler invocation');
   await tick(); tree = page.render();
   equal(select(tree, 'Jogo').props.value, 'game-1');
-  equal(select(tree, 'Software').props.value, 'software-1', 'Absent seeded software falls back to current catalog');
+  equal(select(setMode(page, 'software'), 'Software').props.value, 'software-1', 'Absent seeded software falls back to current catalog');
+  tree = setMode(page, 'single');
   verify(!button(tree, 'Simular jogo').props.disabled);
   verify(!gameResults(tree).length);
   page.close();
@@ -187,6 +196,8 @@ try {
   equal(select(tree, 'Qualidade gráfica').props.value, 'ultra');
   tree = setMode(page, 'single');
   equal(select(tree, 'Jogo').props.value, 'game-3');
+  equal(gameResults(tree).length, 1, 'Returning to an unchanged task retains its success');
+  equal(fixtures.calls.length, 1, 'Tabs alone do not submit requests');
   page.close();
   pass('single-game success submits current settings, seven build slots and cooling; mode changes preserve selections');
 
@@ -214,8 +225,9 @@ try {
     verify(markup(tree).includes('Build incompleta'));
     verify(markup(tree).includes('Ir para Montar PC'));
     verify(button(tree, 'Simular jogo').props.disabled);
-    verify(button(tree, 'Simular software').props.disabled);
     await button(tree, 'Simular jogo').props.onClick();
+    tree = setMode(page, 'software');
+    verify(button(tree, 'Simular software').props.disabled);
     await button(tree, 'Simular software').props.onClick();
     tree = setMode(page, 'compare');
     await button(tree, 'Comparar jogos').props.onClick();
@@ -226,7 +238,8 @@ try {
 
   reset({ games: [], software: [] }); page = await loadedPage(); tree = page.render();
   verify(markup(tree).includes('Nenhum jogo encontrado'));
-  verify(markup(tree).includes('Nenhum software encontrado'));
+  verify(markup(setMode(page, 'software')).includes('Nenhum software encontrado'));
+  tree = setMode(page, 'single');
   verify(button(tree, 'Simular jogo').props.disabled);
   await button(tree, 'Simular jogo').props.onClick(); equal(fixtures.calls.length, 0);
   fixtures.services.performanceService.listGames = async () => catalog;
@@ -250,11 +263,14 @@ try {
   page = await loadedPage(); tree = page.render();
   verify(button(tree, 'Simular jogo').props.disabled);
   verify(markup(tree).includes('Não foi possível conectar ao serviço'));
+  const gameCatalogError = named(tree, 'ErrorState'); equal(gameCatalogError.length, 1);
+  tree = setMode(page, 'software');
   verify(markup(tree).includes('Catálogo temporariamente indisponível'));
-  const catalogErrors = named(tree, 'ErrorState'); equal(catalogErrors.length, 2);
-  catalogErrors.forEach(error => error.props.onRetry()); page.render(); await tick(); tree = page.render();
+  const softwareCatalogError = named(tree, 'ErrorState'); equal(softwareCatalogError.length, 1);
+  [...gameCatalogError, ...softwareCatalogError].forEach(error => error.props.onRetry()); page.render(); await tick(); tree = page.render();
   equal(gameCatalogAttempts, 2); equal(softwareCatalogAttempts, 2);
-  verify(!button(tree, 'Simular jogo').props.disabled); verify(!button(tree, 'Simular software').props.disabled);
+  verify(!button(tree, 'Simular software').props.disabled);
+  verify(!button(setMode(page, 'single'), 'Simular jogo').props.disabled);
   page.close();
   pass('game/software catalog failures show honest messages and their retry handlers recover');
 
@@ -286,7 +302,7 @@ try {
     const service = mode === 'compare' ? fixtures.services.gameComparisonService : fixtures.services.professionalSoftwareService;
     service[mode === 'compare' ? 'compare' : 'simulate'] = async payload => { fixtures.calls.push({ name: mode, payload }); if (++attempts === 1) throw apiError(0, 'Failed to fetch'); return mode === 'compare' ? comparisonResult() : softwareResult(); };
     page = await loadedPage(); if (mode === 'compare') { setMode(page, 'compare'); setGameCount(page, 10); }
-    else setSelection(page, 'Software', 'software-2');
+    else { setMode(page, 'software'); setSelection(page, 'Software', 'software-2'); }
     tree = page.render(); await button(tree, mode === 'compare' ? 'Comparar jogos' : 'Simular software').props.onClick(); tree = page.render();
     verify(markup(tree).includes('Não foi possível conectar ao serviço'));
     await requestErrors(tree)[0].props.onRetry(); tree = page.render();
@@ -300,7 +316,6 @@ try {
     ['game', current => setSelection(current, 'Jogo', 'game-2')],
     ['resolution', current => setSelection(current, 'Resolução', '1440p')],
     ['quality', current => setSelection(current, 'Qualidade gráfica', 'ultra')],
-    ['mode', current => setMode(current, 'compare')],
     ['build revision', current => { fixtures.build = { ...fixtures.build, revision: fixtures.build.revision + 1 }; return current.render(); }],
     ['build payload', current => { fixtures.build = { ...fixtures.build, selectedComponents: { ...fixtures.build.selectedComponents, gpu: { id: 'gpu-2' } } }; return current.render(); }]
   ];
@@ -318,11 +333,11 @@ try {
     pending.resolve(gameResult('Resultado obsoleto')); await request; tree = page.render();
     equal(gameResults(tree).length, 0, `${name} must reject late success`);
     fixtures.services.performanceService.simulateGame = async () => gameResult();
-    await button(tree, name === 'mode' ? 'Comparar jogos' : 'Simular jogo').props.onClick(); tree = page.render();
+    await button(tree, 'Simular jogo').props.onClick(); tree = page.render();
     equal(gameResults(tree).length, 1);
     page.close();
   }
-  pass('pending results cannot survive game/resolution/quality/mode/build-revision/build-payload changes; current retries succeed');
+  pass('pending results cannot survive game/resolution/quality/build-revision/build-payload changes; current retries succeed');
 
   reset(); let pending = deferred(); fixtures.services.gameComparisonService.compare = () => pending.promise;
   page = await loadedPage(); setMode(page, 'compare'); tree = setGameCount(page, 2);
@@ -359,7 +374,7 @@ try {
 
   for (const change of ['software', 'revision', 'payload']) {
     reset(); pending = deferred(); fixtures.services.professionalSoftwareService.simulate = () => pending.promise;
-    page = await loadedPage(); tree = page.render(); request = button(tree, 'Simular software').props.onClick();
+    page = await loadedPage(); tree = setMode(page, 'software'); request = button(tree, 'Simular software').props.onClick();
     verify(button(page.render(), 'Simular software').props.loading);
     if (change === 'software') setSelection(page, 'Software', 'software-2');
     else if (change === 'revision') { fixtures.build = { ...fixtures.build, revision: 8 }; page.render(); }
@@ -372,12 +387,121 @@ try {
   fixtures.services.performanceService.simulateGame = () => gamePending.promise;
   fixtures.services.professionalSoftwareService.simulate = () => softwarePending.promise;
   page = await loadedPage(); tree = page.render();
-  const gameRun = button(tree, 'Simular jogo').props.onClick(); const softwareRun = button(tree, 'Simular software').props.onClick();
-  setSelection(page, 'Resolução', '1440p'); gamePending.resolve(gameResult('Obsoleto')); softwarePending.resolve(softwareResult('Programa independente'));
+  const gameRun = button(tree, 'Simular jogo').props.onClick();
+  tree = setMode(page, 'software'); const softwareRun = button(tree, 'Simular software').props.onClick();
+  setMode(page, 'single'); setSelection(page, 'Resolução', '1440p'); gamePending.resolve(gameResult('Obsoleto')); softwarePending.resolve(softwareResult('Programa independente'));
   await Promise.all([gameRun, softwareRun]); tree = page.render();
-  equal(gameResults(tree).length, 0); equal(named(tree, 'SoftwareResult')[0].props.result.software, 'Programa independente');
+  equal(gameResults(tree).length, 0); equal(named(setMode(page, 'software'), 'SoftwareResult')[0].props.result.software, 'Programa independente');
   page.close();
   pass('software/build changes reject late professional results; independent software requests survive game-only edits');
+
+
+  // Task controls are conditionally rendered, but their request owners stay in
+  // the actual parent page. These are source/handler checks, not DOM events.
+  reset(); page = await loadedPage();
+  fixtures.build.actions = { setCoolingConditions(value) { fixtures.build = { ...fixtures.build, coolingConditions: value }; } };
+  await button(page.render(), 'Simular jogo').props.onClick();
+  const gameBeforeCooling = gameResults(page.render())[0].props.result;
+  const callsBeforeCooling = fixtures.calls.length;
+  const revisionBeforeCooling = fixtures.build.revision;
+  tree = setMode(page, 'cooling');
+  const coolingPanel = named(tree, 'CoolingSimulationPanel')[0];
+  verify(coolingPanel, 'Cooling task renders the actual simulator component');
+  equal(coolingPanel.props.cpu, fixtures.build.selectedComponents.cpu);
+  equal(coolingPanel.props.cooler, fixtures.build.selectedComponents.cooler);
+  equal(coolingPanel.props.fans, fixtures.build.selectedComponents.fans);
+  equal(coolingPanel.props.caseComponent, fixtures.build.selectedComponents.case);
+  coolingPanel.props.onConditionsChange({ inletCelsius: 30, coolerSpeedFraction: 0.75 });
+  tree = page.render();
+  equal(named(tree, 'CoolingSimulationPanel')[0].props.conditions.inletCelsius, 30);
+  equal(fixtures.build.revision, revisionBeforeCooling, 'A thermal what-if must not change the selected build revision');
+  tree = setMode(page, 'single');
+  equal(gameResults(tree)[0].props.result, gameBeforeCooling, 'Thermal settings do not invalidate unrelated game estimates');
+  equal(fixtures.calls.length, callsBeforeCooling, 'Thermal task and condition edits make no API requests');
+  tree = setMode(page, 'cooling');
+  equal(named(tree, 'CoolingSimulationPanel')[0].props.conditions.inletCelsius, 30);
+  page.close();
+  pass('Cooling task passes exact selected hardware and persists local what-if conditions without invalidating or resubmitting game analysis');
+
+  const tasks = ['single', 'compare', 'software'];
+  const taskAction = mode => ({ single: 'Simular jogo', compare: 'Comparar jogos', software: 'Simular software' })[mode];
+  const taskResult = (mode, label) => mode === 'single' ? gameResult(label) : mode === 'compare' ? comparisonResult(label) : softwareResult(label);
+  const taskService = mode => mode === 'single' ? [fixtures.services.performanceService, 'simulateGame'] : mode === 'compare' ? [fixtures.services.gameComparisonService, 'compare'] : [fixtures.services.professionalSoftwareService, 'simulate'];
+  const visibleResult = tree => gameResults(tree)[0]?.props.result || named(tree, 'SoftwareResult')[0]?.props.result || null;
+
+  reset(); page = await loadedPage();
+  setSelection(page, 'Jogo', 'game-4'); setSelection(page, 'Resolução', '1440p'); setSelection(page, 'Qualidade gráfica', 'ultra');
+  setMode(page, 'compare'); setGameCount(page, 3);
+  setMode(page, 'software'); setSelection(page, 'Software', 'software-2');
+  const pendingTasks = new Map();
+  for (const mode of tasks) {
+    const deferredResult = deferred(); const [service, method] = taskService(mode);
+    service[method] = payload => { fixtures.calls.push({ name: mode, payload }); return deferredResult.promise; };
+    tree = setMode(page, mode);
+    const run = button(tree, taskAction(mode)).props.onClick();
+    verify(button(page.render(), taskAction(mode)).props.loading);
+    pendingTasks.set(mode, { ...deferredResult, run });
+  }
+  for (const mode of tasks) {
+    tree = setMode(page, mode);
+    equal(named(tree, 'TaskPanel').filter(panel => panel.props.active).length, 1);
+    equal(named(tree, 'Button').filter(node => tasks.map(taskAction).includes(childrenText(node))).length, 1, 'Only active simulation controls render');
+    verify(button(tree, taskAction(mode)).props.loading, 'Switching away and back retains the pending request');
+  }
+  equal(fixtures.calls.length, 3, 'Tab changes do not refetch or resubmit');
+  for (const mode of tasks) {
+    setMode(page, mode === 'single' ? 'software' : 'single');
+    const pendingTask = pendingTasks.get(mode); pendingTask.resolve(taskResult(mode, 'Retained ' + mode)); await pendingTask.run; page.render();
+  }
+  for (const mode of [...tasks, ...tasks].reverse()) {
+    tree = setMode(page, mode); equal(visibleResult(tree), taskResult(mode, 'Retained ' + mode));
+    if (mode === 'single') equal(select(tree, 'Jogo').props.value, 'game-4');
+    if (mode === 'compare') equal(all(tree, node => node.type === 'input' && node.props.type === 'checkbox' && node.props.checked).length, 3);
+    if (mode === 'software') equal(select(tree, 'Software').props.value, 'software-2');
+    else { equal(select(tree, 'Resolução').props.value, '1440p'); equal(select(tree, 'Qualidade gráfica').props.value, 'ultra'); }
+  }
+  equal(fixtures.calls.length, 3); page.close();
+  pass('all three tasks retain independent pending/completed results and inputs across repeated visits; tabs alone send no requests');
+
+  for (const pendingResult of [false, true]) {
+    for (const mode of tasks) {
+      reset(); page = await loadedPage(); tree = setMode(page, mode);
+      const deferredResult = deferred(); const [service, method] = taskService(mode);
+      if (pendingResult) service[method] = () => deferredResult.promise;
+      const run = button(tree, taskAction(mode)).props.onClick();
+      if (!pendingResult) { await run; verify(visibleResult(page.render())); }
+      setMode(page, mode === 'single' ? 'software' : 'single');
+      fixtures.build = { ...fixtures.build, revision: fixtures.build.revision + 1 }; page.render();
+      if (pendingResult) { deferredResult.resolve(taskResult(mode, 'STALE HIDDEN RESULT')); await run; }
+      tree = setMode(page, mode); equal(visibleResult(tree), null, 'Build revision invalidates ' + (pendingResult ? 'pending' : 'completed') + ' hidden ' + mode);
+      verify(!button(tree, taskAction(mode)).props.loading);
+      service[method] = async () => taskResult(mode, 'Fresh ' + mode);
+      await button(tree, taskAction(mode)).props.onClick(); equal(visibleResult(page.render()), taskResult(mode, 'Fresh ' + mode)); page.close();
+    }
+  }
+  pass('build revision invalidates completed and pending hidden results in every task; fresh explicit retries recover');
+
+  for (const mode of tasks) {
+    reset(); page = await loadedPage(); tree = setMode(page, mode);
+    const [service, method] = taskService(mode); service[method] = async () => { throw apiError(503, 'Task error ' + mode); };
+    await button(tree, taskAction(mode)).props.onClick(); tree = page.render(); equal(requestErrors(tree).length, 1);
+    setMode(page, mode === 'single' ? 'software' : 'single');
+    tree = setMode(page, mode); equal(requestErrors(tree).length, 1, 'Error belongs to its task after revisit');
+    const older = deferred(); service[method] = () => older.promise;
+    const oldRetry = requestErrors(tree)[0].props.onRetry(); page.render();
+    service[method] = async () => taskResult(mode, 'Recovered ' + mode);
+    // Invoke a captured handler to verify request ownership even if a caller
+    // bypasses Button's native disabled protection.
+    await button(page.render(), taskAction(mode)).props.onClick();
+    older.reject(apiError(503, 'Stale retry failure')); await oldRetry;
+    tree = page.render(); equal(requestErrors(tree).length, 0); equal(visibleResult(tree), taskResult(mode, 'Recovered ' + mode));
+    const late = deferred(); service[method] = () => late.promise;
+    const lastRun = button(tree, taskAction(mode)).props.onClick();
+    setMode(page, mode === 'single' ? 'software' : 'single'); page.close();
+    late.resolve(taskResult(mode, 'AFTER UNMOUNT')); await lastRun; equal(page.writesAfterClose, 0);
+    page = await loadedPage(); tree = setMode(page, mode); equal(visibleResult(tree), null); page.close();
+  }
+  pass('per-task errors survive revisit, retry ownership rejects older failures, and hidden pending requests cannot write after unmount');
 
   let key = 'A'; let hook = runtime(() => useSimulationRequest(key));
   let state = hook.render(); equal(state.status, 'idle');
@@ -409,7 +533,7 @@ try {
       setGame(settings) { fixtures.calls.push({ name: 'setGame', settings }); fixtures.build = { ...fixtures.build, revision: fixtures.build.revision + 1, game: { ...fixtures.build.game, ...settings } }; }
     };
   }
-  const summaryGameLabel = 'Selecione um jogo para simular o desempenho';
+  const summaryGameLabel = 'Jogo';
   const summaryHint = tree => childrenText(all(tree, node => node.props?.id === 'summary-simulation-hint')[0]);
   reset(); summaryActions(); pending = deferred(); fixtures.services.performanceService.listGames = () => pending.promise;
   page = runtime(BuildSummary); tree = page.render();
@@ -478,6 +602,73 @@ try {
   verify(button(tree, 'Simular desempenho').props.disabled); equal(summaryHint(tree), 'Complete a montagem antes de simular.');
   await button(tree, 'Simular desempenho').props.onClick(); equal(fixtures.calls.length, 0); page.close();
   pass('BuildSummary catalog cleanup blocks post-unmount writes; incomplete build guards the simulation handler');
+
+  // Summary disclosures retain real action callbacks and keep feedback/errors outside hidden controls.
+  reset(); summaryActions(); page = await loadedPage(BuildSummary); tree = page.render();
+  const disclosure = (tree, text) => all(tree, node => node.type === 'details' && all(node, child => child.type === 'summary' && childrenText(child) === text).length)[0];
+  for (const title of ['Ver ou trocar peças', 'Pontuação da configuração', 'Relatório e exportação']) {
+    const details = disclosure(tree, title);
+    verify(details, `Missing disclosure: ${title}`);
+    verify(!details.props.open, `${title} must start collapsed`);
+  }
+  equal(named(tree, 'Button').filter(node => childrenText(node).trim() === 'Compartilhar').length, 1, 'Exactly one share action');
+  equal(named(tree, 'Button').filter(node => childrenText(node).trim() === 'Gerar relatório técnico').length, 1, 'Exactly one report action');
+  equal(named(tree, 'Button').filter(node => childrenText(node).trim() === 'Exportar JSON').length, 1, 'Exactly one export action');
+  equal(named(disclosure(tree, 'Ver ou trocar peças'), 'BuildSummaryCard').length, 1);
+  equal(named(disclosure(tree, 'Pontuação da configuração'), 'BuildScorePanel').length, 1);
+  verify(button(disclosure(tree, 'Relatório e exportação'), 'Gerar relatório técnico'));
+  verify(button(disclosure(tree, 'Relatório e exportação'), 'Exportar JSON'));
+  named(tree, 'BuildSummaryCard')[0].props.onEdit('gpu'); tree = page.render();
+  equal(named(tree, 'ComponentReplacement')[0].props.type, 'gpu');
+  named(tree, 'ComponentReplacement')[0].props.onClose();
+  equal(named(page.render(), 'ComponentReplacement').length, 0);
+  const analyticsPayload = { build: fixtures.build.buildPayload, budget: fixtures.build.budget, usageType: 'gaming' };
+  const scoreValue = { overallScore: 70, criteria: { compatibilityScore: 100 }, warnings: ['Estimativa de teste'] };
+  fixtures.services.buildScoreService = { calculate: async payload => { equal(payload, analyticsPayload); return scoreValue; } };
+  await named(page.render(), 'BuildScorePanel')[0].props.onCalculate(); tree = page.render();
+  equal(named(tree, 'BuildScorePanel')[0].props.score, scoreValue);
+  verify(markup(tree).includes('Estimativa de teste'));
+  const reportValue = { report: { summary: 'Relatório preservado' } };
+  fixtures.services.buildReportService = { generate: async payload => { equal(payload, { ...analyticsPayload, gameIds: ['game-1'], includePurchaseLinks: true }); return reportValue; } };
+  await button(tree, 'Gerar relatório técnico').props.onClick(); tree = page.render();
+  const reportModal = named(tree, 'Modal').find(node => node.props.title === 'Relatório técnico da configuração');
+  verify(reportModal.props.open); equal(named(reportModal, 'TechnicalReportView')[0].props.report, reportValue);
+  reportModal.props.onClose();
+  verify(!named(page.render(), 'Modal').find(node => node.props.title === reportModal.props.title).props.open);
+  const exportValue = { build: fixtures.build.buildPayload, format: 'json' };
+  fixtures.services.buildExportService = { exportJson: async payload => { equal(payload, { ...analyticsPayload, includeSummary: true, includePurchaseLinks: true }); return exportValue; } };
+  await button(page.render(), 'Exportar JSON').props.onClick(); tree = page.render();
+  const exportModal = named(tree, 'Modal').find(node => node.props.title === 'Exportação JSON da build');
+  verify(exportModal.props.open);
+  equal(JSON.parse(childrenText(all(exportModal, node => node.type === 'pre')[0])), exportValue);
+  exportModal.props.onClose();
+  verify(!named(page.render(), 'Modal').find(node => node.props.title === exportModal.props.title).props.open);
+  fixtures.services.savedBuildsService = { create: async payload => { equal(payload.components, fixtures.build.buildPayload); equal(payload.budget, fixtures.build.budget); } };
+  await button(page.render(), 'Salvar como nova configuração').props.onClick();
+  verify(markup(page.render()).includes('A versão salva anteriormente foi mantida'));
+  fixtures.services.sharingService = { create: async payload => { equal(payload.build, fixtures.build.buildPayload); return { shareId: 'fixture-share', shareUrl: '/shared-builds/fixture-share' }; } };
+  await button(page.render(), 'Compartilhar').props.onClick(); tree = page.render();
+  verify(markup(tree).includes('fixture-share'));
+  verify(button(tree, 'Copiar link'));
+  page.close();
+  pass('Summary collapsed parts/score/report/export keep replacement, scoring, report, export, save and single share handlers with correct payloads and closable results');
+
+  reset(); summaryActions(); page = await loadedPage(BuildSummary);
+  fixtures.services.buildReportService = { generate: async () => { throw new Error('Relatório indisponível'); } };
+  await button(page.render(), 'Gerar relatório técnico').props.onClick(); tree = page.render();
+  verify(markup(tree).includes('Relatório indisponível'));
+  verify(!markup(disclosure(tree, 'Relatório e exportação')).includes('Relatório indisponível'), 'Report failure must remain outside collapsed action disclosure');
+  verify(!button(tree, 'Gerar relatório técnico').props.disabled);
+  fixtures.services.buildReportService.generate = async () => ({ report: { summary: 'Nova tentativa' } });
+  await button(tree, 'Gerar relatório técnico').props.onClick(); tree = page.render();
+  verify(!markup(tree).includes('Relatório indisponível'));
+  verify(named(tree, 'Modal').find(node => node.props.title === 'Relatório técnico da configuração').props.open);
+  page.close();
+  reset(); summaryActions(); delete fixtures.build.selectedComponents.gpu; page = await loadedPage(BuildSummary); tree = page.render();
+  verify(markup(tree).includes('Montagem incompleta'));
+  verify(!markup(disclosure(tree, 'Ver ou trocar peças')).includes('Montagem incompleta'), 'Incomplete-build warning stays outside collapsed parts');
+  page.close();
+  pass('Summary report failures remain visible and retryable; incomplete-build warning is visible before opening the parts disclosure');
 
   // New feedback regressions exercise real page functions and handlers.
   reset(); summaryActions(); fixtures.build.gamePerformance = gameResult('Valorant');

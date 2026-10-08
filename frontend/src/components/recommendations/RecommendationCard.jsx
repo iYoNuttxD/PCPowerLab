@@ -1,3 +1,4 @@
+import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
 import { hasSimulatedPerformance } from '../../utils/performanceMethodology.js';
 import { useState } from 'react';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
@@ -29,6 +30,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(displayedTotal)}</strong>
       </div>
       {retainsCooling ? <p>Inclui sua refrigeração atual. Confira a compatibilidade após aplicar.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
+      <CoolingAssessmentNotice result={recommendation} />
       {hasSimulatedPerformance(recommendation) && <p className="hint-text">Sugestão com pontuações simuladas</p>}
       <ul className="build-parts-list">
         {[...componentTypes, ...(recommendation.components?.cooler ? ['cooler'] : [])].map((type) => {

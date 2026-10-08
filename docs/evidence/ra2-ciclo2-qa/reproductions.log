@@ -47,7 +47,7 @@ Running 5 tests using 2 workers
       53 |   const state = await stored(page);
       54 |   expect(state.gamePerformance).toBeNull();
       55 |   expect(state.summary).toBeNull();
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:52:89
+        at frontend/tests/e2e/qa-regressions.spec.js:52:89
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/qa-regressions-alterar-res-bf274-s-peças-e-a-compatibilidade-desktop/test-failed-1.png
@@ -76,7 +76,7 @@ Running 5 tests using 2 workers
       80 |   expect(state.gamePerformance).toBeNull();
       81 | });
       82 |
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:79:25
+        at frontend/tests/e2e/qa-regressions.spec.js:79:25
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/qa-regressions-resposta-at-513fc-ar-uma-peça-em-outra-página-desktop/test-failed-1.png
@@ -115,7 +115,7 @@ Running 5 tests using 2 workers
       96 |   expect((await stored(page)).summary).toBeNull();
       97 | });
       98 |
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:95:60
+        at frontend/tests/e2e/qa-regressions.spec.js:95:60
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/qa-regressions-resposta-at-f6cd1-S-dos-parâmetros-anteriores-desktop/test-failed-1.png
@@ -154,7 +154,7 @@ Running 5 tests using 2 workers
       108 |   await expect(page.getByText('Carregando dados das peças salvas...', { exact: true })).toBeVisible();
       109 |   release();
       110 |   await expect(open).toBeEnabled();
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:107:22
+        at frontend/tests/e2e/qa-regressions.spec.js:107:22
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/qa-regressions-build-salva-19ad6-ra-nomes-preços-e-orçamento-desktop/test-failed-1.png
@@ -189,7 +189,7 @@ Running 5 tests using 2 workers
       46 |
       47 | test('alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade', async ({ page }) => {
       48 |   await seed(page, { summary, gamePerformance: oldGame, compatibility: summary.compatibility });
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:45:65
+        at frontend/tests/e2e/qa-regressions.spec.js:45:65
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/qa-regressions-falha-ao-ge-8459b--de-promessa-sem-tratamento-desktop/test-failed-1.png

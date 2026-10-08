@@ -1,3 +1,4 @@
+import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
 import { useId } from 'react';
 import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Alert from '../ui/Alert.jsx';
@@ -24,6 +25,7 @@ export default function GameComparisonResult({ result }) {
         <h3>Resultado da comparação</h3>
         <Badge tone="cyan">{result.targetResolution || 'Resolução não informada'} · {translateValue(result.qualityPreset)}</Badge>
       </div>
+      <CoolingAssessmentNotice result={result} />
       <EstimateNotice />
       {!games.length ? <p>Nenhum resultado retornado para os jogos selecionados.</p> : (
         <>

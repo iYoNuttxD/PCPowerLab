@@ -65,6 +65,7 @@ test('ranking gives an inline simulated label beside the score', async ({ page }
 
 test('build score and build comparison label simulated inputs next to their result', async ({ page }) => {
   await page.goto('/summary');
+  await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
   await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
   await expect(page.locator('.build-score-card .chart-caption')).toContainText('Desempenho com pontuação simulada');
   await expect(page.getByRole('img', { name: 'Nota 70 de 100', exact: true })).toBeVisible();
@@ -78,7 +79,9 @@ test('build score and build comparison label simulated inputs next to their resu
 
 test('ready builds and new recommendations state their simulated performance basis', async ({ page }) => {
   await page.goto('/ready-builds');
+  await page.getByRole('tab', { name: 'Explorar', exact: true }).click();
   await expect(page.locator('.ready-build-card').getByText('Desempenho simulado', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Recomendar', exact: true }).click();
   await page.getByRole('spinbutton', { name: 'Orçamento mínimo', exact: true }).fill('4000');
   await page.getByRole('spinbutton', { name: 'Orçamento máximo', exact: true }).fill('9000');
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();

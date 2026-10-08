@@ -100,7 +100,7 @@
       "selectionNotes": [
         "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
         "Não misture kits presumindo equivalência. Confira altura e espaço do cooler.",
-        "CL48: latência CAS nominal de 16 ns a 6000 MT/s. Não é upgrade equivalente a CL36/40; desempenho não calibrado no modelo."
+        "CL48: latência CAS nominal de 16 ns a 6000 MT/s. Não é upgrade equivalente a CL36/40. FPS indisponível neste modelo."
       ],
       "performanceModelStatus": "unavailable"
     },
@@ -278,7 +278,7 @@
       "selectionNotes": [
         "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
         "Não há ganho de FPS presumido pelo clock de fábrica.",
-        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+        "FPS indisponível neste modelo."
       ],
       "performanceModelStatus": "unavailable",
       "price": null,
@@ -416,7 +416,7 @@
       "selectionNotes": [
         "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
         "Não há ganho de FPS presumido pelo clock de fábrica.",
-        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+        "FPS indisponível neste modelo."
       ],
       "performanceModelStatus": "unavailable",
       "price": null,
@@ -460,7 +460,7 @@
       "selectionNotes": [
         "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
         "Não há ganho de FPS presumido pelo clock de fábrica.",
-        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+        "FPS indisponível neste modelo."
       ],
       "performanceModelStatus": "unavailable",
       "price": null,
@@ -551,7 +551,7 @@
       "selectionNotes": [
         "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
         "Não há ganho de FPS presumido pelo clock de fábrica.",
-        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+        "FPS indisponível neste modelo."
       ],
       "performanceModelStatus": "unavailable",
       "price": null,
@@ -598,7 +598,7 @@
       "selectionNotes": [
         "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
         "Não há ganho de FPS presumido pelo clock de fábrica.",
-        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+        "FPS indisponível neste modelo."
       ],
       "performanceModelStatus": "unavailable",
       "price": null,
@@ -1092,7 +1092,7 @@
       "selectionNotes": [
         "14ª geração: confirme BIOS e suporte da placa-mãe; cooler não incluído.",
         "Potência básica125W e turbo máximo181W; não confundirTDP com consumo máximo.",
-        "Sem calibração deste modelo; pontuação e FPS indisponíveis."
+        "FPS indisponível neste modelo."
       ],
       "price": null,
       "active": true,
@@ -1956,7 +1956,7 @@
     ],
     "ram-kingston-fury-16gb-ddr5-6000": [
       "Mudança para XPG DDR5-6000 CL48, com perfil XMP/EXPO e dimensões próprias.",
-      "A latência nominal piora frente a CL36/40; pontuação e FPS ficam indisponíveis, sem herdar o modelo antigo."
+      "A latência nominal piora frente a CL36/40. Pontuação simulada própria; FPS indisponível neste modelo."
     ],
     "ram-gskill-trident-z5-32gb-ddr5-6000": [
       "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
@@ -2017,7 +2017,7 @@
     "gpu-gtx-1650": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
       "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
-      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga.",
+      "Pontuação simulada própria; FPS indisponível neste modelo.",
       "RTX3050 de 6 GB e 96 bits é distinta da RTX3050 de 8 GB; não recebe o índice desta última."
     ],
     "gpu-rtx-3050": [
@@ -2035,17 +2035,17 @@
     "gpu-rtx-4060-ti": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
       "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
-      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+      "Pontuação simulada própria; FPS indisponível neste modelo."
     ],
     "gpu-rtx-4070": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
       "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
-      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+      "Pontuação simulada própria; FPS indisponível neste modelo."
     ],
     "gpu-rtx-4070-super": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
       "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
-      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+      "Pontuação simulada própria; FPS indisponível neste modelo."
     ],
     "gpu-rx-6600": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
@@ -2058,12 +2058,12 @@
     "gpu-rx-7700-xt": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
       "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
-      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+      "Pontuação simulada própria; FPS indisponível neste modelo."
     ],
     "gpu-rx-7800-xt": [
       "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
       "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
-      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga.",
+      "Pontuação simulada própria; FPS indisponível neste modelo.",
       "Mudança de geração e faixa de preço: RX9070XT de 325 mm, fonte recomendada de 800 W e dois conectores PCIe de 8 pinos."
     ],
     "psu-corsair-cv550": [
@@ -2160,7 +2160,7 @@
     ],
     "cpu-intel-i5-13600k": [
       "Troca para i5-14600K Box,14ª geração,LGA1700,14 núcleos e20 threads,até5,3GHz.",
-      "BIOS e refrigeração precisam ser verificadas. Sem modelo calibrado; não herda pontuação/FPS do13600K."
+      "BIOS e refrigeração precisam ser verificadas. Pontuação simulada própria; FPS indisponível neste modelo."
     ],
     "mb-asus-tuf-z790-plus-ddr5": [
       "Nova identidade comercial exata TUF GAMING Z790-PLUS WIFI DDR5.",

@@ -29,7 +29,7 @@ try {
       export { renderToStaticMarkup } from 'react-dom/server';
       export { MemoryRouter } from 'react-router-dom';
       export { default as ReadyBuilds } from './src/pages/ReadyBuilds.jsx';
-      export { default as Feedback, FeedbackForm } from './src/pages/Feedback.jsx';
+      export { default as Feedback, FeedbackForm, CentralFeedback } from './src/pages/Feedback.jsx';
     ` },
     bundle: true, platform: 'node', format: 'esm', jsx: 'automatic', outfile: join(directory, 'check.mjs'),
     banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },
@@ -51,11 +51,11 @@ try {
         const source = basename(path) === baseline
           ? execFileSync('git', ['show', `HEAD:frontend/src/pages/${baseline}`], { cwd: frontend, encoding: 'utf8' })
           : await readFile(path, 'utf8');
-        return { contents: source + (path.endsWith('/Feedback.jsx') ? '\nexport { FeedbackForm };' : ''), loader: 'jsx' };
+        return { contents: source + (path.endsWith('/Feedback.jsx') ? '\nexport { FeedbackForm, CentralFeedback };' : ''), loader: 'jsx' };
       });
     }}]
   });
-  const { React, renderToStaticMarkup, MemoryRouter, ReadyBuilds, Feedback, FeedbackForm } = await import(pathToFileURL(join(directory, 'check.mjs')).href);
+  const { React, renderToStaticMarkup, MemoryRouter, ReadyBuilds, Feedback, FeedbackForm, CentralFeedback } = await import(pathToFileURL(join(directory, 'check.mjs')).href);
   const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
   const components = types.map(category => ({ id: `${category}-1`, name: `${category} de teste`, category, price: 100 }));
   const selected = { ...Object.fromEntries(components.map(part => [part.category, part])), fans: [] };
@@ -63,12 +63,15 @@ try {
   const profile = { id: 'profile-1', name: 'Programação', weights: { cpu: 40, gpu: 10, ram: 25, storage: 15, costBenefit: 10 } };
   function reset(pathname = '/ready-builds', state = null, search = '') {
     fixture = {
-      location: { pathname, state }, search, calls: [], navigation: [], focusCalls: [], reduceMotion: false,
+      location: { pathname, state }, search, calls: [], navigation: [], focusCalls: [], reduceMotion: false, records: [], handlers: {},
       navigate: (...args) => fixture.navigation.push(args),
       build: { revision: 1, selectedComponents: selected, budget: { amount: 1000 }, usageType: 'gaming', actions: new Proxy({}, { get: (_, method) => (...args) => fixture.calls.push({ method, args }) }) },
       catalog: { components, componentMap: Object.fromEntries(components.map(part => [part.id, part])), loading: false, error: '', reload() {} },
       service(name, method, args) {
         fixture.calls.push({ name, method, args });
+        if (fixture.handlers[`${name}.${method}`]) return fixture.handlers[`${name}.${method}`](...args);
+        if (name === 'recommendationFeedbackService' && method === 'list') return Promise.resolve(fixture.records);
+        if (name === 'recommendationFeedbackService' && method === 'remove') { fixture.records = fixture.records.filter(record => record.id !== args[0]); return Promise.resolve({}); }
         if (name === 'readyBuildsService') return Promise.resolve(Array.from({ length: 20 }, (_, index) => ({ ...readyBuild, id: `ready-${index}`, name: `Build pronta ${index}` })));
         if (name === 'usageProfilesService') return Promise.resolve([profile]);
         if (name === 'buildRecommendationService') return Promise.resolve([{ ...readyBuild, name: 'Sugestão de teste' }]);
@@ -77,10 +80,12 @@ try {
       }
     };
     globalThis.__feedbackAccess = fixture;
-    globalThis.window = { matchMedia: () => ({ matches: fixture.reduceMotion }) };
+    globalThis.window = { location: { hash: '' }, matchMedia: () => ({ matches: fixture.reduceMotion }) };
     globalThis.document = { querySelector: () => ({ getBoundingClientRect: () => ({ height: 84 }) }) };
   }
   const all = (node, predicate) => !node || typeof node !== 'object' ? [] : Array.isArray(node) ? node.flatMap(child => all(child, predicate)) : [...(predicate(node) ? [node] : []), ...all(node.props?.children, predicate)];
+  const text = node => typeof node === 'string' || typeof node === 'number' ? String(node) : Array.isArray(node) ? node.map(text).join('') : node?.props ? text(node.props.children) : '';
+  const button = (tree, label) => { const found = all(tree, node => node.type?.name === 'Button' && text(node).trim() === label)[0]; assert(found, `Missing button: ${label}`); return found; };
   const named = (tree, name) => all(tree, node => node.type?.name === name);
   const field = (tree, label) => { const found = all(tree, node => node.props?.label === label)[0]; assert(found, `Missing field: ${label}`); return found; };
   const tick = async () => { for (let index = 0; index < 6; index++) await Promise.resolve(); };
@@ -108,35 +113,63 @@ try {
   const ready = runtime(ReadyBuilds);
   ready.render(); await tick(); let tree = ready.render();
   let html = markup(tree);
-  assert(html.indexOf('Recomendar build por orçamento') < html.indexOf('Configurações por perfil'), 'Budget form must precede the long ready-build catalog');
-  assert.equal(named(tree, 'ReadyBuildCard').length, 20, 'All ready cards remain available');
+  const tabs = () => named(ready.render(), 'TaskTabs')[0];
+  const panel = (tree, value) => named(tree, 'TaskPanel').find(node => node.props.value === value);
+  const chooseTask = value => { tabs().props.onChange(value); return ready.render(); };
+  assert.equal(tabs().props.value, 'recommend');
+  assert.equal(named(tree, 'ReadyBuildCard').length, 20, 'All ready cards remain mounted');
   assert.equal(named(tree, 'UsageProfilesManager').length, 1);
   assert.equal(field(tree, 'Perfil de uso').props.options.length, 10);
-  assert(html.includes('aria-label="Seções de builds prontas"'));
-  pass('Budget form precedes 20 retained cards and profile manager; all category filters remain');
-
-  for (const id of ['budget-recommendation', 'ready-build-catalog', 'ready-build-profiles']) {
-    const target = all(tree, node => node.props?.id === id)[0];
-    assert(target && target.props.tabIndex === -1);
-    assert(target.props['aria-labelledby'] || target.props['aria-label']);
-    target.props.ref.current = { style: {}, focus: options => fixture.focusCalls.push({ id, method: 'focus', options }), scrollIntoView: options => fixture.focusCalls.push({ id, method: 'scroll', options }) };
-    const link = all(tree, node => node.type === 'a' && node.props.href === `#${id}`)[0];
-    let prevented = false;
-    link.props.onClick({ button: 0, preventDefault() { prevented = true; } });
-    assert(prevented);
-    assert.deepEqual(fixture.focusCalls.slice(-2), [{ id, method: 'focus', options: { preventScroll: true } }, { id, method: 'scroll', options: { behavior: 'smooth', block: 'start' } }]);
-    assert.equal(target.props.ref.current.style.scrollMarginTop, '100px');
-    const calls = fixture.focusCalls.length;
-    link.props.onClick({ ctrlKey: true, preventDefault() { throw Error('Modified click must remain native'); } });
-    assert.equal(fixture.focusCalls.length, calls);
+  assert.match(html, /role="tablist" aria-label="Builds prontas"/);
+  assert.match(html, /id="ready-build-tasks-panel-explore"[^>]+hidden=""/);
+  assert.match(html, /id="ready-build-tasks-panel-profiles"[^>]+hidden=""/);
+  assert.equal(panel(tree, 'recommend').props.active, true);
+  assert.equal(panel(tree, 'explore').props.active, false);
+  field(tree, 'Orçamento mínimo').props.onChange({ target: { value: '650' } });
+  tree = chooseTask('explore');
+  assert.equal(panel(tree, 'explore').props.active, true);
+  assert.equal(panel(tree, 'recommend').props.active, false);
+  assert.equal(named(panel(tree, 'explore'), 'ReadyBuildCard').length, 20);
+  field(tree, 'Perfil de uso').props.onChange({ target: { value: 'work' } });
+  await tick();
+  tree = chooseTask('profiles');
+  assert.equal(panel(tree, 'profiles').props.active, true);
+  assert.equal(named(panel(tree, 'profiles'), 'UsageProfilesManager').length, 1);
+  tree = chooseTask('recommend');
+  assert.equal(field(tree, 'Orçamento mínimo').props.value, '650');
+  assert.equal(field(tree, 'Perfil de uso').props.value, 'work');
+  pass('Ready task tabs render exclusive accessible panels while retaining cards, filters, profile manager and entered budget');
+  for (const [hash, expectedTask] of [
+    ['#ready-build-catalog', 'explore'], ['#ready-build-profiles', 'profiles'],
+    ['#ready-build-catalog', 'explore'], ['#ready-build-profiles', 'profiles'], ['', 'recommend']
+  ]) {
+    fixture.location = { ...fixture.location, hash };
+    ready.render(); tree = ready.render();
+    assert.equal(tabs().props.value, expectedTask, 'Same mounted route must follow fragment navigation and history restoration');
+    assert.equal(panel(tree, expectedTask).props.active, true);
+    assert.equal(field(tree, 'Orçamento mínimo').props.value, '650');
   }
+  tree = chooseTask('profiles');
+  ready.render();
+  assert.equal(tabs().props.value, 'profiles', 'An unchanged fragment must not override a manual task choice');
+  pass('Same-route fragment changes and restored history select the visible target without resetting input or manual task state');
+
+
+  tree = chooseTask('profiles');
+  const id = 'budget-recommendation';
+  const target = all(tree, node => node.props?.id === id)[0];
+  assert.equal(target.props.tabIndex, -1);
+  assert.equal(target.props['aria-labelledby'], 'budget-recommendation-heading');
+  target.props.ref.current = { style: {}, focus: options => fixture.focusCalls.push({ id, method: 'focus', options }), scrollIntoView: options => fixture.focusCalls.push({ id, method: 'scroll', options }) };
   fixture.reduceMotion = true;
   named(tree, 'UsageProfilesManager')[0].props.onApplyProfile(profile);
   tree = ready.render();
+  assert.equal(tabs().props.value, 'recommend', 'Applying a profile must reveal the recommendation form before requesting focus');
   assert.equal(field(tree, 'Perfil personalizado').props.value, profile.id);
   assert.equal(field(tree, 'Tipo de uso').props.value, 'programming');
-  assert.deepEqual(fixture.focusCalls.at(-1), { id: 'budget-recommendation', method: 'scroll', options: { behavior: 'auto', block: 'start' } });
-  pass('Real section and profile handlers request focus/scroll, header clearance, reduced motion, and retain modified links');
+  assert.deepEqual(fixture.focusCalls.slice(-2), [{ id, method: 'focus', options: { preventScroll: true } }, { id, method: 'scroll', options: { behavior: 'auto', block: 'start' } }]);
+  assert.equal(target.props.ref.current.style.scrollMarginTop, '100px');
+  pass('Applying a profile switches to the recommendation task, retains inferred criteria and requests reduced-motion focus with header clearance');
 
   field(tree, 'Orçamento mínimo').props.onChange({ target: { value: '500' } });
   field(ready.render(), 'Orçamento máximo').props.onChange({ target: { value: '1000' } });
@@ -145,8 +178,45 @@ try {
   tree = ready.render();
   assert.equal(named(tree, 'RecommendationResultCard').length, 1);
   assert.deepEqual(fixture.calls.find(call => call.name === 'buildRecommendationService').args[0], { budgetRange: { min: 500, max: 1000 }, usageType: 'programming', priority: 'balanced' });
+  tree = chooseTask('explore');
+  tree = chooseTask('recommend');
+  assert.equal(named(tree, 'RecommendationResultCard').length, 1, 'Switching tasks must retain the accepted result');
   ready.close();
   pass('Moved budget form still submits selected criteria and renders accepted recommendations');
+
+  reset('/feedback');
+  fixture.records = [{ id: 'feedback-record', recommendationType: 'ready-build', rating: 4, comment: 'Registro de teste', buildSnapshot: Object.fromEntries(types.map(type => [`${type}Id`, selected[type].id])), wouldFollowRecommendation: true }];
+  const history = runtime(Feedback);
+  history.render(); await tick();
+  const centralProps = () => named(history.render(), 'CentralFeedback')[0].props;
+  const central = runtime(CentralFeedback, centralProps);
+  tree = central.render(); html = markup(tree);
+  assert(html.indexOf('Registro de teste') < html.indexOf('<summary>Resumo das avaliações</summary>'), 'Records must precede optional metrics');
+  const metrics = all(tree, node => node.type === 'details')[0];
+  assert(metrics && !metrics.props.open);
+  assert(html.includes('href="/feedback/new?type=general"'));
+  const linkedParts = named(tree, 'FeedbackBuildSnapshot')[0];
+  assert(markup(linkedParts).includes('<summary>Ver peças vinculadas</summary>'));
+  assert(!/<details[^>]*\bopen/.test(markup(linkedParts)), 'Linked parts start collapsed without losing the snapshot');
+  assert.equal(field(tree, 'Filtrar por tipo').props.options.length, 7);
+  field(tree, 'Filtrar por tipo').props.onChange({ target: { value: 'ready-build' } });
+  history.render(); await tick(); tree = central.render();
+  assert.deepEqual(fixture.calls.filter(call => call.name === 'recommendationFeedbackService' && call.method === 'list').at(-1).args, [{ recommendationType: 'ready-build' }]);
+  button(tree, 'Usar build inteira e ir para resumo').props.onClick();
+  const applied = fixture.calls.find(call => call.method === 'applyRecommendation');
+  assert.deepEqual(applied.args[1], { replaceCooling: true });
+  for (const type of types) assert.equal(applied.args[0].components[type].id, selected[type].id);
+  assert.deepEqual(fixture.navigation.at(-1), ['/summary']);
+  fixture.handlers['recommendationFeedbackService.remove'] = async () => { throw new Error('Remoção indisponível'); };
+  await button(central.render(), 'Remover feedback').props.onClick();
+  assert(markup(history.render()).includes('Remoção indisponível'));
+  assert.equal(centralProps().feedbacks.length, 1, 'Failed deletion must retain the record');
+  delete fixture.handlers['recommendationFeedbackService.remove'];
+  await button(central.render(), 'Remover feedback').props.onClick();
+  assert.equal(centralProps().feedbacks.length, 0);
+  assert(markup(central.render()).includes('Nenhuma avaliação registrada ainda'));
+  central.close(); history.close();
+  pass('Feedback opens with records before optional metrics and preserves filtering, whole-build/cooling apply, deletion failure and retry');
 
   for (const search of ['?type=general', '?type=ready-build&recommendationId=orphan']) {
     reset('/feedback/new', null, search);
@@ -157,7 +227,11 @@ try {
     assert(html.includes('Continuar explorando o PCPowerLab'));
     const form = runtime(FeedbackForm, () => formProps(page));
     tree = form.render();
-    field(tree, 'Nota').props.onChange({ target: { value: '4' } });
+    field(tree, 'Nota').props.onChange({ target: { value: '0' } });
+    await all(form.render(), node => node.type === 'form')[0].props.onSubmit(submit());
+    assert(markup(page.render()).includes('Informe uma nota entre 1 e 5'));
+    assert.equal(feedbackPayload(), undefined, 'Invalid rating must not reach the API');
+    field(form.render(), 'Nota').props.onChange({ target: { value: '4' } });
     all(form.render(), node => node.type === 'textarea')[0].props.onChange({ target: { value: '  Fácil de usar  ' } });
     await all(form.render(), node => node.type === 'form')[0].props.onSubmit(submit());
     assert.deepEqual(feedbackPayload(), { recommendationType: 'general', rating: 4, comment: 'Fácil de usar' });
@@ -170,6 +244,18 @@ try {
   const contextual = runtime(Feedback);
   tree = contextual.render(); html = markup(tree);
   for (const expected of ['Você seguiria esta recomendação?', 'Continuar com esta recomendação', 'Resumo da recomendação', 'Usar esta build inteira']) assert(html.includes(expected), `Contextual feedback retains: ${expected}`);
+  const secondary = all(tree, node => node.type === 'details' && markup(node).includes('<summary>Outras ações</summary>'))[0];
+  assert(secondary && !secondary.props.open, 'Secondary apply/save actions must start collapsed');
+  assert(markup(secondary).includes('Usar esta build inteira'));
+  assert(markup(secondary).includes('Salvar build'));
+  const recommendationSummary = named(tree, 'RecommendationSummary')[0];
+  assert(markup(recommendationSummary).includes('<summary>Ver peças da recomendação</summary>'));
+  assert(!/<details[^>]*\bopen/.test(markup(recommendationSummary)), 'Recommendation parts start collapsed');
+  button(tree, 'Usar build inteira e ir para resumo').props.onClick();
+  const appliedContext = fixture.calls.find(call => call.method === 'applyRecommendation');
+  assert.deepEqual(appliedContext.args[1], { replaceCooling: true });
+  assert.deepEqual(fixture.navigation.at(-1), ['/summary']);
+  assert(html.includes('configuração inteira avaliada, incluindo refrigeração'), 'Whole-build replacement warning must remain visible');
   const contextualForm = runtime(FeedbackForm, () => formProps(contextual));
   field(contextualForm.render(), 'Você seguiria esta recomendação?').props.onChange({ target: { value: 'false' } });
   await all(contextualForm.render(), node => node.type === 'form')[0].props.onSubmit(submit());

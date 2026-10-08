@@ -1,3 +1,5 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { compatibilityDisplayLabel } from '../utils/coolingAssessment.js';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { Link } from 'react-router-dom';
 import { selectedComparisonBuilds } from '../utils/buildComparisonSelection.js';
@@ -67,7 +69,7 @@ export default function CompareBuilds() {
     const selectedBuilds = chosenBuilds;
 
     if (selectedBuilds.length < 2) {
-      setValidationError('Escolha pelo menos duas configurações. A montagem atual conta apenas quando está completa e marcada abaixo.');
+      setValidationError('Escolha pelo menos duas configurações. A montagem atual conta apenas quando está completa e marcada para comparação.');
       return;
     }
 
@@ -88,13 +90,41 @@ export default function CompareBuilds() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Alternativas lado a lado</span>
         <h1>Comparação de configurações</h1>
-        <p>Compare preço de referência, compatibilidade, desempenho estimado e custo-benefício e possíveis gargalos entre duas ou mais configurações.</p>
       </section>
-      <DecisionMethodology />
-
       {(validationError || request.error) && <ErrorState message={validationError || request.error.message} />}
 
-      <Card>
+      <section className="comparison-selection" aria-label="Configurações para comparar">
+        <Card>
+          <h2>Montagem atual</h2>
+          {currentComplete ? <>
+            <label className="checkbox-label"><input type="checkbox" checked={includeCurrent} onChange={event => { setIncludeCurrent(event.target.checked); setValidationError(''); }} /> Incluir minha montagem atual na comparação</label>
+            <details className="build-image-details"><summary>Ver componentes da montagem atual</summary><BuildComponentsPreview components={build.selectedComponents} /></details>
+            <p>Desmarque para comparar somente configurações salvas. Suas peças não serão alteradas.</p>
+          </> : <p>Complete a montagem para incluí-la, ou escolha duas configurações salvas. <Link to="/build">Continuar montagem</Link></p>}
+        </Card>
+        {loadingBuilds && <LoadingSpinner label="Carregando builds para comparar..." />}
+        {buildsError && <ErrorState message={buildsError} onRetry={() => {
+          setBuildsError(''); setLoadingBuilds(true); setLoadAttempt((attempt) => attempt + 1);
+        }} />}
+        {!loadingBuilds && !buildsError && (savedBuilds.length === 0 ? (
+          <EmptyState title="Nenhuma configuração salva" message="Salve uma configuração, altere as peças e compare as alternativas aqui."><Link to="/summary">Abrir resumo e salvar configuração</Link></EmptyState>
+        ) : (
+          <div className="cards-grid compact-cards">
+            {savedBuilds.map((savedBuild) => (
+              <Card key={savedBuild.id} as="article" className={selectedIds.includes(savedBuild.id) ? 'is-selected' : ''}>
+                <h3>{savedBuild.name}</h3>
+                <p>Total estimado de referência: {formatCurrency(savedBuild.totalEstimatedPrice)}</p>
+                <details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={savedBuild.components} /></details>
+                <Button aria-pressed={selectedIds.includes(savedBuild.id)} variant={selectedIds.includes(savedBuild.id) ? 'success' : 'secondary'} onClick={() => toggleBuild(savedBuild.id)}>
+                  {selectedIds.includes(savedBuild.id) ? 'Selecionada' : 'Selecionar'}
+                </Button>
+              </Card>
+            ))}
+          </div>
+        ))}
+      </section>
+
+      <Card className="comparison-controls">
         <h2>Critérios</h2>
         <div className="form-grid field-row-grid">
           <Input label="Orçamento de referência" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
@@ -105,34 +135,7 @@ export default function CompareBuilds() {
         <Button disabled={chosenBuilds.length < 2 || request.status === 'loading'} aria-describedby="build-comparison-guidance" loading={request.status === 'loading'} onClick={compare}>Comparar selecionadas</Button>
       </Card>
 
-      <Card>
-        <h2>Montagem atual</h2>
-        {currentComplete ? <>
-          <label className="checkbox-label"><input type="checkbox" checked={includeCurrent} onChange={event => { setIncludeCurrent(event.target.checked); setValidationError(''); }} /> Incluir minha montagem atual na comparação</label>
-          <details className="build-image-details"><summary>Ver componentes da montagem atual</summary><BuildComponentsPreview components={build.selectedComponents} /></details>
-          <p>Desmarque para comparar somente configurações salvas. Suas peças não serão alteradas.</p>
-        </> : <p>Complete a montagem para incluí-la, ou escolha duas configurações salvas. <Link to="/build">Continuar montagem</Link></p>}
-      </Card>
-      {loadingBuilds && <LoadingSpinner label="Carregando builds para comparar..." />}
-      {buildsError && <ErrorState message={buildsError} onRetry={() => {
-        setBuildsError(''); setLoadingBuilds(true); setLoadAttempt((attempt) => attempt + 1);
-      }} />}
-      {!loadingBuilds && !buildsError && (savedBuilds.length === 0 ? (
-        <EmptyState title="Nenhuma configuração salva" message="Salve uma configuração, altere as peças e compare as alternativas aqui."><Link to="/summary">Abrir resumo e salvar configuração</Link></EmptyState>
-      ) : (
-        <div className="cards-grid compact-cards">
-          {savedBuilds.map((savedBuild) => (
-            <Card key={savedBuild.id} as="article" className={selectedIds.includes(savedBuild.id) ? 'is-selected' : ''}>
-              <h3>{savedBuild.name}</h3>
-              <p>Total estimado de referência: {formatCurrency(savedBuild.totalEstimatedPrice)}</p>
-              <details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={savedBuild.components} /></details>
-              <Button aria-pressed={selectedIds.includes(savedBuild.id)} variant={selectedIds.includes(savedBuild.id) ? 'success' : 'secondary'} onClick={() => toggleBuild(savedBuild.id)}>
-                {selectedIds.includes(savedBuild.id) ? 'Selecionada' : 'Selecionar'}
-              </Button>
-            </Card>
-          ))}
-        </div>
-      ))}
+      <DecisionMethodology />
 
       {comparison && (
         <Card>
@@ -158,7 +161,8 @@ export default function CompareBuilds() {
                     <th scope="row">{item.comparisonIndex + 1} · {item.name}<details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={item.components} /></details></th>
                     <td className="comparison-money">{formatCurrency(item.totalEstimatedPrice)}</td>
                     <td>
-                      <span>{translateValue(getCompatibilityStatus(item))}</span>
+                      <span>{compatibilityDisplayLabel(getCompatibilityStatus(item), item)}</span>
+                      <CoolingAssessmentNotice result={item} />
                       {Array.isArray(item.unverifiedChecks) && item.unverifiedChecks.length > 0 && (
                         <div>
                           <small>Verificações pendentes:</small>

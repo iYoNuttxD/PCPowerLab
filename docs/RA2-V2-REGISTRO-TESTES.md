@@ -1,5 +1,7 @@
 # RA2 V2.9 — registro final de testes e evidências
 
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+
 > Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
 
 08/10/2026 UTC. Fonte de entrada: `5de7d88c906b2b66c63a4bc69e115045e012bf0d`; execução final na árvore com as correções F01–F05 do [relatório](RA2-V2-RELATORIO-FINAL.md). Não somar reexecuções nem confundir coleta com execução.
@@ -59,4 +61,11 @@ Contagem não é cobertura instrumental: não há relatório percentual de state
 
 ## 2026-10-08 — pontuação provisória
 
-834/835 testes Node, sem skips, passaram na união sintética. Cobertura inclui oito perfis exatos, identidade/insumos, nota real revisada com prioridade, ranking, orçamento, exportação, simuladores bloqueados e rótulos. Execução real de navegador do novo patch ainda pendente. [Método](RA2-SYNTHETIC-PERFORMANCE.md).
+O registro anterior desta seção usava a expressão ambígua “834/835 testes Node”. A metodologia sintética registra 835 aprovados em sua execução posterior; a relação entre esses registros ainda não está reconciliada, e eles não definem uma contagem final. A identificação exata de cada execução permanece pendente e nenhum resultado será promovido a aprovação a partir desse resumo. Cobertura inclui oito perfis exatos, identidade/insumos, nota real revisada com prioridade, ranking, orçamento, exportação, simuladores bloqueados e rótulos. Execução real de navegador do novo patch ainda pendente. [Método](RA2-SYNTHETIC-PERFORMANCE.md).
+
+
+## União pré-publicação posterior a 51f70 — 08/10/2026
+
+926/926 testes Node únicos aprovados; 16 scripts de fonte/handlers/SSR aprovados; ambos os lints e build frontend aprovados, com aviso existente de chunk grande. Auditoria estrutural de imagens: 81/81, sendo 71 exatas e 10 de família. Integridade de referências datadas elegíveis: 81/81. Testes focados e scripts não são somados à contagem Node.
+
+258 E2E e 18 casos de integração foram **somente coletados** na união. Execução e inspeção visual atuais permanecem pendentes. O resultado anterior de navegador em 51f70 não se transfere para as alterações posteriores. [Escopo, defeitos e limites](RA2-CONSOLIDACAO-FINAL.md). SHA final e verificação remota ainda pendentes; **NÃO HOMOLOGADA**.

@@ -2,7 +2,6 @@ import { performanceScoreLabel } from '../utils/performanceMethodology.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentImage from '../components/componentsCatalog/ComponentImage.jsx';
 import { useEffect, useState } from 'react';
-import { BarChart3 } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -19,7 +18,7 @@ import { numericValue } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
 
 const categoryOptions = [
-  { value: '', label: 'Todos' },
+  { value: '', label: 'Todas as categorias' },
   // Cooling has no performance-score model; build-only labels are not API categories.
   ...componentTypes.map((value) => ({ value, label: componentLabels[value] }))
 ];
@@ -66,26 +65,11 @@ export default function Insights() {
   return (
     <div className="page-stack">
       <section className="page-hero compact-hero">
-        <span className="eyebrow">Insights</span>
         <h1>Custo-benefício de componentes</h1>
-        <p>Compare componentes por valor entregue e encontre peças com boa relação entre preço e desempenho.</p>
       </section>
-      <DecisionMethodology />
-
       {error && <Alert type="error">{error}</Alert>}
 
       <Card>
-        <div className="section-heading compact">
-          <div>
-            <span className="eyebrow">Ranking de custo-benefício</span>
-            <h2><BarChart3 size={22} aria-hidden="true" /> Relação preço/desempenho estimada no catálogo</h2>
-          </div>
-          <Badge tone="green">Ranking</Badge>
-        </div>
-
-        <p className="analysis-note">Índice calculado com desempenho cadastrado e preço de referência. A nota de custo-benefício é relativa à categoria; filtre uma categoria para comparar peças equivalentes.</p>
-        <p className="analysis-note">Coolers e ventoinhas não participam deste ranking porque não possuem índice de desempenho para esta comparação.</p>
-        <AnalysisHelp topics={['costBenefit', 'score']} title="Como ler este ranking" />
         <div className="form-grid compact-form-grid">
           <Select
             label="Categoria"
@@ -122,8 +106,12 @@ export default function Insights() {
           </Button>
         </div>
 
+        <p className="analysis-note">Índice relativo à categoria · preço de referência. Compare peças da mesma categoria.</p>
         {loading ? <LoadingSpinner /> : ranking !== null && !error && !limitError && <RankingList ranking={ranking} />}
+        <p className="analysis-note">Coolers e ventoinhas não participam: não possuem índice de desempenho para este ranking.</p>
+        <AnalysisHelp topics={['costBenefit', 'score']} title="Metodologia do ranking" />
       </Card>
+      <DecisionMethodology />
     </div>
   );
 }
@@ -138,44 +126,57 @@ function RankingList({ ranking }) {
     );
   }
 
+  const groups = new Map();
+  ranking.forEach(entry => {
+    const category = entry.component?.category || 'unknown';
+    if (!groups.has(category)) groups.set(category, []);
+    groups.get(category).push(entry);
+  });
+
   return (
     <div className="cost-benefit-grid">
-      {ranking.map((entry, index) => {
-        const component = entry.component || {};
+      {[...groups].map(([category, entries]) => (
+        <section className="ranking-category" key={category} aria-labelledby={`ranking-${category}`}>
+          <h2 id={`ranking-${category}`}>{componentLabels[category] || (category === 'unknown' ? 'Categoria não informada' : translateValue(category))}</h2>
+          <div className="ranking-list">
+            {entries.map((entry, index) => {
+              const component = entry.component || {};
+              const categoryRank = Number.isInteger(entry.categoryRank) && entry.categoryRank > 0 ? entry.categoryRank : null;
 
-        return (
-          <article key={component.id || index} className="cost-benefit-card">
-            <div className="ranking-position">#{index + 1}</div>
-            <div className="cost-benefit-card__body">
-              <ComponentImage component={component} compact />
-              <div className="section-heading compact">
-                <div>
-                  <span className="eyebrow">{componentLabels[component.category] || translateValue(component.category)}</span>
-                  <h3>{component.name || 'Componente sem nome'}</h3>
-                </div>
-                <Badge tone={getCostBenefitTone(entry.costBenefitScore)}>
-                  {numericValue(entry.costBenefitScore) === null ? 'Não disponível' : entry.classification ? translateValue(entry.classification) : classifyCostBenefit(entry.costBenefitScore)}
-                </Badge>
-              </div>
-              <div className="metric-grid compact-metric-grid">
-                <div>
-                  <span>Preço de referência</span>
-                  <strong>{formatCurrency(component.price)}</strong>
-                </div>
-                <div>
-                  <span>{numericValue(entry.performanceScore) === null ? 'Pontuação de desempenho' : performanceScoreLabel(entry, component)}</span>
-                  <strong>{formatNumber(entry.performanceScore)}{numericValue(entry.performanceScore) !== null && ' / 100'}</strong>
-                </div>
-                <div>
-                  <span>Custo-benefício</span>
-                  <strong>{formatNumber(entry.costBenefitScore)}{numericValue(entry.costBenefitScore) !== null && ' / 100'}</strong>
-                </div>
-              </div>
-              <p>{entry.summary || (numericValue(entry.costBenefitScore) === null ? 'Nota de custo-benefício indisponível para este componente.' : 'Posição calculada com dados cadastrados e preço de referência, sem cotação atual de mercado.')}</p>
-            </div>
-          </article>
-        );
-      })}
+              return (
+                <article key={component.id || index} className="cost-benefit-card ranking-row">
+                  <div className="ranking-position" aria-label={categoryRank ? `Posição ${categoryRank} na categoria` : 'Posição na categoria não disponível'}>{categoryRank ? `#${categoryRank}` : '—'}</div>
+                  <div className="cost-benefit-card__body">
+                    <div className="ranking-identity">
+                      <ComponentImage component={component} compact />
+                      <h3>{component.name || 'Componente sem nome'}</h3>
+                      <Badge tone={getCostBenefitTone(entry.costBenefitScore)}>
+                        {numericValue(entry.costBenefitScore) === null ? 'Não disponível' : entry.classification ? translateValue(entry.classification) : classifyCostBenefit(entry.costBenefitScore)}
+                      </Badge>
+                    </div>
+                    <div className="metric-grid compact-metric-grid ranking-metrics">
+                      <div>
+                        <span>Preço de referência</span>
+                        <strong>{formatCurrency(component.price)}</strong>
+                      </div>
+                      <div>
+                        <span>{numericValue(entry.performanceScore) === null ? 'Pontuação de desempenho' : performanceScoreLabel(entry, component)}</span>
+                        <strong>{formatNumber(entry.performanceScore)}{numericValue(entry.performanceScore) !== null && ' / 100'}</strong>
+                      </div>
+                      <div>
+                        <span>Custo-benefício</span>
+                        <strong>{formatNumber(entry.costBenefitScore)}{numericValue(entry.costBenefitScore) !== null && ' / 100'}</strong>
+                      </div>
+                    </div>
+                    {numericValue(entry.costBenefitScore) === null && <p>Nota de custo-benefício indisponível para este componente.</p>}
+                    {entry.summary && <details className="analysis-help"><summary>Detalhes do índice</summary><p>{entry.summary}</p></details>}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }

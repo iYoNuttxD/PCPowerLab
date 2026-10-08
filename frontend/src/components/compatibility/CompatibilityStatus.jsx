@@ -1,3 +1,5 @@
+import CoolingAssessmentNotice from './CoolingAssessmentNotice.jsx';
+import { hasUnverifiedCooling } from '../../utils/coolingAssessment.js';
 import Badge from '../ui/Badge.jsx';
 import Card from '../ui/Card.jsx';
 import AnalysisHelp from '../build/AnalysisHelp.jsx';
@@ -15,16 +17,18 @@ export default function CompatibilityStatus({ result }) {
   }
 
   const unverified = result.status === 'unverified';
+  const coolingPending = hasUnverifiedCooling(result);
   const unverifiedChecks = Array.isArray(result.unverifiedChecks) ? result.unverifiedChecks : [];
   const pendingCodes = new Set(unverifiedChecks.map(check => check.code).filter(Boolean));
   const issues = (Array.isArray(result.alerts) ? result.alerts : (result.violations || result.issues || [])).filter(issue => !pendingCodes.has(issue.code));
 
   return (
-    <Card className={result.compatible ? 'status-compatible' : unverified ? 'status-unverified' : 'status-incompatible'}>
+    <Card className={result.compatible ? coolingPending ? 'status-unverified' : 'status-compatible' : unverified ? 'status-unverified' : 'status-incompatible'}>
       <div className="section-heading compact">
-        <h3>{result.compatible ? 'Build compatível' : unverified ? 'Compatibilidade não verificada' : 'Atenção: incompatibilidades encontradas'}</h3>
-        <Badge tone={result.compatible ? 'green' : unverified ? 'yellow' : 'red'}>{result.compatible ? 'OK' : unverified ? 'Dados insuficientes' : `${issues.length} alerta(s)`}</Badge>
+        <h3>{result.compatible ? coolingPending ? 'Peças principais compatíveis' : 'Build compatível' : unverified ? 'Compatibilidade não verificada' : 'Atenção: incompatibilidades encontradas'}</h3>
+        <Badge tone={result.compatible ? coolingPending ? 'yellow' : 'green' : unverified ? 'yellow' : 'red'}>{result.compatible ? coolingPending ? 'Parcial' : 'OK' : unverified ? 'Dados insuficientes' : `${issues.length} alerta(s)`}</Badge>
       </div>
+      <CoolingAssessmentNotice result={result} />
       <p className="analysis-note">Verificação pelas especificações cadastradas. Compatibilidade indica se as peças podem funcionar juntas; não é uma garantia de FPS.</p>
       <AnalysisHelp topics={['compatibility']} title="Entenda a compatibilidade" />
       {unverifiedChecks.length > 0 && <div className="stack"><h4>Verificações pendentes</h4>{unverifiedChecks.map((check, index) => <article className="issue-card" key={check.code || index}><strong>{readableMessage(check.title) || translateValue(check.code, 'Dados técnicos insuficientes')}</strong><p>{readableMessage(typeof check === 'string' ? check : check.message || check.reason)}</p></article>)}</div>}

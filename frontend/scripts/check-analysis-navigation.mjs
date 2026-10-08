@@ -102,9 +102,9 @@ try {
   const button = (tree, text) => { const found = named(tree, 'Button').find(node => label(node).trim() === text); assert(found, `Missing button: ${text}`); return found; };
   const field = (tree, text) => { const found = all(tree, node => node.props?.label === text)[0]; assert(found, `Missing field: ${text}`); return found; };
   const change = (page, text, value) => { field(page.render(), text).props.onChange({ target: { value } }); return page.render(); };
-  const setMode = (page, mode) => { all(page.render(), node => node.type === 'input' && node.props.type === 'radio' && node.props.value === mode)[0].props.onChange(); return page.render(); };
+  const setMode = (page, mode) => { const tabs = named(page.render(), 'TaskTabs')[0]; assert(tabs, 'Performance task tabs exist'); tabs.props.onChange(mode); return page.render(); };
   const hasGames = tree => named(tree, 'GameSimulationResult').length + named(tree, 'GameComparisonResult').length;
-  const hasSoftware = tree => Boolean(named(tree, 'SoftwareResult')[0].props.result);
+  const hasSoftware = tree => Boolean(named(tree, 'SoftwareResult')[0]?.props.result);
   const hasRoadmap = tree => Boolean(named(tree, 'UpgradeRoadmap').length);
   const hasSuggestions = tree => named(tree, 'Alert').some(node => node.props.title === 'Resultado de upgrade');
   const render = tree => renderToStaticMarkup(React.createElement(MemoryRouter, { initialEntries: ['/upgrades' + fixture.search] }, tree));
@@ -133,28 +133,39 @@ try {
 
   reset();
   let page = await load(PerformanceLab);
-  setMode(page, 'compare'); change(page, 'Resolução', '1080p'); change(page, 'Qualidade gráfica', 'ultra'); change(page, 'Software', 'software-blender');
-  await run(page, 'Comparar jogos'); await run(page, 'Simular software');
-  assert.equal(hasGames(page.render()), 1); assert(hasSoftware(page.render())); page.close();
+  change(page, 'Jogo', 'game-valorant'); change(page, 'Resolução', '1080p'); change(page, 'Qualidade gráfica', 'ultra');
+  await run(page, 'Simular jogo');
+  setMode(page, 'compare'); await run(page, 'Comparar jogos');
+  setMode(page, 'software'); change(page, 'Software', 'software-blender'); await run(page, 'Simular software');
+  assert(hasSoftware(page.render()));
+  assert.equal(hasGames(setMode(page, 'compare')), 1); page.close();
   const untouchedBuild = structuredClone({revision:fixture.build.revision,selectedComponents:fixture.build.selectedComponents,game:fixture.build.game});
   const other = await load(UpgradeSuggestions); other.close();
   page = runtime(PerformanceLab); let tree = page.render();
+  assert.equal(named(tree, 'TaskTabs')[0].props.value, 'compare');
   assert.equal(hasGames(tree), 0, 'Do not restore before catalogs are revalidated');
-  assert.equal(hasSoftware(tree), false);
-  await tick(); tree = page.render();
-  assert.equal(all(tree, node => node.type === 'input' && node.props.value === 'compare')[0].props.checked, true);
+  assert.equal(hasSoftware(setMode(page, 'software')), false);
+  await tick(); tree = setMode(page, 'compare');
   assert.equal(field(tree, 'Resolução').props.value, '1080p'); assert.equal(field(tree, 'Qualidade gráfica').props.value, 'ultra');
-  assert.equal(field(tree, 'Software').props.value, 'software-blender'); assert.equal(hasGames(tree), 1); assert(hasSoftware(tree));
-  assert.equal(fixture.calls.length, 2, 'Returning must not send duplicate simulation requests');
+  assert.deepEqual(named(tree, 'GameComparisonResult')[0].props.result, comparisonResult('Comparison complete'));
+  tree = setMode(page, 'single');
+  assert.equal(field(tree, 'Jogo').props.value, 'game-valorant');
+  assert.deepEqual(named(tree, 'GameSimulationResult')[0].props.result, gameResult('Game complete'));
+  tree = setMode(page, 'software');
+  assert.equal(field(tree, 'Software').props.value, 'software-blender'); assert(hasSoftware(tree));
+  assert.equal(fixture.calls.length, 3, 'Returning must not send duplicate simulation requests');
   assert.deepEqual({revision:fixture.build.revision,selectedComponents:fixture.build.selectedComponents,game:fixture.build.game}, untouchedBuild);
   assert.deepEqual(fixture.actions, []);
-  pass('Performance Lab → Upgrades → Performance Lab restores compare mode, 1080p, quality, software and both exact results after catalog checks');
+  pass('Performance Lab → Upgrades → Performance Lab restores task, shared game settings, per-task selections and all three results after catalog checks');
 
-  change(page, 'Resolução', '4k'); tree = change(page, 'Resolução', '1080p'); assert.equal(hasGames(tree), 0); assert(hasSoftware(tree));
-  await run(page, 'Comparar jogos'); change(page, 'Software', 'software-adobe-premiere-pro'); tree = change(page, 'Software', 'software-blender');
-  assert.equal(hasSoftware(tree), false); assert.equal(hasGames(tree), 1); page.close();
-  page = await load(PerformanceLab); assert.equal(hasSoftware(page.render()), false); assert.equal(hasGames(page.render()), 1); page.close();
-  pass('A→B→A settings discard obsolete success; game and software scopes invalidate independently across remounts');
+  setMode(page, 'compare'); change(page, 'Resolução', '4k'); tree = change(page, 'Resolução', '1080p'); assert.equal(hasGames(tree), 0);
+  assert.equal(hasGames(setMode(page, 'single')), 0, 'Shared resolution invalidates both game tasks');
+  assert(hasSoftware(setMode(page, 'software')), 'Game settings preserve software success');
+  setMode(page, 'compare'); await run(page, 'Comparar jogos');
+  setMode(page, 'software'); change(page, 'Software', 'software-adobe-premiere-pro'); tree = change(page, 'Software', 'software-blender');
+  assert.equal(hasSoftware(tree), false); assert.equal(hasGames(setMode(page, 'compare')), 1); page.close();
+  page = await load(PerformanceLab); assert.equal(hasGames(page.render()), 1); assert.equal(hasSoftware(setMode(page, 'software')), false); page.close();
+  pass('A→B→A settings discard obsolete success; shared game and independent software scopes invalidate across tab switches and remounts');
 
   for (const [name, mutate] of [
     ['revision', () => {fixture.build.revision += 1;}],
@@ -167,16 +178,16 @@ try {
   }
   pass('Changed build revision, component, fan count or price rejects both stored inputs and results on remount');
 
-  for (const kind of ['game', 'software']) {
-    reset(); page = await load(PerformanceLab); const action = kind === 'game' ? 'Simular jogo' : 'Simular software';
-    await run(page, action); const pending = deferred(); const service = kind === 'game' ? 'performanceService.simulateGame' : 'professionalSoftwareService.simulate'; fixture.handlers[service] = () => pending.promise;
+  for (const kind of ['single', 'compare', 'software']) {
+    reset(); page = await load(PerformanceLab); setMode(page, kind); const action = {single:'Simular jogo',compare:'Comparar jogos',software:'Simular software'}[kind];
+    await run(page, action); const pending = deferred(); const service = {single:'performanceService.simulateGame',compare:'gameComparisonService.compare',software:'professionalSoftwareService.simulate'}[kind]; fixture.handlers[service] = () => pending.promise;
     const request = button(page.render(), action).props.onClick(); page.close(); // No intervening render: retry must synchronously remove old success.
-    pending.resolve(kind === 'game' ? gameResult('LATE') : {software:'LATE',performanceScore:50}); await request;
-    assert.equal(page.writesAfterClose, 0); page = await load(PerformanceLab); tree = page.render(); assert.equal(kind === 'game' ? hasGames(tree) : Number(hasSoftware(tree)), 0); assert(!render(tree).includes('LATE')); page.close();
-    reset(); page = await load(PerformanceLab); fixture.handlers[service] = async () => {throw new Error('TRANSIENT ERROR');}; await run(page, action); assert(render(page.render()).includes('TRANSIENT ERROR')); page.close();
-    page = await load(PerformanceLab); assert(!render(page.render()).includes('TRANSIENT ERROR')); assert(!button(page.render(), action).props.loading); page.close();
+    pending.resolve(kind === 'single' ? gameResult('LATE') : kind === 'compare' ? comparisonResult('LATE') : {software:'LATE',performanceScore:50}); await request;
+    assert.equal(page.writesAfterClose, 0); page = await load(PerformanceLab); tree = setMode(page, kind); assert.equal(kind !== 'software' ? hasGames(tree) : Number(hasSoftware(tree)), 0); assert(!render(tree).includes('LATE')); page.close();
+    reset(); page = await load(PerformanceLab); setMode(page, kind); fixture.handlers[service] = async () => {throw new Error('TRANSIENT ERROR');}; await run(page, action); assert(render(page.render()).includes('TRANSIENT ERROR')); page.close();
+    page = await load(PerformanceLab); setMode(page, kind); assert(!render(page.render()).includes('TRANSIENT ERROR')); assert(!button(page.render(), action).props.loading); page.close();
   }
-  pass('Interrupted retries synchronously discard old success; late responses, loading and errors never resurrect for games or software');
+  pass('Interrupted retries synchronously discard old success; late responses, loading and errors never resurrect for single, comparison or software tasks');
 
   reset(); page = await load(PerformanceLab); change(page, 'Jogo', 'game-counter-strike-2'); await run(page, 'Simular jogo'); page.close();
   fixture.handlers['performanceService.listGames'] = async () => games.slice(1); page = await load(PerformanceLab); assert.equal(hasGames(page.render()), 0); assert.equal(field(page.render(), 'Jogo').props.value, 'game-cyberpunk-2077'); page.close();
@@ -248,7 +259,7 @@ try {
   pass('Catalog loading delays restoration and explains disabled actions; catalog failure clears saved results and offers retry');
 
   for (const [Component, resultSlot, corrupt] of [
-    [PerformanceLab, 'performance-games', value => ({...value, summary:{bad:'text'}})],
+    [PerformanceLab, 'performance-game-single', value => ({...value, summary:{bad:'text'}})],
     [UpgradeSuggestions, 'upgrade-suggestions', value => ({...value,data:{...value.data,suggestions:{bad:'array'}}})],
     [UpgradeSuggestions, 'upgrade-roadmap', value => ({...value,data:{...value.data,steps:[{componentType:'gpu',suggestedComponent:{id:'gpu-new',name:{bad:'text'}}}]}})]
   ]) {

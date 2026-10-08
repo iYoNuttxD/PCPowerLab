@@ -1,14 +1,16 @@
 import { ArrowLeft, ArrowRight, Check, ChevronDown } from 'lucide-react';
 import Button from '../ui/Button.jsx';
-import { wizardLabels, wizardSteps } from '../../utils/wizardSteps.js';
+import { optionalWizardSteps, requiredWizardSteps, wizardLabels, wizardSteps } from '../../utils/wizardSteps.js';
 
 export default function WizardNavigation({ currentStep, completedSteps, canAdvance, guidance, onStepChange, onSummary, controlsRef }) {
   const stepIndex = wizardSteps.indexOf(currentStep);
+  const optional = optionalWizardSteps.includes(currentStep);
+  const completeCount = completedSteps.filter(step => requiredWizardSteps.includes(step)).length;
 
   return (
     <>
       <div className="wizard-progress">
-        <progress value={completedSteps.length} max={wizardSteps.length} aria-label="Etapas concluídas" />
+        <progress value={completeCount} max={requiredWizardSteps.length} aria-label="Etapas obrigatórias concluídas" />
         <details onKeyDown={(event) => {
           if (event.key !== 'Escape' || !event.currentTarget.open) return;
           event.preventDefault();
@@ -16,13 +18,14 @@ export default function WizardNavigation({ currentStep, completedSteps, canAdvan
           event.currentTarget.querySelector('summary')?.focus();
         }}>
           <summary>
-            <span>{completedSteps.length} de {wizardSteps.length} etapas concluídas</span>
+            <span>{completeCount} de {requiredWizardSteps.length} etapas obrigatórias concluídas</span>
             <span>Ver etapas <ChevronDown size={16} aria-hidden="true" /></span>
           </summary>
           <nav aria-label="Etapas do assistente">
             <ol className="wizard-step-list">
-              {wizardSteps.map((step, index) => {
+              {wizardSteps.map((step) => {
                 const completed = completedSteps.includes(step);
+                const isOptional = optionalWizardSteps.includes(step);
                 return (
                   <li key={step}>
                     <button type="button" aria-current={step === currentStep ? 'step' : undefined}
@@ -31,9 +34,9 @@ export default function WizardNavigation({ currentStep, completedSteps, canAdvan
                         onStepChange(step);
                       }}>
                       <span className={`wizard-step-number ${completed ? 'is-complete' : ''}`}>
-                        {completed ? <Check size={16} aria-hidden="true" /> : index + 1}
+                        {completed ? <Check size={16} aria-hidden="true" /> : isOptional ? '+' : requiredWizardSteps.indexOf(step) + 1}
                       </span>
-                      <span>{wizardLabels[step]}<small>{completed ? 'Concluída' : 'Pendente'}</small></span>
+                      <span>{wizardLabels[step]}<small>{isOptional ? 'Opcional' : completed ? 'Concluída' : 'Pendente'}</small></span>
                     </button>
                   </li>
                 );
@@ -45,14 +48,14 @@ export default function WizardNavigation({ currentStep, completedSteps, canAdvan
 
       <div className="wizard-actions" ref={controlsRef} role="region" aria-label="Avançar ou voltar na montagem">
         <div className="wizard-actions-row">
-          <strong>Etapa {stepIndex + 1} de {wizardSteps.length} · {wizardLabels[currentStep]}</strong>
+          <strong>{optional ? 'Opcional' : `Etapa ${requiredWizardSteps.indexOf(currentStep) + 1} de ${requiredWizardSteps.length}`} · {wizardLabels[currentStep]}</strong>
           <div className="wizard-controls">
             <Button variant="ghost" disabled={stepIndex === 0} onClick={() => onStepChange(wizardSteps[stepIndex - 1])}>
               <ArrowLeft size={18} aria-hidden="true" /> Voltar
             </Button>
             {stepIndex < wizardSteps.length - 1 ? (
               <Button disabled={!canAdvance} aria-describedby="wizard-guidance" onClick={() => onStepChange(wizardSteps[stepIndex + 1])}>
-                Avançar <ArrowRight size={18} aria-hidden="true" />
+                {optional ? 'Continuar' : 'Avançar'} <ArrowRight size={18} aria-hidden="true" />
               </Button>
             ) : (
               <Button onClick={onSummary} aria-describedby="wizard-guidance">Ir para resumo <ArrowRight size={18} aria-hidden="true" /></Button>

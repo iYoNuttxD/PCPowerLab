@@ -1,3 +1,4 @@
+import { checkBuildCompatibility } from './compatibility.service.js';
 import { recommendationFeedback } from '../data/recommendationFeedback.js';
 
 export const validRecommendationTypes = [
@@ -53,6 +54,7 @@ export function createRecommendationFeedback(feedbackInput) {
   const performanceLevel = normalizeOptionalLimitedText(feedbackInput.performanceLevel, 'performanceLevel', 80);
   const buildSnapshot = normalizeBuildSnapshot(feedbackInput.buildSnapshot);
   const buildDetails = normalizeBuildDetails(feedbackInput.buildDetails);
+  const coolingAssessment = assessSnapshotCooling(buildSnapshot);
 
   const feedback = {
     id: generateRecommendationFeedbackId(),
@@ -67,7 +69,7 @@ export function createRecommendationFeedback(feedbackInput) {
     ...(totalEstimatedPrice !== null && { totalEstimatedPrice }),
     ...(compatibilityStatus && { compatibilityStatus }),
     ...(performanceLevel && { performanceLevel }),
-    ...(buildSnapshot && { buildSnapshot }),
+    ...(buildSnapshot && { buildSnapshot, coolingAssessment }),
     ...(buildDetails && { buildDetails }),
     createdAt: new Date().toISOString()
   };
@@ -359,4 +361,17 @@ function normalizeOptionalText(value) {
 
 function isFilledText(value) {
   return typeof value === 'string' && value.trim().length > 0;
+}
+
+// Derive from catalog identities rather than accepting a client claim of fit.
+function assessSnapshotCooling(snapshot) {
+  if (!snapshot) return null;
+  try {
+    return checkBuildCompatibility(snapshot).coolingAssessment;
+  } catch (error) {
+    if (!error.statusCode || error.statusCode >= 500) throw error;
+    return { status: 'unverified', scope: 'cooling_not_assessed', alerts: [],
+      unverifiedChecks: [{ code: 'COOLING_SNAPSHOT_UNVERIFIED', severity: 'medium', verification: 'unverified',
+        message: 'O snapshot não contém dados válidos suficientes para verificar a refrigeração.' }] };
+  }
 }

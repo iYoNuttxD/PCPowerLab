@@ -26,7 +26,7 @@ test at frontend/tests/build-budget-total.test.js:17:1
   - 3889.3
           ^
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/frontend/tests/build-budget-total.test.js:19:10)
+      at TestContext.<anonymous> (file://frontend/tests/build-budget-total.test.js:19:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)
@@ -45,7 +45,7 @@ test at frontend/tests/build-budget-total.test.js:25:1
 
   '<section class="panel-card budget-panel"><div class="section-heading compact"><h3>Orçamento</h3><span class="badge badge-red">Acima</span></div><div class="metric-grid"><div><span>Orçamento</span><strong>R$ 3.889,30</strong></div><div><span>Total estimado da build</span><strong>R$ 3.889,30</strong></div><div><span>Excedente</span><strong>R$ 0,00</strong></div></div><p class="hint-text">Calculado com preços estimados do catálogo. Não inclui frete nem acompanha ofertas em tempo real.</p></section>'
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/frontend/tests/build-budget-total.test.js:42:12)
+      at TestContext.<anonymous> (file://frontend/tests/build-budget-total.test.js:42:12)
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
       at async Test.run (node:internal/test_runner/test:1389:7)
       at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
@@ -63,7 +63,7 @@ test at tests/final-recommendation.test.js:13:1
 
   'Configuracao recomendada para o perfil informado.'
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:19:10)
+      at TestContext.<anonymous> (file://tests/final-recommendation.test.js:19:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)
@@ -82,7 +82,7 @@ test at tests/final-recommendation.test.js:23:1
 
   'A configuracao funciona, mas vale ajustar os componentes destacados para melhorar o equilibrio.'
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:28:10)
+      at TestContext.<anonymous> (file://tests/final-recommendation.test.js:28:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -103,7 +103,7 @@ test at tests/final-recommendation.test.js:32:1
 
   'Configuracao recomendada para o perfil informado.'
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:35:10)
+      at TestContext.<anonymous> (file://tests/final-recommendation.test.js:35:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -124,7 +124,7 @@ test at tests/final-recommendation.test.js:39:1
 
   'Configuracao recomendada para o perfil informado.'
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:42:10)
+      at TestContext.<anonymous> (file://tests/final-recommendation.test.js:42:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -145,7 +145,7 @@ test at tests/final-recommendation.test.js:46:1
 
   'Configuracao recomendada para o perfil informado.'
 
-      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:53:10)
+      at TestContext.<anonymous> (file://tests/final-recommendation.test.js:53:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)

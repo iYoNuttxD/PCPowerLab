@@ -41,7 +41,7 @@ try {
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, ({ path }) => {
         let contents;
         if (path === 'react-proxy') contents = `import * as Real from ${JSON.stringify(realReact)}; export * from ${JSON.stringify(realReact)}; export default Real.default; ${['useState', 'useRef', 'useMemo', 'useCallback', 'useEffect'].map(name => `export const ${name} = (...args) => globalThis.__entryHooks ? globalThis.__entryHooks.${name}(...args) : Real.${name}(...args);`).join('\n')}`;
-        else if (path === 'router-proxy') contents = `export * from ${JSON.stringify(realRouter)}; export const useNavigate = () => globalThis.__entryFixtures.navigate; export const useSearchParams = () => [new URLSearchParams(), () => {}];`;
+        else if (path === 'router-proxy') contents = `export * from ${JSON.stringify(realRouter)}; export const useNavigate = () => globalThis.__entryFixtures.navigate; export const useLocation = () => globalThis.__entryFixtures.location || { hash: '' }; export const useSearchParams = () => [new URLSearchParams(), () => {}];`;
         else if (path === 'build-fixture') contents = 'export const useBuildState = () => globalThis.__entryFixtures.build;';
         else if (path === 'catalog-fixture') contents = `export const useComponents = () => globalThis.__entryFixtures.catalog; export const ComponentsProvider = ({children}) => children; export const useCatalogComponent = component => ({component: globalThis.__entryFixtures.catalog.componentMap[typeof component === 'string' ? component : component?.id], loading:false, error:''});`;
         else contents = `export const ${path} = new Proxy({}, {get: (_, key) => globalThis.__entryFixtures.services.${path}[key]});`;
@@ -182,6 +182,50 @@ try {
   assert(!fixtures.calls.length, 'changed configuration must reject old modal handler');
   wizard.close();
   console.log('PASS: wizard rejects a checked modal callback after the build revision changes');
+
+  reset();
+  const tasks = runtime(UpgradeSuggestions);
+  tasks.render(); await tick(); tree = tasks.render();
+  const taskTabs = () => named(tasks.render(), 'TaskTabs')[0];
+  const taskPanel = (tree, value) => named(tree, 'TaskPanel').find(node => node.props.value === value);
+  assert.equal(taskTabs().props.value, 'single');
+  assert.equal(taskPanel(tree, 'single').props.active, true);
+  assert.equal(taskPanel(tree, 'plan').props.active, false);
+  assert(!input(taskPanel(tree, 'single'), 'Build salva'), 'Shared source must remain outside task panels');
+  assert.equal(input(tree, 'Build salva').props.value, '');
+  input(tree, 'Orçamento para upgrade').props.onChange({ target: { value: '1600' } });
+  tree = tasks.render();
+  await button(tree, 'Gerar sugestões').props.onClick();
+  taskTabs().props.onChange('plan'); tree = tasks.render();
+  assert.equal(taskPanel(tree, 'plan').props.active, true);
+  assert.equal(taskPanel(tree, 'single').props.active, false);
+  input(tree, 'Orçamento total').props.onChange({ target: { value: '3500' } });
+  input(tree, 'Número máximo de etapas').props.onChange({ target: { value: '4' } });
+  tree = tasks.render();
+  await button(tree, 'Gerar plano de upgrades').props.onClick();
+  taskTabs().props.onChange('single'); tree = tasks.render();
+  assert.equal(input(tree, 'Orçamento para upgrade').props.value, '1600');
+  assert(button(taskPanel(tree, 'single'), 'Pré-visualizar esta peça na build atual'));
+  assert.equal(named(taskPanel(tree, 'plan'), 'UpgradeRoadmap').length, 1, 'Hidden roadmap result remains mounted');
+  taskTabs().props.onChange('plan'); tree = tasks.render();
+  assert.equal(input(tree, 'Orçamento total').props.value, '3500');
+  assert.equal(input(tree, 'Número máximo de etapas').props.value, '4');
+  const taskHtml = renderToStaticMarkup(React.createElement(MemoryRouter, null, tree));
+  assert.match(taskHtml, /id="upgrade-tasks-tab-plan"[^>]+aria-selected="true"/);
+  assert.match(taskHtml, /id="upgrade-tasks-panel-single"[^>]+hidden=""/);
+  assert(taskHtml.includes('a build salva não será editada'), 'Single-part/source warning remains available with retained result');
+  for (const priority of ['balanced', 'upgrade-ready']) {
+    input(taskPanel(tree, 'plan'), 'Prioridade').props.onChange({ target: { value: priority } });
+    taskTabs().props.onChange('single'); tree = tasks.render();
+    const retainedPriority = input(taskPanel(tree, 'single'), 'Prioridade');
+    assert.equal(retainedPriority.props.value, priority);
+    assert(retainedPriority.props.options.some(option => option.value === priority && option.label), 'Single task must display the selected shared plan priority');
+    taskTabs().props.onChange('plan'); tree = tasks.render();
+    assert.equal(input(taskPanel(tree, 'plan'), 'Prioridade').props.value, priority);
+  }
+  assert(!fixtures.calls.length, 'Changing analysis task must not apply or mutate the build');
+  tasks.close();
+  console.log('PASS: upgrade tasks retain independent budgets, step count and both results without changing common source or current build');
 
   reset();
   const obsolete = deferred();

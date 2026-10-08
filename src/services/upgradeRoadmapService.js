@@ -244,6 +244,7 @@ function formatCompatibility(compatibility) {
   return {
     compatible: compatibility.compatible,
     status: compatibility.status,
+    coolingAssessment: compatibility.coolingAssessment,
     unverifiedChecks: compatibility.unverifiedChecks ?? [],
     alerts: compatibility.alerts ?? [],
     estimatedPrice: compatibility.estimatedPrice,

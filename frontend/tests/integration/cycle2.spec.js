@@ -65,6 +65,7 @@ async function applyReady(page, request) {
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ budget }));
   }, { key, budget: userBudget });
   await page.goto('/ready-builds');
+  await page.getByRole('tab', { name: 'Explorar', exact: true }).click();
   const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: ready.name, exact: true }) });
   await card.getByRole('button', { name: 'Usar build inteira', exact: true }).click();
   await expect(page).toHaveURL(/\/summary$/);
@@ -153,6 +154,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
       expect(link.rel).toContain('noopener');
     }
     await capture(page, testInfo, 'summary-game', page.getByRole('region', { name: 'Resultado da simulação individual' }));
+    await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
     const score = await action(page, '/build-score', () => page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click());
     const compatibility = page.locator('.criterion-card').filter({ hasText: 'Compatibilidade' });
     await expect(compatibility.locator('strong')).toHaveText(String(score.criteria.compatibilityScore));
@@ -216,6 +218,7 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   const original = await applyReady(page, request);
   const catalog = await api(request, '/components');
   const replacement = currentPart(catalog, 'ram-kvr32n22d8-32', 'ram');
+  await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
   await page.getByRole('button', { name: 'Alterar Memória RAM', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM', exact: true });
   await dialog.getByRole('radio', { name: /Kingston ValueRAM 32GB \(1x32GB\) DDR4-3200 CL22/ }).check();
@@ -234,7 +237,7 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);
   const second = await action(page, '/performance/simulate-game', () => page.getByRole('button', { name: 'Simular jogo', exact: true }).click());
   expect(second.estimatedFps).toBeLessThan(first.estimatedFps);
-  await page.getByRole('radio', { name: /^Comparar jogos/ }).check();
+  await page.getByRole('tab', { name: 'Comparar jogos', exact: true }).click();
   const compared = await action(page, '/performance/compare-games', () => page.getByRole('button', { name: 'Comparar jogos', exact: true }).click());
   expect(compared.results).toHaveLength(2);
   const comparison = page.getByRole('region', { name: 'Resultado da comparação de jogos' });
@@ -244,6 +247,7 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
     await expect(row).toContainText(game.estimatedFps.toLocaleString('pt-BR'));
   }
   await capture(page, testInfo, 'games-comparison', comparison);
+  await page.getByRole('tab', { name: 'Software', exact: true }).click();
   const software = await action(page, '/performance/simulate-software', () => page.getByRole('button', { name: 'Simular software', exact: true }).click());
   expect(software.performanceScore).toBeGreaterThan(0);
   await expect(page.getByRole('region', { name: 'Resultado da simulação profissional' })).toContainText(software.software);
@@ -266,8 +270,9 @@ test('catálogo, imagens, comparação de peças e navegação pública', async 
   const comparedParts = ['ssd-sa400s37-480g', 'ssd-snv3s-1000g'].map(id => currentPart(catalog, id, 'storage'));
   await page.goto('/components');
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('storage');
+  await page.locator('.catalog-advanced-filters > summary').click();
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(String(priceLimit));
+  await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill(String(priceLimit));
   const expected = catalog.filter(part => part.category === 'storage' && part.brand === 'Kingston' && part.price <= priceLimit);
   expect(catalog.some(part => part.category === 'storage' && part.brand === 'Kingston' && part.price > priceLimit)).toBe(true);
   for (const part of comparedParts) expect(expected).toContainEqual(part);
@@ -311,6 +316,8 @@ test('acesso administrativo direto, senha inválida, sessão protegida e logout'
   await page.getByLabel('Senha de acesso').fill(process.env.PCPOWERLAB_QA_ADMIN_PASSWORD);
   await page.getByRole('button', { name: 'Entrar', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Administração técnica', exact: true })).toBeVisible();
+  await expect(page.getByText('Estes registros editáveis não executam nem controlam a compatibilidade:', { exact: false })).toBeVisible();
+  await page.getByRole('tab', { name: 'Parâmetros', exact: true }).click();
   await expect(page.locator('.admin-row').filter({ hasText: 'cpu-ryzen-5-5600' })).toBeVisible();
   const session = await api(page.request, '/admin/session');
   expect(session.authenticated).toBe(true);
@@ -323,6 +330,8 @@ test('acesso administrativo direto, senha inválida, sessão protegida e logout'
   await capture(page, testInfo, 'admin-authenticated');
   let createdRule;
   try {
+    await page.getByRole('tab', { name: 'Regras', exact: true }).click();
+    await page.locator('summary').filter({ hasText: /^Adicionar regra$/ }).click();
     await page.getByLabel('Nome', { exact: true }).fill('QA regra temporária');
     await page.getByRole('combobox', { name: 'Destino', exact: true }).selectOption('motherboard');
     await page.getByLabel('Campo', { exact: true }).fill('socket');

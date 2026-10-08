@@ -49,7 +49,7 @@ Running 1 test using 1 worker
       260 |     await expect(page.getByLabel('Nome', { exact: true })).toHaveValue('');
       261 |     await expect(page.locator('.admin-row').filter({ hasText: 'QA regra temporária' })).toBeVisible();
       262 |   } finally {
-        at /Users/daniel/Coding/PCPowerLab/frontend/tests/integration/cycle2.spec.js:259:72
+        at frontend/tests/integration/cycle2.spec.js:259:72
 
     attachment #1: admin-login (image/png) ─────────────────────────────────────────────────────────
     test-results/cycle2-acesso-administrati-13b69-a-sessão-protegida-e-logout-desktop/attachments/admin-login-6ec9cfcdee14a8860e79fb226368ff364b6e9f9e.png

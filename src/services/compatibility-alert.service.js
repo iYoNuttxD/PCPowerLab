@@ -72,6 +72,7 @@ export function checkBuildCompatibilityAlerts(selectedComponents) {
     status: compatibilityResult.status,
     unverifiedChecks: compatibilityResult.unverifiedChecks ?? [],
     coolingPower: compatibilityResult.coolingPower,
+    coolingAssessment: compatibilityResult.coolingAssessment,
     alerts: generateCompatibilityAlerts(compatibilityResult),
     issues: compatibilityResult.alerts,
     selectedComponents: compatibilityResult.selectedComponents,

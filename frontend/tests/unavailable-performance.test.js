@@ -50,7 +50,7 @@ test('an unavailable response replaces a previously saved estimate and survives 
   };
   try {
     for (const [slot, validator, label] of [
-      ['performance-games', validGameResult, { game: 'Jogo' }],
+      ['performance-game-single', validGameResult, { game: 'Jogo' }],
       ['performance-software', validSoftwareResult, { software: 'Software' }]
     ]) {
       const successful = { ...label, estimatedFps: 144, performanceScore: 76 };
@@ -62,7 +62,7 @@ test('an unavailable response replaces a previously saved estimate and survives 
       const reloaded = await import(`../src/utils/analysisSession.js?reload=${slot}`);
       const restored = reloaded.readAnalysisSession(slot, 'same-build', validator);
       assert.deepEqual(restored, current);
-      const Component = slot === 'performance-games' ? GameResult : SoftwareResult;
+      const Component = slot === 'performance-game-single' ? GameResult : SoftwareResult;
       const html = renderToStaticMarkup(React.createElement(Component, { result: restored }));
       assert.match(html, /Sem estimativa/);
       assert.doesNotMatch(html, /144|<strong>76<\/strong>|FPS estimado|Pontuação estimada/);

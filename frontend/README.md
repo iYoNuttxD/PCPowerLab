@@ -1,6 +1,6 @@
 # PCPowerLab Frontend
 
-> Estado RA2 V2.10: **NÃO HOMOLOGADA**. [Correções, testes e pendências](../docs/RA2-V2.10-CONTINUIDADE.md). Navegação, resumos e referências datadas integrados; SSR/handlers não substituem navegador.
+> [Consolidação técnica atual](../docs/RA2-CONSOLIDACAO-FINAL.md): **NÃO HOMOLOGADA**. Reteste da união de interface, refrigeração e compatibilidade pendente. Registros V2.5–V2.12 abaixo são históricos; SSR/handlers não substituem navegador.
 
 Interface web do PCPowerLab, criada com Vite + React para consumir a API REST local do projeto.
 
@@ -265,9 +265,9 @@ Os caminhos acima são relativos à raiz. `scripts/qa-visual.mjs` prepara captur
 
 As telas compartilham catálogo/identidade/mídia, troca individual e estado da montagem. Mudanças invalidam análises, e respostas antigas são descartadas. Upgrade aberto de uma build salva transporta `buildId`; erro/ausência não muda silenciosamente para a montagem global.
 
-Os 14 scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots ficam pendentes em ambiente autorizado.
+Os 14 scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Na etapa v2.9, larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots permaneceram pendentes. Evidências posteriores não são retroativas e o reteste da união final continua separado.
 
-Fotos: 98/98. Créditos, escopo visual e variantes ficam em detalhes opcionais; veja [v2.11](../docs/RA2-V2.11-FOTOS-E-UI.md). Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.
+Cobertura atual de fotos: 81/81 ativos, sendo 71 de modelo exato e 10 de família visual. Créditos, escopo visual e variantes ficam em detalhes opcionais; veja [v2.11](../docs/RA2-V2.11-FOTOS-E-UI.md). Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.
 
 
 ## Continuação v2.12

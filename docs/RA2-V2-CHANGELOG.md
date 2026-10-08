@@ -1,5 +1,7 @@
 # Changelog RA2 V2 — 08/10/2026
 
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+
 > Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
 
 Este registro resume a sequência publicada na branch `codex/pcpowerlab-ra2-ciclo2`. Datas e evidências de etapas antigas permanecem nos respectivos relatórios. [Cadeia completa de commits e veredito](RA2-V2-RELATORIO-FINAL.md).
@@ -54,3 +56,11 @@ Linha de base sem alterar aplicação, matriz R01–R22, inventário e bloqueios
 ## 2026-10-08 — perfis sintéticos explícitos
 
 Após autorização do usuário, oito lacunas de score recebem coeficientes inventados versionados e rotulados. Preços, identidades antigas e especificações permanecem intactos; sem FPS, consumo ou gargalos inventados. Detalhes: [metodologia](RA2-SYNTHETIC-PERFORMANCE.md).
+
+
+## Consolidação posterior — preparação da união final
+
+- Alinhados README, frontend e API aos 81 ativos, 117 identidades legadas e 71 fotos exatas + 10 de família
+- Separadas observações comerciais datadas, scores sintéticos e validação física/humana
+- Preservadas contagens históricas e destacados retestes pendentes da união de interface, refrigeração e compatibilidade
+- Não declarada homologação, publicação final, merge, deploy ou pesquisa humana

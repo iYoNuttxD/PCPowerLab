@@ -42,6 +42,7 @@ async function seed(page, extra = {}) {
 
 async function openReplacement(page) {
   await page.goto('/summary');
+  await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
   await page.getByRole('button', { name: 'Alterar Memória RAM', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM', exact: true });
   await expect(dialog.getByRole('radio').first()).toBeVisible();
@@ -67,15 +68,16 @@ test.afterEach(async ({ page }) => expect(failures.get(page)).toEqual([]));
 test('combina marca, categoria, nome e limites inclusivos de preço; explica faixa inválida', async ({ page }) => {
   await page.goto('/components');
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('ram');
+  await page.locator('.catalog-advanced-filters > summary').click();
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
-  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill(String(ram16.price));
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(String(activePart(components, 'ram-kf436c18bb2a-16').price));
+  await page.getByRole('spinbutton', { name: 'Preço mínimo (R$)', exact: true }).fill(String(ram16.price));
+  await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill(String(activePart(components, 'ram-kf436c18bb2a-16').price));
   await page.getByRole('searchbox').fill('  FuRy  ');
   await expect(page.locator('.component-card')).toHaveCount(2);
   await expect(page.getByRole('heading', { name: ram16.name, exact: true })).toBeVisible();
-  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill('2000');
+  await page.getByRole('spinbutton', { name: 'Preço mínimo (R$)', exact: true }).fill('2000');
   await expect(page.getByText('O preço mínimo deve ser menor ou igual ao máximo.', { exact: true })).toBeVisible();
-  await expect(page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true })).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true })).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
   await expect(page.locator('.component-card')).toHaveCount(activeComponents.length);
@@ -91,6 +93,7 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('ram');
   await page.getByRole('button', { name: `Comparar: ${ram16.name}`, exact: true }).click();
   await expect(page.getByRole('button', { name: 'Comparar peças (1)', exact: true })).toBeDisabled();
+  await page.locator('.catalog-advanced-filters > summary').click();
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption(ram32.brand);
   await page.getByRole('button', { name: `Comparar: ${ram32.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
@@ -206,8 +209,10 @@ test('catálogo diferencia carregamento, falha, vazio e recuperação', async ({
 test('substitui uma peça recomendada no resumo após verificar e preserva a montagem', async ({ page }) => {
   await seed(page);
   await page.goto('/summary');
+  await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
   await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
   await expect(page.getByText('Nota anterior à troca.', { exact: true })).toBeVisible();
+  await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
   await page.getByRole('button', { name: 'Alterar Memória RAM', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM' });
   await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();

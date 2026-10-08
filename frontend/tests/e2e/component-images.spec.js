@@ -53,6 +53,7 @@ test('shows exact local images in summary, wizard, recommendations and ID-only s
   await setup(page);
   for (const path of ['/summary', '/build', '/saved-builds', '/shared/photo-build']) {
     await page.goto(path);
+    if (path === '/summary') await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
     if (path === '/saved-builds') await page.locator('.saved-build-components summary').first().click();
     await verifyPhoto(page);
     await expect(page.locator('body')).toHaveJSProperty('scrollWidth', await page.evaluate(() => document.body.clientWidth));
@@ -66,6 +67,7 @@ test('retired Samsung storage keeps its exact image and identity in existing sav
   await setup(page, components, legacyPhoto);
   for (const path of ['/summary', '/build', '/saved-builds', '/shared/photo-build']) {
     await page.goto(path);
+    if (path === '/summary') await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
     if (path === '/saved-builds') await page.locator('.saved-build-components summary').first().click();
     await verifyPhoto(page, page.locator(`.component-media[data-component-id="${legacyPhoto.id}"]`).first(), legacyPhoto);
   }
@@ -77,6 +79,7 @@ test('retired Samsung storage keeps its exact image and identity in existing sav
 test('ready build details and build comparison selections render ID-resolved media', async ({ page }) => {
   await setup(page);
   await page.goto('/ready-builds');
+  await page.getByRole('tab', { name: 'Explorar', exact: true }).click();
   await verifyPhoto(page);
   await page.getByRole('button', { name: 'Ver detalhes', exact: true }).first().click();
   await verifyPhoto(page, page.getByRole('dialog').locator(`.component-media[data-component-id="${photo.id}"]`));
@@ -104,6 +107,7 @@ test('individual recommendations, upgrades and ranking use current catalog metad
 test('a stale verified snapshot cannot override current blocked metadata or load legacy URLs', async ({ page }) => {
   await setup(page, components.map(component => component.id === photo.id ? { ...component, image: { ...component.image, status: 'blocked' } } : component));
   await page.goto('/summary');
+  await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
   const media = page.locator(`.component-media[data-component-id="${photo.id}"]`).first();
   await expect(media.locator('img')).toHaveCount(0);
   await expect(media.getByRole('img', { name: `Fotografia não disponível: ${photo.name}`, exact: true })).toBeVisible();

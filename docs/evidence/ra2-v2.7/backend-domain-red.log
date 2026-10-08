@@ -28,13 +28,13 @@
 
 ✖ failing tests:
 
-test at ../../../tmp/pc-v27-backend-red/tests/build-lifecycle-integrity.test.js:11:1
+test at ../../..tests/build-lifecycle-integrity.test.js:11:1
 ✖ deleting a saved build removes dependent versions and notifications but preserves other builds and shared snapshots (11.419428ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   
   true !== false
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/build-lifecycle-integrity.test.js:27:10)
+      at TestContext.<anonymous> (tests/build-lifecycle-integrity.test.js:27:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)
@@ -47,10 +47,10 @@ test at ../../../tmp/pc-v27-backend-red/tests/build-lifecycle-integrity.test.js:
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
+test at ../../..tests/quality-domain.test.js:20:3
 ✖ game: rejects full incompatible and unknown builds instead of returning unsupported performance (5.392224ms)
   AssertionError [ERR_ASSERTION]: Missing expected exception.
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:25:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:25:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)
@@ -63,7 +63,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
+test at ../../..tests/quality-domain.test.js:35:3
 ✖ game: top-level component aliases override conflicting nested IDs consistently (4.299699ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -109,7 +109,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
       }
     }
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:38:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:38:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -124,7 +124,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
+test at ../../..tests/quality-domain.test.js:41:3
 ✖ game: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.481292ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -136,7 +136,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
   -   status: 'unverified'
   - }
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:44:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:44:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -151,10 +151,10 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
+test at ../../..tests/quality-domain.test.js:20:3
 ✖ multiple games: rejects full incompatible and unknown builds instead of returning unsupported performance (1.547829ms)
   AssertionError [ERR_ASSERTION]: Missing expected exception.
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:25:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:25:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -169,7 +169,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
+test at ../../..tests/quality-domain.test.js:35:3
 ✖ multiple games: top-level component aliases override conflicting nested IDs consistently (1.378989ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -203,7 +203,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
       targetResolution: '1080p'
     }
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:38:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:38:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -218,7 +218,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
+test at ../../..tests/quality-domain.test.js:41:3
 ✖ multiple games: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.435374ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -230,7 +230,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
   -   status: 'unverified'
   - }
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:44:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:44:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -245,10 +245,10 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
+test at ../../..tests/quality-domain.test.js:20:3
 ✖ professional software: rejects full incompatible and unknown builds instead of returning unsupported performance (1.207315ms)
   AssertionError [ERR_ASSERTION]: Missing expected exception.
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:25:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:25:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -263,7 +263,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
+test at ../../..tests/quality-domain.test.js:35:3
 ✖ professional software: top-level component aliases override conflicting nested IDs consistently (0.659165ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -294,7 +294,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
           gpuWeight: 0.25,
           ramWeight: 0.25,
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:38:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:38:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -309,7 +309,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
+test at ../../..tests/quality-domain.test.js:41:3
 ✖ professional software: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.51384ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -321,7 +321,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
   -   status: 'unverified'
   - }
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:44:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:44:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -336,7 +336,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:51:1
+test at ../../..tests/quality-domain.test.js:51:1
 ✖ comparison rejects malformed build entries with a controlled 400 (1.395404ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
   + actual - expected
@@ -346,7 +346,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:51:1
   -   statusCode: 400
   - }
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:53:12)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:53:12)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -356,14 +356,14 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:51:1
     generatedMessage: true,
     code: 'ERR_ASSERTION',
     actual: TypeError: Cannot read properties of null (reading 'name')
-        at analyzeBuildForComparison (file:///tmp/pc-v27-backend-red/src/services/buildComparisonService.js:73:44)
-        at file:///tmp/pc-v27-backend-red/src/services/buildComparisonService.js:33:58
+        at analyzeBuildForComparison (src/services/buildComparisonService.js:73:44)
+        at src/services/buildComparisonService.js:33:58
         at Array.map (<anonymous>)
-        at compareBuilds (file:///tmp/pc-v27-backend-red/src/services/buildComparisonService.js:33:31)
-        at assert.throws.statusCode (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:53:25)
+        at compareBuilds (src/services/buildComparisonService.js:33:31)
+        at assert.throws.statusCode (tests/quality-domain.test.js:53:25)
         at getActual (node:assert:611:5)
         at strict.throws (node:assert:759:24)
-        at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:53:12)
+        at TestContext.<anonymous> (tests/quality-domain.test.js:53:12)
         at Test.runInAsyncScope (node:async_hooks:227:14)
         at Test.run (node:internal/test_runner/test:1382:25),
     expected: { statusCode: 400 },
@@ -371,10 +371,10 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:51:1
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:57:1
+test at ../../..tests/quality-domain.test.js:57:1
 ✖ performance parameter updates reject out-of-scale specialized scores atomically (0.960911ms)
   AssertionError [ERR_ASSERTION]: Missing expected exception.
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:63:16)
+      at TestContext.<anonymous> (tests/quality-domain.test.js:63:16)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
@@ -389,7 +389,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:57:1
     diff: 'simple'
   }
 
-test at ../../../tmp/pc-v27-backend-red/tests/shareBuild.test.js:35:1
+test at ../../..tests/shareBuild.test.js:35:1
 ✖ deve gerar compartilhamento para build salva (1204.286289ms)
   AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
   + actual - expected
@@ -398,7 +398,7 @@ test at ../../../tmp/pc-v27-backend-red/tests/shareBuild.test.js:35:1
   - '/shared/share-001'
             ^
   
-      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/shareBuild.test.js:43:10)
+      at TestContext.<anonymous> (tests/shareBuild.test.js:43:10)
       at Test.runInAsyncScope (node:async_hooks:227:14)
       at Test.run (node:internal/test_runner/test:1382:25)
       at Test.start (node:internal/test_runner/test:1242:17)

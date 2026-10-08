@@ -5,7 +5,7 @@ node:internal/modules/run_main:107
 
 AssertionError [ERR_ASSERTION]: Got unwanted exception: Every image-presentation catalog fixture must satisfy catalog identity schema
 Actual message: "Resposta inválida do catálogo. Tente carregar as peças novamente."
-    at file:///workspace/shared/pcpowerlab-v2-baseline/[eval1]:10:8
+    at file://[eval1]:10:8
     at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
     at async node:internal/modules/esm/loader:224:26
@@ -14,11 +14,11 @@ Actual message: "Resposta inválida do catálogo. Tente carregar as peças novam
   generatedMessage: false,
   code: 'ERR_ASSERTION',
   actual: Error: Resposta inválida do catálogo. Tente carregar as peças novamente.
-      at validateCatalogResponse (file:///workspace/shared/pcpowerlab-v2-baseline/frontend/src/utils/catalogResponse.js:17:13)
-      at file:///workspace/shared/pcpowerlab-v2-baseline/[eval1]:10:25
+      at validateCatalogResponse (file://frontend/src/utils/catalogResponse.js:17:13)
+      at file://[eval1]:10:25
       at getActual (node:assert:611:5)
       at strict.doesNotThrow (node:assert:779:32)
-      at file:///workspace/shared/pcpowerlab-v2-baseline/[eval1]:10:8
+      at file://[eval1]:10:8
       at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
       at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
       at async node:internal/modules/esm/loader:224:26

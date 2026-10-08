@@ -1,3 +1,4 @@
+import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
 import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
 import { useState } from 'react';
 import { Check, ExternalLink, PlusCircle } from 'lucide-react';
@@ -42,6 +43,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         {performanceScore !== null && <p className="hint-text">{performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)} / 100</p>}
         {compatibilityPreview && <div className="catalog-compatibility-note">
           <p>{compatibilityPreview.status === 'compatible' ? 'Compatível nas regras verificadas' : compatibilityPreview.status === 'incompatible' ? 'Conflito na montagem resultante' : 'Verificação incompleta'}</p>
+          <CoolingAssessmentNotice result={compatibilityPreview} />
           {[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].length > 0 && <details><summary>Ver motivos de compatibilidade</summary><ul>{[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].map((item, index) => <li key={`${item.code}-${index}`}>{item.message}</li>)}</ul></details>}
         </div>}
         </div>

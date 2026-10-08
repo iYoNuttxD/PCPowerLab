@@ -217,6 +217,7 @@ function buildCandidateSuggestion({
     }),
     explanation,
     compatibilityStatus: 'compatible',
+    coolingAssessment: compatibility.coolingAssessment,
     score: calculateSuggestionScore({
       scoreGain,
       costBenefitScore,

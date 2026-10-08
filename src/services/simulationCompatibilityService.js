@@ -16,5 +16,5 @@ export function validateSimulationCompatibility(input) {
     error.errors = [...compatibility.alerts, ...compatibility.unverifiedChecks].map((entry) => entry.message);
     throw error;
   }
-  return { scope: 'full_build', status: compatibility.status, compatible: true };
+  return { scope: 'full_build', status: compatibility.status, compatible: true, coolingAssessment: compatibility.coolingAssessment };
 }

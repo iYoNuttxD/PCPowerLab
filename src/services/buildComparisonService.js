@@ -106,6 +106,7 @@ function analyzeBuildForComparison({
     performanceAvailable: performanceScore !== null,
     compatible: summary.compatibility.compatible,
     compatibilityStatus: summary.compatibility.status,
+    coolingAssessment: summary.compatibility.coolingAssessment,
     unverifiedChecks: summary.compatibility.unverifiedChecks,
     components: summary.components,
     alertSummary,
@@ -118,6 +119,7 @@ function analyzeBuildForComparison({
     gamePerformance: summary.gamePerformance,
     summary: buildComparisonSummary({
       compatible: summary.compatibility.compatible,
+      coolingAssessment: summary.compatibility.coolingAssessment,
       budgetStatus,
       hasBottleneck: bottleneckVerdict(summary.bottlenecks),
       gamePerformance: summary.gamePerformance,
@@ -168,6 +170,7 @@ function selectRecommendedBuild({ builds, comparisonCriteria }) {
 
 function buildComparisonSummary({
   compatible,
+  coolingAssessment,
   budgetStatus,
   hasBottleneck,
   gamePerformance,
@@ -176,7 +179,9 @@ function buildComparisonSummary({
   const parts = [];
 
   parts.push(compatible
-    ? `Configuração compatível segundo as regras do catálogo para ${usageType}.`
+    ? coolingAssessment?.status === 'unverified'
+      ? `Verificações principais compatíveis para ${usageType}; refrigeração não verificada.`
+      : `Configuração compatível segundo as regras do catálogo para ${usageType}.`
     : 'Configuração tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendação.');
 
   if (budgetStatus === 'unavailable') {

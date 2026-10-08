@@ -76,6 +76,7 @@ try {
         await page.locator('.upgrade-card').first().waitFor();
       }
       if (name === 'summary') {
+        await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
         await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
         await page.getByText('Nota geral da build calculada.', { exact: true }).waitFor();
       }
@@ -93,7 +94,7 @@ try {
     const single = page.getByRole('region', { name: 'Resultado da simulação individual' });
     await single.waitFor(); await single.scrollIntoViewIfNeeded();
     await audit(page, 'performance-single', width, true);
-    await page.getByRole('radio', { name: /^Comparar jogos/ }).check();
+    await page.getByRole('tab', { name: 'Comparar jogos', exact: true }).click();
     await page.getByRole('button', { name: 'Comparar jogos', exact: true }).click();
     const comparison = page.getByRole('region', { name: 'Resultado da comparação de jogos' });
     await comparison.waitFor(); await comparison.scrollIntoViewIfNeeded();

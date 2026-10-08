@@ -62,6 +62,7 @@ test('nota ausente continua diferente de zero e mantém critério disponível', 
   await seed(page);
   await page.route('**/build-score', route => ok(route, { overallScore: null, criteria: { compatibilityScore: 0, performanceScore: null } }));
   await page.goto('/summary');
+  await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
   await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
   await expect(page.getByRole('img', { name: 'Nota geral não disponível' })).toBeVisible();
   const performance = page.locator('.criterion-card').filter({ hasText: 'Desempenho' });
@@ -82,7 +83,7 @@ test('tabela FPS recupera nomes completos e valores sem depender de hover', asyn
     ]
   }));
   await page.goto('/performance-lab');
-  await page.getByRole('radio', { name: /^Comparar jogos/ }).check();
+  await page.getByRole('tab', { name: 'Comparar jogos', exact: true }).click();
   const boxes = page.getByRole('group', { name: 'Jogos para comparação' }).getByRole('checkbox');
   await expect(boxes.first()).toBeVisible();
   for (const checkbox of await boxes.all()) await checkbox.uncheck();

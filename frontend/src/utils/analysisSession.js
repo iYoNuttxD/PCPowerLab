@@ -1,10 +1,10 @@
-// Navigation convenience only: six fixed, tab-scoped records, each bounded in
+// Navigation convenience only: seven fixed, tab-scoped records, each bounded in
 // size and age. Never persist pending requests, errors, or authentication data.
 const prefix = 'pcpowerlab-analysis-session:';
 const version = 1;
 const maxAge = 2 * 60 * 60 * 1000;
 const maxLength = 384 * 1024;
-const slots = new Set(['performance-inputs', 'performance-games', 'performance-software', 'upgrade-inputs', 'upgrade-suggestions', 'upgrade-roadmap']);
+const slots = new Set(['performance-inputs', 'performance-game-single', 'performance-game-comparison', 'performance-software', 'upgrade-inputs', 'upgrade-suggestions', 'upgrade-roadmap']);
 
 export const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 export const isSessionId = value => typeof value === 'string' && value.length <= 200;

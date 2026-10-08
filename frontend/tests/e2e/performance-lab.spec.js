@@ -31,7 +31,8 @@ async function seed(page, extra = {}) {
     key: storageKey, state: { selectedComponents, budget: { amount: 5000, currency: 'BRL', priority: 'cost-benefit' }, ...extra }
   });
 }
-async function compareMode(page) { await page.getByRole('radio', { name: /^Comparar jogos/ }).check(); }
+async function taskMode(page, name) { await page.getByRole('tab', { name, exact: true }).click(); }
+async function compareMode(page) { await taskMode(page, 'Comparar jogos'); }
 const singleRegion = page => page.getByRole('region', { name: 'Resultado da simulação individual' });
 const comparisonRegion = page => page.getByRole('region', { name: 'Resultado da comparação de jogos' });
 
@@ -55,7 +56,7 @@ test.afterEach(async ({ page }) => { expect(failures.get(page)).toEqual([]); });
 test('simula um único jogo pelo contrato existente e preserva classificação, requisitos e detalhes da API', async ({ page }) => {
   await seed(page);
   await page.goto('/performance-lab');
-  await expect(page.getByRole('radio', { name: /^Simular um jogo/ })).toBeChecked();
+  await expect(page.getByRole('tab', { name: 'Um jogo', exact: true })).toHaveAttribute('aria-selected', 'true');
   await page.getByRole('combobox', { name: 'Jogo', exact: true }).selectOption(games[0].id);
   await page.getByRole('combobox', { name: 'Resolução', exact: true }).selectOption('1440p');
   await page.getByRole('combobox', { name: 'Qualidade gráfica', exact: true }).selectOption('low');
@@ -113,10 +114,10 @@ test('compara vários jogos e usa requisitos da API em vez de inferi-los por 60 
   await expect(result).toHaveCount(0);
 });
 
-test('troca de modo, jogo e configurações invalida resultado e ignora resposta atrasada', async ({ page }) => {
-  let release;
+test('troca de tarefa mantém resposta pendente e cache; mudar jogo e configurações invalida resultado', async ({ page }) => {
+  let release; let requests = 0;
   await seed(page);
-  await page.route('**/performance/simulate-game', async route => { await new Promise(resolve => { release = resolve; }); await ok(route, singleResult); });
+  await page.route('**/performance/simulate-game', async route => { requests++; await new Promise(resolve => { release = resolve; }); await ok(route, singleResult); });
   await page.goto('/performance-lab');
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
   await expect(page.getByText('Calculando estimativas para a sua configuração...', { exact: true })).toBeVisible();
@@ -127,8 +128,13 @@ test('troca de modo, jogo e configurações invalida resultado e ignora resposta
   await page.getByRole('button', { name: 'Comparar jogos', exact: true }).click();
   await expect(comparisonRegion(page)).toBeVisible();
   await expect(singleRegion(page)).toHaveCount(0);
-  await page.getByRole('radio', { name: /^Simular um jogo/ }).check();
-  await expect(singleRegion(page)).toHaveCount(0);
+  await taskMode(page, 'Um jogo');
+  await expect(singleRegion(page)).toBeVisible();
+  expect(requests).toBe(1);
+  await compareMode(page);
+  await expect(comparisonRegion(page)).toBeVisible();
+  await taskMode(page, 'Um jogo');
+  expect(requests).toBe(1);
   await expect(page.getByRole('button', { name: 'Simular jogo', exact: true })).toBeEnabled();
   await page.route('**/performance/simulate-game', route => ok(route, singleResult));
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
@@ -139,6 +145,46 @@ test('troca de modo, jogo e configurações invalida resultado e ignora resposta
   await expect(singleRegion(page)).toBeVisible();
   await page.getByRole('combobox', { name: 'Qualidade gráfica', exact: true }).selectOption('ultra');
   await expect(singleRegion(page)).toHaveCount(0);
+});
+
+test('tarefas retêm entradas e resultados independentes sem refazer chamadas ao revisitar', async ({ page }) => {
+  const calls = { single: 0, compare: 0, software: 0, games: 0, programs: 0 };
+  await seed(page);
+  await page.route('**/performance/games', route => { calls.games++; return ok(route, games); });
+  await page.route('**/professional-software', route => { calls.programs++; return ok(route, professionalSoftware); });
+  await page.route('**/performance/simulate-game', route => { calls.single++; return ok(route, singleResult); });
+  await page.route('**/performance/compare-games', route => { calls.compare++; return ok(route, comparisonResult); });
+  await page.route('**/performance/simulate-software', route => { calls.software++; return ok(route, { software: professionalSoftware[1].name, performanceScore: 82 }); });
+  await page.goto('/performance-lab');
+  await page.getByRole('combobox', { name: 'Jogo', exact: true }).selectOption(games[2].id);
+  await page.getByRole('combobox', { name: 'Resolução', exact: true }).selectOption('1440p');
+  await page.getByRole('combobox', { name: 'Qualidade gráfica', exact: true }).selectOption('ultra');
+  await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
+  await expect(singleRegion(page)).toBeVisible();
+  await compareMode(page);
+  const selected = await page.getByRole('group', { name: 'Jogos para comparação' }).getByRole('checkbox').evaluateAll(boxes => boxes.map(box => box.checked));
+  await page.getByRole('button', { name: 'Comparar jogos', exact: true }).click();
+  await expect(comparisonRegion(page)).toBeVisible();
+  await taskMode(page, 'Software');
+  await page.getByRole('combobox', { name: 'Software', exact: true }).selectOption(professionalSoftware[1].id);
+  await page.getByRole('button', { name: 'Simular software', exact: true }).click();
+  await expect(page.getByRole('region', { name: 'Resultado da simulação profissional' })).toBeVisible();
+  for (let revisit = 0; revisit < 2; revisit++) {
+    await taskMode(page, 'Um jogo');
+    await expect(page.getByRole('tabpanel')).toHaveCount(1);
+    await expect(singleRegion(page)).toBeVisible();
+    await expect(comparisonRegion(page)).toHaveCount(0);
+    await expect(page.getByRole('combobox', { name: 'Jogo', exact: true })).toHaveValue(games[2].id);
+    await expect(page.getByRole('combobox', { name: 'Resolução', exact: true })).toHaveValue('1440p');
+    await expect(page.getByRole('combobox', { name: 'Qualidade gráfica', exact: true })).toHaveValue('ultra');
+    await compareMode(page);
+    await expect(comparisonRegion(page)).toBeVisible();
+    expect(await page.getByRole('group', { name: 'Jogos para comparação' }).getByRole('checkbox').evaluateAll(boxes => boxes.map(box => box.checked))).toEqual(selected);
+    await taskMode(page, 'Software');
+    await expect(page.getByRole('combobox', { name: 'Software', exact: true })).toHaveValue(professionalSoftware[1].id);
+    await expect(page.getByRole('region', { name: 'Resultado da simulação profissional' })).toBeVisible();
+  }
+  expect(calls).toEqual({ single: 1, compare: 1, software: 1, games: 1, programs: 1 });
 });
 
 test('build incompleta bloqueia ambos os modos sem chamar as APIs', async ({ page }) => {
@@ -224,6 +270,7 @@ test('dados ausentes não viram zero FPS nem entram na média', async ({ page })
 test('simulação profissional mantém funcionamento e erros separados do jogo', async ({ page }) => {
   await seed(page);
   await page.goto('/performance-lab');
+  await taskMode(page, 'Software');
   await page.getByRole('button', { name: 'Simular software', exact: true }).click();
   const result = page.getByRole('region', { name: 'Resultado da simulação profissional' });
   await expect(result.getByText('76', { exact: true })).toBeVisible();
@@ -233,6 +280,7 @@ test('simulação profissional mantém funcionamento e erros separados do jogo',
   await page.route('**/performance/simulate-software', route => fail(route, 'Simulação profissional indisponível.'));
   await page.getByRole('button', { name: 'Simular software', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('Simulação profissional indisponível.');
+  await taskMode(page, 'Um jogo');
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
   await expect(singleRegion(page)).toBeVisible();
 });
@@ -240,11 +288,18 @@ test('simulação profissional mantém funcionamento e erros separados do jogo',
 test('explicações e detalhes são acessíveis por teclado', async ({ page }) => {
   await seed(page);
   await page.goto('/performance-lab');
-  const radio = page.getByRole('radio', { name: /^Simular um jogo/ });
-  await radio.focus(); await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('radio', { name: /^Comparar jogos/ })).toBeChecked();
-  await page.keyboard.press('ArrowLeft');
-  await expect(radio).toBeChecked();
+  const firstTab = page.getByRole('tab', { name: 'Um jogo', exact: true });
+  const compareTab = page.getByRole('tab', { name: 'Comparar jogos', exact: true });
+  const coolingTab = page.getByRole('tab', { name: 'Temperatura e ruído', exact: true });
+  await firstTab.focus(); await page.keyboard.press('ArrowRight');
+  await expect(compareTab).toBeFocused(); await expect(compareTab).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('End');
+  await expect(coolingTab).toBeFocused(); await expect(coolingTab).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('ArrowRight');
+  await expect(firstTab).toBeFocused(); await expect(firstTab).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('ArrowLeft'); await expect(coolingTab).toBeFocused();
+  await page.keyboard.press('Home'); await expect(firstTab).toBeFocused();
+  await expect(page.getByRole('tabpanel')).toHaveCount(1);
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
   const summary = singleRegion(page).locator('summary').filter({ hasText: 'Como interpretar' });
   await summary.focus(); await page.keyboard.press('Enter');
@@ -259,6 +314,7 @@ test('resumo distingue compatibilidade pendente e mantém avisos da nota geral v
   await page.goto('/summary');
   await expect(page.locator('.build-status-card')).toContainText('Compatibilidade não verificada');
   await expect(page.locator('.build-status-card')).not.toContainText('Nenhuma incompatibilidade crítica');
+  await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
   await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Limitações desta nota' })).toContainText('Parâmetros de desempenho ausentes para: cpu.');
   await expect(page.getByText(/As barras detalham os critérios usados/)).toBeVisible();
@@ -295,4 +351,27 @@ test('ranking explica a normalização por categoria e mantém preço e pontuaç
   await expect(page.getByText(/a melhor relação de cada categoria recebe 100 pontos/)).toBeVisible();
   await expect(page.getByText('70 / 100', { exact: true })).toBeVisible();
   await expect(page.getByText('100 / 100', { exact: true })).toBeVisible();
+});
+
+
+test('thermal task keeps game result and persists scenario edits without resubmitting analyses', async ({ page }) => {
+  await seed(page);
+  let requests = 0;
+  await page.route('**/performance/simulate-game', route => { requests += 1; return ok(route, singleResult); });
+  await page.goto('/performance-lab');
+  await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
+  await expect(singleRegion(page)).toBeVisible();
+  await taskMode(page, 'Temperatura e ruído');
+  await expect(page.getByRole('heading', { name: 'Temperatura e ruído', exact: true })).toBeVisible();
+  await expect(page.getByText('Simulação aproximada', { exact: true })).toBeVisible();
+  await page.locator('.cooling-simulation-controls > summary').click();
+  await page.getByLabel('Ar na entrada do cooler (°C)', { exact: true }).fill('30');
+  await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)).coolingConditions.inletCelsius, storageKey)).toBe(30);
+  await taskMode(page, 'Um jogo');
+  await expect(singleRegion(page)).toBeVisible();
+  expect(requests).toBe(1);
+  await taskMode(page, 'Temperatura e ruído');
+  await page.locator('.cooling-simulation-controls > summary').click();
+  await expect(page.getByLabel('Ar na entrada do cooler (°C)', { exact: true })).toHaveValue('30');
+  await expect(page.getByRole('tabpanel')).toHaveCount(1);
 });

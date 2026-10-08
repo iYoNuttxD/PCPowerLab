@@ -50,3 +50,11 @@ test('ready-build cost-benefit and high-performance profiles survive reload', ()
     assert.equal(normalizePersistedBuild({ usageType }).usageType, usageType);
   }
 });
+
+test('local cooling scenarios round-trip and malformed values restore defaults', () => {
+  const scenario = { ...initialBuildState.coolingConditions, inletCelsius: 30, referenceHeatWatts: 190, coolerSpeedFraction: 1, extraFanSpeedFraction: 0.5 };
+  assert.deepEqual(normalizePersistedBuild({ coolingConditions: scenario }).coolingConditions, scenario);
+  for (const invalid of [null, 'bad', [], { inletCelsius: 99 }, { coolerSpeedFraction: 0 }, { referenceHeatWatts: -1 }, { modelVersion: 'old-model' }]) {
+    assert.deepEqual(normalizePersistedBuild({ coolingConditions: invalid }).coolingConditions, initialBuildState.coolingConditions);
+  }
+});

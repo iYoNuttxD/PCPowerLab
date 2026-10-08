@@ -1,5 +1,7 @@
 # RA2 V2 — requisitos rastreáveis (v2.0)
 
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+
 Base inspecionada: `d433bf930d7373eec073921427e146bc8c173f26`, branch `codex/pcpowerlab-ra2-ciclo2`, em 08/10/2026 (UTC).
 
 ## Origem e interpretação
@@ -152,3 +154,10 @@ O [relatório V2.10](RA2-V2.10-CONTINUIDADE.md) e seus resumos de execução des
 ## Política adicional — pontuação inventada autorizada
 
 Atendido em patch de revisão: oito perfis provisórios, prioridade para evidência real revisada, proveniência na API/UI e em exportações. Não exige inventar especificações, FPS ou temperatura. Validação: [metodologia e testes](RA2-SYNTHETIC-PERFORMANCE.md).
+
+
+## Continuidade atual — evidência por fonte
+
+Os critérios R01–R22 acima permanecem intactos. As autorizações posteriores para índices sintéticos e cenários térmicos/acústicos aproximados ampliam o produto, sem transformar estimativa em medição física ou aprovação de UX. A matriz final da união será anexada após o reteste identificado por fonte.
+
+R10: 81 fotos estruturalmente válidas, 71 de modelo exato e 10 de família. O requisito original de correspondência exata não é declarado integralmente satisfeito pela cobertura estrutural. R18/R19: 81 observações manuais datadas, sem cotação API ao vivo nem garantia de estoque/preço futuro. R22: pesquisa real do Ciclo 2, retenção e monetização não realizadas. Nenhum requisito recebe VALIDADO apenas por implementação, SSR, contagem de testes ou autorização de estimativa.
