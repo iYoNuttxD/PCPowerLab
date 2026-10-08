@@ -77,6 +77,7 @@ test('deve destacar incompatibilidades no resumo final', () => {
 test('deve informar quando analise opcional nao tiver dados suficientes', () => {
   createAdminComponent({
     id: 'cpu-build-summary-no-performance-score',
+    price: 500, // Isolate missing performance data; price is independently required for totals.
     name: 'CPU Build Summary Sem Score',
     type: 'cpu',
     brand: 'Test',

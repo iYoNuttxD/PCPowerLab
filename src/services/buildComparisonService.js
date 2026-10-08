@@ -95,6 +95,9 @@ function analyzeBuildForComparison({
     name,
     totalEstimatedPrice: summary.totalEstimatedPrice,
     compatible: summary.compatibility.compatible,
+    compatibilityStatus: summary.compatibility.status,
+    unverifiedChecks: summary.compatibility.unverifiedChecks,
+    components: summary.components,
     alertSummary,
     performanceScore,
     costBenefitScore,
@@ -153,7 +156,7 @@ function buildComparisonSummary({
 
   parts.push(compatible
     ? `Configuracao compativel para ${usageType}.`
-    : 'Configuracao possui incompatibilidades que reduzem sua recomendacao.');
+    : 'Configuracao tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendacao.');
 
   if (budgetStatus === 'within_budget') {
     parts.push('Esta dentro do orcamento informado.');

@@ -6,7 +6,7 @@ import ErrorState from '../components/ui/ErrorState.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
 import { adminService } from '../services/adminService.js';
-import { componentLabels, componentTypes } from '../utils/componentLabels.js';
+import { componentLabels, componentTypes, catalogComponentTypes } from '../utils/componentLabels.js';
 import { translateSeverity, translateValue } from '../utils/translations.js';
 
 export default function Admin() {
@@ -208,8 +208,8 @@ export default function Admin() {
           <h2>Nova regra</h2>
           <form className="form-grid" onSubmit={createRule}>
             <Input label="Nome" name="name" required maxLength="100" />
-            <Select label="Origem" name="sourceType" options={componentTypes.map((type) => ({ value: type, label: componentLabels[type] }))} />
-            <Select label="Destino" name="targetType" options={[...componentTypes, 'build'].map((type) => ({ value: type, label: componentLabels[type] || 'Build completa' }))} />
+            <Select label="Origem" name="sourceType" options={catalogComponentTypes.map((type) => ({ value: type, label: componentLabels[type] }))} />
+            <Select label="Destino" name="targetType" options={[...catalogComponentTypes, 'build'].map((type) => ({ value: type, label: componentLabels[type] || 'Build completa' }))} />
             <Input label="Campo" name="field" required maxLength="60" />
             <Input label="Campo destino" name="targetField" maxLength="60" />
             <Select label="Operador" name="operator" options={['equals', 'includes', 'lessThanOrEqual', 'greaterThanOrEqual'].map((value) => ({ value, label: translateValue(value) }))} />
@@ -221,6 +221,7 @@ export default function Admin() {
 
         <Card>
           <h2>Novo parâmetro</h2>
+          <p className="analysis-note">Coolers e ventoinhas não recebem pontuação sintética de desempenho nem ganho de FPS. Suas especificações são usadas para refrigeração, consumo e compatibilidade.</p>
           <form className="form-grid" onSubmit={saveParameter}>
             <Input label="Component ID" name="componentId" required maxLength="80" />
             <Select label="Tipo" name="type" options={componentTypes.map((type) => ({ value: type, label: componentLabels[type] }))} />
@@ -232,6 +233,7 @@ export default function Admin() {
 
       <Card>
         <h2>Regras cadastradas</h2>
+        <p className="analysis-note">Estes registros editáveis são documentais. Não executam nem controlam a compatibilidade: a análise utiliza verificações implementadas no backend. Alterar uma regra aqui não altera os testes técnicos.</p>
         <div className="admin-list">
           {rules.map((rule) => (
             <article key={rule.id} className="admin-row">

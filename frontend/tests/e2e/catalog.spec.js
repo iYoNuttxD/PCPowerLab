@@ -5,6 +5,7 @@ import { readyBuilds } from '../../../src/data/readyBuilds.js';
 const storageKey = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const original = Object.fromEntries(types.map(type => [type, components.find(component => component.id === readyBuilds[0].components[`${type}Id`])]));
+original.fans = [];
 const ram16 = components.find(component => component.id === 'ram-kingston-fury-16gb-ddr4-3600');
 const ram32 = components.find(component => component.id === 'ram-crucial-32gb-ddr4-3200');
 const ramDdr5 = components.find(component => component.id === 'ram-kingston-fury-16gb-ddr5-5200');
@@ -73,7 +74,7 @@ test('combina marca, categoria, nome e limites inclusivos de preço; explica fai
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
   await expect(page.locator('.component-card')).toHaveCount(components.length);
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Intel');
-  await expect(page.locator('.component-card')).toHaveCount(6);
+  await expect(page.locator('.component-card')).toHaveCount(components.filter(component => component.brand === 'Intel').length);
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('storage');
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toBeVisible();
 });
@@ -173,7 +174,7 @@ test('substitui uma peça recomendada no resumo após verificar e preserva a mon
   const request = page.waitForRequest(request => request.url().endsWith('/build-summary'));
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   const sent = (await request).postDataJSON();
-  expect(sent.build).toEqual({ ...readyBuilds[0].components, ramId: ram32.id });
+  expect(sent.build).toEqual({ ...readyBuilds[0].components, ramId: ram32.id, fans: [] });
   expect(sent.budget).toEqual({ amount: 5000, currency: 'BRL', priority: 'cost-benefit' });
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeEnabled();
   await expect(dialog.getByRole('region', { name: 'Verificação da substituição' })).toBeFocused();

@@ -4,6 +4,8 @@ import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
+import CoolingPanel from '../components/build/CoolingPanel.jsx';
+import { useComponents } from '../hooks/useComponents.js';
 import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import GameSimulationResult from '../components/build/GameSimulationResult.jsx';
@@ -36,6 +38,7 @@ import { translateValue } from '../utils/translations.js';
 export default function BuildSummary() {
   const navigate = useNavigate();
   const build = useBuildState();
+  const catalog = useComponents();
   const request = useApiRequest();
   const [games, setGames] = useState([]);
   const [linksByBuild, setLinksByBuild] = useState(null);
@@ -68,6 +71,16 @@ export default function BuildSummary() {
       .then((data) => setGames(Array.isArray(data) ? data : []))
       .catch(() => setGames([]));
   }, []);
+
+  useEffect(() => {
+    setBuildScore(null);
+    setFixSuggestions(null);
+    setShare(null);
+    setTechnicalReport(null);
+    setExportedJson(null);
+    setLinksByBuild(null);
+    setFeedback('');
+  }, [configurationKey]);
 
   async function generateSummary() {
     if (!hasCompleteBuild(build.selectedComponents)) {
@@ -290,7 +303,7 @@ export default function BuildSummary() {
             <div className="summary-overview-side">
               <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
               <BuildStatusCard
-                verified={typeof compatibilityData?.compatible === 'boolean'}
+                verified={typeof compatibilityData?.compatible === 'boolean' && compatibilityData?.status !== 'unverified'}
                 incompatible={isIncompatible}
                 loading={loadingAction === 'fixes'}
                 disabled={Boolean(loadingAction)}
@@ -487,7 +500,8 @@ export default function BuildSummary() {
         <TechnicalReportView report={technicalReport} />
       </Modal>
 
-      {replacement && <ComponentReplacement type={replacement.type} initialComponent={replacement.component}
+      {replacement && ['cooler', 'fans'].includes(replacement.type) && <Modal open title="Alterar refrigeração" onClose={() => setReplacement(null)}><CoolingPanel build={build} byType={catalog.byType} loading={catalog.loading} error={catalog.error} onRetry={catalog.reload} /></Modal>}
+      {replacement && !['cooler', 'fans'].includes(replacement.type) && <ComponentReplacement type={replacement.type} initialComponent={replacement.component}
         build={build} onApply={applyReplacement} onClose={() => setReplacement(null)} />}
 
       <Modal open={exportOpen} title="Exportação JSON da build" onClose={() => setExportOpen(false)}>
@@ -770,6 +784,7 @@ function isCompatibilityIncompatible(result) {
     ...(Array.isArray(data.problems) ? data.problems : [])
   ];
 
+  if (data.status === 'unverified') return false;
   return data.compatible === false
     || data.isCompatible === false
     || data.status === 'incompatible'
@@ -787,7 +802,7 @@ function clampScore(value) {
 }
 
 function buildDetailsFromSelectedComponents(selectedComponents = {}) {
-  return componentTypes.reduce((details, type) => {
+  return [...componentTypes, 'cooler'].reduce((details, type) => {
     const component = selectedComponents[type];
 
     if (!component) {
@@ -801,10 +816,10 @@ function buildDetailsFromSelectedComponents(selectedComponents = {}) {
         ...(component.name && { name: component.name }),
         ...(component.category && { category: component.category }),
         ...(component.brand && { brand: component.brand }),
-        ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+        ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
       }
     };
-  }, {});
+  }, { fans: selectedComponents.fans || [] });
 }
 
 function getScoreTone(value) {

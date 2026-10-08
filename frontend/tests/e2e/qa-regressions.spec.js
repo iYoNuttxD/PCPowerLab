@@ -6,6 +6,7 @@ import { games } from '../../../src/data/games.js';
 const key = 'pcpowerlab-build-state';
 const ids = readyBuilds[0].components;
 const selection = Object.fromEntries(Object.entries(ids).map(([slot, id]) => [slot.replace(/Id$/, ''), components.find(part => part.id === id)]));
+selection.fans = [];
 const oldGame = { game: games[0].name, estimatedFps: 120, targetResolution: '1080p', qualityPreset: 'high' };
 const summary = { compatibility: { compatible: true, alerts: [] }, bottlenecks: { hasBottleneck: false }, gamePerformance: oldGame, summary: 'Resumo da configuração anterior.' };
 const failures = new WeakMap();

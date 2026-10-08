@@ -1,5 +1,7 @@
 export const componentTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 
+export const catalogComponentTypes = [...componentTypes, 'cooler', 'fan'];
+
 export const componentLabels = {
   cpu: 'Processador',
   gpu: 'Placa de vídeo',
@@ -7,7 +9,10 @@ export const componentLabels = {
   ram: 'Memória RAM',
   storage: 'Armazenamento',
   psu: 'Fonte de alimentação',
-  case: 'Gabinete'
+  case: 'Gabinete',
+  cooler: 'Cooler do processador',
+  fan: 'Ventoinha',
+  fans: 'Ventoinhas'
 };
 
 export const usageTypes = [

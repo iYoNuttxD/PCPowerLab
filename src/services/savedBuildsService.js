@@ -5,7 +5,7 @@ import {
   normalizeText,
   savedBuildRequiredComponentSlots
 } from '../models/savedBuildModel.js';
-import { findComponentById } from './component.service.js';
+import { selectBuildComponents, calculateBuildPrice } from './build.service.js';
 
 let nextSavedBuildNumber = 1;
 
@@ -50,7 +50,7 @@ export function saveBuild(buildInput) {
     components,
     ...(buildInput.budget !== undefined && { budget: buildInput.budget }),
     ...(normalizeText(buildInput.usageType) && { usageType: normalizeText(buildInput.usageType) }),
-    totalEstimatedPrice: buildInput.totalEstimatedPrice ?? calculateTotalEstimatedPrice(components),
+    totalEstimatedPrice: calculateTotalEstimatedPrice(components),
     ...(buildInput.compatibilityStatus !== undefined && {
       compatibilityStatus: buildInput.compatibilityStatus
     }),
@@ -144,9 +144,8 @@ export function updateSavedBuild(savedBuildId, buildInput) {
     }
   }
 
-  if (Object.prototype.hasOwnProperty.call(buildInput, 'totalEstimatedPrice')) {
-    updatedFields.totalEstimatedPrice = buildInput.totalEstimatedPrice;
-  }
+  // Prices are always derived from the current catalog, never trusted from a client.
+  updatedFields.totalEstimatedPrice = calculateTotalEstimatedPrice(updatedFields.components ?? savedBuild.components);
 
   if (Object.prototype.hasOwnProperty.call(buildInput, 'compatibilityStatus')) {
     updatedFields.compatibilityStatus = buildInput.compatibilityStatus;
@@ -214,33 +213,16 @@ function validateRequiredComponents(components) {
 }
 
 function validateExistingComponents(components) {
-  const invalidComponents = savedBuildRequiredComponentSlots
-    .map((slot) => ({
-      slot,
-      componentId: components[slot],
-      component: findComponentById(components[slot])
-    }))
-    .filter((selection) => !selection.component);
-
-  if (invalidComponents.length === 0) {
-    return;
+  try {
+    selectBuildComponents({ components });
+  } catch (error) {
+    if (error.statusCode === 404) error.message = 'Um ou mais componentes informados não existem.';
+    throw error;
   }
-
-  const error = new Error('Um ou mais componentes informados não existem.');
-  error.statusCode = 404;
-  error.errors = invalidComponents.map(
-    (selection) => `Componente não encontrado para ${selection.slot}: ${selection.componentId}.`
-  );
-  throw error;
 }
 
 function calculateTotalEstimatedPrice(components) {
-  const total = savedBuildRequiredComponentSlots.reduce((total, slot) => {
-    const component = findComponentById(components[slot]);
-
-    return total + (Number(component?.price) || 0);
-  }, 0);
-  return Number(total.toFixed(2));
+  return calculateBuildPrice(selectBuildComponents({ components }));
 }
 
 function generateSavedBuildId() {

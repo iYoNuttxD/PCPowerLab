@@ -1,5 +1,5 @@
 import { sharedBuilds } from '../data/sharedBuilds.js';
-import { savedBuildSlotInputFields } from '../models/savedBuildModel.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { getSavedBuildById } from './savedBuildsService.js';
 
@@ -107,9 +107,7 @@ function resolveShareSource(shareInput) {
 }
 
 function mapComponentsToBuildInput(components) {
-  return Object.fromEntries(
-    Object.entries(savedBuildSlotInputFields).map(([slot, inputField]) => [inputField, components[slot]])
-  );
+  return { components };
 }
 
 function buildShareSummary({ name, build, buildSummary }) {
@@ -126,12 +124,7 @@ function buildShareSummary({ name, build, buildSummary }) {
 }
 
 function normalizeShareComponentIds(build) {
-  return Object.fromEntries(
-    Object.entries(savedBuildSlotInputFields).map(([slot, inputField]) => [
-      slot,
-      build[inputField] ?? build[slot]
-    ])
-  );
+  return serializeBuildSelection(selectBuildComponents(build));
 }
 
 function generateShareId() {

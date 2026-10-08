@@ -10,11 +10,12 @@ import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
 import { useApiRequest } from '../hooks/useApiRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
+import { useComponents } from '../hooks/useComponents.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { upgradeRoadmapService } from '../services/upgradeRoadmapService.js';
 import { upgradeService } from '../services/upgradeService.js';
 import { usageProfilesService } from '../services/usageProfilesService.js';
-import { buildToApiPayload, hasCompleteBuild, normalizeBudgetPayload } from '../utils/buildHelpers.js';
+import { buildToApiPayload, calculateBuildPrice, hasCompleteBuild, hydrateBuildComponents, normalizeBudgetPayload } from '../utils/buildHelpers.js';
 import { componentLabels, componentTypes, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
@@ -24,6 +25,7 @@ import { validateBudgetAmount } from '../utils/validation.js';
 export default function UpgradeSuggestions() {
   const navigate = useNavigate();
   const build = useBuildState();
+  const { components: catalogComponents } = useComponents();
   const request = useApiRequest();
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [usageProfiles, setUsageProfiles] = useState([]);
@@ -33,9 +35,11 @@ export default function UpgradeSuggestions() {
   const [usageType, setUsageType] = useState(build.usageType);
   const [priority, setPriority] = useState('cost-benefit');
   const [result, setResult] = useState(null);
+  const [resultComponents, setResultComponents] = useState({});
   const [roadmapBudget, setRoadmapBudget] = useState(2500);
   const [maxSteps, setMaxSteps] = useState(3);
   const [roadmapResult, setRoadmapResult] = useState(null);
+  const [roadmapComponents, setRoadmapComponents] = useState({});
   const [roadmapLoading, setRoadmapLoading] = useState(false);
   const [roadmapError, setRoadmapError] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -96,16 +100,25 @@ export default function UpgradeSuggestions() {
       return;
     }
 
+    const sourceComponents = resolveSelectedComponents();
     await request.run(async () => {
       const data = await upgradeService.suggest(payload);
       setResult(data);
+      setResultComponents(sourceComponents);
     });
+  }
+
+  function resolveSelectedComponents() {
+    if (!buildId) return build.selectedComponents;
+    const savedBuild = savedBuilds.find((item) => item.id === buildId);
+    const componentMap = Object.fromEntries(catalogComponents.map((component) => [component.id, component]));
+    return hydrateBuildComponents(savedBuild?.components, componentMap);
   }
 
   function resolveBuildPayload() {
     if (buildId) {
       const savedBuild = savedBuilds.find((item) => item.id === buildId);
-      return savedBuild?.components || null;
+      return savedBuild ? buildToApiPayload(savedBuild.components) : null;
     }
 
     if (hasCompleteBuild(build.selectedComponents)) {
@@ -136,6 +149,7 @@ export default function UpgradeSuggestions() {
 
     setRoadmapError('');
     setRoadmapLoading(true);
+    const sourceComponents = resolveSelectedComponents();
 
     try {
       const data = await upgradeRoadmapService.generate({
@@ -146,6 +160,7 @@ export default function UpgradeSuggestions() {
         priority
       });
       setRoadmapResult(data);
+      setRoadmapComponents(sourceComponents);
     } catch (error) {
       setRoadmapError(error.message || 'Não foi possível gerar o plano de upgrades.');
       setRoadmapResult(null);
@@ -226,7 +241,7 @@ export default function UpgradeSuggestions() {
                     onClick={() => navigate('/feedback/new', {
                       state: createUpgradeFeedbackState({
                         suggestion,
-                        selectedComponents: build.selectedComponents,
+                        selectedComponents: resultComponents,
                         title: `Upgrade de ${componentLabels[suggestion.componentType] || translateValue(suggestion.componentType)}`,
                         source: 'upgrade'
                       })
@@ -300,7 +315,7 @@ export default function UpgradeSuggestions() {
           onFeedback={(step) => navigate('/feedback/new', {
             state: createUpgradeFeedbackState({
               suggestion: step,
-              selectedComponents: build.selectedComponents,
+              selectedComponents: componentsBeforeRoadmapStep(roadmapComponents, roadmapResult.steps, step),
               title: `Etapa ${step.step || step.orderRecommended || ''} do roadmap`.trim(),
               source: 'upgrade'
             })
@@ -414,6 +429,9 @@ function translateUpgradeText(text = '') {
 function createUpgradeFeedbackState({ suggestion, selectedComponents, title, source }) {
   const nextComponents = createSuggestedBuildComponents(selectedComponents, suggestion);
   const hasSuggestedBuild = hasCompleteBuild(nextComponents);
+  const priceComponents = [...componentTypes, 'cooler'].map((type) => nextComponents[type]).filter(Boolean)
+    .concat(nextComponents.fans || []);
+  const hasCompletePrice = priceComponents.every((component) => Number.isFinite(Number(component.price ?? component.estimatedPrice)));
 
   return {
     mode: 'contextual',
@@ -423,7 +441,7 @@ function createUpgradeFeedbackState({ suggestion, selectedComponents, title, sou
     summary: translateUpgradeText(suggestion.reason),
     currentComponent: suggestion.currentComponent,
     suggestedComponent: suggestion.suggestedComponent,
-    totalEstimatedPrice: suggestion.estimatedUpgradeCost || suggestion.estimatedCost,
+    totalEstimatedPrice: hasSuggestedBuild && hasCompletePrice ? calculateBuildPrice(nextComponents) : undefined,
     source,
     ...(hasSuggestedBuild && {
       build: nextComponents,
@@ -440,6 +458,19 @@ function createSuggestedBuildComponents(selectedComponents = {}, suggestion = {}
     return selectedComponents;
   }
 
+  if (componentType === 'fan' || componentType === 'fans') {
+    const fans = selectedComponents.fans || [];
+    const currentId = suggestion.currentComponent?.id || suggestion.currentComponent?.fanId;
+    const current = fans.find((fan) => (fan.id || fan.fanId) === currentId);
+    const replacement = { ...suggestion.suggestedComponent, quantity: suggestion.suggestedComponent.quantity ?? current?.quantity ?? 1 };
+    return {
+      ...selectedComponents,
+      fans: current
+        ? fans.map((fan) => fan === current ? replacement : fan)
+        : [...fans, replacement]
+    };
+  }
+
   return {
     ...selectedComponents,
     [componentType]: suggestion.suggestedComponent
@@ -447,24 +478,32 @@ function createSuggestedBuildComponents(selectedComponents = {}, suggestion = {}
 }
 
 function buildDetailsFromSelectedComponents(selectedComponents = {}) {
-  return componentTypes.reduce((details, type) => {
-    const component = selectedComponents[type];
+  const details = Object.fromEntries([...componentTypes, 'cooler']
+    .filter((type) => selectedComponents[type])
+    .map((type) => [type, feedbackComponentDetails(selectedComponents[type])]));
+  if (selectedComponents.fans?.length) {
+    details.fans = selectedComponents.fans.map((fan) => ({ ...feedbackComponentDetails(fan), quantity: fan.quantity ?? 1 }));
+  }
+  return details;
+}
 
-    if (!component) {
-      return details;
-    }
+function feedbackComponentDetails(component) {
+  return {
+    id: component.id,
+    ...(component.name && { name: component.name }),
+    ...(component.category && { category: component.category }),
+    ...(component.brand && { brand: component.brand }),
+    ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+  };
+}
 
-    return {
-      ...details,
-      [type]: {
-        id: component.id,
-        ...(component.name && { name: component.name }),
-        ...(component.category && { category: component.category }),
-        ...(component.brand && { brand: component.brand }),
-        ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
-      }
-    };
-  }, {});
+function componentsBeforeRoadmapStep(components, steps = [], targetStep) {
+  let current = components;
+  for (const step of steps) {
+    if (step === targetStep) break;
+    current = createSuggestedBuildComponents(current, step);
+  }
+  return current;
 }
 
 function getImpactTone(value) {
@@ -479,5 +518,7 @@ function formatCompatibility(compatibility) {
     return 'Não disponível';
   }
 
-  return compatibility.compatible ? 'Compatível' : 'Incompatível';
+  if (compatibility.status === 'incompatible' || compatibility.compatibilityStatus === 'incompatible') return 'Incompatível';
+  if (compatibility.status === 'unverified' || compatibility.compatibilityStatus === 'unverified' || compatibility.unverifiedChecks?.length) return 'Não verificada';
+  return compatibility.compatible === true ? 'Compatível' : compatibility.compatible === false ? 'Incompatível' : 'Não verificada';
 }

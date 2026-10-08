@@ -1,6 +1,7 @@
 import { componentCategories } from './component.model.js';
 
-export const performanceParameterTypes = componentCategories;
+// Cooling is not a performance-score category: it must never imply an FPS bonus.
+export const performanceParameterTypes = componentCategories.filter(type => !['cooler', 'fan'].includes(type));
 
 export const requiredPerformanceFieldsByType = {
   cpu: ['performanceScore'],

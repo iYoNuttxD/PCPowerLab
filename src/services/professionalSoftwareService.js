@@ -85,6 +85,7 @@ function validateSimulationPayload(simulationInput) {
 }
 
 function normalizeBuildInput(buildInput) {
+  buildInput = { ...buildInput.components, ...buildInput };
   return requiredSoftwareSimulationSlots.reduce((normalizedBuild, slot) => ({
     ...normalizedBuild,
     [`${slot}Id`]: buildInput[`${slot}Id`] ?? buildInput[slot]

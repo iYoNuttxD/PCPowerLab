@@ -3,6 +3,7 @@ import Card from '../ui/Card.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { translateValue } from '../../utils/translations.js';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
+import { fanPackPrice } from '../../utils/buildHelpers.js';
 
 export default function PurchaseLinksList({
   linksBySlot,
@@ -41,6 +42,9 @@ export default function PurchaseLinksList({
                 <div className="purchase-component-title">
                   <span className="purchase-component-category">{group.categoryLabel}</span>
                   <strong className="purchase-component-name">{group.componentName}</strong>
+                  {group.category === 'fan' && (
+                    <small>{group.quantity} pack(s) · preços das lojas por pack</small>
+                  )}
                 </div>
                 {Number.isFinite(Number(group.componentPrice)) && (
                   <span className="price">{formatCurrency(group.componentPrice)}</span>
@@ -108,7 +112,7 @@ function ShopLinkCard({ link, renderEstimatedPrice }) {
 
 function groupPurchaseLinksByComponent({ linksBySlot, links, selectedComponents }) {
   const flatLinks = normalizeLinks({ linksBySlot, links });
-  const selectedEntries = componentTypes
+  const selectedEntries = [...componentTypes, 'cooler']
     .map((category) => {
       const component = selectedComponents?.[category];
 
@@ -117,11 +121,23 @@ function groupPurchaseLinksByComponent({ linksBySlot, links, selectedComponents 
         category,
         categoryLabel: componentLabels[category],
         componentName: component.name,
-        componentPrice: component.price,
+        componentPrice: component.price ?? component.estimatedPrice,
         links: []
       } : null;
     })
     .filter(Boolean);
+  for (const fan of (Array.isArray(selectedComponents?.fans) ? selectedComponents.fans : [])) {
+    const quantity = Number(fan.quantity ?? 1);
+    selectedEntries.push({
+      componentId: fan.id || fan.fanId,
+      category: 'fan',
+      categoryLabel: componentLabels.fan,
+      componentName: fan.name || fan.id || fan.fanId,
+      componentPrice: fanPackPrice(fan),
+      quantity,
+      links: []
+    });
+  }
 
   const groupsById = new Map(selectedEntries.map((group) => [group.componentId, group]));
 
@@ -143,14 +159,16 @@ function groupPurchaseLinksByComponent({ linksBySlot, links, selectedComponents 
     const key = link.componentId || link.slot || 'links';
 
     if (!fallbackGroups.has(key)) {
-      const category = link.slot || 'links';
+      const category = link.slot === 'fans' ? 'fan' : link.slot || 'links';
+      const quantity = category === 'fan' ? Number(link.quantity ?? 1) : 1;
 
       fallbackGroups.set(key, {
         componentId: key,
         category,
         categoryLabel: componentLabels[category] || 'Componente',
         componentName: link.componentName || link.componentId || 'Componente selecionado',
-        componentPrice: link.price,
+        componentPrice: fanPackPrice({ price: link.price, quantity }),
+        quantity,
         links: []
       });
     }

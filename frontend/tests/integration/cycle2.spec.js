@@ -86,7 +86,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
   const analyzed = await state(page);
   expect(analyzed.budget.amount).toBe(5500);
-  expect(analyzed.selectedComponents).toEqual(selected);
+  expect(analyzed.selectedComponents).toEqual({ ...selected, fans: [] });
   expect(analyzed.bottlenecks.status).toBe('success');
   expect(analyzed.bottlenecks.data.performanceSummary.cpuScore).toBeGreaterThan(0);
   await capture(page, testInfo, 'wizard-review', page.getByRole('heading', { name: 'Análise de gargalos', exact: true }));
@@ -99,7 +99,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
     await navigation(page, 'builds', '/saved-builds');
     await page.getByRole('article').filter({ has: page.getByRole('heading', { name: saved.name, exact: true }) }).getByRole('button', { name: 'Abrir no wizard', exact: true }).click();
     await expect(page).toHaveURL(/\/build$/);
-    expect((await state(page)).selectedComponents).toEqual(selected);
+    expect((await state(page)).selectedComponents).toEqual({ ...selected, fans: [] });
     expect((await state(page)).budget.amount).toBe(5500);
     await navigation(page, 'analyze', '/compare');
     await page.getByRole('article').filter({ has: page.getByRole('heading', { name: saved.name, exact: true }) }).getByRole('button', { name: 'Selecionar', exact: true }).click();
@@ -162,7 +162,7 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   expect(recommendation.totalEstimatedPrice).toBeLessThanOrEqual(original.budget.amount);
   expect(Object.keys(recommendation.components).sort()).toEqual([...types].sort());
   await page.getByRole('button', { name: 'Usar esta recomendação', exact: true }).click();
-  expect((await state(page)).selectedComponents).toEqual(recommendation.components);
+  expect((await state(page)).selectedComponents).toEqual({ ...recommendation.components, fans: recommendation.components.fans || [] });
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
   expect((await state(page)).compatibility.compatible).toBe(true);

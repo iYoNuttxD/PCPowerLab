@@ -1,4 +1,4 @@
-import { purchaseLinks } from '../data/purchaseLinks.js';
+import { createComponentPurchaseLinks } from '../data/purchaseLinks.js';
 import { requiredBuildSlots, selectBuildComponents } from './build.service.js';
 import { findComponentById } from './component.service.js';
 
@@ -13,18 +13,20 @@ export function getPurchaseLinksByComponentId(componentIdInput) {
     throw error;
   }
 
-  return purchaseLinks
-    .filter((purchaseLink) => purchaseLink.componentId === component.id)
-    .map(formatPurchaseLink);
+  return createComponentPurchaseLinks(component).map(formatPurchaseLink);
 }
 
 export function getPurchaseLinksByBuild(buildInput) {
   const build = selectBuildComponents(buildInput);
 
-  return requiredBuildSlots.reduce((linksBySlot, slot) => ({
+  const links = requiredBuildSlots.reduce((linksBySlot, slot) => ({
     ...linksBySlot,
     [slot]: getPurchaseLinksByComponentId(build[slot].id)
   }), {});
+  if (build.cooler) links.cooler = getPurchaseLinksByComponentId(build.cooler.id);
+  if (build.fans?.length) links.fans = build.fans.flatMap((fan) =>
+    getPurchaseLinksByComponentId(fan.id).map((link) => ({ ...link, quantity: fan.quantity })));
+  return links;
 }
 
 function formatPurchaseLink(purchaseLink) {

@@ -1,5 +1,5 @@
 import { getSavedBuildById } from './savedBuildsService.js';
-import { selectBuildComponents } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
@@ -35,7 +35,8 @@ export function suggestUpgrades(input) {
         currency: budget?.currency ?? 'BRL',
         priority: priority === 'balanced' || priority === 'upgrade-ready' ? 'cost-benefit' : priority
       },
-      usageType
+      usageType,
+      components: currentBuildIds
     }),
     null
   );
@@ -115,6 +116,7 @@ function findBestSuggestionForSlot({
   const recommendedComponentId = recommendationReference?.components?.[slot]?.id;
   const candidates = listComponents({ type: slot })
     .filter((candidate) => candidate.id !== currentComponent.id)
+    .filter((candidate) => preservesCapacity(slot, currentComponent, candidate))
     .map((candidate) => buildCandidateSuggestion({
       candidate,
       slot,
@@ -253,7 +255,9 @@ function resolveBuildInput(input) {
 }
 
 function normalizeBuildInput(buildInput) {
+  buildInput = { ...buildInput.components, ...buildInput };
   return {
+    ...buildInput,
     cpuId: buildInput.cpuId ?? buildInput.cpu,
     motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
     gpuId: buildInput.gpuId ?? buildInput.gpu,
@@ -295,13 +299,11 @@ function buildUpgradeSummary(suggestions, bottleneckAnalysis) {
 }
 
 function mapBuildToIds(build) {
-  return Object.fromEntries(
-    Object.entries(build).map(([slot, component]) => [slot, component.id])
-  );
+  return serializeBuildSelection(build);
 }
 
 function calculateTotalPrice(build) {
-  return Object.values(build).reduce((total, component) => total + (component.price || 0), 0);
+  return calculateBuildPrice(build);
 }
 
 function stripInternalScore(suggestion) {
@@ -329,4 +331,11 @@ function normalizeText(value) {
   }
 
   return value.trim().toLowerCase();
+}
+
+function preservesCapacity(slot, currentComponent, candidate) {
+  const field = { storage: 'capacityGb', ram: 'capacityGb', gpu: 'vramGb' }[slot];
+  if (!field || !Number.isFinite(currentComponent.specs?.[field])) return true;
+  const candidateCapacity = candidate.specs?.[field];
+  return Number.isFinite(candidateCapacity) && candidateCapacity >= currentComponent.specs[field];
 }

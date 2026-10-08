@@ -69,6 +69,9 @@ export function checkBuildCompatibilityAlerts(selectedComponents) {
 
   return {
     compatible: compatibilityResult.compatible,
+    status: compatibilityResult.status,
+    unverifiedChecks: compatibilityResult.unverifiedChecks ?? [],
+    coolingPower: compatibilityResult.coolingPower,
     alerts: generateCompatibilityAlerts(compatibilityResult),
     issues: compatibilityResult.alerts,
     selectedComponents: compatibilityResult.selectedComponents,
@@ -77,7 +80,7 @@ export function checkBuildCompatibilityAlerts(selectedComponents) {
 }
 
 export function generateCompatibilityAlerts(compatibilityResult) {
-  const issues = compatibilityResult.alerts ?? compatibilityResult.issues ?? [];
+  const issues = [...(compatibilityResult.alerts ?? compatibilityResult.issues ?? []), ...(compatibilityResult.unverifiedChecks ?? [])];
 
   return issues.map((issue) => formatCompatibilityAlert(issue, compatibilityResult.selectedComponents));
 }

@@ -75,6 +75,10 @@ test('deve sugerir upgrade para build direta respeitando orcamento e compatibili
   assert.equal(firstSuggestion.componentType, 'storage');
   assert.equal(firstSuggestion.currentComponent.id, 'ssd-kingston-nv2-1tb');
   assert.equal(firstSuggestion.suggestedComponent.id, 'ssd-samsung-980-pro-1tb');
+  for (const suggestion of result.suggestions) {
+    const capacityField = { storage: 'capacityGb', ram: 'capacityGb', gpu: 'vramGb' }[suggestion.componentType];
+    if (capacityField) assert.ok(suggestion.suggestedComponent.specs[capacityField] >= suggestion.currentComponent.specs[capacityField]);
+  }
   assert.equal(firstSuggestion.scoreGain, 20);
   assert.equal(result.suggestions[1].suggestedComponent.id, 'gpu-test-upgrade-4070');
   assert.equal(result.suggestions[1].currentComponent.id, 'gpu-rtx-4060');

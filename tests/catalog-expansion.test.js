@@ -8,7 +8,7 @@ import { calculateBuildScore } from '../src/services/buildScoreService.js';
 import { checkBuildCompatibility } from '../src/services/compatibility.service.js';
 import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksService.js';
 
-const additions = components.filter(component => component.specSourceUrl);
+const additions = components.filter(component => component.specSourceUrl && ['ram', 'storage'].includes(component.category));
 const reference = readyBuilds[0].components;
 
 for (const component of additions) {

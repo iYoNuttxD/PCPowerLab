@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import Card from '../components/ui/Card.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
@@ -48,17 +49,37 @@ export default function SharedBuild() {
         <p>{summary.finalRecommendation}</p>
       </Card>
 
+      {summary.compatibility && <CompatibilityStatus result={summary.compatibility} />}
+
       <Card>
         <h2>Componentes</h2>
         <ul className="build-parts-list">
           {componentTypes.map((type) => (
             <li key={type}>
               <span>{componentLabels[type]}</span>
-              <strong>{components[type]?.name || components[type] || 'Não informado'}</strong>
+              <strong>{getComponentName(components[type] || components[`${type}Id`])}</strong>
+            </li>
+          ))}
+          {(components.cooler || components.coolerId) && (
+            <li>
+              <span>{componentLabels.cooler}</span>
+              <strong>{getComponentName(components.cooler || components.coolerId)}</strong>
+            </li>
+          )}
+          {(Array.isArray(components.fans) ? components.fans : []).map((fan, index) => (
+            <li key={fan.id || fan.fanId || index}>
+              <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+              <strong>{getComponentName(fan)}</strong>
             </li>
           ))}
         </ul>
       </Card>
     </div>
   );
+}
+
+function getComponentName(component) {
+  return typeof component === 'string'
+    ? component
+    : component?.name || component?.id || component?.fanId || 'Não informado';
 }

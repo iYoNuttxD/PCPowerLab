@@ -2,6 +2,7 @@ import { Trash2 } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
+import { fanPackPrice } from '../../utils/buildHelpers.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
 export default function BuildSummaryCard({ selectedComponents, totalPrice, onRemove, onEdit }) {
@@ -12,7 +13,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
         <strong><small className="estimated-price-label">Total estimado</small>{formatCurrency(totalPrice)}</strong>
       </div>
       <ul className="build-parts-list">
-        {componentTypes.map((type) => {
+        {[...componentTypes, 'cooler'].map((type) => {
           const component = selectedComponents?.[type];
 
           return (
@@ -32,6 +33,12 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
             </li>
           );
         })}
+        {(selectedComponents?.fans || []).map((fan, index) => <li key={`${fan.id}-${index}`}>
+          {onEdit ? <button className="build-part-edit" type="button" onClick={() => onEdit('fans')}>Ventoinhas<small>Alterar modelo ou quantidade</small></button> : <span>Ventoinhas</span>}
+          <strong>{fan.name || fan.id} · {fan.quantity} pacote(s){fan.specs?.unitsPerPack ? ` · ${fan.quantity * fan.specs.unitsPerPack} unidade(s)` : ''}</strong>
+          <span>{formatCurrency(fanPackPrice(fan))}</span>
+        </li>)}
+        {!!selectedComponents?.fans?.length && onRemove && <li><Button variant="ghost" onClick={() => onRemove('fans')}>Remover todas as ventoinhas</Button></li>}
       </ul>
     </Card>
   );

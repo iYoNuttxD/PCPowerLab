@@ -8,23 +8,63 @@ export function buildToApiPayload(selectedComponents) {
     ramId: getComponentId(selectedComponents, 'ram'),
     storageId: getComponentId(selectedComponents, 'storage'),
     psuId: getComponentId(selectedComponents, 'psu'),
-    caseId: getComponentId(selectedComponents, 'case')
+    caseId: getComponentId(selectedComponents, 'case'),
+    ...(getComponentId(selectedComponents, 'cooler') ? { coolerId: getComponentId(selectedComponents, 'cooler') } : {}),
+    fans: (selectedComponents?.fans || selectedComponents?.components?.fans || []).map(fan => ({ fanId: fan.fanId || fan.id, quantity: Number(fan.quantity ?? 1) }))
   };
 }
 
 export function savedBuildToSelection(savedBuild) {
   const components = savedBuild?.components || {};
 
-  return componentTypes.reduce((selection, type) => ({
-    ...selection,
-    [type]: components[type] || components[`${type}Id`] || ''
-  }), {});
+  return {
+    ...[...componentTypes, 'cooler'].reduce((selection, type) => ({
+      ...selection,
+      [type]: components[type] || components[`${type}Id`] || ''
+    }), {}),
+    fans: Array.isArray(components.fans) ? components.fans : []
+  };
 }
 
 export function calculateBuildPrice(selectedComponents) {
-  return Object.values(selectedComponents || {}).reduce((total, component) => (
-    total + (Number(component?.price) || Number(component?.estimatedPrice) || 0)
-  ), 0);
+  const parts = [...componentTypes, 'cooler'].map(type => selectedComponents?.[type]).filter(Boolean);
+  const fans = selectedComponents?.fans || [];
+  if ([...parts, ...fans].some(component => componentPrice(component) === null)) return null;
+  return parts.reduce((total, component) => total + componentPrice(component), 0)
+    + fans.reduce((total, fan) => total + componentPrice(fan) * Number(fan.quantity ?? 1), 0);
+}
+
+function componentPrice(component) {
+  const price = component?.price ?? component?.estimatedPrice;
+  return price !== null && price !== undefined && price !== '' && Number.isFinite(Number(price)) && Number(price) >= 0 ? Number(price) : null;
+}
+
+export function fanPackPrice(fan) {
+  const price = componentPrice(fan);
+  return price === null ? null : price * Number(fan.quantity ?? 1);
+}
+
+export function hydrateBuildComponents(components = {}, componentMap = {}) {
+  const selection = [...componentTypes, 'cooler'].reduce((result, type) => {
+    const value = components[type] || components[`${type}Id`];
+    const id = typeof value === 'string' ? value : value?.id;
+    if (id) result[type] = { ...componentMap[id], ...(typeof value === 'object' ? value : {}), id };
+    return result;
+  }, {});
+  selection.fans = (Array.isArray(components.fans) ? components.fans : []).map(fan => {
+    const id = fan.fanId || fan.id;
+    const { fanId: _fanId, ...details } = fan;
+    return { ...componentMap[id], ...details, id, quantity: Number(fan.quantity ?? 1) };
+  });
+  return selection;
+}
+
+export function recommendationSelection(current = {}, recommended = {}, replaceCooling = false) {
+  return hydrateBuildComponents({
+    ...(!replaceCooling && !Object.hasOwn(recommended, 'cooler') && !Object.hasOwn(recommended, 'coolerId') ? { cooler: current.cooler } : {}),
+    ...(!replaceCooling && !Object.hasOwn(recommended, 'fans') ? { fans: current.fans || [] } : {}),
+    ...recommended
+  });
 }
 
 export function hasCompleteBuild(selectedComponents) {

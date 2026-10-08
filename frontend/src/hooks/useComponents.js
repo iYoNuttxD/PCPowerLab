@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { componentsService } from '../services/componentsService.js';
-import { componentTypes } from '../utils/componentLabels.js';
+import { catalogComponentTypes } from '../utils/componentLabels.js';
 
 export function useComponents() {
   const [components, setComponents] = useState([]);
@@ -32,7 +32,7 @@ export function useComponents() {
     };
   }, []);
 
-  const byType = useMemo(() => componentTypes.reduce((grouped, type) => ({
+  const byType = useMemo(() => catalogComponentTypes.reduce((grouped, type) => ({
     ...grouped,
     [type]: components.filter((component) => component.category === type)
   }), {}), [components]);

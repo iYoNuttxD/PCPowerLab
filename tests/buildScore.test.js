@@ -55,6 +55,7 @@ test('deve reduzir fortemente a nota quando a build for incompativel', () => {
 test('deve retornar nota parcial com aviso quando faltarem parametros de desempenho', () => {
   createAdminComponent({
     id: 'cpu-build-score-no-performance-score',
+    price: 500, // Isolate missing performance data; price is independently required for totals.
     name: 'CPU Build Score Sem Score',
     type: 'cpu',
     brand: 'Test',

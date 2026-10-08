@@ -59,7 +59,7 @@ export default function CompareBuilds() {
       .filter((savedBuild) => selectedIds.includes(savedBuild.id))
       .map((savedBuild) => ({
         name: savedBuild.name,
-        components: savedBuild.components
+        components: buildToApiPayload(savedBuild.components)
       }));
 
     if (componentTypes.every((type) => build.selectedComponents[type])) {
@@ -132,7 +132,7 @@ export default function CompareBuilds() {
             <h2>Resultado</h2>
             <Trophy aria-hidden="true" />
           </div>
-          <Alert type="success" title={`Recomendada: ${comparison.recommendedBuild?.name}`}>
+          <Alert type={(comparison.builds || []).some((item) => item.name === comparison.recommendedBuild?.name && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={`Recomendada: ${comparison.recommendedBuild?.name}`}>
             {comparison.recommendedBuild?.reason}
           </Alert>
           <div className="comparison-table" role="region" aria-label="Comparação de builds — role horizontalmente para ver todos os critérios" tabIndex={0}>
@@ -147,7 +147,17 @@ export default function CompareBuilds() {
                   <tr key={item.name}>
                     <th scope="row">{item.name}</th>
                     <td>{formatCurrency(item.totalEstimatedPrice)}</td>
-                    <td>{item.compatible ? 'Sim' : 'Não'}</td>
+                    <td>
+                      <span>{translateValue(getCompatibilityStatus(item))}</span>
+                      {Array.isArray(item.unverifiedChecks) && item.unverifiedChecks.length > 0 && (
+                        <div>
+                          <small>Verificações pendentes:</small>
+                          <ul>{item.unverifiedChecks.map((check, index) => (
+                            <li key={check.code || index}>{typeof check === 'string' ? check : check.message || check.reason || check.code}</li>
+                          ))}</ul>
+                        </div>
+                      )}
+                    </td>
                     <td>{item.performanceScore}</td>
                     <td>{translateValue(item.budgetStatus)}</td>
                   </tr>
@@ -159,4 +169,10 @@ export default function CompareBuilds() {
       )}
     </div>
   );
+}
+
+function getCompatibilityStatus(item) {
+  if (item.compatibilityStatus === 'incompatible') return 'incompatible';
+  if (item.compatibilityStatus === 'unverified' || item.unverifiedChecks?.length) return 'unverified';
+  return item.compatible === true ? 'compatible' : item.compatible === false ? 'incompatible' : 'unverified';
 }

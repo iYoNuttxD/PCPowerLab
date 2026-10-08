@@ -1,3 +1,6 @@
+import { catalogV21 } from './catalog.v21.js';
+import { enrichCaseCooling } from './caseCooling.v21.js';
+
 export const components = [
   {
     id: 'cpu-ryzen-5-5500',
@@ -926,5 +929,6 @@ export const components = [
       license: 'CC BY-SA 4.0',
       licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/'
     }
-  }
-];
+  },
+  ...catalogV21
+].map(enrichCaseCooling);

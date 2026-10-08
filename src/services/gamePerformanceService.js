@@ -295,10 +295,13 @@ function buildGameComparisonSummary(simulations) {
 }
 
 function normalizeBuildInput(buildInput) {
+  buildInput = { ...buildInput.components, ...buildInput };
   return requiredSimulationSlots.reduce((normalizedBuild, slot) => ({
     ...normalizedBuild,
     [`${slot}Id`]: buildInput[`${slot}Id`] ?? buildInput[slot]
   }), {
+    coolerId: buildInput.coolerId ?? buildInput.cooler,
+    fans: buildInput.fans,
     motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
     psuId: buildInput.psuId ?? buildInput.psu,
     caseId: buildInput.caseId ?? buildInput.case

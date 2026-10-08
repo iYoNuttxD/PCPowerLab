@@ -18,6 +18,7 @@ import { notificationsService } from '../services/notificationsService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
 import { savedBuildVersionsService } from '../services/savedBuildVersionsService.js';
 import { sharingService } from '../services/sharingService.js';
+import { buildToApiPayload, hydrateBuildComponents } from '../utils/buildHelpers.js';
 import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
@@ -262,6 +263,18 @@ export default function SavedBuilds() {
                   <strong>{getSavedComponentName(savedBuild, type, componentMap)}</strong>
                 </li>
               ))}
+              {(savedBuild.components?.coolerId || savedBuild.components?.cooler) && (
+                <li>
+                  <span>{componentLabels.cooler}</span>
+                  <strong>{getSavedComponentName(savedBuild, 'cooler', componentMap)}</strong>
+                </li>
+              )}
+              {(Array.isArray(savedBuild.components?.fans) ? savedBuild.components.fans : []).map((fan) => (
+                <li key={fan.fanId || fan.id}>
+                  <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+                  <strong>{componentMap[fan.fanId || fan.id]?.name || fan.name || fan.fanId || fan.id}</strong>
+                </li>
+              ))}
             </ul>
             <div className="button-row">
               <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
@@ -448,9 +461,10 @@ function HistoryModal({ state, onClose, onShowDetails, onRemove }) {
 }
 
 function getSavedComponentName(savedBuild, type, componentMap) {
-  const id = savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`];
+  const component = savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`];
+  const id = typeof component === 'string' ? component : component?.id;
 
-  return componentMap[id]?.name || id || 'Não informado';
+  return componentMap[id]?.name || component?.name || id || 'Não informado';
 }
 
 function buildSnapshotFromSavedBuild(savedBuild) {
@@ -467,36 +481,28 @@ function buildSnapshotFromSavedBuild(savedBuild) {
 }
 
 function feedbackSnapshotFromSavedBuild(savedBuild) {
-  return componentTypes.reduce((snapshot, type) => {
-    const componentId = savedBuild.components?.[`${type}Id`] || savedBuild.components?.[type];
-
-    return componentId
-      ? { ...snapshot, [`${type}Id`]: typeof componentId === 'string' ? componentId : componentId.id }
-      : snapshot;
-  }, {});
+  return buildToApiPayload(savedBuild.components);
 }
 
 function feedbackDetailsFromSavedBuild(savedBuild, componentMap) {
-  return componentTypes.reduce((details, type) => {
-    const componentId = savedBuild.components?.[`${type}Id`] || savedBuild.components?.[type];
-    const id = typeof componentId === 'string' ? componentId : componentId?.id;
-    const component = componentMap[id] || componentId;
+  const selection = hydrateBuildComponents(savedBuild.components, componentMap);
+  const details = Object.fromEntries([...componentTypes, 'cooler']
+    .filter((type) => selection[type])
+    .map((type) => [type, feedbackComponentDetails(selection[type])]));
+  if (selection.fans.length) {
+    details.fans = selection.fans.map((fan) => ({ ...feedbackComponentDetails(fan), quantity: fan.quantity }));
+  }
+  return details;
+}
 
-    if (!component) {
-      return details;
-    }
-
-    return {
-      ...details,
-      [type]: {
-        id,
-        ...(component.name && { name: component.name }),
-        ...(component.category && { category: component.category }),
-        ...(component.brand && { brand: component.brand }),
-        ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
-      }
-    };
-  }, {});
+function feedbackComponentDetails(component) {
+  return {
+    id: component.id,
+    ...(component.name && { name: component.name }),
+    ...(component.category && { category: component.category }),
+    ...(component.brand && { brand: component.brand }),
+    ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+  };
 }
 
 function getAnalysisTypeLabel(value) {

@@ -1,3 +1,5 @@
+import { serializeBuildSelection } from './build.service.js';
+import { getCoolingPower } from './cooling.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
 import { listComponents } from './component.service.js';
 
@@ -25,6 +27,8 @@ export function suggestCompatibilityFixes(selectedComponents) {
 
   return {
     compatible: compatibilityResult.compatible,
+    status: compatibilityResult.status,
+    unverifiedChecks: compatibilityResult.unverifiedChecks ?? [],
     issues: compatibilityResult.alerts.map(formatIssue),
     suggestions: compatibilityResult.alerts.flatMap((alert) => (
       buildSuggestionsForAlert(alert, compatibilityResult.selectedComponents, originalAlertCodes)
@@ -186,7 +190,8 @@ function isValidFixCandidate({
   const candidateResult = checkBuildCompatibility(mapBuildToIds(candidateBuild));
   const candidateAlertCodes = candidateResult.alerts.map((candidateAlert) => candidateAlert.code);
 
-  return !candidateAlertCodes.includes(alertCode)
+  return !(candidateResult.unverifiedChecks?.length)
+    && !candidateAlertCodes.includes(alertCode)
     && candidateAlertCodes.every((candidateAlertCode) => originalAlertCodes.has(candidateAlertCode));
 }
 
@@ -198,14 +203,12 @@ function formatIssue(alert) {
 }
 
 function mapBuildToIds(build) {
-  return Object.fromEntries(
-    Object.entries(build).map(([slot, component]) => [slot, component.id])
-  );
+  return serializeBuildSelection(build);
 }
 
 function calculateMinimumRecommendedWatts(build) {
   const cpuTdp = build.cpu.specs.tdpWatts || 0;
   const gpuRecommendedPsu = build.gpu.specs.recommendedPsuWatts || 0;
 
-  return Math.max(gpuRecommendedPsu, cpuTdp + 350);
+  return Math.max(gpuRecommendedPsu, cpuTdp + 350) + getCoolingPower(build).knownWatts;
 }

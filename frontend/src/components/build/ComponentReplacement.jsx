@@ -89,7 +89,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
           <p role="status">{check.status === 'loading' ? 'Verificando compatibilidade, orçamento e análises da nova montagem...'
           : !candidate ? 'Selecione uma alternativa para verificar.'
             : !complete ? 'Complete as outras categorias no assistente antes de verificar a substituição.'
-              : check.status === 'success' ? validated ? 'Verificação concluída. Revise os avisos antes de aplicar.' : 'Há incompatibilidades. Escolha outra peça e verifique novamente.'
+              : check.status === 'success' ? validated ? 'Verificação concluída. Revise os avisos antes de aplicar.' : check.result?.compatibility?.status === 'unverified' ? 'A compatibilidade não pôde ser confirmada: faltam dados técnicos. Confira os avisos.' : 'Há incompatibilidades. Escolha outra peça e verifique novamente.'
                 : 'A alteração ainda não foi aplicada. Verifique esta combinação.'}</p>
           {check.result && <p>Total estimado após a troca: <strong>{formatCurrency(check.result.totalEstimatedPrice)}</strong></p>}
           {overBudget && <Alert type="warning">O novo total excede o orçamento em {formatCurrency(check.result.totalEstimatedPrice - Number(budgetStatus.amount))}. Aplicar mantém o orçamento informado.</Alert>}

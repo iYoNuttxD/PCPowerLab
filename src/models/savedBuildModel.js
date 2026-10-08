@@ -23,7 +23,7 @@ export function normalizeSavedBuildComponents(componentsInput) {
     return {};
   }
 
-  return savedBuildRequiredComponentSlots.reduce((normalizedComponents, slot) => {
+  const normalized = savedBuildRequiredComponentSlots.reduce((normalizedComponents, slot) => {
     const inputField = savedBuildSlotInputFields[slot];
     const componentId = normalizeText(componentsInput[slot] ?? componentsInput[inputField]);
 
@@ -36,6 +36,13 @@ export function normalizeSavedBuildComponents(componentsInput) {
       [slot]: componentId
     };
   }, {});
+  if (Object.hasOwn(componentsInput, 'cooler') || Object.hasOwn(componentsInput, 'coolerId')) {
+    normalized.cooler = componentsInput.cooler ?? componentsInput.coolerId ?? null;
+  }
+  if (Object.hasOwn(componentsInput, 'fans')) {
+    normalized.fans = JSON.parse(JSON.stringify(componentsInput.fans));
+  }
+  return normalized;
 }
 
 export function normalizeText(value) {

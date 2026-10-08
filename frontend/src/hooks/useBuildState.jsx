@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { buildToApiPayload, calculateBuildPrice } from '../utils/buildHelpers.js';
+import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, recommendationSelection } from '../utils/buildHelpers.js';
 import { normalizeWizardStep } from '../utils/wizardSteps.js';
 
 const storageKey = 'pcpowerlab-build-state';
@@ -15,7 +15,7 @@ const emptyResults = {
 
 const initialState = {
   wizardStep: 'cpu',
-  selectedComponents: {},
+  selectedComponents: { fans: [] },
   budget: {
     amount: '',
     currency: 'BRL',
@@ -56,6 +56,9 @@ export function BuildProvider({ children }) {
           [type]: component
         }
       }));
+    },
+    setFans(fans) {
+      setState(current => ({ ...current, ...emptyResults, selectedComponents: { ...current.selectedComponents, fans } }));
     },
     removeComponent(type) {
       setState((current) => {
@@ -108,13 +111,7 @@ export function BuildProvider({ children }) {
     },
     loadSavedBuild(savedBuild, componentMap = {}) {
       const components = savedBuild?.components || {};
-      const selectedComponents = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'].reduce((selection, type) => {
-        const id = components[type] || components[`${type}Id`];
-
-        return id
-          ? { ...selection, [type]: componentMap[id] || { id } }
-          : selection;
-      }, {});
+      const selectedComponents = hydrateBuildComponents(components, componentMap);
 
       setState((current) => ({
         ...current,
@@ -125,12 +122,12 @@ export function BuildProvider({ children }) {
         usageType: savedBuild?.usageType || current.usageType
       }));
     },
-    applyRecommendation(recommendation) {
+    applyRecommendation(recommendation, { replaceCooling = false } = {}) {
       setState((current) => ({
         ...current,
         ...emptyResults,
-        selectedComponents: recommendation?.components || {},
-        recommendation
+        selectedComponents: recommendationSelection(current.selectedComponents, recommendation?.components || {}, replaceCooling),
+        recommendation: null
       }));
     }
   }), []);
@@ -164,7 +161,7 @@ function loadInitialState() {
     const stored = JSON.parse(localStorage.getItem(storageKey));
 
     return stored && typeof stored === 'object'
-      ? { ...initialState, ...stored, wizardStep: normalizeWizardStep(stored.wizardStep) }
+      ? { ...initialState, ...stored, selectedComponents: hydrateBuildComponents(stored.selectedComponents || {}), wizardStep: normalizeWizardStep(stored.wizardStep) }
       : initialState;
   } catch (_error) {
     return initialState;

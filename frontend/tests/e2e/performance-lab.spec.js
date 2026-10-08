@@ -60,7 +60,7 @@ test('simula um único jogo pelo contrato existente e preserva classificação, 
   const request = page.waitForRequest(request => request.url().endsWith('/performance/simulate-game'));
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
   const payload = (await request).postDataJSON();
-  expect(payload).toEqual({ gameId: games[0].id, targetResolution: '1440p', qualityPreset: 'low', build: Object.fromEntries(types.map(type => [`${type}Id`, selectedComponents[type].id])) });
+  expect(payload).toEqual({ gameId: games[0].id, targetResolution: '1440p', qualityPreset: 'low', build: { ...Object.fromEntries(types.map(type => [`${type}Id`, selectedComponents[type].id])), fans: [] } });
   const result = singleRegion(page);
   await expect(result.getByText('144 FPS', { exact: true })).toBeVisible();
   await expect(result.getByText('Insuficiente', { exact: true })).toBeVisible();

@@ -21,6 +21,7 @@ export const statusLabels = {
   relevant: 'Relevante',
   compatible: 'Compatível',
   incompatible: 'Incompatível',
+  unverified: 'Não verificada',
   excellent: 'Excelente',
   good: 'Bom',
   entry: 'Entrada',
@@ -56,6 +57,7 @@ export const bottleneckReasonLabels = {
 };
 
 export const specLabels = {
+  coolingType: 'Tipo de refrigeração', supportedSockets: 'Sockets suportados', heightMm: 'Altura', radiatorSizeMm: 'Tamanho do radiador', powerWatts: 'Consumo por unidade', diameterMm: 'Diâmetro', thicknessMm: 'Espessura', connector: 'Conector', unitsPerPack: 'Ventoinhas por pacote', maxCoolerHeightMm: 'Altura máxima do cooler', radiatorSizesMm: 'Radiadores suportados (mm)', fanMounts: 'Suportes para ventoinhas', coolingSupportVerified: 'Suporte de refrigeração verificado', includedFans: 'Ventoinhas incluídas', fanMountsShared: 'Suportes compartilhados', radiatorFanSlots: 'Slots ocupados pelo radiador',
   socket: 'Socket',
   cores: 'Núcleos',
   threads: 'Threads',

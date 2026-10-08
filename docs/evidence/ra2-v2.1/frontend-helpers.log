@@ -1,0 +1,15 @@
+✔ cooling is optional and does not create wizard steps (1.298252ms)
+✔ payload carries cooler and fan packs; totals charge packs, not physical units (0.450477ms)
+✔ saved, shared and local-storage representations hydrate and round-trip (0.384459ms)
+✔ historical objects preserve their prices and removal drops cooling payloads (0.186405ms)
+✔ catalog filters and specification comparison include cooling without scores (11.511033ms)
+✔ recommendations preserve absent cooling, explicit changes win, and full restores clear legacy cooling (0.307816ms)
+✔ missing selected cooling prices make totals unavailable instead of free (0.130974ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.89474

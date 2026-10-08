@@ -17,6 +17,7 @@ import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { buildRecommendationService } from '../services/buildRecommendationService.js';
 import { readyBuildsService } from '../services/readyBuildsService.js';
+import { buildToApiPayload, hydrateBuildComponents } from '../utils/buildHelpers.js';
 import { componentLabels, componentTypes, priorityLabels, priorityOptions } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
@@ -94,9 +95,7 @@ export default function ReadyBuilds() {
       return;
     }
 
-    componentTypes.forEach((type) => {
-      buildState.actions.selectComponent(type, selectedComponents[type]);
-    });
+    buildState.actions.applyRecommendation({ ...readyBuild, components: selectedComponents }, { replaceCooling: true });
     buildState.actions.setBudget({
       amount: readyBuild.targetBudgetRange?.max || '',
       currency: 'BRL',
@@ -140,16 +139,18 @@ export default function ReadyBuilds() {
       return;
     }
 
-    componentTypes.forEach((type) => {
-      buildState.actions.selectComponent(type, selectedComponents[type]);
-    });
+    const recommendationComponents = getRecommendationComponents(recommendationData);
+    if (!Object.hasOwn(recommendationComponents, 'fans')) delete selectedComponents.fans;
+    if ((Object.hasOwn(recommendationComponents, 'cooler') || Object.hasOwn(recommendationComponents, 'coolerId')) && !selectedComponents.cooler) {
+      selectedComponents.cooler = null;
+    }
+    buildState.actions.applyRecommendation({ ...recommendationData, components: selectedComponents });
     buildState.actions.setBudget({
       amount: budgetRange.max,
       currency: 'BRL',
       priority: budgetRange.priority
     });
     buildState.actions.setUsageType(budgetRange.usageType);
-    buildState.actions.setResult('recommendation', recommendationData);
     setFeedback('Recomendação aplicada como build atual.');
 
     if (destination) {
@@ -379,6 +380,7 @@ export default function ReadyBuilds() {
               <RecommendationResultCard
                 key={recommendation.id || recommendation.name || index}
                 recommendation={recommendation}
+                currentSelection={buildState.selectedComponents}
                 componentMap={componentMap}
                 onApply={() => applyRecommendation(recommendation)}
                 onFeedback={() => {
@@ -485,6 +487,7 @@ function ReadyBuildDetails({ readyBuild, componentMap, onApply, onFeedback }) {
             <strong>{getComponentName(readyBuild.components, type, componentMap)}</strong>
           </li>
         ))}
+        <CoolingParts components={normalizeRecommendationComponents(readyBuild.components, componentMap)} />
       </ul>
       <InfoList title="Indicado para" items={readyBuild.recommendedFor} emptyMessage="Nenhuma indicação informada." />
       <InfoList title="Limitações" items={readyBuild.limitations} emptyMessage="Nenhuma limitação informada." />
@@ -497,27 +500,36 @@ function ReadyBuildDetails({ readyBuild, componentMap, onApply, onFeedback }) {
   );
 }
 
-function RecommendationResultCard({ recommendation, componentMap, onApply, onFeedback }) {
+function RecommendationResultCard({ recommendation, componentMap, currentSelection = {}, onApply, onFeedback }) {
   const components = normalizeRecommendationComponents(recommendation, componentMap);
   const totalPrice = getRecommendationPrice(recommendation);
+  const preservesCooling = recommendationPreservesCooling(recommendation, currentSelection);
 
   return (
     <Card className="recommendation-result-card">
       <div className="section-heading compact">
         <div>
           <h2>Build recomendada</h2>
-          <p>{recommendation.summary || 'Configuração completa recomendada para a faixa informada.'}</p>
+          <p>{preservesCooling ? 'Configuração recomendada antes de incluir sua refrigeração atual.' : recommendation.summary || 'Configuração completa recomendada para a faixa informada.'}</p>
         </div>
-        <strong className="price">{formatCurrency(totalPrice)}</strong>
+        <div>
+          {preservesCooling && <small>Preço base, sem a refrigeração mantida</small>}
+          <strong className="price">{formatCurrency(totalPrice)}</strong>
+        </div>
       </div>
+      {preservesCooling && (
+        <Alert type="warning" title="Refrigeração atual será mantida">
+          O cooler e/ou os packs de ventoinhas já selecionados serão incluídos no total ao aplicar. Reavalie compatibilidade e orçamento no resumo antes de comprar.
+        </Alert>
+      )}
       <div className="metric-grid">
         <div>
           <span>Status do orçamento</span>
-          <strong>{translateValue(recommendation.budgetStatus || 'compatible')}</strong>
+          <strong>{preservesCooling ? 'Recalcular no resumo' : translateValue(recommendation.budgetStatus || 'compatible')}</strong>
         </div>
         <div>
           <span>Compatibilidade</span>
-          <strong>{translateValue(recommendation.compatibilityStatus || (recommendation.compatible === false ? 'incompatible' : 'compatible'))}</strong>
+          <strong>{preservesCooling ? 'Não verificada' : translateValue(recommendation.compatibilityStatus || (recommendation.unverifiedChecks?.length ? 'unverified' : recommendation.compatible === true ? 'compatible' : recommendation.compatible === false ? 'incompatible' : 'unverified'))}</strong>
         </div>
         <div>
           <span>Desempenho</span>
@@ -531,6 +543,7 @@ function RecommendationResultCard({ recommendation, componentMap, onApply, onFee
             <strong>{components[type]?.name || components[type]?.id || 'Não informado'}</strong>
           </li>
         ))}
+        <CoolingParts components={components} />
       </ul>
       <div className="button-row">
         <Button onClick={onApply}><CheckCircle2 size={18} /> Usar recomendação como build atual</Button>
@@ -552,6 +565,7 @@ function ComponentPreviewList({ componentsInput, componentMap }) {
           <strong>{getComponentName(componentsInput, type, componentMap)}</strong>
         </li>
       ))}
+      <CoolingParts components={normalizeRecommendationComponents(componentsInput, componentMap)} />
     </ul>
   );
 }
@@ -572,42 +586,25 @@ function InfoList({ title, items = [], emptyMessage }) {
 }
 
 function mapReadyBuildToSelectedComponents(readyBuild, componentMap) {
-  return componentTypes.reduce((selection, type) => {
-    const componentValue = readyBuild.components?.[`${type}Id`] || readyBuild.components?.[type];
-    const componentId = typeof componentValue === 'string' ? componentValue : componentValue?.id;
-
-    return componentId || componentValue
-      ? { ...selection, [type]: componentMap[componentId] || componentValue || { id: componentId } }
-      : selection;
-  }, {});
+  return hydrateBuildComponents(readyBuild.components, componentMap);
 }
 
 function normalizeRecommendationComponents(recommendationOrComponents = {}, componentMap = {}) {
-  const componentsInput = recommendationOrComponents.components
+  return hydrateBuildComponents(getRecommendationComponents(recommendationOrComponents), componentMap);
+}
+
+function getRecommendationComponents(recommendationOrComponents = {}) {
+  return recommendationOrComponents.components
     || recommendationOrComponents.build?.components
     || recommendationOrComponents.build
     || recommendationOrComponents.selectedComponents
     || recommendationOrComponents;
+}
 
-  return componentTypes.reduce((selection, type) => {
-    const component = componentsInput[type] || componentsInput[`${type}Id`];
-
-    if (!component) {
-      return selection;
-    }
-
-    if (typeof component === 'string') {
-      return {
-        ...selection,
-        [type]: componentMap[component] || { id: component }
-      };
-    }
-
-    return {
-      ...selection,
-      [type]: component?.id && componentMap[component.id] ? { ...componentMap[component.id], ...component } : component
-    };
-  }, {});
+function recommendationPreservesCooling(recommendation, currentSelection) {
+  const components = getRecommendationComponents(recommendation);
+  return Boolean((currentSelection.cooler && !Object.hasOwn(components, 'cooler') && !Object.hasOwn(components, 'coolerId'))
+    || (currentSelection.fans?.length && !Object.hasOwn(components, 'fans')));
 }
 
 function createFeedbackBuildContext(componentsInput = {}, componentMap = {}) {
@@ -618,25 +615,45 @@ function createFeedbackBuildContext(componentsInput = {}, componentMap = {}) {
   }
 
   return {
-    buildSnapshot: componentTypes.reduce((snapshot, type) => ({
-      ...snapshot,
-      [`${type}Id`]: selectedComponents[type].id
-    }), {}),
-    buildDetails: componentTypes.reduce((details, type) => {
-      const component = selectedComponents[type];
-
-      return {
-        ...details,
-        [type]: {
-          id: component.id,
-          ...(component.name && { name: component.name }),
-          ...(component.category && { category: component.category }),
-          ...(component.brand && { brand: component.brand }),
-          ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
-        }
-      };
-    }, {})
+    buildSnapshot: buildToApiPayload(selectedComponents),
+    buildDetails: {
+      ...Object.fromEntries([...componentTypes, 'cooler']
+        .filter((type) => selectedComponents[type])
+        .map((type) => [type, feedbackComponentDetails(selectedComponents[type])])),
+      ...(selectedComponents.fans.length && {
+        fans: selectedComponents.fans.map((fan) => ({ ...feedbackComponentDetails(fan), quantity: fan.quantity }))
+      })
+    }
   };
+}
+
+function feedbackComponentDetails(component) {
+  return {
+    id: component.id,
+    ...(component.name && { name: component.name }),
+    ...(component.category && { category: component.category }),
+    ...(component.brand && { brand: component.brand }),
+    ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+  };
+}
+
+function CoolingParts({ components }) {
+  return (
+    <>
+      {components.cooler && (
+        <li>
+          <span>{componentLabels.cooler}</span>
+          <strong>{components.cooler.name || components.cooler.id}</strong>
+        </li>
+      )}
+      {(components.fans || []).map((fan) => (
+        <li key={fan.id}>
+          <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+          <strong>{fan.name || fan.id}</strong>
+        </li>
+      ))}
+    </>
+  );
 }
 
 function hasAllComponents(selectedComponents) {

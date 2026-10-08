@@ -5,7 +5,9 @@ export const componentCategories = [
   'ram',
   'storage',
   'psu',
-  'case'
+  'case',
+  'cooler',
+  'fan'
 ];
 
 export function isValidComponentCategory(category) {

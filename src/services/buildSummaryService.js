@@ -4,7 +4,7 @@ import { createBudget } from './budgetService.js';
 import { generateExplanation } from './explanationService.js';
 import { simulateGamePerformance } from './gamePerformanceService.js';
 import { recommendBuildByBudget } from './recommendationService.js';
-import { requiredBuildSlots } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 
 const defaultUsageType = 'general';
 const recommendedPriorities = ['cost-benefit', 'performance', 'lowest-price'];
@@ -53,6 +53,9 @@ export function generateBuildSummary(input) {
     budgetStatus,
     compatibility: {
       compatible: compatibility.compatible,
+      status: compatibility.status,
+      unverifiedChecks: compatibility.unverifiedChecks,
+      coolingPower: compatibility.coolingPower,
       alerts: compatibility.alerts
     },
     bottlenecks,
@@ -88,17 +91,11 @@ function validateSummaryPayload(input) {
 }
 
 function normalizeBuildInput(buildInput) {
-  return requiredBuildSlots.reduce((normalizedBuild, slot) => ({
-    ...normalizedBuild,
-    [`${slot}Id`]: normalizeText(buildInput[`${slot}Id`] ?? buildInput[slot])
-  }), {});
+  return serializeBuildSelection(selectBuildComponents(buildInput));
 }
 
 function mapBuildToCompatibilityInput(buildInput) {
-  return requiredBuildSlots.reduce((selectedComponents, slot) => ({
-    ...selectedComponents,
-    [slot]: buildInput[`${slot}Id`]
-  }), {});
+  return buildInput;
 }
 
 function buildBudgetStatus(budgetInput, totalEstimatedPrice) {
@@ -220,7 +217,9 @@ function buildSummaryText({
 
   parts.push(compatibility.compatible
     ? 'A configuracao esta compativel'
-    : 'A configuracao possui incompatibilidades que precisam de revisao');
+    : compatibility.status === 'unverified'
+      ? 'A compatibilidade nao foi verificada por falta de dados tecnicos'
+      : 'A configuracao possui incompatibilidades que precisam de revisao');
 
   if (budgetStatus) {
     parts.push(buildBudgetSummaryText(budgetStatus));
@@ -257,6 +256,9 @@ function buildFinalRecommendation({
   budgetStatus,
   gamePerformance
 }) {
+  if (compatibility.status === 'unverified') {
+    return 'Confirme os dados tecnicos pendentes de refrigeração e montagem antes da compra.';
+  }
   if (!compatibility.compatible) {
     return 'Revise as incompatibilidades antes de seguir com a compra.';
   }
@@ -311,12 +313,4 @@ function removeEmptySections(summary) {
   return Object.fromEntries(
     Object.entries(summary).filter(([, value]) => value !== null && value !== undefined)
   );
-}
-
-function normalizeText(value) {
-  if (typeof value !== 'string' || value.trim().length === 0) {
-    return null;
-  }
-
-  return value.trim();
 }

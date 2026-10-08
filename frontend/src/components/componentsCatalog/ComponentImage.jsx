@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CircuitBoard, Cpu, Fan, HardDrive, MemoryStick, Monitor, Zap } from 'lucide-react';
 
-const icons = { cpu: Cpu, gpu: Monitor, motherboard: CircuitBoard, ram: MemoryStick, storage: HardDrive, psu: Zap, case: Fan };
+const icons = { cpu: Cpu, gpu: Monitor, motherboard: CircuitBoard, ram: MemoryStick, storage: HardDrive, psu: Zap, case: Fan, cooler: Fan, fan: Fan };
 const secureUrl = value => typeof value === 'string' && /^https:\/\/[^\s]+$/.test(value);
 
 export default function ComponentImage({ component }) {

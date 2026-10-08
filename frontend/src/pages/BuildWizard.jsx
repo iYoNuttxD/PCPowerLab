@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Save, Wand2 } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
+import CoolingPanel from '../components/build/CoolingPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
 import WizardNavigation from '../components/build/WizardNavigation.jsx';
@@ -180,10 +181,10 @@ export default function BuildWizard() {
         finishAnalysis({
           status: 'unavailable',
           reason: 'incompatible_build',
-          message: 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
+          message: compatibility.status === 'unverified' ? 'A refrigeração selecionada tem dados insuficientes para confirmar a compatibilidade. Revise os dados técnicos antes de analisar desempenho.' : 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
           data: null
         });
-        setFeedback({ type: 'warning', message: 'Há peças incompatíveis. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.' });
+        setFeedback({ type: 'warning', message: 'A compatibilidade não foi confirmada. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.' });
         return;
       }
 
@@ -315,6 +316,8 @@ export default function BuildWizard() {
           </>
         )}
 
+        {(currentStep === 'case' || currentStep === 'review') && <CoolingPanel build={build} byType={byType} loading={loading} error={error} onRetry={reload} />}
+
         {currentStep === 'budget' && (
           <Card>
             <h3>Orçamento e tipo de uso</h3>
@@ -367,7 +370,7 @@ export default function BuildWizard() {
             </Card>
             <CompatibilityStatus result={build.alerts || build.compatibility} />
             <BottleneckPanel result={build.bottlenecks} />
-            <RecommendationCard recommendation={build.recommendation} onApply={(recommendation) => {
+            <RecommendationCard currentComponents={build.selectedComponents} recommendation={build.recommendation} onApply={(recommendation) => {
               clearMessages();
               build.actions.applyRecommendation(recommendation);
               setFeedback({ type: 'info', message: 'As peças da recomendação foram aplicadas. Execute Analisar build para conferir esta configuração.' });
@@ -382,7 +385,7 @@ export default function BuildWizard() {
         <BuildSummaryCard
           selectedComponents={build.selectedComponents}
           totalPrice={build.totalPrice}
-          onEdit={changeStep}
+          onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'case' : type)}
           onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
       </aside>

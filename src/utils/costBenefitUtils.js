@@ -1,3 +1,5 @@
+import { requiredBuildSlots } from '../services/build.service.js';
+
 const defaultPerformanceScore = 50;
 
 export function getEstimatedPrice(component) {
@@ -11,6 +13,10 @@ export function getEstimatedPrice(component) {
 }
 
 export function getPerformanceScore(component, performanceParameter, usageType = 'general') {
+  if (['cooler', 'fan'].includes(component?.category)) {
+    return 0;
+  }
+
   if (!component) {
     return defaultPerformanceScore;
   }
@@ -46,7 +52,7 @@ export function calculateCostBenefitScore(component, performanceParameter, optio
 }
 
 export function calculateBuildPerformanceScore(components, performanceByComponentId, usageType) {
-  const entries = Object.values(components);
+  const entries = requiredBuildSlots.map((slot) => components[slot]).filter(Boolean);
 
   if (entries.length === 0) {
     return 0;

@@ -25,7 +25,9 @@ const stores = [
   }
 ];
 
-export const purchaseLinks = components.flatMap((component) => {
+export const purchaseLinks = components.flatMap(createComponentPurchaseLinks);
+
+export function createComponentPurchaseLinks(component) {
   const searchTerm = buildSearchTerm(component);
   const terms = {
     hyphenTerm: toHyphenTerm(searchTerm),
@@ -42,7 +44,7 @@ export const purchaseLinks = components.flatMap((component) => {
     isAffiliate: false,
     availabilityStatus: 'unknown'
   }));
-});
+}
 
 function buildSearchTerm(component) {
   const name = component.name || component.id;

@@ -2386,3 +2386,10 @@ input[aria-invalid="true"] { border-color: var(--red); }
   .performance-result-panel .section-heading { flex-wrap: wrap; }
   .energy-panel { padding: var(--space-3); }
 }
+
+
+.cooling-panel { display: grid; gap: 1rem; min-width: 0; }
+.cooling-panel fieldset { min-width: 0; border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }
+.cooling-panel legend { padding: 0 .4rem; }
+.cooling-panel select { max-width: 100%; }
+.status-unverified { border-color: var(--warning, #e2b35d); }

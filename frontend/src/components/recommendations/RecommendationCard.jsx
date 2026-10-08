@@ -1,9 +1,10 @@
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
+import { calculateBuildPrice, recommendationSelection } from '../../utils/buildHelpers.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
-export default function RecommendationCard({ recommendation, onApply }) {
+export default function RecommendationCard({ recommendation, onApply, currentComponents = {} }) {
   if (!recommendation) {
     return (
       <Card>
@@ -13,15 +14,19 @@ export default function RecommendationCard({ recommendation, onApply }) {
     );
   }
 
+  const suggested = recommendation.components || {};
+  const retainsCooling = ((!Object.hasOwn(suggested, 'cooler') && !Object.hasOwn(suggested, 'coolerId') && currentComponents.cooler)
+    || (!Object.hasOwn(suggested, 'fans') && currentComponents.fans?.length));
+  const displayedTotal = retainsCooling ? calculateBuildPrice(recommendationSelection(currentComponents, suggested)) : recommendation.totalEstimatedPrice;
   return (
     <Card className="recommendation-card">
       <div className="section-heading compact">
         <h3>Configuração recomendada</h3>
-        <strong>{formatCurrency(recommendation.totalEstimatedPrice)}</strong>
+        <strong>{formatCurrency(displayedTotal)}</strong>
       </div>
-      <p>{recommendation.summary || recommendation.strategy}</p>
+      {retainsCooling ? <p>O total inclui a refrigeração atual que será mantida. Esta combinação ainda não foi verificada: compatibilidade e orçamento precisam de nova análise antes de concluir a montagem.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
       <ul className="build-parts-list">
-        {componentTypes.map((type) => {
+        {[...componentTypes, ...(recommendation.components?.cooler ? ['cooler'] : [])].map((type) => {
           const component = recommendation.components?.[type];
 
           return (
@@ -31,7 +36,9 @@ export default function RecommendationCard({ recommendation, onApply }) {
             </li>
           );
         })}
+        {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><strong>{fan.name || fan.fanId || fan.id} · {fan.quantity} pacote(s)</strong></li>)}
       </ul>
+      {onApply && <p className="hint-text">Se a recomendação não incluir refrigeração, as escolhas atuais de cooler e ventoinhas serão mantidas. Execute a análise novamente: total e compatibilidade podem mudar.</p>}
       {onApply && (
         <Button onClick={() => onApply(recommendation)}>
           Usar esta recomendação

@@ -1,3 +1,4 @@
+import { requiredBuildSlots, calculateBuildPrice } from '../services/build.service.js';
 import { calculateCostBenefitScore } from './costBenefitUtils.js';
 import { usageSlotWeights } from './usageTypeWeights.js';
 
@@ -9,7 +10,9 @@ export const supportedComparisonCriteria = [
 ];
 
 export function calculateBuildCostBenefitScore({ components, performanceByComponentId, usageType }) {
-  const componentEntries = Object.entries(components);
+  const componentEntries = requiredBuildSlots
+    .filter((slot) => components[slot])
+    .map((slot) => [slot, components[slot]]);
 
   if (componentEntries.length === 0) {
     return 0;
@@ -25,7 +28,11 @@ export function calculateBuildCostBenefitScore({ components, performanceByCompon
     });
   }, 0);
 
-  return Number(Math.min(totalScore * 100, 100).toFixed(2));
+  const mainPrice = calculateBuildPrice(Object.fromEntries(componentEntries));
+  const totalPrice = calculateBuildPrice(components);
+  const coolingCostFactor = totalPrice > 0 ? mainPrice / totalPrice : 1;
+
+  return Number((Math.min(totalScore * 100, 100) * coolingCostFactor).toFixed(2));
 }
 
 export function summarizeAlerts(alerts = []) {

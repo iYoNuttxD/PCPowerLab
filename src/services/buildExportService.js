@@ -1,4 +1,4 @@
-import { requiredBuildSlots, selectBuildComponents } from './build.service.js';
+import { requiredBuildSlots, selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { getSavedBuildById } from './savedBuildsService.js';
 
@@ -104,19 +104,16 @@ function normalizeDirectBuildComponents(buildInput) {
     throw error;
   }
 
-  selectBuildComponents(buildInput);
-
-  return requiredBuildSlots.reduce((components, slot) => ({
-    ...components,
-    [`${slot}Id`]: normalizeOptionalText(buildInput[`${slot}Id`] ?? buildInput[slot] ?? buildInput.components?.[slot])
-  }), {});
+  return mapSavedBuildComponentsToExport(serializeBuildSelection(selectBuildComponents(buildInput)));
 }
 
 function mapSavedBuildComponentsToExport(componentsInput) {
-  return requiredBuildSlots.reduce((components, slot) => ({
-    ...components,
-    [`${slot}Id`]: componentsInput[slot]
+  const components = requiredBuildSlots.reduce((result, slot) => ({
+    ...result, [`${slot}Id`]: componentsInput[slot]
   }), {});
+  if (componentsInput.cooler) components.coolerId = componentsInput.cooler;
+  if (componentsInput.fans?.length) components.fans = JSON.parse(JSON.stringify(componentsInput.fans));
+  return components;
 }
 
 function buildSummaryForExport({
@@ -136,7 +133,7 @@ function buildSummaryForExport({
     return {
       summary: {
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
-        compatibilityStatus: generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible'
+        compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')
       }
     };
   } catch (error) {

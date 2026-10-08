@@ -1,3 +1,5 @@
+import { catalogV21 } from './catalog.v21.js';
+
 export const performanceParameters = [
   {
     componentId: 'cpu-ryzen-5-5500',
@@ -798,3 +800,26 @@ export const performanceParameters = [
     ]
   }
 ];
+
+// Internal illustrative scores only. No physical benchmark or FPS measurement.
+// Cooling accessories intentionally have no performance parameters.
+performanceParameters.push(...catalogV21.filter(c => ['ram', 'storage'].includes(c.category)).map(component => {
+  const { specs } = component;
+  const score = component.category === 'ram'
+    ? Math.min(92, 50 + specs.capacityGb / 2 + (specs.speedMhz - 3200) / 200)
+    : Math.min(92, 50 + specs.readSpeedMbS / 200);
+  return {
+    componentId: component.id,
+    type: component.category,
+    capacity: specs.capacityGb,
+    ...(component.category === 'ram'
+      ? { speed: specs.speedMhz, memoryType: specs.memoryType }
+      : { interface: specs.interface, readSpeed: specs.readSpeedMbS, writeSpeed: specs.writeSpeedMbS }),
+    performanceScore: score,
+    gamingScore: score,
+    productivityScore: score,
+    scoreKind: 'internal-demonstrative',
+    scoreDisclaimer: 'Índice interno demonstrativo; não é benchmark, medição de FPS ou ganho garantido',
+    recommendedUse: ['general', 'study', 'gaming', 'programming']
+  };
+}));

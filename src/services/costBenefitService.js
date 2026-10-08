@@ -12,6 +12,7 @@ export function listComponentsByCostBenefit(filters = {}) {
   const limit = normalizeLimit(filters.limit);
 
   const components = listComponents({ category });
+  if (['cooler', 'fan'].includes(category)) return [];
   const performanceByComponentId = new Map(
     listPerformanceParameters({ type: category }).map((parameter) => [parameter.componentId, parameter])
   );
@@ -53,6 +54,10 @@ function rankCategoryComponents(components, performanceByComponentId) {
 }
 
 function buildCostBenefitEntry(component, performanceParameter) {
+  if (['cooler', 'fan'].includes(component.category)) {
+    return null;
+  }
+
   const price = getEstimatedPrice(component);
   const performanceScore = performanceParameter?.performanceScore;
 

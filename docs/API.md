@@ -1425,7 +1425,7 @@ Resposta:
 }
 ```
 
-Componentes existentes sem links cadastrados retornam lista vazia. Componentes inexistentes retornam `404`.
+Links de busca são gerados a partir do cadastro ativo atual, inclusive componentes recém-criados; são buscas, não ofertas. Componentes inexistentes retornam `404`.
 
 ### Buscar links por build
 
@@ -1490,3 +1490,28 @@ A API atualmente cobre:
 - explicacoes simples para resultados tecnicos;
 - compartilhamento simbolico de builds;
 - links mockados de compra por componente e por build.
+
+
+## Contrato v2.1: refrigeração opcional
+
+As sete peças principais continuam obrigatórias. No mesmo objeto da seleção, podem ser enviados:
+
+```json
+{
+  "coolerId": "cooler-noctua-nh-u12s-redux",
+  "fans": [{ "fanId": "fan-arctic-p12-pwm-pst-5-pack", "quantity": 1 }]
+}
+```
+
+Também são aceitos `components.cooler`/`components.coolerId` e `components.fans`. IDs principais aceitam chaves com ou sem sufixo `Id`. `coolerId:null` e `fans:[]` removem acessórios; omissão mantém o formato legado. Em PATCH de build salva, omissão preserva seleção anterior, enquanto remoção exige os campos explícitos.
+
+- `quantity` é um inteiro entre 1 e 20 **pacotes**, IDs de fan únicos. `unitsPerPack` define quantas ventoinhas físicas há em cada pacote. Preço de pacote × quantidade; consumo por fan × unidades por pacote × quantidade
+- `selectedComponents.cooler` é um componente; `selectedComponents.fans` é um array de componentes com `quantity`. Campos opcionais vazios podem ser omitidos
+- Salvos, versões, JSON exportado (versão compatível 1.0), compartilhamento, relatório e comparação preservam os opcionais. Importação pode enviar `export.build` à seleção; interface reidrata IDs de JSON importado
+- Compatibilidade: `status` é `compatible`, `incompatible` ou `unverified`; `compatible` só é true no primeiro caso. Conflitos ficam em `alerts`; verificações incompletas em `unverifiedChecks` com `verification:'unverified'`. O endpoint de alertas agrega as duas listas para apresentação, mantendo estado separado
+- `coolingPower` retorna `knownWatts`, `complete`, `unknownComponents`. Valores desconhecidos não viram zero verificado. Valores conhecidos são somados ao mínimo de fonte e à estimativa de consumo; as fórmulas preexistentes de finalidades distintas continuam heurísticas
+- Recomendações por orçamento/faixa aceitam os opcionais no nível raiz ou em `components`; reservam custo e testam compatibilidade. Não descartam os acessórios para caber no orçamento. Se os dados forem insuficientes, retornam 422 sem afirmar compatibilidade
+- As novas categorias são `cooler` (air/AIO) e `fan`. Parâmetros de desempenho continuam restritos às sete categorias principais; não cadastrar bônus de FPS por refrigeração
+- CRUD de regras é um registro documental separado do motor codificado. Alterá-lo não muda a execução das verificações
+
+Limites físicos e fontes: [v2.1](RA2-V2.1-INTEGRACAO.md) e [catálogo](RA2-V2.1-CATALOG-SOURCES.md).

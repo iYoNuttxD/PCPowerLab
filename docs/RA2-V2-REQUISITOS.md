@@ -44,3 +44,20 @@ Caminhos são relativos à raiz; `{a,b}` abrevia arquivos irmãos.
 - R20 é transversal. R21 precisa preservar o contrato e a invalidação das análises. R22 exige coleta real e separação entre intenção declarada e comportamento observado
 
 Resultados desta execução e inventário completo: [baseline](RA2-V2-BASELINE.md) e [inventário por componente](RA2-V2-INVENTARIO.json).
+
+## Atualização v2.1 — 08/10/2026
+
+A tabela acima permanece como registro da linha de base. Para R11–R14, R17, R19–R21, considere esta atualização e o [relatório da v2.1](RA2-V2.1-INTEGRACAO.md):
+
+| ID | Estado após v2.1 | Evidência / limite |
+| --- | --- | --- |
+| R11 | IMPLEMENTADO NÃO VALIDADO | +10 RAM e +10 armazenamentos, fontes oficiais por SKU, parâmetros demonstrativos e testes de integração de domínio; preços reais/aceitação humana não validados |
+| R12 | PARCIALMENTE IMPLEMENTADO | 3 air coolers selecionáveis com custo/energia/serialização e regras socket/altura; interferência RAM/VRM e adequação térmica não verificadas |
+| R13 | PARCIALMENTE IMPLEMENTADO | 2 AIOs selecionáveis e regras de radiador/socket; espessura/posição/consumo completo desconhecidos, sem aprovação automática |
+| R14 | PARCIALMENTE IMPLEMENTADO | 4 produtos de fans, packs/quantidades/custo/energia, dimensões e capacidade nominal; headers/corrente/layout misto/folgas não verificados |
+| R17 | IMPLEMENTADO NÃO VALIDADO | Troca/remoção complementar no resumo preserva principais; análises invalidadas; validação em navegador bloqueada |
+| R19 | PARCIALMENTE IMPLEMENTADO | Catálogo maior; recomendações/upgrades preservam opcionais e orçamento, recusam afirmar compatibilidade pendente; upgrades não reduzem capacidade |
+| R20 | PARCIALMENTE IMPLEMENTADO | Corrigidos storageInterfaces ausente, contratos de arrays, downgrade de capacidade e preço desconhecido; testes registrados, sem garantia de ausência total de bugs |
+| R21 | PARCIALMENTE IMPLEMENTADO | Estado não verificado explícito no resultado/compare; sem bônus FPS por refrigeração; validação de entendimento com pessoas não feita |
+
+Nenhum requisito recebe VALIDADO com base somente em código, testes de serviços ou build. As demais linhas não mudaram nesta etapa. Sem nova evidência para preço de mercado, pesquisa, retenção, monetização ou imagens.

@@ -5,7 +5,8 @@ import { formatCurrency } from '../../utils/formatCurrency.js';
 export default function BudgetPanel({ budget, totalPrice }) {
   const amount = Number(budget?.amount);
   const hasBudget = budget?.amount !== '' && budget?.amount != null && Number.isFinite(amount) && amount > 0;
-  const remaining = hasBudget ? amount - totalPrice : null;
+  const hasTotal = totalPrice !== null && totalPrice !== undefined && Number.isFinite(Number(totalPrice));
+  const remaining = hasBudget && hasTotal ? amount - totalPrice : null;
   const status = remaining === null ? 'pending' : remaining >= 0 ? 'within' : 'over';
 
   return (
@@ -30,6 +31,7 @@ export default function BudgetPanel({ budget, totalPrice }) {
           <strong>{remaining === null ? 'Aguardando' : formatCurrency(Math.abs(remaining))}</strong>
         </div>
       </div>
+      {!hasTotal && <p role="status">Há peças sem preço informado. O total e a avaliação do orçamento estão indisponíveis.</p>}
       <p className="hint-text">Calculado com preços estimados do catálogo. Não inclui frete nem acompanha ofertas em tempo real.</p>
     </Card>
   );

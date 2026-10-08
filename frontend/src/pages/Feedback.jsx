@@ -13,7 +13,7 @@ import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { recommendationFeedbackService } from '../services/recommendationFeedbackService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
-import { buildToApiPayload, hasCompleteBuild, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
+import { buildToApiPayload, calculateBuildPrice, hasCompleteBuild, hydrateBuildComponents, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
@@ -82,7 +82,9 @@ export default function Feedback() {
   const contextBuildSnapshot = useMemo(() => normalizeFeedbackBuildSnapshot(context), [context]);
 
   const selectedComponents = useMemo(() => (
-    normalizeContextComponents(context.buildDetails || contextBuildSnapshot || context.build || context.components || context.recommendation?.components, componentMap)
+    normalizeContextComponents(context.buildDetails
+      ? { ...contextBuildSnapshot, ...context.buildDetails }
+      : contextBuildSnapshot || context.build || context.components || context.recommendation?.components, componentMap)
   ), [componentMap, context.buildDetails, contextBuildSnapshot, context.build, context.components, context.recommendation]);
 
   const hasRecommendationBuild = hasCompleteBuild(selectedComponents);
@@ -181,10 +183,7 @@ export default function Feedback() {
       return;
     }
 
-    componentTypes.forEach((type) => {
-      buildState.actions.selectComponent(type, feedbackComponents[type]);
-    });
-    buildState.actions.setResult('recommendation', feedbackRecord);
+    buildState.actions.applyRecommendation({ ...feedbackRecord, components: feedbackComponents }, { replaceCooling: true });
     setAppliedFeedbackBuildId(feedbackRecord.id || '');
     setFeedback('Build do feedback aplicada como configuração atual.');
 
@@ -214,10 +213,7 @@ export default function Feedback() {
       return;
     }
 
-    componentTypes.forEach((type) => {
-      buildState.actions.selectComponent(type, selectedComponents[type]);
-    });
-    buildState.actions.setResult('recommendation', context.recommendation || context);
+    buildState.actions.applyRecommendation({ ...(context.recommendation || context), components: selectedComponents }, { replaceCooling: true });
     setFeedback('Build aplicada como configuração atual.');
 
     if (destination) {
@@ -446,7 +442,7 @@ function CentralFeedback({
             {feedbacks.map((item) => {
               const feedbackSnapshot = normalizeFeedbackBuildSnapshot(item);
               const feedbackComponents = normalizeContextComponents(feedbackSnapshot, componentMap);
-              const feedbackDisplayComponents = normalizeContextComponents(item.buildDetails || feedbackSnapshot, componentMap);
+              const feedbackDisplayComponents = normalizeContextComponents({ ...feedbackSnapshot, ...item.buildDetails }, componentMap);
               const canUseFeedbackBuild = hasCompleteBuild(feedbackComponents);
               const hasLinkedBuild = Boolean(feedbackSnapshot || item.buildDetails);
               const isApplied = appliedFeedbackBuildId === item.id;
@@ -529,6 +525,7 @@ function FeedbackBuildSnapshot({ selectedComponents, totalEstimatedPrice }) {
             <strong>{selectedComponents[type]?.name || selectedComponents[type]?.id || 'Componente não encontrado'}</strong>
           </li>
         ))}
+        <CoolingParts components={selectedComponents} />
       </ul>
     </div>
   );
@@ -569,7 +566,7 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
             </div>
             <div>
               <span>Compatibilidade</span>
-              <strong>{translateValue(context.compatibilityStatus || (context.compatible === false ? 'incompatible' : 'compatible'))}</strong>
+              <strong>{translateValue(context.compatibilityStatus || (context.unverifiedChecks?.length ? 'unverified' : context.compatible === true ? 'compatible' : context.compatible === false ? 'incompatible' : 'unverified'))}</strong>
             </div>
           </div>
           <ul className="build-parts-list">
@@ -579,6 +576,7 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
                 <strong>{selectedComponents[type]?.name || selectedComponents[type]?.id || 'Não informado'}</strong>
               </li>
             ))}
+            <CoolingParts components={selectedComponents} />
           </ul>
         </>
       )}
@@ -672,25 +670,7 @@ function requiresBuildSnapshot(context = {}) {
 function normalizeContextComponents(input = {}, componentMap = {}) {
   const componentsInput = input?.components || input?.build?.components || input?.build || input;
 
-  return componentTypes.reduce((selection, type) => {
-    const component = componentsInput?.[type] || componentsInput?.[`${type}Id`];
-
-    if (!component) {
-      return selection;
-    }
-
-    if (typeof component === 'string') {
-      return {
-        ...selection,
-        [type]: componentMap[component] || { id: component }
-      };
-    }
-
-    return {
-      ...selection,
-      [type]: component?.id && componentMap[component.id] ? { ...componentMap[component.id], ...component } : component
-    };
-  }, {});
+  return hydrateBuildComponents(componentsInput || {}, componentMap);
 }
 
 function normalizeFeedbackBuildSnapshot(context = {}) {
@@ -715,49 +695,54 @@ function normalizeFeedbackBuildSnapshot(context = {}) {
 }
 
 function normalizeBuildDetails(selectedComponents = {}) {
-  return componentTypes.reduce((details, type) => {
-    const component = selectedComponents[type];
+  const details = Object.fromEntries([...componentTypes, 'cooler']
+    .filter((type) => selectedComponents[type])
+    .map((type) => [type, normalizeComponentDetails(selectedComponents[type])]));
+  if (selectedComponents.fans?.length) {
+    details.fans = selectedComponents.fans.map((fan) => ({ ...normalizeComponentDetails(fan), quantity: fan.quantity ?? 1 }));
+  }
+  return details;
+}
 
-    if (!component) {
-      return details;
-    }
-
-    const normalizedComponent = {
-      ...(component.id && { id: component.id }),
-      ...(component.name && { name: component.name }),
-      ...(component.category && { category: component.category }),
-      ...(component.brand && { brand: component.brand }),
-      ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
-    };
-
-    return Object.keys(normalizedComponent).length
-      ? { ...details, [type]: normalizedComponent }
-      : details;
-  }, {});
+function normalizeComponentDetails(component) {
+  return {
+    ...(component.id && { id: component.id }),
+    ...(component.name && { name: component.name }),
+    ...(component.category && { category: component.category }),
+    ...(component.brand && { brand: component.brand }),
+    ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+  };
 }
 
 function normalizeBuildSnapshot(snapshot = {}) {
-  const normalized = componentTypes.reduce((selection, type) => {
-    const componentId = snapshot?.[`${type}Id`] || snapshot?.[type]?.id || snapshot?.[type];
-
-    if (!componentId) {
-      return selection;
-    }
-
-    return {
-      ...selection,
-      [`${type}Id`]: String(componentId)
-    };
-  }, {});
-
-  return Object.keys(normalized).length ? normalized : null;
+  const normalized = buildToApiPayload(snapshot);
+  return componentTypes.some((type) => normalized[`${type}Id`]) ? normalized : null;
 }
 
 function getContextPrice(context, selectedComponents) {
   return context.totalEstimatedPrice
     ?? context.estimatedTotalPrice
     ?? context.totalPrice
-    ?? Object.values(selectedComponents || {}).reduce((total, component) => total + (Number(component?.price) || 0), 0);
+    ?? calculateBuildPrice(selectedComponents);
+}
+
+function CoolingParts({ components }) {
+  return (
+    <>
+      {components.cooler && (
+        <li>
+          <span>{componentLabels.cooler}</span>
+          <strong>{components.cooler.name || components.cooler.id}</strong>
+        </li>
+      )}
+      {(components.fans || []).map((fan) => (
+        <li key={fan.id}>
+          <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+          <strong>{fan.name || fan.id}</strong>
+        </li>
+      ))}
+    </>
+  );
 }
 
 function calculateFeedbackStats(feedbacks) {

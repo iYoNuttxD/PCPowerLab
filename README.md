@@ -490,16 +490,16 @@ A aplicação atual é uma API backend com dados em memória. Os mocks ficam em 
 
 Base mockada atual:
 
-- 63 componentes: 12 CPUs, 9 placas-mãe, 11 GPUs, 8 memórias RAM, 8 armazenamentos, 8 fontes e 7 gabinetes.
-- 63 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
+- Catálogo v2.1: 98 componentes (12 CPUs, 9 placas-mãe, 11 GPUs, 21 RAM, 21 armazenamentos, 8 fontes, 7 gabinetes, 5 coolers e 4 produtos de fans). Recalcule pelo comando `npm run inventory`; a API lista o estado atual, inclusive alterações administrativas.
+- 89 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
 - 20 jogos reais para simulação estimada, incluindo competitivos, battle royale, RPGs, mundo aberto, corrida, simuladores e jogos AAA pesados.
-- 315 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
+- 490 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
 
 Os jogos da simulação usam requisitos simplificados e scores estimados para fins acadêmicos. Eles não representam requisitos oficiais nem garantem FPS real; o desempenho pode variar conforme drivers, sistema operacional, configurações gráficas, resolução, temperatura e otimização de cada jogo.
 
 Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. Os preços retornados continuam sendo estimativas baseadas no mock de componentes, e a disponibilidade fica como `unknown`; o usuário deve confirmar valor e estoque diretamente na loja.
 
-Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação ou integração com lojas reais nesta versão. O frontend em `frontend/` consome esses dados mockados pela API local.
+Os dados são reiniciados a cada execução do processo. Não há banco de dados real, contas por usuário ou integração com ofertas reais nesta versão. Há sessão administrativa para proteger o CRUD. O frontend em `frontend/` consome esses dados mockados pela API local.
 
 ## Contribuição
 
@@ -532,3 +532,13 @@ chore: manutenção de configuração
 ```
 
 Mais detalhes em [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## Refrigeração complementar — v2.1
+
+O assistente mantém sete peças principais. Cooler (air/AIO) e fans são opcionais, selecionáveis no gabinete/revisão e alteráveis no resumo. Fans usam quantidade de pacotes; custo usa preço/pacote, consumo e ocupação usam unidades físicas. Acessórios acompanham orçamento, comparação, salvos, versões, exportação e compartilhamento. Não geram bônus de FPS.
+
+As verificações retornam `compatible`, `incompatible` ou `unverified`; dados insuficientes não aprovam uma montagem. Os registros editáveis de regras são administrativos; o motor de compatibilidade é codificado e independente deles.
+
+- [Implementação, testes e limites v2.1](docs/RA2-V2.1-INTEGRACAO.md)
+- [Modelos e fontes oficiais](docs/RA2-V2.1-CATALOG-SOURCES.md)
+- [Inventário gerado](docs/RA2-V2.1-INVENTARIO.json)

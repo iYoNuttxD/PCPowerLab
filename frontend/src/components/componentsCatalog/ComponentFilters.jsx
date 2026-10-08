@@ -1,7 +1,7 @@
 import Input from '../ui/Input.jsx';
 import Select from '../ui/Select.jsx';
 import Button from '../ui/Button.jsx';
-import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
+import { componentLabels, catalogComponentTypes } from '../../utils/componentLabels.js';
 import { emptyCatalogFilters, priceRangeError } from '../../utils/componentPresentation.js';
 
 export default function ComponentFilters({ components, filters, onChange, fixedCategory }) {
@@ -15,7 +15,7 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
         <Input label="Buscar por nome ou marca" type="search" value={filters.search} placeholder="Ex.: Ryzen, RTX, Kingston"
           onChange={event => update('search', event.target.value.slice(0, 80))} />
         {!fixedCategory && <Select label="Categoria" value={filters.category} onChange={event => update('category', event.target.value)}
-          options={[{ value: 'all', label: 'Todas as categorias' }, ...componentTypes.map(type => ({ value: type, label: componentLabels[type] }))]} />}
+          options={[{ value: 'all', label: 'Todas as categorias' }, ...catalogComponentTypes.map(type => ({ value: type, label: componentLabels[type] }))]} />}
         <Select label="Marca" value={filters.brand} onChange={event => update('brand', event.target.value)}
           options={[{ value: 'all', label: 'Todas as marcas' }, ...brands.map(brand => ({ value: brand, label: brand }))]} />
         <Input label="Preço mínimo estimado (R$)" type="number" min="0" step="0.01" value={filters.minPrice}

@@ -1,4 +1,4 @@
-import { selectBuildComponents } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -42,7 +42,8 @@ export function generateUpgradeRoadmap(input) {
         currency: 'BRL',
         priority: normalizeRecommendationPriority(priority)
       },
-      usageType
+      usageType,
+      components: initialBuildIds
     }),
     null
   );
@@ -238,6 +239,8 @@ function formatCompatibility(compatibility) {
 
   return {
     compatible: compatibility.compatible,
+    status: compatibility.status,
+    unverifiedChecks: compatibility.unverifiedChecks ?? [],
     alerts: compatibility.alerts ?? [],
     estimatedPrice: Number((compatibility.estimatedPrice ?? 0).toFixed(2))
   };
@@ -301,7 +304,9 @@ function normalizeMaxSteps(maxStepsInput) {
 }
 
 function normalizeBuildInput(buildInput) {
+  buildInput = { ...buildInput.components, ...buildInput };
   return {
+    ...buildInput,
     cpuId: buildInput.cpuId ?? buildInput.cpu,
     motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
     gpuId: buildInput.gpuId ?? buildInput.gpu,
@@ -333,7 +338,7 @@ function getMainBottleneck(bottleneckAnalysis) {
 }
 
 function calculateTotalPrice(build) {
-  return Object.values(build).reduce((total, component) => total + (component.price || 0), 0);
+  return calculateBuildPrice(build);
 }
 
 function calculateTotalEstimatedCost(steps) {
@@ -341,9 +346,7 @@ function calculateTotalEstimatedCost(steps) {
 }
 
 function mapBuildToIds(build) {
-  return Object.fromEntries(
-    Object.entries(build).map(([slot, component]) => [slot, component.id])
-  );
+  return serializeBuildSelection(build);
 }
 
 function runOptionalAnalysis(callback, fallbackValue) {

@@ -14,7 +14,9 @@ const requiredSpecFieldsByCategory = {
   ram: ['memoryType', 'capacityGb', 'speedMhz'],
   storage: ['interface', 'capacityGb', 'storageType'],
   psu: ['watts', 'efficiency'],
-  case: ['supportedFormFactors', 'maxGpuLengthMm']
+  case: ['supportedFormFactors', 'maxGpuLengthMm'],
+  cooler: ['coolingType'],
+  fan: ['unitsPerPack']
 };
 
 export function listAdminComponents(filters = {}) {
@@ -138,6 +140,16 @@ function normalizeComponentSpecs(category, componentInput, currentSpecs) {
     assignSpec(specs, 'maxGpuLengthMm', componentInput.maxGpuLength ?? componentInput.maxGpuLengthMm ?? inputSpecs.maxGpuLength ?? inputSpecs.maxGpuLengthMm);
   }
 
+  const coolingFields = {
+    cooler: ['coolingType', 'supportedSockets', 'heightMm', 'radiatorSizeMm', 'radiatorThicknessMm', 'powerWatts'],
+    fan: ['diameterMm', 'thicknessMm', 'connector', 'powerWatts', 'unitsPerPack'],
+    case: ['maxCoolerHeightMm', 'radiatorSizesMm', 'fanMounts', 'includedFanCount', 'maxFanThicknessMm']
+  };
+  for (const field of coolingFields[category] || []) {
+    const value = Object.hasOwn(componentInput, field) ? componentInput[field] : inputSpecs[field];
+    assignSpec(specs, field, value);
+  }
+
   return specs;
 }
 
@@ -176,6 +188,7 @@ function validateComponentForSave(component) {
 
   if (errors.length === 0) {
     errors.push(...validateRequiredSpecs(component.category, component.specs));
+    errors.push(...validateCoolingSpecs(component.category, component.specs));
   }
 
   if (errors.length > 0) {
@@ -302,4 +315,32 @@ function isEmptySpecValue(value) {
   }
 
   return value === undefined || value === null || value === '';
+}
+
+function validateCoolingSpecs(category, specs) {
+  const errors = [];
+  const invalid = (field) => errors.push(`Campo tecnico invalido para ${category}: ${field}.`);
+  const present = (field) => specs[field] !== undefined && specs[field] !== null;
+  const positive = (value) => isValidNumber(value) && value > 0;
+  const fields = category === 'cooler' ? ['heightMm', 'radiatorSizeMm', 'radiatorThicknessMm']
+    : category === 'fan' ? ['diameterMm', 'thicknessMm']
+      : category === 'case' ? ['maxCoolerHeightMm', 'maxFanThicknessMm'] : [];
+  for (const field of fields) if (present(field) && !positive(specs[field])) invalid(field);
+  if (['cooler', 'fan'].includes(category) && present('powerWatts') && !isValidNumber(specs.powerWatts)) invalid('powerWatts');
+  if (category === 'cooler') {
+    if (!['air', 'aio'].includes(specs.coolingType)) invalid('coolingType');
+    if (present('supportedSockets') && (!Array.isArray(specs.supportedSockets) || !specs.supportedSockets.length
+      || !specs.supportedSockets.every(isFilledText))) invalid('supportedSockets');
+  }
+  if (category === 'fan') {
+    if (!Number.isInteger(specs.unitsPerPack) || specs.unitsPerPack < 1 || specs.unitsPerPack > 20) invalid('unitsPerPack');
+    if (present('connector') && !isFilledText(specs.connector)) invalid('connector');
+  }
+  if (category === 'case') {
+    if (present('includedFanCount') && (!Number.isInteger(specs.includedFanCount) || specs.includedFanCount < 0)) invalid('includedFanCount');
+    if (present('radiatorSizesMm') && (!Array.isArray(specs.radiatorSizesMm) || !specs.radiatorSizesMm.every(positive))) invalid('radiatorSizesMm');
+    if (present('fanMounts') && (!Array.isArray(specs.fanMounts) || !specs.fanMounts.every((mount) =>
+      mount && typeof mount === 'object' && positive(mount.diameterMm) && Number.isInteger(mount.capacity) && mount.capacity >= 0))) invalid('fanMounts');
+  }
+  return errors;
 }

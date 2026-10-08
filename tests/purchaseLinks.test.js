@@ -37,7 +37,7 @@ test('deve buscar links de compra por componentId', () => {
   assert.equal(['available', 'unavailable', 'unknown'].includes(links[0].availabilityStatus), true);
 });
 
-test('deve retornar lista vazia para componente existente sem link cadastrado', () => {
+test('deve gerar buscas dinamicamente para componente cadastrado depois da inicialização', () => {
   createAdminComponent({
     id: 'case-test-no-purchase-link',
     name: 'Gabinete Test Sem Link',
@@ -49,7 +49,9 @@ test('deve retornar lista vazia para componente existente sem link cadastrado', 
 
   const links = getPurchaseLinksByComponentId('case-test-no-purchase-link');
 
-  assert.deepEqual(links, []);
+  assert.equal(links.length, 5);
+  assert.ok(links.every(link => link.componentId === 'case-test-no-purchase-link' && link.availabilityStatus === 'unknown'));
+  assert.equal(links[0].price, null);
 });
 
 test('deve buscar links de compra para todos os componentes de uma build', () => {

@@ -260,7 +260,7 @@ function normalizeBuildSnapshot(value) {
     throw error;
   }
 
-  const allowedKeys = ['cpuId', 'gpuId', 'motherboardId', 'ramId', 'storageId', 'psuId', 'caseId'];
+  const allowedKeys = ['cpuId', 'gpuId', 'motherboardId', 'ramId', 'storageId', 'psuId', 'caseId', 'coolerId'];
   const snapshot = allowedKeys.reduce((normalizedSnapshot, key) => {
     const componentId = normalizeOptionalText(value[key]);
 
@@ -269,6 +269,7 @@ function normalizeBuildSnapshot(value) {
       : normalizedSnapshot;
   }, {});
 
+  if (value.fans !== undefined) snapshot.fans = normalizeFeedbackFans(value.fans);
   return Object.keys(snapshot).length > 0 ? { ...snapshot } : null;
 }
 
@@ -284,7 +285,7 @@ function normalizeBuildDetails(value) {
     throw error;
   }
 
-  const allowedTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
+  const allowedTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case', 'cooler'];
   const details = allowedTypes.reduce((normalizedDetails, type) => {
     const component = value[type];
 
@@ -305,7 +306,25 @@ function normalizeBuildDetails(value) {
       : normalizedDetails;
   }, {});
 
+  if (value.fans !== undefined) details.fans = normalizeFeedbackFans(value.fans, true);
   return Object.keys(details).length > 0 ? { ...details } : null;
+}
+
+function normalizeFeedbackFans(value, details = false) {
+  if (!Array.isArray(value) || value.length > 20 || value.some((entry) =>
+    !entry || !normalizeOptionalText(entry.fanId ?? entry.id) || !Number.isInteger(entry.quantity)
+    || entry.quantity < 1 || entry.quantity > 20)) {
+    const error = new Error('Fans do feedback invalidos.');
+    error.statusCode = 400;
+    throw error;
+  }
+  return value.map((entry) => details ? {
+    id: entry.id ?? entry.fanId,
+    name: normalizeOptionalText(entry.name),
+    category: 'fan',
+    quantity: entry.quantity,
+    ...(Number.isFinite(entry.price) && { price: entry.price })
+  } : { fanId: entry.fanId ?? entry.id, quantity: entry.quantity });
 }
 
 function generateRecommendationFeedbackId() {

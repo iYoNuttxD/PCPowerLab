@@ -7,12 +7,14 @@ export const componentSpecFields = {
   ram: ['memoryType', 'capacityGb', 'speedMhz'],
   storage: ['storageType', 'interface', 'capacityGb', 'readSpeedMbS', 'writeSpeedMbS'],
   psu: ['watts', 'efficiency'],
-  case: ['supportedFormFactors', 'maxGpuLengthMm']
+  case: ['supportedFormFactors', 'maxGpuLengthMm', 'maxCoolerHeightMm', 'radiatorSizesMm', 'fanMounts'],
+  cooler: ['coolingType', 'supportedSockets', 'heightMm', 'radiatorSizeMm', 'powerWatts'],
+  fan: ['diameterMm', 'thicknessMm', 'connector', 'powerWatts', 'unitsPerPack']
 };
 
 const units = {
   baseClockGhz: 'GHz', boostClockGhz: 'GHz', tdpWatts: 'W', recommendedPsuWatts: 'W',
-  lengthMm: 'mm', maxGpuLengthMm: 'mm', speedMhz: 'MT/s', capacityGb: 'GB', vramGb: 'GB',
+  heightMm: 'mm', radiatorSizeMm: 'mm', diameterMm: 'mm', thicknessMm: 'mm', maxCoolerHeightMm: 'mm', powerWatts: 'W', lengthMm: 'mm', maxGpuLengthMm: 'mm', speedMhz: 'MT/s', capacityGb: 'GB', vramGb: 'GB',
   readSpeedMbS: 'MB/s', writeSpeedMbS: 'MB/s', watts: 'W'
 };
 
@@ -25,7 +27,11 @@ export function specLabel(key) {
 
 export function formatSpecValue(key, value) {
   if (value === undefined || value === null || value === '' || (Array.isArray(value) && !value.length)) return 'Não informado';
-  if (Array.isArray(value)) return value.join(', ');
+  if (key === 'fanMounts' && Array.isArray(value)) return value.map(mount => `${mount.diameterMm ?? '?'} mm: até ${mount.capacity ?? '?'} ventoinha(s)`).join('; ');
+  if (key === 'radiatorSizesMm' && Array.isArray(value)) return value.map(size => `${size} mm`).join(', ');
+  if (Array.isArray(value)) return value.map(item => typeof item === 'object' ? JSON.stringify(item) : item).join(', ');
+  if (typeof value === 'object') return JSON.stringify(value);
+  if (key === 'coolingType') return value === 'air' ? 'A ar' : value === 'aio' ? 'Líquida (AIO)' : String(value);
   if (typeof value === 'boolean') return value ? 'Sim' : 'Não';
   return units[key] && Number.isFinite(Number(value)) ? `${Number(value).toLocaleString('pt-BR')} ${units[key]}` : String(value);
 }

@@ -1,93 +1,24 @@
-import { findComponentById } from './component.service.js';
-
-const requiredBuildSlots = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case'];
+import { selectBuildComponents, calculateBuildPrice } from './build.service.js';
+import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
 
 export function checkBuildCompatibility(selectedComponents) {
-  const selectedComponentIds = normalizeSelectedComponentsInput(selectedComponents);
-
-  validateSelectedComponents(selectedComponentIds);
-
-  const build = mapSelectedComponents(selectedComponentIds);
-  const alerts = [];
-
-  validateCpuAndMotherboard(build, alerts);
-  validateRamAndMotherboard(build, alerts);
-  validateStorageAndMotherboard(build, alerts);
-  validatePsu(build, alerts);
-  validateCase(build, alerts);
-
-  return {
-    compatible: alerts.length === 0,
-    alerts,
-    selectedComponents: build,
-    estimatedPrice: calculateEstimatedPrice(build)
-  };
+  const build = selectBuildComponents(selectedComponents);
+  const { alerts, unverifiedChecks } = checkCoolingCompatibility(build);
+  validateCpuAndMotherboard(build, alerts, unverifiedChecks);
+  validateRamAndMotherboard(build, alerts, unverifiedChecks);
+  validateStorageAndMotherboard(build, alerts, unverifiedChecks);
+  validatePsu(build, alerts, unverifiedChecks);
+  validateCase(build, alerts, unverifiedChecks);
+  const status = alerts.length ? 'incompatible' : unverifiedChecks.length ? 'unverified' : 'compatible';
+  return { compatible: status === 'compatible', status, alerts, unverifiedChecks,
+    selectedComponents: build, coolingPower: getCoolingPower(build), estimatedPrice: calculateBuildPrice(build) };
 }
 
-function validateSelectedComponents(selectedComponents) {
-  if (!selectedComponents || typeof selectedComponents !== 'object') {
-    const error = new Error('Informe os componentes da configuração.');
-    error.statusCode = 400;
-    throw error;
+function validateCpuAndMotherboard(build, alerts, unverifiedChecks) {
+  if (!build.cpu.specs.socket || !build.motherboard.specs.socket) {
+    unverifiedChecks.push({ code: 'CPU_SOCKET_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Socket de CPU ou placa-mae nao informado.' });
+    return;
   }
-
-  const missingSlots = requiredBuildSlots.filter((slot) => !selectedComponents[slot]);
-
-  if (missingSlots.length > 0) {
-    const error = new Error('Configuração incompleta.');
-    error.statusCode = 400;
-    error.errors = missingSlots.map((slot) => `Componente obrigatório ausente: ${slot}.`);
-    throw error;
-  }
-}
-
-function normalizeSelectedComponentsInput(selectedComponents) {
-  if (!selectedComponents || typeof selectedComponents !== 'object' || Array.isArray(selectedComponents)) {
-    return selectedComponents;
-  }
-
-  const nestedComponents = selectedComponents.components && typeof selectedComponents.components === 'object'
-    ? selectedComponents.components
-    : {};
-
-  return requiredBuildSlots.reduce((normalizedComponents, slot) => ({
-    ...normalizedComponents,
-    [slot]: normalizeText(
-      selectedComponents[slot]
-        ?? selectedComponents[`${slot}Id`]
-        ?? nestedComponents[slot]
-        ?? nestedComponents[`${slot}Id`]
-    )
-  }), {});
-}
-
-function mapSelectedComponents(selectedComponents) {
-  const build = {};
-
-  for (const slot of requiredBuildSlots) {
-    const component = findComponentById(selectedComponents[slot]);
-
-    if (!component) {
-      const error = new Error('Um ou mais componentes não foram encontrados.');
-      error.statusCode = 404;
-      error.errors = [`Componente não encontrado para ${slot}: ${selectedComponents[slot]}.`];
-      throw error;
-    }
-
-    if (component.category !== slot) {
-      const error = new Error('Componente selecionado em categoria incorreta.');
-      error.statusCode = 400;
-      error.errors = [`O componente ${component.name} não pertence à categoria ${slot}.`];
-      throw error;
-    }
-
-    build[slot] = component;
-  }
-
-  return build;
-}
-
-function validateCpuAndMotherboard(build, alerts) {
   if (build.cpu.specs.socket !== build.motherboard.specs.socket) {
     alerts.push({
       code: 'CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE',
@@ -97,7 +28,11 @@ function validateCpuAndMotherboard(build, alerts) {
   }
 }
 
-function validateRamAndMotherboard(build, alerts) {
+function validateRamAndMotherboard(build, alerts, unverifiedChecks) {
+  if (!build.ram.specs.memoryType || !build.motherboard.specs.memoryType) {
+    unverifiedChecks.push({ code: 'RAM_TYPE_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Tipo de memoria nao informado.' });
+    return;
+  }
   if (build.ram.specs.memoryType !== build.motherboard.specs.memoryType) {
     alerts.push({
       code: 'RAM_MOTHERBOARD_TYPE_INCOMPATIBLE',
@@ -107,8 +42,13 @@ function validateRamAndMotherboard(build, alerts) {
   }
 }
 
-function validateStorageAndMotherboard(build, alerts) {
+function validateStorageAndMotherboard(build, alerts, unverifiedChecks) {
   const supportedInterfaces = build.motherboard.specs.storageInterfaces;
+
+  if (!Array.isArray(supportedInterfaces) || !build.storage.specs.interface) {
+    unverifiedChecks.push({ code: 'STORAGE_INTERFACE_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Interfaces de armazenamento nao verificadas.' });
+    return;
+  }
 
   if (!supportedInterfaces.includes(build.storage.specs.interface)) {
     alerts.push({
@@ -119,10 +59,14 @@ function validateStorageAndMotherboard(build, alerts) {
   }
 }
 
-function validatePsu(build, alerts) {
+function validatePsu(build, alerts, unverifiedChecks) {
+  if (![build.cpu.specs.tdpWatts, build.gpu.specs.recommendedPsuWatts, build.psu.specs.watts].every((v) => Number.isFinite(v) && v >= 0)) {
+    unverifiedChecks.push({ code: 'PSU_POWER_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Dados de potencia insuficientes para verificar a fonte.' });
+    return;
+  }
   const cpuTdp = build.cpu.specs.tdpWatts || 0;
   const gpuRecommendedPsu = build.gpu.specs.recommendedPsuWatts || 0;
-  const minimumRecommended = Math.max(gpuRecommendedPsu, cpuTdp + 350);
+  const minimumRecommended = Math.max(gpuRecommendedPsu, cpuTdp + 350) + getCoolingPower(build).knownWatts;
 
   if (build.psu.specs.watts < minimumRecommended) {
     alerts.push({
@@ -133,10 +77,12 @@ function validatePsu(build, alerts) {
   }
 }
 
-function validateCase(build, alerts) {
+function validateCase(build, alerts, unverifiedChecks) {
   const supportedFormFactors = build.case.specs.supportedFormFactors;
 
-  if (!supportedFormFactors.includes(build.motherboard.specs.formFactor)) {
+  if (!Array.isArray(supportedFormFactors) || !build.motherboard.specs.formFactor) {
+    unverifiedChecks.push({ code: 'CASE_FORM_FACTOR_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Formatos de placa-mae suportados nao verificados.' });
+  } else if (!supportedFormFactors.includes(build.motherboard.specs.formFactor)) {
     alerts.push({
       code: 'CASE_MOTHERBOARD_FORM_FACTOR_INCOMPATIBLE',
       severity: 'medium',
@@ -144,23 +90,13 @@ function validateCase(build, alerts) {
     });
   }
 
-  if (build.gpu.specs.lengthMm > build.case.specs.maxGpuLengthMm) {
+  if (![build.gpu.specs.lengthMm, build.case.specs.maxGpuLengthMm].every((v) => Number.isFinite(v) && v > 0)) {
+    unverifiedChecks.push({ code: 'CASE_GPU_LENGTH_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Comprimento da GPU ou limite do gabinete nao informado.' });
+  } else if (build.gpu.specs.lengthMm > build.case.specs.maxGpuLengthMm) {
     alerts.push({
       code: 'CASE_GPU_LENGTH_INCOMPATIBLE',
       severity: 'medium',
       message: `A placa de vídeo possui ${build.gpu.specs.lengthMm}mm, mas o gabinete suporta até ${build.case.specs.maxGpuLengthMm}mm.`
     });
   }
-}
-
-function calculateEstimatedPrice(build) {
-  return Object.values(build).reduce((total, component) => total + component.price, 0);
-}
-
-function normalizeText(value) {
-  if (typeof value !== 'string' || value.trim().length === 0) {
-    return null;
-  }
-
-  return value.trim();
 }

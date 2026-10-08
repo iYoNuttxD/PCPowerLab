@@ -5,6 +5,7 @@ const storageKey = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const labels = ['Processador', 'Placa de vídeo', 'Placa-mãe', 'Memória RAM', 'Armazenamento', 'Fonte de alimentação', 'Gabinete'];
 const selection = Object.fromEntries(types.map(type => [type, components.find(component => component.category === type)]));
+selection.fans = [];
 const budget = { amount: '5000', currency: 'BRL', priority: 'cost-benefit' };
 const pageErrors = new WeakMap();
 
