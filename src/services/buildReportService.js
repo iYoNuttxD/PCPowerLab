@@ -51,11 +51,11 @@ export function generateBuildReport(input) {
       currency
     },
     components: summary.components,
-    pricing: buildPricingSection({
+    pricing: { ...summary.pricing, ...buildPricingSection({
       totalEstimatedPrice: summary.totalEstimatedPrice,
       budgetStatus: summary.budgetStatus,
       budget: input.budget
-    }),
+    }) },
     compatibility: summary.compatibility,
     alerts: summary.compatibility?.alerts ?? [],
     bottlenecks: summary.bottlenecks ?? buildUnavailableSection('Analise de gargalos indisponivel para os dados informados.'),

@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { URL } from 'node:url';
 import { components } from '../src/data/components.mock.js';
 import { performanceParameters } from '../src/data/performanceParameters.js';
 import { readyBuilds } from '../src/data/readyBuilds.js';
@@ -10,6 +12,8 @@ import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksServ
 
 const additions = components.filter(component => component.specSourceUrl && ['ram', 'storage'].includes(component.category));
 const reference = readyBuilds[0].components;
+// Reviewed source facts are an independent price oracle, not the service output under test.
+const priceFacts = JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8'));
 
 for (const component of additions) {
   test(`catalogo ampliado: ${component.id} participa de compatibilidade, orçamento e desempenho`, () => {
@@ -22,13 +26,32 @@ for (const component of additions) {
     assert.equal(summary.compatibility.compatible, true);
     assert.equal(summary.bottlenecks.available, undefined);
     assert.equal(Number.isFinite(summary.gamePerformance.estimatedFps), true);
-    const total = Number(Object.values(summary.components).reduce((sum, part) => sum + part.price, 0).toFixed(2));
+    const selectedIds = Object.values(selection);
+    const missingIds = selectedIds.filter(id => !Object.hasOwn(priceFacts, id));
+    const knownSubtotal = selectedIds.filter(id => Object.hasOwn(priceFacts, id))
+      .reduce((cents, id) => cents + Math.round(priceFacts[id].price * 100), 0) / 100;
+    const total = missingIds.length ? null : knownSubtotal;
+    assert.equal(component.price, priceFacts[component.id]?.price ?? null);
     assert.equal(summary.totalEstimatedPrice, total);
-    assert.equal(summary.budgetStatus.status, 'over_budget');
-    assert.equal(summary.budgetStatus.remaining, Number((1000 - total).toFixed(2)));
+    assert.equal(summary.pricing.knownReferenceSubtotal, knownSubtotal);
+    assert.equal(summary.pricing.referenceTotalComplete, missingIds.length === 0);
+    assert.deepEqual([...summary.pricing.componentsWithoutReference].sort(), [...missingIds].sort());
+    assert.equal(summary.budgetStatus.status, missingIds.length ? 'unavailable' : 'over_budget');
+    assert.equal(summary.budgetStatus.remaining, missingIds.length ? null : Number((1000 - total).toFixed(2)));
     const score = calculateBuildScore({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming' });
-    assert.equal(score.overallScore >= 0 && score.overallScore <= 100, true);
-    assert.equal(score.warnings, undefined);
+    assert.equal(score.criteria.compatibilityScore, 100);
+    assert.ok(score.criteria.performanceScore > 0);
+    assert.equal(score.available, missingIds.length === 0);
+    if (missingIds.length) {
+      assert.equal(score.overallScore, null);
+      assert.equal(score.criteria.budgetScore, null);
+      assert.equal(score.criteria.costBenefitScore, null);
+      assert.ok(score.warnings.some(warning => /sem preço de referência/.test(warning)));
+    } else {
+      assert.equal(Number.isInteger(score.overallScore), true);
+      assert.equal(score.overallScore >= 0 && score.overallScore <= 100, true);
+      assert.equal(score.warnings, undefined);
+    }
     const parameter = performanceParameters.find(entry => entry.componentId === component.id);
     assert.equal(parameter.capacity, component.specs.capacityGb);
     if (component.category === 'ram') assert.equal(parameter.memoryType, component.specs.memoryType);

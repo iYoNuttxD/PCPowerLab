@@ -51,14 +51,8 @@ function ComponentImageFrame({ component, category, name, media, catalogLoading,
   );
 }
 
-export function ComponentImageCredits({ media, name, compact = false }) {
-  const illustrative = media.identityLevel === 'representative-product';
-  return <figcaption><details className="component-image-credits">
-    <summary aria-label={`${illustrative ? 'Imagem ilustrativa' : 'Fonte da imagem'} de ${name}`}>{illustrative ? 'Imagem ilustrativa' : compact ? 'Fonte' : 'Fonte da imagem'}</summary>
-    {media.identityNotes && <p>{media.identityNotes}</p>}
-    <a href={media.imageSource} target="_blank" rel="noopener noreferrer">{media.author ? `Foto: ${media.author}` : 'Origem da fotografia'}</a>
-    {media.license && <> · {media.licenseUrl ? <a href={media.licenseUrl} target="_blank" rel="noopener noreferrer">{media.license}</a> : media.license}</>}
-    <span className="component-image-product-link"><a href={media.manufacturerProductUrl} target="_blank" rel="noopener noreferrer">Modelo no fabricante</a></span>
-    {media.modifications && <p>Alterações: {media.modifications}</p>}
-  </details></figcaption>;
+export function ComponentImageCredits({ media }) {
+  const label = media.identityLevel === 'representative-product' ? 'Imagem ilustrativa'
+    : media.identityLevel === 'model-family' ? 'Foto da família' : null;
+  return label ? <figcaption className="component-image-scope">{label}</figcaption> : null;
 }

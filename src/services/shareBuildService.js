@@ -114,6 +114,7 @@ function buildShareSummary({ name, build, buildSummary }) {
   return {
     name,
     totalEstimatedPrice: buildSummary.totalEstimatedPrice,
+    pricing: buildSummary.pricing,
     summary: buildSummary.summary,
     finalRecommendation: buildSummary.finalRecommendation,
     compatibility: buildSummary.compatibility,

@@ -242,7 +242,8 @@ function formatCompatibility(compatibility) {
     status: compatibility.status,
     unverifiedChecks: compatibility.unverifiedChecks ?? [],
     alerts: compatibility.alerts ?? [],
-    estimatedPrice: Number((compatibility.estimatedPrice ?? 0).toFixed(2))
+    estimatedPrice: compatibility.estimatedPrice,
+    pricing: compatibility.pricing
   };
 }
 

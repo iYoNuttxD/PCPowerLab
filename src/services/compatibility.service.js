@@ -1,11 +1,13 @@
-import { selectBuildComponents, calculateBuildPrice } from './build.service.js';
+import { selectBuildComponents } from './build.service.js';
+import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
 import { isNonEmptyTextArray } from '../models/component.model.js';
 
 export function checkBuildCompatibility(selectedComponents) {
   const build = selectBuildComponents(selectedComponents);
+  const pricing = summarizeBuildPricing(build);
   return { ...evaluateResolvedBuildCompatibility(build), selectedComponents: build,
-    coolingPower: getCoolingPower(build), estimatedPrice: calculateBuildPrice(build) };
+    coolingPower: getCoolingPower(build), estimatedPrice: pricing.estimatedTotal, pricing };
 }
 
 // Shared by full-build validation and catalog previews; missing inputs stay unverified.

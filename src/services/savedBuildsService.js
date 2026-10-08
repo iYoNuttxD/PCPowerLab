@@ -7,7 +7,8 @@ import {
   normalizeText,
   savedBuildRequiredComponentSlots
 } from '../models/savedBuildModel.js';
-import { selectBuildComponents, calculateBuildPrice } from './build.service.js';
+import { selectBuildComponents } from './build.service.js';
+import { summarizeBuildPricing } from './marketPriceService.js';
 
 let nextSavedBuildNumber = 1;
 
@@ -52,7 +53,7 @@ export function saveBuild(buildInput) {
     components,
     ...(buildInput.budget !== undefined && { budget: buildInput.budget }),
     ...(normalizeText(buildInput.usageType) && { usageType: normalizeText(buildInput.usageType) }),
-    totalEstimatedPrice: calculateTotalEstimatedPrice(components),
+    ...buildPricingFields(components),
     ...(buildInput.compatibilityStatus !== undefined && {
       compatibilityStatus: buildInput.compatibilityStatus
     }),
@@ -125,7 +126,6 @@ export function updateSavedBuild(savedBuildId, buildInput) {
     validateExistingComponents(components);
 
     updatedFields.components = components;
-    updatedFields.totalEstimatedPrice = calculateTotalEstimatedPrice(components);
 
     if (!Object.prototype.hasOwnProperty.call(buildInput, 'summary')) {
       updatedFields.summary = savedBuild.summary ?? 'Configuração atualizada. A build pode ser reavaliada para gerar novo resumo.';
@@ -147,7 +147,7 @@ export function updateSavedBuild(savedBuildId, buildInput) {
   }
 
   // Prices are always derived from the current catalog, never trusted from a client.
-  updatedFields.totalEstimatedPrice = calculateTotalEstimatedPrice(updatedFields.components ?? savedBuild.components);
+  Object.assign(updatedFields, buildPricingFields(updatedFields.components ?? savedBuild.components));
 
   if (Object.prototype.hasOwnProperty.call(buildInput, 'compatibilityStatus')) {
     updatedFields.compatibilityStatus = buildInput.compatibilityStatus;
@@ -229,8 +229,9 @@ function validateExistingComponents(components) {
   }
 }
 
-function calculateTotalEstimatedPrice(components) {
-  return calculateBuildPrice(selectBuildComponents({ components }));
+function buildPricingFields(components) {
+  const pricing = summarizeBuildPricing(selectBuildComponents({ components }));
+  return { totalEstimatedPrice: pricing.estimatedTotal, pricing };
 }
 
 function generateSavedBuildId() {

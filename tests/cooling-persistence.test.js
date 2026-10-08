@@ -14,8 +14,8 @@ import { getPurchaseLinksByBuild } from '../src/services/purchaseLinksService.js
 import { createRecommendationFeedback } from '../src/services/recommendationFeedbackService.js';
 
 const legacy = readyBuilds[0].components;
-const cooler = components.find(part => part.category === 'cooler');
-const fan = components.find(part => part.category === 'fan');
+const cooler = components.find(part => part.id === 'cooler-deepcool-ak620');
+const fan = components.find(part => part.id === 'fan-noctua-nf-a14-pwm');
 const selection = () => ({ ...legacy, coolerId: cooler.id, fans: [{ fanId: fan.id, quantity: 2 }] });
 const expectedTotal = () => calculateBuildPrice(selectBuildComponents(selection()));
 
@@ -88,8 +88,18 @@ test('unknown cooling price cannot approve budget as free', () => {
   const previous = fan.price;
   try {
     fan.price = null;
-    assert.throws(() => generateBuildSummary({ build: selection(), budget: { amount: 5000 } }), { statusCode: 422 });
-    assert.throws(() => saveBuild({ name: 'Missing price', components: selection() }), { statusCode: 422 });
+    assert.throws(() => calculateBuildPrice(selectBuildComponents(selection())), { statusCode: 422 });
+    const summary = generateBuildSummary({ build: selection(), budget: { amount: 5000 } });
+    assert.equal(summary.totalEstimatedPrice, null);
+    assert.equal(summary.budgetStatus.status, 'unavailable');
+    assert.equal(summary.budgetStatus.remaining, null);
+    assert.equal(summary.pricing.knownReferenceSubtotal, calculateBuildPrice(selectBuildComponents({ ...selection(), fans: [] })));
+    assert.deepEqual(summary.pricing.componentsWithoutReference, [fan.id]);
+    assert.ok(summary.compatibility.status);
+    const saved = saveBuild({ name: 'Missing price', components: selection(), totalEstimatedPrice: 0 });
+    assert.equal(saved.totalEstimatedPrice, null);
+    assert.deepEqual(saved.pricing, summary.pricing);
+    assert.deepEqual(saved.components.fans, selection().fans);
   } finally {
     fan.price = previous;
   }

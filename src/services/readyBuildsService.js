@@ -1,3 +1,5 @@
+import { selectBuildComponents } from './build.service.js';
+import { summarizeBuildPricing } from './marketPriceService.js';
 import { readyBuilds } from '../data/readyBuilds.js';
 import { findComponentById } from './component.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
@@ -51,9 +53,11 @@ export function getReadyBuildById(readyBuildId) {
 function formatReadyBuild(readyBuild) {
   validateReadyBuild(readyBuild);
 
+  const pricing = summarizeBuildPricing(selectBuildComponents(readyBuild.components));
   return {
     ...readyBuild,
-    estimatedTotalPrice: calculateEstimatedTotalPrice(readyBuild.components)
+    estimatedTotalPrice: pricing.estimatedTotal,
+    pricing
   };
 }
 
@@ -94,16 +98,6 @@ function validateCompatibility(readyBuild) {
   error.statusCode = 500;
   error.errors = compatibilityResult.alerts.map((alert) => alert.message);
   throw error;
-}
-
-function calculateEstimatedTotalPrice(components) {
-  const total = Object.values(componentFieldsBySlot).reduce((sum, field) => {
-    const component = findComponentById(components[field]);
-
-    return sum + (component?.price ?? 0);
-  }, 0);
-
-  return Number(total.toFixed(2));
 }
 
 function validateUsageProfile(profile) {

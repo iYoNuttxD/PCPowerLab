@@ -20,6 +20,8 @@ const units = {
 };
 
 export function specLabel(key) {
+  if (key === 'socket') return 'Encaixe (socket)';
+  if (key === 'recommendedPsuWatts') return 'Fonte recomendada';
   if (key === 'speedMhz') return 'Taxa de transferência';
   if (key === 'readSpeedMbS') return 'Leitura (até)';
   if (key === 'writeSpeedMbS') return 'Gravação (até)';

@@ -1,4 +1,4 @@
-import { referenceFixtureTotal, referenceFixtureCoolingTotal } from './helpers/reference-price-fixture.js';
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { calculateBuildPrice, selectBuildComponents, serializeBuildSelection } from '../src/services/build.service.js';
@@ -41,17 +41,17 @@ test('legacy slot names, flat ID aliases, nested aliases and saved builds retain
   assert.deepEqual(roadmap({ components: aliases }), roadmap(saved.components));
 });
 
-test('nested cooling options retain IDs, pack quantities, cost and unverified compatibility', () => {
+test('nested cooling options retain IDs, quantities and unverified compatibility without inventing price', () => {
   const options = { coolerId: 'cooler-noctua-nh-u12s-redux', fans: [{ fanId: 'fan-arctic-p12-pwm-pst-5-pack', quantity: 2 }] };
   const input = { components: { ...build, ...options } };
   const selected = selectBuildComponents(input);
   assert.deepEqual(serializeBuildSelection(selected).fans, options.fans);
-  assert.equal(calculateBuildPrice(selected), referenceFixtureCoolingTotal());
+  assert.throws(() => calculateBuildPrice(selected), { statusCode: 422 });
   const upgrades = suggest(input);
-  assert.equal(upgrades.currentBuildSummary.totalEstimatedPrice, referenceFixtureCoolingTotal());
+  assert.equal(upgrades.currentBuildSummary.totalEstimatedPrice, null);
   assert.deepEqual(upgrades.suggestions, []);
   const plan = roadmap(input);
-  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, referenceFixtureCoolingTotal());
+  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, null);
   assert.equal(plan.initialCompatibility.status, 'unverified');
   assert.deepEqual(plan.steps, []);
 });

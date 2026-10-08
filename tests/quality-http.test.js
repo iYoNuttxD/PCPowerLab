@@ -1,6 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { URL } from 'node:url';
 import { app } from '../src/app.js';
+
+const priceFacts = JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8'));
+function assertIncompletePrice(result, knownSubtotal, missingIds) {
+  assert.equal(result.totalEstimatedPrice, null);
+  assert.equal(result.pricing.estimatedTotal, null);
+  assert.equal(result.pricing.knownReferenceSubtotal, knownSubtotal);
+  assert.equal(result.pricing.referenceTotalComplete, false);
+  assert.deepEqual(result.pricing.componentsWithoutReference, missingIds);
+}
 
 // Actual Express routing, JSON parser, controllers, domain services and in-memory
 // repositories. No endpoint interception, fake response or service replacement.
@@ -24,7 +35,8 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
   const build = ready.components;
   const coreIds = Object.values(build);
   assert.equal(coreIds.length, 7);
-  const referenceCents = coreIds.reduce((sum, id) => sum + Math.round(catalog.find(part => part.id === id).price * 100), 0);
+  for (const id of coreIds) assert.equal(catalog.find(part => part.id === id).price, priceFacts[id].price, id);
+  const referenceCents = coreIds.reduce((sum, id) => sum + Math.round(priceFacts[id].price * 100), 0);
   const sum = (build, amount = 10000) => call('/build-summary', { build, budget: { amount }, gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' });
   let saved;
   await t.test('catalog categories, price truth, empty result and invalid input', async () => {
@@ -58,36 +70,56 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     assert.equal(invalid.compatibility.compatible, false);
     assert.equal(invalid.gamePerformance.available, false);
     assert.equal('estimatedFps' in invalid.gamePerformance, false);
-    const changed = await sum({ ...build, ramId: 'ram-crucial-32gb-ddr4-3200' });
+    const changed = await sum({ ...build, ramId: 'ram-kingston-fury-16gb-ddr4-3600' });
     for (const slot of ['cpu', 'gpu', 'motherboard', 'storage', 'psu', 'case']) assert.deepEqual(changed.components[slot], original.components[slot]);
-    assert.equal(changed.components.ram.id, 'ram-crucial-32gb-ddr4-3200');
-    assert.equal(changed.totalEstimatedPrice, (referenceCents - Math.round(original.components.ram.price * 100) + Math.round(changed.components.ram.price * 100)) / 100);
+    assert.equal(changed.components.ram.id, 'ram-kingston-fury-16gb-ddr4-3600');
+    assert.equal(changed.totalEstimatedPrice, (referenceCents - 179999 + 30699) / 100);
+    assert.equal(changed.compatibility.compatible, true);
+    assert.ok(changed.gamePerformance.estimatedFps > 0);
+    const unpriced = await sum({ ...build, ramId: 'ram-crucial-32gb-ddr4-3200' });
+    assertIncompletePrice(unpriced, (referenceCents - 179999) / 100, ['ram-crucial-32gb-ddr4-3200']);
+    assert.equal(unpriced.components.ram.price, null);
+    assert.equal(unpriced.budgetStatus.status, 'unavailable');
+    assert.equal(unpriced.budgetStatus.remaining, null);
+    assert.equal(unpriced.compatibility.compatible, true);
+    assert.ok(unpriced.gamePerformance.estimatedFps > 0);
   });
   await t.test('cooling quantities, unknown compatibility, save/version/export/share and removal', async () => {
-    const cooler = catalog.find(part => part.category === 'cooler');
-    const fan = catalog.find(part => part.category === 'fan');
+    const pricedCooling = await sum({ ...build, coolerId: 'cooler-deepcool-ak620', fans: [{ fanId: 'fan-noctua-nf-a14-pwm', quantity: 2 }] });
+    assert.equal(pricedCooling.totalEstimatedPrice, (referenceCents + 44999 + 2 * 19499) / 100);
+    assert.equal(pricedCooling.pricing.referenceTotalComplete, true);
+    const cooler = catalog.find(part => part.id === 'cooler-noctua-nh-u12s-redux');
+    const fan = catalog.find(part => part.id === 'fan-noctua-nf-p12-redux-1700-pwm');
+    assert.equal(cooler.price, null);
+    assert.equal(fan.price, null);
     const cooling = { ...build, coolerId: cooler.id, fans: [{ fanId: fan.id, quantity: 2 }] };
     const cooled = await sum(cooling);
     assert.equal(cooled.compatibility.compatible, false);
     assert.ok(['unverified', 'incompatible'].includes(cooled.compatibility.status));
     assert.equal(cooled.gamePerformance.available, false);
-    const expected = (referenceCents + Math.round(cooler.price * 100) + 2 * Math.round(fan.price * 100)) / 100;
-    assert.equal(cooled.totalEstimatedPrice, expected);
+    const missingIds = [cooler.id, fan.id];
+    assertIncompletePrice(cooled, referenceCents / 100, missingIds);
+    assert.equal(cooled.pricing.unavailableReferenceUnits, 3);
+    assert.equal(cooled.budgetStatus.status, 'unavailable');
+    assert.equal(cooled.budgetStatus.remaining, null);
     saved = await call('/saved-builds', { name: 'HTTP quality round-trip', components: cooling, budget: { amount: 10000 }, totalEstimatedPrice: 1 }, 201);
-    assert.equal(saved.totalEstimatedPrice, expected);
+    assertIncompletePrice(saved, referenceCents / 100, missingIds);
     const reloaded = await call(`/saved-builds/${saved.id}`);
     assert.deepEqual(reloaded, saved);
     const versions = await call(`/saved-builds/${saved.id}/versions`);
     assert.equal(versions.length, 1);
     assert.deepEqual(versions[0].buildSnapshot.components, saved.components);
+    assertIncompletePrice(versions[0].buildSnapshot, referenceCents / 100, missingIds);
     const exported = await call(`/saved-builds/${saved.id}/export/json?includeSummary=true`);
     assert.deepEqual(exported.build.components, cooling);
-    assert.equal((await sum(JSON.parse(JSON.stringify(exported.build)))).totalEstimatedPrice, expected);
+    assertIncompletePrice(exported.summary, referenceCents / 100, missingIds);
+    assertIncompletePrice(await sum(JSON.parse(JSON.stringify(exported.build))), referenceCents / 100, missingIds);
     const shared = await call('/share/build', { buildId: saved.id });
     assert.equal(shared.shareUrl, `/shared/${shared.shareId}`);
     assert.deepEqual((await call(`/share/build/${shared.shareId}`)).buildSummary, shared.buildSummary);
     assert.deepEqual(shared.buildSummary.componentIds.fans, cooling.fans);
-    assert.equal(shared.buildSummary.totalEstimatedPrice, expected);
+    assertIncompletePrice(shared.buildSummary, referenceCents / 100, missingIds);
+    assert.equal(shared.buildSummary.budgetStatus.status, 'unavailable');
     const removed = await call(`/saved-builds/${saved.id}`, { components: { cooler: null, fans: [] } }, 200, 'PATCH');
     assert.equal(removed.totalEstimatedPrice, referenceCents / 100);
     assert.equal(removed.components.cooler, null);

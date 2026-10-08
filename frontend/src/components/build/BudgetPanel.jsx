@@ -1,10 +1,11 @@
-import { referenceCoverage, priceMethodology } from '../../utils/referencePricing.js';
+import { referenceCoverage, knownPriceSubtotal } from '../../utils/referencePricing.js';
 import Card from '../ui/Card.jsx';
 import Badge from '../ui/Badge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
 export default function BudgetPanel({ budget, totalPrice, pricing, selectedComponents }) {
   const coverage = referenceCoverage(selectedComponents);
+  const known = selectedComponents ? knownPriceSubtotal(selectedComponents) : { subtotal: pricing?.knownReferenceSubtotal, missing: pricing?.componentsWithoutReference?.length };
   const dated = selectedComponents ? coverage.dated : pricing?.datedReferenceUnits;
   const estimated = selectedComponents ? coverage.estimated : pricing?.estimatedReferenceUnits;
   const amount = Number(budget?.amount);
@@ -35,20 +36,10 @@ export default function BudgetPanel({ budget, totalPrice, pricing, selectedCompo
           <strong>{remaining === null ? 'Aguardando' : formatCurrency(Math.abs(remaining))}</strong>
         </div>
       </div>
-      {!hasTotal && <p role="status">Há peças sem preço informado. O total e a avaliação do orçamento estão indisponíveis.</p>}
-      <details className="reference-price-note">
-        <summary>Referências de preço{Number.isFinite(dated) && Number.isFinite(estimated) ? ` · ${dated} datadas · ${estimated} estimadas` : ''}</summary>
-        <div className="reference-price-details">
-          <p>Preço atual e estoque não confirmados.</p>
-          {pricing && <div>
-            <p>Cotações com disponibilidade confirmada: {pricing.availableMarketQuotesTotal === null ? 'indisponíveis' : formatCurrency(pricing.availableMarketQuotesTotal)}{!pricing.marketTotalComplete && ' (subtotal incompleto)'}</p>
-            <p>Componentes sem cotação atual: {pricing.componentsWithoutCurrentQuote?.length ?? 'Não informado'}</p>
-            <p>{pricing.methodology}</p>
-          </div>}
-          <p>{Number.isFinite(dated) && Number.isFinite(estimated) ? `${dated} pack(s) com referência datada · ${estimated} com estimativa sem fonte datada validada.` : 'Cobertura de fontes da seleção não informada.'}</p>
-          <p>{priceMethodology}</p>
-        </div>
-      </details>
+      {!hasTotal && <p role="status">Preço pendente em uma ou mais peças. Orçamento ainda não concluído.</p>}
+      {!hasTotal && Number.isFinite(known.subtotal) && <p className="reference-price-note">Subtotal conhecido: {formatCurrency(known.subtotal)}{known.missing > 0 ? ` · ${known.missing} sem cotação` : ''}</p>}
+      <p className="reference-price-note">Total de referência, sem frete e montagem{Number.isFinite(dated) && Number.isFinite(estimated) && estimated > 0 ? ` · ${estimated} ${estimated === 1 ? 'item estimado' : 'itens estimados'}` : ''}.</p>
+      {pricing?.availableMarketQuotesTotal != null && <p className="reference-price-note">Cotações disponíveis: {formatCurrency(pricing.availableMarketQuotesTotal)}{!pricing.marketTotalComplete && ' (subtotal incompleto)'}. Separadas do total de referência.</p>}
     </Card>
   );
 }

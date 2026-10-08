@@ -1,4 +1,3 @@
-import DecisionMethodology from '../build/DecisionMethodology.jsx';
 import { useState } from 'react';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Button from '../ui/Button.jsx';
@@ -28,8 +27,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         <h3>Configuração recomendada</h3>
         <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(displayedTotal)}</strong>
       </div>
-      {retainsCooling ? <p>O total inclui a refrigeração atual que será mantida. Esta combinação ainda não foi verificada: compatibilidade e orçamento precisam de nova análise antes de concluir a montagem.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
-      <DecisionMethodology />
+      {retainsCooling ? <p>Inclui sua refrigeração atual. Confira a compatibilidade após aplicar.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
       <ul className="build-parts-list">
         {[...componentTypes, ...(recommendation.components?.cooler ? ['cooler'] : [])].map((type) => {
           const component = recommendation.components?.[type];
@@ -44,7 +42,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s)</small></ComponentIdentity></li>)}
       </ul>
       <SuggestedPiecePicker components={suggested} currentComponents={currentComponents} onPreview={onPreview} disabled={disabled} />
-      {onApply && <p className="hint-text">Usar a recomendação inteira substitui as peças principais. Se ela não incluir refrigeração, as escolhas atuais de cooler e ventoinhas serão mantidas. Execute a análise novamente: total e compatibilidade podem mudar.</p>}
+      {onApply && <p className="hint-text">A recomendação troca as peças principais e mantém sua refrigeração, salvo quando indicar outra.</p>}
       {onApply && (
         <Button variant="secondary" disabled={disabled} onClick={() => onApply(recommendation)}>
           Usar recomendação inteira
@@ -70,7 +68,7 @@ export function SuggestedPiecePicker({ components = {}, currentComponents = {}, 
   if (!onPreview) return null;
 
   return <div className="stack">
-    <p>Quer trocar apenas uma peça? Pré-visualize a sugestão na build atual. As demais peças, incluindo os packs de ventoinhas, o orçamento e o perfil serão preservados.</p>
+    <p>Troque apenas uma peça e mantenha o restante da montagem.</p>
     {choices.length ? <>
       <Select label="Peça sugerida para substituir" value={selected?.type || ''} disabled={disabled}
         options={[{ value: '', label: 'Escolha uma peça' }, ...choices.map(({ type, component }) => ({

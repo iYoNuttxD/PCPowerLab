@@ -1,6 +1,7 @@
+import { summarizeBuildPricing } from './marketPriceService.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { getSavedBuildById } from './savedBuildsService.js';
-import { selectBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
@@ -28,11 +29,12 @@ export function suggestUpgrades(input) {
   const buildInput = normalizeBuildInput(resolveBuildInput(input));
   const currentBuild = selectBuildComponents(buildInput);
   const currentBuildIds = mapBuildToIds(currentBuild);
+  const pricing = summarizeBuildPricing(currentBuild);
   const bottleneckAnalysis = runOptionalAnalysis(() => analyzeBuildBottlenecks(buildInput), null);
-  const recommendationReference = runOptionalAnalysis(
+  const recommendationReference = pricing.estimatedTotal === null ? null : runOptionalAnalysis(
     () => recommendBuildByBudget({
       budget: {
-        amount: calculateTotalPrice(currentBuild) + (budget?.amount ?? 0),
+        amount: pricing.estimatedTotal + (budget?.amount ?? 0),
         currency: budget?.currency ?? 'BRL',
         priority: priority === 'balanced' || priority === 'upgrade-ready' ? 'cost-benefit' : priority
       },
@@ -54,7 +56,8 @@ export function suggestUpgrades(input) {
   return {
     methodology: buildDecisionMethodology({ usageType, ranking: 'Ganho de indice simulado, custo estimado integral da peca, prioridade, capacidade preservada e compatibilidade pelas regras do catalogo. Nao desconta revenda da peca antiga.' }),
     currentBuildSummary: {
-      totalEstimatedPrice: Number(calculateTotalPrice(currentBuild).toFixed(2)),
+      totalEstimatedPrice: pricing.estimatedTotal,
+      pricing,
       mainBottleneck: getMainBottleneck(bottleneckAnalysis),
       hasBottleneck: bottleneckAnalysis?.hasBottleneck === true
     },
@@ -296,10 +299,6 @@ function buildUpgradeSummary(suggestions, bottleneckAnalysis) {
 
 function mapBuildToIds(build) {
   return serializeBuildSelection(build);
-}
-
-function calculateTotalPrice(build) {
-  return calculateBuildPrice(build);
 }
 
 function stripInternalScore(suggestion) {

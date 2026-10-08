@@ -26,7 +26,8 @@ const registry = new Map(records.filter(safeRecord).map(record => [record.produc
 export const datedReferenceCount = registry.size;
 export function attachDatedReference(component) {
   const record = registry.get(component.id);
-  if (!record || priceIdentity(component) !== priceIdentity(record.expectedCatalogIdentity)
+  if (!record) return { ...component, demonstrativePrice: component.price, price: null, priceKind: 'unavailable', priceLabel: 'Sem cotação' };
+  if (priceIdentity(component) !== priceIdentity(record.expectedCatalogIdentity)
     || component.price !== record.demonstrativePrice) return component;
   return { ...component, demonstrativePrice: component.price, price: record.price,
     priceKind: 'dated-reference-snapshot', priceCurrency: 'BRL',

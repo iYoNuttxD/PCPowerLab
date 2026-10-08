@@ -1,6 +1,6 @@
 # PCPowerLab
 
-> RA2 V2.11: [fotos e interface compacta](docs/RA2-V2.11-FOTOS-E-UI.md). Fotos 98/98; referência de preços sem cotação ao vivo. Validação visual no navegador e homologação humana pendentes.
+> RA2 V2.12: [interface simples e preços consultados](docs/RA2-V2.12-SIMPLICIDADE-PRECOS.md). 78 referências datadas; 20 preços indisponíveis. Fotos 98/98. Reteste visual desta publicação e validação humana pendentes.
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
@@ -499,7 +499,7 @@ Base mockada atual:
 
 Os jogos da simulação usam requisitos simplificados e scores estimados para fins acadêmicos. Eles não representam requisitos oficiais nem garantem FPS real; o desempenho pode variar conforme drivers, sistema operacional, configurações gráficas, resolução, temperatura e otimização de cada jogo.
 
-Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. Os preços retornados continuam sendo estimativas baseadas no mock de componentes, e a disponibilidade fica como `unknown`; o usuário deve confirmar valor e estoque diretamente na loja.
+Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. O catálogo contém 78 referências comerciais datadas e 20 preços indisponíveis; a disponibilidade atual fica como `unknown`. O usuário deve confirmar valor e estoque diretamente na loja. Variantes e exemplos comerciais são identificados sem modificar as especificações do catálogo.
 
 Os dados são reiniciados a cada execução do processo. Não há banco de dados real, contas por usuário ou integração com ofertas reais nesta versão. Há sessão administrativa para proteger o CRUD. O frontend em `frontend/` consome esses dados mockados pela API local.
 
@@ -547,7 +547,7 @@ As verificações retornam `compatible`, `incompatible` ou `unverified`; dados i
 
 ## Fotografias do catálogo — v2.11
 
-Fotografias locais de produtos e embalagens: 98/98. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos e notas ficam em detalhes opcionais. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
+Fotografias locais de produtos e embalagens: 98/98. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos completos ficam em uma página própria, acessível pelo rodapé. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
 
 - [Implementação e verificação](docs/RA2-V2.11-FOTOS-E-UI.md)
 - [Cobertura e inventário dinâmico](docs/RA2-COBERTURA-IMAGENS.md)

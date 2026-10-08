@@ -1562,3 +1562,12 @@ Comparação de builds acrescenta `comparisonIndex` por posição enviada e na r
 ### Fotografias de produto — v2.11
 
 O campo `image` mantém caminhos locais e vínculo ao ID/identidade do catálogo. `identityLevel` distingue `exact-model` (associação ao modelo pela foto e fonte específica) e `model-family` (família visual, sem afirmar revisão/capacidade não comprovada). `representative-product` identifica um exemplo ilustrativo de categoria, sem alterar o produto genérico; `depictedProduct` nomeia o produto fotografado. `identityNotes` explica os limites. `rightsBasis` registra a procedência e situação conhecida; `license`/`licenseUrl` podem ser nulos quando não há permissão de reutilização estabelecida. `status: verified` não é uma certificação jurídica. Fotos de família compartilhadas têm grupo, IDs revisados e digest correspondentes. Fallback e imagem indisponível nunca contam como fotografia.
+
+
+### Preços ausentes e escopo comercial — v2.12
+
+`pricing.referenceScope` distingue `exact`, `family` e `benchmark`; `sourceVariantName` e `model` identificam o produto observado. Há 78 referências datadas e 20 componentes com `price: null`/`priceKind: unavailable`. Nenhum deles vira oferta ao vivo. Especificações não são copiadas da variante da fonte.
+
+Compatibilidade e análises técnicas não falham apenas pela falta de preço. Resumos/salvos/exportações preservam `totalEstimatedPrice: null`; `pricing.knownReferenceSubtotal` soma somente preços conhecidos, `componentsWithoutReference` identifica pendências e `unavailableReferenceUnits` conta suas unidades/pacotes. Orçamento usa `status: unavailable` e `remaining: null`, nunca um saldo calculado tratando ausentes como zero. A função interna estrita de custo mantém seu erro 422 quando um total completo é obrigatório.
+
+Nota geral/custo-benefício dependentes do custo usam `null` e `available: false`. Comparação por custo pode retornar `recommendedBuild: { available: false, reason }` se nenhuma alternativa tiver total completo. Critérios técnicos e comparação de desempenho continuam disponíveis.

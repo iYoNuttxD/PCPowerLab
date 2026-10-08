@@ -75,7 +75,8 @@ export function checkBuildCompatibilityAlerts(selectedComponents) {
     alerts: generateCompatibilityAlerts(compatibilityResult),
     issues: compatibilityResult.alerts,
     selectedComponents: compatibilityResult.selectedComponents,
-    estimatedPrice: compatibilityResult.estimatedPrice
+    estimatedPrice: compatibilityResult.estimatedPrice,
+    pricing: compatibilityResult.pricing
   };
 }
 

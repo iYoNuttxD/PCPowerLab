@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { datedReference, referenceCoverage, referenceLabel } from '../src/utils/referencePricing.js';
+import { datedReference, referenceCoverage, referenceLabel, knownPriceSubtotal } from '../src/utils/referencePricing.js';
 const component = { id: 'a', price: 20, pricing: { price: 20, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, queriedAt: '2026-10-08' } };
 test('dated badge refuses saved old price paired with new pricing metadata', () => {
   assert.ok(datedReference(component));
@@ -15,4 +15,10 @@ test('compact price labels retain source date and never claim current quotes', (
 test('coverage separates dated and demonstrative pack counts', () => {
   assert.deepEqual(referenceCoverage({ cpu: component, gpu: { id: 'b', price: 100 }, fans: [{ ...component, quantity: 3 }] }), { dated: 4, estimated: 1, total: 5 });
   assert.deepEqual(referenceCoverage(), { dated: 0, estimated: 0, total: 0 });
+});
+
+test('unpriced selection keeps a partial subtotal and never displays a zero price', () => {
+  assert.equal(referenceLabel({ id: 'missing', price: null }), 'Sem cotação');
+  assert.deepEqual(knownPriceSubtotal({ cpu: { id: 'a', price: 12.34 }, gpu: { id: 'b', price: null }, fans: [{ id: 'f', price: 2.1, quantity: 3 }] }), { subtotal: 18.64, missing: 1 });
+  assert.deepEqual(knownPriceSubtotal({ cpu: { id: 'a', price: null } }), { subtotal: 0, missing: 1 });
 });

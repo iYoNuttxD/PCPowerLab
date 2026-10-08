@@ -36,10 +36,8 @@ async function verifyPhoto(page, locator = page.locator(`.component-media[data-c
   await expect(locator.locator('img')).toBeVisible();
   await expect(locator).toHaveAttribute('data-image-state', 'verified');
   await expect(locator.locator('img')).toHaveCSS('object-fit', 'contain');
-  await expect(locator.locator('.component-image-credits')).not.toHaveAttribute('open');
-  await locator.locator('summary').click();
-  await expect(locator.getByRole('link', { name: `Foto: ${photo.image.author}`, exact: true })).toHaveAttribute('href', photo.image.imageSource);
-  await locator.locator('summary').click();
+  await expect(locator.locator('details')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Créditos das imagens', exact: true })).toHaveAttribute('href', '/image-credits');
 }
 
 test('shows exact local images in summary, wizard, recommendations and ID-only saved/shared contexts', async ({ page }) => {
@@ -160,13 +158,7 @@ test('exact Ryzen CPUs display distinct reviewed windows of the intact licensed 
     await expect(image).toHaveAttribute('data-image-crop', 'reviewed');
     await expect(image.locator('image')).toHaveAttribute('href', cpu.image.imagePath);
     await expect(image.locator('polygon')).toHaveAttribute('points', cpu.image.crop.points.map(point => point.join(',')).join(' '));
-    await expect(media.locator('details')).not.toHaveAttribute('open');
-    await media.locator('summary').click();
-    await expect(media.getByRole('link', { name: 'Foto: Мой Компьютер', exact: true })).toHaveAttribute('href', cpu.image.imageSource);
-    await expect(media.getByRole('link', { name: 'CC BY 3.0', exact: true })).toHaveAttribute('href', cpu.image.licenseUrl);
-    await expect(media.getByRole('link', { name: 'Modelo no fabricante', exact: true })).toHaveAttribute('href', cpu.image.manufacturerProductUrl);
-    await expect(media.locator('details')).toContainText('preservando o PNG original byte a byte');
-    await media.locator('summary').click();
+    await expect(media.locator('details')).toHaveCount(0);
   }
   const clipIds = await page.locator('.component-card clipPath').evaluateAll(elements => elements.map(element => element.id));
   expect(new Set(clipIds).size).toBe(2);
@@ -183,5 +175,18 @@ test('an unavailable composite original falls back accessibly for both exact CPU
     await expect(media).toHaveAttribute('data-image-state', 'unavailable');
     await expect(media.locator('image')).toHaveCount(0);
     await expect(media.getByRole('img', { name: `Fotografia não disponível: ${cpu.name}`, exact: true })).toBeVisible();
+  }
+});
+
+
+test('one credits destination preserves photo author, source, license and modifications', async ({ page }) => {
+  await setup(page, [photo, ...cropCpus]);
+  await page.goto('/image-credits');
+  for (const component of [photo, ...cropCpus]) {
+    const credit = page.locator(`.image-credit[id="${component.id}"]`);
+    await expect(credit.getByRole('heading', { name: component.name, exact: true })).toBeVisible();
+    await expect(credit.getByRole('link', { name: `Foto: ${component.image.author}`, exact: true })).toHaveAttribute('href', component.image.imageSource);
+    await expect(credit.getByRole('link', { name: component.image.license, exact: true })).toHaveAttribute('href', component.image.licenseUrl);
+    await expect(credit).toContainText(component.image.modifications);
   }
 });

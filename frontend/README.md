@@ -268,3 +268,8 @@ As telas compartilham catálogo/identidade/mídia, troca individual e estado da 
 Os 14 scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots ficam pendentes em ambiente autorizado.
 
 Fotos: 98/98. Créditos, escopo visual e variantes ficam em detalhes opcionais; veja [v2.11](../docs/RA2-V2.11-FOTOS-E-UI.md). Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.
+
+
+## Continuação v2.12
+
+Cards compactos, créditos em `/image-credits`, referências comerciais com link direto e identificação de variante/exemplo. Preços ausentes deixam o orçamento pendente com subtotal conhecido, preservando análise técnica e salvamento. [Escopo e limites](../docs/RA2-V2.12-SIMPLICIDADE-PRECOS.md). O reteste visual deve corresponder ao SHA publicado desta continuação.

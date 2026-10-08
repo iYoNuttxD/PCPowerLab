@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import { createPerformanceParameters } from '../src/services/performanceParametersService.js';
 import { compareBuilds } from '../src/services/buildComparisonService.js';
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 
 const valueBuild = {
   cpuId: 'cpu-ryzen-5-5600',
@@ -71,7 +72,7 @@ test('deve comparar duas builds e indicar recomendacao por custo-beneficio', () 
       }
     ],
     budget: {
-      amount: 5000,
+      amount: 8000,
       currency: 'BRL'
     },
     usageType: 'gaming',
@@ -84,6 +85,10 @@ test('deve comparar duas builds e indicar recomendacao por custo-beneficio', () 
   assert.equal(result.builds.length, 2);
   assert.equal(result.comparisonCriteria, 'cost-benefit');
   assert.equal(result.recommendedBuild.name.length > 0, true);
+  assert.equal(result.builds[0].totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(result.builds[1].totalEstimatedPrice, referenceFixtureTotal({
+    cpu: alternativeBuild.cpuId, motherboard: alternativeBuild.motherboardId, gpu: alternativeBuild.gpuId
+  }));
 
   for (const build of result.builds) {
     assert.equal(typeof build.totalEstimatedPrice, 'number');
@@ -95,6 +100,29 @@ test('deve comparar duas builds e indicar recomendacao por custo-beneficio', () 
     assert.equal(typeof build.summary, 'string');
     assert.equal(build.gamePerformance.gameId, 'game-cyberpunk-2077');
   }
+});
+
+test('comparacao por custo exclui preco desconhecido sem perder compatibilidade ou FPS', () => {
+  const result = compareBuilds({
+    builds: [
+      { name: 'Com preco', components: valueBuild },
+      { name: 'Preco pendente', components: { ...valueBuild, storageId: 'ssd-samsung-980-pro-1tb' } }
+    ],
+    budget: { amount: 8000 },
+    gameId: 'game-cyberpunk-2077',
+    comparisonCriteria: 'cost-benefit'
+  });
+  const unpriced = result.builds[1];
+  assert.equal(unpriced.totalEstimatedPrice, null);
+  assert.equal(unpriced.pricing.knownReferenceSubtotal, 6483.65);
+  assert.equal(unpriced.pricing.referenceTotalComplete, false);
+  assert.deepEqual(unpriced.pricing.componentsWithoutReference, ['ssd-samsung-980-pro-1tb']);
+  assert.equal(unpriced.budgetStatus, 'unavailable');
+  assert.equal(unpriced.costBenefitScore, null);
+  assert.equal(unpriced.comparisonScore, null);
+  assert.equal(unpriced.compatible, true);
+  assert.ok(unpriced.gamePerformance.estimatedFps > 0);
+  assert.equal(result.recommendedBuild.name, 'Com preco');
 });
 
 test('deve comparar mais de duas builds', () => {

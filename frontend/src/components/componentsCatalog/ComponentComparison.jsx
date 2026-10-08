@@ -20,8 +20,8 @@ export default function ComponentComparison({ components, onRemove, onSelect, se
   return (
     <section className="panel-card component-comparison" aria-label="Comparação de peças">
       <h2>Compare {componentLabels[components[0].category]}</h2>
-      <p>Especificações do cadastro, lado a lado. A comparação não verifica compatibilidade com sua montagem nem substitui as especificações do fabricante.</p>
-      <p className="hint-text">Linhas marcadas com “Diferença” têm valores distintos ou informação ausente. Destaque não significa melhor desempenho. As taxas máximas dependem do sistema; campo ausente aparece como “Não informado”.</p>
+      <p>Compare especificações e preços. A compatibilidade com sua montagem é verificada no resumo.</p>
+      <p className="hint-text">“Diferença” destaca o que muda entre as peças. Dados ausentes aparecem como “Não informado”.</p>
       <details><summary>Metodologia e limites dos índices</summary><p>{catalogMethodology}</p></details>
       <p className="comparison-scroll-hint">Deslize a tabela para os lados para ver todas as peças. Pelo teclado, foque a tabela e use as setas.</p>
       <div className="analysis-table-scroll" role="region" aria-label="Tabela de comparação de peças" tabIndex={0}>
@@ -29,7 +29,7 @@ export default function ComponentComparison({ components, onRemove, onSelect, se
           <caption>Peças da mesma categoria · preços de referência</caption>
           <thead><tr><th scope="col">Característica</th>{components.map(component => <th scope="col" key={component.id}>{component.name}</th>)}</tr></thead>
           <tbody>
-            <tr><th scope="row">Fotografia do modelo</th>{components.map(component => <td key={component.id}><ComponentImage component={component} /></td>)}</tr>
+            <tr><th scope="row">Fotografia</th>{components.map(component => <td key={component.id}><ComponentImage component={component} /></td>)}</tr>
             <tr><th scope="row">Condições da referência</th>{components.map(component => <td key={component.id}><ReferencePriceNote component={component} compact /></td>)}</tr>
             {rows.map(([label, values]) => {
               const differs = new Set(values).size > 1;

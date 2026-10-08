@@ -16,6 +16,7 @@ import UpgradeSuggestions from './pages/UpgradeSuggestions.jsx';
 import SharedBuild from './pages/SharedBuild.jsx';
 import Admin from './pages/Admin.jsx';
 import About from './pages/About.jsx';
+import ImageCredits from './pages/ImageCredits.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/shared/:shareId" element={<SharedBuild />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/about" element={<About />} />
+          <Route path="/image-credits" element={<ImageCredits />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AppLayout>

@@ -41,7 +41,8 @@ test('budget recommendations disclose candidate subset rather than market-wide c
   const result = recommendBuildByBudget({ budget: { amount: 5000, priority: 'lowest-price' }, usageType: 'gaming' });
   assertDisclosure(result, 'shortlisted_catalog_candidates');
   assert.equal(typeof result.totalEstimatedPrice, 'number');
-  assert.match(result.summary, /custo estimado entre candidatos do catalogo/);
+  assert.match(result.summary, /menor custo estimado entre as opções do catálogo/);
+  assert.equal(result.summary.match(/entre as opções do catálogo/g)?.length, 1);
   const [range] = recommendBuildsByBudgetRange({ budgetRange: { min: 3000, max: 5000 }, usageType: 'gaming' });
   assertDisclosure(range, 'shortlisted_catalog_candidates');
 });

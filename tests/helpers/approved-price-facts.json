@@ -208,5 +208,185 @@
     "price": 599.9,
     "sku": "WDS100T3B0C",
     "seller": "Pichau"
+  },
+  "case-compact-matx": {
+    "price": 239.99,
+    "sku": "DP-MATX-MATREXX30",
+    "seller": "Pichau"
+  },
+  "case-corsair-4000d-airflow": {
+    "price": 609.99,
+    "sku": "CC-9011200-WW",
+    "seller": "Pichau"
+  },
+  "case-gamer-atx-rgb": {
+    "price": 209.99,
+    "sku": "Cylon-Preto-RGB",
+    "seller": "Pichau"
+  },
+  "case-mid-tower-airflow": {
+    "price": 439.99,
+    "sku": "CC-9011251-WW",
+    "seller": "Pichau"
+  },
+  "case-nzxt-h5-flow": {
+    "price": 829.99,
+    "sku": "CC-H51FB-01",
+    "seller": "Pichau"
+  },
+  "gpu-gtx-1650": {
+    "price": 879.99,
+    "sku": "65SQL8DS93E1",
+    "seller": "Pichau"
+  },
+  "gpu-rtx-3050": {
+    "price": 1822.57,
+    "sku": "912-V809-4266",
+    "seller": "Pichau"
+  },
+  "gpu-rtx-3060": {
+    "price": 2599.99,
+    "sku": "PVRTX3060BL2F",
+    "seller": "TerabyteShop"
+  },
+  "gpu-rtx-4060": {
+    "price": 2199.99,
+    "sku": "ZT-D40600G-10L",
+    "seller": "Pichau"
+  },
+  "gpu-rtx-4060-ti": {
+    "price": 3537.77,
+    "sku": "NE6406T019P1-1060D",
+    "seller": "Pichau"
+  },
+  "gpu-rtx-4070": {
+    "price": 5965.28,
+    "sku": "ZT-D40700H-10M",
+    "seller": "Pichau"
+  },
+  "gpu-rtx-4070-super": {
+    "price": 4499.99,
+    "sku": "912-V513-641",
+    "seller": "Pichau"
+  },
+  "gpu-rx-6600": {
+    "price": 1538.99,
+    "sku": "DUAL-RX6600-8G-V3",
+    "seller": "Pichau"
+  },
+  "gpu-rx-7600": {
+    "price": 2099.99,
+    "sku": "GV-R76GAMING-OC-8GD",
+    "seller": "Pichau"
+  },
+  "gpu-rx-7700-xt": {
+    "price": 2999.99,
+    "sku": "90-GA4QZZ-00UANF",
+    "seller": "Pichau"
+  },
+  "gpu-rx-7800-xt": {
+    "price": 4499.99,
+    "sku": "DUAL-RX7800XT-O16G",
+    "seller": "Pichau"
+  },
+  "hdd-seagate-barracuda-2tb": {
+    "price": 1116.0,
+    "sku": "ST2000DM008",
+    "seller": "MOCK VAREJO"
+  },
+  "mb-asus-tuf-z790-plus-ddr5": {
+    "price": 2156.99,
+    "sku": "TUF-GAMING-Z790-PLUS-WIFI",
+    "seller": "Pichau"
+  },
+  "mb-b550m-aorus-elite": {
+    "price": 699.99,
+    "sku": "B550M-AORUS-ELITE",
+    "seller": "Pichau"
+  },
+  "mb-gigabyte-b650-gaming-x-ax": {
+    "price": 1499.99,
+    "sku": "B650-GAMING-X-AX",
+    "seller": "Pichau"
+  },
+  "mb-gigabyte-b760m-ds3h-ddr4": {
+    "price": 993.99,
+    "sku": "B760M-DS3H-DDR4",
+    "seller": "Pichau"
+  },
+  "mb-h610m-ddr4": {
+    "price": 859.56,
+    "sku": "PRIME-H610M-D-D4",
+    "seller": "Pichau"
+  },
+  "psu-cooler-master-mwe-650w": {
+    "price": 429.99,
+    "sku": "MPE-6501-ACAAW-BBR",
+    "seller": "Pichau"
+  },
+  "psu-corsair-rm750e": {
+    "price": 799.99,
+    "sku": "CP-9020262-BR",
+    "seller": "Pichau"
+  },
+  "psu-corsair-rm850x": {
+    "price": 999.99,
+    "sku": "CP-9020180-WW",
+    "seller": "Pichau"
+  },
+  "psu-generic-400w": {
+    "price": 139.99,
+    "sku": "ONEPOWER-400W",
+    "seller": "Pichau"
+  },
+  "ram-corsair-vengeance-16gb-ddr4-3600": {
+    "price": 389.99,
+    "sku": "CMK16GX4M2D3600C18",
+    "seller": "Pichau"
+  },
+  "ram-corsair-vengeance-16gb-ddr5": {
+    "price": 1999.99,
+    "sku": "CMK16GX5M1B5200C40",
+    "seller": "Pichau"
+  },
+  "ram-corsair-vengeance-32gb-ddr5-5600": {
+    "price": 3549.99,
+    "sku": "CMK32GX5M2B5600C40",
+    "seller": "Pichau"
+  },
+  "ram-gskill-trident-z5-32gb-ddr5-6000": {
+    "price": 4200.05,
+    "sku": "F5-6000J3636F16GX2-TZ5K",
+    "seller": "Pichau"
+  },
+  "ram-kingston-fury-16gb-ddr4": {
+    "price": 1799.99,
+    "sku": "KF432C16BB/16",
+    "seller": "Pichau"
+  },
+  "ram-kingston-fury-16gb-ddr5-6000": {
+    "price": 599.99,
+    "sku": "KF560C40BB-16",
+    "seller": "Pichau"
+  },
+  "ram-kingston-fury-32gb-ddr4": {
+    "price": 2499.99,
+    "sku": "KF432C16BB/32",
+    "seller": "Pichau"
+  },
+  "ram-kingston-fury-8gb-ddr4": {
+    "price": 899.99,
+    "sku": "KF432C16BB/8",
+    "seller": "Pichau"
+  },
+  "ssd-samsung-870-evo-1000gb": {
+    "price": 1631.25,
+    "sku": "MZ-77E1T0B/AM",
+    "seller": "DAXFY"
+  },
+  "ssd-samsung-870-evo-250gb": {
+    "price": 663.1,
+    "sku": "MZ-77E250B/AM",
+    "seller": "DAXFY"
   }
 }

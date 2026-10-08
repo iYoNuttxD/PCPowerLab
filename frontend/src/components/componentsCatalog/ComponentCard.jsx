@@ -15,6 +15,8 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
   const [detailsOpen, setDetailsOpen] = useState(false);
   const specs = component?.specs && typeof component.specs === 'object' ? component.specs : {};
   const keys = specKeys([component]);
+  const primaryKeys = component?.category === 'fan' ? ['diameterMm', 'connector', 'unitsPerPack', 'powerWatts']
+    : component?.category === 'cpu' ? ['socket', 'cores', 'threads', 'boostClockGhz'] : keys.slice(0, 4);
   const name = component?.name || 'Componente sem nome';
 
   return (
@@ -27,18 +29,19 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         <h3 title={name}>{name}</h3>
         <p className="component-brand" title={component?.brand}>{component?.brand || 'Marca não informada'}</p>
         <dl className="spec-grid">
-          {keys.slice(0, 5).map((key) => (
+          {primaryKeys.map((key) => (
             <div key={key}>
               <dt>{specLabel(key)}</dt>
               <dd>{formatSpecValue(key, specs[key])}</dd>
             </div>
           ))}
         </dl>
-        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices estimados, comparáveis apenas na mesma categoria. Veja a metodologia do catálogo.">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
+        <div className="component-card-context">
         {compatibilityPreview && <div className="catalog-compatibility-note">
           <p>{compatibilityPreview.status === 'compatible' ? 'Compatível nas regras verificadas' : compatibilityPreview.status === 'incompatible' ? 'Conflito na montagem resultante' : 'Verificação incompleta'}</p>
           {[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].length > 0 && <details><summary>Ver motivos de compatibilidade</summary><ul>{[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].map((item, index) => <li key={`${item.code}-${index}`}>{item.message}</li>)}</ul></details>}
         </div>}
+        </div>
         <div className="component-card-price">
           <strong className="price">{formatCurrency(component?.price)}</strong>
           <ReferencePriceNote component={component} compact />
@@ -70,7 +73,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         {component?.partNumber && <p>Modelo: {component.partNumber}</p>}
         <p className="price">{formatCurrency(component?.price)}</p>
         <ReferencePriceNote component={component} />
-        <p className="hint-text">Especificações do cadastro; taxas máximas dependem do sistema. Confira os dados do fabricante antes da compra.</p>
+        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices estimados, comparáveis apenas na mesma categoria. Veja a metodologia do catálogo.">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
         <dl className="spec-grid component-details">
           {keys.map((key) => (
             <div key={key}><dt>{specLabel(key)}</dt><dd>{formatSpecValue(key, specs[key])}</dd></div>

@@ -71,12 +71,13 @@ export function summarizeBuildPricing(build, quotes = marketQuotes, now = Date.n
   const entries = Object.entries(build).flatMap(([slot, value]) => slot === 'fans'
     ? (value || []).map(fan => ({ component: fan, quantity: fan.quantity }))
     : value && typeof value === 'object' && value.id ? [{ component: value, quantity: 1 }] : []);
-  let estimated = 0, availableQuotes = 0, datedReferenceUnits = 0, estimatedReferenceUnits = 0;
+  let estimated = 0, availableQuotes = 0, datedReferenceUnits = 0, estimatedReferenceUnits = 0, unavailableReferenceUnits = 0;
   const referenceComponents = [];
   const withoutReference = [], withoutQuote = [], quotedComponents = [];
   for (const { component, quantity } of entries) {
     const reference = referencePrice(component);
-    if (reference.updateStatus === 'dated_snapshot') datedReferenceUnits += quantity;
+    if (reference.price === null) unavailableReferenceUnits += quantity;
+    else if (reference.updateStatus === 'dated_snapshot') datedReferenceUnits += quantity;
     else estimatedReferenceUnits += quantity;
     referenceComponents.push({ productId: component.id, quantity, price: reference.price,
       basis: reference.updateStatus, store: reference.store ?? null, queriedAt: reference.queriedAt });
@@ -90,10 +91,12 @@ export function summarizeBuildPricing(build, quotes = marketQuotes, now = Date.n
     }
   }
   return { currency: 'BRL', estimatedTotal: withoutReference.length ? null : Number(estimated.toFixed(2)),
+    knownReferenceSubtotal: Number(estimated.toFixed(2)),
+    referenceTotalComplete: entries.length > 0 && withoutReference.length === 0,
     availableMarketQuotesTotal: quotedComponents.length ? Number(availableQuotes.toFixed(2)) : null,
     marketTotalComplete: entries.length > 0 && withoutQuote.length === 0,
     componentsWithoutCurrentQuote: withoutQuote, componentsWithoutReference: withoutReference, quotedComponents,
     basis: datedReferenceUnits ? (estimatedReferenceUnits ? 'mixed_dated_and_estimated_reference' : 'dated_reference') : 'catalog_reference',
-    datedReferenceUnits, estimatedReferenceUnits, referenceComponents, paymentBasis: 'Referências datadas: PIX à vista; demais valores: estimativas sem condição de pagamento verificada', excludesShipping: true,
+    datedReferenceUnits, estimatedReferenceUnits, unavailableReferenceUnits, referenceComponents, paymentBasis: 'Referências datadas: PIX à vista; demais valores: estimativas sem condição de pagamento verificada', excludesShipping: true,
     methodology: 'Total estimado pode combinar referências datadas à vista (PIX) e estimativas demonstrativas; cobertura informada por packs. Registros datados não são cotações atuais. O total soma referências do catálogo; subtotal de cotações soma apenas itens com disponibilidade confirmada. Valores nunca são misturados. Frete, condições de pagamento e montagem não incluídos.' };
 }

@@ -1,9 +1,9 @@
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { isNonEmptyTextArray } from '../models/component.model.js';
 import { listComponents } from './component.service.js';
-import { checkBuildCompatibility } from './compatibility.service.js';
+import { evaluateResolvedBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
-import { requiredBuildSlots, selectOptionalBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
+import { requiredBuildSlots, selectOptionalBuildComponents, calculateBuildPrice } from './build.service.js';
 import {
   calculateBuildPerformanceScore,
   calculateCostBenefitScore,
@@ -185,7 +185,7 @@ function findCompatibleBuildsByBudgetRange({
         return;
       }
 
-      const compatibilityResult = checkBuildCompatibility(mapComponentsToIds(components));
+      const compatibilityResult = evaluateResolvedBuildCompatibility(components);
 
       if (!compatibilityResult.compatible) {
         return;
@@ -244,7 +244,7 @@ function findBestCompatibleBuild({
         return;
       }
 
-      const compatibilityResult = checkBuildCompatibility(mapComponentsToIds(components));
+      const compatibilityResult = evaluateResolvedBuildCompatibility(components);
 
       if (!compatibilityResult.compatible) {
         return;
@@ -520,10 +520,12 @@ function getEstimatedPerformanceLevel(performanceScore) {
 function buildBudgetRangeSummary(usageType, priority, performanceScore, warnings) {
   const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
   const bottleneckSummary = warnings.length > 0
-    ? ' Ha possiveis gargalos basicos indicados nos avisos.'
-    : ' Nao foram identificados gargalos basicos relevantes.';
+    ? ' Há possíveis gargalos indicados nos avisos.'
+    : ' Não foram identificados gargalos relevantes.';
 
-  return `${baseSummary} Comparacao de candidatos do catalogo com precos de referencia e desempenho simulado. Foco em ${translatePriority(priority)} com nivel estimado ${getEstimatedPerformanceLevel(performanceScore)}.${bottleneckSummary}`;
+  const performanceLabels = { excellent: 'excelente', good: 'bom', basic: 'básico', entry: 'de entrada' };
+  const performanceLevel = performanceLabels[getEstimatedPerformanceLevel(performanceScore)];
+  return `${baseSummary} Foco em ${translatePriority(priority)}, com desempenho estimado ${performanceLevel}.${bottleneckSummary}`;
 }
 
 function buildStrategy(usageType) {
@@ -551,7 +553,7 @@ function buildWarnings(components, compatibilityAlerts) {
   const gpuScore = components.gpu.performanceScore;
 
   if (Math.abs(cpuScore - gpuScore) > 25) {
-    warnings.push('A diferenca de desempenho entre CPU e GPU pode indicar gargalo em alguns cenarios.');
+    warnings.push('A diferença de desempenho entre processador e placa de vídeo pode indicar gargalo em alguns cenários.');
   }
 
   return warnings;
@@ -560,14 +562,15 @@ function buildWarnings(components, compatibilityAlerts) {
 function buildSummary(usageType, priority) {
   const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
 
-  return `${baseSummary} Comparacao de candidatos do catalogo com precos de referencia e desempenho simulado. Foco em ${translatePriority(priority)}.`;
+  return `${baseSummary} Foco em ${translatePriority(priority)} entre as opções do catálogo.`;
 }
 
 function translatePriority(priority) {
   const translations = {
-    'cost-benefit': 'custo-beneficio',
+    'cost-benefit': 'custo-benefício',
     performance: 'desempenho',
-    'lowest-price': 'menor custo estimado entre candidatos do catalogo'
+    balanced: 'equilíbrio',
+    'lowest-price': 'menor custo estimado'
   };
 
   return translations[priority] || translations['cost-benefit'];
@@ -594,10 +597,6 @@ function calculateTotalEstimatedPrice(components) {
   return calculateBuildPrice(components);
 }
 
-function mapComponentsToIds(components) {
-  return serializeBuildSelection(components);
-}
-
 function validateCandidateAvailability(candidatesBySlot) {
   const missingSlots = requiredBuildSlots.filter((slot) => candidatesBySlot[slot].length === 0);
 
@@ -607,7 +606,7 @@ function validateCandidateAvailability(candidatesBySlot) {
 
   const error = new Error('Nao ha componentes suficientes para gerar uma recomendacao.');
   error.statusCode = 422;
-  error.errors = missingSlots.map((slot) => `Nenhum componente valido encontrado para ${slot}.`);
+  error.errors = missingSlots.map((slot) => `Nenhum componente com preço de referência válido encontrado para ${slot}.`);
   throw error;
 }
 

@@ -121,10 +121,7 @@ test('fotografia licenciada, ausência e falha de imagem mantêm fallback e card
   const image = photoCard.getByRole('img', { name: photo.image.alt });
   await expect(image).toBeVisible();
   await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true);
-  await expect(photoCard.locator('.component-image-credits')).not.toHaveAttribute('open');
-  await photoCard.getByText('Fonte da imagem', { exact: true }).click();
-  await expect(photoCard.getByRole('link', { name: `Foto: ${photo.image.author}`, exact: true })).toBeVisible();
-  await photoCard.getByText('Fonte da imagem', { exact: true }).click();
+  await expect(photoCard.locator('.component-image-credits')).toHaveCount(0);
   await page.locator('.component-card').filter({ has: page.getByRole('heading', { name: 'Modelo com imagem indisponível', exact: true }) }).scrollIntoViewIfNeeded();
   await expect(page.getByText('Sem imagem', { exact: true })).toHaveCount(2);
   if (!isMobile) {
@@ -145,32 +142,25 @@ test('imagem sem origem não é carregada; preços ausentes não aparecem como z
   await expect(page.getByText('Preço indisponível', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: `Lojas para ${photo.name}`, exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByText('Sobre os preços e links', { exact: true }).click();
-  await expect(dialog).toContainText('não são cotações de cada loja');
-  await expect(dialog).toContainText('Preço estimado não informado');
+  await expect(dialog).toContainText('Confirme preço e estoque na loja.');
+  await expect(dialog).not.toContainText('Preço estimado:');
   await expect(dialog.getByRole('link', { name: 'Pesquisar na loja', exact: true })).toHaveAttribute('target', '_blank');
 });
 
-test('preço e créditos ficam compactos com detalhes acessíveis; foto com fonte dispensa licença explícita', async ({ page }) => {
-  const pricing = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', queriedAt: '2026-10-08', model: photo.partNumber, paymentCondition: 'PIX à vista', observedAvailability: 'unknown' };
+test('preço tem fonte direta e créditos têm destino único, sem explicações ocultas', async ({ page }) => {
+  const pricing = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', queriedAt: '2026-10-08', model: photo.partNumber, paymentCondition: 'PIX à vista', productUrl: 'https://www.kabum.com.br/produto/fixture', observedAvailability: 'unknown' };
   await page.route('**/api/v1/components', route => ok(route, [{ ...photo, price: pricing.price, pricing, image: { ...photo.image, rightsBasis: null, author: null, license: null, licenseUrl: null } }]));
   await page.goto('/components');
   const card = page.locator('.component-card');
   await expect(card.locator('img')).toBeVisible();
-  const priceDetails = card.locator('.reference-price-note');
-  const summary = priceDetails.locator('summary');
-  await expect(summary).toHaveText('Referência PIX · KaBuM! · 2026-10-08');
-  await expect(priceDetails.locator('.reference-price-details')).toBeHidden();
-  await summary.focus();
-  await page.keyboard.press('Enter');
-  await expect(priceDetails.locator('.reference-price-details')).toBeVisible();
-  await expect(priceDetails).toContainText('Preço atual e estoque não confirmados');
-  await page.keyboard.press('Enter');
-  await expect(priceDetails.locator('.reference-price-details')).toBeHidden();
-  const source = card.locator('.component-image-credits');
-  await source.locator('summary').click();
-  await expect(source.getByRole('link', { name: 'Origem da fotografia', exact: true })).toHaveAttribute('href', photo.image.imageSource);
-  await expect(source).not.toContainText('undefined');
+  const priceNote = card.locator('.reference-price-note');
+  await expect(priceNote).toHaveText('Referência PIX · KaBuM! · 2026-10-08');
+  await expect(priceNote.locator('details')).toHaveCount(0);
+  await expect(priceNote.getByRole('link')).toHaveAttribute('href', pricing.productUrl);
+  await page.getByRole('link', { name: 'Créditos das imagens', exact: true }).click();
+  const credit = page.locator('.image-credit');
+  await expect(credit.getByRole('link', { name: 'Origem da fotografia', exact: true })).toHaveAttribute('href', photo.image.imageSource);
+  await expect(credit).not.toContainText('undefined');
 });
 
 test('catálogo diferencia carregamento, falha, vazio e recuperação', async ({ page }) => {

@@ -114,6 +114,7 @@ test('v2.4 higher-price replacement keeps the budget and exposes the exact overa
   const committed = replaceBuildComponent(state, 'gpu', candidate, summary, 0);
   assert.equal(committed.budget.amount, state.budget.amount);
   assert.equal(committed.summary.totalEstimatedPrice, referenceFixtureTotal({ gpu: 'gpu-rtx-4070' }));
-  assert.equal(committed.summary.budgetStatus.remaining, -2099.3);
+  // Reviewed GPU references: R$ 2,199.99 -> R$ 5,965.28, plus the existing R$ 99.30 overage.
+  assert.equal(committed.summary.budgetStatus.remaining, -3864.59);
   assert.equal(committed.summary.budgetStatus.status, 'over_budget');
 });

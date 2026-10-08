@@ -18,7 +18,7 @@ test('deve calcular nota geral de uma build compativel', () => {
   const score = calculateBuildScore({
     build: validBuild,
     budget: {
-      amount: 5000,
+      amount: 8000,
       currency: 'BRL'
     },
     usageType: 'gaming'
@@ -31,7 +31,30 @@ test('deve calcular nota geral de uma build compativel', () => {
   assert.equal(score.criteria.performanceScore > 0, true);
   assert.equal(score.criteria.balanceScore, 100);
   assert.equal(score.criteria.budgetScore > 90, true);
+  assert.equal(score.source.totalEstimatedPrice, 6983.64);
+  assert.equal(score.source.budgetStatus, 'within_budget');
   assert.equal(score.summary.includes('compatibilidade'), true);
+});
+
+test('preco desconhecido suspende nota financeira e preserva criterios tecnicos', () => {
+  const score = calculateBuildScore({
+    build: { ...validBuild, storageId: 'ssd-samsung-980-pro-1tb' },
+    budget: { amount: 8000 },
+    usageType: 'gaming'
+  });
+  assert.equal(score.overallScore, null);
+  assert.equal(score.available, false);
+  assert.equal(score.classification, 'Indisponível');
+  assert.equal(score.criteria.budgetScore, null);
+  assert.equal(score.criteria.costBenefitScore, null);
+  assert.equal(score.criteria.compatibilityScore, 100);
+  assert.ok(score.criteria.performanceScore > 0);
+  assert.equal(score.source.totalEstimatedPrice, null);
+  assert.equal(score.source.pricing.knownReferenceSubtotal, 6483.65);
+  assert.equal(score.source.pricing.referenceTotalComplete, false);
+  assert.deepEqual(score.source.pricing.componentsWithoutReference, ['ssd-samsung-980-pro-1tb']);
+  assert.equal(score.source.budgetStatus, 'unavailable');
+  assert.ok(score.warnings.some(warning => /sem preço de referência/.test(warning)));
 });
 
 test('deve reduzir fortemente a nota quando a build for incompativel', () => {

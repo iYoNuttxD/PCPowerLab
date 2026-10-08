@@ -1,4 +1,3 @@
-import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkBuildCompatibilityAlerts } from './compatibility-alert.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
@@ -15,9 +14,10 @@ export function generateBuildSummary(input) {
 
   const buildInput = normalizeBuildInput(input.build);
   const compatibility = checkBuildCompatibilityAlerts(mapBuildToCompatibilityInput(buildInput));
-  const totalEstimatedPrice = Number(compatibility.estimatedPrice.toFixed(2));
+  const pricing = compatibility.pricing;
+  const totalEstimatedPrice = pricing.estimatedTotal;
   const budgetStatus = input.budget
-    ? buildBudgetStatus(input.budget, totalEstimatedPrice)
+    ? buildBudgetStatus(input.budget, pricing)
     : null;
   const bottlenecks = runOptionalAnalysis(
     () => analyzeBuildBottlenecks(buildInput),
@@ -52,7 +52,7 @@ export function generateBuildSummary(input) {
 
   return removeEmptySections({
     components: compatibility.selectedComponents,
-    pricing: summarizeBuildPricing(selectBuildComponents(buildInput)),
+    pricing,
     totalEstimatedPrice,
     budgetStatus,
     compatibility: {
@@ -102,8 +102,28 @@ function mapBuildToCompatibilityInput(buildInput) {
   return buildInput;
 }
 
-function buildBudgetStatus(budgetInput, totalEstimatedPrice) {
+function buildBudgetStatus(budgetInput, pricing) {
   const budget = createBudget(budgetInput);
+  const totalEstimatedPrice = pricing.estimatedTotal;
+  if (totalEstimatedPrice === null) {
+    return {
+      ...budget,
+      totalEstimatedPrice: null,
+      knownReferenceSubtotal: pricing.knownReferenceSubtotal,
+      componentsWithoutReference: pricing.componentsWithoutReference,
+      remaining: null,
+      status: 'unavailable',
+      explanation: generateExplanation({
+        type: 'warning',
+        data: {
+          title: 'Orçamento não verificado',
+          message: 'Há componentes sem preço de referência. O subtotal conhecido não representa o custo total da configuração.',
+          suggestion: 'Confirme os preços pendentes antes de avaliar o orçamento.',
+          severity: 'medium'
+        }
+      })
+    };
+  }
   const remaining = Number((budget.amount - totalEstimatedPrice).toFixed(2));
   const status = getBudgetStatus({ amount: budget.amount, totalEstimatedPrice });
   const explanation = generateExplanation({
@@ -243,6 +263,9 @@ function buildSummaryText({
 }
 
 function buildBudgetSummaryText(budgetStatus) {
+  if (budgetStatus.status === 'unavailable') {
+    return 'o orçamento não foi verificado porque há componentes sem preço de referência';
+  }
   if (budgetStatus.status === 'within_budget') {
     return 'está dentro do orçamento informado';
   }
@@ -265,6 +288,10 @@ function buildFinalRecommendation({
   }
   if (!compatibility.compatible) {
     return 'Revise as incompatibilidades antes de seguir com a compra.';
+  }
+
+  if (budgetStatus?.status === 'unavailable') {
+    return 'Confirme os preços pendentes antes de avaliar o custo total e concluir a compra.';
   }
 
   if (budgetStatus?.status === 'over_budget') {
@@ -327,6 +354,6 @@ function buildRecommendationObservation({ input, compatibility, budgetStatus }) 
 
 function removeEmptySections(summary) {
   return Object.fromEntries(
-    Object.entries(summary).filter(([, value]) => value !== null && value !== undefined)
+    Object.entries(summary).filter(([key, value]) => key === 'totalEstimatedPrice' || (value !== null && value !== undefined))
   );
 }

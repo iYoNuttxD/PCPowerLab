@@ -85,7 +85,7 @@ function analyzeBuildForComparison({
     performanceByComponentId,
     usageType
   });
-  const costBenefitScore = calculateBuildCostBenefitScore({
+  const costBenefitScore = summary.totalEstimatedPrice === null ? null : calculateBuildCostBenefitScore({
     components: summary.components,
     performanceByComponentId,
     usageType
@@ -97,6 +97,7 @@ function analyzeBuildForComparison({
     comparisonIndex: index,
     name,
     totalEstimatedPrice: summary.totalEstimatedPrice,
+    pricing: summary.pricing,
     priceBasis: 'catalog_reference_estimate',
     performanceBasis: 'simulated_catalog_parameters',
     compatible: summary.compatibility.compatible,
@@ -123,7 +124,9 @@ function analyzeBuildForComparison({
 
   return {
     ...build,
-    comparisonScore: Number(calculateComparisonScore({ build, criteria: comparisonCriteria }).toFixed(2))
+    comparisonScore: comparisonCriteria !== 'performance' && summary.totalEstimatedPrice === null
+      ? null
+      : Number(calculateComparisonScore({ build, criteria: comparisonCriteria }).toFixed(2))
   };
 }
 
@@ -136,7 +139,11 @@ function calculatePerformanceScore({ summary, performanceByComponentId, usageTyp
 }
 
 function selectRecommendedBuild({ builds, comparisonCriteria }) {
-  const selectedBuild = builds.reduce((bestBuild, currentBuild) => {
+  const eligibleBuilds = builds.filter(build => Number.isFinite(build.comparisonScore));
+  if (eligibleBuilds.length === 0) {
+    return { available: false, reason: 'Comparação por custo indisponível: há componentes sem preço de referência nas configurações enviadas.' };
+  }
+  const selectedBuild = eligibleBuilds.reduce((bestBuild, currentBuild) => {
     if (!bestBuild || currentBuild.comparisonScore > bestBuild.comparisonScore) {
       return currentBuild;
     }
@@ -147,7 +154,8 @@ function selectRecommendedBuild({ builds, comparisonCriteria }) {
   return {
     comparisonIndex: selectedBuild.comparisonIndex,
     name: selectedBuild.name,
-    reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild }),
+    reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild })
+      + (eligibleBuilds.length < builds.length ? ' Configurações sem custo total conhecido foram excluídas desta classificação.' : ''),
     comparisonScore: selectedBuild.comparisonScore
   };
 }
@@ -165,7 +173,9 @@ function buildComparisonSummary({
     ? `Configuração compatível segundo as regras do catálogo para ${usageType}.`
     : 'Configuração tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendação.');
 
-  if (budgetStatus === 'within_budget') {
+  if (budgetStatus === 'unavailable') {
+    parts.push('Orçamento não verificado porque há componentes sem preço de referência.');
+  } else if (budgetStatus === 'within_budget') {
     parts.push('O custo de referencia estimado está dentro do orçamento informado.');
   } else if (budgetStatus === 'near_budget') {
     parts.push('O custo de referencia estimado fica próximo do orçamento, mas ultrapassa um pouco o valor informado.');

@@ -22,7 +22,7 @@ try {
   const health = await fetch(origin + '/quality-api/v2/health');
   assert.equal(health.status, 200);
   assert.equal((await health.json()).success, true);
-  for (const path of ['/summary', '/components', '/shared/share-001', '/quality-api/v2-other']) {
+  for (const path of ['/summary', '/components', '/image-credits', '/shared/share-001', '/quality-api/v2-other']) {
     const response = await fetch(origin + path);
     assert.equal(response.status, 200);
     assert.match(response.headers.get('content-type'), /text\/html/);
@@ -34,6 +34,9 @@ try {
     assert.match(script.headers.get('content-type'), /javascript/);
     assert.ok((await script.text()).length > 10000);
   }
+  const credits = await fetch(origin + '/images/components/ATTRIBUTION.md');
+  assert.equal(credits.status, 200);
+  assert.match(await credits.text(), /CC BY/);
   const catalog = (await (await fetch(origin + '/quality-api/v2/components')).json()).data;
   let photos = 0;
   const imagePaths = new Set();
@@ -49,7 +52,7 @@ try {
   }
   assert.equal(photos, catalog.filter(component => component.active !== false).length, 'Every active product must serve an actual photo');
   assert.ok(imagePaths.size > 0);
-  console.log(`Production HTTP passed: custom API prefix + JSON errors + 4 SPA routes + actual bundles + ${photos}/${catalog.length} products with verified photography (${imagePaths.size} intact/derived source files). No browser executed.`);
+  console.log(`Production HTTP passed: custom API prefix + JSON errors + 5 SPA routes + image attribution document + actual bundles + ${photos}/${catalog.length} products with verified photography (${imagePaths.size} intact/derived source files). No browser executed.`);
 } finally {
   await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); });
 }

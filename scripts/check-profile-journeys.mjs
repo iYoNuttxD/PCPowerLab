@@ -26,7 +26,11 @@ try {
   const map = Object.fromEntries(catalog.map(part => [part.id, part]));
   const settings = { gameId: 'game-counter-strike-2', targetResolution: '1080p', qualityPreset: 'high' };
   const summary = (selection, amount) => ui.buildSummaryService.generate({ build: ui.buildToApiPayload(selection), budget: { amount }, ...settings });
-  const independentTotal = selection => Object.entries(selection).reduce((total, [slot, part]) => total + (slot === 'fans' ? part.reduce((sum, fan) => sum + Math.round(map[fan.id].price * 100) * fan.quantity, 0) : part?.id ? Math.round(map[part.id].price * 100) : 0), 0) / 100;
+  const independentTotal = selection => {
+    const entries = Object.entries(selection).flatMap(([slot, part]) => slot === 'fans' ? part.map(fan => ({ id: fan.id, quantity: fan.quantity })) : part?.id ? [{ id: part.id, quantity: 1 }] : []);
+    if (entries.some(part => !Number.isFinite(map[part.id].price))) return null;
+    return entries.reduce((sum, part) => sum + Math.round(map[part.id].price * 100) * part.quantity, 0) / 100;
+  };
   async function route(path) {
     const response = await fetch(origin + path);
     assert.equal(response.status, 200);
@@ -114,7 +118,7 @@ try {
       return { alternatives: builds.map(item => ({ total: item.totalEstimatedPrice, components: ui.buildToApiPayload(item.components) })), comparison: compared.recommendedBuild, bottleneck: bottleneck.performanceSummary, estimatedFps: simulation.estimatedFps };
     });
     await step('Verify RAM candidate, replace single slot, compare deltas and undo', async () => {
-      const candidate = catalog.find(part => part.category === 'ram' && part.id !== selection.ram.id && part.specs.memoryType === selection.ram.specs.memoryType && part.specs.capacityGb >= selection.ram.specs.capacityGb); assert.ok(candidate);
+      const candidate = catalog.find(part => part.category === 'ram' && Number.isFinite(part.price) && part.id !== selection.ram.id && part.specs.memoryType === selection.ram.specs.memoryType && part.specs.capacityGb >= selection.ram.specs.capacityGb); assert.ok(candidate);
       const preview = await ui.componentsService.getCatalogCompatibility({ components: ui.buildToApiPayload(selection), category: 'ram' }); assert.equal(preview.find(item => item.componentId === candidate.id).compatible, true);
       const compatibilityMap = Object.fromEntries(preview.map(item => [item.componentId, item]));
       const filtered = ui.filterComponents(catalog, { category: 'ram', compatibility: 'compatible' }, compatibilityMap); assert.ok(filtered.some(item => item.id === candidate.id));

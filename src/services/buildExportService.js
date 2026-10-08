@@ -133,6 +133,7 @@ function buildSummaryForExport({
     return {
       summary: {
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
+        pricing: generatedSummary.pricing,
         compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')
       }
     };

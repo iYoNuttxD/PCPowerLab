@@ -127,6 +127,7 @@ export default function AppLayout({ children }) {
       <footer className="footer">
         <span>PCPowerLab · Seu próximo PC começa aqui.</span>
         <Link to="/about">Sobre o projeto</Link>
+        <Link to="/image-credits">Créditos das imagens</Link>
       </footer>
     </div>
   );

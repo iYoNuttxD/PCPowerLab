@@ -17,26 +17,14 @@ export default function PurchaseLinksList({
   const flatLinks = normalizeLinks({ linksBySlot, links });
   const hasAnyLink = groups.some((group) => group.links.length > 0);
 
-  const renderEstimatedPrice = (link) => (
-    link.price !== null && link.price !== undefined && link.price !== '' && Number.isFinite(Number(link.price))
-      ? `Preço estimado: ${formatCurrency(link.price, link.currency)}`
-      : 'Preço estimado não informado'
-  );
-
   return (
     <Card>
       <h3>Preços e pesquisa em lojas</h3>
       <p className="hint-text">Confirme preço e estoque na loja.</p>
-      <details className="reference-price-note">
-        <summary>Sobre os preços e links</summary>
-        <div className="reference-price-details">
-          <p>{flatLinks.find(link => link.marketMessage)?.marketMessage || 'Comparação automática indisponível: nenhuma fonte de preços autorizada está conectada.'}</p>
-          <p>Referências datadas e estimativas do catálogo não são ofertas ao vivo. As buscas nas lojas não são cotações de cada loja. Ofertas atuais só aparecem quando recebidas de uma fonte comercial autorizada, com data e validade.</p>
-        </div>
-      </details>
+
       {variant === 'single' && flatLinks[0]?.referencePricing && <ReferencePriceNote component={{ price: flatLinks[0].price, pricing: flatLinks[0].referencePricing }} compact />}
       {variant === 'single' ? (
-        <SingleLinksGrid links={flatLinks} renderEstimatedPrice={renderEstimatedPrice} />
+        <SingleLinksGrid links={flatLinks} />
       ) : !hasAnyLink ? (
         <p>Nenhum link de compra disponível para esta configuração.</p>
       ) : (
@@ -52,7 +40,7 @@ export default function PurchaseLinksList({
                   )}
                 </div>
                 {Number.isFinite(Number(group.componentPrice)) && (
-                  <span className="price">{group.category === 'fan' ? 'Total estimado dos packs' : 'Referência estimada'}: {formatCurrency(group.componentPrice)}</span>
+                  <span className="price">{group.category === 'fan' ? 'Total dos pacotes' : 'Referência'}: {formatCurrency(group.componentPrice)}</span>
                 )}
               </div>
 
@@ -65,7 +53,7 @@ export default function PurchaseLinksList({
                     <ShopLinkCard
                       key={`${link.componentId}-${link.storeName}-${index}`}
                       link={link}
-                      renderEstimatedPrice={renderEstimatedPrice}
+
                     />
                   ))}
                 </div>
@@ -78,7 +66,7 @@ export default function PurchaseLinksList({
   );
 }
 
-function SingleLinksGrid({ links, renderEstimatedPrice }) {
+function SingleLinksGrid({ links }) {
   if (!Array.isArray(links) || links.length === 0) {
     return <p>Nenhum link cadastrado para este componente.</p>;
   }
@@ -89,25 +77,25 @@ function SingleLinksGrid({ links, renderEstimatedPrice }) {
         <ShopLinkCard
           key={`${link.componentId}-${link.storeName}-${index}`}
           link={link}
-          renderEstimatedPrice={renderEstimatedPrice}
+
         />
       ))}
     </div>
   );
 }
 
-function ShopLinkCard({ link, renderEstimatedPrice }) {
+function ShopLinkCard({ link }) {
   return (
     <article className="shop-link">
       <strong>{link.storeName}</strong>
-      <span>{link.kind === 'offer' ? `Cotação: ${formatCurrency(link.price, link.currency)}` : 'Pesquisa externa, sem cotação desta loja'}</span>
+      <span>{link.kind === 'offer' ? `Cotação: ${formatCurrency(link.price, link.currency)}` : 'Buscar este componente'}</span>
       {link.kind === 'offer' ? <>
         <small>Consultado em: {link.queriedAt}</small>
         <small>Válido até: {link.validUntil}</small>
         <small>Fonte: {link.source?.name}</small>
-      </> : <small>{renderEstimatedPrice(link)} (catálogo)</small>}
-      <small>Status: {translateValue(link.availabilityStatus, 'Consultar na loja')}</small>
-      <small>{link.isAffiliate ? 'Link afiliado' : 'Sem link afiliado'}</small>
+        <small>{translateValue(link.availabilityStatus, 'Consultar na loja')}</small>
+      </> : null}
+      {link.isAffiliate && <small>Link afiliado</small>}
       <a
         className="btn btn-ghost btn-md"
         href={link.url}

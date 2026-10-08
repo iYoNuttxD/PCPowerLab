@@ -479,7 +479,7 @@ try {
   page.close(); page = await loadedPage(BuildSummary); tree = page.render();
   equal(named(tree, 'GameSimulationResult')[0].props.result, retainedGameResult, 'SPA page remount retains provider-owned summary result');
   equal(fixtures.calls.filter(call => call.name === 'summary').length, 0, 'Returning to summary does not require another analysis');
-  verify(childrenText(tree).includes('Recarregar o site ou mudar dados do catálogo exige uma nova análise'));
+  verify(!childrenText(tree).includes('Recarregar o site ou mudar dados do catálogo exige uma nova análise'), 'Navigation state is tested without repeating a long instruction on every summary');
   fixtures.build.gamePerformance = { status: 'unavailable', available: false, message: 'Dados ausentes' };
   tree = page.render(); verify(summaryHint(tree).includes('Simulação indisponível'));
   fixtures.build.gamePerformance = null; tree = page.render(); verify(summaryHint(tree).includes('Execute a simulação'));

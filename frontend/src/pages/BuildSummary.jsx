@@ -320,7 +320,6 @@ export default function BuildSummary() {
         <span className="eyebrow">Painel final</span>
         <h1>Resumo da configuração</h1>
         <p>Consolide componentes, orçamento, compatibilidade, desempenho, gargalos e links de compra.</p>
-        <p className="hint-text">Ao navegar pelo menu, o resumo da montagem é preservado. Recarregar o site ou mudar dados do catálogo exige uma nova análise; peças e orçamento são mantidos. Notas e relatórios extras desta página precisam ser recalculados ao retornar.</p>
       </section>
 
       {build.canUndo && <Card>

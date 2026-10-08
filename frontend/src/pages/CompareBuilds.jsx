@@ -139,7 +139,7 @@ export default function CompareBuilds() {
             <h2>Resultado</h2>
             <Trophy aria-hidden="true" />
           </div>
-          <Alert type={(comparison.builds || []).some((item) => item.comparisonIndex === comparison.recommendedBuild?.comparisonIndex && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={`Sugestão entre as builds comparadas: ${Number.isInteger(comparison.recommendedBuild?.comparisonIndex) ? `${comparison.recommendedBuild.comparisonIndex + 1} · ` : ''}${comparison.recommendedBuild?.name || 'Não informada'}`}>
+          <Alert type={(comparison.builds || []).some((item) => item.comparisonIndex === comparison.recommendedBuild?.comparisonIndex && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={comparison.recommendedBuild?.available === false ? 'Comparação de custo pendente' : `Sugestão entre as builds comparadas: ${Number.isInteger(comparison.recommendedBuild?.comparisonIndex) ? `${comparison.recommendedBuild.comparisonIndex + 1} · ` : ''}${comparison.recommendedBuild?.name || 'Não informada'}`}>
             {comparison.recommendedBuild?.reason}
           </Alert>
           <details className="analysis-help"><summary>Por que a configuração sugerida pode ter menos desempenho?</summary><p>A escolha usa a pontuação final, não só o índice de desempenho. Estar dentro do orçamento acrescenta pontos; ultrapassá-lo reduz a pontuação. Incompatibilidades, alertas e gargalos também pesam. O teto não exclui automaticamente uma configuração: veja seu status de orçamento antes de decidir.</p></details>
