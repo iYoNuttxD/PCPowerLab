@@ -174,7 +174,10 @@ export default function Admin() {
     }
   }
 
-  if (authenticated === null) return <div className="page-stack"><p>Verificando acesso administrativo...</p></div>;
+  if (authenticated === null) return <div className="page-stack">
+    <section className="page-hero compact-hero"><span className="eyebrow">PCPowerLab</span><h1>Área Administrativa</h1></section>
+    <p role="status">Verificando acesso administrativo...</p>
+  </div>;
 
   if (!authenticated) return (
     <div className="page-stack">

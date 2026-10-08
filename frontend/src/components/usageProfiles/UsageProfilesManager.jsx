@@ -8,6 +8,7 @@ import EmptyState from '../ui/EmptyState.jsx';
 import Input from '../ui/Input.jsx';
 import LoadingSpinner from '../ui/LoadingSpinner.jsx';
 import { usageProfilesService } from '../../services/usageProfilesService.js';
+import { formatPerformanceNumber, numericValue } from '../../utils/performancePresentation.js';
 
 const emptyProfileForm = {
   name: '',
@@ -345,8 +346,8 @@ export function ProfileWeights({ weights = {}, compact = false }) {
       {weightFields.map(([key, label]) => (
         <div key={key}>
           <span>{label}</span>
-          <strong>{formatNumber(weights[key])}%</strong>
-          {!compact && <i aria-hidden="true"><b style={{ width: `${Math.min(Number(weights[key] || 0), 100)}%` }} /></i>}
+          <strong>{formatPerformanceNumber(weights[key])}{numericValue(weights[key]) !== null && '%'}</strong>
+          {!compact && <i aria-hidden="true">{numericValue(weights[key]) !== null && <b style={{ width: `${Math.max(0, Math.min(numericValue(weights[key]), 100))}%` }} />}</i>}
         </div>
       ))}
     </div>
@@ -395,10 +396,4 @@ function normalizeProfilePayload(form) {
       ...(form.recommendedMinimums.gpuVramGb && { gpuVramGb: Number(form.recommendedMinimums.gpuVramGb) })
     }
   };
-}
-
-function formatNumber(value) {
-  const number = Number(value);
-
-  return Number.isFinite(number) ? Math.round(number) : 'N/D';
 }

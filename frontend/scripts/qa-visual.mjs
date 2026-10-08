@@ -42,7 +42,7 @@ let axeVersion;async function audit(page, name, width, screenshot = false) {
   });
   axeVersion = a11y.version;
   checks.push({ name, ...dimensions, ...a11y });
-  if (screenshot) await page.screenshot({ path: `${out}/audit-${width}-${name}.png` });
+  if (screenshot) await page.screenshot({ path: `${out}/audit-${width}-${name}.png`, fullPage: true });
 }
 try {
   base = await address;
@@ -55,14 +55,14 @@ try {
   const summary = await api('/build-summary', payload);
   const saved = await api('/saved-builds', { name: 'QA configuração temporária', components: ready.components, budget: payload.budget, usageType: 'gaming' });
   const share = await api('/share/build', { buildId: saved.id });
-  for (const [width, height] of [[1440,900], [768,1024], [390,844]]) {
+  for (const [width, height] of [[1440,900], [1024,768], [768,1024], [390,844], [320,740]]) {
     const context = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
     await context.addInitScript(state => {
       if (!localStorage.getItem('pcpowerlab-build-state')) localStorage.setItem('pcpowerlab-build-state', JSON.stringify(state));
     }, { selectedComponents, wizardStep: 'review', budget: payload.budget, usageType: 'gaming', game: { gameId: payload.gameId, targetResolution: payload.targetResolution, qualityPreset: payload.qualityPreset }, summary, compatibility: summary.compatibility, alerts: summary.compatibility, bottlenecks: { status: 'success', data: summary.bottlenecks }, gamePerformance: summary.gamePerformance });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push({ width, message: error.message }));
-    for (const [path, name] of [['/', 'home'], ['/components', 'catalog'], ['/build', 'wizard'], ['/summary', 'summary'], ['/ready-builds', 'ready'], ['/saved-builds', 'saved'], ['/compare', 'compare'], ['/insights', 'insights'], ['/upgrades', 'upgrades'], ['/feedback', 'feedback'], ['/about', 'about'], [`/shared/${share.shareId}`, 'shared'], ['/admin', 'admin']]) {
+    for (const [path, name] of [['/', 'home'], ['/components', 'catalog'], ['/build', 'wizard'], ['/summary', 'summary'], ['/ready-builds', 'ready'], ['/saved-builds', 'saved'], ['/compare', 'compare'], ['/insights', 'insights'], ['/upgrades', 'upgrades'], ['/feedback', 'feedback'], ['/about', 'about'], [`/shared/${share.shareId}`, 'shared'], ['/admin', 'admin'], ['/feedback/new', 'feedback-new'], ['/missing-route-v25', 'not-found']]) {
       await page.goto(`${base}${path}`);
       await page.locator('main h1').waitFor();
       await page.locator('.loading-state').first().waitFor({ state: 'hidden' });
@@ -79,7 +79,7 @@ try {
         await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
         await page.getByText('Nota geral da build calculada.', { exact: true }).waitFor();
       }
-      await audit(page, name, width, ['home', 'wizard', 'summary', 'insights', 'compare'].includes(name));
+      await audit(page, name, width, true);
       if (name === 'catalog') {
         const cards = await page.locator('.component-card').evaluateAll(cards => cards.slice(0, 4).map(card => {
           const rect = card.getBoundingClientRect();

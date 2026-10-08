@@ -19,24 +19,27 @@ export default function GameComparisonResult({ result }) {
     <section className="performance-result-panel" aria-label="Resultado da comparação de jogos">
       <div className="section-heading compact">
         <h3>Resultado da comparação</h3>
-        <Badge tone="cyan">{result.targetResolution} · {translateValue(result.qualityPreset)}</Badge>
+        <Badge tone="cyan">{result.targetResolution || 'Resolução não informada'} · {translateValue(result.qualityPreset)}</Badge>
       </div>
       <EstimateNotice />
       {!games.length ? <p>Nenhum resultado retornado para os jogos selecionados.</p> : (
         <>
+          <h4>FPS estimado por jogo</h4>
           <p id={descriptionId} className="chart-caption">Cada barra representa o FPS estimado de um jogo com a mesma build, resolução e qualidade. Barras maiores sugerem mais fluidez. A linha de 60 FPS é uma referência visual, não a verificação dos requisitos recomendados.</p>
-          <div className="game-comparison-chart" role="group" aria-label="Gráfico comparativo de FPS estimado por jogo" aria-describedby={descriptionId}>
-            <ResponsiveContainer width="100%" height={Math.max(240, games.length * 56 + 48)}>
-              <BarChart data={chartData} layout="vertical" margin={{ top: 20, right: 32, bottom: 8, left: 0 }} accessibilityLayer>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
-                <XAxis type="number" stroke="var(--muted)" unit=" FPS" tick={{ fontSize: 12 }} />
-                <YAxis dataKey="name" type="category" width={120} stroke="var(--muted)" tick={{ fontSize: 12 }} tickFormatter={name => name.length > 18 ? `${name.slice(0, 17)}…` : name} />
-                <Tooltip content={<ComparisonTooltip />} />
-                <ReferenceLine x={60} ifOverflow="extendDomain" stroke="var(--yellow)" strokeDasharray="4 4" label={{ value: '60 FPS', fill: 'var(--yellow)', position: 'top' }} />
-                <Bar dataKey="estimatedFps" name="FPS estimado" fill="var(--cyan)" radius={[0, 6, 6, 0]} isAnimationActive={false} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          {fpsValues.length > 0 ? (
+            <div className="game-comparison-chart" role="group" aria-label="Gráfico comparativo de FPS estimado por jogo" aria-describedby={descriptionId}>
+              <ResponsiveContainer width="100%" height={Math.max(240, games.length * 56 + 48)}>
+                <BarChart data={chartData} layout="vertical" margin={{ top: 20, right: 32, bottom: 8, left: 0 }} accessibilityLayer>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
+                  <XAxis type="number" stroke="var(--muted)" unit=" FPS" tick={{ fontSize: 12 }} />
+                  <YAxis dataKey="name" type="category" width={120} stroke="var(--muted)" tick={{ fontSize: 12 }} tickFormatter={name => name.length > 18 ? `${name.slice(0, 17)}…` : name} />
+                  <Tooltip content={<ComparisonTooltip />} />
+                  <ReferenceLine x={60} ifOverflow="extendDomain" stroke="var(--yellow)" strokeDasharray="4 4" label={{ value: '60 FPS', fill: 'var(--yellow)', position: 'top' }} />
+                  <Bar dataKey="estimatedFps" name="FPS estimado" fill="var(--cyan)" radius={[0, 6, 6, 0]} isAnimationActive={false} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) : <p>Nenhum FPS disponível para o gráfico. Os jogos e seus requisitos continuam na tabela abaixo.</p>}
           <div className="metric-grid compact-metric-grid">
             <div><span>Média dos FPS disponíveis</span><strong>{formatPerformanceNumber(average)}{average !== null && ' FPS'}</strong></div>
             <div><span>Jogos comparados</span><strong>{games.length}</strong></div>
@@ -50,7 +53,7 @@ export default function GameComparisonResult({ result }) {
             {result.summary && <p>{result.summary}</p>}
             <div className="analysis-table-scroll" role="region" aria-label="Tabela dos resultados por jogo" tabIndex={0}>
               <table className="analysis-table">
-                <caption>Valores estimados e requisitos retornados pela simulação</caption>
+                <caption>Valores estimados e requisitos retornados pela simulação · {result.targetResolution || 'Resolução não informada'} · {translateValue(result.qualityPreset)}</caption>
                 <thead><tr><th scope="col">Jogo</th><th scope="col">FPS estimado</th><th scope="col">Classificação</th><th scope="col">Atende mínimos</th><th scope="col">Atende recomendados</th></tr></thead>
                 <tbody>{chartData.map((game, index) => <tr key={game.gameId || index}>
                   <th scope="row">{game.name}</th><td>{formatPerformanceNumber(game.estimatedFps)}</td><td>{translateValue(game.performanceLevel)}</td><td>{formatRequirement(game.meetsMinimumRequirements)}</td><td>{formatRequirement(game.meetsRecommendedRequirements)}</td>

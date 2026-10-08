@@ -9,7 +9,12 @@ export default function WizardNavigation({ currentStep, completedSteps, canAdvan
     <>
       <div className="wizard-progress">
         <progress value={completedSteps.length} max={wizardSteps.length} aria-label="Etapas concluídas" />
-        <details>
+        <details onKeyDown={(event) => {
+          if (event.key !== 'Escape' || !event.currentTarget.open) return;
+          event.preventDefault();
+          event.currentTarget.open = false;
+          event.currentTarget.querySelector('summary')?.focus();
+        }}>
           <summary>
             <span>{completedSteps.length} de {wizardSteps.length} etapas concluídas</span>
             <span>Ver etapas <ChevronDown size={16} aria-hidden="true" /></span>

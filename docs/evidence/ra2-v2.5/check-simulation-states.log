@@ -1,0 +1,22 @@
+PASS 1: loading catalogs block requests; loaded catalogs recover and select available defaults (SSR + handlers)
+PASS 2: single-game success submits current settings, seven build slots and cooling; mode changes preserve selections
+PASS 3: comparison boundaries: 0/1/>10 blocked even at handler level; 2 and 10 submit exactly the selected IDs
+PASS 4: each of the seven missing required build slots blocks game, comparison and software handlers
+PASS 5: empty catalogs are explicit and reloadable; missing saved game falls back; a one-game catalog cannot compare
+PASS 6: game/software catalog failures show honest messages and their retry handlers recover
+PASS 7: missing game/component/parameters and network failures render detail, retain selections and recover through retry
+PASS 8: comparison and software network-error retries retain chosen games/software and recover
+PASS 9: pending results cannot survive game/resolution/quality/mode/build-revision/build-payload changes; current retries succeed
+PASS 10: selected-game changes invalidate comparisons; resolution and quality A→B→A do not resurrect earlier requests
+PASS 11: completed results clear on criteria/build changes, while page-local selections survive a build replacement
+PASS 12: explicit limitation verified: a fresh PerformanceLab mount restores build.game defaults, not prior page-local edits
+PASS 13: software/build changes reject late professional results; independent software requests survive game-only edits
+PASS 14: actual request hook: latest repeated request wins, stale failures ignored, A→B→A safe, sync errors retryable, unmount blocks writes
+PASS 15: catalog request cleanup suppresses state writes after unmount
+PASS 16: BuildSummary loading has no fabricated option, blocks simulation, permits general summary, then enables available game
+PASS 17: BuildSummary catalog errors are visible and retry recovers without a fabricated game
+PASS 18: BuildSummary empty/malformed catalogs recover; missing selected game requires an available choice and retains other settings
+PASS 19: BuildSummary catalog cleanup blocks post-unmount writes; incomplete build guards the simulation handler
+SUMMARY: 19 scenario groups, 490 assertions passed against actual PerformanceLab/BuildSummary/useSimulationRequest source
+LIMITATION: SSR and isolated handlers/hooks only; service responses are fixtures. No browser, DOM events, layout, focus, chart geometry, real network or cross-navigation persistence was tested.
+NOTE: edited simulation settings are page-local; the page initializes a new mount from build.game rather than saving edits there.

@@ -6,12 +6,16 @@ import Input from '../ui/Input.jsx';
 import { fanPackPrice } from '../../utils/buildHelpers.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
-export default function CoolingPanel({ build, byType = {}, loading, error, onRetry }) {
+export default function CoolingPanel({ build, byType = {}, loading, error, onRetry, onChange }) {
   const cooler = build.selectedComponents.cooler;
   const fans = build.selectedComponents.fans || [];
   const fanOptions = byType.fan || [];
+  function change(callback) {
+    onChange?.();
+    callback();
+  }
   function updateFan(index, changes) {
-    build.actions.setFans(fans.map((fan, i) => i === index ? { ...fan, ...changes } : fan));
+    change(() => build.actions.setFans(fans.map((fan, i) => i === index ? { ...fan, ...changes } : fan)));
   }
   return <Card className="cooling-panel">
     <h3>Refrigeração complementar (opcional)</h3>
@@ -24,11 +28,10 @@ export default function CoolingPanel({ build, byType = {}, loading, error, onRet
       ...(byType.cooler || []).map(item => ({ value: item.id, label: `${item.name} · ${formatCurrency(item.price)}` }))
     ]} onChange={event => {
       const next = (byType.cooler || []).find(item => item.id === event.target.value);
-      if (next) build.actions.selectComponent('cooler', next);
-      else build.actions.removeComponent('cooler');
+      change(() => next ? build.actions.selectComponent('cooler', next) : build.actions.removeComponent('cooler'));
     }} />
     {cooler && <ComponentIdentity component={cooler} category="cooler" />}
-    {cooler && <Button variant="ghost" onClick={() => build.actions.removeComponent('cooler')}>Remover cooler</Button>}
+    {cooler && <Button variant="ghost" onClick={() => change(() => build.actions.removeComponent('cooler'))}>Remover cooler</Button>}
     <p>Quantidade de ventoinhas = pacotes do produto. O preço usa pacotes; consumo e ocupação usam unidades por pacote.</p>
     {fans.map((fan, index) => <fieldset key={`${index}-${fan.id}`} className="form-grid">
       <legend>Ventoinhas {index + 1}</legend>
@@ -42,11 +45,11 @@ export default function CoolingPanel({ build, byType = {}, loading, error, onRet
         if (Number.isInteger(quantity) && quantity >= 1 && quantity <= 20) updateFan(index, { quantity });
       }} />
       <p>{fan.specs?.unitsPerPack ? `${fan.quantity * fan.specs.unitsPerPack} ventoinha(s) física(s)` : 'Unidades por pacote não informadas: montagem não verificada'} · {formatCurrency(fanPackPrice(fan))}</p>
-      <Button variant="ghost" onClick={() => build.actions.setFans(fans.filter((_, i) => i !== index))}>Remover ventoinhas {index + 1}</Button>
+      <Button variant="ghost" onClick={() => change(() => build.actions.setFans(fans.filter((_, i) => i !== index)))}>Remover ventoinhas {index + 1}</Button>
     </fieldset>)}
     <Select label="Adicionar ventoinhas" value="" options={[{ value: '', label: 'Selecione um produto' }, ...fanOptions.filter(item => !fans.some(fan => fan.id === item.id)).map(item => ({ value: item.id, label: item.name }))]} onChange={event => {
       const fan = fanOptions.find(item => item.id === event.target.value);
-      if (fan) build.actions.setFans([...fans, { ...fan, quantity: 1 }]);
+      if (fan) change(() => build.actions.setFans([...fans, { ...fan, quantity: 1 }]));
     }} />
   </Card>;
 }

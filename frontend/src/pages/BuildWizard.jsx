@@ -29,7 +29,7 @@ import { savedBuildsService } from '../services/savedBuildsService.js';
 import { componentLabels, componentTypes, priorityLabels, priorityOptions, usageLabels, usageTypes } from '../utils/componentLabels.js';
 import { normalizeBudgetPayload, normalizeRecommendationBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { getMissingBuildSlots, validateBudgetAmount } from '../utils/validation.js';
-import { wizardDescriptions, wizardLabels, wizardSteps } from '../utils/wizardSteps.js';
+import { hasWizardCompatibilityBlockers, wizardDescriptions, wizardLabels, wizardSteps } from '../utils/wizardSteps.js';
 
 export default function BuildWizard() {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ export default function BuildWizard() {
     ? Boolean(build.selectedComponents[step])
     : step === 'budget' ? !budgetError
       : !missingSlots.length && !budgetError && bottlenecksComplete
-        && !hasCompatibilityBlockers(build.compatibility, build.alerts));
+        && !hasWizardCompatibilityBlockers(build.compatibility, build.alerts));
 
   const guidance = isComponentStep
     ? canAdvance ? `Peça selecionada. Avance para ${wizardLabels[wizardSteps[stepIndex + 1]]}.`
@@ -179,11 +179,12 @@ export default function BuildWizard() {
         build.actions.setResult('bottlenecks', bottlenecks);
       }
 
-      if (hasCompatibilityBlockers(compatibility, alerts)) {
+      if (hasWizardCompatibilityBlockers(compatibility, alerts)) {
+        const unverified = compatibility.status === 'unverified' || alerts?.status === 'unverified';
         finishAnalysis({
           status: 'unavailable',
-          reason: 'incompatible_build',
-          message: compatibility.status === 'unverified' ? 'A refrigeração selecionada tem dados insuficientes para confirmar a compatibilidade. Revise os dados técnicos antes de analisar desempenho.' : 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
+          reason: unverified ? 'unverified_compatibility' : 'incompatible_build',
+          message: unverified ? 'Há dados técnicos insuficientes para confirmar a compatibilidade. Revise as verificações pendentes antes de analisar desempenho.' : 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
           data: null
         });
         setFeedback({ type: 'warning', message: 'A compatibilidade não foi confirmada. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.' });
@@ -318,7 +319,7 @@ export default function BuildWizard() {
           </>
         )}
 
-        {(currentStep === 'case' || currentStep === 'review') && <CoolingPanel build={build} byType={byType} loading={loading} error={error} onRetry={reload} />}
+        {(currentStep === 'case' || currentStep === 'review') && <CoolingPanel build={build} byType={byType} loading={loading} error={error} onRetry={reload} onChange={clearMessages} />}
 
         {currentStep === 'budget' && (
           <Card>
@@ -405,19 +406,6 @@ export default function BuildWizard() {
       />}
     </div>
   );
-}
-
-function hasCompatibilityBlockers(compatibility, alerts) {
-  const compatibilityAlerts = [
-    ...(Array.isArray(compatibility?.alerts) ? compatibility.alerts : []),
-    ...(Array.isArray(compatibility?.issues) ? compatibility.issues : []),
-    ...(Array.isArray(alerts?.alerts) ? alerts.alerts : []),
-    ...(Array.isArray(alerts?.issues) ? alerts.issues : [])
-  ];
-
-  const hasCriticalIssues = compatibilityAlerts.some((issue) => issue?.severity === 'high');
-
-  return compatibility?.compatible !== true || alerts?.compatible === false || hasCriticalIssues;
 }
 
 function buildBottleneckUnavailableMessage(error) {

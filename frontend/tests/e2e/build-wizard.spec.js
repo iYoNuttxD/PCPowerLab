@@ -355,3 +355,48 @@ test('aplica recomendação, permite reanalisar e salva as peças substituídas'
   await expect(page).toHaveURL(/\/summary$/);
   expect((await stored(page)).selectedComponents).toEqual(recommended);
 });
+
+test('Escape fecha a lista de etapas e retorna ao acionador sem mudar seleção', async ({ page }) => {
+  await seed(page, { wizardStep: 'ram', selectedComponents: selection });
+  await page.goto('/build');
+  const summary = page.locator('.wizard-progress summary');
+  await summary.click();
+  await page.getByRole('navigation', { name: 'Etapas do assistente' }).getByRole('button').first().focus();
+  await page.keyboard.press('Escape');
+  await expect(summary).toBeFocused();
+  await expect(page.getByRole('navigation', { name: 'Etapas do assistente' })).toBeHidden();
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Memória RAM');
+  expect((await stored(page)).selectedComponents).toEqual(selection);
+});
+
+test('editar refrigeração limpa sucesso antigo e mantém revisão pendente', async ({ page }) => {
+  await seed(page, { wizardStep: 'review', selectedComponents: selection });
+  await page.goto('/build');
+  await analyze(page);
+  await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(components.find(component => component.category === 'cooler').id);
+  await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toHaveCount(0);
+  await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
+  expect((await stored(page)).compatibility).toBeNull();
+  for (const type of types) expect((await stored(page)).selectedComponents[type]).toEqual(selection[type]);
+});
+
+for (const result of [
+  { compatible: true, status: 'unverified', unverifiedChecks: [{ code: 'missing-data' }] },
+  { compatible: true, status: 'incompatible' },
+  { compatible: true, violations: [{ severity: 'low', blocking: true }] },
+  { compatible: true, issues: [{ severity: 'critical' }] }
+]) {
+  test(`não conclui revisão nem simula gargalos com bloqueio ${JSON.stringify(result)}`, async ({ page }) => {
+    let calls = 0;
+    await seed(page, { wizardStep: 'review', selectedComponents: selection });
+    await page.route('**/compatibility/check', route => respond(route, result));
+    await page.route('**/bottlenecks/analyze', route => { calls += 1; return respond(route, {}); });
+    await page.goto('/build');
+    await analyze(page);
+    await expect(page.getByRole('heading', { name: 'Análise de gargalos indisponível', exact: true })).toBeVisible();
+    await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
+    expect(calls).toBe(0);
+    expect((await stored(page)).bottlenecks.reason).toBe(result.status === 'unverified' ? 'unverified_compatibility' : 'incompatible_build');
+  });
+}

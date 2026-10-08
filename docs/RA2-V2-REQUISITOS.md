@@ -77,3 +77,14 @@ R15 e R16: **IMPLEMENTADO NÃO VALIDADO**. Catálogo agora combina filtros técn
 - R20/R21: **PARCIALMENTE IMPLEMENTADO**. Corrigidas restauração de análise antiga, falta de desfazer e exposição de FPS pelo resumo para configuração incompatível/não verificada. Novas estimativas têm escopo e limitações explícitos; validação visual/humana permanece pendente.
 
 [Relatório v2.4](RA2-V2.4-INTEGRACAO.md) e [evidências reproduzíveis](evidence/ra2-v2.4/README.md). Demais requisitos inalterados; etapa 5 ainda não executada.
+
+## Atualização v2.5 — 08/10/2026
+
+- R01/R02: **IMPLEMENTADO NÃO VALIDADO**. Auditoria de tokens/componentes e estrutura estática de todas as páginas. 32 pares opacos de texto/fundo passam 4,5:1; não é validação de composição real, cards, estados ou responsividade. Cinco larguras preparadas, nenhuma executada visualmente
+- R03/R04: **IMPLEMENTADO NÃO VALIDADO**. Corrigido foco ao navegar à mesma rota/mudar breakpoint e ciclo da página compartilhada. Admin continua fora do menu público, acessível por rota direta protegida. Testes de contrato/handler não comprovam teclado no navegador
+- R05/R06: **IMPLEMENTADO NÃO VALIDADO**. Nove etapas, preservação e rolagem existentes mantidas. Bloqueios cobrem critical/blocking/incompatible/unverified e edição de refrigeração limpa mensagem antiga de análise. Interação visual continua pendente
+- R07: **PARCIALMENTE IMPLEMENTADO**. Escala de software explícita, consumo parcial/potência nominal e preço de referência diferenciados; glossário mantido. Sem nova evidência de compreensão com iniciantes
+- R08/R09: **IMPLEMENTADO NÃO VALIDADO**. Títulos, dados ausentes, legendas textuais/tabelas, consumo parcial e estados de simulação auditados/corrigidos. Testes executáveis sem browser cobrem modos, limites, falhas/retry e respostas antigas. Nenhum benchmark físico ou validação assistiva completa
+- R17: **IMPLEMENTADO NÃO VALIDADO**, preservando troca/desfazer/reanálise da v2.4; R20/R21 continuam **PARCIALMENTE IMPLEMENTADO**. Resumo consolidado existente satisfaz a interpretação técnica descrita em [auditoria v2.5](RA2-V2.5-AUDITORIA-UX.md), mas o significado de “simulação final” permanece a validar com participantes
+
+[Auditoria, antes/depois e pendências](RA2-V2.5-AUDITORIA-UX.md) · [comandos e evidências](evidence/ra2-v2.5/README.md). Nenhuma linha recebe VALIDADO por SSR, handlers, testes Node, lint ou build. Inspeção visual em 1440/1024/768/390/320 px e screenshots **não executados**. Fotos continuam 9/98; preços atuais, pesquisa humana e etapa 6 não realizados.

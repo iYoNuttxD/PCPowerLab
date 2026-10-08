@@ -243,3 +243,16 @@ Limitações atuais:
 - Melhorar code splitting conforme o app crescer.
 - Evoluir gráficos e comparação visual.
 - Ampliar a cobertura automatizada conforme novos fluxos forem implementados.
+
+## Auditoria v2.5 sem navegador
+
+A auditoria e as limitações estão em [RA2 V2.5](../docs/RA2-V2.5-AUDITORIA-UX.md). Além de `npm test` na raiz, estes checks executam React SSR e handlers isolados, sem provar layout, foco ou interação de browser:
+
+```bash
+node frontend/scripts/check-page-audit.mjs
+node frontend/scripts/check-chart-render.mjs
+node frontend/scripts/check-navigation-wizard.mjs
+node frontend/scripts/check-simulation-states.mjs
+```
+
+Os caminhos acima são relativos à raiz. `scripts/qa-visual.mjs` prepara captura de todas as telas em 1440, 1024, 768, 390 e 320 px; exige build, Chromium autorizado e `PCPOWERLAB_AXE_PATH`. Não foi executado nesta etapa por bloqueios do ambiente. Casos Playwright coletados não contam como casos executados.

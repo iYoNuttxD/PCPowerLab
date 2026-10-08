@@ -13,6 +13,7 @@ import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import { costBenefitService } from '../services/costBenefitService.js';
 import { componentLabels } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
+import { numericValue } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
 
 const categoryOptions = [
@@ -124,7 +125,7 @@ function RankingList({ ranking }) {
                   <h3>{component.name || 'Componente sem nome'}</h3>
                 </div>
                 <Badge tone={getCostBenefitTone(entry.costBenefitScore)}>
-                  {entry.classification || classifyCostBenefit(entry.costBenefitScore)}
+                  {numericValue(entry.costBenefitScore) === null ? 'Não disponível' : entry.classification || classifyCostBenefit(entry.costBenefitScore)}
                 </Badge>
               </div>
               <div className="metric-grid compact-metric-grid">
@@ -134,14 +135,14 @@ function RankingList({ ranking }) {
                 </div>
                 <div>
                   <span>Desempenho cadastrado</span>
-                  <strong>{formatNumber(entry.performanceScore)} / 100</strong>
+                  <strong>{formatNumber(entry.performanceScore)}{numericValue(entry.performanceScore) !== null && ' / 100'}</strong>
                 </div>
                 <div>
                   <span>Custo-benefício</span>
-                  <strong>{formatNumber(entry.costBenefitScore)} / 100</strong>
+                  <strong>{formatNumber(entry.costBenefitScore)}{numericValue(entry.costBenefitScore) !== null && ' / 100'}</strong>
                 </div>
               </div>
-              <p>{entry.summary || 'Componente bem posicionado no ranking de custo-benefício.'}</p>
+              <p>{entry.summary || (numericValue(entry.costBenefitScore) === null ? 'Nota de custo-benefício indisponível para este componente.' : 'Posição calculada com dados cadastrados e preço de referência, sem cotação atual de mercado.')}</p>
             </div>
           </article>
         );
@@ -151,8 +152,9 @@ function RankingList({ ranking }) {
 }
 
 function getCostBenefitTone(score) {
-  const value = Number(score);
+  const value = numericValue(score);
 
+  if (value === null) return 'cyan';
   if (value >= 80) return 'green';
   if (value >= 60) return 'cyan';
   if (value >= 40) return 'yellow';
@@ -160,8 +162,9 @@ function getCostBenefitTone(score) {
 }
 
 function classifyCostBenefit(score) {
-  const value = Number(score);
+  const value = numericValue(score);
 
+  if (value === null) return 'Não disponível';
   if (value >= 80) return 'Excelente';
   if (value >= 60) return 'Bom';
   if (value >= 40) return 'Regular';
@@ -169,7 +172,7 @@ function classifyCostBenefit(score) {
 }
 
 function formatNumber(value) {
-  const number = Number(value);
+  const number = numericValue(value);
 
-  return Number.isFinite(number) ? Math.round(number) : 'N/D';
+  return number === null ? 'Não disponível' : Math.round(number);
 }

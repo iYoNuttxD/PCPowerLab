@@ -34,6 +34,7 @@ import { sharingService } from '../services/sharingService.js';
 import { buildToApiPayload, buildToPurchaseLinksPayload, hasCompleteBuild, normalizeBudgetPayload, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
+import { numericValue } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
 
 export default function BuildSummary() {
@@ -42,6 +43,9 @@ export default function BuildSummary() {
   const catalog = useComponents();
   const request = useApiRequest();
   const [games, setGames] = useState([]);
+  const [gamesLoading, setGamesLoading] = useState(true);
+  const [gamesError, setGamesError] = useState('');
+  const [gamesReload, setGamesReload] = useState(0);
   const [linksByBuild, setLinksByBuild] = useState(null);
   const [share, setShare] = useState(null);
   const [feedback, setFeedback] = useState('');
@@ -68,10 +72,15 @@ export default function BuildSummary() {
   const isCurrent = () => mounted.current && latestConfiguration.current === configurationKey;
 
   useEffect(() => {
+    let active = true;
+    setGamesLoading(true);
+    setGamesError('');
     performanceService.listGames()
-      .then((data) => setGames(Array.isArray(data) ? data : []))
-      .catch(() => setGames([]));
-  }, []);
+      .then((data) => { if (active) setGames(Array.isArray(data) ? data : []); })
+      .catch((error) => { if (active) { setGames([]); setGamesError(error.message || 'Não foi possível carregar os jogos.'); } })
+      .finally(() => { if (active) setGamesLoading(false); });
+    return () => { active = false; };
+  }, [gamesReload]);
 
   useEffect(() => {
     setLoadingAction('');
@@ -300,6 +309,8 @@ export default function BuildSummary() {
 
   const compatibilityData = build.summary?.compatibility || build.compatibility || build.alerts;
   const isIncompatible = isCompatibilityIncompatible(compatibilityData);
+  const gameAvailable = games.some(game => game.id === build.game.gameId);
+  const simulationBlocked = gamesLoading || Boolean(gamesError) || !gameAvailable || !hasCompleteBuild(build.selectedComponents);
 
   return (
     <div className="page-stack">
@@ -445,15 +456,16 @@ export default function BuildSummary() {
               <p>Escolha o jogo, resolução e qualidade para atualizar a estimativa de FPS.</p>
             </div>
           </div>
+          {gamesLoading && <LoadingSpinner label="Carregando jogos..." />}
+          {gamesError && <ErrorState message={gamesError} onRetry={() => setGamesReload(key => key + 1)} />}
+          {!gamesLoading && !gamesError && !games.length && <div><p className="hint-text">Nenhum jogo disponível no catálogo. Gere o resumo para consultar as outras análises.</p><Button variant="secondary" onClick={() => setGamesReload(key => key + 1)}>Atualizar jogos</Button></div>}
           <div className="form-grid">
             <Select
               label="Selecione um jogo para simular o desempenho"
-              value={build.game.gameId}
+              value={gameAvailable ? build.game.gameId : ''}
               onChange={(event) => changeGame({ gameId: event.target.value })}
-              options={(games.length ? games : [{ id: 'game-cyberpunk-2077', name: 'Cyberpunk 2077' }]).map((game) => ({
-                value: game.id,
-                label: game.name
-              }))}
+              disabled={gamesLoading || Boolean(gamesError) || !games.length}
+              options={[...(!gameAvailable ? [{ value: '', label: 'Selecione um jogo disponível' }] : []), ...games.map((game) => ({ value: game.id, label: game.name }))]}
             />
             <Select
               label="Resolução"
@@ -468,9 +480,9 @@ export default function BuildSummary() {
               options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: translateValue(value) }))}
             />
           </div>
-          {!build.gamePerformance && <p className="hint-text">Execute a simulação para ver uma estimativa para o jogo, a resolução e a qualidade selecionados.</p>}
+          <p id="summary-simulation-hint" className="hint-text" role="status">{!hasCompleteBuild(build.selectedComponents) ? 'Complete a montagem antes de simular.' : gamesLoading ? 'Aguarde o carregamento dos jogos.' : gamesError ? 'Recarregue o catálogo para simular um jogo.' : !gameAvailable ? 'Selecione um jogo disponível para simular.' : 'Execute a simulação para ver uma estimativa para o jogo, a resolução e a qualidade selecionados.'}</p>
           <div className="button-row">
-            <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>
+            <Button disabled={request.loading || simulationBlocked} loading={request.loading} aria-describedby="summary-simulation-hint" onClick={generateSummary}>
               Simular desempenho
             </Button>
           </div>
@@ -597,6 +609,7 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
   }
 
   const criteria = score.criteria || {};
+  const overallScore = numericValue(score.overallScore);
   const criteriaItems = [
     ['compatibilityScore', 'Compatibilidade'],
     ['performanceScore', 'Desempenho'],
@@ -612,15 +625,15 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
           <h3>Nota geral</h3>
           <p>{score.summary || 'Nota consolidada da configuração atual.'}</p>
         </div>
-        <Badge tone={getScoreTone(score.overallScore)}>{score.classification || classifyScore(score.overallScore)}</Badge>
+        <Badge tone={getScoreTone(overallScore)}>{overallScore === null ? 'Não disponível' : score.classification || classifyScore(overallScore)}</Badge>
       </div>
       <p className="chart-caption">Nota calculada de 0 a 100. As barras detalham os critérios usados; não representam FPS nem resultados de um teste real.</p>
       {Array.isArray(score.warnings) && score.warnings.length > 0 && <Alert type="warning" title="Limitações desta nota"><ul>{score.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
       <AnalysisHelp topics={['buildScore', 'score', 'compatibility']} title="Como interpretar a nota e seus critérios" />
       <div className="score-overview">
-        <div className="score-circle" role="img" aria-label={`Nota ${score.overallScore || 0} de 100`}>
-          <strong>{formatScore(score.overallScore)}</strong>
-          <span>de 100</span>
+        <div className="score-circle" role="img" aria-label={overallScore === null ? 'Nota geral não disponível' : `Nota ${formatScore(overallScore)} de 100`}>
+          <strong>{overallScore === null ? '—' : formatScore(overallScore)}</strong>
+          <span>{overallScore === null ? 'Não disponível' : 'de 100'}</span>
         </div>
         <div className="criteria-grid">
           {criteriaItems.map(([key, label]) => (
@@ -630,7 +643,7 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
                 <strong>{formatScore(criteria[key])}</strong>
               </div>
               <div className="score-bar" aria-hidden="true">
-                <i style={{ width: `${clampScore(criteria[key])}%` }} />
+                {numericValue(criteria[key]) !== null && <i style={{ width: `${clampScore(criteria[key])}%` }} />}
               </div>
             </article>
           ))}
@@ -814,9 +827,9 @@ function isCompatibilityIncompatible(result) {
 }
 
 function formatScore(value) {
-  const score = Number(value);
+  const score = numericValue(value);
 
-  return Number.isFinite(score) ? Math.round(score) : 0;
+  return score === null ? 'Não disponível' : Math.round(score);
 }
 
 function clampScore(value) {
@@ -845,7 +858,9 @@ function buildDetailsFromSelectedComponents(selectedComponents = {}) {
 }
 
 function getScoreTone(value) {
-  const score = Number(value);
+  const score = numericValue(value);
+
+  if (score === null) return 'cyan';
 
   if (score >= 75) {
     return 'green';
@@ -863,8 +878,9 @@ function getScoreTone(value) {
 }
 
 function classifyScore(value) {
-  const score = Number(value);
+  const score = numericValue(value);
 
+  if (score === null) return 'Não disponível';
   if (score >= 90) return 'Excelente';
   if (score >= 75) return 'Muito boa';
   if (score >= 60) return 'Boa';

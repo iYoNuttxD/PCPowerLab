@@ -23,3 +23,14 @@ export const wizardDescriptions = {
 export function normalizeWizardStep(step) {
   return wizardSteps.includes(step) ? step : wizardSteps[0];
 }
+
+// A success flag must never override a known blocker or an explicitly pending
+// technical check. Both compatibility endpoints may carry those details.
+export function hasWizardCompatibilityBlockers(compatibility, alerts) {
+  const results = [compatibility, alerts];
+  const issues = results.flatMap(result => ['alerts', 'violations', 'issues']
+    .flatMap(key => Array.isArray(result?.[key]) ? result[key] : []));
+  return compatibility?.compatible !== true || alerts?.compatible === false
+    || results.some(result => ['incompatible', 'unverified'].includes(result?.status))
+    || issues.some(issue => issue?.blocking === true || ['high', 'critical'].includes(issue?.severity));
+}

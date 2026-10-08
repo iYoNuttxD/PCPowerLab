@@ -159,9 +159,9 @@ function SoftwareResult({ result }) {
   if (!result) return null;
   return <section className="performance-result-panel" aria-label="Resultado da simulação profissional">
     <div className="section-heading compact"><div><h3>{result.software}</h3><p>{result.category}</p></div><Badge tone={result.meetsMinimumRequirements === false ? 'red' : 'cyan'}>{translateValue(result.performanceLevel)}</Badge></div>
-    <p className="analysis-note">Avaliação estimada a partir dos requisitos cadastrados. Nenhum teste foi executado no seu computador.</p>
+    <p className="analysis-note">Avaliação estimada a partir dos requisitos cadastrados, em uma escala normalizada de 0 a 100 pontos. Pontos não são FPS nem porcentagem de velocidade. Nenhum teste foi executado no seu computador.</p>
     <div className="metric-grid">
-      <div><span>Pontuação de desempenho</span><strong>{formatPerformanceNumber(result.performanceScore)}</strong></div>
+      <div><span>Pontuação estimada (0–100 pontos)</span><strong>{formatPerformanceNumber(result.performanceScore)}</strong></div>
       <div><span>Atende requisitos mínimos</span><strong>{formatRequirement(result.meetsMinimumRequirements)}</strong></div>
       <div><span>Atende requisitos recomendados</span><strong>{formatRequirement(result.meetsRecommendedRequirements)}</strong></div>
     </div>

@@ -1,5 +1,6 @@
 export function numericValue(value) {
-  if (value === null || value === undefined || value === '' || typeof value === 'boolean') return null;
+  if (typeof value !== 'number' && typeof value !== 'string') return null;
+  if (typeof value === 'string' && value.trim() === '') return null;
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }

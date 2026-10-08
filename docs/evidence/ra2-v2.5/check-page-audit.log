@@ -1,0 +1,49 @@
+{"route":"/","heading":"PCPowerLab","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/components","heading":"Componentes disponíveis","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/build","heading":"Monte seu PC","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/summary","heading":"Resumo da configuração","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/performance-lab","heading":"Simule o desempenho do seu PC","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/compare","heading":"Comparação de builds","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/insights","heading":"Custo-benefício de componentes","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/feedback","heading":"Central de feedback","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/feedback/new","heading":"Feedback geral","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/ready-builds","heading":"Builds prontas","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/saved-builds","heading":"Builds salvas","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/upgrades","heading":"Sugestões de upgrade","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/shared/audit-placeholder","heading":"Configuração compartilhada","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/admin","heading":"Área Administrativa","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/about","heading":"PCPowerLab","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/missing-route-v25","heading":"Fase não encontrada","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"foreground":"text","background":"bg","ratio":17.29,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"bg-elevated","ratio":15.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"panel","ratio":15.01,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"panel-strong","ratio":13.12,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"bg","ratio":11.01,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"bg-elevated","ratio":9.86,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"panel","ratio":9.56,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"panel-strong","ratio":8.36,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"bg","ratio":12.38,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"bg-elevated","ratio":11.08,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"panel","ratio":10.75,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"panel-strong","ratio":9.4,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"bg","ratio":12.53,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"bg-elevated","ratio":11.22,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"panel","ratio":10.88,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"panel-strong","ratio":9.51,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"bg","ratio":9.76,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"bg-elevated","ratio":8.74,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"panel","ratio":8.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"panel-strong","ratio":7.41,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"bg","ratio":12.82,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"bg-elevated","ratio":11.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"panel","ratio":11.13,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"panel-strong","ratio":9.73,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"bg","ratio":9.5,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"bg-elevated","ratio":8.5,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"panel","ratio":8.25,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"panel-strong","ratio":7.21,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"bg","ratio":10.52,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"bg-elevated","ratio":9.41,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"panel","ratio":9.13,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"panel-strong","ratio":7.98,"method":"opaque sRGB token calculation only"}
+PASS: 16 routes and 32 opaque text-token pairs. No effects, browser DOM, geometry, focus, screenshots or human validation executed.

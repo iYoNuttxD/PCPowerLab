@@ -20,13 +20,13 @@ const navGroups = [
 ];
 
 export default function AppLayout({ children }) {
-  const { pathname } = useLocation();
+  const { pathname, key: locationKey } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState(null);
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const mainRef = useRef(null);
-  const previousPath = useRef(pathname);
+  const previousLocation = useRef(locationKey);
 
   function closeMenu() {
     setMenuOpen(false);
@@ -34,15 +34,35 @@ export default function AppLayout({ children }) {
   }
 
   useEffect(() => {
-    if (previousPath.current === pathname) return;
-    previousPath.current = pathname;
+    // A link to the current page still closes its dropdown. Restore focus for
+    // that navigation too, rather than leaving it inside the hidden submenu.
+    if (previousLocation.current === locationKey) return;
+    previousLocation.current = locationKey;
     setMenuOpen(false);
     setOpenGroup(null);
     const heading = mainRef.current?.querySelector('h1');
     heading?.setAttribute('tabindex', '-1');
     (heading || mainRef.current)?.focus({ preventScroll: true });
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [locationKey]);
+
+  useEffect(() => {
+    const compactNavigation = window.matchMedia('(max-width: 1040px)');
+    function resetNavigation(event) {
+      const focused = document.activeElement;
+      const navigation = headerRef.current?.querySelector('#main-navigation');
+      if (event.matches && navigation?.contains(focused)) {
+        menuButtonRef.current?.focus();
+      } else if (!event.matches && focused === menuButtonRef.current) {
+        headerRef.current?.querySelector('.brand')?.focus();
+      } else if (!event.matches && navigation?.contains(focused)) {
+        focused.closest('.nav-group')?.querySelector('.nav-toggle')?.focus();
+      }
+      closeMenu();
+    }
+    compactNavigation.addEventListener('change', resetNavigation);
+    return () => compactNavigation.removeEventListener('change', resetNavigation);
+  }, []);
 
   useEffect(() => {
     function dismiss(event) {

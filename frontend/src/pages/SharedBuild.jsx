@@ -11,25 +11,21 @@ import { formatCurrency } from '../utils/formatCurrency.js';
 
 export default function SharedBuild() {
   const { shareId } = useParams();
-  const [sharedBuild, setSharedBuild] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [request, setRequest] = useState({ shareId: null, status: 'loading', data: null, error: '' });
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    let active = true;
+    setRequest({ shareId, status: 'loading', data: null, error: '' });
     sharingService.get(shareId)
-      .then(setSharedBuild)
-      .catch((requestError) => setError(requestError.message))
-      .finally(() => setLoading(false));
-  }, [shareId]);
+      .then((data) => { if (active) setRequest({ shareId, status: 'success', data, error: '' }); })
+      .catch((requestError) => { if (active) setRequest({ shareId, status: 'error', data: null, error: requestError.message }); });
+    return () => { active = false; };
+  }, [shareId, attempt]);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return <ErrorState message={error} />;
-  }
-
+  const sharedBuild = request.shareId === shareId ? request.data : null;
+  const loading = request.shareId !== shareId || request.status === 'loading';
+  const error = request.shareId === shareId ? request.error : '';
   const summary = sharedBuild?.buildSummary || sharedBuild?.summary || {};
   const components = summary.components || sharedBuild?.components || {};
 
@@ -37,14 +33,17 @@ export default function SharedBuild() {
     <div className="page-stack">
       <section className="page-hero compact-hero">
         <span className="eyebrow">Build compartilhada</span>
-        <h1>{summary.name || sharedBuild?.name || shareId}</h1>
+        <h1>{summary.name || sharedBuild?.name || 'Configuração compartilhada'}</h1>
         <p>Visualização somente leitura de uma configuração compartilhada.</p>
       </section>
 
+      {loading && <LoadingSpinner label="Carregando configuração compartilhada..." />}
+      {error && <ErrorState message={error} onRetry={() => setAttempt(value => value + 1)} />}
+      {!loading && !error && <>
       <Card>
         <div className="section-heading compact">
           <h2>Resumo</h2>
-          <strong>{formatCurrency(summary.totalEstimatedPrice)}</strong>
+          <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(summary.totalEstimatedPrice)}</strong>
         </div>
         <p>{summary.summary || 'Resumo não informado.'}</p>
         <p>{summary.finalRecommendation}</p>
@@ -75,6 +74,7 @@ export default function SharedBuild() {
           ))}
         </ul>
       </Card>
+      </>}
     </div>
   );
 }
