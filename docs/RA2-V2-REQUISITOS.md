@@ -65,3 +65,7 @@ Nenhum requisito recebe VALIDADO com base somente em código, testes de serviço
 ## Atualização v2.2 — 08/10/2026
 
 R10 continua **PARCIALMENTE IMPLEMENTADO**: 9/98 fotografias exatas licenciadas (9,18%), 89 bloqueios individuais. Mídia reutilizável integrada aos contextos, registro de procedência e auditoria dinâmica; cobertura integral e inspeção de telas continuam pendentes. [Relatório e limites](RA2-V2.2-INTEGRACAO.md), [cobertura real](RA2-COBERTURA-IMAGENS.md). Nenhum requisito recebe VALIDADO por lint, build ou testes sem navegador.
+
+## Atualização v2.3 — 08/10/2026
+
+R15 e R16: **IMPLEMENTADO NÃO VALIDADO**. Catálogo agora combina filtros técnicos por categoria, ordenação, prévia de compatibilidade do motor compartilhado, comparação com diferenças e índices demonstrativos explicados, além de seleção integrada à montagem existente. Testes de domínio/helpers e regressões passam; E2E, screenshots, responsividade visual e entendimento por participantes continuam pendentes. R10 preserva 9/98 fotos, 89 bloqueios. R17 não recebe nova validação de troca individual nesta etapa. [Relatório v2.3](RA2-V2.3-INTEGRACAO.md).

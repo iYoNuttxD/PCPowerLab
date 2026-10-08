@@ -3,6 +3,16 @@ import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js
 
 export function checkBuildCompatibility(selectedComponents) {
   const build = selectBuildComponents(selectedComponents);
+  return { ...evaluateResolvedBuildCompatibility(build), selectedComponents: build,
+    coolingPower: getCoolingPower(build), estimatedPrice: calculateBuildPrice(build) };
+}
+
+// Shared by full-build validation and catalog previews; missing inputs stay unverified.
+export function evaluateResolvedBuildCompatibility(selectedBuild) {
+  const build = { ...selectedBuild };
+  for (const slot of ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case']) {
+    if (!build[slot]) build[slot] = { specs: {} };
+  }
   const { alerts, unverifiedChecks } = checkCoolingCompatibility(build);
   validateCpuAndMotherboard(build, alerts, unverifiedChecks);
   validateRamAndMotherboard(build, alerts, unverifiedChecks);
@@ -10,8 +20,7 @@ export function checkBuildCompatibility(selectedComponents) {
   validatePsu(build, alerts, unverifiedChecks);
   validateCase(build, alerts, unverifiedChecks);
   const status = alerts.length ? 'incompatible' : unverifiedChecks.length ? 'unverified' : 'compatible';
-  return { compatible: status === 'compatible', status, alerts, unverifiedChecks,
-    selectedComponents: build, coolingPower: getCoolingPower(build), estimatedPrice: calculateBuildPrice(build) };
+  return { compatible: status === 'compatible', status, alerts, unverifiedChecks };
 }
 
 function validateCpuAndMotherboard(build, alerts, unverifiedChecks) {

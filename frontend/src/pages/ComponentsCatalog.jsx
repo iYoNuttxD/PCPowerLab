@@ -9,13 +9,22 @@ import EmptyState from '../components/ui/EmptyState.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
+import { useBuildState } from '../hooks/useBuildState.jsx';
+import { componentsService } from '../services/componentsService.js';
+import { catalogMethodology, isCatalogComponentSelected, selectCatalogComponent } from '../utils/catalogSelection.js';
+import { Link } from 'react-router-dom';
 import { useComponents } from '../hooks/useComponents.js';
 import { purchaseLinksService } from '../services/purchaseLinksService.js';
-import { emptyCatalogFilters, filterComponents, priceRangeError } from '../utils/componentPresentation.js';
+import { emptyCatalogFilters, filterComponents, priceRangeError, performanceRangeError } from '../utils/componentPresentation.js';
 import { componentLabels } from '../utils/componentLabels.js';
 
 export default function ComponentsCatalog() {
   const { components, loading, error, reload } = useComponents();
+  const build = useBuildState();
+  const hasBuild = Object.entries(build.selectedComponents).some(([key, value]) => key === 'fans' ? value?.length > 0 : Boolean(value?.id));
+  const [selectionNotice, setSelectionNotice] = useState('');
+  const [compatibility, setCompatibility] = useState({ key: '', data: {}, error: '' });
+  const [compatibilityAttempt, setCompatibilityAttempt] = useState(0);
   const [filters, setFilters] = useState(emptyCatalogFilters);
   const [comparisonIds, setComparisonIds] = useState([]);
   const [comparisonOpen, setComparisonOpen] = useState(false);
@@ -25,10 +34,28 @@ export default function ComponentsCatalog() {
   const [linksLoading, setLinksLoading] = useState(false);
   const [linksAttempt, setLinksAttempt] = useState(0);
 
-  const filteredComponents = useMemo(() => filterComponents(components, filters), [components, filters]);
+  const compatibilityRequested = hasBuild && filters.compatibility !== 'all';
+  const compatibilityKey = JSON.stringify(build.buildPayload);
+  const compatibilityReady = compatibility.key === compatibilityKey;
+  const compatibilityError = compatibilityRequested && compatibilityReady ? compatibility.error : '';
+  const compatibilityLoading = compatibilityRequested && !compatibilityReady;
+  const filteredComponents = useMemo(() => filterComponents(components, { ...filters, compatibility: hasBuild ? filters.compatibility : 'all' }, compatibilityReady ? compatibility.data : {}), [components, filters, hasBuild, compatibilityReady, compatibility.data]);
+  useEffect(() => {
+    if (!compatibilityRequested) return;
+    let active = true;
+    componentsService.getCatalogCompatibility({ components: JSON.parse(compatibilityKey) })
+      .then(results => { if (active) setCompatibility({ key: compatibilityKey, data: Object.fromEntries(results.map(item => [item.componentId, item])), error: '' }); })
+      .catch(error => { if (active) setCompatibility({ key: compatibilityKey, data: {}, error: error.message }); });
+    return () => { active = false; };
+  }, [compatibilityRequested, compatibilityKey, compatibilityAttempt]);
+  function addToBuild(component) {
+    if (selectCatalogComponent(build.selectedComponents, build.actions, component)) {
+      setSelectionNotice(`${component.name} selecionado na sua montagem${component.category === 'fan' ? ' (1 pacote)' : ''}. Análises anteriores foram invalidadas. Confira a compatibilidade no resumo.`);
+    }
+  }
   const comparedComponents = components.filter(component => comparisonIds.includes(component.id));
   const comparisonCategory = comparedComponents[0]?.category;
-  const filterError = priceRangeError(filters);
+  const filterError = priceRangeError(filters) || performanceRangeError(filters);
 
   useEffect(() => {
     if (!linksComponent) return;
@@ -54,7 +81,7 @@ export default function ComponentsCatalog() {
 
   function removeCompared(id) {
     setComparisonIds(current => current.filter(value => value !== id));
-    if (comparedComponents.length <= 1) setComparisonOpen(false);
+    if (comparedComponents.length <= 2) setComparisonOpen(false);
   }
 
   return (
@@ -66,12 +93,21 @@ export default function ComponentsCatalog() {
       </section>
 
       <div className="catalog-toolbar panel-card">
-        <ComponentFilters components={components} filters={filters} onChange={setFilters} />
+        <ComponentFilters components={components} filters={filters} onChange={setFilters} hasBuild={hasBuild} />
         <p className="analysis-note">Preços estimados da base demonstrativa, sem atualização em tempo real. Os links das lojas são buscas; confirme o modelo, o preço e a disponibilidade antes de comprar.</p>
       </div>
 
-      {!loading && !error && <div className="section-heading catalog-results">
-        <p role="status">{filterError ? 'Corrija a faixa de preço para consultar os resultados.' : `${filteredComponents.length} ${filteredComponents.length === 1 ? 'componente encontrado' : 'componentes encontrados'}`}</p>
+      <details className="panel-card catalog-methodology"><summary>Como interpretar desempenho, valor e compatibilidade</summary>
+        <p>{catalogMethodology}</p>
+        <p>A compatibilidade considera a troca desta categoria na montagem atual, ou a inclusão de 1 pacote de fans. Usa as mesmas regras do resumo. Conflitos já existentes em outras peças também afetam o resultado. Montagens parciais e especificações insuficientes ficam com verificação incompleta; mesmo compatível não certifica BIOS, QVL, folgas ou todas as condições físicas.</p>
+        <p>Selecionar substitui somente a peça da categoria. Fans já selecionados mantêm a quantidade; ajuste os pacotes no assistente. A seleção não aprova automaticamente a montagem.</p>
+      </details>
+      <p role="status">{selectionNotice}</p>
+      <Link to="/summary">Ver minha montagem e analisar compatibilidade</Link>
+      {compatibilityLoading && <LoadingSpinner label="Verificando candidatos com a montagem atual..." />}
+      {compatibilityError && <ErrorState message={compatibilityError} onRetry={() => { setCompatibility({ key: '', data: {}, error: '' }); setCompatibilityAttempt(value => value + 1); }} />}
+      {!loading && !error && !compatibilityLoading && !compatibilityError && <div className="section-heading catalog-results">
+        <p role="status">{filterError ? 'Corrija a faixa de preço ou desempenho para consultar os resultados.' : `${filteredComponents.length} ${filteredComponents.length === 1 ? 'componente encontrado' : 'componentes encontrados'}`}</p>
       </div>}
 
       {!loading && !error && <section className="panel-card catalog-compare-bar" aria-label="Peças selecionadas para comparar">
@@ -82,22 +118,22 @@ export default function ComponentsCatalog() {
         </>}
         <div className="button-row">
           <Button disabled={comparedComponents.length < 2} onClick={() => setComparisonOpen(true)}>Comparar peças ({comparedComponents.length})</Button>
-          {comparedComponents.length > 0 && <Button variant="ghost" onClick={() => setComparisonIds([])}>Limpar seleção</Button>}
+          {comparedComponents.length > 0 && <Button variant="ghost" onClick={() => { setComparisonIds([]); setComparisonOpen(false); }}>Limpar seleção</Button>}
         </div>
       </section>}
 
       {loading && <LoadingSpinner />}
       {error && <ErrorState message={error} onRetry={reload} />}
-      {!loading && !error && !filterError && filteredComponents.length === 0 && <EmptyState title="Nenhum componente encontrado" message="Tente outro nome, marca, categoria ou faixa de preço. Use Limpar filtros para ver todas as peças." />}
-      {!loading && !error && <div className="cards-grid component-grid">
+      {!loading && !error && !filterError && !compatibilityLoading && !compatibilityError && filteredComponents.length === 0 && <EmptyState title="Nenhum componente encontrado" message="Tente outro nome, marca, categoria ou faixa de preço. Use Limpar filtros para ver todas as peças." />}
+      {!loading && !error && !compatibilityLoading && !compatibilityError && <div className="cards-grid component-grid">
         {filteredComponents.map((component) => (
-          <ComponentCard key={component.id} component={component} onLinks={openLinks} onCompare={toggleComparison}
+          <ComponentCard key={component.id} component={component} compatibilityPreview={compatibilityRequested && compatibilityReady ? compatibility.data[component.id] : null} onSelect={addToBuild} selected={isCatalogComponentSelected(build.selectedComponents, component)} onLinks={openLinks} onCompare={toggleComparison}
             compared={comparisonIds.includes(component.id)} compareDisabled={!comparisonIds.includes(component.id) && (comparedComponents.length >= 4 || Boolean(comparisonCategory && comparisonCategory !== component.category))} />
         ))}
       </div>}
 
       <Modal open={comparisonOpen} title="Comparar componentes" onClose={() => setComparisonOpen(false)}>
-        <ComponentComparison components={comparedComponents} onRemove={removeCompared} />
+        <ComponentComparison components={comparedComponents} onRemove={removeCompared} onSelect={addToBuild} selectedComponents={build.selectedComponents} />
       </Modal>
 
       <Modal open={linksComponent !== null} title={`Lojas para ${linksComponent?.name || ''}`} onClose={() => setLinksComponent(null)}>

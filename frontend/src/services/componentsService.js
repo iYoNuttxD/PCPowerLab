@@ -2,6 +2,7 @@ import { api } from './api.js';
 import { buildQueryParams } from '../utils/queryParams.js';
 
 export const componentsService = {
+  getCatalogCompatibility: (payload) => api.post('/components/compatibility', payload),
   getAll: () => api.get('/components'),
   getByType: (type) => api.get(`/components?type=${encodeURIComponent(type)}`),
   getById: (id) => api.get(`/components/${encodeURIComponent(id)}`),

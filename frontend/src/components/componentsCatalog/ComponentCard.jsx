@@ -6,10 +6,11 @@ import Card from '../ui/Card.jsx';
 import Modal from '../ui/Modal.jsx';
 import { componentLabels } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
-import { formatSpecValue, specKeys, specLabel } from '../../utils/componentPresentation.js';
+import { formatSpecValue, specKeys, specLabel, catalogPerformanceScore, componentValueScore } from '../../utils/componentPresentation.js';
+import { formatCatalogScore } from '../../utils/catalogSelection.js';
 import ComponentImage from './ComponentImage.jsx';
 
-export default function ComponentCard({ component, onSelect, onLinks, onCompare, compared = false, compareDisabled = false, selected = false }) {
+export default function ComponentCard({ component, onSelect, onLinks, onCompare, compared = false, compareDisabled = false, selected = false, compatibilityPreview = null }) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const specs = component?.specs && typeof component.specs === 'object' ? component.specs : {};
   const keys = specKeys([component]);
@@ -32,6 +33,11 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
             </div>
           ))}
         </dl>
+        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}<br />Comparável apenas na mesma categoria. Veja a metodologia do catálogo.</p>}
+        {compatibilityPreview && <div className="catalog-compatibility-note">
+          <p>{compatibilityPreview.status === 'compatible' ? 'Compatível nas regras verificadas' : compatibilityPreview.status === 'incompatible' ? 'Conflito na montagem resultante' : 'Verificação incompleta'}</p>
+          {[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].length > 0 && <details><summary>Ver motivos de compatibilidade</summary><ul>{[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].map((item, index) => <li key={`${item.code}-${index}`}>{item.message}</li>)}</ul></details>}
+        </div>}
         <div className="component-card-price">
           <span>Preço estimado · base demonstrativa</span>
           <strong className="price">{formatCurrency(component?.price)}</strong>

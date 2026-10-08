@@ -76,7 +76,8 @@ test('combina marca, categoria, nome e limites inclusivos de preço; explica fai
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Intel');
   await expect(page.locator('.component-card')).toHaveCount(components.filter(component => component.brand === 'Intel').length);
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('storage');
-  await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toBeVisible();
+  await expect(page.getByRole('combobox', { name: 'Marca', exact: true })).toHaveValue('all');
+  await expect(page.locator('.component-card')).toHaveCount(components.filter(component => component.category === 'storage').length);
 });
 
 test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniza unidades', async ({ page }) => {
@@ -116,12 +117,12 @@ test('fotografia licenciada, ausência e falha de imagem mantêm fallback e card
   const fixtures = [photo, { ...photo, id: 'broken-photo', name: 'Modelo com imagem indisponível', image: { ...photo.image, componentId: 'broken-photo', imagePath: '/images/components/inexistente.jpg' } }, { ...original.ram, name: 'Memória com nome muito longo para verificar o alinhamento de informações, preços e botões sem deformar o card' }];
   await page.route('**/api/v1/components', route => ok(route, fixtures));
   await page.goto('/components');
-  const photoCard = page.locator('.component-card').first();
+  const photoCard = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: photo.name, exact: true }) });
   const image = photoCard.getByRole('img', { name: photo.image.alt });
   await expect(image).toBeVisible();
   await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true);
   await expect(photoCard.getByRole('link', { name: `Foto: ${photo.image.author}`, exact: true })).toBeVisible();
-  await page.locator('.component-card').nth(1).scrollIntoViewIfNeeded();
+  await page.locator('.component-card').filter({ has: page.getByRole('heading', { name: 'Modelo com imagem indisponível', exact: true }) }).scrollIntoViewIfNeeded();
   await expect(page.getByText('Fotografia não disponível', { exact: true })).toHaveCount(2);
   if (!isMobile) {
     const boxes = await page.locator('.component-card').evaluateAll(cards => cards.map(card => ({ top: card.getBoundingClientRect().top, height: card.getBoundingClientRect().height, price: card.querySelector('.component-card-price').getBoundingClientRect().top })));

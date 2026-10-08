@@ -2420,3 +2420,11 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .cooling-panel legend { padding: 0 .4rem; }
 .cooling-panel select { max-width: 100%; }
 .status-unverified { border-color: var(--warning, #e2b35d); }
+
+/* V2.3: comparison overflow stays inside the keyboard-focusable table region. */
+.component-comparison, .catalog-toolbar, .catalog-methodology { min-width: 0; max-width: 100%; }
+.component-comparison .analysis-table-scroll { width: 100%; min-width: 0; overscroll-behavior-x: contain; }
+.component-comparison .analysis-table-scroll:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.component-comparison-table .comparison-difference td { background: var(--panel-strong); }
+.comparison-difference-label { display: block; color: var(--cyan); font-size: 0.75rem; font-weight: 600; }
+.catalog-methodology summary, .component-comparison summary { cursor: pointer; }

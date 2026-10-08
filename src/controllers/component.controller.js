@@ -1,3 +1,4 @@
+import { previewCatalogCompatibility } from '../services/catalogCompatibilityService.js';
 import { listComponents, findComponentById } from '../services/component.service.js';
 import { ok, fail } from '../utils/api-response.js';
 
@@ -33,4 +34,11 @@ function buildListComponentsMessage(components, requestedType) {
   }
 
   return 'Nenhum componente cadastrado.';
+}
+
+export function getCatalogCompatibility(req, res, next) {
+  try {
+    return ok(res, previewCatalogCompatibility(req.body.components ?? {}, req.body.category),
+      'Previa de compatibilidade com a configuracao atual.');
+  } catch (error) { return next(error); }
 }
