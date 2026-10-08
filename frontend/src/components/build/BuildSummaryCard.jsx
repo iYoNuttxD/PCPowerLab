@@ -22,7 +22,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
               {onEdit ? (
                 <button className="build-part-edit" type="button" onClick={() => onEdit(type)}
                   aria-label={`${component ? 'Alterar' : 'Escolher'} ${componentLabels[type]}`}>
-                  {componentLabels[type]}<small>{component ? 'Alterar peça' : 'Escolher peça'}</small>
+                  {componentLabels[type]}<small>{component ? 'Trocar componente' : 'Escolher peça'}</small>
                 </button>
               ) : <span>{componentLabels[type]}</span>}
               <ComponentIdentity component={component} category={type} fallback="Não selecionado" />

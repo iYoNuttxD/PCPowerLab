@@ -2,18 +2,13 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, recommendationSelection } from '../utils/buildHelpers.js';
 import { normalizeWizardStep } from '../utils/wizardSteps.js';
 
+import { emptyResults, changeSelection, replaceBuildComponent, undoBuildReplacement, analyzedResults } from '../utils/buildTransitions.js';
+
 const storageKey = 'pcpowerlab-build-state';
 
-const emptyResults = {
-  compatibility: null,
-  alerts: null,
-  bottlenecks: null,
-  recommendation: null,
-  gamePerformance: null,
-  summary: null
-};
-
 const initialState = {
+  revision: 0,
+  replacementHistory: [],
   wizardStep: 'cpu',
   selectedComponents: { fans: [] },
   budget: {
@@ -48,28 +43,27 @@ export function BuildProvider({ children }) {
       setState((current) => ({ ...current, wizardStep: normalizeWizardStep(step) }));
     },
     selectComponent(type, component) {
-      setState((current) => current.selectedComponents[type] === component ? current : ({
-        ...current,
-        ...emptyResults,
-        selectedComponents: {
-          ...current.selectedComponents,
-          [type]: component
-        }
-      }));
+      setState(current => current.selectedComponents[type]?.id === component?.id ? current
+        : changeSelection(current, { ...current.selectedComponents, [type]: component }));
+    },
+    replaceComponent(type, component, summary, expectedRevision) {
+      setState(current => replaceBuildComponent(current, type, component, summary, expectedRevision));
+    },
+    undoReplacement() {
+      setState(undoBuildReplacement);
+    },
+    setAnalyzedSummary(summary, expectedRevision) {
+      setState(current => current.revision === expectedRevision ? { ...current, ...analyzedResults(summary) } : current);
     },
     setFans(fans) {
-      setState(current => ({ ...current, ...emptyResults, selectedComponents: { ...current.selectedComponents, fans } }));
+      setState(current => changeSelection(current, { ...current.selectedComponents, fans }));
     },
     removeComponent(type) {
-      setState((current) => {
+      setState(current => {
+        if (!current.selectedComponents[type]) return current;
         const nextComponents = { ...current.selectedComponents };
         delete nextComponents[type];
-
-        return {
-          ...current,
-          ...emptyResults,
-          selectedComponents: nextComponents
-        };
+        return changeSelection(current, nextComponents);
       });
     },
     setBudget(budget) {
@@ -78,13 +72,13 @@ export function BuildProvider({ children }) {
         const changed = Number(nextBudget.amount) !== Number(current.budget.amount)
           || nextBudget.currency !== current.budget.currency
           || nextBudget.priority !== current.budget.priority;
-        return { ...current, ...(changed ? emptyResults : {}), budget: nextBudget };
+        return { ...current, ...(changed ? { ...emptyResults, revision: current.revision + 1 } : {}), budget: nextBudget };
       });
     },
     setUsageType(usageType) {
       setState((current) => ({
         ...current,
-        ...(current.usageType !== usageType ? emptyResults : {}),
+        ...(current.usageType !== usageType ? { ...emptyResults, revision: current.revision + 1 } : {}),
         usageType
       }));
     },
@@ -92,7 +86,7 @@ export function BuildProvider({ children }) {
       setState((current) => {
         const nextGame = { ...current.game, ...game };
         const changed = Object.keys(nextGame).some(key => nextGame[key] !== current.game[key]);
-        return { ...current, game: nextGame, ...(changed ? { gamePerformance: null, summary: null } : {}) };
+        return { ...current, game: nextGame, ...(changed ? { gamePerformance: null, summary: null, revision: current.revision + 1 } : {}) };
       });
     },
     setResult(key, value) {
@@ -102,7 +96,7 @@ export function BuildProvider({ children }) {
       }));
     },
     clearBuild() {
-      setState(initialState);
+      setState(current => ({ ...initialState, revision: current.revision + 1 }));
       try {
         localStorage.removeItem(storageKey);
       } catch (_error) {
@@ -114,8 +108,7 @@ export function BuildProvider({ children }) {
       const selectedComponents = hydrateBuildComponents(components, componentMap);
 
       setState((current) => ({
-        ...current,
-        ...emptyResults,
+        ...changeSelection(current, selectedComponents, { remember: false }),
         wizardStep: 'cpu',
         selectedComponents,
         budget: savedBuild?.budget || current.budget,
@@ -123,17 +116,15 @@ export function BuildProvider({ children }) {
       }));
     },
     applyRecommendation(recommendation, { replaceCooling = false } = {}) {
-      setState((current) => ({
-        ...current,
-        ...emptyResults,
-        selectedComponents: recommendationSelection(current.selectedComponents, recommendation?.components || {}, replaceCooling),
-        recommendation: null
-      }));
+      setState(current => changeSelection(current,
+        recommendationSelection(current.selectedComponents, recommendation?.components || {}, replaceCooling)));
+
     }
   }), []);
 
   const value = useMemo(() => ({
     ...state,
+    canUndo: Boolean(state.replacementHistory?.length),
     totalPrice: calculateBuildPrice(state.selectedComponents),
     buildPayload: buildToApiPayload(state.selectedComponents),
     actions
@@ -161,7 +152,7 @@ function loadInitialState() {
     const stored = JSON.parse(localStorage.getItem(storageKey));
 
     return stored && typeof stored === 'object'
-      ? { ...initialState, ...stored, selectedComponents: hydrateBuildComponents(stored.selectedComponents || {}), wizardStep: normalizeWizardStep(stored.wizardStep) }
+      ? { ...initialState, ...stored, replacementHistory: Array.isArray(stored.replacementHistory) ? stored.replacementHistory.slice(-20).map(item => hydrateBuildComponents(item)) : [], revision: Number.isSafeInteger(stored.revision) ? stored.revision : 0, selectedComponents: hydrateBuildComponents(stored.selectedComponents || {}), wizardStep: normalizeWizardStep(stored.wizardStep) }
       : initialState;
   } catch (_error) {
     return initialState;

@@ -1,0 +1,21 @@
+// Reproducible service/state demonstration, not a browser capture or benchmark.
+import assert from 'node:assert/strict';
+import { components } from '../src/data/components.mock.js';
+import { generateBuildSummary } from '../src/services/buildSummaryService.js';
+import { buildToApiPayload } from '../frontend/src/utils/buildHelpers.js';
+import { replaceBuildComponent, undoBuildReplacement } from '../frontend/src/utils/buildTransitions.js';
+import { compareReplacementSummaries } from '../frontend/src/utils/replacementComparison.js';
+const ids = { cpu: 'cpu-ryzen-5-5600', motherboard: 'mb-b550m-aorus-elite', gpu: 'gpu-rtx-4060', ram: 'ram-kingston-fury-16gb-ddr4', storage: 'ssd-kingston-nv2-1tb', psu: 'psu-corsair-650w', case: 'case-mid-tower-airflow' };
+const selectedComponents = Object.fromEntries(Object.entries(ids).map(([type, id]) => [type, components.find(item => item.id === id)]));
+selectedComponents.fans = [];
+const state = { selectedComponents, revision: 0, budget: { amount: 4600, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' } };
+const analyze = state => generateBuildSummary({ build: buildToApiPayload(state.selectedComponents), budget: state.budget, usageType: state.usageType, ...state.game });
+const candidate = components.find(item => item.id === 'gpu-rx-7600');
+const next = replaceBuildComponent(state, 'gpu', candidate);
+const before = analyze(state), after = analyze(next);
+const committed = replaceBuildComponent(state, 'gpu', candidate, after, 0);
+const restored = undoBuildReplacement(committed);
+assert.deepEqual(restored.selectedComponents, state.selectedComponents);
+const preserved = Object.keys(ids).filter(type => type !== 'gpu');
+for (const type of preserved) assert.strictEqual(committed.selectedComponents[type], state.selectedComponents[type]);
+console.log(JSON.stringify({ evidence: 'Node services and shared state transitions only; no browser executed; prices/FPS are mock estimates', before: buildToApiPayload(state.selectedComponents), after: buildToApiPayload(committed.selectedComponents), preservedSlots: preserved, budgetPreserved: committed.budget, settings: state.game, comparison: compareReplacementSummaries(before, after, state.game), compatibility: { before: before.compatibility, after: after.compatibility }, bottlenecks: { before: before.bottlenecks, after: after.bottlenecks }, undo: { restored: buildToApiPayload(restored.selectedComponents), revision: restored.revision, analysesInvalidated: restored.summary === null } }, null, 2));

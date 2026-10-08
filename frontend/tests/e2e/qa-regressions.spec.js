@@ -144,7 +144,7 @@ test('tentar novamente uma recomendação não aumenta o orçamento e repete a c
   await expect(page.getByText('Recomendação temporariamente indisponível.', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
   await expect(page.getByRole('spinbutton', { name: 'Orçamento máximo', exact: true })).toHaveValue('5500');
-  await expect(page.getByRole('button', { name: 'Usar recomendação como build atual', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Usar recomendação inteira', exact: true })).toBeVisible();
   expect(inputs).toHaveLength(2);
   expect(inputs[1]).toEqual(inputs[0]);
 });

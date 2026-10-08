@@ -1,7 +1,8 @@
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Route, Zap } from 'lucide-react';
+import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -9,7 +10,7 @@ import Card from '../components/ui/Card.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
-import { useApiRequest } from '../hooks/useApiRequest.js';
+import { useSimulationRequest } from '../hooks/useSimulationRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
@@ -27,7 +28,6 @@ export default function UpgradeSuggestions() {
   const navigate = useNavigate();
   const build = useBuildState();
   const { components: catalogComponents } = useComponents();
-  const request = useApiRequest();
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [usageProfiles, setUsageProfiles] = useState([]);
   const [selectedUsageProfileId, setSelectedUsageProfileId] = useState('');
@@ -35,23 +35,36 @@ export default function UpgradeSuggestions() {
   const [budget, setBudget] = useState(1500);
   const [usageType, setUsageType] = useState(build.usageType);
   const [priority, setPriority] = useState('cost-benefit');
-  const [result, setResult] = useState(null);
-  const [resultComponents, setResultComponents] = useState({});
   const [roadmapBudget, setRoadmapBudget] = useState(2500);
   const [maxSteps, setMaxSteps] = useState(3);
-  const [roadmapResult, setRoadmapResult] = useState(null);
-  const [roadmapComponents, setRoadmapComponents] = useState({});
-  const [roadmapLoading, setRoadmapLoading] = useState(false);
-  const [roadmapError, setRoadmapError] = useState('');
+  const [suggestionValidation, setSuggestionValidation] = useState(null);
+  const [roadmapValidation, setRoadmapValidation] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [replacement, setReplacement] = useState(null);
+  const latestRevision = useRef(build.revision);
+  latestRevision.current = build.revision;
+  const sourceKey = JSON.stringify([build.revision, buildId, buildId ? savedBuilds.find(item => item.id === buildId)?.components : build.buildPayload]);
+  const suggestionKey = JSON.stringify([sourceKey, budget, usageType, priority]);
+  const roadmapKey = JSON.stringify([sourceKey, roadmapBudget, maxSteps, usageType, priority]);
+  const request = useSimulationRequest(suggestionKey);
+  const roadmapRequest = useSimulationRequest(roadmapKey);
+  const result = request.result?.data;
+  const resultComponents = request.result?.components || {};
+  const roadmapResult = roadmapRequest.result?.data;
+  const roadmapComponents = roadmapRequest.result?.components || {};
+  const suggestionError = (suggestionValidation?.key === suggestionKey && suggestionValidation.message) || request.error?.message;
+  const roadmapError = (roadmapValidation?.key === roadmapKey && roadmapValidation.message) || roadmapRequest.error?.message;
+  const roadmapLoading = roadmapRequest.status === 'loading';
 
   useEffect(() => {
+    let active = true;
     savedBuildsService.list()
-      .then((data) => setSavedBuilds(Array.isArray(data) ? data : []))
-      .catch(() => setSavedBuilds([]));
+      .then((data) => { if (active) setSavedBuilds(Array.isArray(data) ? data : []); })
+      .catch(() => { if (active) setSavedBuilds([]); });
 
     usageProfilesService.list()
       .then((data) => {
+        if (!active) return;
         const profiles = Array.isArray(data) ? data : [];
         setUsageProfiles(profiles);
         const pendingProfileId = consumeSelectedUsageProfile();
@@ -59,7 +72,8 @@ export default function UpgradeSuggestions() {
           applyUsageProfile(pendingProfileId, profiles);
         }
       })
-      .catch(() => setUsageProfiles([]));
+      .catch(() => { if (active) setUsageProfiles([]); });
+    return () => { active = false; };
   }, []);
 
   function applyUsageProfile(profileId, profiles = usageProfiles) {
@@ -80,9 +94,10 @@ export default function UpgradeSuggestions() {
   }
 
   async function suggest() {
+    setSuggestionValidation(null);
     const budgetError = validateBudgetAmount(budget);
     if (budgetError) {
-      request.setError(budgetError);
+      setSuggestionValidation({ key: suggestionKey, message: budgetError });
       return;
     }
 
@@ -97,16 +112,12 @@ export default function UpgradeSuggestions() {
     } else if (hasCompleteBuild(build.selectedComponents)) {
       payload.build = buildToApiPayload(build.selectedComponents);
     } else {
-      request.setError('Escolha uma build salva ou monte uma build completa antes de sugerir upgrades.');
+      setSuggestionValidation({ key: suggestionKey, message: 'Escolha uma build salva ou monte uma build completa antes de sugerir upgrades.' });
       return;
     }
 
     const sourceComponents = resolveSelectedComponents();
-    await request.run(async () => {
-      const data = await upgradeService.suggest(payload);
-      setResult(data);
-      setResultComponents(sourceComponents);
-    });
+    await request.run(async () => ({ data: await upgradeService.suggest(payload), components: sourceComponents }));
   }
 
   function resolveSelectedComponents() {
@@ -130,44 +141,40 @@ export default function UpgradeSuggestions() {
   }
 
   async function generateRoadmap() {
+    setRoadmapValidation(null);
     const budgetError = validateBudgetAmount(roadmapBudget);
     if (budgetError) {
-      setRoadmapError(budgetError);
+      setRoadmapValidation({ key: roadmapKey, message: budgetError });
       return;
     }
 
     const normalizedMaxSteps = Number(maxSteps);
     if (!Number.isFinite(normalizedMaxSteps) || normalizedMaxSteps <= 0) {
-      setRoadmapError('Informe uma quantidade de etapas maior que zero.');
+      setRoadmapValidation({ key: roadmapKey, message: 'Informe uma quantidade de etapas maior que zero.' });
       return;
     }
 
     const selectedBuild = resolveBuildPayload();
     if (!selectedBuild) {
-      setRoadmapError('Escolha uma build salva ou monte uma build completa antes de gerar o plano.');
+      setRoadmapValidation({ key: roadmapKey, message: 'Escolha uma build salva ou monte uma build completa antes de gerar o plano.' });
       return;
     }
 
-    setRoadmapError('');
-    setRoadmapLoading(true);
     const sourceComponents = resolveSelectedComponents();
-
-    try {
-      const data = await upgradeRoadmapService.generate({
+    await roadmapRequest.run(async () => ({
+      data: await upgradeRoadmapService.generate({
         build: selectedBuild,
         totalBudget: Number(roadmapBudget),
         maxSteps: normalizedMaxSteps,
         usageType,
         priority
-      });
-      setRoadmapResult(data);
-      setRoadmapComponents(sourceComponents);
-    } catch (error) {
-      setRoadmapError(error.message || 'Não foi possível gerar o plano de upgrades.');
-      setRoadmapResult(null);
-    } finally {
-      setRoadmapLoading(false);
-    }
+      }), components: sourceComponents
+    }));
+  }
+
+  function previewSuggestion(suggestion) {
+    if (!canPreviewSuggestion(suggestion, build.selectedComponents)) return;
+    setReplacement({ type: suggestion.componentType, component: suggestion.suggestedComponent, revision: build.revision });
   }
 
   return (
@@ -178,7 +185,7 @@ export default function UpgradeSuggestions() {
         <p>Use gargalos, orçamento, compatibilidade e perfil de uso para encontrar o próximo passo da build.</p>
       </section>
 
-      {request.error && <ErrorState message={request.error} />}
+      {suggestionError && <ErrorState message={suggestionError} />}
       {feedbackMessage && <Alert type="success">{feedbackMessage}</Alert>}
 
       <Card>
@@ -206,7 +213,7 @@ export default function UpgradeSuggestions() {
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: priorityLabels[value] }))} />
         </div>
-        <Button disabled={request.loading} onClick={suggest}><Zap size={18} /> Gerar sugestões</Button>
+        <Button loading={request.status === 'loading'} onClick={suggest}><Zap size={18} /> Gerar sugestões</Button>
       </Card>
 
       {result && (
@@ -214,6 +221,7 @@ export default function UpgradeSuggestions() {
           <Alert type={result.suggestions?.length ? 'success' : 'warning'} title="Resultado de upgrade">
             {result.summary}
           </Alert>
+          <Alert type="info">A prévia troca uma peça na build atual e mantém as outras escolhas. Sugestões de builds salvas serão verificadas novamente com a montagem atual; a build salva não será editada.</Alert>
           <div className="cards-grid">
             {(result.suggestions || []).map((suggestion) => (
               <Card key={`${suggestion.componentType}-${suggestion.suggestedComponent?.id}`} className="upgrade-card" as="article">
@@ -237,6 +245,8 @@ export default function UpgradeSuggestions() {
                   <small>Compatibilidade: {translateValue(suggestion.compatibilityStatus)}</small>
                 </div>
                 <div className="button-row">
+                  {canPreviewSuggestion(suggestion, build.selectedComponents) ? <Button onClick={() => previewSuggestion(suggestion)}>Pré-visualizar esta peça na build atual</Button>
+                    : <p className="hint-text">{previewUnavailableMessage(suggestion, build.selectedComponents)}</p>}
                   <Button
                     variant="ghost"
                     onClick={() => navigate('/feedback/new', {
@@ -313,6 +323,8 @@ export default function UpgradeSuggestions() {
       {roadmapResult && (
         <UpgradeRoadmap
           result={roadmapResult}
+          currentSelection={build.selectedComponents}
+          onPreview={previewSuggestion}
           onFeedback={(step) => navigate('/feedback/new', {
             state: createUpgradeFeedbackState({
               suggestion: step,
@@ -323,11 +335,22 @@ export default function UpgradeSuggestions() {
           })}
         />
       )}
+      {replacement && replacement.revision === build.revision && <ComponentReplacement
+        key={`${replacement.revision}:${replacement.type}:${replacement.component.id}`}
+        type={replacement.type} build={build} initialComponent={replacement.component}
+        onClose={() => setReplacement(null)}
+        onApply={(type, component, summary) => {
+          if (latestRevision.current !== replacement.revision) return;
+          build.actions.replaceComponent(type, component, summary, replacement.revision);
+          setReplacement(null);
+          navigate('/summary');
+        }}
+      />}
     </div>
   );
 }
 
-function UpgradeRoadmap({ result, onFeedback }) {
+function UpgradeRoadmap({ result, currentSelection, onPreview, onFeedback }) {
   const steps = Array.isArray(result.steps) ? result.steps : [];
 
   return (
@@ -354,6 +377,7 @@ function UpgradeRoadmap({ result, onFeedback }) {
           <strong>{formatCurrency(result.remainingBudget)}</strong>
         </div>
       </div>
+      {steps.length > 0 && <p>A prévia aplica somente a peça escolhida à build atual. Etapas anteriores não são aplicadas automaticamente; dependências e compatibilidade serão verificadas novamente.</p>}
 
       {steps.length === 0 ? (
         <Alert type="warning">
@@ -401,6 +425,8 @@ function UpgradeRoadmap({ result, onFeedback }) {
                   <Alert type="warning">{translateUpgradeText(step.dependencyWarning)}</Alert>
                 )}
                 <div className="button-row">
+                  {canPreviewSuggestion(step, currentSelection) ? <Button onClick={() => onPreview(step)}>Pré-visualizar esta peça na build atual</Button>
+                    : <p className="hint-text">{previewUnavailableMessage(step, currentSelection)}</p>}
                   <Button variant="ghost" onClick={() => onFeedback(step)}>
                     Avaliar recomendação
                   </Button>
@@ -412,6 +438,20 @@ function UpgradeRoadmap({ result, onFeedback }) {
       )}
     </Card>
   );
+}
+
+function canPreviewSuggestion(suggestion, currentSelection = {}) {
+  const current = currentSelection[suggestion.componentType];
+  const currentId = typeof current === 'string' ? current : current?.id;
+  return [...componentTypes, 'cooler'].includes(suggestion.componentType)
+    && Boolean(suggestion.suggestedComponent?.id) && suggestion.suggestedComponent.id !== currentId;
+}
+
+function previewUnavailableMessage(suggestion, currentSelection = {}) {
+  if (['fan', 'fans'].includes(suggestion.componentType)) return 'Ajuste packs e quantidades de ventoinhas na seção Refrigeração do assistente.';
+  const current = currentSelection[suggestion.componentType];
+  if (suggestion.suggestedComponent?.id === (typeof current === 'string' ? current : current?.id)) return 'Esta peça já está selecionada na build atual.';
+  return 'Faltam dados da peça para pré-visualizar esta sugestão.';
 }
 
 function translateUpgradeText(text = '') {

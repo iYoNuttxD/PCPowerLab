@@ -269,3 +269,36 @@ test('sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de
   await dialog.getByRole('button', { name: 'Aplicar substituição' }).click();
   expect((await getState(page)).selectedComponents).toEqual({ ...original, ram: ram32 });
 });
+
+test('v2.4 undo after reload restores previous pieces and recalculates matching analyses', async ({ page }) => {
+  await seed(page);
+  const dialog = await openReplacement(page);
+  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
+  await dialog.getByRole('button', { name: 'Aplicar substituição' }).click();
+  await page.reload();
+  await expect(page.locator('.build-summary-card')).toContainText(ram32.name);
+  await page.getByRole('button', { name: 'Desfazer última troca' }).click();
+  await expect.poll(async () => (await getState(page)).summary?.components?.ram?.id).toBe(original.ram.id);
+  const state = await getState(page);
+  expect(state.selectedComponents).toEqual(original);
+  expect(state.budget.amount).toBe(5000);
+  expect(state.revision).toBe(2);
+  expect(state.recommendation).toBeNull();
+});
+
+test('v2.4 pending technical data allow explicit single replacement without claiming compatibility', async ({ page }) => {
+  await seed(page);
+  await page.route('**/build-summary', route => ok(route, summary(route.request().postDataJSON(), {
+    compatibility: { compatible: false, status: 'unverified', alerts: [], unverifiedChecks: [{ code: 'POWER_UNKNOWN', message: 'Consumo do cooler não informado.' }] },
+    gamePerformance: { available: false, message: 'Compatibilidade não confirmada.' }
+  })));
+  const dialog = await openReplacement(page);
+  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
+  await expect(dialog.getByText('Compatibilidade não verificada', { exact: true })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeEnabled();
+  await dialog.getByRole('button', { name: 'Aplicar substituição' }).click();
+  expect((await getState(page)).selectedComponents).toEqual({ ...original, ram: ram32 });
+  expect((await getState(page)).compatibility.compatible).toBe(false);
+});

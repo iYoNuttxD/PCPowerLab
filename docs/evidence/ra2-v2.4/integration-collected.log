@@ -1,0 +1,18 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+Listing tests:
+  [desktop] › cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real
+  [desktop] › cycle2.spec.js:143:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento
+  [desktop] › cycle2.spec.js:171:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API
+  [desktop] › cycle2.spec.js:215:1 › catálogo, imagens, comparação de peças e navegação pública
+  [desktop] › cycle2.spec.js:239:1 › acesso administrativo direto, senha inválida, sessão protegida e logout
+  [tablet] › cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real
+  [tablet] › cycle2.spec.js:143:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento
+  [tablet] › cycle2.spec.js:171:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API
+  [tablet] › cycle2.spec.js:215:1 › catálogo, imagens, comparação de peças e navegação pública
+  [tablet] › cycle2.spec.js:239:1 › acesso administrativo direto, senha inválida, sessão protegida e logout
+  [mobile] › cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real
+  [mobile] › cycle2.spec.js:143:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento
+  [mobile] › cycle2.spec.js:171:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API
+  [mobile] › cycle2.spec.js:215:1 › catálogo, imagens, comparação de peças e navegação pública
+  [mobile] › cycle2.spec.js:239:1 › acesso administrativo direto, senha inválida, sessão protegida e logout
+Total: 15 tests in 1 file

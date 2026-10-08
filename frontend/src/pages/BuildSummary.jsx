@@ -54,7 +54,7 @@ export default function BuildSummary() {
   const [reportOpen, setReportOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
   const [replacement, setReplacement] = useState(null);
-  const configurationKey = JSON.stringify([build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType, build.game]);
+  const configurationKey = JSON.stringify([build.revision, build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType, build.game]);
   const latestConfiguration = useRef(configurationKey);
   const mounted = useRef(true);
   latestConfiguration.current = configurationKey;
@@ -74,6 +74,8 @@ export default function BuildSummary() {
   }, []);
 
   useEffect(() => {
+    setLoadingAction('');
+    setAnalyticsError('');
     setBuildScore(null);
     setFixSuggestions(null);
     setShare(null);
@@ -120,7 +122,7 @@ export default function BuildSummary() {
         budget: build.budget,
         usageType: build.usageType
       }));
-      setFeedback('Build salva com sucesso.');
+      if (isCurrent()) setFeedback('Build salva como nova configuração. A versão salva anteriormente foi mantida.');
     });
   }
 
@@ -137,6 +139,7 @@ export default function BuildSummary() {
         budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
         usageType: build.usageType
       });
+      if (!isCurrent()) return;
       setShare(result);
       setFeedback('Link de compartilhamento gerado.');
     });
@@ -172,7 +175,7 @@ export default function BuildSummary() {
     } catch (error) {
       if (isCurrent()) setAnalyticsError(error.message || 'Não foi possível concluir a análise solicitada.');
     } finally {
-      setLoadingAction('');
+      if (isCurrent()) setLoadingAction('');
     }
   }
 
@@ -248,8 +251,7 @@ export default function BuildSummary() {
   }
 
   function applyReplacement(type, component, summary) {
-    build.actions.selectComponent(type, component);
-    storeAnalyzedSummary(summary);
+    build.actions.replaceComponent(type, component, summary, build.revision);
     setLinksByBuild(null);
     setBuildScore(null);
     setFixSuggestions(null);
@@ -262,14 +264,29 @@ export default function BuildSummary() {
     setFeedback(`${componentLabels[type]} substituído. Compatibilidade e resumo verificados novamente; as demais escolhas foram mantidas. Recalcule a nota ou gere novos relatórios quando precisar.`);
   }
 
+  async function undoReplacement() {
+    const previous = build.replacementHistory?.at(-1);
+    if (!previous) return;
+    const revision = build.revision + 1;
+    build.actions.undoReplacement();
+    setReplacement(null);
+    if (!hasCompleteBuild(previous)) return;
+    try {
+      const summary = await recommendationService.summary({
+        build: buildToApiPayload(previous),
+        budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
+        usageType: build.usageType,
+        ...build.game
+      });
+      // The provider checks the revision even if another edit or undo happened.
+      build.actions.setAnalyzedSummary(summary, revision);
+    } catch (_error) {
+      // Invalidated results stay pending. The existing summary action can retry.
+    }
+  }
+
   function storeAnalyzedSummary(summary) {
-    build.actions.setResult('summary', summary);
-    build.actions.setResult('compatibility', summary.compatibility);
-    build.actions.setResult('alerts', summary.compatibility);
-    build.actions.setResult('bottlenecks', summary.bottlenecks);
-    build.actions.setResult('gamePerformance', summary.gamePerformance?.available === false
-      ? { ...summary.gamePerformance, status: 'unavailable' }
-      : summary.gamePerformance || null);
+    build.actions.setAnalyzedSummary(summary, build.revision);
   }
 
   function changeGame(settings) {
@@ -292,6 +309,10 @@ export default function BuildSummary() {
         <p>Consolide componentes, orçamento, compatibilidade, desempenho, gargalos e links de compra.</p>
       </section>
 
+      {build.canUndo && <Card>
+        <p>Voltar à configuração anterior preserva o orçamento. A análise será recalculada; se falhar, use Simular desempenho para tentar novamente.</p>
+        <Button variant="secondary" onClick={undoReplacement}>Desfazer última troca</Button>
+      </Card>}
       {request.error && <ErrorState message={request.error} />}
 
       <SummarySection eyebrow="Painel da build" title="Visão geral">
@@ -327,7 +348,7 @@ export default function BuildSummary() {
         <Card className="summary-actions-card">
           <div className="button-row summary-action-row">
             <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
-            <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar</Button>
+            <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar como nova configuração</Button>
             <Button variant="secondary" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Compartilhar</Button>
             <Link className="btn btn-ghost btn-md" to="/build">Voltar e editar</Link>
             <Link className="btn btn-secondary btn-md" to="/compare">Comparar build</Link>

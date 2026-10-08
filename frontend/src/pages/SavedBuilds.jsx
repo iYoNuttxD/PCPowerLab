@@ -147,10 +147,10 @@ export default function SavedBuilds() {
     });
   }
 
-  function loadIntoWizard(savedBuild) {
+  function loadIntoWizard(savedBuild, destination = '/build') {
     if (componentsLoading || componentsError) return;
     buildState.actions.loadSavedBuild(savedBuild, componentMap);
-    navigate('/build');
+    navigate(destination);
   }
 
   async function openVersions(savedBuild) {
@@ -279,6 +279,7 @@ export default function SavedBuilds() {
             </ul>
             <div className="button-row">
               <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
+              <Button variant="secondary" disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild, '/summary')}>Trocar componente nesta configuração</Button>
               <Button variant="ghost" onClick={() => setEditing(savedBuild)}><Edit3 size={18} /> Editar</Button>
               <Button variant="ghost" onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
               <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>

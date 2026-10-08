@@ -35,8 +35,8 @@ export default function PerformanceLab() {
   const [softwareId, setSoftwareId] = useState('software-adobe-premiere-pro');
   const buildComplete = hasCompleteBuild(build.selectedComponents);
   const buildPayload = buildToApiPayload(build.selectedComponents);
-  const gameRequest = useSimulationRequest(JSON.stringify([buildPayload, mode, gameId, selectedGameIds, targetResolution, qualityPreset]));
-  const softwareRequest = useSimulationRequest(JSON.stringify([buildPayload, softwareId]));
+  const gameRequest = useSimulationRequest(JSON.stringify([build.revision, buildPayload, mode, gameId, selectedGameIds, targetResolution, qualityPreset]));
+  const softwareRequest = useSimulationRequest(JSON.stringify([build.revision, buildPayload, softwareId]));
   const selectedSoftware = software.items.find(item => item.id === softwareId);
 
   useEffect(() => {

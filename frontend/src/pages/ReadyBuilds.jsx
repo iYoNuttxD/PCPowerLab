@@ -2,6 +2,8 @@ import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, Upload, Wand2 } from 'lucide-react';
+import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
+import { SuggestedPiecePicker } from '../components/recommendations/RecommendationCard.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -54,6 +56,8 @@ export default function ReadyBuilds() {
   const recommendationRequest = useApiRequest();
   const recommendationSectionRef = useRef(null);
   const consumedProfileRef = useRef(false);
+  const readyRequestSequence = useRef(0);
+  const recommendationSequence = useRef(0);
   const [selectedProfile, setSelectedProfile] = useState('all');
   const [readyBuilds, setReadyBuilds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -64,6 +68,15 @@ export default function ReadyBuilds() {
   const [usageProfiles, setUsageProfiles] = useState([]);
   const [selectedUsageProfileId, setSelectedUsageProfileId] = useState('');
   const [highlightRecommendation, setHighlightRecommendation] = useState(false);
+  const [replacement, setReplacement] = useState(null);
+  const [recommendationContext, setRecommendationContext] = useState(null);
+  const recommendationKey = JSON.stringify([buildState.revision, budgetRange]);
+  const latestRecommendationKey = useRef(recommendationKey);
+  latestRecommendationKey.current = recommendationKey;
+  const latestRevision = useRef(buildState.revision);
+  latestRevision.current = buildState.revision;
+  const latestProfile = useRef(selectedProfile);
+  latestProfile.current = selectedProfile;
 
   const componentMap = useMemo(() => (
     Object.fromEntries(components.map((component) => [component.id, component]))
@@ -73,18 +86,25 @@ export default function ReadyBuilds() {
     loadReadyBuilds(selectedProfile);
   }, [selectedProfile]);
 
+  useEffect(() => () => {
+    readyRequestSequence.current += 1;
+    recommendationSequence.current += 1;
+  }, []);
+
   async function loadReadyBuilds(profile = selectedProfile) {
+    const requestId = ++readyRequestSequence.current;
+    const isCurrent = () => requestId === readyRequestSequence.current && latestProfile.current === profile;
     setLoading(true);
     request.setError('');
 
     try {
       const filters = profile && profile !== 'all' ? { profile } : {};
       const data = await readyBuildsService.list(filters);
-      setReadyBuilds(Array.isArray(data) ? data : []);
+      if (isCurrent()) setReadyBuilds(Array.isArray(data) ? data : []);
     } catch (error) {
-      request.setError(error.message);
+      if (isCurrent()) request.setError(error.message);
     } finally {
-      setLoading(false);
+      if (isCurrent()) setLoading(false);
     }
   }
 
@@ -103,6 +123,7 @@ export default function ReadyBuilds() {
       priority: 'cost-benefit'
     });
     buildState.actions.setUsageType(readyBuild.usageProfile || buildState.usageType);
+    if (destination === '/build') buildState.actions.setWizardStep('cpu');
     setFeedback(`Build "${readyBuild.name}" aplicada como build atual.`);
 
     if (destination) {
@@ -133,6 +154,7 @@ export default function ReadyBuilds() {
   }
 
   function applyRecommendation(recommendationData, destination = '/summary') {
+    if (recommendationContext !== latestRecommendationKey.current) return;
     const selectedComponents = normalizeRecommendationComponents(recommendationData, componentMap);
 
     if (!hasAllComponents(selectedComponents)) {
@@ -169,19 +191,39 @@ export default function ReadyBuilds() {
       return;
     }
 
+    const requestId = ++recommendationSequence.current;
+    const isCurrent = () => requestId === recommendationSequence.current && latestRecommendationKey.current === recommendationKey;
+    setRecommendations([]);
+    setRecommendationContext(null);
     await recommendationRequest.run(async () => {
-      const result = await buildRecommendationService.byBudgetRange({
+      let result;
+      try { result = await buildRecommendationService.byBudgetRange({
         budgetRange: {
           min: Number(budgetRange.min),
           max: Number(budgetRange.max)
         },
         usageType: budgetRange.usageType,
         priority: budgetRange.priority
-      });
-
+      }); } catch (error) { if (isCurrent()) throw error; else return; }
+      if (!isCurrent()) return;
       setRecommendations(normalizeRecommendationList(result));
+      setRecommendationContext(recommendationKey);
       setFeedback('Recomendação por faixa de orçamento gerada com sucesso.');
     });
+  }
+
+  function updateRecommendationCriteria(changes) {
+    recommendationSequence.current += 1;
+    setRecommendations([]);
+    setRecommendationContext(null);
+    recommendationRequest.setError('');
+    setFeedback('');
+    setBudgetRange(current => ({ ...current, ...changes }));
+  }
+
+  function previewComponent(type, component) {
+    setDetailsBuild(null);
+    setReplacement({ type, component, revision: buildState.revision });
   }
 
   function applyUsageProfile(profileOrId, profiles = usageProfiles, shouldFocusRecommendation = false) {
@@ -199,11 +241,10 @@ export default function ReadyBuilds() {
     }
 
     const settings = inferUsageSettingsFromProfile(profile);
-    setBudgetRange((current) => ({
-      ...current,
+    updateRecommendationCriteria({
       usageType: settings.usageType,
       priority: settings.priority
-    }));
+    });
     setFeedback(`Perfil "${profile.name}" aplicado aos critérios da recomendação.`);
 
     if (shouldFocusRecommendation) {
@@ -263,6 +304,8 @@ export default function ReadyBuilds() {
             readyBuild={readyBuild}
             componentMap={componentMap}
             onApply={() => applyReadyBuild(readyBuild)}
+            currentSelection={buildState.selectedComponents}
+            onPreview={previewComponent}
             onDetails={() => setDetailsBuild(readyBuild)}
             onFeedback={() => openReadyBuildFeedback(readyBuild)}
           />
@@ -323,7 +366,7 @@ export default function ReadyBuilds() {
             type="number"
             min="1"
             value={budgetRange.min}
-            onChange={(event) => setBudgetRange((current) => ({ ...current, min: event.target.value }))}
+            onChange={(event) => updateRecommendationCriteria({ min: event.target.value })}
             required
           />
           <Input
@@ -331,7 +374,7 @@ export default function ReadyBuilds() {
             type="number"
             min="1"
             value={budgetRange.max}
-            onChange={(event) => setBudgetRange((current) => ({ ...current, max: event.target.value }))}
+            onChange={(event) => updateRecommendationCriteria({ max: event.target.value })}
             required
           />
           <Select
@@ -346,7 +389,7 @@ export default function ReadyBuilds() {
           <Select
             label="Tipo de uso"
             value={budgetRange.usageType}
-            onChange={(event) => setBudgetRange((current) => ({ ...current, usageType: event.target.value }))}
+            onChange={(event) => updateRecommendationCriteria({ usageType: event.target.value })}
             options={recommendationUsageTypes.map((usageType) => ({
               value: usageType,
               label: translateValue(usageType)
@@ -355,7 +398,7 @@ export default function ReadyBuilds() {
           <Select
             label="Prioridade"
             value={budgetRange.priority}
-            onChange={(event) => setBudgetRange((current) => ({ ...current, priority: event.target.value }))}
+            onChange={(event) => updateRecommendationCriteria({ priority: event.target.value })}
             options={priorityOptions.map((priority) => ({
               value: priority,
               label: priorityLabels[priority] || translateValue(priority)
@@ -375,7 +418,7 @@ export default function ReadyBuilds() {
           />
         )}
         {recommendationRequest.loading && <LoadingSpinner />}
-        {!recommendationRequest.loading && recommendations.length > 0 && (
+        {!recommendationRequest.loading && recommendationContext === recommendationKey && recommendations.length > 0 && (
           <div className="cards-grid">
             {recommendations.map((recommendation, index) => (
               <RecommendationResultCard
@@ -384,6 +427,7 @@ export default function ReadyBuilds() {
                 currentSelection={buildState.selectedComponents}
                 componentMap={componentMap}
                 onApply={() => applyRecommendation(recommendation)}
+                onPreview={previewComponent}
                 onFeedback={() => {
                   const feedbackBuild = createFeedbackBuildContext(recommendation.components || recommendation.build || recommendation, componentMap);
                   navigate('/feedback/new', {
@@ -423,15 +467,29 @@ export default function ReadyBuilds() {
             readyBuild={detailsBuild}
             componentMap={componentMap}
             onApply={() => applyReadyBuild(detailsBuild)}
+            onEdit={() => applyReadyBuild(detailsBuild, '/build')}
+            currentSelection={buildState.selectedComponents}
+            onPreview={previewComponent}
             onFeedback={() => openReadyBuildFeedback(detailsBuild)}
           />
         )}
       </Modal>
+      {replacement && replacement.revision === buildState.revision && <ComponentReplacement
+        key={`${replacement.revision}:${replacement.type}:${replacement.component.id}`}
+        type={replacement.type} build={buildState} initialComponent={replacement.component}
+        onClose={() => setReplacement(null)}
+        onApply={(type, component, summary) => {
+          if (latestRevision.current !== replacement.revision) return;
+          buildState.actions.replaceComponent(type, component, summary, replacement.revision);
+          setReplacement(null);
+          navigate('/summary');
+        }}
+      />}
     </div>
   );
 }
 
-function ReadyBuildCard({ readyBuild, componentMap, onApply, onDetails, onFeedback }) {
+function ReadyBuildCard({ readyBuild, componentMap, currentSelection, onApply, onPreview, onDetails, onFeedback }) {
   return (
     <Card as="article" className="ready-build-card">
       <div className="section-heading compact">
@@ -454,8 +512,10 @@ function ReadyBuildCard({ readyBuild, componentMap, onApply, onDetails, onFeedba
       </div>
       <ComponentPreviewList componentsInput={readyBuild.components} componentMap={componentMap} />
       <InfoList title="Limitações" items={readyBuild.limitations} emptyMessage="Nenhuma limitação informada." />
+      <SuggestedPiecePicker components={mapReadyBuildToSelectedComponents(readyBuild, componentMap)} currentComponents={currentSelection} onPreview={onPreview} />
+      <p className="hint-text">Usar a build inteira substitui a montagem atual, incluindo a refrigeração, e carrega o orçamento e o perfil desta build pronta.</p>
       <div className="button-row">
-        <Button onClick={onApply}><Upload size={18} /> Usar esta build</Button>
+        <Button variant="secondary" onClick={onApply}><Upload size={18} /> Usar build inteira</Button>
         <Button variant="ghost" onClick={onDetails}><Eye size={18} /> Ver detalhes</Button>
         <Button variant="ghost" onClick={onFeedback}>Avaliar build</Button>
       </div>
@@ -463,7 +523,7 @@ function ReadyBuildCard({ readyBuild, componentMap, onApply, onDetails, onFeedba
   );
 }
 
-function ReadyBuildDetails({ readyBuild, componentMap, onApply, onFeedback }) {
+function ReadyBuildDetails({ readyBuild, componentMap, currentSelection, onApply, onPreview, onEdit, onFeedback }) {
   return (
     <div className="page-stack">
       <p>{readyBuild.description}</p>
@@ -492,16 +552,18 @@ function ReadyBuildDetails({ readyBuild, componentMap, onApply, onFeedback }) {
       </ul>
       <InfoList title="Indicado para" items={readyBuild.recommendedFor} emptyMessage="Nenhuma indicação informada." />
       <InfoList title="Limitações" items={readyBuild.limitations} emptyMessage="Nenhuma limitação informada." />
+      <SuggestedPiecePicker components={mapReadyBuildToSelectedComponents(readyBuild, componentMap)} currentComponents={currentSelection} onPreview={onPreview} />
+      <p className="hint-text">Usar ou editar a build inteira substitui a montagem atual, incluindo a refrigeração, o orçamento e o perfil.</p>
       <div className="button-row">
-        <Button onClick={onApply}><Upload size={18} /> Usar esta build</Button>
+        <Button variant="secondary" onClick={onApply}><Upload size={18} /> Usar build inteira</Button>
         <Button variant="ghost" onClick={onFeedback}>Avaliar build</Button>
-        <Link className="btn btn-secondary btn-md" to="/build">Abrir no wizard</Link>
+        <Button variant="secondary" onClick={onEdit}>Editar build inteira no assistente</Button>
       </div>
     </div>
   );
 }
 
-function RecommendationResultCard({ recommendation, componentMap, currentSelection = {}, onApply, onFeedback }) {
+function RecommendationResultCard({ recommendation, componentMap, currentSelection = {}, onApply, onPreview, onFeedback }) {
   const components = normalizeRecommendationComponents(recommendation, componentMap);
   const totalPrice = getRecommendationPrice(recommendation);
   const preservesCooling = recommendationPreservesCooling(recommendation, currentSelection);
@@ -546,8 +608,10 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
         ))}
         <CoolingParts components={components} />
       </ul>
+      <SuggestedPiecePicker components={components} currentComponents={currentSelection} onPreview={onPreview} />
+      <p className="hint-text">Usar a recomendação inteira substitui as peças principais e usa os critérios de orçamento e perfil informados acima. A refrigeração atual é mantida quando não estiver incluída na recomendação.</p>
       <div className="button-row">
-        <Button onClick={onApply}><CheckCircle2 size={18} /> Usar recomendação como build atual</Button>
+        <Button variant="secondary" onClick={onApply}><CheckCircle2 size={18} /> Usar recomendação inteira</Button>
         <Button variant="ghost" onClick={onFeedback}>Avaliar recomendação</Button>
         <Link className="btn btn-secondary btn-md" to="/summary">Ir para resumo</Link>
       </div>

@@ -286,17 +286,17 @@ export default function Feedback() {
             <div className="section-heading compact">
               <div>
                 <h2>Continuar com esta recomendação</h2>
-                <p>Use a mesma build avaliada ou volte para o fluxo de recomendações.</p>
+                <p>Usar aplica a configuração inteira avaliada, incluindo refrigeração. Para alterar só uma peça, abra o resumo da sua montagem atual.</p>
               </div>
             </div>
             <div className="button-row">
               {hasRecommendationBuild && (
                 <>
                   <Button variant="secondary" onClick={() => useRecommendationBuild()}>
-                    <Upload size={18} /> Usar esta build
+                    <Upload size={18} /> Usar esta build inteira
                   </Button>
                   <Button onClick={() => useRecommendationBuild('/summary')}>
-                    <CheckCircle2 size={18} /> Ir para resumo
+                    <CheckCircle2 size={18} /> Usar build inteira e ir para resumo
                   </Button>
                   <Button variant="ghost" loading={savingBuild} disabled={savingBuild} onClick={saveRecommendationBuild}>
                     <Save size={18} /> Salvar build
@@ -480,13 +480,13 @@ function CentralFeedback({
                           disabled={!canUseFeedbackBuild}
                           onClick={() => onUseBuild(item)}
                         >
-                          <Upload size={18} /> Usar build do feedback
+                          <Upload size={18} /> Usar build inteira do feedback
                         </Button>
                         <Button
                           disabled={!canUseFeedbackBuild}
                           onClick={() => onUseBuild(item, '/summary')}
                         >
-                          <CheckCircle2 size={18} /> Usar e ir para resumo
+                          <CheckCircle2 size={18} /> Usar build inteira e ir para resumo
                         </Button>
                         {isApplied && <Link className="btn btn-ghost btn-md" to="/summary">Ir para resumo</Link>}
                       </>

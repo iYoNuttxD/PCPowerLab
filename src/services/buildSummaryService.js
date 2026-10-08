@@ -23,7 +23,9 @@ export function generateBuildSummary(input) {
     'Analise de gargalos indisponivel para os dados informados.'
   );
   const gamePerformance = input.gameId
-    ? runOptionalAnalysis(
+    ? compatibility.compatible !== true
+      ? { available: false, reason: compatibility.status === 'unverified' ? 'unverified_build' : 'incompatible_build', message: 'Simulação indisponível: a compatibilidade da configuração não foi confirmada. Revise os alertas e os dados técnicos pendentes.' }
+      : runOptionalAnalysis(
       () => simulateGamePerformance({
         gameId: input.gameId,
         targetResolution: input.targetResolution,

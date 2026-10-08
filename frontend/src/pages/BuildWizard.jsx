@@ -5,6 +5,7 @@ import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import CoolingPanel from '../components/build/CoolingPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
+import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import WizardNavigation from '../components/build/WizardNavigation.jsx';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
@@ -36,6 +37,7 @@ export default function BuildWizard() {
   const build = useBuildState();
   const request = useApiRequest();
   const [feedback, setFeedback] = useState(null);
+  const [replacement, setReplacement] = useState(null);
   const currentStep = build.wizardStep;
   const stepIndex = wizardSteps.indexOf(currentStep);
   const layoutRef = useRef(null);
@@ -44,7 +46,7 @@ export default function BuildWizard() {
   const previousStep = useRef(currentStep);
   const activeRequest = useRef(0);
   const pendingBottlenecks = useRef(false);
-  const configurationKey = JSON.stringify([build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType]);
+  const configurationKey = JSON.stringify([build.revision, build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType]);
   const latestConfiguration = useRef(configurationKey);
   latestConfiguration.current = configurationKey;
 
@@ -118,7 +120,7 @@ export default function BuildWizard() {
 
   useEffect(() => () => {
     activeRequest.current += 1;
-    if (pendingBottlenecks.current) build.actions.setResult('bottlenecks', null);
+    if (pendingBottlenecks.current === latestConfiguration.current) build.actions.setResult('bottlenecks', null);
   }, [build.actions]);
 
   function clearMessages() {
@@ -188,7 +190,7 @@ export default function BuildWizard() {
         return;
       }
 
-      pendingBottlenecks.current = true;
+      pendingBottlenecks.current = configurationKey;
       build.actions.setResult('bottlenecks', {
         status: 'loading',
         message: 'Analisando possíveis gargalos...',
@@ -370,10 +372,11 @@ export default function BuildWizard() {
             </Card>
             <CompatibilityStatus result={build.alerts || build.compatibility} />
             <BottleneckPanel result={build.bottlenecks} />
-            <RecommendationCard currentComponents={build.selectedComponents} recommendation={build.recommendation} onApply={(recommendation) => {
+            <RecommendationCard currentComponents={build.selectedComponents} recommendation={build.recommendation} disabled={request.loading}
+              onPreview={(type, component) => setReplacement({ type, component, revision: build.revision, configurationKey })} onApply={(recommendation) => {
               clearMessages();
               build.actions.applyRecommendation(recommendation);
-              setFeedback({ type: 'info', message: 'As peças da recomendação foram aplicadas. Execute Analisar build para conferir esta configuração.' });
+              setFeedback({ type: 'info', message: 'A recomendação inteira foi aplicada. Execute Analisar build para conferir esta configuração.' });
             }} />
           </div>
         )}
@@ -389,6 +392,17 @@ export default function BuildWizard() {
           onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
       </aside>
+      {replacement && replacement.revision === build.revision && <ComponentReplacement
+        key={`${replacement.revision}:${replacement.type}:${replacement.component.id}`}
+        type={replacement.type} build={build} initialComponent={replacement.component}
+        onClose={() => setReplacement(null)}
+        onApply={(type, component, summary) => {
+          if (latestConfiguration.current !== replacement.configurationKey) return;
+          build.actions.replaceComponent(type, component, summary, replacement.revision);
+          setReplacement(null);
+          navigate('/summary');
+        }}
+      />}
     </div>
   );
 }

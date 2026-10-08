@@ -1,0 +1,8 @@
+PASS: rendered recommendation distinguishes whole-build and individual paths, excludes unchanged parts and fan packs
+PASS: picker selection previews exactly one part; unchanged suggestions reset it; whole-build action remains separate
+PASS: ready-build preview cancels safely, applies one checked part with revision, and explicit whole-build editing retains its cooling
+PASS: wizard rejects a checked modal callback after the build revision changes
+PASS: late upgrade response is ignored after a build change; a current suggestion previews and applies only its checked part
+PASS: previewing a later roadmap step preserves the original CPU and does not apply preceding steps
+PASS: changed-and-restored budget criteria reject the obsolete recommendation response
+LIMITATION: isolated handlers and SSR do not verify DOM events, native dialogs, history, layout, focus, scrolling, or browser persistence

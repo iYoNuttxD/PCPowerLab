@@ -1,0 +1,132 @@
+{
+  "evidence": "Node services and shared state transitions only; no browser executed; prices/FPS are mock estimates",
+  "before": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rtx-4060",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow",
+    "fans": []
+  },
+  "after": {
+    "cpuId": "cpu-ryzen-5-5600",
+    "gpuId": "gpu-rx-7600",
+    "motherboardId": "mb-b550m-aorus-elite",
+    "ramId": "ram-kingston-fury-16gb-ddr4",
+    "storageId": "ssd-kingston-nv2-1tb",
+    "psuId": "psu-corsair-650w",
+    "caseId": "case-mid-tower-airflow",
+    "fans": []
+  },
+  "preservedSlots": [
+    "cpu",
+    "motherboard",
+    "ram",
+    "storage",
+    "psu",
+    "case"
+  ],
+  "budgetPreserved": {
+    "amount": 4600,
+    "currency": "BRL",
+    "priority": "cost-benefit"
+  },
+  "settings": {
+    "gameId": "game-cyberpunk-2077",
+    "targetResolution": "1080p",
+    "qualityPreset": "high"
+  },
+  "comparison": {
+    "cost": {
+      "before": 4699.3,
+      "after": 4499.3,
+      "delta": -200
+    },
+    "power": {
+      "before": 280,
+      "after": 330,
+      "delta": 50,
+      "beforeComplete": true,
+      "afterComplete": true
+    },
+    "performance": {
+      "before": 49,
+      "after": 48,
+      "delta": -1,
+      "comparable": true,
+      "percentage": -2.04,
+      "game": "Cyberpunk 2077",
+      "targetResolution": "1080p",
+      "qualityPreset": "high",
+      "reason": null
+    }
+  },
+  "compatibility": {
+    "before": {
+      "compatible": true,
+      "status": "compatible",
+      "unverifiedChecks": [],
+      "coolingPower": {
+        "knownWatts": 0,
+        "complete": true,
+        "unknownComponents": []
+      },
+      "alerts": []
+    },
+    "after": {
+      "compatible": true,
+      "status": "compatible",
+      "unverifiedChecks": [],
+      "coolingPower": {
+        "knownWatts": 0,
+        "complete": true,
+        "unknownComponents": []
+      },
+      "alerts": []
+    }
+  },
+  "bottlenecks": {
+    "before": {
+      "hasBottleneck": false,
+      "overallBalance": "balanced",
+      "bottlenecks": [],
+      "performanceSummary": {
+        "cpuScore": 70,
+        "gpuScore": 76,
+        "ramScore": 60,
+        "storageScore": 65,
+        "estimatedConsumptionWatts": 280,
+        "psuWatts": 650
+      }
+    },
+    "after": {
+      "hasBottleneck": false,
+      "overallBalance": "balanced",
+      "bottlenecks": [],
+      "performanceSummary": {
+        "cpuScore": 70,
+        "gpuScore": 72,
+        "ramScore": 60,
+        "storageScore": 65,
+        "estimatedConsumptionWatts": 330,
+        "psuWatts": 650
+      }
+    }
+  },
+  "undo": {
+    "restored": {
+      "cpuId": "cpu-ryzen-5-5600",
+      "gpuId": "gpu-rtx-4060",
+      "motherboardId": "mb-b550m-aorus-elite",
+      "ramId": "ram-kingston-fury-16gb-ddr4",
+      "storageId": "ssd-kingston-nv2-1tb",
+      "psuId": "psu-corsair-650w",
+      "caseId": "case-mid-tower-airflow",
+      "fans": []
+    },
+    "revision": 2,
+    "analysesInvalidated": true
+  }
+}

@@ -69,3 +69,11 @@ R10 continua **PARCIALMENTE IMPLEMENTADO**: 9/98 fotografias exatas licenciadas 
 ## Atualização v2.3 — 08/10/2026
 
 R15 e R16: **IMPLEMENTADO NÃO VALIDADO**. Catálogo agora combina filtros técnicos por categoria, ordenação, prévia de compatibilidade do motor compartilhado, comparação com diferenças e índices demonstrativos explicados, além de seleção integrada à montagem existente. Testes de domínio/helpers e regressões passam; E2E, screenshots, responsividade visual e entendimento por participantes continuam pendentes. R10 preserva 9/98 fotos, 89 bloqueios. R17 não recebe nova validação de troca individual nesta etapa. [Relatório v2.3](RA2-V2.3-INTEGRACAO.md).
+
+## Atualização v2.4 — 08/10/2026
+
+- R17: **IMPLEMENTADO NÃO VALIDADO**. Troca individual atômica com preservação de peças/acessórios/orçamento, prévia antes/depois, desfazer persistente e revisão contra respostas antigas; entradas no resumo, assistente, builds prontas, recomendações, salvas e upgrades. Conhecida incompatibilidade bloqueia aplicar; dados insuficientes exigem ação explícita com avisos preservados. Testes de serviços/estado e renderização disponíveis; E2E e screenshots não executados.
+- R19: **PARCIALMENTE IMPLEMENTADO**. Alternativas sugeridas podem ser aplicadas individualmente após análise da montagem atual. Continuidade do catálogo demonstrativo; nenhum novo inventário de mercado/preço ao vivo.
+- R20/R21: **PARCIALMENTE IMPLEMENTADO**. Corrigidas restauração de análise antiga, falta de desfazer e exposição de FPS pelo resumo para configuração incompatível/não verificada. Novas estimativas têm escopo e limitações explícitos; validação visual/humana permanece pendente.
+
+[Relatório v2.4](RA2-V2.4-INTEGRACAO.md) e [evidências reproduzíveis](evidence/ra2-v2.4/README.md). Demais requisitos inalterados; etapa 5 ainda não executada.
