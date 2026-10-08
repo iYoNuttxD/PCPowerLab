@@ -2,7 +2,7 @@ import globals from 'globals';
 
 export default [
   {
-    files: ['tests/**/*.js', 'playwright.config.js'],
+    files: ['tests/**/*.js', 'scripts/**/*.mjs', 'playwright*.config.js'],
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
     rules: { 'no-undef': 'error' }
   },

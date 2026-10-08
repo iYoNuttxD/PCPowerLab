@@ -22,5 +22,5 @@ export default function AnalysisHelp({ topics, title = 'Como interpretar estes r
 }
 
 export function EstimateNotice() {
-  return <p className="analysis-note"><strong>Estimativa, não medição real.</strong> Os valores vêm de um modelo com dados cadastrados. O FPS real pode variar com a cena do jogo, drivers, temperatura e processos em segundo plano; não é garantido.</p>;
+  return <p className="analysis-note"><strong>Estimativa, não medição real.</strong> Os valores vêm de um modelo com dados cadastrados. O FPS real pode variar com a cena do jogo, drivers, temperatura e processos em segundo plano; não é garantido. A simulação não substitui a verificação de compatibilidade das peças no assistente.</p>;
 }

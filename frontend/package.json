@@ -7,8 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src tests playwright.config.js",
-    "test": "playwright test"
+    "lint": "eslint src tests scripts playwright.config.js playwright.integration.config.js",
+    "test": "playwright test",
+    "test:integration": "npm run build && playwright test --config=playwright.integration.config.js"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.1.1",

@@ -13,7 +13,9 @@ export function useApiRequest() {
     } catch (requestError) {
       const message = requestError?.message || 'Não foi possível concluir a operação.';
       setError(message);
-      throw requestError;
+      // UI event handlers consume the error state. Rethrowing here would create
+      // an unhandled rejection after the failure had already been presented.
+      return undefined;
     } finally {
       setLoading(false);
     }

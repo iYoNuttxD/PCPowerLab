@@ -70,4 +70,4 @@ O resultado do axe não é certificação de acessibilidade. A validação visua
 - [Nota geral no celular](evidence/ra2-ciclo2-analises/390-score.png) · [Energia no celular](evidence/ra2-ciclo2-analises/390-energy.png) · [Ranking explicado](evidence/ra2-ciclo2-analises/390-ranking.png)
 - [Medições de layout e auditoria automática](evidence/ra2-ciclo2-analises/validation.json)
 
-Para reproduzir a suíte automatizada, consulte [frontend/README.md](../frontend/README.md#testes-do-assistente).
+Para reproduzir a suíte automatizada, consulte [frontend/README.md](../frontend/README.md#testes-de-interface).

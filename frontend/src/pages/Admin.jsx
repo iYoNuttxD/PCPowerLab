@@ -85,7 +85,8 @@ export default function Admin() {
 
   async function createRule(event) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
 
     try {
       await adminService.createRule({
@@ -98,7 +99,7 @@ export default function Admin() {
         severity: form.get('severity'),
         message: String(form.get('message')).slice(0, 220)
       });
-      event.currentTarget.reset();
+      formElement.reset();
       setFeedback('Regra cadastrada.');
       await loadAdminData();
     } catch (requestError) {
@@ -132,7 +133,8 @@ export default function Admin() {
 
   async function saveParameter(event) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const payload = {
       componentId: String(form.get('componentId')).slice(0, 80),
       type: form.get('type'),
@@ -141,7 +143,7 @@ export default function Admin() {
 
     try {
       await adminService.createParameter(payload);
-      event.currentTarget.reset();
+      formElement.reset();
       setFeedback('Parâmetro cadastrado.');
       await loadAdminData();
     } catch (requestError) {

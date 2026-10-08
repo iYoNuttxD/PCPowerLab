@@ -158,7 +158,7 @@ export default function ReadyBuilds() {
   }
 
   async function submitBudgetRecommendation(event) {
-    event.preventDefault();
+    event?.preventDefault();
     setFeedback('');
 
     const validationError = validateBudgetRange(budgetRange);
@@ -369,7 +369,7 @@ export default function ReadyBuilds() {
         {recommendationRequest.error && (
           <ErrorState
             message={recommendationRequest.error}
-            onRetry={() => setBudgetRange((current) => ({ ...current, max: Number(current.max || 0) + 500 }))}
+            onRetry={() => submitBudgetRecommendation()}
           />
         )}
         {recommendationRequest.loading && <LoadingSpinner />}

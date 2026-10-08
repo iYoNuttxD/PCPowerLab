@@ -1,0 +1,55 @@
+
+> pcpowerlab-frontend@0.1.0 test
+> playwright test qa-regressions.spec.js --project=desktop --grep tentar novamente
+
+[WebServer] (node:6397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:6399) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/qa-regressions.spec.js:131:1 › tentar novamente uma recomendação não aumenta o orçamento e repete a consulta (5.6s)
+
+
+  1) [desktop] › tests/e2e/qa-regressions.spec.js:131:1 › tentar novamente uma recomendação não aumenta o orçamento e repete a consulta
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByRole('spinbutton', { name: 'Orçamento máximo', exact: true })
+    Expected: "5500"
+    Received: "6000"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByRole('spinbutton', { name: 'Orçamento máximo', exact: true }) with timeout 5000ms
+      - waiting for getByRole('spinbutton', { name: 'Orçamento máximo', exact: true })
+        14 × locator resolved to <input min="1" id="_r_b_" required="" value="6000" type="number" aria-invalid="false"/>
+           - unexpected value "6000"
+
+
+      143 |   await expect(page.getByText('Recomendação temporariamente indisponível.', { exact: true })).toBeVisible();
+      144 |   await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
+    > 145 |   await expect(page.getByRole('spinbutton', { name: 'Orçamento máximo', exact: true })).toHaveValue('5500');
+          |                                                                                         ^
+      146 |   await expect(page.getByRole('button', { name: 'Usar recomendação como build atual', exact: true })).toBeVisible();
+      147 |   expect(inputs).toHaveLength(2);
+      148 |   expect(inputs[1]).toEqual(inputs[0]);
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:145:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/qa-regressions-tentar-nova-36f30-çamento-e-repete-a-consulta-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/qa-regressions-tentar-nova-36f30-çamento-e-repete-a-consulta-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/qa-regressions-tentar-nova-36f30-çamento-e-repete-a-consulta-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/qa-regressions-tentar-nova-36f30-çamento-e-repete-a-consulta-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [desktop] › tests/e2e/qa-regressions.spec.js:131:1 › tentar novamente uma recomendação não aumenta o orçamento e repete a consulta

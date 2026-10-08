@@ -1,0 +1,49 @@
+
+Running 1 test using 1 worker
+
+(node:8783) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/integration/cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.0s)
+
+
+  1) [desktop] › tests/integration/cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+    -   1,
+    +   2,
+        1,
+        1,
+        1,
+        1,
+      ]
+
+      134 |       return range.getClientRects().length;
+      135 |     }));
+    > 136 |     expect(scoreLines).toEqual([1, 1, 1, 1, 1]);
+          |                        ^
+      137 |     await capture(page, testInfo, 'summary-score', page.getByRole('heading', { name: 'Nota geral', exact: true }));
+      138 |   } finally {
+      139 |     if (saved?.id) expect((await request.delete(`/api/v1/saved-builds/${saved.id}`)).ok()).toBe(true);
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/integration/cycle2.spec.js:136:24
+
+    attachment #1: wizard-review (image/png) ───────────────────────────────────────────────────────
+    integration-test-results/cycle2-montagem-manual-orç-4d0e1-eração-e-lojas-com-API-real-desktop/attachments/wizard-review-3e4803deb5d82799e067f3393b05555119346e51.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: summary-game (image/png) ────────────────────────────────────────────────────────
+    integration-test-results/cycle2-montagem-manual-orç-4d0e1-eração-e-lojas-com-API-real-desktop/attachments/summary-game-cc8425fd0e6a950b6220aafe24eb7f2449bc32aa.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    integration-test-results/cycle2-montagem-manual-orç-4d0e1-eração-e-lojas-com-API-real-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: integration-test-results/cycle2-montagem-manual-orç-4d0e1-eração-e-lojas-com-API-real-desktop/error-context.md
+
+  1 failed
+    [desktop] › tests/integration/cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real

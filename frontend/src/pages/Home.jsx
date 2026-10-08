@@ -24,6 +24,7 @@ export default function Home() {
           <div className="console-screen">
             <span>CPU + GPU SYNC</span>
             <strong>98%</strong>
+            <span>Exemplo ilustrativo</span>
           </div>
           <div className="scan-lines" />
         </div>

@@ -86,13 +86,11 @@ export function BuildProvider({ children }) {
       }));
     },
     setGame(game) {
-      setState((current) => ({
-        ...current,
-        game: {
-          ...current.game,
-          ...game
-        }
-      }));
+      setState((current) => {
+        const nextGame = { ...current.game, ...game };
+        const changed = Object.keys(nextGame).some(key => nextGame[key] !== current.game[key]);
+        return { ...current, game: nextGame, ...(changed ? { gamePerformance: null, summary: null } : {}) };
+      });
     },
     setResult(key, value) {
       setState((current) => ({

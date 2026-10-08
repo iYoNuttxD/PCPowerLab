@@ -1,0 +1,191 @@
+import { test, expect } from '@playwright/test';
+import { components } from '../../../src/data/components.mock.js';
+import { readyBuilds } from '../../../src/data/readyBuilds.js';
+import { games } from '../../../src/data/games.js';
+
+const key = 'pcpowerlab-build-state';
+const ids = readyBuilds[0].components;
+const selection = Object.fromEntries(Object.entries(ids).map(([slot, id]) => [slot.replace(/Id$/, ''), components.find(part => part.id === id)]));
+const oldGame = { game: games[0].name, estimatedFps: 120, targetResolution: '1080p', qualityPreset: 'high' };
+const summary = { compatibility: { compatible: true, alerts: [] }, bottlenecks: { hasBottleneck: false }, gamePerformance: oldGame, summary: 'Resumo da configuração anterior.' };
+const failures = new WeakMap();
+const ok = (route, data) => route.fulfill({ json: { success: true, data } });
+const saved = { id: 'qa-saved', name: 'Configuração recuperável', components: ids, budget: { amount: 5000 }, usageType: 'gaming' };
+
+async function seed(page, extra = {}) {
+  await page.addInitScript(({ key, state }) => {
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(state));
+  }, { key, state: { selectedComponents: selection, budget: { amount: 5000, currency: 'BRL', priority: 'cost-benefit' }, ...extra } });
+}
+async function stored(page) { return page.evaluate(key => JSON.parse(localStorage.getItem(key)), key); }
+async function releaseResponse(page, release) {
+  const done = page.waitForResponse(response => response.url().endsWith('/build-summary'));
+  release();
+  await (await done).finished();
+  // Wait for the result's rendering turn, without a fixed sleep.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+}
+
+test.beforeEach(async ({ page }) => {
+  const errors = [];
+  failures.set(page, errors);
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route('**/api/v1/**', route => {
+    const path = new URL(route.request().url()).pathname.replace('/api/v1', '');
+    if (path === '/components') return ok(route, components);
+    if (path === '/performance/games') return ok(route, games);
+    if (path === '/build-summary') return ok(route, summary);
+    if (path === '/performance/simulate-game') return ok(route, oldGame);
+    if (path === '/purchase-links/build') return ok(route, {});
+    if (path === '/saved-builds') return ok(route, [saved]);
+    if (path === '/notifications') return ok(route, []);
+    if (path === '/ready-builds' || path === '/usage-profiles') return ok(route, []);
+    return route.fulfill({ status: 500, json: { success: false, message: `Endpoint inesperado: ${path}` } });
+  });
+});
+test.afterEach(async ({ page }) => { expect(failures.get(page)).toEqual([]); });
+
+test('alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade', async ({ page }) => {
+  await seed(page, { summary, gamePerformance: oldGame, compatibility: summary.compatibility });
+  await page.goto('/summary');
+  await expect(page.getByText('120 FPS', { exact: true })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Resolução', exact: true }).selectOption('4k');
+  await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);
+  const state = await stored(page);
+  expect(state.gamePerformance).toBeNull();
+  expect(state.summary).toBeNull();
+  expect(state.selectedComponents).toEqual(selection);
+  expect(state.compatibility.compatible).toBe(true);
+  await page.reload();
+  await expect(page.getByRole('combobox', { name: 'Resolução', exact: true })).toHaveValue('4k');
+  await expect(page.getByText('120 FPS', { exact: true })).toHaveCount(0);
+});
+
+test('resposta atrasada do resumo não restaura análises após editar uma peça em outra página', async ({ page }) => {
+  let release;
+  await seed(page);
+  await page.route('**/build-summary', async route => {
+    await new Promise(resolve => { release = resolve; });
+    await ok(route, summary);
+  });
+  await page.goto('/summary');
+  await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
+  await expect.poll(() => Boolean(release)).toBe(true);
+  await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();
+  const replacement = components.find(part => part.category === 'cpu' && part.id !== selection.cpu.id);
+  await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
+  await releaseResponse(page, release);
+  const state = await stored(page);
+  expect(state.selectedComponents.cpu.id).toBe(replacement.id);
+  expect(state.summary).toBeNull();
+  expect(state.gamePerformance).toBeNull();
+});
+
+test('resposta atrasada do resumo não publica FPS dos parâmetros anteriores', async ({ page }) => {
+  let release;
+  await seed(page);
+  await page.route('**/build-summary', async route => {
+    await new Promise(resolve => { release = resolve; });
+    await ok(route, summary);
+  });
+  await page.goto('/summary');
+  await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
+  await expect.poll(() => Boolean(release)).toBe(true);
+  await page.getByRole('combobox', { name: 'Qualidade', exact: true }).selectOption('ultra');
+  await releaseResponse(page, release);
+  await expect(page.getByText('120 FPS', { exact: true })).toHaveCount(0);
+  expect((await stored(page)).summary).toBeNull();
+});
+
+test('build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento', async ({ page }) => {
+  let release;
+  await page.route('**/api/v1/components', async route => {
+    await new Promise(resolve => { release = resolve; });
+    await ok(route, components);
+  });
+  await page.goto('/saved-builds');
+  const open = page.getByRole('button', { name: 'Abrir no wizard', exact: true });
+  await expect(open).toBeDisabled();
+  await expect(page.getByText('Carregando dados das peças salvas...', { exact: true })).toBeVisible();
+  release();
+  await expect(open).toBeEnabled();
+  await open.click();
+  const state = await stored(page);
+  expect(state.selectedComponents).toEqual(selection);
+  expect(state.budget.amount).toBe(5000);
+  await expect(page.locator('.wizard-selection')).toContainText(selection.cpu.name);
+});
+
+test('falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento', async ({ page }) => {
+  await seed(page);
+  await page.route('**/build-summary', route => route.fulfill({ status: 503, json: { success: false, message: 'Serviço temporariamente indisponível.' } }));
+  await page.goto('/summary');
+  await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
+  await expect(page.getByText('Serviço temporariamente indisponível.', { exact: true })).toBeVisible();
+  expect((await stored(page)).selectedComponents).toEqual(selection);
+  await page.unroute('**/build-summary');
+  await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
+  await expect(page.getByText('Resumo final atualizado.', { exact: true })).toBeVisible();
+});
+
+test('tentar novamente uma recomendação não aumenta o orçamento e repete a consulta', async ({ page }) => {
+  const inputs = [];
+  await page.route('**/recommendations/builds-by-budget-range', route => {
+    inputs.push(route.request().postDataJSON());
+    return inputs.length === 1
+      ? route.fulfill({ status: 503, json: { success: false, message: 'Recomendação temporariamente indisponível.' } })
+      : ok(route, [{ components: selection, totalEstimatedPrice: 4699.3 }]);
+  });
+  await page.goto('/ready-builds');
+  await page.getByRole('spinbutton', { name: 'Orçamento mínimo', exact: true }).fill('4000');
+  await page.getByRole('spinbutton', { name: 'Orçamento máximo', exact: true }).fill('5500');
+  await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
+  await expect(page.getByText('Recomendação temporariamente indisponível.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
+  await expect(page.getByRole('spinbutton', { name: 'Orçamento máximo', exact: true })).toHaveValue('5500');
+  await expect(page.getByRole('button', { name: 'Usar recomendação como build atual', exact: true })).toBeVisible();
+  expect(inputs).toHaveLength(2);
+  expect(inputs[1]).toEqual(inputs[0]);
+});
+
+test('comparação de builds invalida resultado e ignora resposta antiga ao alterar critérios', async ({ page }) => {
+  let release;
+  let attempts = 0;
+  const result = { builds: [{ name: 'Build atual', totalEstimatedPrice: 4699.3, compatible: true, performanceScore: 75 }], recommendedBuild: { name: 'Build atual', reason: 'Resultado dos critérios enviados.' } };
+  await seed(page);
+  await page.route('**/build-comparison', async route => {
+    if (++attempts === 2) await new Promise(resolve => { release = resolve; });
+    await ok(route, result);
+  });
+  await page.goto('/compare');
+  await page.getByRole('button', { name: 'Selecionar', exact: true }).click();
+  const compare = page.getByRole('button', { name: 'Comparar selecionadas', exact: true });
+  await compare.click();
+  const table = page.getByRole('region', { name: /^Comparação de builds/ });
+  await expect(table).toContainText('75');
+  await page.getByRole('combobox', { name: 'Critério', exact: true }).selectOption('performance');
+  await expect(table).toHaveCount(0);
+  await compare.click();
+  await expect.poll(() => Boolean(release)).toBe(true);
+  await page.getByRole('spinbutton', { name: 'Orçamento de referência', exact: true }).fill('4000');
+  const response = page.waitForResponse(response => response.url().endsWith('/build-comparison'));
+  release();
+  await (await response).finished();
+  await expect(compare).toBeEnabled();
+  await expect(table).toHaveCount(0);
+  await compare.click();
+  await expect(table).toContainText('75');
+});
+
+test('erro ao carregar peças salvas impede abrir com preços zerados e permite recuperar', async ({ page }) => {
+  await page.route('**/api/v1/components', route => route.fulfill({ status: 503, json: { success: false, message: 'Catálogo indisponível.' } }));
+  await page.goto('/saved-builds');
+  const open = page.getByRole('button', { name: 'Abrir no wizard', exact: true });
+  await expect(open).toBeDisabled();
+  await expect(page.getByText(/Não foi possível carregar as peças salvas/)).toBeVisible();
+  await page.unroute('**/api/v1/components');
+  await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
+  await expect(open).toBeEnabled();
+  await open.click();
+  expect((await stored(page)).selectedComponents).toEqual(selection);
+});

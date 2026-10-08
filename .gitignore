@@ -3,6 +3,8 @@ node_modules/
 .env.local
 coverage/
 frontend/test-results/
+frontend/integration-test-results/
+frontend/audit-test-results/
 frontend/playwright-report/
 dist/
 build/

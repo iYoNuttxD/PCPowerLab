@@ -235,11 +235,12 @@ function validateExistingComponents(components) {
 }
 
 function calculateTotalEstimatedPrice(components) {
-  return savedBuildRequiredComponentSlots.reduce((total, slot) => {
+  const total = savedBuildRequiredComponentSlots.reduce((total, slot) => {
     const component = findComponentById(components[slot]);
 
     return total + (Number(component?.price) || 0);
   }, 0);
+  return Number(total.toFixed(2));
 }
 
 function generateSavedBuildId() {

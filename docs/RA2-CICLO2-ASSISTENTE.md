@@ -65,4 +65,4 @@ A verificação visual foi realizada no Chrome em viewports simulados. Safari, F
 - [Análise com API real](evidence/ra2-ciclo2-assistente/1440-real-analysis.png)
 - [Medições das resoluções e auditoria automática](evidence/ra2-ciclo2-assistente/validation.json)
 
-Para reproduzir os E2E e instalar o navegador de teste, consulte [frontend/README.md](../frontend/README.md#testes-do-assistente).
+Para reproduzir os E2E e instalar o navegador de teste, consulte [frontend/README.md](../frontend/README.md#testes-de-interface).

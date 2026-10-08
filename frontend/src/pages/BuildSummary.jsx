@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
@@ -50,6 +50,18 @@ export default function BuildSummary() {
   const [reportOpen, setReportOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
   const [replacement, setReplacement] = useState(null);
+  const configurationKey = JSON.stringify([build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType, build.game]);
+  const latestConfiguration = useRef(configurationKey);
+  const mounted = useRef(true);
+  latestConfiguration.current = configurationKey;
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+
+  // Results can only describe the submitted configuration, including game settings.
+  const isCurrent = () => mounted.current && latestConfiguration.current === configurationKey;
 
   useEffect(() => {
     performanceService.listGames()
@@ -64,27 +76,18 @@ export default function BuildSummary() {
     }
 
     await request.run(async () => {
-      const [summary, gamePerformance, links] = await Promise.all([
+      const [summary, links] = await Promise.all([
         recommendationService.summary({
           build: build.buildPayload,
           budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
           usageType: build.usageType,
           ...build.game
         }),
-        performanceService.simulateGame({
-          ...build.game,
-          build: build.buildPayload
-        }).catch((error) => ({
-          status: 'unavailable',
-          message: error.status === 0
-            ? 'Não foi possível conectar ao servidor para simular desempenho.'
-            : 'Não foi possível simular desempenho com os dados atuais.'
-        })),
         purchaseLinksService.byBuild(buildToPurchaseLinksPayload(build.selectedComponents)).catch(() => null)
       ]);
 
-      build.actions.setResult('summary', summary);
-      build.actions.setResult('gamePerformance', gamePerformance);
+      if (!isCurrent()) return;
+      storeAnalyzedSummary(summary);
       setLinksByBuild(links);
       setFeedback('Resumo final atualizado.');
     });
@@ -153,7 +156,7 @@ export default function BuildSummary() {
     try {
       await action();
     } catch (error) {
-      setAnalyticsError(error.message || 'Não foi possível concluir a análise solicitada.');
+      if (isCurrent()) setAnalyticsError(error.message || 'Não foi possível concluir a análise solicitada.');
     } finally {
       setLoadingAction('');
     }
@@ -162,6 +165,7 @@ export default function BuildSummary() {
   async function calculateBuildScore() {
     await runAnalyticsAction('score', async () => {
       const result = await buildScoreService.calculate(buildAnalyticsPayload());
+      if (!isCurrent()) return;
       setBuildScore(result);
       setFeedback('Nota geral da build calculada.');
     });
@@ -170,6 +174,7 @@ export default function BuildSummary() {
   async function loadFixSuggestions() {
     await runAnalyticsAction('fixes', async () => {
       const result = await compatibilityFixService.suggest(build.selectedComponents);
+      if (!isCurrent()) return;
       setFixSuggestions(result);
       setFeedback('Sugestões de correção carregadas.');
     });
@@ -182,6 +187,7 @@ export default function BuildSummary() {
         gameIds: build.game.gameId ? [build.game.gameId] : [],
         includePurchaseLinks: true
       });
+      if (!isCurrent()) return;
       setTechnicalReport(result);
       setReportOpen(true);
       setFeedback('Relatório técnico gerado.');
@@ -195,6 +201,7 @@ export default function BuildSummary() {
         includeSummary: true,
         includePurchaseLinks: true
       });
+      if (!isCurrent()) return;
       setExportedJson(result);
       setExportOpen(true);
       setFeedback('JSON da build exportado.');
@@ -228,13 +235,7 @@ export default function BuildSummary() {
 
   function applyReplacement(type, component, summary) {
     build.actions.selectComponent(type, component);
-    build.actions.setResult('summary', summary);
-    build.actions.setResult('compatibility', summary.compatibility);
-    build.actions.setResult('alerts', summary.compatibility);
-    build.actions.setResult('bottlenecks', summary.bottlenecks);
-    build.actions.setResult('gamePerformance', summary.gamePerformance?.available === false
-      ? { status: 'unavailable', message: summary.gamePerformance.message }
-      : summary.gamePerformance || null);
+    storeAnalyzedSummary(summary);
     setLinksByBuild(null);
     setBuildScore(null);
     setFixSuggestions(null);
@@ -245,6 +246,25 @@ export default function BuildSummary() {
     request.setError('');
     setReplacement(null);
     setFeedback(`${componentLabels[type]} substituído. Compatibilidade e resumo verificados novamente; as demais escolhas foram mantidas. Recalcule a nota ou gere novos relatórios quando precisar.`);
+  }
+
+  function storeAnalyzedSummary(summary) {
+    build.actions.setResult('summary', summary);
+    build.actions.setResult('compatibility', summary.compatibility);
+    build.actions.setResult('alerts', summary.compatibility);
+    build.actions.setResult('bottlenecks', summary.bottlenecks);
+    build.actions.setResult('gamePerformance', summary.gamePerformance?.available === false
+      ? { ...summary.gamePerformance, status: 'unavailable' }
+      : summary.gamePerformance || null);
+  }
+
+  function changeGame(settings) {
+    build.actions.setGame(settings);
+    setTechnicalReport(null);
+    setExportedJson(null);
+    setFeedback('');
+    setAnalyticsError('');
+    request.setError('');
   }
 
   const compatibilityData = build.summary?.compatibility || build.compatibility || build.alerts;
@@ -394,7 +414,7 @@ export default function BuildSummary() {
             <Select
               label="Selecione um jogo para simular o desempenho"
               value={build.game.gameId}
-              onChange={(event) => build.actions.setGame({ gameId: event.target.value })}
+              onChange={(event) => changeGame({ gameId: event.target.value })}
               options={(games.length ? games : [{ id: 'game-cyberpunk-2077', name: 'Cyberpunk 2077' }]).map((game) => ({
                 value: game.id,
                 label: game.name
@@ -403,16 +423,17 @@ export default function BuildSummary() {
             <Select
               label="Resolução"
               value={build.game.targetResolution}
-              onChange={(event) => build.actions.setGame({ targetResolution: event.target.value })}
+              onChange={(event) => changeGame({ targetResolution: event.target.value })}
               options={['1080p', '1440p', '4k'].map((value) => ({ value, label: value }))}
             />
             <Select
               label="Qualidade"
               value={build.game.qualityPreset}
-              onChange={(event) => build.actions.setGame({ qualityPreset: event.target.value })}
+              onChange={(event) => changeGame({ qualityPreset: event.target.value })}
               options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: translateValue(value) }))}
             />
           </div>
+          {!build.gamePerformance && <p className="hint-text">Execute a simulação para ver uma estimativa para o jogo, a resolução e a qualidade selecionados.</p>}
           <div className="button-row">
             <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>
               Simular desempenho

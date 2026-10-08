@@ -8,7 +8,7 @@ import ErrorState from '../components/ui/ErrorState.jsx';
 import Input from '../components/ui/Input.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
-import { useApiRequest } from '../hooks/useApiRequest.js';
+import { useSimulationRequest } from '../hooks/useSimulationRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { buildComparisonService } from '../services/buildComparisonService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
@@ -20,13 +20,14 @@ import { validateBudgetAmount } from '../utils/validation.js';
 
 export default function CompareBuilds() {
   const build = useBuildState();
-  const request = useApiRequest();
+  const [validationError, setValidationError] = useState('');
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [budget, setBudget] = useState(build.budget.amount || 5000);
   const [usageType, setUsageType] = useState(build.usageType);
   const [criteria, setCriteria] = useState('cost-benefit');
-  const [comparison, setComparison] = useState(null);
+  const request = useSimulationRequest(JSON.stringify([selectedIds, budget, usageType, criteria, build.buildPayload]));
+  const comparison = request.result;
   const [loadingBuilds, setLoadingBuilds] = useState(true);
   const [buildsError, setBuildsError] = useState('');
   const [loadAttempt, setLoadAttempt] = useState(0);
@@ -47,9 +48,10 @@ export default function CompareBuilds() {
   }
 
   async function compare() {
+    setValidationError('');
     const budgetError = validateBudgetAmount(budget);
     if (budgetError) {
-      request.setError(budgetError);
+      setValidationError(budgetError);
       return;
     }
 
@@ -68,23 +70,20 @@ export default function CompareBuilds() {
     }
 
     if (selectedBuilds.length < 2) {
-      request.setError('Selecione pelo menos duas builds ou mantenha uma build atual completa.');
+      setValidationError('Selecione pelo menos duas builds ou mantenha uma build atual completa.');
       return;
     }
 
-    await request.run(async () => {
-      const result = await buildComparisonService.compare({
-        builds: selectedBuilds,
-        budget: normalizeBudgetPayload({
-          amount: budget,
-          currency: 'BRL',
-          priority: ['cost-benefit', 'performance'].includes(criteria) ? criteria : 'balanced'
-        }),
-        usageType,
-        comparisonCriteria: criteria
-      });
-      setComparison(result);
-    });
+    await request.run(() => buildComparisonService.compare({
+      builds: selectedBuilds,
+      budget: normalizeBudgetPayload({
+        amount: budget,
+        currency: 'BRL',
+        priority: ['cost-benefit', 'performance'].includes(criteria) ? criteria : 'balanced'
+      }),
+      usageType,
+      comparisonCriteria: criteria
+    }));
   }
 
   return (
@@ -95,7 +94,7 @@ export default function CompareBuilds() {
         <p>Compare preço, compatibilidade, desempenho, custo-benefício e gargalos entre duas ou mais configurações.</p>
       </section>
 
-      {request.error && <ErrorState message={request.error} />}
+      {(validationError || request.error) && <ErrorState message={validationError || request.error.message} />}
 
       <Card>
         <h2>Critérios</h2>
@@ -104,7 +103,7 @@ export default function CompareBuilds() {
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Critério" value={criteria} onChange={(event) => setCriteria(event.target.value)} options={['cost-benefit', 'performance', 'budget', 'balanced'].map((value) => ({ value, label: priorityLabels[value] || value }))} />
         </div>
-        <Button loading={request.loading} onClick={compare}>Comparar selecionadas</Button>
+        <Button loading={request.status === 'loading'} onClick={compare}>Comparar selecionadas</Button>
       </Card>
 
       {loadingBuilds && <LoadingSpinner label="Carregando builds para comparar..." />}

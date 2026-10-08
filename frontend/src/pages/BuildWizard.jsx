@@ -57,10 +57,14 @@ export default function BuildWizard() {
       : missingSlots.length === 0;
 
   const stepComponents = useMemo(() => byType[currentStep] || [], [byType, currentStep]);
+  // The wizard stores a request envelope; /build-summary returns the analysis
+  // directly. Both represent a completed analysis of the current configuration.
+  const bottlenecksComplete = build.bottlenecks?.status === 'success'
+    || (!build.bottlenecks?.status && typeof build.bottlenecks?.hasBottleneck === 'boolean' && build.bottlenecks?.available !== false);
   const completedSteps = wizardSteps.filter((step) => componentTypes.includes(step)
     ? Boolean(build.selectedComponents[step])
     : step === 'budget' ? !budgetError
-      : !missingSlots.length && !budgetError && build.bottlenecks?.status === 'success'
+      : !missingSlots.length && !budgetError && bottlenecksComplete
         && !hasCompatibilityBlockers(build.compatibility, build.alerts));
 
   const guidance = isComponentStep
@@ -132,14 +136,10 @@ export default function BuildWizard() {
     clearMessages();
     const requestId = ++activeRequest.current;
     const isCurrent = () => activeRequest.current === requestId && latestConfiguration.current === configurationKey;
-    try {
-      await request.run(async () => {
-        try { await callback(isCurrent); }
-        catch (error) { if (isCurrent()) throw error; }
-      });
-    } catch (_error) {
-      // useApiRequest already exposes the error to the accessible feedback region.
-    }
+    await request.run(async () => {
+      try { await callback(isCurrent); }
+      catch (error) { if (isCurrent()) throw error; }
+    });
   }
 
   async function runAnalysis() {

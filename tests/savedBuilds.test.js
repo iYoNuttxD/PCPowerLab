@@ -39,7 +39,7 @@ test('deve salvar uma configuração montada', () => {
   assert.equal(savedBuild.components.cpu, validSavedBuildInput.components.cpuId);
   assert.equal(savedBuild.budget.amount, 5000);
   assert.equal(savedBuild.usageType, 'gaming');
-  assert.equal(typeof savedBuild.totalEstimatedPrice, 'number');
+  assert.equal(savedBuild.totalEstimatedPrice, 4699.3);
   assert.equal(Boolean(savedBuild.createdAt), true);
   assert.equal(Boolean(savedBuild.updatedAt), true);
 });

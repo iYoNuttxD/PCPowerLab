@@ -1,0 +1,69 @@
+
+> pcpowerlab-frontend@0.1.0 test:integration
+> npm run build && playwright test --config=playwright.integration.config.js --project=desktop --grep acesso administrativo
+
+
+> pcpowerlab-frontend@0.1.0 build
+> vite build
+
+vite v7.3.3 building client environment for production...
+transforming...
+✓ 2447 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.56 kB │ gzip:   0.36 kB
+dist/assets/index-2J0l18N4.css   45.00 kB │ gzip:   8.77 kB
+dist/assets/index-Cah9FYnZ.js   795.84 kB │ gzip: 238.32 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.20s
+
+Running 1 test using 1 worker
+
+(node:6703) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/integration/cycle2.spec.js:229:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (5.7s)
+
+
+  1) [desktop] › tests/integration/cycle2.spec.js:229:1 › acesso administrativo direto, senha inválida, sessão protegida e logout
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Regra cadastrada.', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Regra cadastrada.', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Regra cadastrada.', { exact: true })
+
+
+      257 |     await page.getByLabel('Mensagem', { exact: true }).fill('Confira os sockets.');
+      258 |     createdRule = await action(page, '/compatibility-rules', () => page.getByRole('button', { name: 'Cadastrar regra', exact: true }).click());
+    > 259 |     await expect(page.getByText('Regra cadastrada.', { exact: true })).toBeVisible();
+          |                                                                        ^
+      260 |     await expect(page.getByLabel('Nome', { exact: true })).toHaveValue('');
+      261 |     await expect(page.locator('.admin-row').filter({ hasText: 'QA regra temporária' })).toBeVisible();
+      262 |   } finally {
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/integration/cycle2.spec.js:259:72
+
+    attachment #1: admin-login (image/png) ─────────────────────────────────────────────────────────
+    test-results/cycle2-acesso-administrati-13b69-a-sessão-protegida-e-logout-desktop/attachments/admin-login-6ec9cfcdee14a8860e79fb226368ff364b6e9f9e.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: admin-authenticated (image/png) ─────────────────────────────────────────────────
+    test-results/cycle2-acesso-administrati-13b69-a-sessão-protegida-e-logout-desktop/attachments/admin-authenticated-bd1489ac02614403ff78f1131588bdf581cb36a1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/cycle2-acesso-administrati-13b69-a-sessão-protegida-e-logout-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/cycle2-acesso-administrati-13b69-a-sessão-protegida-e-logout-desktop/error-context.md
+
+  1 failed
+    [desktop] › tests/integration/cycle2.spec.js:229:1 › acesso administrativo direto, senha inválida, sessão protegida e logout

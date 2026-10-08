@@ -190,6 +190,9 @@ test('substitui uma peça recomendada no resumo após verificar e preserva a mon
   await page.reload();
   await expect(page.locator('.build-summary-card')).toContainText(ram32.name);
   expect((await getState(page)).selectedComponents).toEqual(state.selectedComponents);
+  await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
+  await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
 });
 
 test('incompatibilidade impede aplicar; fechar a prévia mantém as escolhas e análises anteriores', async ({ page }) => {

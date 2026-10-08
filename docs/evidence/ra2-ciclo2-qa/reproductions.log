@@ -1,0 +1,213 @@
+
+> pcpowerlab-frontend@0.1.0 test
+> playwright test qa-regressions.spec.js --project=desktop
+
+[WebServer] (node:5720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 2 workers
+
+(node:5723) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [desktop] › tests/e2e/qa-regressions.spec.js:63:1 › resposta atrasada do resumo não restaura análises após editar uma peça em outra página (899ms)
+(node:5751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/e2e/qa-regressions.spec.js:47:1 › alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade (5.7s)
+(node:5778) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [desktop] › tests/e2e/qa-regressions.spec.js:83:1 › resposta atrasada do resumo não publica FPS dos parâmetros anteriores (5.6s)
+(node:5791) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  5 [desktop] › tests/e2e/qa-regressions.spec.js:118:1 › falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento (661ms)
+  ✘  4 [desktop] › tests/e2e/qa-regressions.spec.js:99:1 › build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento (5.5s)
+
+
+  1) [desktop] › tests/e2e/qa-regressions.spec.js:47:1 › alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('region', { name: 'Resultado da simulação individual' })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('region', { name: 'Resultado da simulação individual' }) with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Resultado da simulação individual' })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      50 |   await expect(page.getByText('120 FPS', { exact: true })).toBeVisible();
+      51 |   await page.getByRole('combobox', { name: 'Resolução', exact: true }).selectOption('4k');
+    > 52 |   await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);
+         |                                                                                         ^
+      53 |   const state = await stored(page);
+      54 |   expect(state.gamePerformance).toBeNull();
+      55 |   expect(state.summary).toBeNull();
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:52:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/qa-regressions-alterar-res-bf274-s-peças-e-a-compatibilidade-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/qa-regressions-alterar-res-bf274-s-peças-e-a-compatibilidade-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/qa-regressions-alterar-res-bf274-s-peças-e-a-compatibilidade-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/qa-regressions-alterar-res-bf274-s-peças-e-a-compatibilidade-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/qa-regressions.spec.js:63:1 › resposta atrasada do resumo não restaura análises após editar uma peça em outra página
+
+    Error: expect(received).toBeNull()
+
+    Received: {"bottlenecks": {"hasBottleneck": false}, "compatibility": {"alerts": [], "compatible": true}, "gamePerformance": {"estimatedFps": 120, "game": "Counter-Strike 2", "qualityPreset": "high", "targetResolution": "1080p"}, "summary": "Resumo da configuração anterior."}
+
+      77 |   const state = await stored(page);
+      78 |   expect(state.selectedComponents.cpu.id).toBe(replacement.id);
+    > 79 |   expect(state.summary).toBeNull();
+         |                         ^
+      80 |   expect(state.gamePerformance).toBeNull();
+      81 | });
+      82 |
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:79:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/qa-regressions-resposta-at-513fc-ar-uma-peça-em-outra-página-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/qa-regressions-resposta-at-513fc-ar-uma-peça-em-outra-página-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/qa-regressions-resposta-at-513fc-ar-uma-peça-em-outra-página-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/qa-regressions-resposta-at-513fc-ar-uma-peça-em-outra-página-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests/e2e/qa-regressions.spec.js:83:1 › resposta atrasada do resumo não publica FPS dos parâmetros anteriores
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByText('120 FPS', { exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByText('120 FPS', { exact: true }) with timeout 5000ms
+      - waiting for getByText('120 FPS', { exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      93 |   await page.getByRole('combobox', { name: 'Qualidade', exact: true }).selectOption('ultra');
+      94 |   await releaseResponse(page, release);
+    > 95 |   await expect(page.getByText('120 FPS', { exact: true })).toHaveCount(0);
+         |                                                            ^
+      96 |   expect((await stored(page)).summary).toBeNull();
+      97 | });
+      98 |
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:95:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/qa-regressions-resposta-at-f6cd1-S-dos-parâmetros-anteriores-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/qa-regressions-resposta-at-f6cd1-S-dos-parâmetros-anteriores-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/qa-regressions-resposta-at-f6cd1-S-dos-parâmetros-anteriores-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/qa-regressions-resposta-at-f6cd1-S-dos-parâmetros-anteriores-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [desktop] › tests/e2e/qa-regressions.spec.js:99:1 › build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  getByRole('button', { name: 'Abrir no wizard', exact: true })
+    Expected: disabled
+    Received: enabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeDisabled" getByRole('button', { name: 'Abrir no wizard', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Abrir no wizard', exact: true })
+        14 × locator resolved to <button class="btn btn-primary btn-md ">…</button>
+           - unexpected value "enabled"
+
+
+      105 |   await page.goto('/saved-builds');
+      106 |   const open = page.getByRole('button', { name: 'Abrir no wizard', exact: true });
+    > 107 |   await expect(open).toBeDisabled();
+          |                      ^
+      108 |   await expect(page.getByText('Carregando dados das peças salvas...', { exact: true })).toBeVisible();
+      109 |   release();
+      110 |   await expect(open).toBeEnabled();
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:107:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/qa-regressions-build-salva-19ad6-ra-nomes-preços-e-orçamento-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/qa-regressions-build-salva-19ad6-ra-nomes-preços-e-orçamento-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/qa-regressions-build-salva-19ad6-ra-nomes-preços-e-orçamento-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/qa-regressions-build-salva-19ad6-ra-nomes-preços-e-orçamento-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [desktop] › tests/e2e/qa-regressions.spec.js:118:1 › falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "Object",
+    + ]
+
+      43 |   });
+      44 | });
+    > 45 | test.afterEach(async ({ page }) => { expect(failures.get(page)).toEqual([]); });
+         |                                                                 ^
+      46 |
+      47 | test('alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade', async ({ page }) => {
+      48 |   await seed(page, { summary, gamePerformance: oldGame, compatibility: summary.compatibility });
+        at /Users/daniel/Coding/PCPowerLab/frontend/tests/e2e/qa-regressions.spec.js:45:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/qa-regressions-falha-ao-ge-8459b--de-promessa-sem-tratamento-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/qa-regressions-falha-ao-ge-8459b--de-promessa-sem-tratamento-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/qa-regressions-falha-ao-ge-8459b--de-promessa-sem-tratamento-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/qa-regressions-falha-ao-ge-8459b--de-promessa-sem-tratamento-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [desktop] › tests/e2e/qa-regressions.spec.js:47:1 › alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade
+    [desktop] › tests/e2e/qa-regressions.spec.js:63:1 › resposta atrasada do resumo não restaura análises após editar uma peça em outra página
+    [desktop] › tests/e2e/qa-regressions.spec.js:83:1 › resposta atrasada do resumo não publica FPS dos parâmetros anteriores
+    [desktop] › tests/e2e/qa-regressions.spec.js:99:1 › build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento
+    [desktop] › tests/e2e/qa-regressions.spec.js:118:1 › falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento

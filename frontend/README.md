@@ -70,6 +70,31 @@ Também inclui `tests/e2e/performance-lab.spec.js`: simulação de um jogo, comp
 
 `tests/e2e/catalog.spec.js` cobre filtros combinados, comparação de peças, imagens e fallbacks, preços estimados e substituição no resumo com prévia da API, incompatibilidade, orçamento excedido, falhas, respostas tardias e preservação da montagem. O mesmo comando executa todas as suítes em desktop e celular. Diagnóstico, fontes dos dados, implementação e limites estão em [RA2 — Catálogo e substituição de peças](../docs/RA2-CICLO2-CATALOGO.md).
 
+## Validação integrada do Ciclo 2
+
+`tests/e2e/qa-regressions.spec.js` acrescenta cenários de respostas atrasadas, invalidação de estimativas, recuperação de builds após carregar o catálogo, falhas sem rejeições não tratadas, comparação coerente e nova tentativa de recomendação sem alterar o orçamento.
+
+A suíte abaixo usa o **frontend compilado e a API Express real**, sem interceptar os endpoints, nas resoluções 1440×900, 768×1024 e 390×844:
+
+```bash
+# A partir da raiz; dependências da raiz e do frontend devem estar instaladas.
+PLAYWRIGHT_CHANNEL=chrome npm run test:integration --prefix frontend
+```
+
+Sem Chrome local, remova `PLAYWRIGHT_CHANNEL=chrome` e instale o Chromium do Playwright. A porta 3187 deve estar livre: o teste recusa reutilizar um servidor existente. O backend de teste mantém seus próprios dados em memória, usa senha administrativa aleatória temporária e encerra ao terminar. Não utiliza a senha administrativa do desenvolvedor. Traces ficam desativados nesta suíte para não registrar credenciais; capturas e anexos ficam em `frontend/integration-test-results/`, ignorado pelo Git. Não há retries.
+
+Os cinco cenários percorrem montagem manual, orçamento, compatibilidade, salvamento/recuperação, comparação, lojas, recomendações, substituição, simulações de jogos/software, upgrades, catálogo, navegação e autenticação/administração. As asserções verificam resultados e invariantes, incluindo a preservação das outras seis peças e a diferença de FPS estimado ao aumentar a resolução.
+
+Auditoria visual e axe opcional, após compilar o frontend, com uma cópia local de `axe-core` (validada com 4.14.0):
+
+```bash
+PCPOWERLAB_AXE_PATH=/caminho/axe-core/axe.min.js PLAYWRIGHT_CHANNEL=chrome node frontend/scripts/qa-visual.mjs
+```
+
+O script inicia outro backend isolado em porta temporária, verifica 48 estados/resoluções e grava capturas e `visual-a11y.json` em `frontend/audit-test-results/`. `PCPOWERLAB_QA_OUTPUT` permite escolher outra pasta, relativa à raiz. Itens de contraste `incomplete` precisam de inspeção complementar; ausência de violações automáticas não certifica acessibilidade.
+
+Parecer, achados corrigidos, evidências e roteiro com participantes: [Revisão e validação do Ciclo 2](../docs/RA2-CICLO2-REVISAO-E-VALIDACAO.md).
+
 ## Estrutura
 
 ```text
@@ -122,7 +147,7 @@ As telas atuais já consomem visualmente os endpoints das Sprints 4, 5 e 6 para 
 - `/components` catálogo com busca, filtros por categoria/marca/preço estimado, imagens opcionais, comparação de peças e links de busca em lojas.
 - `/build` wizard completo de montagem.
 - `/summary` resumo final com substituição de peças verificada pela API, compatibilidade, gargalos, simulação, orçamento, nota geral, relatório técnico, exportação JSON, sugestões de correção, salvamento e compartilhamento.
-- `/performance-lab` simulação em softwares profissionais e comparação de desempenho entre jogos.
+- `/performance-lab` simulação de um jogo, comparação entre jogos e simulação em softwares profissionais.
 - `/compare` comparação de builds.
 - `/insights` ranking de custo-benefício e CRUD de perfis personalizados de uso.
 - `/ready-builds` consulta de builds prontas e recomendação de builds completas por faixa de orçamento.
@@ -187,7 +212,7 @@ A análise principal segue esta ordem:
 3. `POST /budget`
 4. `POST /bottlenecks/analyze`, somente quando a build estiver compatível e sem alertas críticos.
 
-Quando a build é incompatível, o painel de gargalos fica indisponível e orienta o usuário a corrigir a compatibilidade antes de analisar desempenho. Quando `/bottlenecks/analyze` retorna `400` por parâmetros insuficientes, a UI trata como estado controlado, mostra a mensagem do backend e direciona para `/admin` para cadastro dos parâmetros de desempenho.
+Quando a build é incompatível, o painel de gargalos fica indisponível e orienta o usuário a corrigir a compatibilidade antes de analisar desempenho. Quando `/bottlenecks/analyze` retorna `400` por parâmetros insuficientes, a UI trata como estado controlado e mostra a mensagem do backend. O cadastro de parâmetros continua disponível ao administrador pelo acesso direto a `/admin`, protegido no backend.
 
 Para testar rapidamente:
 

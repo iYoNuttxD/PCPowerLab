@@ -37,7 +37,7 @@ const analysisTypeLabels = {
 export default function SavedBuilds() {
   const navigate = useNavigate();
   const buildState = useBuildState();
-  const { components } = useComponents();
+  const { components, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
   const request = useApiRequest();
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -146,6 +146,7 @@ export default function SavedBuilds() {
   }
 
   function loadIntoWizard(savedBuild) {
+    if (componentsLoading || componentsError) return;
     buildState.actions.loadSavedBuild(savedBuild, componentMap);
     navigate('/build');
   }
@@ -216,6 +217,8 @@ export default function SavedBuilds() {
       {request.error && <ErrorState message={request.error} onRetry={loadBuilds} />}
       {feedback && <Alert type="success">{feedback}</Alert>}
       {loading && <LoadingSpinner />}
+      {componentsLoading && <LoadingSpinner label="Carregando dados das peças salvas..." />}
+      {componentsError && <ErrorState message={`Não foi possível carregar as peças salvas. ${componentsError}`} onRetry={reloadComponents} />}
       {!loading && !request.error && savedBuilds.length === 0 && <EmptyState title="Nenhuma build salva" message="Salve uma configuração no assistente ou no resumo final.">
         <Link className="btn btn-primary btn-md" to="/build">Montar meu PC</Link>
       </EmptyState>}
@@ -261,7 +264,7 @@ export default function SavedBuilds() {
               ))}
             </ul>
             <div className="button-row">
-              <Button onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
+              <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
               <Button variant="ghost" onClick={() => setEditing(savedBuild)}><Edit3 size={18} /> Editar</Button>
               <Button variant="ghost" onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
               <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>
