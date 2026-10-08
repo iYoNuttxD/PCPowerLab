@@ -30,7 +30,10 @@ async function navigation(page, group, href) {
   if (await menu.isVisible()) await menu.click();
   if (group) await page.locator(`#nav-toggle-${group}`).click();
   await page.locator(`header a[href="${href}"]`).click();
-  await expect(page).toHaveURL(new RegExp(`${href}$`));
+  // Current-source navigation is canonicalized so Back/Forward cannot silently
+  // resume a different saved source. Require the exact query, not any query.
+  const expectedHref = href === '/upgrades' ? '/upgrades?source=current' : href;
+  await expect(page).toHaveURL(url => `${url.pathname}${url.search}${url.hash}` === expectedHref);
   await expect(page.locator('main h1')).toBeFocused();
 }
 async function step(page, label) {
@@ -168,7 +171,21 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   expect(recommendation.totalEstimatedPrice).toBeLessThanOrEqual(original.budget.amount);
   expect(Object.keys(recommendation.components).sort()).toEqual([...types].sort());
   await page.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
-  expect((await state(page)).selectedComponents).toEqual({ ...recommendation.components, fans: recommendation.components.fans || [] });
+  const applied = (await state(page)).selectedComponents;
+  const expectedRecommended = Object.fromEntries(types.map(type => {
+    const recommended = recommendation.components[type];
+    const current = catalog.find(part => part.id === recommended.id);
+    expect(current?.category).toBe(type);
+    // The recommendation omits the catalog's top-level score; applying it
+    // hydrates that score by exact ID. Keep every other recommended field strict.
+    expect(applied[type].performanceScore).toBe(current.performanceScore);
+    if (['cpu', 'gpu', 'ram', 'storage'].includes(type)) {
+      expect(current.performanceScore).toBeGreaterThanOrEqual(0);
+      expect(current.performanceScore).toBeLessThanOrEqual(100);
+    } else expect(current.performanceScore).toBeNull();
+    return [type, { ...recommended, performanceScore: current.performanceScore }];
+  }));
+  expect(applied).toEqual({ ...expectedRecommended, fans: recommendation.components.fans || [] });
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
   expect((await state(page)).compatibility.compatible).toBe(true);

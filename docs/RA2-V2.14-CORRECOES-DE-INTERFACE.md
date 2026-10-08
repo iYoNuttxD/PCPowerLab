@@ -41,3 +41,13 @@ Testes Node, lint, renderização de servidor e build são apoio técnico; não 
 A última checagem técnica passou em 666 testes Node, ambos os lints, 14 verificadores de fonte/SSR e build. Foram coletados 220 casos E2E e 18 de integração; coleta não é execução. A auditoria de imagens mantém 97/97 componentes ativos verificados.
 
 O reteste visual e as suítes completas no navegador precisam ser executados no novo commit publicado. Critérios: remover o desnível de 24 px, igualar a geometria dos controles, manter opções legíveis em 320 px, preservar o resumo, alinhar campos com erros de orçamento, manter os pesos legíveis, associar o erro de etapas ao campo e recuperar o foco nos dois sentidos do breakpoint. Sem merge ou deploy.
+
+## Execução real em `67c32efd`
+
+- E2E: 219 aprovações, zero falhas e um teste ignorado
+- Integração: 14 aprovações e quatro falhas de asserções desatualizadas, agora corrigidas no teste
+- Três falhas comparavam a recomendação sem o `performanceScore` de catálogo que a aplicação acrescenta por ID. A expectativa preserva todos os campos e valida o score contra a resposta independente do catálogo, incluindo valores nulos nas categorias sem score
+- Uma falha esperava a URL sem a origem canônica `?source=current`. A nova asserção exige essa origem exata; não aceita consultas arbitrárias
+- A reinspeção visual dos pesos de perfil confirmou controles uniformes e texto legível nas cinco larguras. A aceitação visual das demais rotas ainda estava em andamento ao registrar esta atualização
+
+Esta continuação altera somente asserções de integração e documentação. A execução da integração no novo SHA continua necessária.
