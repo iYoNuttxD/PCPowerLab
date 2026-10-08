@@ -74,6 +74,10 @@ test('shared verdict visibly qualifies core compatibility while preserving expli
   assert.match(gpuPending, /<strong>Espaço da placa de vídeo não verificado<\/strong>/);
   assert.match(gpuPending, /Confirme o espaço disponível/);
   assert.doesNotMatch(gpuPending, /CASE GPU LENGTH UNVERIFIED/);
+  const connectorsPending = render(ui.CompatibilityStatus, { result: { compatible: false, status: 'unverified', unverifiedChecks: [{ code: 'GPU_POWER_CONNECTORS_UNVERIFIED', message: 'Confirme os conectores de energia necessários para a placa de vídeo.' }] } });
+  assert.match(connectorsPending, /<strong>Conectores de energia da placa de vídeo a confirmar<\/strong>/);
+  assert.match(connectorsPending, /Confirme os conectores de energia necessários/);
+  assert.doesNotMatch(connectorsPending, /GPU POWER CONNECTORS UNVERIFIED/);
   assert.doesNotMatch(html, /Build compatível|>OK</);
   const failed = render(ui.CompatibilityStatus, { result: { ...compatible, compatible: false, status: 'incompatible', alerts: [{ code: 'COOLER_TOO_TALL', message: 'Cooler ultrapassa o gabinete', severity: 'high' }] } });
   assert.match(failed, /incompatibilidades encontradas/);

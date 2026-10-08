@@ -155,6 +155,7 @@ export const issueCodeLabels = {
   STORAGE_INTERFACE_INCOMPATIBLE: 'Interface de armazenamento incompatível',
   PSU_POWER_BELOW_RECOMMENDED: 'Fonte abaixo do recomendado',
   CASE_MOTHERBOARD_FORM_FACTOR_INCOMPATIBLE: 'Gabinete incompatível com placa-mãe',
+  GPU_POWER_CONNECTORS_UNVERIFIED: 'Conectores de energia da placa de vídeo a confirmar',
   CASE_GPU_LENGTH_UNVERIFIED: 'Espaço da placa de vídeo não verificado',
   CASE_GPU_LENGTH_INCOMPATIBLE: 'Placa de vídeo grande para o gabinete',
   REQUIRED_COMPONENT_MISSING: 'Componente obrigatório ausente',
