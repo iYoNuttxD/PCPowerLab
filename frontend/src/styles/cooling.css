@@ -36,7 +36,7 @@
 .cooling-temperature-label small { color: var(--muted); }
 .cooling-temperature-track { position: relative; background: var(--border); height: 14px; border-radius: 5px; margin-top: .4rem; overflow: hidden; }
 .cooling-temperature-band { position: absolute; top: 0; bottom: 0; background: var(--cyan); opacity: .65; }
-.cooling-temperature-central { position: absolute; width: 3px; top: 0; bottom: 0; background: var(--text); transform: translateX(-100%); }
+.cooling-temperature-central { position: absolute; left: clamp(5px, var(--cooling-central-position), 100%); width: 5px; top: 0; bottom: 0; box-sizing: border-box; background: var(--bg); border-inline: 1px solid var(--text); transform: translateX(-100%); }
 .cooling-limit-warning { color: var(--yellow); line-height: 1.5; }
 .cooling-simulation-notice { color: var(--muted); line-height: 1.5; }
 .cooling-noise-result { display: grid; gap: .5rem; border-top: 1px solid var(--border); padding-top: .85rem; }

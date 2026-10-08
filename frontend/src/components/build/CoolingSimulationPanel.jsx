@@ -74,7 +74,7 @@ export default function CoolingSimulationPanel({ cpu, cooler, fans = [], caseCom
               <div className="cooling-temperature-label"><span>{labels[band.id] || band.id}<small>{Math.round(band.heatWatts)} W</small></span><strong>{temperatureText(band, limit)}</strong></div>
               <div className="cooling-temperature-track" aria-hidden="true">
                 <span className="cooling-temperature-band" style={{ left: `${low / axisMax * 100}%`, width: `${Math.max(0, high - low) / axisMax * 100}%` }} />
-                <span className="cooling-temperature-central" style={{ left: `${middle / axisMax * 100}%` }} />
+                <span className="cooling-temperature-central" style={{ '--cooling-central-position': `${middle / axisMax * 100}%` }} />
               </div>
               {band.centralReachesLimit && <small className="cooling-limit-warning">O cenário central atinge ou ultrapassa o limite térmico.</small>}
             </li>;
