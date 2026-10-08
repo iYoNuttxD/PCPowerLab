@@ -1588,3 +1588,10 @@ A evidência de benchmark revisada precisa incluir `componentIdentity`, hash da 
 O catálogo ativo contém 81 produtos e 81 observações manuais datadas elegíveis: 33 KaBuM, 33 Terabyte, 14 Pichau e 1 Amazon. A disponibilidade foi observada no momento registrado; não há API de preço/estoque ao vivo. SKU, vendedor, pagamento, horário e fonte acompanham a referência. Total de checkout, frete e menor preço de mercado não foram estabelecidos. As 117 identidades legadas permanecem preservadas; referências antigas não se tornam preços atuais e seleções salvas não são substituídas automaticamente.
 
 As contagens anteriores neste documento são históricas. Fotografias dos 81 ativos dividem-se em 71 de modelo exato e 10 de família visual; metadados estruturais não certificam SKU ou direito de reutilização. Os novos contratos de cenário térmico/acústico e compatibilidade posicional serão consolidados após conferência da fonte final; até lá, não interpretar pontuação sintética nem socket compatível como comprovação térmica ou de encaixe.
+
+
+## Limites térmicos e de refrigeração — fechamento ef7f / ac27
+
+`coolingAssessment` é distinto da compatibilidade principal e mantém `status`, `scope`, `alerts` e `unverifiedChecks`; desconhecido não significa aprovado. [Contrato completo](COOLING-COMPATIBILITY-SCOPE.md). Socket compatível não certifica posição/espessura/folga de gabinete nem adequação térmica.
+
+O cenário térmico/acústico é aproximado e baseado em hipóteses; não é benchmark ou medição de hardware. Fans extras participam de ruído estimado, consumo conhecido, custo e encaixe, mas **não alteram a temperatura** neste modelo. O acoplamento térmico adicional foi adiado. Scores sintéticos não habilitam automaticamente FPS/software/gargalos.

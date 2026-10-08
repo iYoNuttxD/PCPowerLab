@@ -1,6 +1,22 @@
-# PCPowerLab — auditoria final independente RA2 V2.9
+# PCPowerLab — relatório final e estado atual
 
-> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+## Resultado atual — ef7f / ac27, 08/10/2026 UTC
+
+**Não foram atendidos integralmente todos os pedidos originais.** A implementação técnica foi entregue com testes reais: ef7f teve **267 E2E aprovados, 1 skip, zero falhas e 18 integrações aprovadas**; 933 Node, 16 checks fonte/handlers/SSR e lints/build passaram. O delta ac27 de perfil/nome completo teve inspeção focal em cinco larguras. Foram executados 15 casos preparados e três jornadas técnicas, sem participantes reais.
+
+A auditoria de 14 estados renderizados não confirmou falha de texto em 478 amostras enabled confiáveis (mínimo 7,08:1); 50 amostras ficaram inconclusivas. Foco visual integral, todos os estados disabled e zoom real de 200% continuam **NÃO VERIFICADOS**. O marcador térmico apresentou falha confirmada, foi corrigido em 2707 e passou no reteste focal renderizado (7,28:1 e 8,36:1). Limites materiais: **71 fotos exatas + 10 de família**, preços manuais datados em vez de API ao vivo, ausência de pesquisa real/retenção/monetização e de benchmark físico. Fans extras afetam ruído estimado/consumo/custo/encaixe, não temperatura. **NÃO HOMOLOGADA integralmente**, sem alterar critérios para aprovar.
+
+- [Matriz atual R01–R22](RA2-V2-REQUISITOS.md#matriz-atual--ef7f--ac27-08102026-utc)
+- [Consolidação atual, SHAs, três grupos UI/UX e limites](RA2-CONSOLIDACAO-FINAL.md)
+- [Testes históricos e atuais separados por fonte](RA2-V2-REGISTRO-TESTES.md)
+
+## Histórico preservado — auditoria v2.9
+
+**O relatório abaixo pertence à v2.9 e não descreve o catálogo ou a execução atuais.** Seus 9/98 ativos fotografados, zero casos de navegador executados e demais bloqueios são resultados daquela etapa. A informação atual está acima e na consolidação; os resultados históricos não foram apagados nem transformados em sucesso.
+
+### Registro original — auditoria final independente RA2 V2.9
+
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Resultados reais posteriores estão na consolidação: ef7f com 267 E2E aprovados/1 skip e 18 integrações aprovadas; delta ac27 conferido em cinco larguras. Revisão visual/cores/zoom ainda pendente; **NÃO HOMOLOGADA integralmente**.
 
 > Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
 
@@ -147,3 +163,10 @@ O SHA de um commit não pode ser gravado como seu próprio conteúdo. `checkedSo
 **Não feito:** fotos 100%, browser/E2E/capturas atuais, aprovação humana/visual, cotações reais, certificação física, persistência durável/produção, retenção/receita, merge e deploy.
 
 **Pendente:** dependências acima e revisão do responsável. **NÃO HOMOLOGADA**, sem aprovação automática e sem merge. Os testes aprovados sustentam continuidade de desenvolvimento; não substituem os requisitos obrigatórios incompletos.
+
+
+## Fechamento técnico posterior — ef7f / ac27, 08/10/2026
+
+A [consolidação atual](RA2-CONSOLIDACAO-FINAL.md) separa a execução completa ef7f (267 E2E aprovados, 1 skip, zero falhas; 18 integrações aprovadas) da revisão focal ac27 (rótulo de perfil, nome longo e cinco larguras). São também 15 casos preparados e três jornadas técnicas, não participantes reais. A revisão visual final, estados de cor/contraste e zoom 200% permanecem pendentes.
+
+Os três grupos de UI/UX solicitados estão mapeados a evidência e limites na consolidação. Critérios históricos não foram reescritos. Dez fotografias são de família, preços são observações manuais datadas, e pesquisa real/retenção/monetização não foram realizadas. Fans extras não alteram temperatura no modelo atual. Nenhum resultado implica atendimento integral de 100% dos pedidos originais.

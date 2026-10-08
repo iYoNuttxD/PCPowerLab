@@ -70,6 +70,10 @@ test('shared verdict visibly qualifies core compatibility while preserving expli
   assert.match(html, /Peças principais compatíveis/);
   assert.match(html, /Refrigeração não verificada/);
   assert.match(html, /status-unverified/);
+  const gpuPending = render(ui.CompatibilityStatus, { result: { compatible: false, status: 'unverified', unverifiedChecks: [{ code: 'CASE_GPU_LENGTH_UNVERIFIED', message: 'Confirme o espaço disponível para a placa de vídeo.' }] } });
+  assert.match(gpuPending, /<strong>Espaço da placa de vídeo não verificado<\/strong>/);
+  assert.match(gpuPending, /Confirme o espaço disponível/);
+  assert.doesNotMatch(gpuPending, /CASE GPU LENGTH UNVERIFIED/);
   assert.doesNotMatch(html, /Build compatível|>OK</);
   const failed = render(ui.CompatibilityStatus, { result: { ...compatible, compatible: false, status: 'incompatible', alerts: [{ code: 'COOLER_TOO_TALL', message: 'Cooler ultrapassa o gabinete', severity: 'high' }] } });
   assert.match(failed, /incompatibilidades encontradas/);

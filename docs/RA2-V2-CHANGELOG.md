@@ -71,3 +71,24 @@ Após autorização do usuário, oito lacunas de score recebem coeficientes inve
 - Moved the selection-stage temperature/noise panel to Summary, with a direct review link; retained the Performance analysis task and local scenario state.
 - Focused Cancel after opening saved-build deletion dialogs.
 - Reconciled verified browser fixture/locator changes without removing outcome assertions or adding skips. Browser and visual acceptance of the new revision is pending.
+
+
+### Reteste posterior ef7f e delta ac27 — 08/10/2026
+
+- ef7f: 933 testes Node, 16 checks fonte/handlers/SSR, lints/build e auditoria de 81 imagens aprovados; navegador real com 267 E2E aprovados, 1 skip e 18 integrações aprovadas
+- ac27: perfil curto “Sem perfil” e nome completo opcional; checagens focadas e inspeção nas cinco larguras, incluindo nome longo, aprovadas
+- Executados 15 casos preparados e três jornadas técnicas; não equivalem a participantes reais
+- Consolidação visual/cores/zoom 200% pendente; não declarada homologação integral
+- Fans extras não influenciam temperatura; acoplamento térmico adicional adiado
+
+
+### Correção pontual 2707 — marcador térmico
+
+Falha renderizada de contraste 2,37:1 confirmada no marcador sobre a faixa. Núcleo/borda corrigidos sem alterar gráfico/modelo, com regressão e 935 Node aprovados, lint/build aprovados. Contrastes calculados posteriores de 7,30:1 e 8,36:1; reteste focal renderizado aprovado em 2707. Auditoria de texto não equivale a WCAG ou aprovação de foco/disabled/zoom.
+
+
+### Fechamento: reteste 2707 e rótulos
+
+- Reteste renderizado do marcador aprovado: 7,28:1 núcleo/faixa e 8,36:1 borda/trilha; dados, posições e estado preservados
+- Traduzidos título de folga da GPU e rótulos de potência máxima em turbo/cooler incluído; 13 testes focados linguagem/SSR, lint/build aprovados; conferência focal de navegador do delta pendente
+- Foco integral, todos os disabled, zoom real 200%, pesquisa humana e demais limites permanecem explícitos

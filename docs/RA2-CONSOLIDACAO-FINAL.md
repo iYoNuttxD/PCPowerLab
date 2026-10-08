@@ -1,73 +1,95 @@
 # PCPowerLab — consolidação técnica final
 
-> Consolidação técnica pré-publicação. Gates locais da união aprovados; navegador e inspeção visual da união pendentes. **NÃO HOMOLOGADA**. Este documento não declara publicação final.
+> Fechamento técnico: suítes de navegador executadas e revisão focal posterior concluída; auditoria de cores parcialmente concluída; marcador corrigido e retestado; foco visual integral, todos os estados disabled e zoom real de 200% ainda pendentes. **NÃO HOMOLOGADA integralmente**: os limites obrigatórios abaixo continuam explícitos.
 
-## Identificação
+## Fonte e rastreabilidade
 
-- Data de referência: 08/10/2026 UTC
-- Branch: `codex/pcpowerlab-ra2-ciclo2`
-- Fonte publicada de entrada: `51f70b1ee7f500358a9bc99b944b9ecb5e37c7cc`
-- Árvore publicada de entrada: `dd925bc8ba4630e5d323bd74218f6341d5b86b90`
-- Fonte/árvore da união avaliada: **PENDENTE**
-- Commit publicado com esta consolidação: **PENDENTE de verificação remota**
-- Veredito: **NÃO HOMOLOGADA**; navegador/inspeção visual da união e critérios dependentes de pesquisa humana pendentes
+08/10/2026 UTC · branch `codex/pcpowerlab-ra2-ciclo2`.
 
-## Entrega e limites
+- Fonte com suíte completa de navegador: `ef7f6443a612cf56ae768511ca71369ee28badcf`, árvore `12cf4d01cd473ad3727ce2cb2e72d5fb6b403d99`
+- Revisão publicada posterior: `ac27d0e3bb42686433e9071cc18c35c0decba448`, árvore `d35246ae5d101516d2403acab5f3c031b1a1195c`, parent `ef7f6443a612cf56ae768511ca71369ee28badcf`
+- Escopo do delta ac27: rótulo de perfil e exibição opcional do nome completo em configurações prontas. Checagens focadas, lint/build e inspeção manual em cinco larguras, incluindo nome longo, aprovados. Não se atribui a ac27 uma nova execução integral das suítes de ef7f
+- Correção de contraste publicada: `2707f1747c53e77ac7666845a50a80faae4a3ff0`, árvore `b73f609b7c4218856d096cd77dfb85cd2df9399b`, parent ac27. Somente pintura do marcador e regressão; dados e geometria do gráfico intactos. Reteste focal em navegador: **APROVADO**, dois checks focados; núcleo/faixa renderizados 7,28:1, borda/trilha 8,36:1
+- Cores: 14 estados analisados; foco visual integral, todos os estados disabled e zoom real de 200% não verificados
+- A publicação deste relatório e do delta final de rótulos é identificada pelo histórico deste arquivo na branch indicada; as fontes de código verificadas estão listadas acima
 
-A sequência v2.0–v2.9 e suas evidências permanecem históricas. A fonte acima é a entrada publicada; os resultados locais abaixo correspondem à união posterior de UX, refrigeração, compatibilidade física e correções de orientação, ainda sem SHA publicado confirmado. Implementação, consistência de contrato, testes em navegador, inspeção visual e pesquisa com participantes são níveis diferentes de evidência.
+Registros v2.0–v2.9 e continuações permanecem históricos. Os testes de cada etapa pertencem à sua fonte; não se somam reexecuções nem se transferem aprovações automaticamente entre commits.
 
-### Catálogo, preços e fotografias
+## Entrega técnica
 
-Base comercial anterior informada: 97 registros examinados, 38 retidos e 59 sucessores explícitos; 81 ativos após deduplicação, 43 identidades novas, 117 identidades legadas preservadas; 22 RAM e 21 armazenamentos. A integridade pré-publicação confirmou os 81 ativos com referências elegíveis; os demais denominadores mantêm a proveniência do inventário comercial.
+O catálogo, assistente, seleção de cooler/fans, orçamento, resumo, análise de jogos/software, comparações, recomendações, upgrades, versões e compartilhamento foram integrados preservando os limites de dados. Coolers e fans usam cards visuais com quantidade de pacotes. Os gráficos de temperatura/ruído ficam no Resumo, com acesso pela revisão, e também na tarefa de análise. Detalhes técnicos e ações secundárias são progressivos.
 
-81 observações comerciais datadas: 33 KaBuM, 33 Terabyte, 14 Pichau e 1 Amazon. São pesquisas pontuais, sem garantia de estoque futuro, frete, preço final no CEP ou menor preço de mercado. Não há API comercial ao vivo validada.
+A continuidade técnica executou 15 casos preparados e três jornadas de perfis. Cards, quantidades, desfazer, filtros, comparação, jogos, software, upgrades, versões e compartilhamento passaram nos percursos relatados. São jornadas técnicas, **não três participantes reais**, pesquisa de usabilidade ou comprovação de satisfação. Estado de uso e dados de teste foram preservados; não se publicam identificadores ou conteúdo pessoal como evidência.
 
-Cobertura anterior: 71 fotografias de modelo exato e 10 de família; 43 novas identidades com foto exata. Cobertura estrutural completa não certifica identidade exata de todas as fotos ou direitos de reutilização. Auditoria estrutural pré-publicação: **81/81 aprovados**, com a divisão 71 exatas + 10 de família preservada. Direitos de reutilização permanecem limitados à proveniência registrada.
+## Evidência por versão e camada
 
-### Pontuações e desempenho
+| Fonte / camada | Resultado | Limite |
+| --- | --- | --- |
+| União anterior a ef7f — Node | 926/926 únicos aprovados | Histórico; não somar à suíte posterior |
+| ef7f — Node | 933 testes aprovados | Inclui testes Node frontend; não somar reexecuções focadas |
+| ef7f — fonte/handlers/SSR | 16 scripts aprovados | Não substituem DOM, layout ou participante |
+| ef7f — lint/build | Ambos os lints e build aprovados | Aviso preexistente de chunk grande; não mede desempenho percebido |
+| ef7f — imagens | 81/81 estruturalmente válidas | 71 modelo exato + 10 família; não atesta licença ou identidade exata de todas |
+| ef7f — E2E real | **267 aprovados, 1 skip, 0 falhas** | Skip: caso de rolagem da comparação móvel excluído do projeto desktop |
+| ef7f — integração real em navegador | **18 aprovados, 0 falhas** | Não é auditoria de carga, segurança ou produção |
+| ac27 — delta de perfil | Checagens focadas, lint/build e inspeção em 1440/1024/768/390/320 px aprovados | Nome longo incluído; não houve nova suíte integral atribuída a ac27 |
+| Continuidade manual | 15 casos preparados e três jornadas técnicas executados | Sem participantes reais ou medição de compreensão |
+| Capturas recentes | 110 capturas disponíveis, revisão parcial | Quantidade não equivale a 110 telas aprovadas; consolidação pendente |
+| Cores renderizadas | 14 estados; 478 amostras de texto enabled confiáveis, mínimo 7,08:1; zero falhas de texto confirmadas; 50 inconclusivas | Não generalizar para todos os estados, contraste não textual ou WCAG |
+| 2707 — correção do marcador | 935 Node aprovados; lint/build aprovados | Reteste focal de navegador aprovado em 2707; não atribuir nova suíte E2E integral |
+| Foco/disabled/zoom real 200% | **NÃO VERIFICADOS integralmente** | Sem certificação WCAG |
 
-Oito perfis sintéticos explícitos e versionados preenchem apenas índices de desempenho sem medição real verificada. Sua proveniência acompanha resultados e exportações; não desbloqueiam FPS, gargalos ou requisitos de software. Resultados indisponíveis permanecem indisponíveis.
+No checkpoint `8393`, houve 247 E2E aprovados, 10 falhas e 1 skip; integração 15 aprovados e 3 falhas. As falhas reproduziam cinco casos E2E em desktop/mobile e um fluxo de integração em três larguras: rótulos, normalização de texto, baseline de catálogo em StrictMode, navegação de etapa opcional e foco inicial em Cancelar. A revisão preservou asserções e corrigiu o foco seguro em Cancelar. O resultado posterior ef7f acima é o reteste; o checkpoint anterior não é apagado nem apresentado como aprovado.
 
-### Temperatura e ruído
+## Correspondência aos três grupos de UI/UX
 
-Modelo integrado e testes técnicos aprovados na união. O modelo numérico é um cenário aproximado baseado em hipóteses explícitas, sem calibração como preditor de temperatura real ou medição de ruído. Compatibilidade de socket não comprova encaixe no gabinete, eficiência térmica real ou alimentação/controle das ventoinhas. A conferência sobre a base 51f70 identificou 43 pares com socket compatível e 7 bloqueados por incompatibilidade. É cobertura de cenários, não certificação de encaixe no gabinete. O tratamento de fans extras integra o modelo e seus testes; temperatura/ruído reais continuam não medidos. [Escopo do modelo e interface](cooling-ux-next-phase.md).
+| Grupo solicitado | Implementação e evidência existente | O que ainda não está estabelecido |
+| --- | --- | --- |
+| Identidade visual, cores, contraste, layout e consistência dos cards em todas as páginas | Tokens compartilhados, cards de produto/cooling, tarefas e detalhes progressivos; checagens das páginas, E2E e capturas recentes; revisão focal em cinco larguras | 14 estados de cor analisados; 50 amostras inconclusivas. Marcador corrigido e retestado; foco visual integral, todos os estados disabled e zoom real 200% não concluídos; não declarar cobertura visual integral |
+| Navegação agrupada, administração protegida, avanço/rolagem e preservação da montagem | Navegação por tarefas, autenticação administrativa, avanço explícito e retorno, estado/quantidades/desfazer/versões; suites reais e jornadas técnicas aprovadas | Não equivale a auditoria de segurança de produção nem teste de descobribilidade com usuários; aparelhos físicos/tecnologias assistivas não cobertos permanecem fora da conclusão |
+| Linguagem acessível, títulos/legendas/unidades/significado dos gráficos, distinção das simulações e detalhe progressivo | Rótulos corrigidos, perfil curto com nome completo disponível, gráficos no Resumo e análise, proveniência simulada e indisponibilidade explícita; checks de conteúdo e percursos jogos/software/refrigeração | Compreensão por iniciantes reais não medida; desempenho, temperatura e ruído não são medições de hardware; revisão final de legibilidade ainda pendente |
 
-### Compatibilidade física
+Essa correspondência descreve evidências e limites. Não altera os critérios originais R01–R22 nem converte implementação em VALIDADO integral.
 
-O contrato integrado distingue posição, ocupação de fans e limites conhecidos de radiador. Testes de execução verificam as posições do Elite 301 e o limite de air cooler de 163,5 mm, além das dimensões do radiador frontal 420 do Elite 502. Folgas desconhecidas permanecem não verificadas. [Contrato e fontes](COOLING-COMPATIBILITY-SCOPE.md). Dados desconhecidos não recebem aprovação. Verificações de gabinete, socket e simulação térmica devem manter escopos separados. BIOS, QVL, VRM, headers, hubs e demais lacunas são declaradas por verificação disponível.
+## Catálogo, preços e fotografias
 
-## Testes vinculados à fonte final
+97 registros anteriores examinados: 38 retidos e 59 sucessores explícitos; 81 ativos após deduplicação, 43 identidades novas e 117 identidades do catálogo anterior preservadas. O total atual é de 160 registros: 81 ativos e 79 legados/inativos; 38 das 117 identidades anteriores seguem ativas e 43 identidades foram adicionadas. São 22 RAM e 21 armazenamentos. Os 81 preços elegíveis têm SKU e disponibilidade observada registrados: 33 KaBuM, 33 Terabyte, 14 Pichau e 1 Amazon.
 
-| Camada | Comando / escopo | Resultado | Evidência |
-| --- | --- | --- | --- |
-| Node agregado | `npm test` na raiz | **926/926 testes únicos aprovados** | Suíte integrada; inclui testes Node frontend |
-| Térmica focada | 40 testes; subconjunto/reexecução | Aprovados; não somar aos 926 | `frontend/tests/cooling-simulation.test.js` e `frontend/tests/thermal-benchmarks.test.js` |
-| Fonte / handlers / SSR | 16 scripts `frontend/scripts/check-*.mjs` | Todos aprovados; 17 rotas e 29 grupos de simulação / 812 asserções nos respectivos checks | Não executam navegador |
-| Lint backend / frontend | `npm run lint` em cada pacote | Ambos aprovados | Resultado local da união |
-| Build frontend | `npm run build` no frontend | Aprovado; aviso existente de chunk grande | Não mede performance percebida |
-| E2E navegador | Coleta Playwright | **258 coletados, execução da união pendente** | Coleta não é aprovação |
-| Integração API real em navegador | Coleta Playwright | **18 coletados, execução da união pendente** | Coleta não é aprovação |
-| Visual / larguras / estados | 1440, 1024, 768, 390 e 320 px | **PENDENTE na união** | Inspeção, foco, zoom e screenshots ainda necessários |
-| Imagens | Auditoria estrutural | **81/81**; 71 exatas + 10 família | `RA2-COBERTURA-IMAGENS.md` |
-| Referências comerciais | Integridade de identidade/preço/disponibilidade observada | **81/81 elegíveis** | 33 KaBuM, 33 Terabyte, 14 Pichau, 1 Amazon |
-| CI do commit publicado | Não há novo SHA publicado confirmado neste registro | **PENDENTE** | Não inferir CI verde |
+São observações manuais datadas, sem API comercial ao vivo, garantia de estoque futuro, frete para o CEP, total de checkout ou promessa de menor preço do mercado. Referências antigas não se tornam preços atuais; seleções salvas não são substituídas automaticamente.
 
-Não somar testes repetidos, testes focados incluídos no agregado, capturas, scripts e participantes. A execução anterior em 51f70 registrou 231 E2E aprovados e 1 skip, além de 18 casos de integração aprovados; não aprova automaticamente a união posterior. Os resultados acima são uma síntese técnica pré-publicação, não novos logs brutos ou execução de navegador.
+As fotos dos 81 ativos dividem-se em 71 de modelo exato e 10 de família; as 43 novas identidades têm fotos exatas. Cobertura estrutural de 100% não atende, por si só, um requisito de 100% de fotos de SKU exato. Direitos de reutilização permanecem conforme a proveniência registrada, sem licença inventada.
 
-## Defeitos e retestes
+## Scores, temperatura, ruído e limites físicos
 
-| Achado | Correção integrada | Reteste na fonte final | Estado |
-| --- | --- | --- | --- |
-| F07 — qualificação do estado de refrigeração | Integrada | Contratos/propagação nos gates locais aprovados; navegador pendente | RETESTE VISUAL PENDENTE |
-| F08 — orientação contraditória com i5-14600K | Integrada | Gates locais aprovados; confirmação em navegador pendente | RETESTE VISUAL PENDENTE |
-| F09 — recomendação comprimida em tablet | Integrada | Regressão de geometria coletada, não executada na união | RETESTE VISUAL PENDENTE |
+Oito perfis sintéticos versionados preenchem índices sem medição real verificada. Sua proveniência acompanha os resultados. Não desbloqueiam FPS, gargalos nem requisitos de software; ausência de modelo continua indisponível.
 
-## Requisitos e limitações remanescentes
+A temperatura/ruído é um cenário aproximado com hipóteses explícitas, sem calibração como preditor de temperatura real ou medição de dBA. A cobertura de 43 pares com socket compatível e sete bloqueados por incompatibilidade não comprova encaixe no gabinete. Os testes do modelo e de seus estados são evidência de consistência técnica, não benchmark físico.
 
-Matriz R01–R22 final: **PENDENTE**, com critérios originais preservados. Não classificar requisito como VALIDADO somente porque o código existe ou a suíte passou.
+**Fans adicionais afetam ruído estimado, consumo conhecido, custo e encaixe; não alteram a temperatura neste modelo.** O acoplamento térmico adicional foi adiado e não faz parte da entrega. Não atribuir ganho térmico ou de FPS a uma função não implementada.
 
-Não houve ciclo 2 com participantes reais nem resultados observados de satisfação, compreensão, retenção ou monetização. Três jornadas técnicas não são três usuários. Não há certificação física de hardware, benchmark térmico/acústico, persistência durável ou isolamento multiusuário comprovados.
+A compatibilidade separa o estado principal de `coolingAssessment`. Dados ausentes permanecem não verificados. Os limites conhecidos do Elite 301 incluem posições e altura de air cooler de 163,5 mm; o Elite 502 verifica dimensões do radiador frontal 420. Posições, fans incluídos, packs e radiadores compartilham capacidade conforme o contrato; folgas desconhecidas não recebem aprovação. BIOS, QVL, RAM/VRM, headers/hubs e demais lacunas não são certificados por esse escopo. [Contrato físico e fontes](COOLING-COMPATIBILITY-SCOPE.md) · [Modelo e apresentação](cooling-ux-next-phase.md).
 
-## Publicação
+## Pendências e decisão de aceite
 
-Publicação, SHA remoto e checks: **PENDENTES**. Ausência de workflow/check não equivale a CI aprovado. Merge e deploy não integram esta consolidação.
+- Reteste focal do marcador 2707: **APROVADO**; consolidação visual/foco integral, todos os estados disabled e zoom real 200%: **NÃO VERIFICADOS integralmente**
+- Pesquisa real do Ciclo 2, compreensão/satisfação, retenção e monetização: **NÃO REALIZADAS**
+- Fotografias 100% de modelo/SKU exato: **NÃO ATENDIDO**, pois dez são de família visual
+- API de preço/estoque ao vivo, benchmark físico e calibração térmica/acústica: **NÃO COMPROVADOS**
+- Persistência durável, isolamento multiusuário, auditoria completa de segurança/carga e qualificação de produção: **NÃO COMPROVADOS**
+- Nenhum resultado técnico autoriza alegar cumprimento de 100% dos pedidos originais
+
+**NÃO HOMOLOGADA integralmente.** A entrega pode ser descrita como implementação técnica com testes efetivamente executados nos escopos acima, mantendo as pendências e a revisão final. Ausência de checks remotos não equivale a CI verde. Merge e deploy não são declarados neste relatório.
+
+## Auditoria de cores e defeito do marcador
+
+Foram analisados 14 estados renderizados: catálogo normal/hover, modal/formulários, erro de upgrade, exclusão normal/hover, badges, resumo e jogos/comparação. As 478 amostras confiáveis de texto enabled tiveram contraste mínimo de 7,08:1, sem falha de texto confirmada; 50 amostras permaneceram inconclusivas. Não é certificação WCAG nem aprovação de foco, todos os disabled, transparências ou zoom real de 200%.
+
+O marcador térmico claro `#edf3fc` sobre a faixa efetivamente renderizada `#5daabb` atingia **2,37:1**, falha confirmada em navegador. Seu contraste contra a trilha `#354861` era 8,36:1, o que não eliminava a falha sobre a faixa. A correção 2707 usa núcleo escuro com contraste calculado de **7,30:1** contra a faixa e borda clara de **8,36:1** contra a trilha. Esses valores posteriores são verificação do par de cores; o reteste focal renderizado passou: núcleo/faixa **7,28:1** e borda/trilha **8,36:1**. Dados, geometria e modelo permanecem inalterados.
+
+A revisão confirmou o título técnico `CASE_GPU_LENGTH_UNVERIFIED` e dois fallbacks de especificação. O delta final traduz para “Espaço da placa de vídeo não verificado”, “Potência máxima em turbo (W)” e “Cooler incluído”. Treze testes focados de linguagem/SSR, lint e build passaram; dados, unidades e IDs permanecem iguais. A conferência focal desses rótulos no navegador após publicação ainda está pendente, sem atribuir nova suíte integral ao delta.
+
+## Reteste final e disponibilidade das evidências
+
+O reteste renderizado de 2707 passou em dois checks focados: núcleo/faixa 7,28:1 e borda/trilha 8,36:1. As faixas do cenário original (25–40 / 30–55 / 35–70 °C) e posições (31,825 / 41,38 / 52,30%) permaneceram iguais. Todos os marcadores ficaram dentro da área inspecionada em 1435–1440 px; o cenário mínimo permitido permaneceu legível. Montagem e orçamento originais foram restaurados exatamente, sem reiniciar o backend ou criar registros.
+
+As capturas e o pacote final foram preservados localmente. A atualização da cópia de entrega em nuvem ainda não foi confirmada neste registro; não se atribuem novos links, imagens ou anexos acessíveis a uma transferência pendente. Essa pendência de entrega é separada do resultado dos checks executados.

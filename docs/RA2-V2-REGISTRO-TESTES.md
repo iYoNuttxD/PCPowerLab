@@ -1,6 +1,6 @@
 # RA2 V2.9 — registro final de testes e evidências
 
-> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Resultados reais posteriores estão na consolidação: ef7f com 267 E2E aprovados/1 skip e 18 integrações aprovadas; delta ac27 conferido em cinco larguras. Revisão visual/cores/zoom ainda pendente; **NÃO HOMOLOGADA integralmente**.
 
 > Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
 
@@ -69,3 +69,20 @@ O registro anterior desta seção usava a expressão ambígua “834/835 testes 
 926/926 testes Node únicos aprovados; 16 scripts de fonte/handlers/SSR aprovados; ambos os lints e build frontend aprovados, com aviso existente de chunk grande. Auditoria estrutural de imagens: 81/81, sendo 71 exatas e 10 de família. Integridade de referências datadas elegíveis: 81/81. Testes focados e scripts não são somados à contagem Node.
 
 258 E2E e 18 casos de integração foram **somente coletados** na união. Execução e inspeção visual atuais permanecem pendentes. O resultado anterior de navegador em 51f70 não se transfere para as alterações posteriores. [Escopo, defeitos e limites](RA2-CONSOLIDACAO-FINAL.md). SHA final e verificação remota ainda pendentes; **NÃO HOMOLOGADA**.
+
+
+## Fechamento técnico posterior — ef7f / ac27, 08/10/2026
+
+A [consolidação atual](RA2-CONSOLIDACAO-FINAL.md) separa a execução completa ef7f (267 E2E aprovados, 1 skip, zero falhas; 18 integrações aprovadas) da revisão focal ac27 (rótulo de perfil, nome longo e cinco larguras). São também 15 casos preparados e três jornadas técnicas, não participantes reais. A revisão visual final, estados de cor/contraste e zoom 200% permanecem pendentes.
+
+Os três grupos de UI/UX solicitados estão mapeados a evidência e limites na consolidação. Critérios históricos não foram reescritos. Dez fotografias são de família, preços são observações manuais datadas, e pesquisa real/retenção/monetização não foram realizadas. Fans extras não alteram temperatura no modelo atual. Nenhum resultado implica atendimento integral de 100% dos pedidos originais.
+
+
+## Correção 2707 — contraste do marcador
+
+935 testes Node aprovados, lint/build aprovados. A auditoria renderizada anterior confirmou marcador/faixa 2,37:1; a correção muda somente pintura e adiciona regressão, mantendo dados/geometria. Valores calculados posteriores: núcleo/faixa 7,30:1 e borda/trilha 8,36:1. Reteste focal de navegador aprovado em 2707; não declarar nova suíte integral executada em 2707. A auditoria textual teve 478 amostras enabled confiáveis (mínimo 7,08:1), 50 inconclusivas e nenhum defeito de texto confirmado em 14 estados. Foco/disabled completos e zoom real 200% não verificados.
+
+
+### Resultado focal posterior em 2707
+
+Dois checks renderizados aprovados: núcleo/faixa 7,28:1, borda/trilha 8,36:1; valores/posições do cenário preservados e marcadores dentro da área inspecionada. Montagem/orçamento restaurados, sem reinício de backend nem registros novos. O delta final de três rótulos em português passou 13 testes focados linguagem/SSR, lint e build; sua conferência focal de navegador pós-publicação permanece pendente. Não somar esses checks à suíte integral anterior nem inventar nova contagem Node.

@@ -1,6 +1,45 @@
-# RA2 V2 — requisitos rastreáveis (v2.0)
+# RA2 V2 — estado atual dos requisitos
 
-> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+## Matriz atual — ef7f / ac27, 08/10/2026 UTC
+
+**Implementação técnica substancial entregue; atendimento integral de todos os pedidos: não.** O código atual é `2707f1747c53e77ac7666845a50a80faae4a3ff0` (parent ac27). O delta 2707 corrige somente a pintura do marcador térmico e adiciona regressão; não muda dados ou geometria do gráfico. Node: 935 aprovados; lint/build aprovados; reteste focal de navegador aprovado em 2707. A suíte completa de navegador foi executada no parent ef7f: **267 E2E aprovados, 1 skip e 18 integrações aprovadas**. O delta de perfil ac27 passou por revisão focal em cinco larguras, incluindo nome longo. Consolidação visual, foco visual integral, todos os estados disabled e zoom real de 200% ainda não verificados; reteste focal do marcador aprovado.
+
+A coluna de estado abaixo avalia o requisito completo: PARCIAL não significa função ausente, mas entrega/evidência útil com limite de aceitação ainda aberto. Os subcontratos técnicos efetivamente exercitados estão discriminados. Não se converte contagem de testes em aprovação humana ou física. Critérios e resultados antigos são preservados na seção histórica abaixo.
+
+| ID | Requisito | Estado atual | Implementação / evidência atual | Limite de aceitação |
+| --- | --- | --- | --- | --- |
+| R01 | Identidade visual, cores e contraste | PARCIAL | Tokens e estilos compartilhados; capturas recentes; checagens de página | 14 estados: 478 amostras enabled confiáveis, mínimo 7,08:1; 50 inconclusivas. Marcador corrigido em 2707 e retestado: 7,28:1 / 8,36:1; foco/disabled/zoom real não verificados |
+| R02 | Consistência de cards e layout | PARCIAL | Cards de catálogo/cooler/fans, quantities e detalhes; E2E e percursos manuais; cinco larguras | Revisão visual integral de todas as telas/estados pendente |
+| R03 | Navegação agrupada | PARCIAL | Tarefas e grupos, destinos preservados; suítes reais e jornadas técnicas | Consolidação visual/teclado final; compreensão por usuários não medida |
+| R04 | Administração sem entrada pública e protegida | PARCIAL | Proteção de API/sessão e navegação pública; testes Node/integração reais aprovados | Resultado limitado aos contratos testados; revisão final e auditoria completa de produção não concluídas |
+| R05 | Avanço claro e preservação | PARCIAL | Avanço explícito, seleção preservada, etapas opcionais corrigidas; E2E e jornadas | Descoberta do avanço sem ajuda não medida com participantes |
+| R06 | Foco e rolagem entre etapas | PARCIAL | Fluxos reais de navegação/revisão exercitados; estado preservado | Zoom/estados finais pendentes; aparelhos físicos não certificados |
+| R07 | Linguagem acessível e detalhe progressivo | PARCIAL | Explicações, rótulos corrigidos e nome completo opcional; inspeção focal ac27 | Compreensão por iniciantes reais não medida |
+| R08 | Títulos, legendas, unidades e gráficos | PARCIAL | Checks de gráficos e simulações; análise no Resumo e tarefa dedicada | Revisão final de legibilidade; compreensão/leitor de tela completos não comprovados |
+| R09 | Simular um jogo e comparar jogos | PARCIAL | Percursos reais de jogo/software e suítes aprovados; resultados indisponíveis explícitos | Revisão final transversal pendente; nenhum FPS real certificado |
+| R10 | Fotografias correspondentes e com origem | PARCIAL | 81/81 estruturalmente válidas: 71 exatas + 10 de família; 43 novas exatas | 100% de modelo/SKU exato não atendido; direitos limitados à proveniência registrada |
+| R11 | Diversidade RAM/armazenamento | PARCIAL | 22 RAM e 21 armazenamentos; integridade e 117 identidades anteriores preservadas | Não certifica externamente cada fato legado/BIOS/QVL ou disponibilidade futura |
+| R12 | Air coolers opcionais | PARCIAL | Cards, custo/socket/altura, salvar/remover/desfazer; regras e percursos exercitados | RAM/VRM/folgas e desempenho térmico não medidos; desconhecido continua não verificado |
+| R13 | AIO/radiador/posições | PARCIAL | Socket, capacidade posicional e dimensões conhecidas; testes físicos de catálogo | Espessura/folgas ou conexões ausentes não aprovadas; sem montagem física |
+| R14 | Fans/packs/ocupação/conectores | PARCIAL | Quantidades, custo, ruído estimado, potência conhecida e fit; percursos aprovados | Headers/corrente/hubs desconhecidos explícitos; fans extras não alteram temperatura |
+| R15 | Filtros por fabricante e combinados | PARCIAL | Filtros, busca e comparação exercitados em E2E/jornadas | Consolidação de todos os estados visuais pendente |
+| R16 | Comparação de componentes | PARCIAL | Comparação e preservação exercitadas; unidades/ausentes tratados | Revisão visual/zoom final pendente; skip documentado de caso mobile no projeto desktop |
+| R17 | Troca individual e desfazer | PARCIAL | Troca, undo, orçamento/acessórios e revisão preservados nos testes e percursos | Consolidação final de estados visuais pendente; sem alegar todos os dispositivos |
+| R18 | Preços reais com origem | PARCIAL | 81 observações manuais datadas elegíveis, SKU/loja/pagamento registrados | Sem API ao vivo; não garante estoque futuro, frete ou total do checkout |
+| R19 | Alternativas de mercado | PARCIAL | 38 registros mantidos, 59 sucessores explícitos; alternativas/upgrades testados | Universo limitado ao catálogo; não é busca completa nem melhor preço de todo mercado |
+| R20 | Defeitos e regressões | PARCIAL | 933 Node em ef7f; 16 checks; reteste real 267 E2E + 18 integração; histórico de falhas preservado | Revisão visual final pendente; não promete ausência de bugs ou qualificação de produção |
+| R21 | Significado da simulação final | PARCIAL | Resumo distingue estados e simulações; cards/gráficos integrados; percursos técnicos | Interpretação/compreensão por participantes não medida; cenário não é medição |
+| R22 | Retenção, valor e monetização | PARCIAL | Instrumentação/roteiro e feedback técnico disponíveis | Pesquisa real do Ciclo 2, retenção observada, satisfação e receita NÃO REALIZADAS |
+
+[Consolidação e três grupos de UI/UX](RA2-CONSOLIDACAO-FINAL.md) · [Registro de testes por fonte](RA2-V2-REGISTRO-TESTES.md). Três jornadas técnicas não são três usuários. Os 110 screenshots recentes estão parcialmente revisados, não 110 aprovações independentes.
+
+## Histórico preservado — linha de base v2.0 e auditorias até v2.9
+
+**As tabelas abaixo são históricas, não o estado atual.** Expressões como “cooler NÃO INICIADO”, 2/69 ou 9/98 fotos e navegador não executado descrevem suas datas/fontes originais. Não são reapresentadas como situação atual nem reescritas retroativamente como sucesso.
+
+### Registro original — requisitos rastreáveis (v2.0)
+
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Resultados reais posteriores estão na consolidação: ef7f com 267 E2E aprovados/1 skip e 18 integrações aprovadas; delta ac27 conferido em cinco larguras. Revisão visual/cores/zoom ainda pendente; **NÃO HOMOLOGADA integralmente**.
 
 Base inspecionada: `d433bf930d7373eec073921427e146bc8c173f26`, branch `codex/pcpowerlab-ra2-ciclo2`, em 08/10/2026 (UTC).
 
@@ -161,3 +200,10 @@ Atendido em patch de revisão: oito perfis provisórios, prioridade para evidên
 Os critérios R01–R22 acima permanecem intactos. As autorizações posteriores para índices sintéticos e cenários térmicos/acústicos aproximados ampliam o produto, sem transformar estimativa em medição física ou aprovação de UX. A matriz final da união será anexada após o reteste identificado por fonte.
 
 R10: 81 fotos estruturalmente válidas, 71 de modelo exato e 10 de família. O requisito original de correspondência exata não é declarado integralmente satisfeito pela cobertura estrutural. R18/R19: 81 observações manuais datadas, sem cotação API ao vivo nem garantia de estoque/preço futuro. R22: pesquisa real do Ciclo 2, retenção e monetização não realizadas. Nenhum requisito recebe VALIDADO apenas por implementação, SSR, contagem de testes ou autorização de estimativa.
+
+
+## Fechamento técnico posterior — ef7f / ac27, 08/10/2026
+
+A [consolidação atual](RA2-CONSOLIDACAO-FINAL.md) separa a execução completa ef7f (267 E2E aprovados, 1 skip, zero falhas; 18 integrações aprovadas) da revisão focal ac27 (rótulo de perfil, nome longo e cinco larguras). São também 15 casos preparados e três jornadas técnicas, não participantes reais. A revisão visual final, estados de cor/contraste e zoom 200% permanecem pendentes.
+
+Os três grupos de UI/UX solicitados estão mapeados a evidência e limites na consolidação. Critérios históricos não foram reescritos. Dez fotografias são de família, preços são observações manuais datadas, e pesquisa real/retenção/monetização não foram realizadas. Fans extras não alteram temperatura no modelo atual. Nenhum resultado implica atendimento integral de 100% dos pedidos originais.

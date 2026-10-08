@@ -1,6 +1,6 @@
 # RA2 V2.7 — Auditoria de qualidade, regressões e limites
 
-> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Validação final pendente; **NÃO HOMOLOGADA**.
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Resultados reais posteriores estão na consolidação: ef7f com 267 E2E aprovados/1 skip e 18 integrações aprovadas; delta ac27 conferido em cinco larguras. Revisão visual/cores/zoom ainda pendente; **NÃO HOMOLOGADA integralmente**.
 
 08/10/2026 UTC · branch `codex/pcpowerlab-ra2-ciclo2` · base `0dd5473470ce218b4f6499d7f909fa3e459c86ca`.
 
@@ -79,3 +79,10 @@ Comandos, resultados exatos e logs em [evidências v2.7](evidence/ra2-v2.7/READM
 ## Continuidade v2.8 — jornadas técnicas
 
 A etapa seguinte adiciona três percursos distintos com adaptadores frontend reais → HTTP Express → serviços/repositórios, incluindo roadmap e aplicação/hidratação de resultados. Encontrou também perda da identidade da build ao entrar em Upgrade a partir dos salvos, corrigida e retestada na v2.8. [Relatórios individuais, método e evidências](RA2-V2.8-JORNADAS.md). Esta adição não altera retroativamente as contagens/execuções da v2.7. Browser, captura, responsividade e pesquisa humana continuam pendentes; etapa 9 é independente.
+
+
+## Fechamento técnico posterior — ef7f / ac27, 08/10/2026
+
+A [consolidação atual](RA2-CONSOLIDACAO-FINAL.md) separa a execução completa ef7f (267 E2E aprovados, 1 skip, zero falhas; 18 integrações aprovadas) da revisão focal ac27 (rótulo de perfil, nome longo e cinco larguras). São também 15 casos preparados e três jornadas técnicas, não participantes reais. A revisão visual final, estados de cor/contraste e zoom 200% permanecem pendentes.
+
+Os três grupos de UI/UX solicitados estão mapeados a evidência e limites na consolidação. Critérios históricos não foram reescritos. Dez fotografias são de família, preços são observações manuais datadas, e pesquisa real/retenção/monetização não foram realizadas. Fans extras não alteram temperatura no modelo atual. Nenhum resultado implica atendimento integral de 100% dos pedidos originais.
