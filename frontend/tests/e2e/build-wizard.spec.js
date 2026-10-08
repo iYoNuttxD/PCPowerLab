@@ -1,10 +1,11 @@
+import { currentBuild, activePart } from './helpers/catalog.js';
 import { test, expect } from '@playwright/test';
 import { components } from '../../../src/data/components.mock.js';
 
 const storageKey = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const labels = ['Processador', 'Placa de vídeo', 'Placa-mãe', 'Memória RAM', 'Armazenamento', 'Fonte de alimentação', 'Gabinete'];
-const selection = Object.fromEntries(types.map(type => [type, components.find(component => component.category === type)]));
+const selection = currentBuild(components);
 selection.fans = [];
 const budget = { amount: '5000', currency: 'BRL', priority: 'cost-benefit' };
 const pageErrors = new WeakMap();
@@ -84,7 +85,7 @@ test('avança pelas nove etapas, mantém ações visíveis e retorna sem perder 
   for (let index = 0; index < types.length; index += 1) {
     await expect(page.locator('#wizard-step-heading')).toHaveText(labels[index]);
     await expect(page.locator('.wizard-step-intro p')).not.toBeEmpty();
-    await page.getByRole('button', { name: /^Selecionar:/ }).first().click();
+    await page.getByRole('button', { name: `Selecionar: ${selection[types[index]].name}`, exact: true }).click();
     await expect(page.getByRole('progressbar')).toHaveAttribute('value', String(index + 1));
     await page.evaluate(() => window.scrollTo(0, document.querySelector('.component-grid').getBoundingClientRect().bottom + scrollY - innerHeight));
     await expect(next).toBeInViewport();
@@ -118,7 +119,7 @@ test('substitui e remove uma peça sem apagar as outras; invalida análises anti
   await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
   await expectPositionedHeading(page);
   await expect(page.getByRole('button', { name: `Selecionado: ${selection.cpu.name}`, exact: true })).toHaveAttribute('aria-pressed', 'true');
-  const replacement = components.filter(component => component.category === 'cpu')[1];
+  const replacement = activePart(components, 'cpu-ryzen-7-5700x');
   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
   let state = await stored(page);
   expect(state.selectedComponents).toEqual({ ...selection, cpu: replacement });
@@ -162,7 +163,7 @@ test('explica campos inválidos, peças faltantes e rejeição do orçamento pel
   await expect(page.getByRole('alert')).toContainText('Antes de salvar, selecione: Processador');
   expect(checks).toBe(0);
   await step(page, 'Processador');
-  await page.getByRole('button', { name: /^Selecionar:/ }).first().click();
+  await page.getByRole('button', { name: `Selecionar: ${selection.cpu.name}`, exact: true }).click();
   await step(page, 'Orçamento');
   await input.fill('100001');
   await page.route('**/api/v1/budget', route => respond(route, 'Valor de orçamento fora da faixa aceitável.', 400));
@@ -206,7 +207,7 @@ test('catálogo apresenta carregamento, falha, recuperação e ausência de peç
   await expect(page.locator('#wizard-guidance')).toContainText('Tentar novamente');
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => respond(route, components.filter(component => component.category !== 'gpu')));
   await page.getByRole('button', { name: 'Tentar novamente' }).click();
-  await page.getByRole('button', { name: /^Selecionar:/ }).first().click();
+  await page.getByRole('button', { name: `Selecionar: ${selection.cpu.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await expect(page.getByText('Nenhuma peça nesta categoria', { exact: true })).toBeVisible();
   await expect(page.locator('#wizard-guidance')).toContainText('Não há peças');
@@ -313,7 +314,7 @@ test('continua navegável com armazenamento local bloqueado', async ({ page }) =
     Storage.prototype.setItem = () => { throw new Error('Storage bloqueado'); };
   });
   await page.goto('/build');
-  await page.getByRole('button', { name: /^Selecionar:/ }).first().click();
+  await page.getByRole('button', { name: `Selecionar: ${selection.cpu.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Placa de vídeo');
   await page.getByRole('button', { name: 'Voltar', exact: true }).click();
@@ -340,7 +341,7 @@ test('sair durante análise não mantém carregamento permanente nem aplica resp
 });
 
 test('aplica recomendação, permite reanalisar e salva as peças substituídas', async ({ page }) => {
-  const recommended = { ...selection, cpu: components.filter(component => component.category === 'cpu')[1] };
+  const recommended = { ...selection, cpu: activePart(components, 'cpu-ryzen-7-5700x') };
   await seed(page, { wizardStep: 'review', selectedComponents: selection });
   await page.route('**/recommendations/budget', route => respond(route, { components: recommended, totalEstimatedPrice: 4500, summary: 'Configuração sugerida para o teste.' }));
   await page.goto('/build');
@@ -380,7 +381,7 @@ test('editar refrigeração limpa sucesso antigo e mantém revisão pendente', a
   await page.goto('/build');
   await analyze(page);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
-  await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(components.find(component => component.category === 'cooler' && component.active !== false).id);
+  await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(activePart(components, 'cooler-noctua-nh-l9a-am4-chromax-black').id);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toHaveCount(0);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
   expect((await stored(page)).compatibility).toBeNull();

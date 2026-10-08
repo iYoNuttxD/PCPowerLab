@@ -6,6 +6,15 @@ import { translateBottleneckType, translateMetricLabel, translateSeverity, trans
 
 export default function GameSimulationResult({ result }) {
   if (!result) return null;
+  if (result.available === false) return (
+    <section className="performance-result-panel" aria-label="Resultado da simulação individual">
+      <div className="section-heading compact">
+        <div><h3>{result.game || 'Jogo simulado'}</h3><p>{result.targetResolution || 'Resolução não informada'} · Nível gráfico: {translateValue(result.qualityPreset)}</p></div>
+        <Badge tone="yellow">Sem estimativa</Badge>
+      </div>
+      <Alert type="warning">{translateValue('performance_model_unavailable')}</Alert>
+    </section>
+  );
   const technical = result.technicalDetails || {};
   const bottlenecks = Array.isArray(technical.bottlenecks) ? technical.bottlenecks : [];
   const belowMinimum = result.meetsMinimumRequirements === false;

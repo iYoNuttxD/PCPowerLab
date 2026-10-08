@@ -10,11 +10,13 @@ import { updateComponentRecord } from '../src/data/component.repository.js';
 import { referencePrice, assessMarketQuote, summarizeBuildPricing, getProductMarket } from '../src/services/marketPriceService.js';
 import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksService.js';
 import { calculateBuildPrice } from '../src/services/build.service.js';
+const currentFacts = JSON.parse(readFileSync(new URL('./fixtures/current-market-source-facts.json', import.meta.url), 'utf8'));
+const currentFactCount = Object.keys(currentFacts).length;
 
 test('scoped research references propagate effective prices and preserve historical demonstrative values', () => {
-  assert.equal(datedReferenceCount, 78 + replacementCatalog.length);
+  assert.equal(datedReferenceCount, currentFactCount);
   const covered = listComponents().filter(c => c.pricing.updateStatus === 'dated_snapshot');
-  assert.equal(covered.length, 78 + replacementCatalog.length);
+  assert.equal(covered.length, currentFactCount);
   for (const component of covered) {
     assert.equal(component.price, component.pricing.price);
     assert.equal(component.pricing.isMarketQuote, false);
@@ -28,21 +30,21 @@ test('scoped research references propagate effective prices and preserve histori
     assert.equal(getProductMarket(component.id).offers.length, 0);
     assert.notEqual(assessMarketQuote(component.pricing, component.id).status, 'valid');
   }
-  assert.equal(findComponentById('cpu-ryzen-5-7600').price, 999.99);
-  assert.equal(findComponentById('gpu-rtx-4060').price, 2199.99);
-  assert.equal(findComponentById('gpu-rtx-4060').pricing.updateStatus, 'dated_snapshot');
+  assert.equal(findComponentById('cpu-ryzen-5-7600').price, 999.98);
+  assert.equal(findComponentById('gpu-rtx-4060').price, null);
+  assert.equal(findComponentById('gpu-rtx-4060').pricing.updateStatus, 'estimate');
 });
 test('an observed available record never becomes a live market quote', () => {
   const component = findComponentById('ram-kf432c16bbk2-16');
   assert.equal(component.pricing.observedAvailability, 'available');
   assert.equal(component.pricing.availability, 'unknown');
   assert.equal(component.price, 1699.9);
-  assert.equal(component.pricing.cardTotal, 1999.88);
+  assert.equal(component.pricing.cardTotal, null);
 });
 test('totals use effective reference prices; coverage counts fan packs; card and market remain separate', () => {
-  const build = { cpu: findComponentById('cpu-ryzen-5-7600'), gpu: findComponentById('gpu-rtx-4060'), fans: [{ ...findComponentById('fan-noctua-nf-a14-pwm'), quantity: 2 }] };
+  const build = { cpu: findComponentById('cpu-ryzen-5-7600'), gpu: findComponentById('gpu-msi-rtx-4060-ventus-2x-black-8g-oc'), fans: [{ ...findComponentById('fan-noctua-nf-a14-pwm'), quantity: 2 }] };
   const result = summarizeBuildPricing(build);
-  assert.equal(result.estimatedTotal, 3589.96);
+  assert.equal(result.estimatedTotal, 4714.01);
   assert.equal(calculateBuildPrice(build), result.estimatedTotal);
   assert.equal(result.datedReferenceUnits, 4);
   assert.equal(result.estimatedReferenceUnits, 0);
@@ -55,8 +57,8 @@ test('references do not turn five store search links into invented store offers'
   for (const link of links) {
     assert.equal(link.kind, 'research');
     assert.equal(link.productUrl, null);
-    assert.equal(link.price, 999.99);
-    assert.equal(link.referencePricing.store, 'Pichau');
+    assert.equal(link.price, 999.98);
+    assert.equal(link.referencePricing.store, 'KaBuM');
   }
 });
 test('mismatched identity or admin price cannot reuse a dated source', () => {
@@ -66,7 +68,7 @@ test('mismatched identity or admin price cannot reuse a dated source', () => {
     assert.equal(getDatedReference(modified), null);
     assert.equal(referencePrice(modified).updateStatus, 'estimate');
   }
-  assert.equal(attachDatedReference({ ...c, price: c.demonstrativePrice, name: 'Other' }).price, c.demonstrativePrice);
+  assert.equal(attachDatedReference({ ...c, price: c.demonstrativePrice, name: 'Other' }).price, null);
 });
 test('repository invalidates edited amounts and clears old amount on identity edits', () => {
   const id = 'cpu-ryzen-5-7600';
@@ -86,40 +88,30 @@ test('repository invalidates edited amounts and clears old amount on identity ed
 });
 
 
-test('effective catalogue equals 78 independently frozen reviewed source facts', () => {
-  const facts = JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8'));
-  assert.equal(Object.keys(facts).length, 78);
+test('effective catalogue equals independently reviewed exact available observations', () => {
+  const facts = currentFacts;
+  assert.deepEqual(listComponents().map(component => component.id).sort(), Object.keys(facts).sort());
   for (const [id, fact] of Object.entries(facts)) {
     const component = findComponentById(id);
     assert.equal(component.price, fact.price, id);
-    assert.equal(component.pricing.model, fact.sku, id);
+    assert.equal(component.pricing.model, fact.model, id);
     assert.equal(component.pricing.seller, fact.seller, id);
   }
-  // Frozen seven-part source facts: price changes are deliberate source updates, not self-derived expectations.
-  const ids = ['cpu-ryzen-5-5600', 'mb-b550m-aorus-elite', 'gpu-rtx-4060', 'ram-kingston-fury-16gb-ddr4', 'ssd-kingston-nv2-1tb', 'psu-corsair-650w', 'case-mid-tower-airflow'];
-  assert.deepEqual(ids.map(id => findComponentById(id).price), [899.99, 699.99, 2199.99, 1799.99, 499.99, 443.7, 439.99]);
-  assert.equal(ids.reduce((cents, id) => cents + Math.round(findComponentById(id).price * 100), 0), 698364);
 });
 
-
-test('reference identities separate exact products, family variants and illustrative examples', () => {
+test('only exact identities retain references; historical family variants remain distinct', () => {
   const dated = listComponents().filter(component => component.pricing.updateStatus === 'dated_snapshot');
-  assert.equal(dated.filter(component => component.pricing.referenceScope === 'exact').length, 49 + replacementCatalog.length);
-  assert.equal(dated.filter(component => component.pricing.referenceScope === 'family').length, 25);
-  assert.equal(dated.filter(component => component.pricing.referenceScope === 'benchmark').length, 4);
-  for (const component of dated.filter(component => component.pricing.referenceScope !== 'exact')) {
-    assert.ok(component.pricing.sourceVariantName && component.pricing.model);
-    assert.equal(component.pricing.isMarketQuote, false);
-  }
+  assert.equal(dated.length, currentFactCount);
+  assert.equal(dated.every(component => component.pricing.referenceScope === 'exact'), true);
   const gpu = findComponentById('gpu-rtx-4060');
   assert.equal(gpu.name, 'NVIDIA GeForce RTX 4060 8GB');
-  assert.equal(gpu.pricing.model, 'ZT-D40600G-10L');
-  assert.notEqual(gpu.partNumber, gpu.pricing.model, 'Research must not silently adopt commercial variant specs');
+  assert.equal(gpu.price, null);
+  assert.equal(getDatedReference(gpu), null);
 });
 
-test('twenty historical unverified prices remain absent after retirement', () => {
+test('historical unverified or unavailable prices remain absent after retirement', () => {
   const missing = listComponents({ includeLegacy: true }).filter(component => component.price == null);
-  assert.equal(missing.length, 20);
+  assert.equal(missing.length, 79);
   for (const component of missing) {
     assert.equal(component.catalogStatus, 'legacy');
     assert.equal(component.priceKind, 'unavailable');

@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -299,9 +300,9 @@ test('three-fan pack charges by purchased packs, counts physical units once, and
   assert.equal(pack.specs.unitsPerPack, 3);
   assert.equal(pack.specs.auxiliaryPowerUnknown, true);
   assert.ok(pack.specs.auxiliaryPowerNotes);
-  const plain = selectBuildComponents(base);
+  const plain = selectBuildComponents(currentBuild);
   for (const quantity of [1, 2]) {
-    const build = { ...base, fans: [{ fanId: fanPackId, quantity }] };
+    const build = { ...currentBuild, fans: [{ fanId: fanPackId, quantity }] };
     const selected = selectBuildComponents(build);
     const pricing = summarizeBuildPricing(selected);
     const price = money(calculateBuildPrice(plain) + pack.price * quantity);
@@ -372,14 +373,20 @@ for (const [oldId, newId] of mappings) {
 }
 
 for (const id of replacementIds) {
-  test(`explicit new selection ${id} uses its own specs and price in every stored and calculated flow`, t => {
+  test(`explicit selection ${id} preserves lifecycle prices in every stored and calculated flow`, t => {
     const component = raw(id);
-    const build = buildWith(component);
+    const build = { ...currentBuild, ...(component.category === 'fan'
+      ? { fans: [{ fanId: component.id, quantity: 2 }] } : { [`${component.category}Id`]: component.id }) };
     const selected = selectBuildComponents(build);
     const summary = generateBuildSummary({ build });
     const expectedTotal = assertSelectedPrices(selected, summary.pricing);
-    assert.ok(expectedTotal > 0);
-    assert.equal(calculateBuildPrice(selected), expectedTotal);
+    if (component.lifecycle === 'legacy') {
+      assert.equal(expectedTotal, null);
+      assert.throws(() => calculateBuildPrice(selected), { statusCode: 422 });
+    } else {
+      assert.ok(expectedTotal > 0);
+      assert.equal(calculateBuildPrice(selected), expectedTotal);
+    }
     const saved = saveForTest(t, `New ${id}`, build);
     const version = createSavedBuildVersion(saved.id, { buildSnapshot: saved });
     const exported = exportSavedBuildToJson(saved.id, { includeSummary: true });
@@ -424,7 +431,7 @@ test('motherboard and case substitutions add no synthetic FPS parameters or part
 });
 
 test('upgrades price actual new core parts and quantified cooling without silently dropping uncertain accessories', () => {
-  const build = { ...base, ramId: 'ram-kf432c16bb12ak2-32', storageId: 'ssd-kingston-nv3-500gb',
+  const build = { ...currentBuild, ramId: 'ram-kf432c16bbk2-16', storageId: 'ssd-kingston-nv3-500gb',
     caseId: newCaseId, coolerId: 'cooler-bequiet-pure-rock-3-black', fans: [{ fanId: fanPackId, quantity: 2 }] };
   const original = clone(build);
   const selected = selectBuildComponents(build);
@@ -473,7 +480,7 @@ test('recommendations use active exact-model prices and reject uncertain selecte
   assert.ok(Object.values(recommended.components).every(component => !retiredIds.has(component.id)));
   assert.equal(recommended.totalEstimatedPrice, calculateBuildPrice(recommended.components));
   // Restrict availability, not identity/specs/scores, to exercise a known new-model combination.
-  const chosen = { ...base, ramId: 'ram-kvr32n22d8-32', storageId: 'ssd-kingston-nv3-500gb', caseId: newCaseId };
+  const chosen = { ...currentBuild };
   const allowed = new Set(Object.values(chosen));
   const previous = components.map(component => [component, component.active, Object.hasOwn(component, 'active')]);
   try {

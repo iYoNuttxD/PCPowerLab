@@ -1,64 +1,14 @@
+import { currentBuild, currentBuildTotal, currentPrice } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { createPerformanceParameters } from '../src/services/performanceParametersService.js';
 import { compareBuilds } from '../src/services/buildComparisonService.js';
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 
-const valueBuild = {
-  cpuId: 'cpu-ryzen-5-5600',
-  motherboardId: 'mb-b550m-aorus-elite',
-  gpuId: 'gpu-rtx-4060',
-  ramId: 'ram-kingston-fury-16gb-ddr4',
-  storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w',
-  caseId: 'case-mid-tower-airflow'
-};
+const valueBuild = { ...currentBuild };
 
-const alternativeBuild = {
-  cpuId: 'cpu-intel-i5-12400f',
-  motherboardId: 'mb-h610m-ddr4',
-  gpuId: 'gpu-rx-7600',
-  ramId: 'ram-kingston-fury-16gb-ddr4',
-  storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w',
-  caseId: 'case-mid-tower-airflow'
-};
-
-function ensureAlternativePerformanceParameters() {
-  try {
-    createPerformanceParameters({
-      componentId: 'cpu-intel-i5-12400f',
-      type: 'cpu',
-      performanceScore: 82,
-      gamingScore: 80,
-      productivityScore: 78,
-      tdp: 65
-    });
-  } catch (error) {
-    if (error.statusCode !== 409) {
-      throw error;
-    }
-  }
-
-  try {
-    createPerformanceParameters({
-      componentId: 'gpu-rx-7600',
-      type: 'gpu',
-      performanceScore: 83,
-      gamingScore: 86,
-      vram: 8,
-      tdp: 165
-    });
-  } catch (error) {
-    if (error.statusCode !== 409) {
-      throw error;
-    }
-  }
-}
+const alternativeBuild = { ...currentBuild, cpuId: 'cpu-ryzen-7-5700x', gpuId: 'gpu-gigabyte-rx-7600-gaming-oc-8g' };
 
 test('deve comparar duas builds e indicar recomendacao por custo-beneficio', () => {
-  ensureAlternativePerformanceParameters();
 
   const result = compareBuilds({
     builds: [
@@ -72,7 +22,7 @@ test('deve comparar duas builds e indicar recomendacao por custo-beneficio', () 
       }
     ],
     budget: {
-      amount: 8000,
+      amount: 10000,
       currency: 'BRL'
     },
     usageType: 'gaming',
@@ -85,8 +35,8 @@ test('deve comparar duas builds e indicar recomendacao por custo-beneficio', () 
   assert.equal(result.builds.length, 2);
   assert.equal(result.comparisonCriteria, 'cost-benefit');
   assert.equal(result.recommendedBuild.name.length > 0, true);
-  assert.equal(result.builds[0].totalEstimatedPrice, referenceFixtureTotal());
-  assert.equal(result.builds[1].totalEstimatedPrice, referenceFixtureTotal({
+  assert.equal(result.builds[0].totalEstimatedPrice, currentBuildTotal());
+  assert.equal(result.builds[1].totalEstimatedPrice, currentBuildTotal({
     cpu: alternativeBuild.cpuId, motherboard: alternativeBuild.motherboardId, gpu: alternativeBuild.gpuId
   }));
 
@@ -108,13 +58,13 @@ test('comparacao por custo exclui preco desconhecido sem perder compatibilidade 
       { name: 'Com preco', components: valueBuild },
       { name: 'Preco pendente', components: { ...valueBuild, storageId: 'ssd-samsung-980-pro-1tb' } }
     ],
-    budget: { amount: 8000 },
+    budget: { amount: 10000 },
     gameId: 'game-cyberpunk-2077',
     comparisonCriteria: 'cost-benefit'
   });
   const unpriced = result.builds[1];
   assert.equal(unpriced.totalEstimatedPrice, null);
-  assert.equal(unpriced.pricing.knownReferenceSubtotal, 6483.65);
+  assert.equal(unpriced.pricing.knownReferenceSubtotal, Number((currentBuildTotal() - currentPrice(currentBuild.storageId)).toFixed(2)));
   assert.equal(unpriced.pricing.referenceTotalComplete, false);
   assert.deepEqual(unpriced.pricing.componentsWithoutReference, ['ssd-samsung-980-pro-1tb']);
   assert.equal(unpriced.budgetStatus, 'unavailable');
@@ -126,7 +76,6 @@ test('comparacao por custo exclui preco desconhecido sem perder compatibilidade 
 });
 
 test('deve comparar mais de duas builds', () => {
-  ensureAlternativePerformanceParameters();
 
   const result = compareBuilds({
     builds: [
@@ -142,7 +91,6 @@ test('deve comparar mais de duas builds', () => {
 });
 
 test('deve marcar build acima do orcamento', () => {
-  ensureAlternativePerformanceParameters();
 
   const result = compareBuilds({
     builds: [

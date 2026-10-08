@@ -537,6 +537,11 @@ function ReadyBuildCard({ readyBuild, componentMap, currentSelection, currentBud
           <strong>{getBudgetFitLabel(pricing, { max: currentBudget?.amount }, true)}</strong>
         </div>
         <div>
+          <span>Faixa-alvo original</span>
+          <strong>{formatCurrency(readyBuild.targetBudgetRange?.min)} a {formatCurrency(readyBuild.targetBudgetRange?.max)}</strong>
+          <span>{getBudgetFitLabel(pricing, readyBuild.targetBudgetRange)}</span>
+        </div>
+        <div>
           <span>Desempenho estimado</span>
           <strong>{translateValue(readyBuild.expectedPerformanceLevel)}</strong>
         </div>

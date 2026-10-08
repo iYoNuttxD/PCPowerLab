@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test';
 const key = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const labels = ['Processador', 'Placa de vídeo', 'Placa-mãe', 'Memória RAM', 'Armazenamento', 'Fonte de alimentação', 'Gabinete'];
+const readyBuildId = 'ready-build-gaming-1080p';
+const userBudget = { amount: 6000, currency: 'BRL', priority: 'cost-benefit' };
 const errors = new WeakMap();
 const state = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), key);
 const currency = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -14,6 +16,16 @@ async function data(response) {
   return body.data ?? body;
 }
 async function api(request, path) { return data(await request.get(`/api/v1${path}`)); }
+function currentPart(catalog, id, category) {
+  const part = catalog.find(part => part.id === id);
+  expect(part).toMatchObject({ id, category, catalogStatus: 'active', selectable: true });
+  expect(Number.isFinite(part.price)).toBe(true);
+  return part;
+}
+function readySelection(catalog, ready) {
+  expect(ready?.id).toBe(readyBuildId);
+  return Object.fromEntries(types.map(type => [type, currentPart(catalog, ready.components[`${type}Id`], type)]));
+}
 async function action(page, path, callback) {
   const response = page.waitForResponse(response => response.url().endsWith(`/api/v1${path}`) && response.request().method() === 'POST');
   await callback();
@@ -41,17 +53,24 @@ async function step(page, label) {
   await page.getByRole('navigation', { name: 'Etapas do assistente' }).getByRole('button', { name: new RegExp(label) }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText(label);
 }
-async function applyReady(page) {
+async function applyReady(page, request) {
+  const catalog = await api(request, '/components');
+  const ready = await api(request, `/ready-builds/${readyBuildId}`);
+  const selected = readySelection(catalog, ready);
   // Presets preserve the user's budget; recommendation tests supply one explicitly.
-  await page.addInitScript(key => {
-    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ budget: { amount: 6000, currency: 'BRL', priority: 'cost-benefit' } }));
-  }, key);
+  // The current preset exceeds both its original range and this user's limit.
+  expect(ready.estimatedTotalPrice).toBeGreaterThan(ready.targetBudgetRange.max);
+  expect(ready.estimatedTotalPrice).toBeGreaterThan(userBudget.amount);
+  await page.addInitScript(({ key, budget }) => {
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ budget }));
+  }, { key, budget: userBudget });
   await page.goto('/ready-builds');
-  const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: 'PC Gamer 1080p Custo-benefício', exact: true }) });
+  const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: ready.name, exact: true }) });
   await card.getByRole('button', { name: 'Usar build inteira', exact: true }).click();
   await expect(page).toHaveURL(/\/summary$/);
   const applied = await state(page);
-  expect(applied.budget.amount).toBe(6000);
+  expect(applied.budget).toEqual(userBudget);
+  expect(applied.selectedComponents).toEqual({ ...selected, fans: [] });
   return applied;
 }
 
@@ -67,8 +86,8 @@ test.afterEach(async ({ page }) => {
 
 test('montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real', async ({ page, request }, testInfo) => {
   const catalog = await api(request, '/components');
-  const ready = (await api(request, '/ready-builds'))[0];
-  const selected = Object.fromEntries(types.map(type => [type, catalog.find(part => part.id === ready.components[`${type}Id`])]));
+  const ready = (await api(request, '/ready-builds')).find(build => build.id === readyBuildId);
+  const selected = readySelection(catalog, ready);
   const expectedTotal = Number(Object.values(selected).reduce((sum, part) => sum + part.price, 0).toFixed(2));
   await page.goto('/build');
   const next = page.getByRole('button', { name: 'Avançar', exact: true });
@@ -150,9 +169,9 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
 });
 
 test('incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento', async ({ page, request }, testInfo) => {
-  const original = await applyReady(page);
+  const original = await applyReady(page, request);
   const catalog = await api(request, '/components');
-  const intel = catalog.find(part => part.id === 'cpu-intel-i5-12400f');
+  const intel = currentPart(catalog, 'cpu-intel-i5-12400f', 'cpu');
   await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();
   await step(page, 'Processador');
   await page.getByRole('button', { name: `Selecionar: ${intel.name}`, exact: true }).click();
@@ -167,15 +186,17 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   await page.getByRole('button', { name: `Selecionar: ${original.selectedComponents.cpu.name}`, exact: true }).click();
   expect((await state(page)).selectedComponents).toEqual(original.selectedComponents);
   await step(page, 'Revisão');
+  const budgetBeforeRecommendation = (await state(page)).budget;
+  expect(budgetBeforeRecommendation).toMatchObject(userBudget);
   const recommendation = await action(page, '/recommendations/budget', () => page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click());
   expect(recommendation.totalEstimatedPrice).toBeLessThanOrEqual(original.budget.amount);
   expect(Object.keys(recommendation.components).sort()).toEqual([...types].sort());
   await page.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
+  expect((await state(page)).budget).toEqual(budgetBeforeRecommendation);
   const applied = (await state(page)).selectedComponents;
   const expectedRecommended = Object.fromEntries(types.map(type => {
     const recommended = recommendation.components[type];
-    const current = catalog.find(part => part.id === recommended.id);
-    expect(current?.category).toBe(type);
+    const current = currentPart(catalog, recommended.id, type);
     // The recommendation omits the catalog's top-level score; applying it
     // hydrates that score by exact ID. Keep every other recommended field strict.
     expect(applied[type].performanceScore).toBe(current.performanceScore);
@@ -191,8 +212,10 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   expect((await state(page)).compatibility.compatible).toBe(true);
 });
 
-test('simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API', async ({ page }, testInfo) => {
-  const original = await applyReady(page);
+test('simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API', async ({ page, request }, testInfo) => {
+  const original = await applyReady(page, request);
+  const catalog = await api(request, '/components');
+  const replacement = currentPart(catalog, 'ram-kvr32n22d8-32', 'ram');
   await page.getByRole('button', { name: 'Alterar Memória RAM', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM', exact: true });
   await dialog.getByRole('radio', { name: /Kingston ValueRAM 32GB \(1x32GB\) DDR4-3200 CL22/ }).check();
@@ -200,7 +223,8 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   expect(preview.compatibility.compatible).toBe(true);
   await dialog.getByRole('button', { name: 'Aplicar substituição', exact: true }).click();
   const replaced = await state(page);
-  expect(replaced.selectedComponents.ram.id).toBe('ram-kvr32n22d8-32');
+  expect(replaced.selectedComponents.ram).toEqual(replacement);
+  expect(replaced.budget).toEqual(original.budget);
   for (const type of types.filter(type => type !== 'ram')) expect(replaced.selectedComponents[type]).toEqual(original.selectedComponents[type]);
   await navigation(page, 'analyze', '/performance-lab');
   const first = await action(page, '/performance/simulate-game', () => page.getByRole('button', { name: 'Simular jogo', exact: true }).click());
@@ -230,6 +254,7 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
     expect(suggestion.estimatedUpgradeCost).toBeLessThanOrEqual(1500);
     expect(suggestion.compatibilityStatus).toBe('compatible');
     expect(suggestion.suggestedComponent.id).not.toBe(suggestion.currentComponent.id);
+    currentPart(catalog, suggestion.suggestedComponent.id, suggestion.suggestedComponent.category);
     await expect(page.locator('.upgrade-card').filter({ hasText: suggestion.suggestedComponent.name })).toBeVisible();
   }
   await capture(page, testInfo, 'upgrades', page.locator('.upgrade-card').first());
@@ -237,27 +262,36 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
 
 test('catálogo, imagens, comparação de peças e navegação pública', async ({ page, request }, testInfo) => {
   const catalog = await api(request, '/components');
+  const priceLimit = 1200;
+  const comparedParts = ['ssd-sa400s37-480g', 'ssd-snv3s-1000g'].map(id => currentPart(catalog, id, 'storage'));
   await page.goto('/components');
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('storage');
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('700');
-  const expected = catalog.filter(part => part.category === 'storage' && part.brand === 'Kingston' && part.price <= 700);
+  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(String(priceLimit));
+  const expected = catalog.filter(part => part.category === 'storage' && part.brand === 'Kingston' && part.price <= priceLimit);
+  expect(catalog.some(part => part.category === 'storage' && part.brand === 'Kingston' && part.price > priceLimit)).toBe(true);
+  for (const part of comparedParts) expect(expected).toContainEqual(part);
   await expect(page.locator('.component-card')).toHaveCount(expected.length);
   for (const part of expected) await expect(page.locator('.component-card').filter({ has: page.getByRole('heading', { name: part.name, exact: true }) })).toContainText(currency(part.price));
   expect(expected.length).toBeGreaterThanOrEqual(2);
-  const photoPart = expected.find(part => part.id === 'ssd-kingston-kc3000-512gb');
-  expect(photoPart?.image.status).toBe('verified');
+  const photoPart = comparedParts[1];
+  expect(photoPart.image).toMatchObject({ status: 'verified', identityLevel: 'exact-model', componentId: photoPart.id });
   const photoCard = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: photoPart.name, exact: true }) });
   // Scroll the visible card so its hidden native lazy image can start loading.
   await photoCard.scrollIntoViewIfNeeded();
   const photo = photoCard.getByRole('img', { name: photoPart.image.alt, exact: true });
   await expect(photo).toBeVisible();
+  await expect(photo).toHaveAttribute('src', photoPart.image.imagePath);
   await expect.poll(() => photo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   await capture(page, testInfo, 'catalog-photo', photo);
-  for (const part of expected.slice(0, 2)) await page.getByRole('button', { name: `Comparar: ${part.name}`, exact: true }).click();
+  for (const part of comparedParts) await page.getByRole('button', { name: `Comparar: ${part.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Comparar peças (2)', exact: true }).click();
   await expect(page.getByRole('dialog')).toContainText('Leitura (até)');
   await expect(page.getByRole('dialog')).toContainText('Preço de referência');
+  for (const part of comparedParts) {
+    await expect(page.getByRole('dialog').getByRole('columnheader', { name: part.name, exact: true })).toBeVisible();
+    await expect(page.getByRole('dialog').getByRole('row').filter({ hasText: 'Preço de referência' })).toContainText(currency(part.price));
+  }
   await capture(page, testInfo, 'catalog-comparison');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Comparar peças (2)', exact: true })).toBeFocused();

@@ -113,7 +113,7 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }
         slot
       }))
       .filter((candidate) => candidate.estimatedPrice !== null)
-      .filter((candidate) => candidate.performanceScore >= 40)
+      .filter((candidate) => Number.isFinite(candidate.performanceScore) && candidate.performanceScore >= 40)
       .sort(compareCandidates(priority));
 
     const balancedCandidates = selectBalancedCandidatePool(components, priority);
@@ -153,7 +153,7 @@ function enrichCandidate(component, { usageType, priority, performanceByComponen
     estimatedPrice,
     recommendationMeta: {
       performanceScore,
-      costBenefitScore: Number(costBenefitScore.toFixed(4)),
+      costBenefitScore: costBenefitScore === null ? null : Number(costBenefitScore.toFixed(4)),
       priority
     },
     performanceScore,

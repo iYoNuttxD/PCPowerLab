@@ -27,7 +27,7 @@ test('deve buscar links de compra por componentId', () => {
   assert.equal(links[0].storeName, 'Kabum');
   assert.equal(links[0].url, 'https://www.kabum.com.br/busca/rtx-4060-8gb');
   assert.equal(links[0].currency, 'BRL');
-  assert.equal(typeof links[0].price, 'number');
+  assert.equal(links[0].price, null);
   assert.equal(typeof links[0].url, 'string');
   assert.equal(links.every((link) => link.url.startsWith('https://')), true);
   assert.equal(links.every((link) => link.isAffiliate === false), true);

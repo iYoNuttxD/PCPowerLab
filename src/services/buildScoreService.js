@@ -1,3 +1,4 @@
+import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { calculateBuildPerformanceScore } from '../utils/costBenefitUtils.js';
@@ -43,12 +44,13 @@ export function calculateBuildScore(input) {
       usageType
     }) : null
   };
-  const overallScore = priceAvailable ? calculateWeightedOverallScore(criteria) : null;
+  const available = priceAvailable && Object.values(criteria).every(Number.isFinite);
+  const overallScore = available ? calculateWeightedOverallScore(criteria) : null;
 
   return removeEmptyFields({
     overallScore,
-    classification: priceAvailable ? classifyBuildScore(overallScore) : 'Indisponível',
-    available: priceAvailable,
+    classification: available ? classifyBuildScore(overallScore) : 'Indisponível',
+    available,
     criteria,
     summary: buildScoreSummary({
       compatibility: summary.compatibility,
@@ -61,7 +63,7 @@ export function calculateBuildScore(input) {
       totalEstimatedPrice: summary.totalEstimatedPrice,
       pricing: summary.pricing,
       compatible: summary.compatibility.compatible,
-      hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
+      hasBottleneck: bottleneckVerdict(summary.bottlenecks),
       budgetStatus: summary.budgetStatus?.status
     }
   });
@@ -101,14 +103,19 @@ function calculatePerformanceCriterion({
     warnings.push(`Parâmetros de desempenho ausentes para: ${missingSlots.join(', ')}.`);
   }
 
-  return clampScore(calculateBuildPerformanceScore(components, performanceByComponentId, usageType));
+  const score = calculateBuildPerformanceScore(components, performanceByComponentId, usageType);
+  if (score === null) {
+    warnings.push('Estimativa de desempenho indisponível.');
+    return null;
+  }
+  return clampScore(score);
 }
 
 function calculateBalanceScore(bottlenecks, warnings) {
   if (bottlenecks?.available === false) {
     warnings.push('Análise de gargalos indisponível para os dados informados.');
 
-    return 50;
+    return null;
   }
 
   const bottleneckSummary = summarizeBottlenecks(bottlenecks);
@@ -145,11 +152,8 @@ function calculateBudgetScore(budgetStatus, warnings) {
 }
 
 function calculateCostBenefitCriterion({ components, performanceByComponentId, usageType }) {
-  return clampScore(Math.min(calculateBuildCostBenefitScore({
-    components,
-    performanceByComponentId,
-    usageType
-  }), 80));
+  const score = calculateBuildCostBenefitScore({ components, performanceByComponentId, usageType });
+  return score === null ? null : clampScore(Math.min(score, 80));
 }
 
 function normalizeOptionalText(value) {

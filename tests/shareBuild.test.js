@@ -1,4 +1,4 @@
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
+import { currentBuild, currentBuildTotal } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -13,15 +13,7 @@ import {
   listSharedBuilds
 } from '../src/services/shareBuildService.js';
 
-const validBuild = {
-  cpuId: 'cpu-ryzen-5-5600',
-  motherboardId: 'mb-b550m-aorus-elite',
-  gpuId: 'gpu-rtx-4060',
-  ramId: 'ram-kingston-fury-16gb-ddr4',
-  storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w',
-  caseId: 'case-mid-tower-airflow'
-};
+const validBuild = { ...currentBuild };
 
 const validSavedBuildInput = {
   name: 'Meu PC gamer',
@@ -46,8 +38,9 @@ test('deve gerar compartilhamento para build salva', () => {
   assert.equal(sharedBuild.source, 'saved_build');
   assert.equal(sharedBuild.buildId, savedBuild.id);
   assert.equal(sharedBuild.buildSummary.name, validSavedBuildInput.name);
-  assert.equal(sharedBuild.buildSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(sharedBuild.buildSummary.totalEstimatedPrice, currentBuildTotal());
   assert.equal(sharedBuild.buildSummary.compatibility.compatible, true);
+  assert.equal(sharedBuild.buildSummary.compatibility.status, 'compatible');
   assert.equal(sharedBuild.buildSummary.componentIds.cpu, validBuild.cpuId);
   assert.equal(Boolean(sharedBuild.createdAt), true);
 });
@@ -59,7 +52,7 @@ test('deve gerar compartilhamento para build direta', () => {
     name: 'Build direta para comunidade',
     build: validBuild,
     budget: {
-      amount: Number((referenceFixtureTotal() + 100.7).toFixed(2)),
+      amount: Number((currentBuildTotal() + 100.7).toFixed(2)),
       currency: 'BRL'
     },
     usageType: 'gaming'

@@ -15,7 +15,7 @@ test('deve listar todas as configuracoes prontas', () => {
   assert.equal(Array.isArray(result), true);
   assert.equal(result.length >= supportedReadyBuildProfiles.length, true);
   assert.equal(result.some((readyBuild) => readyBuild.usageProfile === 'gaming'), true);
-  assert.equal(typeof result[0].estimatedTotalPrice, 'number');
+  assert.equal(Number.isFinite(result[0].estimatedTotalPrice), true);
 });
 
 test('deve filtrar configuracoes prontas por perfil de uso', () => {
@@ -30,7 +30,7 @@ test('deve consultar configuracao pronta por ID', () => {
 
   assert.equal(result.id, 'ready-build-gaming-1080p');
   assert.equal(result.usageProfile, 'gaming');
-  assert.equal(result.components.cpuId, 'cpu-ryzen-5-5600');
+  assert.equal(result.components.cpuId, 'cpu-ryzen-7-5700x');
 });
 
 test('deve usar apenas componentes existentes nas configuracoes prontas', () => {
@@ -78,4 +78,12 @@ test('deve retornar erro controlado para configuracao pronta inexistente', () =>
       return true;
     }
   );
+});
+// Historical advertised targets are not silently inflated to fit current prices.
+test('ready presets disclose exact current totals above their original target ranges', () => {
+  const result = getReadyBuildById('ready-build-gaming-1080p');
+  assert.deepEqual(result.targetBudgetRange, { min: 4000, max: 5500 });
+  assert.equal(result.budgetStatus, 'above_range');
+  assert.equal(result.amountAboveTargetRange, Number((result.estimatedTotalPrice - 5500).toFixed(2)));
+  assert.ok(result.amountAboveTargetRange > 0);
 });

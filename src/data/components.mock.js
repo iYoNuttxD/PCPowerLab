@@ -1,4 +1,5 @@
 import { enrichMotherboardLimits } from './motherboardLimits.js';
+import { marketRevalidationCatalog, attachMarketRevalidationLifecycle } from './market-revalidation-catalog.js';
 import { replacementCatalog, attachCatalogLifecycle } from './catalogReplacements.js';
 import { attachDatedReference } from './dated-price-references.js';
 import { attachComponentImage } from './component-images.js';
@@ -919,5 +920,6 @@ export const components = [
     }
   },
   ...catalogV21,
-  ...replacementCatalog
-].map(enrichCaseCooling).map(enrichMotherboardLimits).map(attachComponentImage).map(attachDatedReference).map(attachCatalogLifecycle);
+  ...replacementCatalog,
+  ...marketRevalidationCatalog
+].map(enrichCaseCooling).map(enrichMotherboardLimits).map(attachComponentImage).map(attachDatedReference).map(attachCatalogLifecycle).map(attachMarketRevalidationLifecycle);

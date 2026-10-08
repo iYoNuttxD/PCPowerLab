@@ -67,10 +67,11 @@ test('actual catalog satisfies the AMD AM4 ceiling example and preserves distinc
   const { listComponents } = await import('../../src/services/component.service.js');
   const actual = listComponents();
   const matches = filterComponents(actual, { ...emptyCatalogFilters, category: 'cpu', brand: 'AMD', maxPrice: '1000', specs: { socket: 'AM4' }, sort: 'price-asc' });
-  assert.deepEqual(matches.map(component => component.id), ['cpu-ryzen-5-5600', 'cpu-ryzen-5-5500']);
-  const ddr5 = filterComponents(actual, { ...emptyCatalogFilters, category: 'ram', specs: { memoryType: 'DDR5', capacityGb: '32', speedMhz: '6000' } });
-  assert.ok(ddr5.length > 1);
-  assert.equal(new Set(ddr5.map(component => component.id)).size, ddr5.length);
+  assert.deepEqual(matches.map(component => component.id), ['cpu-ryzen-5-5500']);
+  assert.equal(actual.some(component => component.id === 'cpu-ryzen-5-5600'), false);
+  const ddr4 = filterComponents(actual, { ...emptyCatalogFilters, category: 'ram', specs: { memoryType: 'DDR4', capacityGb: '16', speedMhz: '3600' } });
+  assert.deepEqual(ddr4.map(component => component.id).sort(), ['ram-kf436c17bbk2-16', 'ram-kf436c18bb2a-16']);
+  assert.deepEqual(ddr4.map(component => component.specs.modulesPerKit).sort(), [1, 2]);
   const air = filterComponents(actual, { ...emptyCatalogFilters, category: 'cooler', specs: { coolingType: 'air', supportedSockets: 'AM4' } });
   assert.ok(air.length > 0);
   assert.ok(air.every(component => component.specs.coolingType === 'air' && component.specs.supportedSockets.includes('AM4')));

@@ -12,7 +12,7 @@ export default function ReferencePriceNote({ component, compact = false }) {
   return <p className={`reference-price-note${compact ? ' reference-price-note--compact' : ''}`}>
     {url ? <a href={url} target="_blank" rel="noopener noreferrer">{referenceLabel(component)}</a> : referenceLabel(component)}
     {!compact && reference && <span className="reference-price-variant">Vendedor: {reference.seller || reference.store} · {reference.paymentCondition || 'PIX à vista'}{Number.isFinite(reference.cardTotal) && ` · Total no cartão: ${formatCurrency(reference.cardTotal)}`}</span>}
-    {!compact && reference && <span className="reference-price-variant">{reference.observedAvailability === 'available' ? 'Disponível na observação datada; confirme o estoque na loja.' : 'Estoque não confirmado nesta referência.'} Frete não incluído.</span>}
+    {!compact && reference && <span className="reference-price-variant">{reference.observedAvailability === 'available' ? 'Disponível na consulta; confirme na loja.' : 'Estoque não confirmado nesta referência.'} Frete não incluído.{reference.conditionCaveat ? ' Condição novo/usado não informada.' : ''}</span>}
     {variant && <span className="reference-price-variant">{reference.referenceScope === 'family' ? 'Variante' : 'Exemplo de preço'}: {variant}</span>}
   </p>;
 }

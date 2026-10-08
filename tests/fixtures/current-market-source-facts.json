@@ -1,0 +1,733 @@
+{
+  "cpu-ryzen-5-5500": {
+    "price": 559.99,
+    "model": "100-100000457BOX",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/320799/processador-amd-ryzen-5-5500-3-6ghz-4-2ghz-max-turbo-cache-19mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000457box",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-ryzen-7-5700x": {
+    "price": 1199.99,
+    "model": "100-100000926WOF",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/20813/processador-amd-ryzen-7-5700x-34ghz-46ghz-turbo-8-cores-16-threads-am4-sem-cooler-100-100000926wof",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-ryzen-7-5800x3d": {
+    "price": 2139.99,
+    "model": "100-100000651POF",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/1053828/processador-amd-ryzen-7-5800x3d-3-4ghz-8-core-cache-100mb-am4-100-100000651pof",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-ryzen-5-7600": {
+    "price": 999.98,
+    "model": "100-100001015BOX",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/405799/processador-amd-ryzen-5-7600-3-8ghz-5-1ghz-max-turbo-cache-38mb-6-nucleos-12-threads-am5-com-video-integrado-100-100001015box",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-ryzen-7-7700": {
+    "price": 1649.99,
+    "model": "100-100000592SBX",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/40585/processador-amd-ryzen-7-7700-38ghz-53ghz-turbo-8-cores-16-threads-am5-com-cooler-amd-wraith-stealth-100-100000592sbx",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-intel-i3-12100f": {
+    "price": 599.99,
+    "model": "BX8071512100F",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/283719/processador-intel-core-i3-12100f-3-3ghz-4-3ghz-max-turbo-cache-12mb-4-nucleos-8-threads-lga-1700-sem-video-integrado-bx8071512100f",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-intel-i5-12400f": {
+    "price": 829.99,
+    "model": "BX8071512400F",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/20072/processador-intel-core-i5-12400f-25ghz-44ghz-turbo-12-geracao-6-cores-12-threads-lga-1700-bx8071512400f",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-intel-i7-13700k": {
+    "price": 3851.23,
+    "model": "BX8071513700K",
+    "seller": "BEST MICRO",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/400720/processador-intel-core-i7-13700k-lga-1700-3-4ghz-5-4ghz-max-turbo-cache-30mb-16-nucleos-24-threads-bx8071513700k",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "cpu-intel-i5-14400f": {
+    "price": 999.99,
+    "model": "BX8071514400F",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/27612/processador-intel-core-i5-14400f-35-ghz-47ghz-turbo-14-geracao-10-cores-16-threads-lga-1700-bx8071514400f",
+    "evidenceArtifact": "revalidated-cpu.json"
+  },
+  "mb-asus-tuf-b550m-plus": {
+    "price": 799.99,
+    "model": "TUF-GAMING-B550M-PLUS",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/placa-mae-asus-tuf-gaming-b550m-plus-ddr4-socket-am4-chipset-amd-b550-tuf-gaming-b550m-plus",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "fan-noctua-nf-a14-pwm": {
+    "price": 194.99,
+    "model": "NF-A14-PWM",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/ventoinha-noctua-140mm-marrom-nf-a14-pwm",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "mb-gigabyte-b650m-d3hp": {
+    "price": 799.99,
+    "model": "B650M D3HP",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/28919/placa-mae-gigabyte-b650m-d3hp-chipset-b650-amd-am5-matx-ddr5",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "case-cooler-master-elite-502-white": {
+    "price": 589.99,
+    "model": "E502-WGNN-S00",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/43174/gabinete-gamer-cooler-master-elite-502-argb-vidro-temperado-mid-tower-atx-com-3-fans-branco-e502-wgnn-s00",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "cooler-bequiet-pure-rock-3-black": {
+    "price": 159.99,
+    "model": "BK039",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/38349/cooler-para-processador-be-quiet-pure-rock-3-120mm-intelamd-preto-bk039",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "cooler-noctua-nh-l9a-am4-chromax-black": {
+    "price": 469.99,
+    "model": "NH-L9A-AM4-CH.BK",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/cooler-para-processador-noctua-nh-l9a-am4-chromax-92mm-preta-nh-l9a-am4-ch-bk",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "cooler-arctic-liquid-freezer-iii-pro-240-argb-white": {
+    "price": 679.99,
+    "model": "ACFRE00186A",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/39904/water-cooler-arctic-liquid-freezer-iii-pro-240-argb-240mm-intel-amd-branco-acfre00186a",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "cooler-arctic-liquid-freezer-iii-pro-360": {
+    "price": 739.99,
+    "model": "ACFRE00180A",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/36013/water-cooler-arctic-liquid-freezer-iii-pro-360-360mm-intel-amd-preto-acfre00180a",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "fan-arctic-p12-pro": {
+    "price": 59.99,
+    "model": "ACFAN00305A",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/39644/cooler-para-gabinete-arctic-p12-pro-120mm-preto-acfan00305a",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "fan-arctic-p12-pro-pst-white": {
+    "price": 59.99,
+    "model": "ACFAN00308A",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/39882/cooler-para-gabinete-arctic-p12-pro-pst-120mm-pwm-branco-acfan00308a",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack": {
+    "price": 259.99,
+    "model": "MFX-B2DW-253P2-R2",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/35779/kit-fan-com-3-unidades-cooler-master-sickleflow-edge-white-edition-argb-120mm-com-controladora-branco-mfx-b2dw-253p2-r2",
+    "evidenceArtifact": "board-rendered-selected-offers.json"
+  },
+  "ssd-kingston-a400-960gb": {
+    "price": 949.99,
+    "model": "SA400S37/960G",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/ssd-kingston-a400-960gb-2-5-pol-sata-iii-6gb-s-leitura-500mb-s-gravacao-450mb-s-sa400s37-960g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-kf432c16bbk2-16": {
+    "price": 1699.9,
+    "model": "KF432C16BBK2/16",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/19317/memoria-kingston-fury-beast-16gb-2x8gb-3200mhz-ddr4-black-kf432c16bbk216",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-samsung-870-evo-250gb": {
+    "price": 663.1,
+    "model": "MZ-77E250B/AM",
+    "seller": "DAXFY",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/450155/ssd-samsung-870-evo-250gb-sata-iii-2-5-polegadas-mz-77e250b-am",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-samsung-870-evo-500gb": {
+    "price": 862.83,
+    "model": "MZ-77E500B/EU",
+    "seller": "Orion Space Store",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/647831/ssd-500gb-2-5-sata-3-870-evo-560mb-s-leit-530mb-s-grav-mz-77e500b-eu-samsung",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-samsung-870-evo-1000gb": {
+    "price": 1685.25,
+    "model": "MZ-77E1T0B/AM",
+    "seller": "Orion Space Store",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/351998/ssd-samsung-870-evo-1tb-sata-mz-77e1t0b-am",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-kingston-kc3000-2048gb": {
+    "price": 5696.74,
+    "model": "SKC3000D/2048G",
+    "seller": "TH INFORMATICA",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/1055950/ssd-kingston-m-2-2tb-kc3000-nvme-skc3000d-2048g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-kingston-kc3000-4096gb": {
+    "price": 6899.99,
+    "model": "SKC3000D/4096G",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/272354/ssd-kingston-kc3000-4tb-m-2-2280-pcie-4-0-x4-nvme-leitura-7000-mb-s-gravacao-7000-mb-s-preto-skc3000d-4096g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-kingston-a400-240gb": {
+    "price": 479.99,
+    "model": "SA400S37/240G",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/ssd-kingston-a400-240gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-350mb-s-sa400s37-240g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-kvr32n22d8-32": {
+    "price": 3213.22,
+    "model": "KVR32N22D8/32",
+    "seller": "TH INFORMATICA",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/1055759/memoria-ram-kingston-ddr4-32gb-3200mhz-kvr32n22d8-32",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-kf432c16bb12ak2-32": {
+    "price": 3489.99,
+    "model": "KF432C16BB12AK2/32",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/480530/memoria-ram-kingston-fury-beast-rgb-32gb-2x16gb-3200mhz-ddr4-cl16-preto-kf432c16bb12ak2-32",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-cmh32gx4m2z3600c18": {
+    "price": 2999.99,
+    "model": "CMH32GX4M2Z3600C18",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-pro-sl-rgb-32gb-2x16gb-ddr4-3600mhz-cl18-preto-cmh32gx4m2z3600c18",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-cmh64gx5m2b6000z30w": {
+    "price": 10799.99,
+    "model": "CMH64GX5M2B6000Z30W",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-rgb-64gb-2x32gb-ddr5-6000mhz-c30-branco-cmh64gx5m2b6000z30w",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-kingston-nv3-500gb": {
+    "price": 729.9,
+    "model": "SNV3S/500G",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/31563/ssd-kingston-nv3-500gb-m2-nvme-2280-pcie-40-leitura-5000mbs-e-gravacao-3000mbs-snv3s500g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-xpg-gammix-s70-blade-1tb": {
+    "price": 1499.99,
+    "model": "AGAMMIXS70B-1T-CS",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/25625/ssd-xpg-gammmix-s70-blade-1tb-m2-2280-nvme-leitura-7400mbs-e-gravacao-5500mbs-agammixs70b-1t-cs",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-kingston-nv3-2tb": {
+    "price": 2121.74,
+    "model": "SNV3S/2000G",
+    "seller": "SEVENTEK COMERCIO DE INFORMATICA EIRELI",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/632569/ssd-2tb-kingston-m-2-nvme-pcie-4-leitura-6000mb-s-gravacao-5000mb-s-nv3-snv3s-2000g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-sandisk-520-2tb": {
+    "price": 3249.9,
+    "model": "SDSS51200TAB-000G0",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/42987/ssd-sandisk-520-2tb-sata-iii-leitura-560mbs-e-gravacao-520mbs-sdss51200tab-000g0",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ssd-kingston-nv3-4tb": {
+    "price": 3899.9,
+    "model": "SNV3S/4000G",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/32888/ssd-kingston-nv3-4tb-m2-nvme-2280-pcie-40-leitura-6000mbs-e-gravacao-5000mbs-snv3s4000g",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-kf432c16bb2ak2-64": {
+    "price": 4949.99,
+    "model": "KF432C16BB2AK2/64",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/480536/memoria-ram-kingston-fury-beast-rgb-64gb-2x32gb-3200mhz-ddr4-cl16-preto-kf432c16bb2ak2-64",
+    "evidenceArtifact": "ram-storage-selected-rendered.json"
+  },
+  "ram-kf436c17bbk2-16": {
+    "price": 1759.9,
+    "model": "KF436C17BBK2/16",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/19156/memoria-kingston-fury-beast-16gb-3600mhz-ddr4-cl17-preto-kf436c17bbk216",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-kf436c18bb2a-16": {
+    "price": 1999.9,
+    "model": "KF436C18BB2A/16",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/26052/memoria-ddr4-kingston-fury-beast-rgb-16gb-3600mhz-black-kf436c18bb2a16",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-ax5u6000c4816g-slabrbk": {
+    "price": 2049.99,
+    "model": "AX5U6000C4816G-SLABRBK",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/677473/memoria-ram-xpg-lancer-blade-16gb-rgb-ddr5-6000mhz-single-tray-cl48-preto-ax5u6000c4816g-slabrbk",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-kf432c16bb-8": {
+    "price": 699.9,
+    "model": "KF432C16BB/8",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/19314/memoria-kingston-fury-beast-8gb-3200mhz-ddr4-black-kf432c16bb8",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-kf432c16bb-16": {
+    "price": 1279.99,
+    "model": "KF432C16BB/16",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/1029658/memoria-ram-kingston-fury-beast-16gb-3200mt-s-ddr4-cl16-dimm-preto-kf432c16bb-16",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-cmk16gx5m1b5200c40": {
+    "price": 2199.9,
+    "model": "CMK16GX5M1B5200C40",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/22368/memoria-ddr5-corsair-vengeance-16gb-5200mhz-black-cmk16gx5m1b5200c40",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ssd-sa400s37-480g": {
+    "price": 569.9,
+    "model": "SA400S37/480G",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/19382/ssd-kingston-a400-480gb-sata-iii-leitura-500mbs-gravacao-450mbs-sa400s37480g-imp",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "hdd-st2000dm008": {
+    "price": 1116.0,
+    "model": "ST2000DM008",
+    "seller": "MOCK VAREJO",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/196410/hd-seagate-2tb-barracuda-3-5-sata-st2000dm008",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-msi-rtx-3050-lp-6g-oc": {
+    "price": 1399.99,
+    "model": "G3050LP6C",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/1012613/placa-de-video-msi-rtx-3050-lp-oc-nvidia-geforce-6gb-gddr6-96-bit-low-profile-g3050lp6c",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2": {
+    "price": 2399.99,
+    "model": "GV-N3060WF2OC-12GD REV2.0",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/475651/placa-de-video-rtx-3060-windforce-oc-12g-rev-2-0-gigabyte-nvidia-geforce-12gb-gddr6-192bits-ray-tracing-gv-n3060wf2oc-12gd",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-msi-rtx-4060-ventus-2x-black-8g-oc": {
+    "price": 3324.05,
+    "model": "912-V516-012",
+    "seller": "JC TECH STORE",
+    "store": "Amazon Brasil",
+    "availability": "available",
+    "sourceUrl": "https://www.amazon.com.br/Placa-128Bits-Ventus-MSI-912-V516-012/dp/B0C7W8GZMJ",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-gigabyte-rtx-5060-ti-eagle-oc-ice-8g": {
+    "price": 3199.99,
+    "model": "GV-N506TEAGLEOC ICE-8GD",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/802427/placa-de-video-rtx-5060-ti-eagleoc-ice-8g-gigabyte-nvidia-geforce-8gb-gddr7-128bits-dlss-ray-tracing-gv-n506teagleoc-ice-8gd",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g": {
+    "price": 5199.99,
+    "model": "GV-N5070WF3OC-12GD",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/714574/placa-de-video-gigabyte-rtx-5070-windforce-oc-sff-12g-nvidia-geforce-12gb-gddr7-192bits-dlss-ray-tracing-9vn5070wo-00-g10",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-gigabyte-rx-7600-gaming-oc-8g": {
+    "price": 2099.99,
+    "model": "GV-R76GAMING OC-8GD",
+    "seller": "Pichau (direct retail; no marketplace seller shown)",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/placa-de-video-gigabyte-radeon-rx-7600-gaming-oc-8gb-gddr6-128-bit-gv-r76gaming-oc-8gd",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-asrock-rx-9060-xt-challenger-16g-oc": {
+    "price": 3799.99,
+    "model": "90-GA5QZZ-00UANF",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/placa-de-video-asrock-radeon-rx-9060-xt-challenger-oc-16gb-gddr6-128-bit-90-ga5qzz-00uanf",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "gpu-xfx-rx-9070-xt-swift-white-16g": {
+    "price": 5199.99,
+    "model": "RX-97TSWF3W9",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/725948/placa-de-video-xfx-swift-rx-9070-xt-white-triple-fan-gaming-edition-with-amd-radeon-16gb-gddr6-hdmi-3xdp-rdna-4-rx-97tswf3w9",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "psu-coolermaster-mwe-gold650-v3": {
+    "price": 349.99,
+    "model": "MPE-6502-ACAAG-3BBR",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/38210/fonte-cooler-master-mwe-gold-650-v3-650w-80-plus-gold-atx-31-pfc-ativo-mpe-6502-acaag-3bbr",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "psu-corsair-rm750e-2025": {
+    "price": 599.99,
+    "model": "CP-9020295-BR",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/fonte-corsair-rm750e-750w-full-modular-atx-3-1-pcie-5-1-cybenetics-gold-preto-cp-9020295-br",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "psu-msi-mag-a850gl-pcie5-white": {
+    "price": 829.99,
+    "model": "MAG-A850GL-PCIE5-WH",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/fonte-msi-mag-a850gl-850w-full-modular-80-plus-gold-branco-mag-a850gl-pcie5-wh",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "cooler-bequiet-pure-rock-pro3-black": {
+    "price": 279.99,
+    "model": "BK042",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/38357/cooler-para-processador-be-quiet-pure-rock-pro-3-black-120mm-intelamd-preto-bk042",
+    "evidenceArtifact": "all-new-offers-for-integration.json",
+    "manufacturerBrand": "be quiet!",
+    "manufacturerUrl": "https://www.bequiet.com/en/cpucooler/5600"
+  },
+  "mb-gigabyte-b650-gaming-x-ax-v2": {
+    "price": 1299.99,
+    "model": "B650 GAMING X AX V2",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/28492/placa-mae-gigabyte-b650-gaming-x-ax-v2-chipset-b650-wifi-amd-am5-atx-ddr5",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5": {
+    "price": 1149.99,
+    "model": "B760M DS3H WF6E D4 G5",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/38489/placa-mae-gigabyte-b760m-ds3h-wifie-ddr4-gen5-chipset-b760-intel-lga-1700-m-atx-ddr4",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "mb-msi-pro-h610m-s-ddr4": {
+    "price": 489.99,
+    "model": "PRO H610M-S DDR4",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/31521/placa-mae-msi-pro-h610m-s-chipset-h610-intel-lga-1700-matx-ddr4",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "case-coolermaster-elite301-white": {
+    "price": 349.99,
+    "model": "E301-WGNN-S00",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/36697/gabinete-gamer-cooler-master-elite-301-branco-argb-vidro-temperado-mid-tower-matx-com-3-fans-e301-wgnn-s00",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "cpu-intel-i5-14600k-box": {
+    "price": 1699.99,
+    "model": "BX8071514600K",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/497578/processador-intel-core-i5-14600k-3-5ghz-5-3-ghz-max-turbo-cache-24mb-14-nucleos-20-threads-lga-1700-com-video-integrado-bx8071514600k",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-kf556c36bweak2-32": {
+    "price": 4199.99,
+    "model": "KF556C36BWEAK2-32",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/448302/memoria-ram-kingston-fury-beast-rgb-32gb-2x16gb-5600mhz-ddr5-cl36-branco-kf556c36bweak2-32",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "mb-asus-tuf-z790-plus-wifi-ddr5": {
+    "price": 1998.99,
+    "model": "90MB1D80-M1EAY0",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/427131/placa-mae-asus-tuf-gaming-z790-plus-intel-atx-ddr5-rgb-wi-fi-bluetooth-preto-90mb1d80-m1eay0",
+    "evidenceArtifact": "all-new-offers-for-integration.json"
+  },
+  "ram-apacer-nox-rgb-8gb-3200": {
+    "price": 529.9,
+    "model": "AH4U08G32C28YNBAA-1",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/42825/memoria-ddr4-apacer-nox-rgb-8gb-3200mhz-preto-ah4u08g32c28ynbaa-1",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-cmg16gx4m2e3200c16": {
+    "price": 1399.9,
+    "model": "CMG16GX4M2E3200C16",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/37624/memoria-ddr4-corsair-vengeance-rgb-rs-16gb-2x8gb-3200mhz-preto-cmg16gx4m2e3200c16",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-mancer-vant-s-16gb-3200": {
+    "price": 619.99,
+    "model": "MCR-VNT3200-16GB",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-apacer-nox-16gb-3200": {
+    "price": 919.9,
+    "model": "AH4U16G32C28YMBAA-1",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/42829/memoria-ddr4-apacer-nox-16gb-3200mhz-preto-ah4u16g32c28ymbaa-1",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-pvv516g56c36": {
+    "price": 2119.9,
+    "model": "PVV516G56C36",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/41560/memoria-ddr5-patriot-viper-venom-16gb-5600mhz-pvv516g56c36",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-cmk16gx5m2b5200z40": {
+    "price": 2239.9,
+    "model": "CMK16GX5M2B5200Z40",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/988586/memoria-ram-corsair-vengeance-16gb-2x8gb-5200mhz-ddr5-cl40-intel-xmp-amd-expo-cinza-cmk16gx5m2b5200z40",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-kf564c32bbe-16": {
+    "price": 2699.9,
+    "model": "KF564C32BBE-16",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/40562/memoria-ddr5-kingston-fury-beast-16gb-6400mhz-preto-kf564c32bbe-16",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-ff7d532g6000hc38j01": {
+    "price": 5799.99,
+    "model": "FF7D532G6000HC38J01",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/memoria-team-group-delta-a-rgb-32gb-1x32gb-ddr5-6000mhz-cl38-preto-ff7d532g6000hc38j01",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ram-cmk32gx5m2b6000c38": {
+    "price": 5239.9,
+    "model": "CMK32GX5M2B6000C38",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/988585/memoria-ram-corsair-vengeance-32gb-2x16gb-6000mhz-ddr5-cl38-intel-xmp-preto-cmk32gx5m2b6000c38-",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-snv3s-1000g": {
+    "price": 1199.99,
+    "model": "SNV3S/1000G",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/621162/ssd-kingston-nv3-1-tb-m-2-2280-pcie-4-0-x4-nvme-leitura-6000-mb-s-gravacao-4000-mb-s-azul-snv3s-1000g",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-lnm610p500g-rnnng": {
+    "price": 679.03,
+    "model": "LNM610P500G-RNNNG",
+    "seller": "MG INFORMATICA",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/1029699/ssd-500gb-m-2-lexar-nm610-pro-lnm610p500g",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-lnm620x512g-rnnng": {
+    "price": 899.91,
+    "model": "LNM620X512G-RNNNG",
+    "seller": "Victory",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/387742/ssd-lexar-nm620-m-2-pcie-512gb-lnm620x512g-rnnng",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-asu650ss-480gt-r": {
+    "price": 649.5,
+    "model": "ASU650SS-480GT-R",
+    "seller": "REVOLUTIONS NET",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/920740/ssd-adata-su650-480gb-sata-iii-2-5-leitura-520mb-s-gravacao-450mb-s-preto-asu650ss-480gt-r",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-lnq790x001t-rnnng": {
+    "price": 1149.99,
+    "model": "LNQ790X001T-RNNNG",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/ssd-lexar-nq790-1tb-m-2-2280-pcie-nvme-leitura-7000mb-s-gravacao-6000mb-s-lnq790x001t-rnnng",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-mz-v9p1t0b-am": {
+    "price": 2399.99,
+    "model": "MZ-V9P1T0B/AM",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/999227/ssd-samsung-990-pro-1tb-m-2-nvme-pcie-gen-4-0-leitura-7450mb-s-gravacao-6900mb-s-mz-v9p1t0b-am",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  },
+  "ssd-lnq100x480g-rnnnu": {
+    "price": 665.5,
+    "model": "LNQ100X480G-RNNNU",
+    "seller": "NEXDATE",
+    "store": "KaBuM",
+    "availability": "available",
+    "sourceUrl": "https://www.kabum.com.br/produto/461458/ssd-lexar-nq100-480gb-sata-iii-2-5-polegadas-lnq100x480g-rnnnu",
+    "evidenceArtifact": "diversity-additions-for-integration.json"
+  }
+}

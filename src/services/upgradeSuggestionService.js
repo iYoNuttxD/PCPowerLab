@@ -1,3 +1,4 @@
+import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { getSavedBuildById } from './savedBuildsService.js';
@@ -59,7 +60,7 @@ export function suggestUpgrades(input) {
       totalEstimatedPrice: pricing.estimatedTotal,
       pricing,
       mainBottleneck: getMainBottleneck(bottleneckAnalysis),
-      hasBottleneck: bottleneckAnalysis?.hasBottleneck === true
+      hasBottleneck: bottleneckVerdict(bottleneckAnalysis)
     },
     suggestions,
     summary: buildUpgradeSummary(suggestions, bottleneckAnalysis)
@@ -91,7 +92,7 @@ function buildUpgradeSuggestions({
       usageType,
       priority,
       budget,
-      hasBottleneck: bottleneckAnalysis?.bottlenecks?.some((bottleneck) => bottleneck.component === slot) === true
+      hasBottleneck: bottleneckVerdict(bottleneckAnalysis) === null ? null : bottleneckAnalysis.bottlenecks?.some((bottleneck) => bottleneck.component === slot) === true
     });
 
     if (suggestion) {
@@ -118,6 +119,7 @@ function findBestSuggestionForSlot({
   const currentComponent = currentBuild[slot];
   const currentPerformance = performanceByComponentId.get(currentComponent.id);
   const currentScore = getPerformanceScore(currentComponent, currentPerformance, usageType);
+  if (!Number.isFinite(currentScore)) return null;
   const recommendedComponentId = recommendationReference?.components?.[slot]?.id;
   const candidates = listComponents({ type: slot })
     .filter((candidate) => candidate.id !== currentComponent.id)
@@ -156,6 +158,7 @@ function buildCandidateSuggestion({
 }) {
   const candidatePerformance = performanceByComponentId.get(candidate.id);
   const candidateScore = getPerformanceScore(candidate, candidatePerformance, usageType);
+  if (!Number.isFinite(candidateScore)) return null;
   const scoreGain = Number((candidateScore - currentScore).toFixed(2));
 
   if (scoreGain <= 0) {

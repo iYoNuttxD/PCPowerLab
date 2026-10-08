@@ -1,4 +1,5 @@
 import { replacementCatalog } from './catalogReplacements.js';
+import { marketRevalidationCatalog } from './market-revalidation-catalog.js';
 import { catalogV21 } from './catalog.v21.js';
 
 export const performanceParameters = [
@@ -804,7 +805,7 @@ export const performanceParameters = [
 
 // Internal illustrative scores only. No physical benchmark or FPS measurement.
 // Cooling accessories intentionally have no performance parameters.
-performanceParameters.push(...[...catalogV21, ...replacementCatalog].filter(c => ['ram', 'storage'].includes(c.category)).map(component => {
+performanceParameters.push(...[...catalogV21, ...replacementCatalog, ...marketRevalidationCatalog].filter(c => ['ram', 'storage'].includes(c.category) && c.performanceModelStatus !== 'unavailable').map(component => {
   const { specs } = component;
   const score = component.category === 'ram'
     ? Math.min(92, 50 + specs.capacityGb / 2 + (specs.speedMhz - 3200) / 200)
@@ -828,4 +829,18 @@ performanceParameters.push(...[...catalogV21, ...replacementCatalog].filter(c =>
     scoreDisclaimer: 'Índice interno demonstrativo; não é benchmark, medição de FPS ou ganho garantido',
     recommendedUse: ['general', 'study', 'gaming', 'programming']
   };
+}));
+
+// Exact boards may use the already-defined internal chip-family model. This
+// does not measure the board, apply a factory-OC uplift, or verify board draw.
+performanceParameters.push(...marketRevalidationCatalog.filter(c => c.performanceFamilyId).map(component => {
+  const family = performanceParameters.find(parameter => parameter.componentId === component.performanceFamilyId);
+  return { ...family, componentId: component.id,
+    vram: component.specs.vramGb, memoryType: component.specs.memoryType,
+    tdp: component.id === 'gpu-msi-rtx-4060-ventus-2x-black-8g-oc' ? 120 : component.powerReference?.watts,
+    tdpBasis: component.id === 'gpu-msi-rtx-4060-ventus-2x-black-8g-oc'
+      ? 'Limite conservador de planejamento: MSI informa 115 W ou 120 W; revisão não diferenciada.'
+      : 'Referência declarada para a família do chip; não é consumo medido ou máximo verificado desta placa.',
+    scoreKind: 'internal-family-estimate', performanceFamilyId: component.performanceFamilyId,
+    scoreDisclaimer: 'Modelo interno da família do chip; sem benchmark desta placa e sem ganho presumido por overclock.' };
 }));

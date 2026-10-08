@@ -1,3 +1,4 @@
+import { corePerformanceCategories, isValidCorePerformanceParameter } from '../utils/performanceAvailability.js';
 import { referencePrice } from './marketPriceService.js';
 import { findPerformanceParameterRecordByComponentId } from '../data/performance-parameter.repository.js';
 import {
@@ -52,7 +53,7 @@ function validateComponentCategory(category) {
 export function withCatalogPerformance(component) {
   const parameter = ['cpu', 'gpu', 'ram', 'storage'].includes(component.category)
     ? findPerformanceParameterRecordByComponentId(component.id) : null;
-  const score = parameter?.performanceScore;
+  const score = component.performanceModelStatus === 'unavailable' || (corePerformanceCategories.includes(component.category) && !isValidCorePerformanceParameter(component, parameter)) ? null : parameter?.performanceScore;
   const performanceScore = typeof score === 'number' && Number.isFinite(score) && score >= 0 && score <= 100 ? score : null;
   return { ...withCatalogIdentity(component), performanceScore,
     performanceMethodology: performanceScore === null ? null

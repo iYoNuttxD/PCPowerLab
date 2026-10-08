@@ -173,28 +173,33 @@ function validPerformanceInputs(value) {
     && ['low', 'medium', 'high', 'ultra'].includes(value.qualityPreset) && isSessionId(value.softwareId);
 }
 
-function validGameResult(value) {
+export function validGameResult(value) {
   return isRecord(value) && typeof value.game === 'string' && validGameFields(value);
 }
 
 function validGameFields(value) {
-  return ['game', 'gameName', 'name', 'targetResolution', 'qualityPreset', 'performanceLevel', 'summary'].every(key => isOptionalText(value[key]))
+  return validAvailability(value) && ['game', 'gameName', 'name', 'targetResolution', 'qualityPreset', 'performanceLevel', 'summary'].every(key => isOptionalText(value[key]))
     && isOptionalNumber(value.estimatedFps)
     && (value.warnings === undefined || Array.isArray(value.warnings) && value.warnings.every(item => typeof item === 'string'))
     && (value.technicalDetails?.bottlenecks === undefined || Array.isArray(value.technicalDetails.bottlenecks)
       && value.technicalDetails.bottlenecks.every(item => isRecord(item) && isOptionalText(item.message)));
 }
 
-function validComparisonResult(value) {
+export function validComparisonResult(value) {
   const games = value?.results ?? value?.games;
   return isRecord(value) && ['targetResolution', 'qualityPreset', 'summary'].every(key => isOptionalText(value[key]))
     && Array.isArray(games) && games.length <= 10 && games.every(game => isRecord(game)
       && typeof (game.gameName ?? game.name ?? game.game) === 'string' && validGameFields(game));
 }
 
-function validSoftwareResult(value) {
-  return isRecord(value) && typeof value.software === 'string' && isOptionalNumber(value.performanceScore)
+export function validSoftwareResult(value) {
+  return isRecord(value) && validAvailability(value) && typeof value.software === 'string' && isOptionalNumber(value.performanceScore)
     && ['category', 'summary', 'performanceLevel'].every(key => isOptionalText(value[key]));
+}
+
+function validAvailability(value) {
+  return (value.available === undefined || typeof value.available === 'boolean')
+    && isOptionalText(value.reason);
 }
 
 function RequestError({ error, onRetry }) {
@@ -204,8 +209,12 @@ function RequestError({ error, onRetry }) {
   </div>;
 }
 
-function SoftwareResult({ result }) {
+export function SoftwareResult({ result }) {
   if (!result) return null;
+  if (result.available === false) return <section className="performance-result-panel" aria-label="Resultado da simulação profissional">
+    <div className="section-heading compact"><div><h3>{result.software}</h3><p>{result.category}</p></div><Badge tone="yellow">Sem estimativa</Badge></div>
+    <Alert type="warning">{translateValue('performance_model_unavailable')}</Alert>
+  </section>;
   return <section className="performance-result-panel" aria-label="Resultado da simulação profissional">
     <div className="section-heading compact"><div><h3>{result.software}</h3><p>{result.category}</p></div><Badge tone={result.meetsMinimumRequirements === false ? 'red' : 'cyan'}>{translateValue(result.performanceLevel)}</Badge></div>
     <p className="analysis-note">Avaliação estimada a partir dos requisitos cadastrados, em uma escala normalizada de 0 a 100 pontos. Pontos não são FPS nem porcentagem de velocidade. Nenhum teste foi executado no seu computador.</p>

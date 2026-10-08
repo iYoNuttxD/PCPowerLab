@@ -10,20 +10,18 @@ function removeOnePresetsBoardLimits(t) {
   const preset = readyBuilds.find(build => build.id === 'ready-build-cost-benefit-1440p-entry');
   const board = components.find(component => component.id === preset.components.motherboardId);
   const originalComponents = preset.components;
-  const originalSpecs = board.specs;
+  // Isolate one preset with its own test copy of the real board. Shared current
+  // recipes must not all lose their limits when testing a single failure.
+  const isolatedBoard = { ...board, id: 'test-ready-isolated-board', specs: { ...board.specs } };
+  components.push(isolatedBoard);
   t.after(() => {
     preset.components = originalComponents;
-    board.specs = originalSpecs;
+    components.splice(components.indexOf(isolatedBoard), 1);
   });
-
-  // Only this preset uses the board. Pair it with a concrete replacement RAM kit
-  // so the missing physical limits really make the compatibility check unknown.
-  assert.equal(readyBuilds.filter(build => build.components.motherboardId === board.id).length, 1);
-  preset.components = { ...preset.components, ramId: 'ram-kf432c16bb12ak2-32' };
+  preset.components = { ...preset.components, motherboardId: isolatedBoard.id, ramId: 'ram-kf436c17bbk2-16' };
   assert.equal(checkBuildCompatibility(preset.components).compatible, true);
-  board.specs = { ...board.specs };
-  delete board.specs.memorySlots;
-  delete board.specs.maxMemoryGb;
+  delete isolatedBoard.specs.memorySlots;
+  delete isolatedBoard.specs.maxMemoryGb;
   assert.equal(checkBuildCompatibility(preset.components).status, 'unverified');
   return preset;
 }

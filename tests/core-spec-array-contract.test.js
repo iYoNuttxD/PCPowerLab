@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { components } from '../src/data/components.mock.js';
@@ -8,7 +9,7 @@ import { suggestCompatibilityFixes } from '../src/services/compatibilityFixServi
 
 const build = { cpuId: 'cpu-ryzen-5-5600', motherboardId: 'mb-b550m-aorus-elite', gpuId: 'gpu-rtx-4060',
   ramId: 'ram-kingston-fury-16gb-ddr4', storageId: 'ssd-kingston-nv2-1tb', psuId: 'psu-corsair-650w', caseId: 'case-mid-tower-airflow' };
-const recommendation = { budget: { amount: 5000, priority: 'cost-benefit' }, usageType: 'gaming' };
+const recommendation = { budget: { amount: 10000, priority: 'cost-benefit' }, usageType: 'gaming' };
 
 for (const [id, field] of [[build.motherboardId, 'storageInterfaces'], [build.caseId, 'supportedFormFactors']]) {
   test(`admin rejects malformed ${field} atomically`, () => {
@@ -50,7 +51,7 @@ for (const [category, field, id, code] of [
         assert.equal(result.status, 'unverified');
         assert.ok(result.unverifiedChecks.some(check => check.code === code));
         assert.throws(() => recommendBuildByBudget(recommendation), { statusCode: 422 });
-        assert.throws(() => recommendBuildsByBudgetRange({ budgetRange: { min: 2000, max: 5000 }, usageType: 'gaming' }), { statusCode: 422 });
+        assert.throws(() => recommendBuildsByBudgetRange({ budgetRange: { min: 2000, max: 10000 }, usageType: 'gaming' }), { statusCode: 422 });
       }
     } finally {
       records.forEach((component, index) => { component.specs[field] = originals[index]; });
@@ -70,7 +71,7 @@ test('a malformed legacy candidate is skipped while healthy recommendations and 
     assert.notEqual(result.components.motherboard.id, board.id);
     assert.notEqual(result.components.case.id, malformedCase.id);
     assert.equal(checkBuildCompatibility(Object.fromEntries(Object.entries(result.components).map(([slot, component]) => [slot, component.id]))).status, 'compatible');
-    const fixes = suggestCompatibilityFixes({ ...build, motherboardId: 'mb-msi-b550-tomahawk', caseId: 'case-compact-matx' });
+    const fixes = suggestCompatibilityFixes({ ...currentBuild, motherboardId: 'mb-msi-b550-tomahawk', caseId: 'case-compact-matx' });
     assert.ok(fixes.issues.some(issue => issue.type === 'case_form_factor_mismatch'));
     assert.ok(fixes.suggestions.length > 0);
     assert.ok(fixes.suggestions.every(suggestion => suggestion.suggestedComponents.every(({ component }) => component.id !== malformedCase.id)));

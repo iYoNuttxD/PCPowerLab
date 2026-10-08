@@ -85,6 +85,11 @@ function formatReadyBuild(readyBuild) {
     ...readyBuild,
     compatibility,
     estimatedTotalPrice: pricing.estimatedTotal,
+    budgetStatus: pricing.estimatedTotal === null ? 'unknown'
+      : pricing.estimatedTotal > readyBuild.targetBudgetRange.max ? 'above_range'
+        : pricing.estimatedTotal < readyBuild.targetBudgetRange.min ? 'below_range' : 'within_range',
+    amountAboveTargetRange: pricing.estimatedTotal === null ? null
+      : Math.max(0, Number((pricing.estimatedTotal - readyBuild.targetBudgetRange.max).toFixed(2))),
     pricing
   };
 }

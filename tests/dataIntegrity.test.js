@@ -1,4 +1,5 @@
-import { replacementCatalog } from '../src/data/catalogReplacements.js';
+import { readFileSync } from 'node:fs';
+import { URL } from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -35,14 +36,20 @@ test('deve manter dados mockados principais consistentes', () => {
 
     componentIds.add(component.id);
   }
-  assert.equal(components.filter(component => component.price === null).length, 20);
-  assert.equal(components.filter(component => Number.isFinite(component.price)).length, 78 + replacementCatalog.length);
+  assert.equal(components.filter(component => component.price === null).length, 79);
+  const currentFacts = JSON.parse(readFileSync(new URL('./fixtures/current-market-source-facts.json', import.meta.url), 'utf8'));
+  assert.deepEqual(components.filter(component => Number.isFinite(component.price)).map(component => component.id).sort(), Object.keys(currentFacts).sort());
 
   for (const parameter of performanceParameters) {
     assert.equal(componentIds.has(parameter.componentId), true);
     assert.equal(componentCategories.includes(parameter.type), true);
-    assert.equal(Number.isFinite(parameter.performanceScore), true);
-    assert.equal(parameter.performanceScore >= 0 && parameter.performanceScore <= 100, true);
+    if (parameter.type === 'psu' && parameter.scoreKind === 'capacity-only') {
+      assert.equal(parameter.performanceScore, undefined);
+      assert.equal(Number.isFinite(parameter.wattage), true);
+    } else {
+      assert.equal(Number.isFinite(parameter.performanceScore), true);
+      assert.equal(parameter.performanceScore >= 0 && parameter.performanceScore <= 100, true);
+    }
   }
 
   for (const link of purchaseLinks) {

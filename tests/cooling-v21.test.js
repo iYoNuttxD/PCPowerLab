@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { components } from '../src/data/components.mock.js';
@@ -22,11 +23,11 @@ test('v2.1 legacy builds retain seven slots and compatible status', () => {
 });
 
 test('v2.1 optional selection, serialization and pack budgets roundtrip', () => {
-  const legacy = selectBuildComponents(selection);
-  const build = selectBuildComponents(withCooling);
+  const legacy = selectBuildComponents(currentBuild);
+  const build = selectBuildComponents({ ...currentBuild, coolerId: cooler.id, fans: withCooling.fans });
   assert.equal(build.cooler.id, cooler.id);
   assert.equal(build.fans[0].quantity, 2);
-  assert.equal(calculateBuildPrice(build), calculateBuildPrice(legacy) + 120 + 2 * 70);
+  assert.equal(calculateBuildPrice(build), Number((calculateBuildPrice(legacy) + 120 + 2 * 70).toFixed(2)));
   assert.equal(allBuildComponents(build).length, 10);
   assert.deepEqual(selectBuildComponents({ components: serializeBuildSelection(build) }), build);
   assert.deepEqual(selectOptionalBuildComponents({ coolerId: null, fans: [] }), {});

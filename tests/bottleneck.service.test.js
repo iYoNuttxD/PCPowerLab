@@ -98,7 +98,7 @@ test('deve aceitar selecao aninhada em components com campos de ID', () => {
   assert.equal(result.overallBalance, 'balanced');
 });
 
-test('deve retornar erro controlado quando faltar parametro de desempenho', () => {
+test('deve retornar indisponibilidade estruturada quando faltar parametro de desempenho', () => {
   createAdminComponent({
     id: 'cpu-test-no-performance-score',
     name: 'CPU Test Sem Score',
@@ -112,8 +112,7 @@ test('deve retornar erro controlado quando faltar parametro de desempenho', () =
     tdp: 65
   });
 
-  assert.throws(
-    () => analyzeBuildBottlenecks({
+  const result = analyzeBuildBottlenecks({
       cpuId: 'cpu-test-no-performance-score',
       motherboardId: 'mb-b550m-aorus-elite',
       gpuId: 'gpu-rtx-4060',
@@ -121,12 +120,9 @@ test('deve retornar erro controlado quando faltar parametro de desempenho', () =
       storageId: 'ssd-kingston-nv2-1tb',
       psuId: 'psu-corsair-650w',
       caseId: 'case-mid-tower-airflow'
-    }),
-    (error) => {
-      assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Parametros de desempenho insuficientes para analise de gargalos.');
-      assert.equal(error.errors.some((message) => message.includes('nao encontrados para cpu')), true);
-      return true;
-    }
-  );
+    });
+  assert.equal(result.available, false);
+  assert.equal(result.reason, 'performance_model_unavailable');
+  assert.deepEqual(result.componentsWithoutPerformanceModel, ['cpu-test-no-performance-score']);
+  assert.equal(result.performanceSummary, null);
 });

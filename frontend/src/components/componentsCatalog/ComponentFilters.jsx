@@ -39,7 +39,7 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
         </>}
         <Select label="Ordenar por" value={filters.sort || 'name-asc'} onChange={event => update('sort', event.target.value)} options={[
           { value: 'name-asc', label: 'Nome: A–Z' }, { value: 'name-desc', label: 'Nome: Z–A' },
-          { value: 'price-asc', label: 'Menor preço de referência' }, { value: 'price-desc', label: 'Maior preço de referência' },
+          { value: 'price-asc', label: 'Menor preço' }, { value: 'price-desc', label: 'Maior preço' },
           ...(performanceAvailable ? [
             { value: 'performance-desc', label: 'Maior desempenho estimado' }, { value: 'performance-asc', label: 'Menor desempenho estimado' },
             { value: 'value-desc', label: 'Maior índice por real' }, { value: 'value-asc', label: 'Menor índice por real' }

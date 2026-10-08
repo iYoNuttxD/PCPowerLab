@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -37,8 +38,8 @@ test('deve sugerir placa-mae compativel para incompatibilidade de socket', () =>
 
 test('deve sugerir fonte com potencia suficiente', () => {
   const result = suggestCompatibilityFixes({
-    ...validBuild,
-    gpuId: 'gpu-rx-7800-xt',
+    ...currentBuild,
+    gpuId: 'gpu-xfx-rx-9070-xt-swift-white-16g',
     psuId: 'psu-corsair-650w'
   });
 

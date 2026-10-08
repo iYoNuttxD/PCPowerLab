@@ -1,3 +1,4 @@
+import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { normalizeSelectedComponentIds } from './build.service.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { games } from '../data/games.js';
@@ -47,6 +48,8 @@ export function simulateGamePerformance(simulationInput) {
   const compatibility = validateSimulationCompatibility(simulationInput.build);
   const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);
+  const unavailable = unavailablePerformance(components);
+  if (unavailable) return { ...unavailable, game: game.name, gameId: game.id, targetResolution, qualityPreset, estimatedFps: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
   const performanceParameters = mapPerformanceParameters(components);
   const details = buildRequirementDetails({ game, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
@@ -257,6 +260,7 @@ function validateComparisonPayload(comparisonInput) {
 
 function formatGameComparisonResult(simulation) {
   return {
+    ...(simulation.available === false ? { available: false, reason: simulation.reason } : {}),
     gameId: simulation.gameId,
     gameName: simulation.game,
     estimatedFps: simulation.estimatedFps,
@@ -267,6 +271,7 @@ function formatGameComparisonResult(simulation) {
 }
 
 function buildGameComparisonSummary(simulations) {
+  if (simulations.some((simulation) => simulation.available === false)) return 'Estimativa de desempenho indisponível para este modelo.';
   const excellentCount = simulations.filter((simulation) => simulation.performanceLevel === 'excellent').length;
   const goodCount = simulations.filter((simulation) => simulation.performanceLevel === 'good').length;
   const insufficientCount = simulations.filter((simulation) => simulation.performanceLevel === 'insufficient').length;

@@ -1,3 +1,4 @@
+import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { getCoolingPower } from './cooling.service.js';
 import { selectBuildComponents } from './build.service.js';
 import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
@@ -14,6 +15,8 @@ const componentsWithRequiredPerformanceScore = ['cpu', 'gpu', 'ram', 'storage'];
 
 export function analyzeBuildBottlenecks(selectionInput) {
   const build = selectBuildComponents(selectionInput);
+  const unavailable = unavailablePerformance(build);
+  if (unavailable) return { ...unavailable, hasBottleneck: null, overallBalance: 'unavailable', bottlenecks: [], performanceSummary: null };
   const performanceParameters = mapPerformanceParameters(build);
   const coolingPower = getCoolingPower(build);
 
@@ -37,7 +40,9 @@ export function analyzeBuildBottlenecks(selectionInput) {
 function mapPerformanceParameters(build) {
   return requiredPerformanceParameterSlots.reduce((parametersBySlot, slot) => ({
     ...parametersBySlot,
-    [slot]: findPerformanceParametersByComponentId(build[slot].id)
+    [slot]: slot === 'psu' && build[slot].catalogRevision === '2026-10-08-market-revalidation'
+      ? { type: 'psu', wattage: build[slot].specs.watts, capacityOnly: true }
+      : findPerformanceParametersByComponentId(build[slot].id)
   }), {});
 }
 
@@ -229,6 +234,8 @@ function buildPerformanceSummary(performanceParameters, coolingPower, hasCooling
     ramScore: performanceParameters.ram.performanceScore,
     storageScore: performanceParameters.storage.performanceScore,
     estimatedConsumptionWatts: calculateEstimatedConsumptionWatts(performanceParameters) + coolingPower.knownWatts,
+    ...(performanceParameters.gpu.tdpBasis ? { gpuPowerEstimateBasis: performanceParameters.gpu.tdpBasis,
+      gpuBoardPowerVerified: false } : {}),
     ...(hasCooling ? { coolingPowerWatts: coolingPower.knownWatts, powerEstimateComplete: coolingPower.complete, unknownPowerComponents: coolingPower.unknownComponents } : {}),
     psuWatts: performanceParameters.psu.wattage
   };

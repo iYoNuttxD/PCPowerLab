@@ -1,3 +1,4 @@
+import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { createBudget } from './budgetService.js';
@@ -99,7 +100,8 @@ function analyzeBuildForComparison({
     totalEstimatedPrice: summary.totalEstimatedPrice,
     pricing: summary.pricing,
     priceBasis: 'catalog_reference_estimate',
-    performanceBasis: 'simulated_catalog_parameters',
+    performanceBasis: performanceScore === null ? 'unavailable' : 'simulated_catalog_parameters',
+    performanceAvailable: performanceScore !== null,
     compatible: summary.compatibility.compatible,
     compatibilityStatus: summary.compatibility.status,
     unverifiedChecks: summary.compatibility.unverifiedChecks,
@@ -107,7 +109,7 @@ function analyzeBuildForComparison({
     alertSummary,
     performanceScore,
     costBenefitScore,
-    hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
+    hasBottleneck: bottleneckVerdict(summary.bottlenecks),
     bottleneckSummary,
     bottleneckStatus: summary.compatibility.compatible === true && summary.compatibility.status !== 'unverified' && typeof summary.bottlenecks?.hasBottleneck === 'boolean' && summary.bottlenecks?.available !== false ? 'analyzed' : 'unavailable',
     budgetStatus,
@@ -115,7 +117,7 @@ function analyzeBuildForComparison({
     summary: buildComparisonSummary({
       compatible: summary.compatibility.compatible,
       budgetStatus,
-      hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
+      hasBottleneck: bottleneckVerdict(summary.bottlenecks),
       gamePerformance: summary.gamePerformance,
       usageType
     }),
@@ -124,7 +126,7 @@ function analyzeBuildForComparison({
 
   return {
     ...build,
-    comparisonScore: comparisonCriteria !== 'performance' && summary.totalEstimatedPrice === null
+    comparisonScore: performanceScore === null || (comparisonCriteria !== 'performance' && (summary.totalEstimatedPrice === null || costBenefitScore === null))
       ? null
       : Number(calculateComparisonScore({ build, criteria: comparisonCriteria }).toFixed(2))
   };
@@ -141,7 +143,7 @@ function calculatePerformanceScore({ summary, performanceByComponentId, usageTyp
 function selectRecommendedBuild({ builds, comparisonCriteria }) {
   const eligibleBuilds = builds.filter(build => Number.isFinite(build.comparisonScore));
   if (eligibleBuilds.length === 0) {
-    return { available: false, reason: 'Comparação por custo indisponível: há componentes sem preço de referência nas configurações enviadas.' };
+    return { available: false, reason: 'Comparação indisponível: faltam estimativas de desempenho ou preço de referência.' };
   }
   const selectedBuild = eligibleBuilds.reduce((bestBuild, currentBuild) => {
     if (!bestBuild || currentBuild.comparisonScore > bestBuild.comparisonScore) {
@@ -155,7 +157,7 @@ function selectRecommendedBuild({ builds, comparisonCriteria }) {
     comparisonIndex: selectedBuild.comparisonIndex,
     name: selectedBuild.name,
     reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild })
-      + (eligibleBuilds.length < builds.length ? ' Configurações sem custo total conhecido foram excluídas desta classificação.' : ''),
+      + (eligibleBuilds.length < builds.length ? ' Configurações sem estimativas necessárias foram excluídas desta classificação.' : ''),
     comparisonScore: selectedBuild.comparisonScore
   };
 }

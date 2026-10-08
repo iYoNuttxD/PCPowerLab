@@ -1,3 +1,4 @@
+import { activePart, comparisonCpuIds } from './helpers/catalog.js';
 import { test, expect } from '@playwright/test';
 import { listComponents } from '../../../src/services/component.service.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
@@ -151,7 +152,7 @@ test('v2.3 adicionar do catálogo preserva demais peças e preferências, invali
   await seed(page);
   await page.goto('/components');
   const before = await getState(page);
-  const replacement = components.find(component => component.category === 'ram' && component.id !== original.ram.id);
+  const replacement = activePart(components, 'ram-kf436c17bbk2-16');
   await select(page, 'Categoria', 'ram');
   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
   await expect.poll(async () => (await getState(page)).selectedComponents.ram.id).toBe(replacement.id);
@@ -169,7 +170,7 @@ test('v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no 
   test.skip(!isMobile, 'Verificação de geometria exclusiva do viewport móvel.');
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
-  const dialog = await compare(page, components.filter(component => component.category === 'cpu').slice(0, 4));
+  const dialog = await compare(page, comparisonCpuIds.slice(0, 4).map(id => activePart(components, id)));
   const region = dialog.getByRole('region', { name: 'Tabela de comparação de peças', exact: true });
   await expect(region).toBeVisible();
   const geometry = await region.evaluate(element => {
@@ -192,7 +193,7 @@ test('v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no 
 
 test('v2.3 compatibilidade usa a montagem atual e diferencia compatível, conflito e verificação incompleta', async ({ page }) => {
   await seed(page);
-  const candidates = components.filter(component => component.category === 'cpu').slice(0, 3);
+  const candidates = comparisonCpuIds.slice(0, 3).map(id => activePart(components, id));
   const statuses = ['compatible', 'incompatible', 'unverified'];
   let requestBody;
   let requestCount = 0;
@@ -262,7 +263,7 @@ test('v2.3 faixa de desempenho inválida tem orientação e muda de categoria se
 
 test('v2.3 falha de compatibilidade permite tentar novamente e resposta antiga não filtra outra montagem', async ({ page }) => {
   await seed(page);
-  const candidates = components.filter(component => component.category === 'ram').slice(0, 2);
+  const candidates = ['ram-kf436c17bbk2-16', 'ram-kvr32n22d8-32'].map(id => activePart(components, id));
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, candidates));
   let attempts = 0;
   let releaseOld;

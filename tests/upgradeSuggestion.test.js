@@ -1,4 +1,3 @@
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -96,7 +95,7 @@ test('deve sugerir upgrade para build direta respeitando orcamento e compatibili
     priority: 'cost-benefit'
   });
 
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, null);
   assert.equal(result.suggestions.length > 0, true);
 
   const firstSuggestion = result.suggestions[0];

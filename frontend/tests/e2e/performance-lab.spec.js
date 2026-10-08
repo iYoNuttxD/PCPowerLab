@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/catalog.js';
 import { test, expect } from '@playwright/test';
 import { mockWizardAnalysis } from './helpers/analysis.js';
 import { components } from '../../../src/data/components.mock.js';
@@ -5,7 +6,7 @@ import { games } from '../../../src/data/games.js';
 import { professionalSoftware } from '../../../src/data/professionalSoftware.js';
 
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
-const selectedComponents = Object.fromEntries(types.map(type => [type, components.find(component => component.category === type)]));
+const selectedComponents = currentBuild(components);
 const storageKey = 'pcpowerlab-build-state';
 const singleResult = {
   gameId: games[0].id, game: games[0].name, targetResolution: '1440p', qualityPreset: 'low',

@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/catalog.js';
 // Authored for a future authorized browser run; collection is not execution.
 import { test, expect } from '@playwright/test';
 import { mockWizardAnalysis } from './helpers/analysis.js';
@@ -5,8 +6,7 @@ import { components } from '../../../src/data/components.mock.js';
 import { games } from '../../../src/data/games.js';
 import { professionalSoftware } from '../../../src/data/professionalSoftware.js';
 
-const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
-const selectedComponents = { ...Object.fromEntries(types.map(type => [type, components.find(component => component.category === type)])), fans: [] };
+const selectedComponents = { ...currentBuild(components), fans: [] };
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const powerSummary = { cpuScore: 0, gpuScore: 90, ramScore: 65, storageScore: 80, estimatedConsumptionWatts: 300, psuWatts: 650 };
 async function seed(page, extra = {}) {

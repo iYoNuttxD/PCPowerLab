@@ -18,15 +18,17 @@ export function calculateBuildCostBenefitScore({ components, performanceByCompon
     return 0;
   }
 
-  const totalScore = componentEntries.reduce((total, [slot, component]) => {
+  const scores = componentEntries.map(([slot, component]) => {
     const performanceParameter = performanceByComponentId.get(component.id);
     const slotWeight = usageSlotWeights[usageType]?.[slot] ?? 1;
 
-    return total + calculateCostBenefitScore(component, performanceParameter, {
+    return calculateCostBenefitScore(component, performanceParameter, {
       usageType,
       slotWeight
     });
-  }, 0);
+  });
+  if (scores.some((score) => score === null)) return null;
+  const totalScore = scores.reduce((total, score) => total + score, 0);
 
   const mainPrice = calculateBuildPrice(Object.fromEntries(componentEntries));
   const totalPrice = calculateBuildPrice(components);
@@ -70,6 +72,7 @@ export function normalizeBudgetStatus(budgetStatus) {
 }
 
 export function calculateComparisonScore({ build, criteria }) {
+  if (!Number.isFinite(build.performanceScore) || !Number.isFinite(build.costBenefitScore) && criteria !== 'performance') return null;
   const compatibilityScore = build.compatible ? 15 : -35;
   const alertPenalty = (build.alertSummary.high * 12) + (build.alertSummary.medium * 6) + (build.alertSummary.low * 2);
   const bottleneckPenalty = (build.bottleneckSummary.high * 10)

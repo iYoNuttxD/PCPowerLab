@@ -1,3 +1,4 @@
+import { activePart } from './helpers/catalog.js';
 import { test, expect } from '@playwright/test';
 import { components } from '../../../src/data/components.mock.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
@@ -74,7 +75,7 @@ test('resposta atrasada do resumo não restaura análises após editar uma peça
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
   await expect.poll(() => Boolean(release)).toBe(true);
   await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();
-  const replacement = components.find(part => part.category === 'cpu' && part.id !== selection.cpu.id);
+  const replacement = activePart(components, 'cpu-ryzen-5-5500');
   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
   await releaseResponse(page, release);
   const state = await stored(page);

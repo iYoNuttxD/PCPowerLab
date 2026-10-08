@@ -1,4 +1,4 @@
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
+import { currentBuild, currentBuildTotal } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -11,15 +11,7 @@ import {
   saveBuild
 } from '../src/services/savedBuildsService.js';
 
-const validBuild = {
-  cpuId: 'cpu-ryzen-5-5600',
-  gpuId: 'gpu-rtx-4060',
-  motherboardId: 'mb-b550m-aorus-elite',
-  ramId: 'ram-kingston-fury-16gb-ddr4',
-  storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w',
-  caseId: 'case-mid-tower-airflow'
-};
+const validBuild = { ...currentBuild };
 
 const validBudget = {
   amount: 5000,
@@ -49,7 +41,7 @@ test('deve exportar uma build direta com resumo quando solicitado', () => {
     includeSummary: true
   });
 
-  assert.equal(exportedBuild.summary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(exportedBuild.summary.totalEstimatedPrice, currentBuildTotal());
   assert.equal(exportedBuild.summary.compatibilityStatus, 'compatible');
 });
 

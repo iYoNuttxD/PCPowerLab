@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/catalog.js';
 import { test, expect } from '@playwright/test';
 import { mockWizardAnalysis } from './helpers/analysis.js';
 import { components } from '../../../src/data/components.mock.js';
@@ -6,7 +7,7 @@ const key = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const cooler = { id: 'test-cooler', category: 'cooler', name: 'Cooler de teste', price: 100, specs: { coolingType: 'air', supportedSockets: ['AM4'], heightMm: 150, powerWatts: 3 } };
 const fan = { id: 'test-fan', category: 'fan', name: 'Pacote de teste', price: 60, specs: { diameterMm: 120, unitsPerPack: 3, powerWatts: 2 } };
-const core = Object.fromEntries(types.map(type => [type, components.find(part => part.category === type)]));
+const core = currentBuild(components);
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 
 test.beforeEach(async ({ page }) => {

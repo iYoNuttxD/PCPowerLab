@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { listComponentsByCostBenefit } from '../src/services/costBenefitService.js';
@@ -38,12 +39,12 @@ test('value rankings retain legacy price and disclose category-normalized simula
 });
 
 test('budget recommendations disclose candidate subset rather than market-wide cheapest claim', () => {
-  const result = recommendBuildByBudget({ budget: { amount: 5000, priority: 'lowest-price' }, usageType: 'gaming' });
+  const result = recommendBuildByBudget({ budget: { amount: 10000, priority: 'lowest-price' }, usageType: 'gaming' });
   assertDisclosure(result, 'shortlisted_catalog_candidates');
   assert.equal(typeof result.totalEstimatedPrice, 'number');
   assert.match(result.summary, /menor custo estimado entre as opções do catálogo/);
   assert.equal(result.summary.match(/entre as opções do catálogo/g)?.length, 1);
-  const [range] = recommendBuildsByBudgetRange({ budgetRange: { min: 3000, max: 5000 }, usageType: 'gaming' });
+  const [range] = recommendBuildsByBudgetRange({ budgetRange: { min: 3000, max: 10000 }, usageType: 'gaming' });
   assertDisclosure(range, 'shortlisted_catalog_candidates');
 });
 
@@ -61,7 +62,7 @@ test('upgrades and fixes disclose simulated costs and catalog-rule limitations',
 });
 
 test('comparison limits its recommendation to submitted builds and preserves numerical totals', () => {
-  const result = compareBuilds({ builds: [{ name: 'A', components: build }, { name: 'B', components: build }] });
+  const result = compareBuilds({ builds: [{ name: 'A', components: currentBuild }, { name: 'B', components: currentBuild }] });
   assertDisclosure(result, 'submitted_builds_only');
   assert.equal(result.builds[0].totalEstimatedPrice, result.builds[1].totalEstimatedPrice);
   assert.equal(result.builds[0].priceBasis, 'catalog_reference_estimate');

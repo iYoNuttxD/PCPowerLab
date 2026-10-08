@@ -3,18 +3,21 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { URL } from 'node:url';
 import { components } from '../src/data/components.mock.js';
+import { listComponents } from '../src/services/component.service.js';
 import { performanceParameters } from '../src/data/performanceParameters.js';
-import { readyBuilds } from '../src/data/readyBuilds.js';
 import { generateBuildSummary } from '../src/services/buildSummaryService.js';
 import { calculateBuildScore } from '../src/services/buildScoreService.js';
 import { checkBuildCompatibility } from '../src/services/compatibility.service.js';
 import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksService.js';
 
 const additions = components.filter(component => component.specSourceUrl && ['ram', 'storage'].includes(component.category));
-const reference = readyBuilds[0].components;
+// Keep the original technical scenario independent of changing current presets.
+// Historical identities still resolve; their retired prices must remain absent.
+const reference = { cpuId: 'cpu-ryzen-5-5600', motherboardId: 'mb-b550m-aorus-elite',
+  gpuId: 'gpu-rtx-4060', ramId: 'ram-kingston-fury-16gb-ddr4', storageId: 'ssd-kingston-nv2-1tb',
+  psuId: 'psu-corsair-650w', caseId: 'case-mid-tower-airflow' };
 // Reviewed source facts are an independent price oracle, not the service output under test.
-const priceFacts = { ...JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8')),
-  ...JSON.parse(readFileSync(new URL('./fixtures/replacement-source-facts.json', import.meta.url), 'utf8')) };
+const priceFacts = JSON.parse(readFileSync(new URL('./fixtures/current-market-source-facts.json', import.meta.url), 'utf8'));
 
 for (const component of additions) {
   test(`catalogo ampliado: ${component.id} participa de compatibilidade, orçamento e desempenho`, () => {
@@ -25,8 +28,9 @@ for (const component of additions) {
     }
     const summary = generateBuildSummary({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming', gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' });
     assert.equal(summary.compatibility.compatible, true);
-    assert.equal(summary.bottlenecks.available, undefined);
-    assert.equal(Number.isFinite(summary.gamePerformance.estimatedFps), true);
+    const performanceUnavailable = ['ram-ax5u6000c4816g-slabrbk', 'hdd-st2000dm008'].includes(component.id);
+    assert.equal(summary.bottlenecks.available, performanceUnavailable ? false : undefined);
+    assert.equal(Number.isFinite(summary.gamePerformance.estimatedFps), !performanceUnavailable);
     const selectedIds = Object.values(selection);
     const missingIds = selectedIds.filter(id => !Object.hasOwn(priceFacts, id));
     const knownSubtotal = selectedIds.filter(id => Object.hasOwn(priceFacts, id))
@@ -41,7 +45,8 @@ for (const component of additions) {
     assert.equal(summary.budgetStatus.remaining, missingIds.length ? null : Number((1000 - total).toFixed(2)));
     const score = calculateBuildScore({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming' });
     assert.equal(score.criteria.compatibilityScore, 100);
-    assert.ok(score.criteria.performanceScore > 0);
+    if (performanceUnavailable) assert.equal(score.criteria.performanceScore, null);
+    else assert.ok(score.criteria.performanceScore > 0);
     assert.equal(score.available, missingIds.length === 0);
     if (missingIds.length) {
       assert.equal(score.overallScore, null);
@@ -54,9 +59,12 @@ for (const component of additions) {
       assert.equal(score.warnings, undefined);
     }
     const parameter = performanceParameters.find(entry => entry.componentId === component.id);
-    assert.equal(parameter.capacity, component.specs.capacityGb);
-    if (component.category === 'ram') assert.equal(parameter.memoryType, component.specs.memoryType);
-    else assert.equal(parameter.interface, component.specs.interface);
+    if (performanceUnavailable) assert.equal(parameter, undefined);
+    else {
+      assert.equal(parameter.capacity, component.specs.capacityGb);
+      if (component.category === 'ram') assert.equal(parameter.memoryType, component.specs.memoryType);
+      else assert.equal(parameter.interface, component.specs.interface);
+    }
     const links = getPurchaseLinksByComponentId(component.id);
     assert.equal(links.length, 5);
     assert.equal(links.every(link => link.price === component.price && link.availabilityStatus === 'unknown'), true);
@@ -79,5 +87,18 @@ test('armazenamento novo não ignora interface incompatível cadastrada na placa
     assert.equal(result.alerts.some(alert => alert.code === 'STORAGE_INTERFACE_INCOMPATIBLE'), true);
   } finally {
     board.specs.storageInterfaces = original;
+  }
+});
+
+test('current RAM and storage retain at least the original breadth with independently observed prices', () => {
+  for (const category of ['ram', 'storage']) {
+    const active = listComponents({ category });
+    assert.ok(active.length >= 21, `${category}: ${active.length}`);
+    assert.equal(new Set(active.map(component => component.id)).size, active.length);
+    for (const component of active) {
+      assert.equal(component.price, priceFacts[component.id].price);
+      assert.equal(component.pricing.observedAvailability, 'available');
+      assert.equal(component.selectable, true);
+    }
   }
 });

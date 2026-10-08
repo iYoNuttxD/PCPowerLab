@@ -1,6 +1,6 @@
 import { getDatedReference } from '../data/dated-price-references.js';
 import { URL } from 'node:url';
-// No live provider is configured. Only server-controlled, authorized observations belong here.
+// No live provider is configured. Manual observations are not authorized API quotes.
 // Catalog prices remain estimates and are never replaced by a partial market subtotal.
 export const marketIntegrationStatus = Object.freeze({ status: 'not_configured', connected: false,
   message: 'Comparação automática indisponível: nenhuma fonte de preços autorizada está conectada.' });
@@ -8,10 +8,10 @@ export const marketQuotes = Object.freeze([]);
 
 export function referencePrice(component) {
   const snapshot = getDatedReference(component);
-  if (snapshot) return { ...snapshot, source: 'dated_public_reference', updateStatus: 'dated_snapshot',
+  if (snapshot) return { ...snapshot, observationSource: snapshot.source, source: 'dated_public_reference', updateStatus: 'dated_snapshot',
     isMarketQuote: false, basis: 'PIX à vista; frete excluído', observedAvailability: snapshot.availability,
-    availability: 'unknown', validityMessage: 'Registro de pesquisa datado; sem validade futura ou estoque ao vivo' };
-  return { productId: component.id, price: validPrice(component.price) ? component.price : null,
+    availability: 'unknown', validUntil: null, validityMessage: 'Registro de pesquisa datado; sem validade futura ou estoque ao vivo' };
+  return { productId: component.id, price: component.priceKind !== 'dated-reference-snapshot' && !component.datedReferenceIdentity && validPrice(component.price) ? component.price : null,
     currency: 'BRL', source: 'catalog_reference', updateStatus: 'estimate', queriedAt: null,
     validUntil: null, availability: 'unknown', isMarketQuote: false };
 }
@@ -44,6 +44,7 @@ export function assessMarketQuote(quote, productId, now = Date.now()) {
   }
   if (until <= now) return { status: 'stale', quote };
   if (quote.availability === 'unavailable') return { status: 'unavailable', quote };
+  if (quote.availability !== 'available') return { status: 'unknown_availability', quote };
   return { status: 'valid', quote };
 }
 
@@ -80,7 +81,8 @@ export function summarizeBuildPricing(build, quotes = marketQuotes, now = Date.n
     else if (reference.updateStatus === 'dated_snapshot') datedReferenceUnits += quantity;
     else estimatedReferenceUnits += quantity;
     referenceComponents.push({ productId: component.id, quantity, price: reference.price,
-      basis: reference.updateStatus, store: reference.store ?? null, queriedAt: reference.queriedAt });
+      basis: reference.updateStatus, store: reference.store ?? null, queriedAt: reference.queriedAt,
+      observedAt: reference.observedAt ?? null, observedAvailability: reference.observedAvailability ?? 'unknown' });
     if (reference.price === null) withoutReference.push(component.id);
     else estimated += reference.price * quantity;
     const offer = getProductMarket(component.id, quotes, now).offers.find(item => item.availability === 'available');
@@ -90,13 +92,16 @@ export function summarizeBuildPricing(build, quotes = marketQuotes, now = Date.n
       quotedComponents.push({ productId: component.id, quantity, ...offer });
     }
   }
-  return { currency: 'BRL', estimatedTotal: withoutReference.length ? null : Number(estimated.toFixed(2)),
+  return { currency: 'BRL', estimatedTotal: !entries.length || withoutReference.length ? null : Number(estimated.toFixed(2)),
     knownReferenceSubtotal: Number(estimated.toFixed(2)),
+    observedAvailableReferenceTotal: entries.length > 0 && !withoutReference.length && estimatedReferenceUnits === 0 ? Number(estimated.toFixed(2)) : null,
+    componentsWithoutVerifiedObservation: referenceComponents.filter(item => item.basis !== 'dated_snapshot' || item.price === null).map(item => item.productId),
     referenceTotalComplete: entries.length > 0 && withoutReference.length === 0,
-    availableMarketQuotesTotal: quotedComponents.length ? Number(availableQuotes.toFixed(2)) : null,
+    availableMarketQuotesTotal: entries.length > 0 && withoutQuote.length === 0 ? Number(availableQuotes.toFixed(2)) : null,
+    availableMarketQuotesSubtotal: quotedComponents.length ? Number(availableQuotes.toFixed(2)) : null,
     marketTotalComplete: entries.length > 0 && withoutQuote.length === 0,
     componentsWithoutCurrentQuote: withoutQuote, componentsWithoutReference: withoutReference, quotedComponents,
     basis: datedReferenceUnits ? (estimatedReferenceUnits ? 'mixed_dated_and_estimated_reference' : 'dated_reference') : 'catalog_reference',
     datedReferenceUnits, estimatedReferenceUnits, unavailableReferenceUnits, referenceComponents, paymentBasis: 'Referências datadas: PIX à vista; demais valores: estimativas sem condição de pagamento verificada', excludesShipping: true,
-    methodology: 'Total estimado pode combinar referências datadas à vista (PIX) e estimativas demonstrativas; cobertura informada por packs. Registros datados não são cotações atuais. O total soma referências do catálogo; subtotal de cotações soma apenas itens com disponibilidade confirmada. Valores nunca são misturados. Frete, condições de pagamento e montagem não incluídos.' };
+    methodology: 'Total estimado usa referências observadas de SKU exato com disponibilidade explícita e pode incluir estimativas administrativas identificadas. Total de referências com disponibilidade observada exige cobertura completa e exclui estimativas. A observação é manual e datada, sem garantia futura de preço ou estoque e sem API conectada. Cotações autorizadas são separadas: cobertura parcial aparece somente no subtotal. Frete e montagem não incluídos.' };
 }

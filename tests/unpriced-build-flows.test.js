@@ -1,3 +1,4 @@
+import { currentBuild, currentBuildTotal, currentPrice } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { app } from '../src/app.js';
@@ -18,16 +19,10 @@ import { suggestUpgrades } from '../src/services/upgradeSuggestionService.js';
 import { generateUpgradeRoadmap } from '../src/services/upgradeRoadmapService.js';
 import { recommendBuildByBudget, recommendBuildsByBudgetRange } from '../src/services/recommendationService.js';
 
-const pricedBuild = {
-  cpuId: 'cpu-ryzen-5-5600', motherboardId: 'mb-b550m-aorus-elite', gpuId: 'gpu-rtx-4060',
-  ramId: 'ram-kingston-fury-16gb-ddr4', storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w', caseId: 'case-mid-tower-airflow'
-};
+const pricedBuild = { ...currentBuild };
 const build = { ...pricedBuild, storageId: 'ssd-samsung-970-evo-plus-1tb' };
 const simulation = { build, gameId: 'game-valorant', targetResolution: '1080p', qualityPreset: 'high' };
-const knownSubtotal = () => Number(allBuildComponents(selectBuildComponents(build))
-  .filter(part => typeof part.price === 'number' && Number.isFinite(part.price) && part.price > 0)
-  .reduce((sum, part) => sum + part.price, 0).toFixed(2));
+const knownSubtotal = () => Number((currentBuildTotal() - currentPrice(currentBuild.storageId)).toFixed(2));
 
 function assertUnavailablePricing(pricing) {
   assert.equal(pricing.estimatedTotal, null);
@@ -126,10 +121,10 @@ test('priced upgrades remain available even when the current build has no comple
 });
 
 test('recommendations use priced alternatives and human summaries use Portuguese levels', () => {
-  const result = recommendBuildByBudget({ budget: { amount: 6000 }, usageType: 'gaming' });
+  const result = recommendBuildByBudget({ budget: { amount: 10000 }, usageType: 'gaming' });
   assert.ok(allBuildComponents(result.components).every(part => Number.isFinite(part.price) && part.price > 0));
   assert.equal(result.totalEstimatedPrice, calculateBuildPrice(result.components));
-  const range = recommendBuildsByBudgetRange({ budgetRange: { min: 1500, max: 6000 }, usageType: 'gaming' });
+  const range = recommendBuildsByBudgetRange({ budgetRange: { min: 1500, max: 10000 }, usageType: 'gaming' });
   assert.ok(range.length > 0);
   for (const entry of range) {
     assert.doesNotMatch(entry.summary, /\b(?:good|excellent|basic|entry)\b/);
@@ -176,4 +171,39 @@ test('HTTP requests serialize explicit null totals while retaining compatibility
   const saved = await post('/saved-builds', { name: 'Unpriced HTTP', components: build, totalEstimatedPrice: 0 }, 201);
   assert.equal(saved.totalEstimatedPrice, null);
   assertUnavailablePricing(saved.pricing);
+});
+
+
+test('historical seven-slot selections retain original identity through all persistence flows', () => {
+  const legacy = { cpuId: 'cpu-ryzen-5-5600', motherboardId: 'mb-b550m-aorus-elite',
+    gpuId: 'gpu-rtx-4060', ramId: 'ram-kingston-fury-16gb-ddr4', storageId: 'ssd-kingston-nv2-1tb',
+    psuId: 'psu-corsair-650w', caseId: 'case-mid-tower-airflow' };
+  const selected = selectBuildComponents(legacy);
+  const originals = Object.fromEntries(Object.entries(selected).map(([slot, part]) =>
+    [slot, { id: part.id, specs: globalThis.structuredClone(part.specs), image: globalThis.structuredClone(part.image) }]));
+  const saved = saveBuild({ name: 'Original legacy identity', components: legacy });
+  const exported = exportSavedBuildToJson(saved.id, { includeSummary: true });
+  const shared = createBuildShare({ buildId: saved.id });
+  const report = generateBuildReport({ build: legacy, gameIds: ['game-valorant'] });
+  assert.equal(revalidateSavedBuild(saved.id).results[0].status, 'compatible');
+  assert.deepEqual(exported.build.components, legacy);
+  assert.equal(saved.totalEstimatedPrice, null);
+  assert.equal(saved.pricing.knownReferenceSubtotal, 0);
+  assert.deepEqual(new Set(saved.pricing.componentsWithoutReference), new Set(Object.values(legacy)));
+  for (const result of [exported.summary, shared.buildSummary, report]) {
+    assert.equal(result.totalEstimatedPrice ?? result.pricing.totalEstimatedPrice ?? result.pricing.estimatedTotal, null);
+    assert.equal(result.pricing.referenceTotalComplete, false);
+  }
+  for (const [slot, original] of Object.entries(originals)) {
+    assert.equal(saved.components[slot], original.id);
+    assert.equal(shared.buildSummary.componentIds[slot], original.id);
+    const part = report.components[slot];
+    assert.equal(part.id, original.id);
+    assert.equal(part.price, null);
+    assert.equal(part.lifecycle, 'legacy');
+    assert.deepEqual(part.specs, original.specs);
+    assert.deepEqual(part.image, original.image);
+    assert.notEqual(part.id, part.replacementId);
+  }
+  assert.ok(report.gamePerformance[0].estimatedFps > 0);
 });

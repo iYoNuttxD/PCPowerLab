@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { generateBuildSummary } from '../src/services/buildSummaryService.js';
@@ -57,7 +58,7 @@ test('compatibility and budget retain precedence over game guidance', () => {
   const incompatible = generateBuildSummary({ build: { ...build, cpuId: 'cpu-intel-i3-12100f' }, ...demandingGame });
   assert.equal(incompatible.compatibility.status, 'incompatible');
   assert.match(incompatible.finalRecommendation, /Revise as incompatibilidades/);
-  const overBudget = generateBuildSummary({ build, ...demandingGame, budget: { amount: 100 } });
+  const overBudget = generateBuildSummary({ build: currentBuild, ...demandingGame, budget: { amount: 100 } });
   assert.equal(overBudget.budgetStatus.status, 'over_budget');
   assert.match(overBudget.finalRecommendation, /reduzir o custo total/);
 });

@@ -2,6 +2,7 @@ import { selectBuildComponents } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
 import { isNonEmptyTextArray } from '../models/component.model.js';
+import { supplementalCompatibilityEvidence } from '../data/market-compatibility-evidence.js';
 
 export function checkBuildCompatibility(selectedComponents) {
   const build = selectBuildComponents(selectedComponents);
@@ -16,15 +17,20 @@ export function evaluateResolvedBuildCompatibility(selectedBuild) {
   for (const slot of ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case']) {
     if (!build[slot]) build[slot] = { specs: {} };
   }
+  const caseEvidence = supplementalCompatibilityEvidence(build.case);
+  if (caseEvidence) build.case = { ...build.case, specs: { ...caseEvidence.specs, ...build.case.specs } };
   const { alerts, unverifiedChecks } = checkCoolingCompatibility(build);
   validateCpuAndMotherboard(build, alerts, unverifiedChecks);
   validateRamAndMotherboard(build, alerts, unverifiedChecks);
   validateStorageAndMotherboard(build, alerts, unverifiedChecks);
   validateReplacementDependencies(build, alerts, unverifiedChecks);
+  validateReplacementPowerAndFit(build, alerts, unverifiedChecks);
   validatePsu(build, alerts, unverifiedChecks);
   validateCase(build, alerts, unverifiedChecks);
   const status = alerts.length ? 'incompatible' : unverifiedChecks.length ? 'unverified' : 'compatible';
-  return { compatible: status === 'compatible', status, alerts, unverifiedChecks };
+  return { compatible: status === 'compatible', status, alerts, unverifiedChecks,
+    ...(caseEvidence ? { verificationSources: [{ componentId: build.case.id,
+      sourceUrl: caseEvidence.sourceUrl, verifiedAt: caseEvidence.verifiedAt, note: caseEvidence.note }] } : {}) };
 }
 
 function validateCpuAndMotherboard(build, alerts, unverifiedChecks) {
@@ -141,4 +147,81 @@ function validateReplacementDependencies(build, alerts, unverifiedChecks) {
       conflict('M2_LENGTH_INCOMPATIBLE', 'A placa-mãe não declara suporte ao comprimento deste SSD M.2.');
     }
   }
+}
+
+
+const MARKET_REVALIDATION = '2026-10-08-market-revalidation';
+const revalidated = (component) => component.catalogRevision === MARKET_REVALIDATION;
+const hasField = (specs, field) => Object.hasOwn(specs, field);
+const positiveNumber = (value) => Number.isFinite(value) && value > 0;
+
+// These checks deliberately do not infer cables, adapters, installed BIOS or
+// chassis clearance from wattage, sockets, product names or missing fields.
+function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
+  const gpu = build.gpu.specs;
+  const psu = build.psu.specs;
+  const chassis = build.case.specs;
+  const board = build.motherboard.specs;
+  const unknown = (code, message) => unverifiedChecks.push({ code, severity: 'medium', verification: 'unverified', message });
+  const conflict = (code, message) => alerts.push({ code, severity: 'high', message });
+  const connectorFields = { 'pcie-8pin': 'pcie8PinConnectors', '12v-2x6': 'native12v2x6Connectors' };
+  if (revalidated(build.gpu) || revalidated(build.psu) || hasField(gpu, 'powerConnectors')
+    || Object.values(connectorFields).some(field => hasField(psu, field))) {
+    const requirements = gpu.powerConnectors;
+    if (!Array.isArray(requirements) || !requirements.length) {
+      unknown('GPU_POWER_CONNECTORS_UNVERIFIED', 'Conectores de alimentação da GPU não confirmados.');
+    } else {
+      const totals = new Map();
+      for (const requirement of requirements) {
+        if (!requirement || !Object.hasOwn(connectorFields, requirement.type)
+          || !Number.isInteger(requirement.count) || requirement.count < 1) {
+          unknown('GPU_POWER_CONNECTORS_UNVERIFIED', 'Tipo ou quantidade de conectores da GPU não confirmados.');
+          continue;
+        }
+        totals.set(requirement.type, (totals.get(requirement.type) || 0) + requirement.count);
+      }
+      for (const [type, count] of totals) {
+        const available = psu[connectorFields[type]];
+        if (!Number.isInteger(available) || available < 0) {
+          unknown('PSU_GPU_CONNECTORS_UNVERIFIED', `Quantidade disponível de conectores ${type} da fonte não confirmada; adaptadores não são presumidos.`);
+        } else if (available < count) {
+          conflict('PSU_GPU_CONNECTORS_INCOMPATIBLE', `A GPU exige ${count} conector(es) ${type}, mas a fonte declara ${available}. Adaptadores exigem verificação separada.`);
+        }
+      }
+    }
+  }
+  if (revalidated(build.psu) || revalidated(build.case) || hasField(psu, 'formFactor')
+    || hasField(chassis, 'supportedPsuFormFactors') || hasField(psu, 'dimensionsMm') || hasField(chassis, 'maxPsuLengthMm')) {
+    if (!psu.formFactor || !isNonEmptyTextArray(chassis.supportedPsuFormFactors)) {
+      unknown('CASE_PSU_FORM_FACTOR_UNVERIFIED', 'Formato da fonte ou formatos aceitos pelo gabinete não confirmados.');
+    } else if (!chassis.supportedPsuFormFactors.includes(psu.formFactor)) {
+      conflict('CASE_PSU_FORM_FACTOR_INCOMPATIBLE', 'O gabinete não declara suporte ao formato desta fonte.');
+    }
+    const length = !Array.isArray(psu.dimensionsMm) ? psu.dimensionsMm?.length : undefined;
+    if (!positiveNumber(length) || !positiveNumber(chassis.maxPsuLengthMm)) {
+      unknown('CASE_PSU_LENGTH_UNVERIFIED', 'Comprimento da fonte ou espaço disponível no gabinete não confirmado.');
+    } else if (length > chassis.maxPsuLengthMm) {
+      conflict('CASE_PSU_LENGTH_INCOMPATIBLE', 'O comprimento da fonte excede o espaço declarado do gabinete.');
+    }
+  }
+  if (revalidated(build.motherboard) || hasField(board, 'minimumBiosByCpu') || hasField(board, 'installedBiosVersion')) {
+    const minimums = board.minimumBiosByCpu;
+    const minimum = minimums && (minimums[build.cpu.id] ?? minimums[build.cpu.specs.family]);
+    const comparison = compareBiosVersions(board.installedBiosVersion, minimum);
+    if (comparison === null) {
+      unknown('CPU_BIOS_UNVERIFIED', 'BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte.');
+    } else if (comparison < 0) {
+      conflict('CPU_BIOS_BELOW_MINIMUM', `A BIOS instalada é anterior à versão mínima ${minimum} para este processador.`);
+    }
+  }
+}
+
+function compareBiosVersions(installed, minimum) {
+  if (typeof installed !== 'string' || typeof minimum !== 'string' || !installed.trim() || !minimum.trim()) return null;
+  // Only stable, same-scheme numeric releases have an ordering here. Beta labels,
+  // different prefixes and arbitrary vendor labels cannot establish support.
+  const actual = /^(F?)(\d+)$/i.exec(installed.trim());
+  const required = /^(F?)(\d+)$/i.exec(minimum.trim());
+  if (!actual || !required || actual[1].toUpperCase() !== required[1].toUpperCase()) return null;
+  return Number(actual[2]) - Number(required[2]);
 }

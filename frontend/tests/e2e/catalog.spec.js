@@ -1,3 +1,4 @@
+import { activePart, comparisonCpuIds } from './helpers/catalog.js';
 import { test, expect } from '@playwright/test';
 import { mockWizardAnalysis } from './helpers/analysis.js';
 import { listComponents } from '../../../src/services/component.service.js';
@@ -11,10 +12,10 @@ const storageKey = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const original = Object.fromEntries(types.map(type => [type, components.find(component => component.id === readyBuilds[0].components[`${type}Id`])]));
 original.fans = [];
-const ram16 = components.find(component => component.id === 'ram-kingston-fury-16gb-ddr4-3600');
-const ram32 = components.find(component => component.id === 'ram-kvr32n22d8-32');
-const ramDdr5 = components.find(component => component.id === 'ram-kingston-fury-16gb-ddr5-5200');
-const photo = components.find(component => component.id === 'ssd-xpg-gammix-s70-blade-1tb');
+const ram16 = activePart(components, 'ram-kf436c17bbk2-16');
+const ram32 = activePart(components, 'ram-kvr32n22d8-32');
+const ramDdr5 = activePart(components, 'ram-cmk16gx5m1b5200c40');
+const photo = activePart(components, 'ssd-xpg-gammix-s70-blade-1tb');
 const failures = new WeakMap();
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const fail = (route, message = 'Não foi possível consultar o catálogo.', status = 503) => route.fulfill({ status, json: { success: false, message } });
@@ -68,11 +69,11 @@ test('combina marca, categoria, nome e limites inclusivos de preço; explica fai
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('ram');
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
   await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill(String(ram16.price));
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(String(components.find(component => component.id === 'ram-kingston-fury-16gb-ddr5-6000').price));
+  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(String(activePart(components, 'ram-kf436c18bb2a-16').price));
   await page.getByRole('searchbox').fill('  FuRy  ');
   await expect(page.locator('.component-card')).toHaveCount(2);
   await expect(page.getByRole('heading', { name: ram16.name, exact: true })).toBeVisible();
-  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill('600');
+  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill('2000');
   await expect(page.getByText('O preço mínimo deve ser menor ou igual ao máximo.', { exact: true })).toBeVisible();
   await expect(page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true })).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toHaveCount(0);
@@ -108,7 +109,7 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
 });
 
 test('limita a comparação a quatro peças e identifica especificação ausente', async ({ page }) => {
-  const cpus = components.filter(component => component.category === 'cpu').slice(0, 5).map((component, index) => index ? component : { ...component, specs: { socket: 'AM4' } });
+  const cpus = comparisonCpuIds.map(id => activePart(components, id)).map((component, index) => index ? component : { ...component, specs: { socket: 'AM4' } });
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, cpus));
   await page.goto('/components');
   for (const component of cpus.slice(0, 4)) await page.getByRole('button', { name: `Comparar: ${component.name}`, exact: true }).click();

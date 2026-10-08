@@ -1,4 +1,4 @@
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
+import { currentBuild, currentBuildTotal } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -14,15 +14,7 @@ import {
 const validSavedBuildInput = {
   name: 'Meu PC gamer custo-benefício',
   description: 'Configuração pensada para jogos em 1080p.',
-  components: {
-    cpuId: 'cpu-ryzen-5-5600',
-    gpuId: 'gpu-rtx-4060',
-    motherboardId: 'mb-b550m-aorus-elite',
-    ramId: 'ram-kingston-fury-16gb-ddr4',
-    storageId: 'ssd-kingston-nv2-1tb',
-    psuId: 'psu-corsair-650w',
-    caseId: 'case-mid-tower-airflow'
-  },
+  components: { ...currentBuild },
   budget: {
     amount: 5000,
     currency: 'BRL'
@@ -40,7 +32,7 @@ test('deve salvar uma configuração montada', () => {
   assert.equal(savedBuild.components.cpu, validSavedBuildInput.components.cpuId);
   assert.equal(savedBuild.budget.amount, 5000);
   assert.equal(savedBuild.usageType, 'gaming');
-  assert.equal(savedBuild.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(savedBuild.totalEstimatedPrice, currentBuildTotal());
   assert.equal(Boolean(savedBuild.createdAt), true);
   assert.equal(Boolean(savedBuild.updatedAt), true);
 });
@@ -162,16 +154,16 @@ test('deve editar componentes de uma configuração salva', () => {
   const updatedSavedBuild = updateSavedBuild(savedBuild.id, {
     components: {
       cpuId: 'cpu-intel-i5-12400f',
-      gpuId: 'gpu-rx-7600',
-      motherboardId: 'mb-h610m-ddr4',
-      ramId: 'ram-corsair-vengeance-16gb-ddr5',
-      psuId: 'psu-generic-400w'
+      gpuId: 'gpu-gigabyte-rx-7600-gaming-oc-8g',
+      motherboardId: 'mb-msi-pro-h610m-s-ddr4',
+      ramId: 'ram-cmk16gx5m1b5200c40',
+      psuId: 'psu-corsair-rm750e-2025'
     }
   });
 
   assert.equal(updatedSavedBuild.components.cpu, 'cpu-intel-i5-12400f');
-  assert.equal(updatedSavedBuild.components.gpu, 'gpu-rx-7600');
-  assert.equal(updatedSavedBuild.components.motherboard, 'mb-h610m-ddr4');
+  assert.equal(updatedSavedBuild.components.gpu, 'gpu-gigabyte-rx-7600-gaming-oc-8g');
+  assert.equal(updatedSavedBuild.components.motherboard, 'mb-msi-pro-h610m-s-ddr4');
   assert.equal(updatedSavedBuild.components.storage, validSavedBuildInput.components.storageId);
   assert.equal(typeof updatedSavedBuild.totalEstimatedPrice, 'number');
 });

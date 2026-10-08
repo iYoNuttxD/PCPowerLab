@@ -1,0 +1,2170 @@
+{
+  "schemaVersion": 1,
+  "revision": "2026-10-08-market-revalidation",
+  "components": [
+    {
+      "id": "ram-kf436c17bbk2-16",
+      "name": "Kingston FURY Beast 16GB (2x8GB) DDR4-3600 CL17",
+      "partNumber": "KF436C17BBK2/16",
+      "category": "ram",
+      "brand": "Kingston",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "casLatency": 17,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34,
+          "thickness": 7.2
+        }
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/KF436C17BBK2_16.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
+        "Não misture kits presumindo equivalência. Confira altura e espaço do cooler."
+      ]
+    },
+    {
+      "id": "ram-kf436c18bb2a-16",
+      "name": "Kingston FURY Beast RGB 16GB (1x16GB) DDR4-3600 CL18",
+      "partNumber": "KF436C18BB2A/16",
+      "category": "ram",
+      "brand": "Kingston",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "casLatency": 18,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        }
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/KF436C18BB2A_16.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
+        "Não misture kits presumindo equivalência. Confira altura e espaço do cooler."
+      ]
+    },
+    {
+      "id": "ram-ax5u6000c4816g-slabrbk",
+      "name": "XPG LANCER BLADE RGB 16GB (1x16GB) DDR5-6000 CL48 Black",
+      "partNumber": "AX5U6000C4816G-SLABRBK",
+      "category": "ram",
+      "brand": "XPG",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "casLatency": 48,
+        "voltageV": 1.25,
+        "speedProfile": "Intel XMP 3.0 / AMD EXPO",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 40,
+          "thickness": 7.86
+        },
+        "nominalCasLatencyNs": 16
+      },
+      "specSourceUrl": "https://webapi3.adata.com/storage/downloadfile/datasheet_xpg_lancer_blade_rgb_ddr5_memory_20260520.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
+        "Não misture kits presumindo equivalência. Confira altura e espaço do cooler.",
+        "CL48: latência CAS nominal de 16 ns a 6000 MT/s. Não é upgrade equivalente a CL36/40; desempenho não calibrado no modelo."
+      ],
+      "performanceModelStatus": "unavailable"
+    },
+    {
+      "id": "ram-kf432c16bb-8",
+      "name": "Kingston Fury Beast 8GB DDR4 — KF432C16BB/8",
+      "partNumber": "KF432C16BB/8",
+      "category": "ram",
+      "brand": "Kingston",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 8,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34,
+          "thickness": 7.2
+        }
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/KF432C16BB_8.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
+        "Não misture kits presumindo equivalência. Confira altura e espaço do cooler."
+      ]
+    },
+    {
+      "id": "ram-kf432c16bb-16",
+      "name": "Kingston Fury Beast 16GB DDR4 — KF432C16BB/16",
+      "partNumber": "KF432C16BB/16",
+      "category": "ram",
+      "brand": "Kingston",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34,
+          "thickness": 7.2
+        }
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/KF432C16BB_16.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
+        "Não misture kits presumindo equivalência. Confira altura e espaço do cooler."
+      ]
+    },
+    {
+      "id": "ram-cmk16gx5m1b5200c40",
+      "name": "Corsair Vengeance 16GB DDR5 — CMK16GX5M1B5200C40",
+      "partNumber": "CMK16GX5M1B5200C40",
+      "category": "ram",
+      "brand": "Corsair",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 5200,
+        "dataRateMTs": 5200,
+        "casLatency": 40,
+        "voltageV": 1.25,
+        "speedProfile": "Intel XMP 3.0",
+        "rgb": false
+      },
+      "specSourceUrl": "https://www.corsair.com/us/en/p/memory/cmk16gx5m1b5200c40/vengeance-16gb-1x16gb-ddr5-dram-5200mhz-c40-memory-kit-black-cmk16gx5m1b5200c40",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "SKU e quantidade de módulos explícitos; velocidade de perfil depende da CPU, BIOS e QVL.",
+        "Não misture kits presumindo equivalência. Confira altura e espaço do cooler."
+      ]
+    },
+    {
+      "id": "ssd-sa400s37-480g",
+      "name": "Kingston A400 480GB SATA SSD — SA400S37/480G",
+      "partNumber": "SA400S37/480G",
+      "category": "storage",
+      "brand": "Kingston",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450,
+        "formFactor": "2.5-inch 7mm"
+      },
+      "specSourceUrl": "https://www.kingston.com/en/ssd/a400-solid-state-drive",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "Modelo e capacidade exatos; taxas declaradas pelo fabricante, sem medição de desempenho sustentado."
+      ]
+    },
+    {
+      "id": "hdd-st2000dm008",
+      "name": "Seagate Barracuda 2TB HDD — ST2000DM008",
+      "partNumber": "ST2000DM008",
+      "category": "storage",
+      "brand": "Seagate",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "HDD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 220,
+        "writeSpeedMbS": null,
+        "formFactor": "3.5-inch",
+        "rpm": 7200,
+        "cacheMb": 256,
+        "recordingTechnology": "SMR"
+      },
+      "specSourceUrl": "https://www.seagate.com/content/dam/seagate/migrated-assets/www-content/datasheets/pdfs/3-5-barracudaDS1900-14-2007US-en_US.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "Modelo e capacidade exatos; taxas declaradas pelo fabricante, sem medição de desempenho sustentado.",
+        "HDD de 3,5 polegadas com gravação SMR; 220 MB/s é taxa máxima declarada, não velocidade sustentada de escrita."
+      ],
+      "performanceModelStatus": "unavailable"
+    },
+    {
+      "id": "gpu-msi-rtx-3050-lp-6g-oc",
+      "name": "MSI GeForce RTX 3050 LP 6G OC",
+      "brand": "MSI",
+      "category": "gpu",
+      "partNumber": "G3050LP6C",
+      "specs": {
+        "vramGb": 6,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 96,
+        "boostClockMhz": 1492,
+        "memorySpeedGbps": 14,
+        "lengthMm": 174,
+        "widthMm": 69,
+        "heightMm": 42,
+        "recommendedPsuWatts": 300,
+        "powerConnectors": null,
+        "pciExpress": "4.0 x16 physical, x8 electrical",
+        "tdpWatts": 70,
+        "cudaCores": 2304,
+        "powerConnectorsNote": "No supplementary connector field on manufacturer spec page; slot-powered behavior requires explicit verification rather than guessing from 70W.",
+        "powerConnectorNotes": null
+      },
+      "specSourceUrl": "https://br.msi.com/Graphics-Card/GeForce-RTX-3050-LP-6G-OC/Specification",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": null,
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+      ],
+      "performanceModelStatus": "unavailable",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2",
+      "name": "Gigabyte GeForce RTX 3060 WINDFORCE OC 12G rev.2.0",
+      "brand": "Gigabyte",
+      "category": "gpu",
+      "partNumber": "GV-N3060WF2OC-12GD REV2.0",
+      "specs": {
+        "vramGb": 12,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 192,
+        "boostClockMhz": 1792,
+        "memorySpeedGbps": 15,
+        "lengthMm": 198,
+        "widthMm": 121,
+        "heightMm": 39,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "4.0 x16",
+        "tdpWatts": null,
+        "cudaCores": 3584,
+        "powerConnectorNotes": "1x8-pin"
+      },
+      "specSourceUrl": "https://www.gigabyte.com/Graphics-Card/GV-N3060WF2OC-12GD-rev-20/sp",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": {
+        "watts": 170,
+        "sourceUrl": "https://www.nvidia.com/en-ph/geforce/graphics-cards/30-series/",
+        "scope": "GPU-family reference, not verified board-specific draw or maximum"
+      },
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Simulação usa o modelo interno da família do chip, sem medir esta placa ou seu overclock."
+      ],
+      "performanceFamilyId": "gpu-rtx-3060",
+      "performanceModelStatus": "internal_family_estimate",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-msi-rtx-4060-ventus-2x-black-8g-oc",
+      "name": "MSI GeForce RTX 4060 VENTUS 2X BLACK 8G OC",
+      "brand": "MSI",
+      "category": "gpu",
+      "partNumber": "912-V516-012",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 128,
+        "memorySpeedGbps": 17,
+        "cudaCores": 3072,
+        "boostClockMhz": 2490,
+        "extremePerformanceClockMhz": 2505,
+        "extremePerformanceCondition": "MSI Center mode",
+        "lengthMm": 199,
+        "widthMm": 120,
+        "heightMm": 41,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "4.0 x8",
+        "tdpWatts": null,
+        "powerConsumptionOptionsWatts": [
+          115,
+          120
+        ],
+        "powerConsumptionRaw": "115 W or 120 W",
+        "powerConnectorNotes": "1x8-pin"
+      },
+      "specSourceUrl": "https://www.msi.com/Graphics-Card/GeForce-RTX-4060-VENTUS-2X-BLACK-8G-OC/Specification",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": null,
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Simulação usa o modelo interno da família do chip, sem medir esta placa ou seu overclock.",
+        "Oferta Amazon de vendedor JC TECH STORE; condição novo/usado não explicitada na observação."
+      ],
+      "performanceFamilyId": "gpu-rtx-4060",
+      "performanceModelStatus": "internal_family_estimate",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-gigabyte-rtx-5060-ti-eagle-oc-ice-8g",
+      "name": "Gigabyte GeForce RTX 5060 Ti EAGLE OC ICE 8G",
+      "brand": "Gigabyte",
+      "category": "gpu",
+      "partNumber": "GV-N506TEAGLEOC ICE-8GD",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 128,
+        "boostClockMhz": 2617,
+        "memorySpeedGbps": 28,
+        "lengthMm": 215,
+        "widthMm": 122,
+        "heightMm": 40,
+        "recommendedPsuWatts": 650,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0",
+        "tdpWatts": null,
+        "cudaCores": 4608,
+        "powerConnectorNotes": "1x8-pin"
+      },
+      "specSourceUrl": "https://www.gigabyte.com/pt/Graphics-Card/GV-N506TEAGLEOC-ICE-8GD/sp",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": {
+        "watts": 180,
+        "sourceUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/",
+        "scope": "GPU-family reference, not verified board-specific draw or maximum"
+      },
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+      ],
+      "performanceModelStatus": "unavailable",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g",
+      "name": "Gigabyte GeForce RTX 5070 WINDFORCE OC SFF 12G",
+      "brand": "Gigabyte",
+      "category": "gpu",
+      "partNumber": "GV-N5070WF3OC-12GD",
+      "specs": {
+        "vramGb": 12,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 192,
+        "boostClockMhz": 2542,
+        "memorySpeedGbps": 28,
+        "lengthMm": 282,
+        "widthMm": 110,
+        "heightMm": 50,
+        "recommendedPsuWatts": 750,
+        "powerConnectors": [
+          {
+            "type": "12v-2x6",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0",
+        "tdpWatts": null,
+        "cudaCores": 6144,
+        "powerConnectorNotes": "1x16-pin (12V-2x6); supplied adapter to 2xPCIe8-pin"
+      },
+      "specSourceUrl": "https://www.gigabyte.com/Graphics-Card/GV-N5070WF3OC-12GD/sp",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": {
+        "watts": 250,
+        "sourceUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5070-family/",
+        "scope": "GPU-family reference, not verified board-specific draw or maximum"
+      },
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+      ],
+      "performanceModelStatus": "unavailable",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-gigabyte-rx-7600-gaming-oc-8g",
+      "name": "Gigabyte Radeon RX 7600 GAMING OC 8G",
+      "brand": "Gigabyte",
+      "category": "gpu",
+      "partNumber": "GV-R76GAMING OC-8GD",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR6",
+        "memorySpeedGbps": 18,
+        "memoryBusBits": 128,
+        "streamProcessors": 2048,
+        "boostClockMhz": 2755,
+        "gameClockMhz": 2355,
+        "lengthMm": 282,
+        "widthMm": 115,
+        "heightMm": 50,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "tdpWatts": null,
+        "pciExpress": "4.0",
+        "powerConnectorNotes": "1x8-pin"
+      },
+      "specSourceUrl": "https://www.gigabyte.com/Graphics-Card/GV-R76GAMING-OC-8GD-rev-10-11/SP",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": {
+        "watts": 165,
+        "sourceUrl": "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html",
+        "scope": "GPU-family reference, not verified board-specific draw or maximum"
+      },
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Simulação usa o modelo interno da família do chip, sem medir esta placa ou seu overclock."
+      ],
+      "performanceFamilyId": "gpu-rx-7600",
+      "performanceModelStatus": "internal_family_estimate",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-asrock-rx-9060-xt-challenger-16g-oc",
+      "name": "ASRock Radeon RX 9060 XT Challenger 16GB OC",
+      "brand": "ASRock",
+      "category": "gpu",
+      "partNumber": "90-GA5QZZ-00UANF",
+      "specs": {
+        "vramGb": 16,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 128,
+        "boostClockMhz": 3290,
+        "memorySpeedGbps": 20,
+        "lengthMm": 249,
+        "widthMm": 132,
+        "heightMm": 41,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0 x16",
+        "tdpWatts": null,
+        "streamProcessors": 2048,
+        "gameClockMhz": 2700,
+        "powerConnectorNotes": "1x8-pin"
+      },
+      "specSourceUrl": "https://www.asrock.com/Graphics-Card/AMD/Radeon%20RX%209060%20XT%20Challenger%2016GB%20OC/index.us.asp",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": {
+        "watts": 160,
+        "sourceUrl": "https://newsroom.amd.com/news/amd-introduces-new-radeon-graphics-cards-and-ryzen/",
+        "scope": "AMD family starts at 160 W; factory-OC board can exceed this. Do not use 160 W as verified ASRock board maximum."
+      },
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+      ],
+      "performanceModelStatus": "unavailable",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "gpu-xfx-rx-9070-xt-swift-white-16g",
+      "name": "XFX Swift Radeon RX 9070 XT White Triple Fan Gaming Edition16GB",
+      "brand": "XFX",
+      "category": "gpu",
+      "partNumber": "RX-97TSWF3W9",
+      "specs": {
+        "vramGb": 16,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 256,
+        "boostClockMhz": 2970,
+        "memorySpeedGbps": 20,
+        "lengthMm": 325,
+        "widthMm": 150,
+        "heightMm": 65,
+        "recommendedPsuWatts": 800,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 2
+          }
+        ],
+        "pciExpress": "5.0",
+        "tdpWatts": null,
+        "streamProcessors": 4096,
+        "gameClockMhz": 2400,
+        "baseClockMhz": 1660,
+        "slotWidth": 3.5,
+        "powerConnectorNotes": "2x8-pin"
+      },
+      "specSourceUrl": "https://www.xfxforce.com/shop/xfx-swift-amd-radeon-rx-9070xt-white-triple-fan-gaming-edition",
+      "specVerifiedAt": "2026-10-08",
+      "powerReference": {
+        "watts": 304,
+        "sourceUrl": "https://www.amd.com/content/dam/amd/en/documents/products/graphics/radeon/amd-radeon-rx-9000-series-keynote.pdf",
+        "scope": "GPU-family reference, not verified board-specific draw or maximum"
+      },
+      "selectionNotes": [
+        "Placa exata com dimensões e alimentação próprias; confirme conectores e espaço para cabos.",
+        "Não há ganho de FPS presumido pelo clock de fábrica.",
+        "Família sem calibração no simulador: pontuação e FPS indisponíveis."
+      ],
+      "performanceModelStatus": "unavailable",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "psu-coolermaster-mwe-gold650-v3",
+      "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+      "brand": "Cooler Master",
+      "category": "psu",
+      "partNumber": "MPE-6502-ACAAG-3BBR",
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Gold",
+        "atxVersion": "3.1",
+        "formFactor": "ATX",
+        "dimensionsMm": {
+          "length": 140,
+          "width": 150,
+          "height": 86
+        },
+        "modular": false,
+        "inputVoltage": "100-240V",
+        "connectors": {
+          "atx24": 1,
+          "eps8Or4plus4": 2,
+          "pcie6plus2": 4,
+          "sata": 6,
+          "peripheral4": 3,
+          "native12v2x6": 0
+        },
+        "pcie8PinConnectors": 4,
+        "native12v2x6Connectors": 0
+      },
+      "specSourceUrl": "https://sfcc.coolermaster.com/en-global/products/mwe-gold-v3-atx-3-1-non-modular-series.html",
+      "additionalSpecSourceUrls": [],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos.",
+        "A variante de 650 W não possui conector nativo de 16 pinos."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "psu-corsair-rm750e-2025",
+      "name": "Corsair RM750e (2025)",
+      "brand": "Corsair",
+      "category": "psu",
+      "partNumber": "CP-9020295-BR",
+      "specs": {
+        "watts": 750,
+        "efficiency": "Cybenetics Gold",
+        "atxVersion": "3.1",
+        "pcieVersion": "5.1",
+        "formFactor": "ATX",
+        "dimensionsMm": {
+          "length": 140,
+          "width": 150,
+          "height": 86
+        },
+        "modular": true,
+        "cableType": "Corsair Type4",
+        "connectors": {
+          "atx24": 1,
+          "eps4plus4": 2,
+          "native12v2x6": 1,
+          "pcie6plus2Via12v2x6Cable": 2,
+          "dedicatedPcie6plus2": 1,
+          "sata": 6,
+          "pata": 2
+        },
+        "pcie8PinConnectors": 1,
+        "native12v2x6Connectors": 1
+      },
+      "specSourceUrl": "https://www.corsair.com/us/en/p/psu/cp-9020295-na/rme-series-rm750e-fully-modular-low-noise-atx-power-supply-cp-9020295-na",
+      "additionalSpecSourceUrls": [],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "psu-msi-mag-a850gl-pcie5-white",
+      "name": "MSI MAG A850GL PCIE5 WHITE",
+      "brand": "MSI",
+      "category": "psu",
+      "partNumber": "MAG-A850GL-PCIE5-WH",
+      "specs": {
+        "watts": 850,
+        "efficiency": "80 Plus Gold",
+        "formFactor": "ATX",
+        "dimensionsMm": {
+          "length": 140,
+          "width": 150,
+          "height": 86
+        },
+        "color": "White",
+        "modular": true,
+        "inputVoltage": "100-240V",
+        "atxVersion": null,
+        "nativeGpuConnector": "16-pin PCIe, revision unverified",
+        "connectors": {
+          "atx24": 1,
+          "eps4plus4": 2,
+          "pcie6plus2": 4,
+          "native16pin": 1,
+          "native16pinRatedWatts": 600,
+          "sata": 8,
+          "molex4": 4,
+          "fdd4": 1
+        },
+        "cableTopology": {
+          "epsCables": 2,
+          "pcie6plus2Cables": 2,
+          "pcie6plus2ConnectorsPerCable": 2,
+          "native16pinCable": 1,
+          "cpuPciePsuSockets": 5,
+          "native16pinPsuSocketSeparate": true
+        },
+        "pcie8PinConnectors": 4,
+        "native12v2x6Connectors": null,
+        "native16PinConnectors": 1
+      },
+      "specSourceUrl": "https://br.msi.com/Power-Supply/MAG-A850GL-PCIE5-WHITE",
+      "additionalSpecSourceUrls": [
+        "https://us.msi.com/Power-Supply/MAG-A850GL-PCIE5-WHITE/Specification",
+        "https://www.msi.com/Power-Supply/MAG-A850GL-PCIE5-WHITE",
+        "https://download.msi.com/archive/mnu_exe/psu/MAGA850GL_A750GLPCIE5A650GL.pdf"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos.",
+        "Conector nativo de 16 pinos confirmado; revisão ATX/12V-2x6 do lote não verificada."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "cooler-bequiet-pure-rock-pro3-black",
+      "name": "be quiet! Pure Rock Pro 3 Black",
+      "brand": "be quiet!",
+      "category": "cooler",
+      "partNumber": "BK042",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1851",
+          "LGA1700",
+          "LGA1200",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155"
+        ],
+        "heightMm": 155,
+        "dimensionsMm": {
+          "length": 139,
+          "width": 124,
+          "height": 155
+        },
+        "includedFanCount": 2,
+        "fanDiameterMm": 120,
+        "connector": "4-pin PWM",
+        "powerWatts": null,
+        "rgb": false
+      },
+      "specSourceUrl": "https://www.bequiet.com/en/cpucooler/5600",
+      "additionalSpecSourceUrls": [],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Pure Rock Pro 3 Black tem 155 mm, dois fans e soquetes próprios; não mantém suporte LGA2011/2066. Consumo elétrico não confirmado."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "mb-gigabyte-b650-gaming-x-ax-v2",
+      "name": "Gigabyte B650 GAMING X AX V2",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "partNumber": "B650 GAMING X AX V2",
+      "specs": {
+        "socket": "AM5",
+        "chipset": "B650",
+        "memoryType": "DDR5",
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "formFactor": "ATX",
+        "dimensionsMm": [
+          305,
+          244
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 3,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "sataPorts": 4,
+        "gpuPcieGeneration": 4,
+        "cpuFamilies": [
+          "Ryzen7000",
+          "Ryzen8000",
+          "Ryzen9000"
+        ],
+        "powerConnectors": [
+          "24pinATX",
+          "8pinEPS",
+          "4pinEPS"
+        ],
+        "fanHeaders": {
+          "cpu": 1,
+          "cpuPump": 1,
+          "system": 2,
+          "systemPump": 1
+        },
+        "frontUsbCHeader": true,
+        "minimumBiosByCpu": {},
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2
+      },
+      "specSourceUrl": "https://www.gigabyte.com/ca/Motherboard/B650-GAMING-X-AX-V2-rev-10-11-12/sp",
+      "additionalSpecSourceUrls": [
+        "https://www.gigabyte.com/Motherboard/B650-GAMING-X-AX-V2-rev-13/sp"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+      "name": "Gigabyte B760M DS3H WIFI6E DDR4 GEN5",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "partNumber": "B760M DS3H WF6E D4 G5",
+      "specs": {
+        "socket": "LGA1700",
+        "chipset": "B760",
+        "memoryType": "DDR4",
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "maxMemoryPerDimmGb": 32,
+        "formFactor": "mATX",
+        "dimensionsMm": [
+          244,
+          244
+        ],
+        "cpuGenerations": [
+          12,
+          13,
+          14
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          80
+        ],
+        "m2PcieGeneration": 4,
+        "sataPorts": 4,
+        "gpuPcieGeneration": 5,
+        "powerConnectors": [
+          "24pinATX",
+          "8pinEPS"
+        ],
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 3,
+        "frontUsbCHeader": false,
+        "wifiModule": "Intel AX210 Wi-Fi 6E",
+        "bluetoothVersion": "5.3",
+        "argbHeaders": 2,
+        "rgbHeaders": 1,
+        "qFlashPlus": true,
+        "minimumBiosByCpu": {}
+      },
+      "specSourceUrl": "https://www.gigabyte.com/Motherboard/B760M-DS3H-WIFI6E-DDR4-GEN5/sp",
+      "additionalSpecSourceUrls": [
+        "https://download.gigabyte.com/FileList/Manual/mb_manual_b760m-ds3h-wifi6e-ddr4-gen5_1001_e.pdf"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "mb-msi-pro-h610m-s-ddr4",
+      "name": "MSI PRO H610M-S DDR4",
+      "brand": "MSI",
+      "category": "motherboard",
+      "partNumber": "PRO H610M-S DDR4",
+      "specs": {
+        "socket": "LGA1700",
+        "chipset": "H610",
+        "cpuGenerations": [
+          12,
+          13,
+          14
+        ],
+        "memoryType": "DDR4",
+        "memorySlots": 2,
+        "maxMemoryGb": 64,
+        "maximumRatedMemoryDataRateMTs": 3200,
+        "formFactor": "mATX",
+        "dimensionsMm": [
+          200,
+          236
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 1,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80
+        ],
+        "m2PcieGeneration": 3,
+        "m2Lanes": 4,
+        "sataPorts": 2,
+        "gpuPcieGeneration": 4,
+        "powerConnectors": [
+          "24-pin ATX",
+          "8-pin EPS"
+        ],
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 1,
+        "cpuFanHeaderMaxAmps": 2,
+        "systemFanHeaderMaxAmps": 1,
+        "frontUsbCHeader": false,
+        "wifi": false,
+        "lightingHeadersListedInExactManual": false,
+        "minimumBiosByCpu": {}
+      },
+      "specSourceUrl": "https://download-2.msi.com/archive/mnu_exe/mb/PROH610M-SWIFIDDR4_PROH610M-SDDR4_EN.pdf",
+      "additionalSpecSourceUrls": [
+        "https://storage-asset.msi.com/datasheet/mb/in/PRO-H610M-S-DDR4.pdf",
+        "https://latam.msi.com/Motherboard/PRO-H610M-S-DDR4/Specification",
+        "https://in.msi.com/Motherboard/PRO-H610M-S-DDR4/support"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "case-coolermaster-elite301-white",
+      "name": "Cooler Master Elite 301 White",
+      "brand": "Cooler Master",
+      "category": "case",
+      "partNumber": "E301-WGNN-S00",
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "color": "White",
+        "dimensionsMm": {
+          "length": 390,
+          "width": 203.5,
+          "height": 430
+        },
+        "maxCoolerHeightMm": 163.5,
+        "maxGpuLengthMm": null,
+        "maxGpuLengthWithoutFrontFansAndRadiatorMm": 365,
+        "maxPsuLengthMm": 160,
+        "psuFormFactor": "ATX",
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280
+        ],
+        "radiatorLayouts": {
+          "front": [
+            120,
+            240
+          ],
+          "top": [
+            120,
+            140,
+            240,
+            280
+          ],
+          "rear": [
+            120
+          ]
+        },
+        "maxRadiatorThicknessMm": null,
+        "maxFanThicknessMm": null,
+        "includedFanCount": 3,
+        "includedFanDiameterMm": 120,
+        "includedFanModel": "CF120 ARGB",
+        "includedFansPosition": "front",
+        "includedFanPowerWatts": null,
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 2
+          }
+        ],
+        "fanLayouts": {
+          "front": [
+            "3x120"
+          ],
+          "top": [
+            "2x120",
+            "2x140"
+          ],
+          "rear": [
+            "1x120"
+          ]
+        },
+        "storageBays": {
+          "hdd3_5": 1,
+          "ssd2_5": 1,
+          "ssd2_5Maximum": 2
+        },
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "coolingSupportNotes": "Agora branco, mATX/ITX e três fans frontais. O limite de GPU de 365 mm só vale sem fans/radiador frontal; folga na montagem padrão não confirmada."
+      },
+      "specSourceUrl": "https://www.coolermaster.com/en-global/products/E301-WGNN-S00.html",
+      "additionalSpecSourceUrls": [
+        "https://www.coolermaster.com/pt-br/products/elite-301-white.html"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Agora branco, mATX/ITX e três fans frontais. O limite de GPU de 365 mm só vale sem fans/radiador frontal; folga na montagem padrão não confirmada."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "cpu-intel-i5-14600k-box",
+      "name": "Intel Core i5-14600K Box",
+      "brand": "Intel",
+      "category": "cpu",
+      "partNumber": "BX8071514600K",
+      "specSourceUrl": "https://www.intel.com.br/content/www/br/pt/products/sku/236799/intel-core-i5-processor-14600k-24m-cache-up-to-5-30-ghz/specifications.html",
+      "specVerifiedAt": "2026-10-08",
+      "performanceModelStatus": "unavailable",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 14,
+        "threads": 20,
+        "baseClockGhz": 3.5,
+        "boostClockGhz": 5.3,
+        "tdpWatts": 125,
+        "maximumTurboPowerWatts": 181,
+        "performanceCores": 6,
+        "efficientCores": 8,
+        "memoryTypes": [
+          "DDR4",
+          "DDR5"
+        ],
+        "maxMemoryGb": 192,
+        "integratedGraphics": "Intel UHD770",
+        "includesCpuCooler": false
+      },
+      "selectionNotes": [
+        "14ª geração: confirme BIOS e suporte da placa-mãe; cooler não incluído.",
+        "Potência básica125W e turbo máximo181W; não confundirTDP com consumo máximo.",
+        "Sem calibração deste modelo; pontuação e FPS indisponíveis."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-kf556c36bweak2-32",
+      "name": "Kingston FURY Beast RGB 32GB (2x16GB) DDR5-5600 CL36 White",
+      "partNumber": "KF556C36BWEAK2-32",
+      "category": "ram",
+      "brand": "Kingston",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 5600,
+        "dataRateMTs": 5600,
+        "casLatency": 36,
+        "voltageV": 1.25,
+        "speedProfile": "AMD EXPO v1.0 / Intel XMP 3.0",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 42.23,
+          "thickness": 7.11
+        },
+        "jedecSpeedMTs": 4800,
+        "jedecCasLatency": 40,
+        "jedecVoltageV": 1.1
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/KF556C36BWEAK2-32.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "selectionNotes": [
+        "Kit branco RGB32GB(2×16),DDR5-5600CL36; altura42,23mm confirmada pelo fabricante.",
+        "Perfis EXPO/XMP dependem de CPU,BIOS e QVL. Não é equivalente a um kit6000MT/s."
+      ]
+    },
+    {
+      "id": "mb-asus-tuf-z790-plus-wifi-ddr5",
+      "name": "ASUS TUF GAMING Z790-PLUS WIFI (DDR5)",
+      "brand": "ASUS",
+      "category": "motherboard",
+      "partNumber": "90MB1D80-M1EAY0",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "specs": {
+        "socket": "LGA1700",
+        "chipset": "Z790",
+        "cpuGenerations": [
+          12,
+          13,
+          14
+        ],
+        "memoryType": "DDR5",
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "maxMemoryGbBasis": "Conservative lower value because official page contains both 128 and 192 GB; validate BIOS/QVL before allowing higher capacity.",
+        "manufacturerPublishedMaxMemoryGbValues": [
+          128,
+          192
+        ],
+        "memoryProfile": "Intel XMP; up to 7200 MT/s overclocked, conditional on CPU and DIMM population",
+        "formFactor": "ATX",
+        "dimensionsMm": [
+          305,
+          244
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 4,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "m2SlotDetails": [
+          {
+            "slot": 1,
+            "lengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4
+          },
+          {
+            "slot": 2,
+            "lengthsMm": [
+              42,
+              60,
+              80
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4
+          },
+          {
+            "slot": 3,
+            "lengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4
+          },
+          {
+            "slot": 4,
+            "lengthsMm": [
+              42,
+              60,
+              80
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4,
+            "sataMode": true
+          }
+        ],
+        "sataPorts": 4,
+        "gpuPcieGeneration": 5,
+        "powerConnectors": [
+          "24-pin ATX",
+          "2x8-pin EPS"
+        ],
+        "cpuFanHeaders": 1,
+        "cpuOptFanHeaders": 1,
+        "aioPumpHeaders": 1,
+        "systemFanHeaders": 4,
+        "argbHeaders": 3,
+        "rgbHeaders": 1,
+        "frontUsbCHeader": true,
+        "frontUsbCGeneration": "USB3.2 Gen2",
+        "wifi": "Wi-Fi 6E",
+        "bluetooth": "5.3, module-dependent",
+        "minimumBiosByCpu": {}
+      },
+      "specSourceUrl": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z790-plus-wifi/techspec/",
+      "additionalSpecSourceUrls": [
+        "https://www.asus.com/us/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z790-plus-wifi/helpdesk_qvl_cpu?model2Name=TUF-GAMING-Z790-PLUS-WIFI"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Variante WIFI DDR5; não confundir com D4 ou II. BIOS instalada não confirmada.",
+        "Capacidade conservadora128GB: página ASUS diverge entre128/192GB. Confirme BIOS e QVL para maior capacidade."
+      ]
+    },
+    {
+      "id": "ram-apacer-nox-rgb-8gb-3200",
+      "name": "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black",
+      "category": "ram",
+      "brand": "Apacer",
+      "partNumber": "AH4U08G32C28YNBAA-1",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 8,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "timings": "16-20-20-38",
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": true,
+        "heightMm": null,
+        "pins": 288
+      },
+      "specSourceUrl": "https://www.apacer.com/upload/media/download/ZADAK/Data%20Sheet_NOX%20RGB%20DDR4.pdf",
+      "additionalSpecSourceUrls": [
+        "https://www.apacer.com/en/product/zadak-product/detail/zadak_memory/nox_rgb_ddr4"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Opção econômica de SKU exato; quantidade de módulos, latência e perfil próprios.",
+        "Altura ou perfil não publicados permanecem desconhecidos; confirme folga e QVL."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-cmg16gx4m2e3200c16",
+      "name": "Corsair Vengeance RGB RS 16GB (2x8GB) DDR4-3200 CL16 Black",
+      "category": "ram",
+      "brand": "Corsair",
+      "partNumber": "CMG16GX4M2E3200C16",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "timings": "16-20-20-38",
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 135,
+          "height": 45,
+          "thickness": 7
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://www.corsair.com/us/en/p/memory/cmg16gx4m2e3200c16/vengeancea-rgb-rs-16gb-2-x-8gb-ddr4-dram-3200mhz-c16-memory-kit-cmg16gx4m2e3200c16",
+      "additionalSpecSourceUrls": [
+        "https://help.corsair.com/hc/en-us/articles/34381966388881-RAM-Memory-Module-Dimensions"
+      ],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Opção econômica de SKU exato; quantidade de módulos, latência e perfil próprios.",
+        "Altura ou perfil não publicados permanecem desconhecidos; confirme folga e QVL."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-mancer-vant-s-16gb-3200",
+      "name": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+      "category": "ram",
+      "brand": "Mancer",
+      "partNumber": "MCR-VNT3200-16GB",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 19,
+        "timings": "19-19-19-43",
+        "voltageV": 1.35,
+        "speedProfile": null,
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 136,
+          "height": 30,
+          "thickness": 7
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://mancer.com.br/p/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb/",
+      "additionalSpecSourceUrls": [],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Módulo único de 16 GB DDR4-3200 CL19; não equivale a kit dual-channel ou CL16.",
+        "Altura de 30 mm; perfil de memória não especificado pelo fabricante."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-apacer-nox-16gb-3200",
+      "name": "Apacer NOX 16GB (1x16GB) DDR4-3200 CL16 Black",
+      "category": "ram",
+      "brand": "Apacer",
+      "partNumber": "AH4U16G32C28YMBAA-1",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "timings": "16-20-20-38",
+        "voltageV": null,
+        "speedProfile": null,
+        "rgb": false,
+        "heightMm": null,
+        "pins": 288
+      },
+      "specSourceUrl": "https://www.apacer.com/upload/media/download/ZADAK/Data%20Sheet_NOX%20DDR4.pdf",
+      "additionalSpecSourceUrls": [],
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "Opção econômica de SKU exato; quantidade de módulos, latência e perfil próprios.",
+        "Altura ou perfil não publicados permanecem desconhecidos; confirme folga e QVL."
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-pvv516g56c36",
+      "name": "Patriot Viper Venom 16GB (1x16GB) DDR5-5600 CL36",
+      "partNumber": "PVV516G56C36",
+      "category": "ram",
+      "brand": "Patriot",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 5600,
+        "dataRateMTs": 5600,
+        "casLatency": 36,
+        "voltageV": 1.25,
+        "speedProfile": "Intel XMP 3.0 / AMD EXPO",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 137,
+          "height": 43,
+          "thickness": 7
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://viper.patriotmemory.ru/documents/PVV516G56C36_sku%20sheet_081524.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "SKU, capacidade e quantidade de módulos explícitos; o perfil anunciado depende de CPU, BIOS e QVL.",
+        "Use tensão e dimensões do fabricante quando divergirem da descrição varejista."
+      ],
+      "additionalSpecSourceUrls": [],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-cmk16gx5m2b5200z40",
+      "name": "Corsair Vengeance 16GB (2x8GB) DDR5-5200 CL40 Gray",
+      "partNumber": "CMK16GX5M2B5200Z40",
+      "category": "ram",
+      "brand": "Corsair",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 5200,
+        "dataRateMTs": 5200,
+        "casLatency": 40,
+        "voltageV": 1.25,
+        "speedProfile": "AMD EXPO / Intel XMP 3.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 135,
+          "height": 35,
+          "thickness": 7
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://www.corsair.com/us/en/p/memory/cmk16gx5m2b5200z40/vengeance-16gb-2x8gb-ddr5-dram-5200mts-cl40-amd-expo-intel-xmp-memory-kit-cmk16gx5m2b5200z40",
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "SKU, capacidade e quantidade de módulos explícitos; o perfil anunciado depende de CPU, BIOS e QVL.",
+        "Use tensão e dimensões do fabricante quando divergirem da descrição varejista."
+      ],
+      "additionalSpecSourceUrls": [
+        "https://help.corsair.com/hc/en-us/articles/34381966388881-RAM-Memory-Module-Dimensions"
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-kf564c32bbe-16",
+      "name": "Kingston FURY Beast 16GB (1x16GB) DDR5-6400 CL32 Black",
+      "partNumber": "KF564C32BBE-16",
+      "category": "ram",
+      "brand": "Kingston",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 6400,
+        "dataRateMTs": 6400,
+        "casLatency": 32,
+        "voltageV": 1.4,
+        "speedProfile": "AMD EXPO v1.1 / Intel XMP 3.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34.9,
+          "thickness": 6.62
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/KF564C32BBE-16.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "SKU, capacidade e quantidade de módulos explícitos; o perfil anunciado depende de CPU, BIOS e QVL.",
+        "Use tensão e dimensões do fabricante quando divergirem da descrição varejista."
+      ],
+      "additionalSpecSourceUrls": [],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-ff7d532g6000hc38j01",
+      "name": "TeamGroup T-Force Delta Alpha RGB 32GB (1x32GB) DDR5-6000 CL38 Black",
+      "partNumber": "FF7D532G6000HC38J01",
+      "category": "ram",
+      "brand": "TeamGroup",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 32,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "casLatency": 38,
+        "voltageV": 1.35,
+        "speedProfile": "AMD EXPO",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 144.2,
+          "height": 46.1,
+          "thickness": 7
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://images.teamgroupinc.com/products/memory/u-dimm/ddr5/delta-alpha-rgb/spec-sheet/delta-alpha-rgb-en.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "SKU, capacidade e quantidade de módulos explícitos; o perfil anunciado depende de CPU, BIOS e QVL.",
+        "Use tensão e dimensões do fabricante quando divergirem da descrição varejista."
+      ],
+      "additionalSpecSourceUrls": [],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ram-cmk32gx5m2b6000c38",
+      "name": "Corsair Vengeance 32GB (2x16GB) DDR5-6000 CL38 Black",
+      "partNumber": "CMK32GX5M2B6000C38",
+      "category": "ram",
+      "brand": "Corsair",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "casLatency": 38,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 3.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 135,
+          "height": 35,
+          "thickness": 7
+        },
+        "pins": 288
+      },
+      "specSourceUrl": "https://www.corsair.com/ww/es/p/memory/cmk32gx5m2b6000c38/vengeance-32gb-2x16gb-ddr5-dram-6000mhz-c38-memory-kit-black-cmk32gx5m2b6000c38",
+      "specVerifiedAt": "2026-10-08",
+      "selectionNotes": [
+        "SKU, capacidade e quantidade de módulos explícitos; o perfil anunciado depende de CPU, BIOS e QVL.",
+        "Use tensão e dimensões do fabricante quando divergirem da descrição varejista."
+      ],
+      "additionalSpecSourceUrls": [
+        "https://help.corsair.com/hc/en-us/articles/34381966388881-RAM-Memory-Module-Dimensions"
+      ],
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation"
+    },
+    {
+      "id": "ssd-snv3s-1000g",
+      "name": "Kingston NV3 1TB",
+      "partNumber": "SNV3S/1000G",
+      "category": "storage",
+      "brand": "Kingston",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 4000,
+        "formFactor": "M.2 2280",
+        "tbw": 320,
+        "pcieGeneration": 4,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.3
+        }
+      },
+      "specSourceUrl": "https://www.kingston.com/datasheets/SNV3S_en.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "entrada NVMe 1TB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 1000,
+        "readSpeedMbS": 6000,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": []
+    },
+    {
+      "id": "ssd-lnm610p500g-rnnng",
+      "name": "Lexar NM610 PRO 500GB",
+      "partNumber": "LNM610P500G-RNNNG",
+      "category": "storage",
+      "brand": "Lexar",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 3000,
+        "writeSpeedMbS": 1700,
+        "formFactor": "M.2 2280",
+        "tbw": 120,
+        "pcieGeneration": 3,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.45
+        }
+      },
+      "specSourceUrl": "https://resources.lexar.com/download/776/documents/14558/lexar_setupsheet_nm610pro_ssd_202507.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "entrada NVMe 500GB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia.",
+        "Leitura conservadora de 3000 MB/s: documentação do fabricante diverge entre 3000/3300 MB/s."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 500,
+        "readSpeedMbS": 3000,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": [
+        "https://resources.lexar.com/download/776/documents/14556/lexar_productsheet_nm610pro_ssd_202507-2.pdf",
+        "https://americas.lexar.com/es/product/lexar-nm610-pro-m-2-2280-pcie-gen3x4-nvme-ssd/"
+      ]
+    },
+    {
+      "id": "ssd-lnm620x512g-rnnng",
+      "name": "Lexar NM620 512GB",
+      "partNumber": "LNM620X512G-RNNNG",
+      "category": "storage",
+      "brand": "Lexar",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 512,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2400,
+        "formFactor": "M.2 2280",
+        "tbw": 250,
+        "pcieGeneration": 3,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.25
+        }
+      },
+      "specSourceUrl": "https://www.lexar.com/global/products/Lexar-NM620-M-2-2280-NVMe-SSD/",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "entrada/intermediário NVMe 512GB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 512,
+        "readSpeedMbS": 3500,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": []
+    },
+    {
+      "id": "ssd-asu650ss-480gt-r",
+      "name": "ADATA Ultimate SU650 480GB SATA",
+      "partNumber": "ASU650SS-480GT-R",
+      "category": "storage",
+      "brand": "ADATA",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 520,
+        "writeSpeedMbS": 450,
+        "formFactor": "2.5-inch 7mm",
+        "tbw": 280,
+        "dimensionsMm": {
+          "length": 100.45,
+          "width": 69.85,
+          "height": 7
+        }
+      },
+      "specSourceUrl": "https://webapi3.adata.com/storage/downloadfile/datasheet_ultimate_su650_25_inch_sata_ssd_20230620.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "entrada SATA 480GB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 480,
+        "readSpeedMbS": 520,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": []
+    },
+    {
+      "id": "ssd-lnq790x001t-rnnng",
+      "name": "Lexar NQ790 1TB",
+      "partNumber": "LNQ790X001T-RNNNG",
+      "category": "storage",
+      "brand": "Lexar",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 6000,
+        "formFactor": "M.2 2280",
+        "tbw": 600,
+        "pcieGeneration": 4,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.45
+        }
+      },
+      "specSourceUrl": "https://resources.lexar.com/download/1195/documents/16195/lexar-productsheet-nq790-ssd-en.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "intermediário NVMe 1TB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7000,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": []
+    },
+    {
+      "id": "ssd-mz-v9p1t0b-am",
+      "name": "Samsung 990 PRO 1TB",
+      "partNumber": "MZ-V9P1T0B/AM",
+      "category": "storage",
+      "brand": "Samsung",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7450,
+        "writeSpeedMbS": 6900,
+        "formFactor": "M.2 2280",
+        "tbw": 600,
+        "pcieGeneration": 4,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dramMb": 1024
+      },
+      "specSourceUrl": "https://www.samsung.com/us/business/memory-storage/nvme-ssd/990-pro-pcie-4-0-nvme-ssd-1tb-sku-mz-v9p1t0b-am/",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "premium NVMe 1TB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7450,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": [
+        "https://semiconductor.samsung.com/kr/consumer-storage/support/warranty/"
+      ]
+    },
+    {
+      "id": "ssd-lnq100x480g-rnnnu",
+      "name": "Lexar NQ100 480GB SATA",
+      "partNumber": "LNQ100X480G-RNNNU",
+      "category": "storage",
+      "brand": "Lexar",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 550,
+        "writeSpeedMbS": null,
+        "formFactor": "2.5-inch 7mm",
+        "tbw": 168,
+        "dimensionsMm": {
+          "length": 100.2,
+          "width": 69.85,
+          "height": 7
+        }
+      },
+      "specSourceUrl": "https://americas.lexar.com/es/product/ssd-nq100/",
+      "specVerifiedAt": "2026-10-08",
+      "price": null,
+      "active": true,
+      "catalogRevision": "2026-10-08-market-revalidation",
+      "budgetTier": "entrada SATA 480GB",
+      "selectionNotes": [
+        "Taxas máximas declaradas pelo fabricante; não são benchmark, desempenho sustentado ou ganho de FPS.",
+        "Modelo, interface, formato e capacidade exatos; confira o espaço do slot ou baia.",
+        "Modelo descontinuado pelo fabricante, mas com estoque observado no varejista; escrita não comprovada permanece desconhecida."
+      ],
+      "performanceModelStatus": "modeled",
+      "selectedModelSource": {
+        "kind": "manufacturer_declared_specifications",
+        "capacityGb": 480,
+        "readSpeedMbS": 550,
+        "formulaEligibility": "Existing SSD capacity/read-speed internal formula only; explicitly label as estimate, not benchmark. No inherited score/FPS."
+      },
+      "specSupplementalSourceUrls": []
+    }
+  ],
+  "replacementMapping": {
+    "ram-kingston-fury-8gb-ddr4": "ram-kf432c16bb-8",
+    "ram-kingston-fury-16gb-ddr4": "ram-kf432c16bb-16",
+    "ram-corsair-vengeance-16gb-ddr5": "ram-cmk16gx5m1b5200c40",
+    "ssd-kingston-a400-480gb": "ssd-sa400s37-480g",
+    "hdd-seagate-barracuda-2tb": "hdd-st2000dm008",
+    "ram-kingston-fury-32gb-ddr4": "ram-kvr32n22d8-32",
+    "ram-corsair-vengeance-16gb-ddr4-3600": "ram-kf436c17bbk2-16",
+    "ram-corsair-vengeance-32gb-ddr5-5600": "ram-kf556c36bweak2-32",
+    "ram-kingston-fury-16gb-ddr5-6000": "ram-ax5u6000c4816g-slabrbk",
+    "ram-gskill-trident-z5-32gb-ddr5-6000": "ram-kf556c36bweak2-32",
+    "ram-kingston-fury-16gb-ddr4-3600": "ram-kf436c18bb2a-16",
+    "ram-kingston-fury-16gb-ddr5-5200": "ram-cmk16gx5m1b5200c40",
+    "ram-kf552c40bbk2-32": "ram-kf556c36bweak2-32",
+    "ram-kf556c40bbk2-32": "ram-kf556c36bweak2-32",
+    "ram-kf560c40bbk2-32": "ram-kf556c36bweak2-32",
+    "ram-cmk32gx4m2e3200c16": "ram-kf432c16bb12ak2-32",
+    "ram-cmk32gx5m2b6000c36": "ram-kf556c36bweak2-32",
+    "ssd-kingston-nv2-500gb": "ssd-kingston-nv3-500gb",
+    "ssd-kingston-nv2-1tb": "ssd-xpg-gammix-s70-blade-1tb",
+    "ssd-wd-blue-sn570-1tb": "ssd-xpg-gammix-s70-blade-1tb",
+    "ssd-wd-black-sn770-1tb": "ssd-xpg-gammix-s70-blade-1tb",
+    "ssd-kingston-kc3000-512gb": "ssd-kingston-nv3-500gb",
+    "ssd-kingston-kc3000-1024gb": "ssd-xpg-gammix-s70-blade-1tb",
+    "gpu-gtx-1650": "gpu-msi-rtx-3050-lp-6g-oc",
+    "gpu-rtx-3050": "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2",
+    "gpu-rtx-3060": "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2",
+    "gpu-rtx-4060": "gpu-msi-rtx-4060-ventus-2x-black-8g-oc",
+    "gpu-rtx-4060-ti": "gpu-gigabyte-rtx-5060-ti-eagle-oc-ice-8g",
+    "gpu-rtx-4070": "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g",
+    "gpu-rtx-4070-super": "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g",
+    "gpu-rx-6600": "gpu-gigabyte-rx-7600-gaming-oc-8g",
+    "gpu-rx-7600": "gpu-gigabyte-rx-7600-gaming-oc-8g",
+    "gpu-rx-7700-xt": "gpu-asrock-rx-9060-xt-challenger-16g-oc",
+    "gpu-rx-7800-xt": "gpu-xfx-rx-9070-xt-swift-white-16g",
+    "psu-corsair-cv550": "psu-coolermaster-mwe-gold650-v3",
+    "psu-corsair-650w": "psu-coolermaster-mwe-gold650-v3",
+    "psu-cooler-master-mwe-650w": "psu-coolermaster-mwe-gold650-v3",
+    "psu-xpg-pylon-650w": "psu-coolermaster-mwe-gold650-v3",
+    "psu-generic-400w": "psu-coolermaster-mwe-gold650-v3",
+    "psu-corsair-rm750e": "psu-corsair-rm750e-2025",
+    "psu-corsair-rm850x": "psu-msi-mag-a850gl-pcie5-white",
+    "psu-xpg-core-reactor-850w": "psu-msi-mag-a850gl-pcie5-white",
+    "cooler-deepcool-ak620": "cooler-bequiet-pure-rock-pro3-black",
+    "mb-gigabyte-b650-gaming-x-ax": "mb-gigabyte-b650-gaming-x-ax-v2",
+    "mb-gigabyte-b760m-ds3h-ddr4": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+    "mb-msi-pro-b660m-a-ddr4": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+    "mb-h610m-ddr4": "mb-msi-pro-h610m-s-ddr4",
+    "case-cooler-master-q300l": "case-coolermaster-elite301-white",
+    "case-compact-matx": "case-coolermaster-elite301-white",
+    "mb-msi-b550-tomahawk": "mb-asus-tuf-b550m-plus",
+    "case-mid-tower-airflow": "case-cooler-master-elite-502-white",
+    "case-gamer-atx-rgb": "case-cooler-master-elite-502-white",
+    "case-corsair-4000d-airflow": "case-cooler-master-elite-502-white",
+    "case-nzxt-h5-flow": "case-cooler-master-elite-502-white",
+    "mb-b550m-aorus-elite": "mb-asus-tuf-b550m-plus",
+    "cpu-ryzen-5-5600": "cpu-ryzen-7-5700x",
+    "cpu-intel-i5-13400f": "cpu-intel-i5-14400f",
+    "cpu-intel-i5-13600k": "cpu-intel-i5-14600k-box",
+    "mb-asus-tuf-z790-plus-ddr5": "mb-asus-tuf-z790-plus-wifi-ddr5"
+  },
+  "replacementNotes": {
+    "ram-kingston-fury-8gb-ddr4": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ram-kingston-fury-16gb-ddr4": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ram-corsair-vengeance-16gb-ddr5": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ssd-kingston-a400-480gb": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "hdd-seagate-barracuda-2tb": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ram-kingston-fury-32gb-ddr4": [
+      "Mantém módulo único de 32 GB DDR4-3200, mudando para ValueRAM JEDEC CL22.",
+      "CL22 não equivale a CL16. Confira capacidade por módulo e QVL."
+    ],
+    "ram-corsair-vengeance-16gb-ddr4-3600": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ram-corsair-vengeance-32gb-ddr5-5600": [
+      "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
+      "Velocidade,latência e perfis mudam; não é upgrade universal. O índice interno é recalculado com as limitações publicadas."
+    ],
+    "ram-kingston-fury-16gb-ddr5-6000": [
+      "Mudança para XPG DDR5-6000 CL48, com perfil XMP/EXPO e dimensões próprias.",
+      "A latência nominal piora frente a CL36/40; pontuação e FPS ficam indisponíveis, sem herdar o modelo antigo."
+    ],
+    "ram-gskill-trident-z5-32gb-ddr5-6000": [
+      "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
+      "Velocidade,latência e perfis mudam; não é upgrade universal. O índice interno é recalculado com as limitações publicadas."
+    ],
+    "ram-kingston-fury-16gb-ddr4-3600": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ram-kingston-fury-16gb-ddr5-5200": [
+      "Modelo antigo preservado; nova seleção usa SKU, capacidade e quantidade de módulos explícitos.",
+      "Confira as novas especificações, perfil de memória e dimensões antes de trocar."
+    ],
+    "ram-kf552c40bbk2-32": [
+      "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
+      "Velocidade,latência e perfis mudam; não é upgrade universal. O índice interno é recalculado com as limitações publicadas."
+    ],
+    "ram-kf556c40bbk2-32": [
+      "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
+      "Velocidade,latência e perfis mudam; não é upgrade universal. O índice interno é recalculado com as limitações publicadas."
+    ],
+    "ram-kf560c40bbk2-32": [
+      "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
+      "Velocidade,latência e perfis mudam; não é upgrade universal. O índice interno é recalculado com as limitações publicadas."
+    ],
+    "ram-cmk32gx4m2e3200c16": [
+      "Mantém 2×16 GB DDR4-3200 CL16; muda para kit RGB de 43 mm de altura.",
+      "Perfil XMP e folga do cooler precisam ser verificados."
+    ],
+    "ram-cmk32gx5m2b6000c36": [
+      "Nova identidade Kingston32GB(2×16)DDR5-5600CL36,brancaRGB,42,23mm.",
+      "Velocidade,latência e perfis mudam; não é upgrade universal. O índice interno é recalculado com as limitações publicadas."
+    ],
+    "ssd-kingston-nv2-500gb": [
+      "Mantém 500 GB M.2 NVMe; muda para NV3, com taxas declaradas de 5000/3000 MB/s.",
+      "Não herda índice do NV2; compatibilidade e custo-benefício são recalculados."
+    ],
+    "ssd-kingston-nv2-1tb": [
+      "Mantém a classe de capacidade de 1 TB, mudando para XPG S70 BLADE PCIe 4.0 com DRAM e dissipador próprios.",
+      "Taxas declaradas de 7400/5500 MB/s; suporte do slot e espaço físico limitam o uso. Não implica ganho medido."
+    ],
+    "ssd-wd-blue-sn570-1tb": [
+      "Mantém a classe de capacidade de 1 TB, mudando para XPG S70 BLADE PCIe 4.0 com DRAM e dissipador próprios.",
+      "Taxas declaradas de 7400/5500 MB/s; suporte do slot e espaço físico limitam o uso. Não implica ganho medido."
+    ],
+    "ssd-wd-black-sn770-1tb": [
+      "Mantém a classe de capacidade de 1 TB, mudando para XPG S70 BLADE PCIe 4.0 com DRAM e dissipador próprios.",
+      "Taxas declaradas de 7400/5500 MB/s; suporte do slot e espaço físico limitam o uso. Não implica ganho medido."
+    ],
+    "ssd-kingston-kc3000-512gb": [
+      "A capacidade cai de 512 para 500 GB e as taxas declaradas caem de 7000/3900 para 5000/3000 MB/s.",
+      "Alternativa de classe inferior; não é upgrade. Verifique o slot M.2 e a durabilidade desejada."
+    ],
+    "ssd-kingston-kc3000-1024gb": [
+      "Mantém a classe de capacidade de 1 TB, mudando para XPG S70 BLADE PCIe 4.0 com DRAM e dissipador próprios.",
+      "Taxas declaradas de 7400/5500 MB/s; suporte do slot e espaço físico limitam o uso. Não implica ganho medido."
+    ],
+    "gpu-gtx-1650": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
+      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga.",
+      "RTX3050 de 6 GB e 96 bits é distinta da RTX3050 de 8 GB; não recebe o índice desta última."
+    ],
+    "gpu-rtx-3050": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto."
+    ],
+    "gpu-rtx-3060": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto."
+    ],
+    "gpu-rtx-4060": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto."
+    ],
+    "gpu-rtx-4060-ti": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
+      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+    ],
+    "gpu-rtx-4070": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
+      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+    ],
+    "gpu-rtx-4070-super": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
+      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+    ],
+    "gpu-rx-6600": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto."
+    ],
+    "gpu-rx-7600": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto."
+    ],
+    "gpu-rx-7700-xt": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
+      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga."
+    ],
+    "gpu-rx-7800-xt": [
+      "Nova placa com SKU próprio; a troca não altera automaticamente configurações salvas.",
+      "Memória, geração, dimensões, conectores e recomendação de fonte são os do novo produto.",
+      "Modelo de desempenho não calibrado; não herda pontuação ou FPS da placa antiga.",
+      "Mudança de geração e faixa de preço: RX9070XT de 325 mm, fonte recomendada de 800 W e dois conectores PCIe de 8 pinos."
+    ],
+    "psu-corsair-cv550": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-corsair-650w": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-cooler-master-mwe-650w": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-xpg-pylon-650w": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-generic-400w": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-corsair-rm750e": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-corsair-rm850x": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "psu-xpg-core-reactor-850w": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Potência, certificação e cabos são do novo SKU; adaptadores e cabos de outra fonte não são presumidos."
+    ],
+    "cooler-deepcool-ak620": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Pure Rock Pro 3 Black tem 155 mm, dois fans e soquetes próprios; não mantém suporte LGA2011/2066. Consumo elétrico não confirmado."
+    ],
+    "mb-gigabyte-b650-gaming-x-ax": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+    ],
+    "mb-gigabyte-b760m-ds3h-ddr4": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+    ],
+    "mb-msi-pro-b660m-a-ddr4": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+    ],
+    "mb-h610m-ddr4": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Confira versão da BIOS, QVL, slots, portas e conectores; mesmo socket não garante suporte completo."
+    ],
+    "case-cooler-master-q300l": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Agora branco, mATX/ITX e três fans frontais. O limite de GPU de 365 mm só vale sem fans/radiador frontal; folga na montagem padrão não confirmada."
+    ],
+    "case-compact-matx": [
+      "Modelo anterior preservado; nova seleção tem identidade e especificações próprias.",
+      "Agora branco, mATX/ITX e três fans frontais. O limite de GPU de 365 mm só vale sem fans/radiador frontal; folga na montagem padrão não confirmada."
+    ],
+    "mb-msi-b550-tomahawk": [
+      "Alternativa já existente no catálogo, sem duplicar SKU.",
+      "Mudam formato, dimensões e recursos; a troca depende de seleção explícita e nova verificação."
+    ],
+    "case-mid-tower-airflow": [
+      "Alternativa já existente no catálogo, sem duplicar SKU.",
+      "Mudam formato, dimensões e recursos; a troca depende de seleção explícita e nova verificação."
+    ],
+    "case-gamer-atx-rgb": [
+      "Alternativa já existente no catálogo, sem duplicar SKU.",
+      "Mudam formato, dimensões e recursos; a troca depende de seleção explícita e nova verificação."
+    ],
+    "case-corsair-4000d-airflow": [
+      "Alternativa já existente no catálogo, sem duplicar SKU.",
+      "Mudam formato, dimensões e recursos; a troca depende de seleção explícita e nova verificação."
+    ],
+    "case-nzxt-h5-flow": [
+      "Alternativa já existente no catálogo, sem duplicar SKU.",
+      "Mudam formato, dimensões e recursos; a troca depende de seleção explícita e nova verificação."
+    ],
+    "mb-b550m-aorus-elite": [
+      "Revisão comercial da Gigabyte não confirmada; alternativa exata ASUS TUF B550M-Plus.",
+      "Mantém AM4, DDR4 e mATX; portas, BIOS e recursos são próprios da ASUS."
+    ],
+    "cpu-ryzen-5-5600": [
+      "Muda de 6/12 para 8/16 núcleos/threads, mantendo AM4 e 65 W de TDP.",
+      "Ryzen5700X não inclui cooler; não aproveite a previsão de cooler incluído do5600. Usa seu próprio modelo interno de desempenho."
+    ],
+    "cpu-intel-i5-13400f": [
+      "Mantém LGA1700 e 10/16 núcleos/threads, passando à14ª geração e turbo de4,7GHz.",
+      "Verifique BIOS e suporte da placa-mãe; usa o modelo próprio do14400F."
+    ],
+    "cpu-intel-i5-13600k": [
+      "Troca para i5-14600K Box,14ª geração,LGA1700,14 núcleos e20 threads,até5,3GHz.",
+      "BIOS e refrigeração precisam ser verificadas. Sem modelo calibrado; não herda pontuação/FPS do13600K."
+    ],
+    "mb-asus-tuf-z790-plus-ddr5": [
+      "Nova identidade comercial exata TUF GAMING Z790-PLUS WIFI DDR5.",
+      "Portas,M.2,BIOS e limite de memória devem seguir a ficha deste modelo; varianteD4 excluída."
+    ]
+  }
+}

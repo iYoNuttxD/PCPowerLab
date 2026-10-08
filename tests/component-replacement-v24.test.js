@@ -1,4 +1,4 @@
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
+import { installScenarioBuild, scenarioBuildSlots, scenarioBuildTotal } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { components } from '../src/data/components.mock.js';
@@ -8,28 +8,29 @@ import { createSavedBuildVersion, getSavedBuildVersionById } from '../src/servic
 import { buildToApiPayload, hydrateBuildComponents, normalizeSavedBuildPayload } from '../frontend/src/utils/buildHelpers.js';
 import { changeSelection, replaceBuildComponent, undoBuildReplacement, emptyResults } from '../frontend/src/utils/buildTransitions.js';
 const find = id => components.find(item => item.id === id);
-const ids = { cpu: 'cpu-ryzen-5-5600', motherboard: 'mb-b550m-aorus-elite', gpu: 'gpu-rtx-4060', ram: 'ram-kingston-fury-16gb-ddr4', storage: 'ssd-kingston-nv2-1tb', psu: 'psu-corsair-650w', case: 'case-mid-tower-airflow' };
+installScenarioBuild();
+const ids = { ...scenarioBuildSlots };
 const original = Object.fromEntries(Object.entries(ids).map(([type,id]) => [type, find(id)]));
-const fixture = (cooling = false) => ({ selectedComponents: { ...original, ...(cooling ? { cooler: components.find(item => item.category === 'cooler'), fans: [{ ...components.find(item => item.category === 'fan'), quantity: 2 }] } : { fans: [] }) }, budget: { amount: Number((referenceFixtureTotal() - 99.3).toFixed(2)), currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' }, revision: 0, replacementHistory: [], ...emptyResults });
+const fixture = (cooling = false) => ({ selectedComponents: { ...original, ...(cooling ? { cooler: components.find(item => item.category === 'cooler'), fans: [{ ...components.find(item => item.category === 'fan'), quantity: 2 }] } : { fans: [] }) }, budget: { amount: Number((scenarioBuildTotal() - 99.3).toFixed(2)), currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' }, revision: 0, replacementHistory: [], ...emptyResults });
 const analyze = state => generateBuildSummary({ build: buildToApiPayload(state.selectedComponents), budget: state.budget, usageType: state.usageType, ...state.game });
 
-test('v2.4 RTX 4060 → RX 7600 changes exactly GPU, preserving optional cooling and budget', () => {
+test('v2.4 synthetic balanced GPU → value GPU changes exactly GPU, preserving optional cooling and budget', () => {
   const before = fixture(true);
-  const next = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'));
+  const next = replaceBuildComponent(before, 'gpu', find('test-scenario-gpu-value'));
   for (const key of Object.keys(before.selectedComponents).filter(key => key !== 'gpu')) assert.strictEqual(next.selectedComponents[key], before.selectedComponents[key]);
   assert.strictEqual(next.budget, before.budget);
   assert.strictEqual(next.game, before.game);
   assert.equal(next.usageType, before.usageType);
-  assert.equal(next.selectedComponents.gpu.id, 'gpu-rx-7600');
+  assert.equal(next.selectedComponents.gpu.id, 'test-scenario-gpu-value');
   assert.equal(next.revision, 1);
 });
 
 test('v2.4 recalculates cost, budget, power, performance and compatibility for only new selection', () => {
   const before = fixture();
-  const after = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'));
+  const after = replaceBuildComponent(before, 'gpu', find('test-scenario-gpu-value'));
   const oldSummary = analyze(before), newSummary = analyze(after);
-  assert.equal(oldSummary.totalEstimatedPrice, referenceFixtureTotal());
-  assert.equal(newSummary.totalEstimatedPrice, referenceFixtureTotal({ gpu: 'gpu-rx-7600' }));
+  assert.equal(oldSummary.totalEstimatedPrice, scenarioBuildTotal());
+  assert.equal(newSummary.totalEstimatedPrice, scenarioBuildTotal({ gpu: 'test-scenario-gpu-value' }));
   assert.equal(newSummary.budgetStatus.status, 'within_budget');
   assert.equal(oldSummary.budgetStatus.status, 'near_budget');
   assert.equal(newSummary.compatibility.compatible, true);
@@ -37,7 +38,7 @@ test('v2.4 recalculates cost, budget, power, performance and compatibility for o
   assert.equal(oldSummary.bottlenecks.performanceSummary.estimatedConsumptionWatts, 280);
   assert.equal(newSummary.bottlenecks.performanceSummary.estimatedConsumptionWatts, 330);
   assert.notEqual(newSummary.gamePerformance.estimatedFps, oldSummary.gamePerformance.estimatedFps);
-  const committed = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'), newSummary, 0);
+  const committed = replaceBuildComponent(before, 'gpu', find('test-scenario-gpu-value'), newSummary, 0);
   assert.strictEqual(committed.summary, newSummary);
   assert.strictEqual(committed.gamePerformance, newSummary.gamePerformance);
   assert.equal(committed.recommendation, null);
@@ -45,7 +46,7 @@ test('v2.4 recalculates cost, budget, power, performance and compatibility for o
 
 test('v2.4 invalidates all analyses after a direct change and undo; successive undo restores only inputs', () => {
   const before = { ...fixture(), summary: { old: true }, recommendation: { old: true }, gamePerformance: { estimatedFps: 999 } };
-  const first = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'));
+  const first = replaceBuildComponent(before, 'gpu', find('test-scenario-gpu-value'));
   const second = replaceBuildComponent(first, 'cpu', find('cpu-ryzen-7-5700x'));
   for (const key of Object.keys(emptyResults)) assert.equal(second[key], null);
   const undo = undoBuildReplacement(second);
@@ -59,9 +60,9 @@ test('v2.4 invalidates all analyses after a direct change and undo; successive u
 
 test('v2.4 stale response cannot commit even after A → B → A; wrong category/no-op are rejected', () => {
   const before = fixture();
-  const changed = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'));
+  const changed = replaceBuildComponent(before, 'gpu', find('test-scenario-gpu-value'));
   const restored = undoBuildReplacement(changed);
-  assert.strictEqual(replaceBuildComponent(restored, 'gpu', find('gpu-rx-7600'), analyze(changed), before.revision), restored);
+  assert.strictEqual(replaceBuildComponent(restored, 'gpu', find('test-scenario-gpu-value'), analyze(changed), before.revision), restored);
   assert.strictEqual(replaceBuildComponent(before, 'gpu', find(ids.cpu)), before);
   assert.strictEqual(replaceBuildComponent(before, 'gpu', find(ids.gpu)), before);
 });
@@ -80,12 +81,12 @@ test('v2.4 save and reload replacement preserve all accessories; original and ve
   const before = fixture(true);
   const saved = saveBuild(normalizeSavedBuildPayload({ name: 'Original v2.4', ...before }));
   const version = createSavedBuildVersion(saved.id, { buildSnapshot: saved, reason: 'Before individual replacement' });
-  const after = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'));
+  const after = replaceBuildComponent(before, 'gpu', find('test-scenario-gpu-value'));
   const replacement = saveBuild(normalizeSavedBuildPayload({ name: 'Changed v2.4', ...after }));
   const map = Object.fromEntries(components.map(item => [item.id, item]));
   assert.deepEqual(buildToApiPayload(hydrateBuildComponents(getSavedBuildById(replacement.id).components, map)), buildToApiPayload(after.selectedComponents));
   assert.deepEqual(getSavedBuildVersionById(saved.id, version.id).buildSnapshot.components, saved.components);
-  assert.equal(getSavedBuildById(saved.id).components.gpu, 'gpu-rtx-4060');
+  assert.equal(getSavedBuildById(saved.id).components.gpu, 'test-scenario-gpu-balanced');
   const localReload = JSON.parse(JSON.stringify(after));
   assert.deepEqual(buildToApiPayload(undoBuildReplacement(localReload).selectedComponents), buildToApiPayload(before.selectedComponents));
 });
@@ -99,7 +100,7 @@ test('v2.4 direct optional changes invalidate results and retain bounded undo hi
 
 test('v2.4 verified commit rejects mismatched summaries and known incompatibility', () => {
   const state = fixture();
-  const candidate = find('gpu-rx-7600');
+  const candidate = find('test-scenario-gpu-value');
   assert.strictEqual(replaceBuildComponent(state, 'gpu', candidate, analyze(state), 0), state);
   const changed = replaceBuildComponent(state, 'gpu', candidate);
   const summary = analyze(changed);
@@ -108,13 +109,13 @@ test('v2.4 verified commit rejects mismatched summaries and known incompatibilit
 
 test('v2.4 higher-price replacement keeps the budget and exposes the exact overage', () => {
   const state = fixture();
-  const candidate = find('gpu-rtx-4070');
+  const candidate = find('test-scenario-gpu-premium');
   const after = replaceBuildComponent(state, 'gpu', candidate);
   const summary = analyze(after);
   const committed = replaceBuildComponent(state, 'gpu', candidate, summary, 0);
   assert.equal(committed.budget.amount, state.budget.amount);
-  assert.equal(committed.summary.totalEstimatedPrice, referenceFixtureTotal({ gpu: 'gpu-rtx-4070' }));
-  // Reviewed GPU references: R$ 2,199.99 -> R$ 5,965.28, plus the existing R$ 99.30 overage.
-  assert.equal(committed.summary.budgetStatus.remaining, -3864.59);
+  assert.equal(committed.summary.totalEstimatedPrice, scenarioBuildTotal({ gpu: 'test-scenario-gpu-premium' }));
+  // Independent synthetic GPU prices: R$ 2,200 -> R$ 6,000, plus the existing R$ 99.30 overage.
+  assert.equal(committed.summary.budgetStatus.remaining, -3899.3);
   assert.equal(committed.summary.budgetStatus.status, 'over_budget');
 });

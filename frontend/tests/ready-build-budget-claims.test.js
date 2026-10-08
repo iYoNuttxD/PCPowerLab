@@ -21,13 +21,15 @@ const components = Object.fromEntries(componentTypes.map((type, index) => [type,
 const map = Object.fromEntries(Object.values(components).map(part => [part.id, part]));
 const stale = { components: Object.fromEntries(componentTypes.map(type => [type, { id: type, price: 1 }])), estimatedTotalPrice: 5100, targetBudgetRange: { min: 4000, max: 5500 } };
 
-test('current catalog total replaces an obsolete preset estimate and marketing range', () => {
+test('current catalog total replaces an obsolete estimate while the original target stays explicit', () => {
   const result = context.getCurrentBuildPricing(stale, map);
   assert.equal(result.total, 6983.64);
   assert.equal(result.complete, true);
   assert.equal(context.getBudgetFitLabel(result, stale.targetBudgetRange), 'Acima da faixa informada');
   assert.equal(context.getBudgetFitLabel(result, { max: 5000 }, true), 'Acima do seu orçamento');
-  assert(!source.includes('readyBuild.targetBudgetRange'));
+  assert(source.includes('Faixa-alvo original'));
+  assert(source.includes('getBudgetFitLabel(pricing, readyBuild.targetBudgetRange)'));
+  assert.deepEqual(stale.targetBudgetRange, { min: 4000, max: 5500 });
 });
 
 test('unknown legacy prices cannot fall back to saved estimates or claim budget fit', () => {

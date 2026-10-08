@@ -36,7 +36,7 @@ for (const [name, changes, status] of [
   ['missing validity', { validUntil: null }, 'invalid'],
   ['search URL', { productUrl: 'https://example.org/search?q=cpu' }, 'invalid'],
   ['unsafe URL', { productUrl: 'javascript:alert(1)' }, 'invalid'],
-  ['unknown stock', { availability: 'unknown' }, 'valid']
+  ['unknown stock', { availability: 'unknown' }, 'unknown_availability']
 ]) test(`market quote ${name}`, () => assert.equal(assessMarketQuote(quote(changes), 'cpu-test', now).status, status));
 test('missing quote and reference remain missing, never zero', () => {
   assert.equal(assessMarketQuote(null, 'cpu-test', now).status, 'invalid');
@@ -56,6 +56,7 @@ test('newer unavailable observation suppresses old quote from same seller', () =
 test('mixed market/reference totals are separate, fan packs counted, unknown stock excluded', () => {
   const build = { cpu: { id: 'cpu-test', price: 120 }, gpu: { id: 'gpu-test', price: 300 }, fans: [{ id: 'fan-test', price: 20, quantity: 3 }] };
   const data = summarizeBuildPricing(build, [quote(), quote({ productId: 'fan-test', price: 10 }), quote({ productId: 'gpu-test', price: 200, availability: 'unknown' })], now);
-  assert.equal(data.estimatedTotal, 480); assert.equal(data.availableMarketQuotesTotal, 130);
+  assert.equal(data.estimatedTotal, 480); assert.equal(data.availableMarketQuotesTotal, null);
+  assert.equal(data.availableMarketQuotesSubtotal, 130);
   assert.equal(data.marketTotalComplete, false); assert.deepEqual(data.componentsWithoutCurrentQuote, ['gpu-test']);
 });

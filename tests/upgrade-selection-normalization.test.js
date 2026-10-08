@@ -1,4 +1,5 @@
-import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
+import { createAdminComponent } from '../src/services/admin-component.service.js';
+import { createPerformanceParameters } from '../src/services/performanceParametersService.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { calculateBuildPrice, selectBuildComponents, serializeBuildSelection } from '../src/services/build.service.js';
@@ -15,15 +16,21 @@ const roadmap = input => generateUpgradeRoadmap({ build: input, totalBudget: 100
 test('upgrade suggestions resolve mixed aliases exactly as the central selector', () => {
   assert.equal(selectBuildComponents(mixed).cpu.id, build.cpu);
   const result = suggest(mixed);
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, null);
   for (const suggestion of result.suggestions) {
     assert.equal(suggestion.currentComponent.id, build[suggestion.componentType]);
   }
 });
 
 test('roadmap initial compatibility and steps use the same mixed-alias selection', () => {
+  // A known synthetic candidate isolates alias/step behavior from market availability.
+  createAdminComponent({ id: 'test-normalized-upgrade-storage', name: 'Synthetic NVMe upgrade',
+    type: 'storage', price: 500, interface: 'M.2 NVMe', capacityGb: 1000, storageType: 'SSD' });
+  createPerformanceParameters({ componentId: 'test-normalized-upgrade-storage', type: 'storage',
+    performanceScore: 88, gamingScore: 86, productivityScore: 90, capacity: 1000,
+    interface: 'M.2 NVMe', readSpeed: 7000 });
   const result = roadmap(mixed);
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, null);
   assert.equal(result.initialCompatibility.status, 'compatible');
   assert.deepEqual(result.initialCompatibility.alerts, []);
   assert.ok(result.steps.length > 0);
@@ -61,8 +68,8 @@ test('explicit top-level cooling removal overrides nested options in upgrades an
     coolerId: 'cooler-noctua-nh-u12s-redux', fans: [{ fanId: 'fan-arctic-p12-pwm-pst-5-pack', quantity: 2 }]
   } };
   assert.equal(selectBuildComponents(input).cooler, undefined);
-  assert.equal(suggest(input).currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(suggest(input).currentBuildSummary.totalEstimatedPrice, null);
   const plan = roadmap(input);
-  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, null);
   assert.equal(plan.initialCompatibility.status, 'compatible');
 });

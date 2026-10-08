@@ -1,3 +1,4 @@
+import { corePerformanceCategories, isValidCorePerformanceParameter } from './performanceAvailability.js';
 import { requiredBuildSlots } from '../services/build.service.js';
 
 const defaultPerformanceScore = 50;
@@ -13,13 +14,15 @@ export function getEstimatedPrice(component) {
 }
 
 export function getPerformanceScore(component, performanceParameter, usageType = 'general') {
-  if (['cooler', 'fan'].includes(component?.category)) {
+  if (!component || component.performanceModelStatus === 'unavailable') {
+    return null;
+  }
+
+  if (['cooler', 'fan'].includes(component.category)) {
     return 0;
   }
 
-  if (!component) {
-    return defaultPerformanceScore;
-  }
+  if (corePerformanceCategories.includes(component.category) && !isValidCorePerformanceParameter(component, performanceParameter)) return null;
 
   const usageScoreField = getUsageScoreField(usageType);
   const usageScore = performanceParameter?.[usageScoreField];
@@ -33,10 +36,12 @@ export function getPerformanceScore(component, performanceParameter, usageType =
     return baseScore;
   }
 
-  return defaultPerformanceScore;
+  return ['cpu', 'gpu', 'ram', 'storage'].includes(component.category) ? null : defaultPerformanceScore;
 }
 
 export function calculateCostBenefitScore(component, performanceParameter, options = {}) {
+  const performanceScore = getPerformanceScore(component, performanceParameter, options.usageType || 'general');
+  if (performanceScore === null) return null;
   const price = getEstimatedPrice(component);
 
   if (!price) {
@@ -45,7 +50,6 @@ export function calculateCostBenefitScore(component, performanceParameter, optio
 
   const usageType = options.usageType || 'general';
   const slotWeight = options.slotWeight || 1;
-  const performanceScore = getPerformanceScore(component, performanceParameter, usageType);
   const usageFitBonus = hasRecommendedUse(performanceParameter, usageType) ? 1.08 : 1;
 
   return (performanceScore * slotWeight * usageFitBonus) / price;
@@ -57,6 +61,9 @@ export function calculateBuildPerformanceScore(components, performanceByComponen
   if (entries.length === 0) {
     return 0;
   }
+
+  const scores = entries.map((component) => getPerformanceScore(component, performanceByComponentId.get(component.id), usageType));
+  if (scores.some((score) => score === null)) return null;
 
   const totalScore = entries.reduce((total, component) => {
     const performanceParameter = performanceByComponentId.get(component.id);
@@ -111,6 +118,7 @@ function getUsageTypeAlias(usageType) {
 
 
 export function classifyCostBenefitScore(score) {
+  if (!Number.isFinite(score)) return 'Indisponível';
   if (score >= 85) {
     return 'Excelente';
   }
@@ -131,6 +139,7 @@ export function classifyCostBenefitScore(score) {
 }
 
 export function buildCostBenefitSummary(component, score) {
+  if (!Number.isFinite(score)) return 'Estimativa de desempenho indisponível.';
   const categoryLabel = getCategoryLabel(component?.category);
   if (score >= 85) {
     return `Excelente relação entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;

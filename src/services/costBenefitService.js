@@ -5,7 +5,8 @@ import { componentCategories } from '../models/component.model.js';
 import {
   buildCostBenefitSummary,
   classifyCostBenefitScore,
-  getEstimatedPrice
+  getEstimatedPrice,
+  getPerformanceScore
 } from '../utils/costBenefitUtils.js';
 
 export function listComponentsByCostBenefit(filters = {}) {
@@ -60,7 +61,7 @@ function buildCostBenefitEntry(component, performanceParameter) {
   }
 
   const price = getEstimatedPrice(component);
-  const performanceScore = performanceParameter?.performanceScore;
+  const performanceScore = performanceParameter ? getPerformanceScore(component, performanceParameter) : null;
 
   if (!price || !Number.isFinite(performanceScore) || performanceScore <= 0) {
     return null;

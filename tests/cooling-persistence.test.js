@@ -1,3 +1,4 @@
+import { currentBuild, currentBuildTotal, currentPrice } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { components } from '../src/data/components.mock.js';
@@ -14,10 +15,10 @@ import { getPurchaseLinksByBuild } from '../src/services/purchaseLinksService.js
 import { createRecommendationFeedback } from '../src/services/recommendationFeedbackService.js';
 
 const legacy = readyBuilds[0].components;
-const cooler = components.find(part => part.id === 'cooler-deepcool-ak620');
+const cooler = components.find(part => part.id === 'cooler-bequiet-pure-rock-3-black');
 const fan = components.find(part => part.id === 'fan-noctua-nf-a14-pwm');
-const selection = () => ({ ...legacy, coolerId: cooler.id, fans: [{ fanId: fan.id, quantity: 2 }] });
-const expectedTotal = () => calculateBuildPrice(selectBuildComponents(selection()));
+const selection = () => ({ ...currentBuild, coolerId: cooler.id, fans: [{ fanId: fan.id, quantity: 2 }] });
+const expectedTotal = () => Number((currentBuildTotal() + currentPrice(cooler.id) + 2 * currentPrice(fan.id)).toFixed(2));
 
 test('optional cooling survives save, export, share, version, reload and removal', () => {
   clearSavedBuildsForTests();
@@ -38,7 +39,7 @@ test('optional cooling survives save, export, share, version, reload and removal
   const version = createSavedBuildVersion(saved.id, { buildSnapshot: saved });
   updateSavedBuild(saved.id, { components: { cooler: null, fans: [] } });
   assert.equal(selectBuildComponents({ components: saved.components }).cooler, undefined);
-  assert.equal(saved.totalEstimatedPrice, calculateBuildPrice(selectBuildComponents(legacy)));
+  assert.equal(saved.totalEstimatedPrice, currentBuildTotal());
   assert.equal(version.buildSnapshot.components.cooler, cooler.id);
   assert.deepEqual(version.buildSnapshot.components.fans, selection().fans);
 });

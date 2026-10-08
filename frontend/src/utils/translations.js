@@ -23,6 +23,7 @@ export const statusLabels = {
   incompatible: 'Incompatível',
   unverified: 'Não verificada',
   unverified_compatibility: 'Compatibilidade pendente',
+  performance_model_unavailable: 'Esta configuração inclui componentes sem parâmetros de desempenho calibrados. Não é possível estimar seu desempenho.',
   fans: 'Ventoinhas',
   excellent: 'Excelente',
   good: 'Bom',

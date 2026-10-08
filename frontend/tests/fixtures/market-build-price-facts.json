@@ -1,0 +1,67 @@
+{
+  "cpu": {
+    "productId": "cpu-intel-i5-14600k-box",
+    "price": 1699.99,
+    "productUrl": "https://www.kabum.com.br/produto/497578/processador-intel-core-i5-14600k-3-5ghz-5-3-ghz-max-turbo-cache-24mb-14-nucleos-20-threads-lga-1700-com-video-integrado-bx8071514600k",
+    "observedAt": "2026-10-08T14:44:35.779Z",
+    "availability": "available",
+    "availabilityEvidence": "Comprar agora habilitado"
+  },
+  "gpu": {
+    "productId": "gpu-msi-rtx-3050-lp-6g-oc",
+    "price": 1399.99,
+    "productUrl": "https://www.kabum.com.br/produto/1012613/placa-de-video-msi-rtx-3050-lp-oc-nvidia-geforce-6gb-gddr6-96-bit-low-profile-g3050lp6c",
+    "observedAt": "2026-10-08T14:26:49.460Z",
+    "availability": "available",
+    "availabilityEvidence": "Enabled Comprar agora and Adicionar ao carrinho"
+  },
+  "motherboard": {
+    "productId": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+    "price": 1149.99,
+    "productUrl": "https://www.terabyteshop.com.br/produto/38489/placa-mae-gigabyte-b760m-ds3h-wifie-ddr4-gen5-chipset-b760-intel-lga-1700-m-atx-ddr4",
+    "observedAt": "2026-10-08T14:35:39.159463+00:00",
+    "availability": "available",
+    "availabilityEvidence": [
+      "80 text Pronta entrega ",
+      "104 button COMPRAR AGORA"
+    ]
+  },
+  "ram": {
+    "productId": "ram-kf436c17bbk2-16",
+    "price": 1759.9,
+    "productUrl": "https://www.terabyteshop.com.br/produto/19156/memoria-kingston-fury-beast-16gb-3600mhz-ddr4-cl17-preto-kf436c17bbk216",
+    "observedAt": "2026-10-08T14:32:46.643Z",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; enabled COMPRAR AGORA"
+  },
+  "storage": {
+    "productId": "ssd-sa400s37-480g",
+    "price": 569.9,
+    "productUrl": "https://www.terabyteshop.com.br/produto/19382/ssd-kingston-a400-480gb-sata-iii-leitura-500mbs-gravacao-450mbs-sa400s37480g-imp",
+    "observedAt": "2026-10-08T14:27:32.191Z",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; enabled COMPRAR AGORA"
+  },
+  "psu": {
+    "productId": "psu-coolermaster-mwe-gold650-v3",
+    "price": 349.99,
+    "productUrl": "https://www.terabyteshop.com.br/produto/38210/fonte-cooler-master-mwe-gold-650-v3-650w-80-plus-gold-atx-31-pfc-ativo-mpe-6502-acaag-3bbr",
+    "observedAt": "2026-10-08T14:35:39.156805+00:00",
+    "availability": "available",
+    "availabilityEvidence": [
+      "81 text Pronta entrega ",
+      "108 button COMPRAR AGORA"
+    ]
+  },
+  "case": {
+    "productId": "case-coolermaster-elite301-white",
+    "price": 349.99,
+    "productUrl": "https://www.terabyteshop.com.br/produto/36697/gabinete-gamer-cooler-master-elite-301-branco-argb-vidro-temperado-mid-tower-matx-com-3-fans-e301-wgnn-s00",
+    "observedAt": "2026-10-08T14:43:36.645798+00:00",
+    "availability": "available",
+    "availabilityEvidence": [
+      "82 text Pronta entrega ",
+      "102 button COMPRAR AGORA"
+    ]
+  }
+}

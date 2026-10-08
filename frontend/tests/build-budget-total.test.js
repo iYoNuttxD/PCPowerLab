@@ -1,4 +1,4 @@
-import { referenceFixtureTotal } from '../../tests/helpers/reference-price-fixture.js';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -9,15 +9,19 @@ import { build as bundle } from 'esbuild';
 import { selectBuildComponents, calculateBuildPrice as backendTotal } from '../../src/services/build.service.js';
 import { calculateBuildPrice } from '../src/utils/buildHelpers.js';
 
-const selected = selectBuildComponents({
-  cpuId: 'cpu-ryzen-5-5500', gpuId: 'gpu-rtx-3050', motherboardId: 'mb-b550m-aorus-elite',
-  ramId: 'ram-kingston-fury-16gb-ddr4', storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w', caseId: 'case-mid-tower-airflow'
-});
-
-const expected = referenceFixtureTotal({ cpu: 'cpu-ryzen-5-5500', gpu: 'gpu-rtx-3050' });
+// Frozen rendered retailer observations, copied from all-new-offers-for-integration.json.
+// Keep expected amounts independent of application pricing and aggregation code.
+const facts = JSON.parse(readFileSync(new URL('./fixtures/market-build-price-facts.json', import.meta.url), 'utf8'));
+const selection = Object.fromEntries(Object.entries(facts).map(([slot, fact]) => [`${slot}Id`, fact.productId]));
+const selected = selectBuildComponents(selection);
+const expected = 7279.75;
 
 test('frontend totals preserve centavos and match the backend for real catalogue prices', () => {
+  for (const [slot, fact] of Object.entries(facts)) {
+    assert.equal(selected[slot].id, fact.productId);
+    assert.equal(selected[slot].price, fact.price);
+    assert.equal(selected[slot].catalogStatus, 'active');
+  }
   assert.equal(backendTotal(selected), expected);
   assert.equal(calculateBuildPrice(selected), expected);
   const withPacks = { ...selected, cooler: { price: 129.9 }, fans: [{ price: 39.9, quantity: 3 }] };
@@ -49,4 +53,14 @@ test('an exact-centavo budget renders within budget and one cent less renders ov
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
+});
+
+test('unavailable original selections retain identity and cannot contribute their old prices to a total', () => {
+  const legacy = selectBuildComponents({ ...selection, gpuId: 'gpu-rtx-3050', ramId: 'ram-kingston-fury-16gb-ddr4' });
+  assert.equal(legacy.gpu.id, 'gpu-rtx-3050');
+  assert.equal(legacy.ram.id, 'ram-kingston-fury-16gb-ddr4');
+  assert.equal(legacy.gpu.price, null);
+  assert.equal(legacy.ram.price, null);
+  assert.equal(calculateBuildPrice({ ...selected, gpu: legacy.gpu }), null);
+  assert.throws(() => backendTotal({ ...selected, gpu: legacy.gpu }), /Total indisponivel/);
 });

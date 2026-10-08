@@ -1,3 +1,4 @@
+import { currentBuild } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { addComponentRecord } from '../src/data/component.repository.js';
@@ -28,16 +29,17 @@ const withCooling = { ...base, ...cooling };
 const performanceByComponentId = new Map(listPerformanceParameters().map((entry) => [entry.componentId, entry]));
 
 test('cooling costs include pack quantities without fabricated performance or NaN', () => {
-  const plain = selectBuildComponents(base);
-  const cooled = selectBuildComponents(withCooling);
-  assert.equal(calculateBuildPrice(cooled), calculateBuildPrice(plain) + 430);
+  const plain = selectBuildComponents(currentBuild);
+  const pricedCooling = { ...currentBuild, ...cooling };
+  const cooled = selectBuildComponents(pricedCooling);
+  assert.equal(calculateBuildPrice(cooled), Number((calculateBuildPrice(plain) + 430).toFixed(2)));
   assert.equal(calculateBuildPerformanceScore(cooled, performanceByComponentId, 'gaming'),
     calculateBuildPerformanceScore(plain, performanceByComponentId, 'gaming'));
   assert.equal(getPerformanceScore(cooler, { performanceScore: 100 }), 0);
   const score = (components) => calculateBuildCostBenefitScore({ components, performanceByComponentId, usageType: 'gaming' });
   assert.ok(Number.isFinite(score(cooled)));
   assert.ok(score(cooled) < score(plain));
-  const buildScore = calculateBuildScore({ build: withCooling, usageType: 'gaming' });
+  const buildScore = calculateBuildScore({ build: pricedCooling, usageType: 'gaming' });
   assert.ok(Number.isFinite(buildScore.overallScore));
   assert.equal(buildScore.source.totalEstimatedPrice, calculateBuildPrice(cooled));
 });
@@ -49,10 +51,11 @@ test('recommendations reject uncertain selected cooling instead of dropping it',
 });
 
 test('upgrades and roadmap retain cooling in prices and reject unverified candidates', () => {
-  const result = suggestUpgrades({ build: withCooling, budget: { amount: 100 }, usageType: 'gaming' });
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, calculateBuildPrice(selectBuildComponents(withCooling)));
+  const pricedCooling = { ...currentBuild, ...cooling };
+  const result = suggestUpgrades({ build: pricedCooling, budget: { amount: 100 }, usageType: 'gaming' });
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, calculateBuildPrice(selectBuildComponents(pricedCooling)));
   assert.deepEqual(result.suggestions, []);
-  const roadmap = generateUpgradeRoadmap({ build: { components: withCooling }, totalBudget: 100 });
+  const roadmap = generateUpgradeRoadmap({ build: { components: pricedCooling }, totalBudget: 100 });
   assert.equal(roadmap.initialCompatibility.compatible, false);
   assert.ok(roadmap.initialCompatibility.unverifiedChecks.length > 0);
   assert.deepEqual(roadmap.steps, []);

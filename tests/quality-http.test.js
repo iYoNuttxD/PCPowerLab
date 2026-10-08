@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { URL } from 'node:url';
 import { app } from '../src/app.js';
+import { currentBuild, currentPrice } from './helpers/current-build.js';
 
-const priceFacts = JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8'));
+const priceFacts = JSON.parse(readFileSync(new URL('./fixtures/current-market-source-facts.json', import.meta.url), 'utf8'));
 function assertIncompletePrice(result, knownSubtotal, missingIds) {
   assert.equal(result.totalEstimatedPrice, null);
   assert.equal(result.pricing.estimatedTotal, null);
@@ -32,7 +33,8 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
   const ids = new Set(catalog.map(part => part.id));
   assert.equal(ids.size, catalog.length);
   const ready = (await call('/ready-builds'))[0];
-  const build = ready.components;
+  assert.equal(Object.keys(ready.components).length, 7);
+  const build = { ...currentBuild };
   const coreIds = Object.values(build);
   assert.equal(coreIds.length, 7);
   for (const id of coreIds) assert.equal(catalog.find(part => part.id === id).price, priceFacts[id].price, id);
@@ -70,14 +72,14 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     assert.equal(invalid.compatibility.compatible, false);
     assert.equal(invalid.gamePerformance.available, false);
     assert.equal('estimatedFps' in invalid.gamePerformance, false);
-    const changed = await sum({ ...build, ramId: 'ram-kingston-fury-16gb-ddr4-3600' });
+    const changed = await sum({ ...build, ramId: 'ram-kf436c17bbk2-16' });
     for (const slot of ['cpu', 'gpu', 'motherboard', 'storage', 'psu', 'case']) assert.deepEqual(changed.components[slot], original.components[slot]);
-    assert.equal(changed.components.ram.id, 'ram-kingston-fury-16gb-ddr4-3600');
-    assert.equal(changed.totalEstimatedPrice, (referenceCents - 179999 + 30699) / 100);
+    assert.equal(changed.components.ram.id, 'ram-kf436c17bbk2-16');
+    assert.equal(changed.totalEstimatedPrice, (referenceCents - Math.round(currentPrice(build.ramId) * 100) + Math.round(currentPrice('ram-kf436c17bbk2-16') * 100)) / 100);
     assert.equal(changed.compatibility.compatible, true);
     assert.ok(changed.gamePerformance.estimatedFps > 0);
     const unpriced = await sum({ ...build, ramId: 'ram-crucial-32gb-ddr4-3200' });
-    assertIncompletePrice(unpriced, (referenceCents - 179999) / 100, ['ram-crucial-32gb-ddr4-3200']);
+    assertIncompletePrice(unpriced, (referenceCents - Math.round(currentPrice(build.ramId) * 100)) / 100, ['ram-crucial-32gb-ddr4-3200']);
     assert.equal(unpriced.components.ram.price, null);
     assert.equal(unpriced.budgetStatus.status, 'unavailable');
     assert.equal(unpriced.budgetStatus.remaining, null);
@@ -85,8 +87,8 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     assert.ok(unpriced.gamePerformance.estimatedFps > 0);
   });
   await t.test('cooling quantities, unknown compatibility, save/version/export/share and removal', async () => {
-    const pricedCooling = await sum({ ...build, coolerId: 'cooler-deepcool-ak620', fans: [{ fanId: 'fan-noctua-nf-a14-pwm', quantity: 2 }] });
-    assert.equal(pricedCooling.totalEstimatedPrice, (referenceCents + 44999 + 2 * 19499) / 100);
+    const pricedCooling = await sum({ ...build, coolerId: 'cooler-bequiet-pure-rock-3-black', fans: [{ fanId: 'fan-noctua-nf-a14-pwm', quantity: 2 }] });
+    assert.equal(pricedCooling.totalEstimatedPrice, (referenceCents + Math.round(currentPrice('cooler-bequiet-pure-rock-3-black') * 100) + 2 * Math.round(currentPrice('fan-noctua-nf-a14-pwm') * 100)) / 100);
     assert.equal(pricedCooling.pricing.referenceTotalComplete, true);
     assert.equal(catalog.some(part => part.id === 'cooler-noctua-nh-u12s-redux'), false);
     const cooler = await call('/components/cooler-noctua-nh-u12s-redux');
@@ -143,7 +145,7 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     assert.equal(compared.results.length, 2);
     assert.equal(compared.results.find(result => result.gameId === input.gameId).estimatedFps, game.estimatedFps);
     await call('/performance/compare-games', { ...input, gameIds: [input.gameId] }, 400);
-    for (const invalidBuild of [{ ...build, cpuId: 'cpu-intel-i5-12400f' }, { ...build, coolerId: catalog.find(part => part.category === 'cooler').id }]) {
+    for (const invalidBuild of [{ ...build, cpuId: 'cpu-intel-i5-12400f' }, { ...build, coolerId: 'cooler-arctic-liquid-freezer-iii-pro-360' }]) {
       await call('/performance/simulate-game', { ...input, build: invalidBuild }, 422);
       await call('/performance/compare-games', { ...input, build: invalidBuild, gameIds: ['game-cyberpunk-2077', 'game-counter-strike-2'] }, 422);
       await call('/performance/simulate-software', { build: invalidBuild, softwareId: 'software-blender' }, 422);
@@ -160,7 +162,7 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
   });
   await t.test('recommendation budget limits and upgrades preserve actual compatibility', async () => {
     await call('/recommendations/budget', { budget: { amount: 100 } }, 422);
-    for (const amount of [4000, 6000]) {
+    for (const amount of [10000, 15000]) {
       const recommended = await call('/recommendations/budget', { budget: { amount }, usageType: 'gaming' });
       assert.ok(recommended.totalEstimatedPrice <= amount);
       const selection = Object.fromEntries(Object.entries(recommended.components).map(([slot, part]) => [slot, part.id]));

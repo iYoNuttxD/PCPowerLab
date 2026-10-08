@@ -1,3 +1,4 @@
+import { currentBuild, currentBuildIds, activePart } from './helpers/catalog.js';
 // Collectable browser regressions. Execution must be reported separately from
 // the source/SSR contracts; these tests are not evidence until a browser runs.
 import { test, expect } from '@playwright/test';
@@ -5,8 +6,8 @@ import { listComponents } from '../../../src/services/component.service.js';
 import { generateBuildSummary } from '../../../src/services/buildSummaryService.js';
 import { games } from '../../../src/data/games.js';
 const catalog = listComponents();
-const ids = {cpu:'cpu-ryzen-5-5600',motherboard:'mb-b550m-aorus-elite',gpu:'gpu-rtx-4060',ram:'ram-kingston-fury-16gb-ddr4',storage:'ssd-kingston-nv2-1tb',psu:'psu-corsair-650w',case:'case-mid-tower-airflow'};
-const selection = Object.fromEntries(Object.entries(ids).map(([slot,id])=>[slot,catalog.find(part=>part.id===id)]));
+const ids = currentBuildIds;
+const selection = currentBuild(catalog);
 selection.fans=[];
 async function setup(page, extra={}) {
  await page.addInitScript(state=>localStorage.setItem('pcpowerlab-build-state',JSON.stringify(state)),{selectedComponents:selection,budget:{amount:6000,currency:'BRL',priority:'cost-benefit'},game:{gameId:games[0].id,targetResolution:'1080p',qualityPreset:'high'},...extra});
@@ -17,7 +18,7 @@ async function setup(page, extra={}) {
  });
 }
 test('known socket mismatch is contextual, blocks next, and preserves all other choices when resolved',async({page})=>{
- const incompatible=catalog.find(part=>part.category==='motherboard'&&part.specs.socket==='AM5');
+ const incompatible=activePart(catalog, 'mb-gigabyte-b650m-d3hp');
  await setup(page,{wizardStep:'motherboard',selectedComponents:{...selection,motherboard:incompatible}});
  await page.goto('/build');
  await expect(page.getByRole('alert').filter({hasText:'Conflito entre as peças escolhidas'})).toContainText('AM4');
