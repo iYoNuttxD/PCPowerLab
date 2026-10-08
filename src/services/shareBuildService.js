@@ -32,7 +32,7 @@ export function createBuildShare(shareInput) {
     })
   };
 
-  sharedBuild.shareUrl = `/shared-builds/${sharedBuild.shareId}`;
+  sharedBuild.shareUrl = `/shared/${sharedBuild.shareId}`;
   sharedBuilds.push(sharedBuild);
 
   return sharedBuild;

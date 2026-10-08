@@ -40,7 +40,7 @@ test('deve gerar compartilhamento para build salva', () => {
   const sharedBuild = createBuildShare({ buildId: savedBuild.id });
 
   assert.equal(sharedBuild.shareId, 'share-001');
-  assert.equal(sharedBuild.shareUrl, '/shared-builds/share-001');
+  assert.equal(sharedBuild.shareUrl, '/shared/share-001');
   assert.equal(sharedBuild.status, 'active');
   assert.equal(sharedBuild.source, 'saved_build');
   assert.equal(sharedBuild.buildId, savedBuild.id);

@@ -137,9 +137,9 @@ export default function BuildWizard() {
   // Ignore late responses if the configuration changed or the user left the wizard.
   async function runWizardRequest(callback) {
     clearMessages();
-    const requestId = ++activeRequest.current;
-    const isCurrent = () => activeRequest.current === requestId && latestConfiguration.current === configurationKey;
     await request.run(async () => {
+      const requestId = ++activeRequest.current;
+      const isCurrent = () => activeRequest.current === requestId && latestConfiguration.current === configurationKey;
       try { await callback(isCurrent); }
       catch (error) { if (isCurrent()) throw error; }
     });

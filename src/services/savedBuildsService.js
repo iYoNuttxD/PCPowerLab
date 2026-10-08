@@ -1,3 +1,5 @@
+import { savedBuildVersions } from '../data/savedBuildVersions.js';
+import { notifications } from '../data/notifications.js';
 import { savedBuilds } from '../data/savedBuilds.js';
 import {
   hasRequiredSavedBuildComponents,
@@ -183,6 +185,12 @@ export function deleteSavedBuild(savedBuildId) {
   }
 
   const [removedSavedBuild] = savedBuilds.splice(savedBuildIndex, 1);
+  // These records belong to the saved build. Independent share snapshots remain valid.
+  for (const records of [savedBuildVersions, notifications]) {
+    for (let index = records.length - 1; index >= 0; index -= 1) {
+      if (records[index].buildId === savedBuildId) records.splice(index, 1);
+    }
+  }
 
   return removedSavedBuild;
 }

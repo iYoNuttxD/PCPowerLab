@@ -1,0 +1,9 @@
+file:///workspace/shared/pcpowerlab-v2-baseline/frontend/scripts/check-storage-regressions.mjs:28
+  assert.equal(restored.budget.amount, ''); assert.equal(restored.game.qualityPreset, 'high'); assert.equal(restored.selectedComponents.cpu.id, 'cpu-legacy');
+                               ^
+
+TypeError: Cannot read properties of null (reading 'amount')
+    at file:///workspace/shared/pcpowerlab-v2-baseline/frontend/scripts/check-storage-regressions.mjs:28:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.19.0

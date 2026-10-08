@@ -65,13 +65,17 @@ test('compatibility fixes do not silently discard selected accessories', () => {
   assert.deepEqual(fixes.suggestions, []);
 });
 
-test('game FPS and professional scores are unchanged by cooling selections', () => {
+test('partial performance has no cooling bonus and full unverified cooling builds are blocked', () => {
+  const partial = Object.fromEntries(Object.entries(base).filter(([key]) => ['cpuId', 'gpuId', 'ramId', 'storageId'].includes(key)));
+  const partialCooling = { ...partial, coolerId: cooler.id, fans: withCooling.fans };
   const simulation = { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' };
-  assert.equal(simulateGamePerformance({ ...simulation, build: withCooling }).estimatedFps,
-    simulateGamePerformance({ ...simulation, build: base }).estimatedFps);
+  assert.equal(simulateGamePerformance({ ...simulation, build: partialCooling }).estimatedFps,
+    simulateGamePerformance({ ...simulation, build: partial }).estimatedFps);
   const softwareId = listProfessionalSoftware()[0].id;
-  assert.equal(simulateProfessionalSoftwarePerformance({ softwareId, build: withCooling }).performanceScore,
-    simulateProfessionalSoftwarePerformance({ softwareId, build: base }).performanceScore);
+  assert.equal(simulateProfessionalSoftwarePerformance({ softwareId, build: partialCooling }).performanceScore,
+    simulateProfessionalSoftwarePerformance({ softwareId, build: partial }).performanceScore);
+  assert.throws(() => simulateGamePerformance({ ...simulation, build: withCooling }), { statusCode: 422 });
+  assert.throws(() => simulateProfessionalSoftwarePerformance({ softwareId, build: withCooling }), { statusCode: 422 });
   assert.deepEqual(listComponentsByCostBenefit({ category: 'cooler' }), []);
   assert.deepEqual(listComponentsByCostBenefit({ category: 'fan' }), []);
 });

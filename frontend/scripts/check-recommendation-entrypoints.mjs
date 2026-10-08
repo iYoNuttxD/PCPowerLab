@@ -232,6 +232,23 @@ try {
   assert(!named(tree, 'RecommendationResultCard').length, 'A→B→A criteria changes must not resurrect the old response');
   budgets.close();
   console.log('PASS: changed-and-restored budget criteria reject the obsolete recommendation response');
+  reset();
+  const duplicateBudget = deferred(); let submitted = 0;
+  fixtures.services.buildRecommendationService.byBudgetRange = () => { submitted++; return duplicateBudget.promise; };
+  const doubleClick = runtime(ReadyBuilds);
+  tree = doubleClick.render(); await tick(); tree = doubleClick.render();
+  input(tree, 'Orçamento mínimo').props.onChange({ target: { value: '1000' } });
+  input(tree, 'Orçamento máximo').props.onChange({ target: { value: '5000' } });
+  tree = doubleClick.render();
+  const form = all(tree, node => node.type === 'form')[0];
+  const accepted = form.props.onSubmit({ preventDefault() {} });
+  const skipped = form.props.onSubmit({ preventDefault() {} });
+  assert.equal(submitted, 1);
+  duplicateBudget.resolve([{ components: suggested }]); await accepted; await skipped;
+  tree = doubleClick.render();
+  assert.equal(named(tree, 'RecommendationResultCard').length, 1, 'Skipped submit must not invalidate accepted recommendation');
+  doubleClick.close();
+  console.log('PASS: actual ReadyBuilds duplicate submit calls API once and retains accepted recommendation');
   console.log('LIMITATION: isolated handlers and SSR do not verify DOM events, native dialogs, history, layout, focus, scrolling, or browser persistence');
 } finally {
   delete globalThis.__entryHooks;

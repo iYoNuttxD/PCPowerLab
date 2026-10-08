@@ -9,3 +9,5 @@
 - `npx playwright test --list` e integração `--list`: 183 casos coletados, não executados
 
 Cotações dos testes são fixtures sintéticas, não ofertas verificadas. Nenhuma integração comercial foi conectada. Sem screenshots, geometria, efeitos de navegador, teste humano ou execução visual. Os logs não devem ser interpretados como prova de preço/estoque real.
+
+Esclarecimento v2.7: os 425 testes de `npm test` já incluem os 40 utilitários frontend. A execução separada dos 40 é um reteste sobreposto; não somar como 465 testes distintos. Logs históricos preservados.

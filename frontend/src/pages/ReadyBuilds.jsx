@@ -192,11 +192,11 @@ export default function ReadyBuilds() {
       return;
     }
 
-    const requestId = ++recommendationSequence.current;
-    const isCurrent = () => requestId === recommendationSequence.current && latestRecommendationKey.current === recommendationKey;
-    setRecommendations([]);
-    setRecommendationContext(null);
     await recommendationRequest.run(async () => {
+      const requestId = ++recommendationSequence.current;
+      const isCurrent = () => requestId === recommendationSequence.current && latestRecommendationKey.current === recommendationKey;
+      setRecommendations([]);
+      setRecommendationContext(null);
       let result;
       try { result = await buildRecommendationService.byBudgetRange({
         budgetRange: {

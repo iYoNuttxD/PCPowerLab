@@ -1523,3 +1523,13 @@ Limites físicos e fontes: [v2.1](RA2-V2.1-INTEGRACAO.md) e [catálogo](RA2-V2.1
 Links de compra preservam arrays/slots e campos legados. Buscas acrescentam `kind: research`, `priceType: estimate`, `productUrl: null`, datas nulas, `updateStatus: not_queried`, `marketStatus`, `marketMessage`, `comparisonAvailable: false`. `price` não é cotação da loja. Futuras ofertas autorizadas usam `kind: offer`, `priceType: market_quote`, URL exata, fonte, consulta e validade; hoje nenhuma existe.
 
 Resumo acrescenta `pricing`: total estimado, subtotal exclusivamente de cotações disponíveis (nulo sem cotação), completude, IDs sem cotação/referência e metodologia. Nunca somar subtotal de mercado ao total de referência. Recomendações, upgrades, correções, custo-benefício e comparação expõem `methodology` explicando dados simulados, catálogo limitado e critérios. Não há endpoint de ingestão de ofertas, OAuth ou provedor conectado. [Detalhes e limites](RA2-V2.6-INTEGRACAO.md).
+
+## V2.7 — Contratos reforçados pela auditoria de qualidade
+
+- Simulações diretas `/performance/simulate-game`, `/performance/compare-games` e `/performance/simulate-software` recusam com **422** uma montagem completa incompatível ou não verificada. O resultado do resumo já tinha essa restrição. Simulações legadas de quatro peças continuam possíveis, mas retornam `compatibility: { scope: 'partial_build', status: 'unverified', compatible: false }` em `technicalDetails` (ou no objeto superior de comparação); não comprovam compatibilidade da montagem. Montagens completas aprovadas recebem `scope: 'full_build'`.
+- `/build-comparison` rejeita entradas nulas, arrays ou primitivas com **400**, em vez de erro interno.
+- `shareUrl` de `/share/build` usa a rota real `/shared/:shareId`. Compartilhamentos são snapshots, mantidos mesmo após excluir a build de origem.
+- Índices `gamingScore`, `productivityScore` e `airflowScore`, assim como `performanceScore`, aceitam somente números de 0 a 100. Atualização inválida não modifica o registro.
+- Em produção, endpoints inexistentes sob o `API_PREFIX` configurado retornam JSON **404**, sem cair no HTML da SPA.
+
+Evidências, cenários, limitações e mudanças de persistência: [auditoria v2.7](RA2-V2-QUALIDADE.md). Nenhum contrato implica preço real, benchmark ou compatibilidade física integral.

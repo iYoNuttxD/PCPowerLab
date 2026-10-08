@@ -554,3 +554,7 @@ Mídia exata/local com procedência, licença e fallback honesto integrado aos c
 ### Transparência comercial v2.6
 
 Preços do catálogo são referências estimadas. As lojas oferecem links de pesquisa; nenhuma API de preços está conectada. O modelo de ofertas validáveis e totais separados foi implementado e testado com fixtures, sem inventar estoque ou preço atual. Veja [relatório v2.6](docs/RA2-V2.6-INTEGRACAO.md), [fontes autorizadas e bloqueios](docs/RA2-V2.6-MARKET-SOURCES.md).
+
+### Auditoria de qualidade v2.7
+
+[Defeitos reproduzidos, correções, testes e pendências](docs/RA2-V2-QUALIDADE.md). Inclui percursos HTTP reais e regressões de estado; execução em navegador permanece pendente no ambiente desta entrega. Testes automáticos aprovados não significam ausência total de bugs nem homologação de produção.

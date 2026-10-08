@@ -1,5 +1,5 @@
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bell, CheckCircle2, Clock3, Edit3, History, MessageSquare, RefreshCw, Share2, Trash2, Upload } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
@@ -51,6 +51,9 @@ export default function SavedBuilds() {
   const [detailModal, setDetailModal] = useState({ open: false, title: '', data: null });
   const [revalidationResult, setRevalidationResult] = useState(null);
   const [operationLoading, setOperationLoading] = useState('');
+  const versionsRequest = useRef(0);
+  const historyRequest = useRef(0);
+  useEffect(() => () => { versionsRequest.current += 1; historyRequest.current += 1; }, []);
   const componentMap = useMemo(() => Object.fromEntries(components.map((component) => [component.id, component])), [components]);
 
   async function loadBuilds() {
@@ -89,23 +92,27 @@ export default function SavedBuilds() {
   }
 
   async function revalidateAllBuilds() {
-    setOperationLoading('revalidate-all');
     await request.run(async () => {
+      setOperationLoading('revalidate-all');
+      try {
       const result = await savedBuildsService.revalidateAll();
       setRevalidationResult(result);
       setFeedback(`Revalidação concluída: ${result.checkedBuilds || 0} build(s) verificadas e ${result.notificationsCreated || 0} notificação(ões) criada(s).`);
       await loadNotifications();
-    }).finally(() => setOperationLoading(''));
+      } finally { setOperationLoading(''); }
+    });
   }
 
   async function revalidateBuild(savedBuild) {
-    setOperationLoading(`revalidate-${savedBuild.id}`);
     await request.run(async () => {
+      setOperationLoading(`revalidate-${savedBuild.id}`);
+      try {
       const result = await savedBuildsService.revalidateById(savedBuild.id);
       setRevalidationResult(result);
       setFeedback(`Build revalidada: ${result.notificationsCreated || 0} notificação(ões) criada(s).`);
       await loadNotifications();
-    }).finally(() => setOperationLoading(''));
+      } finally { setOperationLoading(''); }
+    });
   }
 
   async function markNotificationAsRead(notificationId) {
@@ -154,24 +161,28 @@ export default function SavedBuilds() {
   }
 
   async function openVersions(savedBuild) {
+    const token = ++versionsRequest.current;
     setVersionsModal({ open: true, build: savedBuild, versions: [], loading: true });
     try {
       const data = await savedBuildVersionsService.list(savedBuild.id);
+      if (token !== versionsRequest.current) return;
       setVersionsModal({ open: true, build: savedBuild, versions: Array.isArray(data) ? data : [], loading: false });
     } catch (error) {
+      if (token !== versionsRequest.current) return;
       setVersionsModal({ open: true, build: savedBuild, versions: [], loading: false });
       request.setError(error.message);
     }
   }
 
   async function createVersion(savedBuild) {
+    const token = versionsRequest.current;
     await request.run(async () => {
       await savedBuildVersionsService.create(savedBuild.id, {
         reason: `Snapshot criado pelo frontend em ${new Date().toLocaleString('pt-BR')}.`,
         buildSnapshot: buildSnapshotFromSavedBuild(savedBuild)
       });
       setFeedback('Versão criada com sucesso.');
-      if (versionsModal.open && versionsModal.build?.id === savedBuild.id) {
+      if (token === versionsRequest.current && versionsModal.open && versionsModal.build?.id === savedBuild.id) {
         await openVersions(savedBuild);
       }
     });
@@ -179,30 +190,35 @@ export default function SavedBuilds() {
 
   async function removeVersion(version) {
     if (!versionsModal.build) return;
+    const token = versionsRequest.current;
 
     await request.run(async () => {
       await savedBuildVersionsService.remove(versionsModal.build.id, version.id);
       setFeedback('Versão removida.');
-      await openVersions(versionsModal.build);
+      if (token === versionsRequest.current) await openVersions(versionsModal.build);
     });
   }
 
   async function openHistory(savedBuild) {
+    const token = ++historyRequest.current;
     setHistoryModal({ open: true, build: savedBuild, records: [], loading: true });
     try {
       const data = await analysisHistoryService.list({ buildId: savedBuild.id });
+      if (token !== historyRequest.current) return;
       setHistoryModal({ open: true, build: savedBuild, records: Array.isArray(data) ? data : [], loading: false });
     } catch (error) {
+      if (token !== historyRequest.current) return;
       setHistoryModal({ open: true, build: savedBuild, records: [], loading: false });
       request.setError(error.message);
     }
   }
 
   async function removeHistoryRecord(record) {
+    const token = historyRequest.current;
     await request.run(async () => {
       await analysisHistoryService.remove(record.id);
       setFeedback('Registro de histórico removido.');
-      if (historyModal.build) {
+      if (token === historyRequest.current && historyModal.build) {
         await openHistory(historyModal.build);
       }
     });
@@ -243,6 +259,7 @@ export default function SavedBuilds() {
         </div>
         {revalidationResult && <RevalidationResult result={revalidationResult} />}
         <NotificationsPanel
+          busy={request.loading}
           notifications={notifications}
           onRead={markNotificationAsRead}
           onRemove={removeNotification}
@@ -281,9 +298,9 @@ export default function SavedBuilds() {
               <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
               <Button variant="secondary" disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild, '/summary')}>Trocar componente nesta configuração</Button>
               <Button variant="ghost" onClick={() => setEditing(savedBuild)}><Edit3 size={18} /> Editar</Button>
-              <Button variant="ghost" onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
+              <Button variant="ghost" disabled={request.loading} onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
               <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>
-              <Button variant="ghost" onClick={() => createVersion(savedBuild)}>Criar versão atual</Button>
+              <Button variant="ghost" disabled={request.loading} onClick={() => createVersion(savedBuild)}>Criar versão atual</Button>
               <Button variant="ghost" onClick={() => openHistory(savedBuild)}><History size={18} /> Histórico</Button>
               <Button
                 variant="ghost"
@@ -313,7 +330,7 @@ export default function SavedBuilds() {
                 <RefreshCw size={18} /> Revalidar compatibilidade
               </Button>
               <Link className="btn btn-secondary btn-md" to="/upgrades">Upgrade</Link>
-              <Button variant="danger" onClick={() => removeBuild(savedBuild.id)}><Trash2 size={18} /> Excluir</Button>
+              <Button variant="danger" disabled={request.loading} onClick={() => removeBuild(savedBuild.id)}><Trash2 size={18} /> Excluir</Button>
             </div>
           </Card>
         ))}
@@ -334,15 +351,17 @@ export default function SavedBuilds() {
       )}
 
       <VersionsModal
+        busy={request.loading}
         state={versionsModal}
-        onClose={() => setVersionsModal({ open: false, build: null, versions: [], loading: false })}
+        onClose={() => { versionsRequest.current += 1; setVersionsModal({ open: false, build: null, versions: [], loading: false }); }}
         onShowSnapshot={(version) => setDetailModal({ open: true, title: `Snapshot da versão ${version.versionNumber}`, data: version.buildSnapshot })}
         onRemove={removeVersion}
       />
 
       <HistoryModal
+        busy={request.loading}
         state={historyModal}
-        onClose={() => setHistoryModal({ open: false, build: null, records: [], loading: false })}
+        onClose={() => { historyRequest.current += 1; setHistoryModal({ open: false, build: null, records: [], loading: false }); }}
         onShowDetails={(record) => setDetailModal({ open: true, title: `Detalhes de ${getAnalysisTypeLabel(record.analysisType)}`, data: record })}
         onRemove={removeHistoryRecord}
       />
@@ -354,7 +373,7 @@ export default function SavedBuilds() {
   );
 }
 
-function NotificationsPanel({ notifications, onRead, onRemove }) {
+function NotificationsPanel({ busy, notifications, onRead, onRemove }) {
   if (!notifications.length) {
     return <p className="hint-text">Nenhuma notificação registrada até o momento.</p>;
   }
@@ -373,11 +392,11 @@ function NotificationsPanel({ notifications, onRead, onRemove }) {
           </div>
           <div className="button-row">
             {!notification.read && (
-              <Button variant="secondary" onClick={() => onRead(notification.id)}>
+              <Button variant="secondary" disabled={busy} onClick={() => onRead(notification.id)}>
                 <CheckCircle2 size={18} /> Marcar como lida
               </Button>
             )}
-            <Button variant="danger" onClick={() => onRemove(notification.id)}>
+            <Button variant="danger" disabled={busy} onClick={() => onRemove(notification.id)}>
               <Trash2 size={18} /> Remover
             </Button>
           </div>
@@ -410,7 +429,7 @@ function RevalidationResult({ result }) {
   );
 }
 
-function VersionsModal({ state, onClose, onShowSnapshot, onRemove }) {
+function VersionsModal({ busy, state, onClose, onShowSnapshot, onRemove }) {
   return (
     <Modal open={state.open} title={`Versões de ${state.build?.name || 'build salva'}`} onClose={onClose}>
       {state.loading ? <LoadingSpinner /> : state.versions.length === 0 ? (
@@ -426,7 +445,7 @@ function VersionsModal({ state, onClose, onShowSnapshot, onRemove }) {
               </div>
               <div className="button-row">
                 <Button variant="secondary" onClick={() => onShowSnapshot(version)}>Ver snapshot</Button>
-                <Button variant="danger" onClick={() => onRemove(version)}>Excluir versão</Button>
+                <Button variant="danger" disabled={busy} onClick={() => onRemove(version)}>Excluir versão</Button>
               </div>
             </article>
           ))}
@@ -436,7 +455,7 @@ function VersionsModal({ state, onClose, onShowSnapshot, onRemove }) {
   );
 }
 
-function HistoryModal({ state, onClose, onShowDetails, onRemove }) {
+function HistoryModal({ busy, state, onClose, onShowDetails, onRemove }) {
   return (
     <Modal open={state.open} title={`Histórico de análises de ${state.build?.name || 'build salva'}`} onClose={onClose}>
       {state.loading ? <LoadingSpinner /> : state.records.length === 0 ? (
@@ -452,7 +471,7 @@ function HistoryModal({ state, onClose, onShowDetails, onRemove }) {
               </div>
               <div className="button-row">
                 <Button variant="secondary" onClick={() => onShowDetails(record)}>Ver detalhes</Button>
-                <Button variant="danger" onClick={() => onRemove(record)}>Excluir</Button>
+                <Button variant="danger" disabled={busy} onClick={() => onRemove(record)}>Excluir</Button>
               </div>
             </article>
           ))}

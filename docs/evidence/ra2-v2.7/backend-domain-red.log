@@ -1,0 +1,412 @@
+✖ deleting a saved build removes dependent versions and notifications but preserves other builds and shared snapshots (11.419428ms)
+✖ game: rejects full incompatible and unknown builds instead of returning unsupported performance (5.392224ms)
+✖ game: top-level component aliases override conflicting nested IDs consistently (4.299699ms)
+✖ game: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.481292ms)
+✖ multiple games: rejects full incompatible and unknown builds instead of returning unsupported performance (1.547829ms)
+✖ multiple games: top-level component aliases override conflicting nested IDs consistently (1.378989ms)
+✖ multiple games: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.435374ms)
+✖ professional software: rejects full incompatible and unknown builds instead of returning unsupported performance (1.207315ms)
+✖ professional software: top-level component aliases override conflicting nested IDs consistently (0.659165ms)
+✖ professional software: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.51384ms)
+✖ comparison rejects malformed build entries with a controlled 400 (1.395404ms)
+✖ performance parameter updates reject out-of-scale specialized scores atomically (0.960911ms)
+✔ catalog integrity: unique parameter and rule identifiers, correct references and legacy serialization (2.104682ms)
+✖ deve gerar compartilhamento para build salva (1204.286289ms)
+✔ deve gerar compartilhamento para build direta (1235.909056ms)
+✔ deve consultar compartilhamento por shareId (0.509393ms)
+✔ deve retornar erro controlado quando buildId nao existir (0.410958ms)
+✔ deve retornar erro controlado quando nenhum dado for informado (0.161229ms)
+✔ deve retornar erro controlado quando shareId nao existir (0.12229ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 6
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2567.627495
+
+✖ failing tests:
+
+test at ../../../tmp/pc-v27-backend-red/tests/build-lifecycle-integrity.test.js:11:1
+✖ deleting a saved build removes dependent versions and notifications but preserves other builds and shared snapshots (11.419428ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/build-lifecycle-integrity.test.js:27:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
+✖ game: rejects full incompatible and unknown builds instead of returning unsupported performance (5.392224ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:25:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { statusCode: 422 },
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
+✖ game: top-level component aliases override conflicting nested IDs consistently (4.299699ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    {
+      details: {
+        cpuStatus: 'recommended',
+        gpuStatus: 'recommended',
+        ramStatus: 'recommended',
+        storageStatus: 'belowRecommended'
+      },
+  +   estimatedFps: 157,
+  -   estimatedFps: 170,
+      game: 'Valorant',
+      gameId: 'game-valorant',
+      meetsMinimumRequirements: true,
+      meetsRecommendedRequirements: false,
+      performanceLevel: 'good',
+  ...
+      technicalDetails: {
+  +     bottleneckPenalty: 0.93,
+  +     bottlenecks: [
+  +       {
+  +         component: 'cpu',
+  +         message: 'O processador pode limitar parcialmente o desempenho da placa de video em jogos e tarefas graficas.',
+  +         relatedComponent: 'gpu',
+  +         severity: 'medium',
+  +         technicalDetails: {
+  +           cpuScore: 55,
+  +           difference: 21,
+  +           gpuScore: 76
+  +         },
+  +         type: 'cpu_bottleneck'
+  +       }
+  +     ],
+  -     bottleneckPenalty: 1,
+  -     bottlenecks: [],
+        qualityMultiplier: 1,
+        resolutionMultiplier: 1,
+  +     weightedPerformanceIndex: 116.86
+  -     weightedPerformanceIndex: 118.06
+      }
+    }
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:38:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { game: 'Valorant', gameId: 'game-valorant', targetResolution: '1080p', qualityPreset: 'medium', estimatedFps: 157, performanceLevel: 'good', meetsMinimumRequirements: true, meetsRecommendedRequirements: false, summary: 'A configuracao deve rodar Valorant em qualidade medium com bom desempenho, mas abaixo do ideal recomendado.', details: { cpuStatus: 'recommended', gpuStatus: 'recommended', ramStatus: 'recommended', storageStatus: 'belowRecommended' }, technicalDetails: { weightedPerformanceIndex: 116.86, qualityMultiplier: 1, resolutionMultiplier: 1, bottleneckPenalty: 0.93, bottlenecks: [Array] } },
+    expected: { game: 'Valorant', gameId: 'game-valorant', targetResolution: '1080p', qualityPreset: 'medium', estimatedFps: 170, performanceLevel: 'good', meetsMinimumRequirements: true, meetsRecommendedRequirements: false, summary: 'A configuracao deve rodar Valorant em qualidade medium com bom desempenho, mas abaixo do ideal recomendado.', details: { cpuStatus: 'recommended', gpuStatus: 'recommended', ramStatus: 'recommended', storageStatus: 'belowRecommended' }, technicalDetails: { weightedPerformanceIndex: 118.06, qualityMultiplier: 1, resolutionMultiplier: 1, bottleneckPenalty: 1, bottlenecks: [] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
+✖ game: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.481292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   compatible: false,
+  -   scope: 'partial_build',
+  -   status: 'unverified'
+  - }
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:44:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { scope: 'partial_build', status: 'unverified', compatible: false },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
+✖ multiple games: rejects full incompatible and unknown builds instead of returning unsupported performance (1.547829ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:25:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { statusCode: 422 },
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
+✖ multiple games: top-level component aliases override conflicting nested IDs consistently (1.378989ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      qualityPreset: 'medium',
+      results: [
+        {
+  +       estimatedFps: 157,
+  -       estimatedFps: 170,
+          gameId: 'game-valorant',
+          gameName: 'Valorant',
+          meetsMinimumRequirements: true,
+          meetsRecommendedRequirements: false,
+          performanceLevel: 'good'
+        },
+        {
+  +       estimatedFps: 48,
+  -       estimatedFps: 55,
+          gameId: 'game-cyberpunk-2077',
+          gameName: 'Cyberpunk 2077',
+  +       meetsMinimumRequirements: false,
+  -       meetsMinimumRequirements: true,
+          meetsRecommendedRequirements: false,
+  +       performanceLevel: 'insufficient'
+  -       performanceLevel: 'good'
+        }
+      ],
+  +   summary: 'A configuracao apresenta media estimada de 103 FPS, mas pode ficar abaixo do minimo em 1 jogo(s).',
+  -   summary: 'A configuracao apresenta desempenho bom ou excelente nos jogos comparados, com media estimada de 113 FPS.',
+      targetResolution: '1080p'
+    }
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:38:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { targetResolution: '1080p', qualityPreset: 'medium', results: [ [Object], [Object] ], summary: 'A configuracao apresenta media estimada de 103 FPS, mas pode ficar abaixo do minimo em 1 jogo(s).' },
+    expected: { targetResolution: '1080p', qualityPreset: 'medium', results: [ [Object], [Object] ], summary: 'A configuracao apresenta desempenho bom ou excelente nos jogos comparados, com media estimada de 113 FPS.' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
+✖ multiple games: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.435374ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   compatible: false,
+  -   scope: 'partial_build',
+  -   status: 'unverified'
+  - }
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:44:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { scope: 'partial_build', status: 'unverified', compatible: false },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:20:3
+✖ professional software: rejects full incompatible and unknown builds instead of returning unsupported performance (1.207315ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:25:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { statusCode: 422 },
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:35:3
+✖ professional software: top-level component aliases override conflicting nested IDs consistently (0.659165ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      category: 'Edicao de video',
+      details: {
+  +     cpuStatus: 'belowMinimum',
+  -     cpuStatus: 'belowRecommended',
+        gpuStatus: 'belowRecommended',
+        ramStatus: 'belowRecommended',
+        storageStatus: 'belowRecommended'
+      },
+  +   meetsMinimumRequirements: false,
+  -   meetsMinimumRequirements: true,
+      meetsRecommendedRequirements: false,
+  +   performanceLevel: 'Insuficiente',
+  +   performanceScore: 65,
+  -   performanceLevel: 'Bom',
+  -   performanceScore: 73,
+      software: 'Adobe Premiere Pro',
+      softwareId: 'software-adobe-premiere-pro',
+  +   summary: 'A configuracao fica abaixo do minimo estimado para Adobe Premiere Pro.',
+  -   summary: 'A configuracao atende ao minimo para Adobe Premiere Pro, mas fica abaixo do recomendado em alguns criterios. Estimativa para edicao de video em Full HD e projetos 4K moderados.',
+      technicalDetails: {
+        weights: {
+          cpuWeight: 0.35,
+          gpuWeight: 0.25,
+          ramWeight: 0.25,
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:38:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { software: 'Adobe Premiere Pro', softwareId: 'software-adobe-premiere-pro', category: 'Edicao de video', performanceScore: 65, performanceLevel: 'Insuficiente', meetsMinimumRequirements: false, meetsRecommendedRequirements: false, details: { cpuStatus: 'belowMinimum', gpuStatus: 'belowRecommended', ramStatus: 'belowRecommended', storageStatus: 'belowRecommended' }, summary: 'A configuracao fica abaixo do minimo estimado para Adobe Premiere Pro.', technicalDetails: { weights: [Object] } },
+    expected: { software: 'Adobe Premiere Pro', softwareId: 'software-adobe-premiere-pro', category: 'Edicao de video', performanceScore: 73, performanceLevel: 'Bom', meetsMinimumRequirements: true, meetsRecommendedRequirements: false, details: { cpuStatus: 'belowRecommended', gpuStatus: 'belowRecommended', ramStatus: 'belowRecommended', storageStatus: 'belowRecommended' }, summary: 'A configuracao atende ao minimo para Adobe Premiere Pro, mas fica abaixo do recomendado em alguns criterios. Estimativa para edicao de video em Full HD e projetos 4K moderados.', technicalDetails: { weights: [Object] } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:41:3
+✖ professional software: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.51384ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   compatible: false,
+  -   scope: 'partial_build',
+  -   status: 'unverified'
+  - }
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:44:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { scope: 'partial_build', status: 'unverified', compatible: false },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:51:1
+✖ comparison rejects malformed build entries with a controlled 400 (1.395404ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + Comparison {}
+  - Comparison {
+  -   statusCode: 400
+  - }
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:53:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: TypeError: Cannot read properties of null (reading 'name')
+        at analyzeBuildForComparison (file:///tmp/pc-v27-backend-red/src/services/buildComparisonService.js:73:44)
+        at file:///tmp/pc-v27-backend-red/src/services/buildComparisonService.js:33:58
+        at Array.map (<anonymous>)
+        at compareBuilds (file:///tmp/pc-v27-backend-red/src/services/buildComparisonService.js:33:31)
+        at assert.throws.statusCode (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:53:25)
+        at getActual (node:assert:611:5)
+        at strict.throws (node:assert:759:24)
+        at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:53:12)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25),
+    expected: { statusCode: 400 },
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/quality-domain.test.js:57:1
+✖ performance parameter updates reject out-of-scale specialized scores atomically (0.960911ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/quality-domain.test.js:63:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { statusCode: 400 },
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at ../../../tmp/pc-v27-backend-red/tests/shareBuild.test.js:35:1
+✖ deve gerar compartilhamento para build salva (1204.286289ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '/shared-builds/share-001'
+  - '/shared/share-001'
+            ^
+  
+      at TestContext.<anonymous> (file:///tmp/pc-v27-backend-red/tests/shareBuild.test.js:43:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/shared-builds/share-001',
+    expected: '/shared/share-001',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

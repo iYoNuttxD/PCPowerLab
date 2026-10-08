@@ -70,8 +70,8 @@ function analyzeBuildForComparison({
   performanceByComponentId,
   comparisonCriteria
 }) {
-  const name = trimOptionalText(buildInput.name) || `Build ${index + 1}`;
   const componentsInput = normalizeBuildComponentsInput(buildInput);
+  const name = trimOptionalText(buildInput.name) || `Build ${index + 1}`;
   const summary = generateBuildSummary({
     build: componentsInput,
     budget,

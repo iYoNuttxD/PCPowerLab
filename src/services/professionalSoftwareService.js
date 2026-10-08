@@ -1,3 +1,5 @@
+import { normalizeSelectedComponentIds } from './build.service.js';
+import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { professionalSoftware } from '../data/professionalSoftware.js';
 import { findComponentById } from './component.service.js';
 import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
@@ -31,7 +33,8 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
     throw error;
   }
 
-  const buildInput = normalizeBuildInput(simulationInput.build);
+  const compatibility = validateSimulationCompatibility(simulationInput.build);
+  const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);
   const performanceParameters = mapPerformanceParameters(components);
   const details = buildRequirementDetails({ software, performanceParameters });
@@ -60,6 +63,7 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
       meetsMinimumRequirements
     }),
     technicalDetails: {
+      compatibility,
       weights: {
         cpuWeight: software.cpuWeight,
         gpuWeight: software.gpuWeight,
@@ -84,13 +88,6 @@ function validateSimulationPayload(simulationInput) {
   }
 }
 
-function normalizeBuildInput(buildInput) {
-  buildInput = { ...buildInput.components, ...buildInput };
-  return requiredSoftwareSimulationSlots.reduce((normalizedBuild, slot) => ({
-    ...normalizedBuild,
-    [`${slot}Id`]: buildInput[`${slot}Id`] ?? buildInput[slot]
-  }), {});
-}
 
 function mapSimulationComponents(buildInput) {
   return requiredSoftwareSimulationSlots.reduce((componentsBySlot, slot) => {

@@ -2,6 +2,8 @@ import { createContext, createElement, useContext, useEffect, useMemo, useState,
 import { componentsService } from '../services/componentsService.js';
 import { catalogComponentTypes } from '../utils/componentLabels.js';
 
+import { validateCatalogResponse } from '../utils/catalogResponse.js';
+
 const ComponentsContext = createContext(null);
 
 // A single current catalog is shared by every screen, including ID-only snapshots.
@@ -34,10 +36,10 @@ function useCatalogRequest() {
     setComponents([]);
     setError('');
     try {
-      const data = await componentsService.getAll();
-      if (id === requestId.current) setComponents(Array.isArray(data) ? data : []);
+      const data = validateCatalogResponse(await componentsService.getAll());
+      if (id === requestId.current) setComponents(data);
     } catch (requestError) {
-      if (id === requestId.current) setError(requestError.message);
+      if (id === requestId.current) setError(requestError?.message || 'Não foi possível carregar o catálogo.');
     } finally {
       if (id === requestId.current) setLoading(false);
     }

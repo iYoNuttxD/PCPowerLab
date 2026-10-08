@@ -4,26 +4,7 @@ import { normalizeWizardStep } from '../utils/wizardSteps.js';
 
 import { emptyResults, changeSelection, replaceBuildComponent, undoBuildReplacement, analyzedResults } from '../utils/buildTransitions.js';
 
-const storageKey = 'pcpowerlab-build-state';
-
-const initialState = {
-  revision: 0,
-  replacementHistory: [],
-  wizardStep: 'cpu',
-  selectedComponents: { fans: [] },
-  budget: {
-    amount: '',
-    currency: 'BRL',
-    priority: 'cost-benefit'
-  },
-  usageType: 'gaming',
-  game: {
-    gameId: 'game-cyberpunk-2077',
-    targetResolution: '1080p',
-    qualityPreset: 'high'
-  },
-  ...emptyResults
-};
+import { buildStorageKey as storageKey, initialBuildState as initialState, readPersistedBuild } from '../utils/buildPersistence.js';
 
 const BuildContext = createContext(null);
 
@@ -111,7 +92,7 @@ export function BuildProvider({ children }) {
         ...changeSelection(current, selectedComponents, { remember: false }),
         wizardStep: 'cpu',
         selectedComponents,
-        budget: savedBuild?.budget || current.budget,
+        budget: { ...initialState.budget, ...(savedBuild?.budget || {}) },
         usageType: savedBuild?.usageType || current.usageType
       }));
     },
@@ -149,12 +130,9 @@ export function useBuildState() {
 
 function loadInitialState() {
   try {
-    const stored = JSON.parse(localStorage.getItem(storageKey));
-
-    return stored && typeof stored === 'object'
-      ? { ...initialState, ...stored, replacementHistory: Array.isArray(stored.replacementHistory) ? stored.replacementHistory.slice(-20).map(item => hydrateBuildComponents(item)) : [], revision: Number.isSafeInteger(stored.revision) ? stored.revision : 0, selectedComponents: hydrateBuildComponents(stored.selectedComponents || {}), wizardStep: normalizeWizardStep(stored.wizardStep) }
-      : initialState;
+    return readPersistedBuild(localStorage);
   } catch (_error) {
-    return initialState;
+    // Accessing localStorage itself may throw in privacy-restricted contexts.
+    return readPersistedBuild(null);
   }
 }

@@ -277,3 +277,27 @@ test('acesso administrativo direto, senha inválida, sessão protegida e logout'
   expect((await page.request.get('/api/v1/performance-parameters')).status()).toBe(401);
   expect((await api(page.request, '/admin/session')).authenticated).toBe(false);
 });
+
+test('storage legado parcial e nulo reabre wizard sem perder peças com catálogo real', async ({ page, request }) => {
+  const catalog = await api(request, '/components');
+  const cpu = catalog.find(part => part.category === 'cpu');
+  await page.addInitScript(({ key, cpuId }) => {
+    localStorage.setItem(key, JSON.stringify({
+      selectedComponents: { cpuId, fans: [null, { id: 'invalid', quantity: -1 }] },
+      budget: null,
+      game: { qualityPreset: 'medium' },
+      compatibility: { compatible: true },
+      wizardStep: 'cpu'
+    }));
+  }, { key, cpuId: cpu.id });
+  await page.goto('/build');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Processador');
+  await expect(page.getByRole('button', { name: 'Avançar', exact: true })).toBeEnabled();
+  await expect.poll(async () => (await state(page)).selectedComponents.cpu.id).toBe(cpu.id);
+  const restored = await state(page);
+  expect(restored.budget).toEqual({ amount: '', currency: 'BRL', priority: 'cost-benefit' });
+  expect(restored.game.targetResolution).toBe('1080p');
+  expect(restored.game.qualityPreset).toBe('medium');
+  expect(restored.selectedComponents.fans).toEqual([]);
+  expect(restored.compatibility).toBeNull();
+});

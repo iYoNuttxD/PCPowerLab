@@ -44,3 +44,7 @@ A coleção `marketQuotes` permanece vazia e imutável. Não há endpoint públi
 ## Pendências e critérios futuros
 
 Selecionar provedor permitido e obter acesso com autorização explícita; revisar licença/cache/atribuição; reconciliar SKU, vendedor, variante/estado novo-usado e condições; receber resposta real; ligar adapter com tratamento de erro/cache sem renovar datas ficticiamente; validar UI com cotação real e navegador autorizado. Só então avaliar cobertura real por lojas/produtos. R18/R19 continuam **PARCIALMENTE IMPLEMENTADOS**; preço de mercado e melhor compra não foram validados.
+
+### Esclarecimento de contagem confirmado na v2.7
+
+`npm test` executa `node --test` na raiz e já inclui `frontend/tests/*.test.js`. Portanto os 425 testes Node históricos **incluem** os 40 utilitários frontend reexecutados separadamente: são 425 testes distintos, não 465. Os logs históricos acima permanecem intactos. Isso corrige a interpretação da contagem, não os resultados das execuções.

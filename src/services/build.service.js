@@ -119,7 +119,7 @@ function validateSelectionPayload(selectionInput) {
   }
 }
 
-function normalizeSelectedComponentIds(selectionInput) {
+export function normalizeSelectedComponentIds(selectionInput) {
   const nestedComponents = selectionInput.components && typeof selectionInput.components === 'object'
     ? selectionInput.components
     : {};

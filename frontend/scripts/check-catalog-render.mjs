@@ -19,11 +19,24 @@ try {
         import React from 'react';
         import { renderToStaticMarkup } from 'react-dom/server';
         import { strict as assert } from 'node:assert';
+        import ComponentCard from './src/components/componentsCatalog/ComponentCard.jsx';
+        import { validateCatalogResponse } from './src/utils/catalogResponse.js';
         import ComponentFilters from './src/components/componentsCatalog/ComponentFilters.jsx';
         import ComponentComparison from './src/components/componentsCatalog/ComponentComparison.jsx';
         import { ComponentsProvider } from './src/hooks/useComponents.js';
         import { emptyCatalogFilters, catalogFilterFields, specLabel } from './src/utils/componentPresentation.js';
         import { components } from ${JSON.stringify(componentFile)};
+
+        const bad = { id: 'bad-cpu', category: 'cpu', name: { injected: true } };
+        const renderCard = component => renderToStaticMarkup(React.createElement(ComponentsProvider, null, React.createElement(ComponentCard, { component })));
+        assert.throws(() => renderCard(bad), /Objects are not valid as a React child/);
+        assert.throws(() => validateCatalogResponse([bad]), /Resposta inválida/);
+        const unknown = validateCatalogResponse([{ id: 'unknown', category: 'cpu', price: 'bad' }])[0];
+        const unknownHtml = renderCard(unknown);
+        assert(unknownHtml.includes('Componente sem nome'));
+        assert(unknownHtml.includes('Preço indisponível'));
+        validateCatalogResponse(components);
+        console.log('PASS: malformed object display fields are rejected before real card rendering; missing names/prices retain unavailable labels; actual catalog satisfies boundary');
 
         for (const category of Object.keys(catalogFilterFields)) {
           const html = renderToStaticMarkup(React.createElement(ComponentFilters, {

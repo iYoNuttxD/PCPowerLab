@@ -1,0 +1,21 @@
+✔ deleting a saved build removes dependent versions and notifications but preserves other builds and shared snapshots (9.011637ms)
+✔ game: rejects full incompatible and unknown builds instead of returning unsupported performance (7.080862ms)
+✔ game: top-level component aliases override conflicting nested IDs consistently (2.429883ms)
+✔ game: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.468392ms)
+✔ multiple games: rejects full incompatible and unknown builds instead of returning unsupported performance (2.139003ms)
+✔ multiple games: top-level component aliases override conflicting nested IDs consistently (1.012357ms)
+✔ multiple games: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.319413ms)
+✔ professional software: rejects full incompatible and unknown builds instead of returning unsupported performance (1.605635ms)
+✔ professional software: top-level component aliases override conflicting nested IDs consistently (0.474462ms)
+✔ professional software: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.232313ms)
+✔ comparison rejects malformed build entries with a controlled 400 (0.798051ms)
+✔ performance parameter updates reject out-of-scale specialized scores atomically (1.119185ms)
+✔ catalog integrity: unique parameter and rule identifiers, correct references and legacy serialization (1.388884ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 137.160951

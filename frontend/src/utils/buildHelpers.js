@@ -45,13 +45,18 @@ export function fanPackPrice(fan) {
 }
 
 export function hydrateBuildComponents(components = {}, componentMap = {}) {
+  components = components && typeof components === 'object' && !Array.isArray(components) ? components : {};
   const selection = [...componentTypes, 'cooler'].reduce((result, type) => {
     const value = components[type] || components[`${type}Id`];
     const id = typeof value === 'string' ? value : value?.id;
-    if (id) result[type] = { ...componentMap[id], ...(typeof value === 'object' ? value : {}), id };
+    if (typeof id === 'string' && id.trim()) result[type] = { ...componentMap[id], ...(typeof value === 'object' ? value : {}), id };
     return result;
   }, {});
-  selection.fans = (Array.isArray(components.fans) ? components.fans : []).map(fan => {
+  selection.fans = (Array.isArray(components.fans) ? components.fans : []).filter(fan => {
+    const id = fan?.fanId || fan?.id;
+    const quantity = Number(fan?.quantity ?? 1);
+    return typeof id === 'string' && id.trim() && Number.isSafeInteger(quantity) && quantity > 0;
+  }).map(fan => {
     const id = fan.fanId || fan.id;
     const { fanId: _fanId, ...details } = fan;
     return { ...componentMap[id], ...details, id, quantity: Number(fan.quantity ?? 1) };

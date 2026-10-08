@@ -1,0 +1,128 @@
+[0mGET /api/v1/components [32m200[0m 2.467 ms - 117178[0m
+[0mGET /api/v1/ready-builds [32m200[0m 2.654 ms - 6697[0m
+[0mGET /api/v1/components?category=cooler [32m200[0m 0.362 ms - 8936[0m
+[0mGET /api/v1/components/cooler-noctua-nh-u12s-redux [32m200[0m 0.391 ms - 2157[0m
+[0mGET /api/v1/components/cooler-noctua-nh-l9a-am4 [32m200[0m 0.282 ms - 2005[0m
+[0mGET /api/v1/components/cooler-deepcool-ak620 [32m200[0m 0.157 ms - 1535[0m
+[0mGET /api/v1/components/cooler-arctic-liquid-freezer-iii-240 [32m200[0m 0.148 ms - 1619[0m
+[0mGET /api/v1/components/cooler-arctic-liquid-freezer-iii-360 [32m200[0m 0.119 ms - 1626[0m
+[0mGET /api/v1/components?category=fan [32m200[0m 0.169 ms - 6379[0m
+[0mGET /api/v1/components/fan-noctua-nf-p12-redux-1700-pwm [32m200[0m 0.148 ms - 1978[0m
+[0mGET /api/v1/components/fan-noctua-nf-a14-pwm [32m200[0m 0.105 ms - 1868[0m
+[0mGET /api/v1/components/fan-arctic-p12-pwm-pst [32m200[0m 0.092 ms - 1248[0m
+[0mGET /api/v1/components/fan-arctic-p12-pwm-pst-5-pack [32m200[0m 0.091 ms - 1275[0m
+[0mGET /api/v1/components?category=ram [32m200[0m 0.202 ms - 25364[0m
+[0mGET /api/v1/components/ram-kingston-fury-8gb-ddr4 [32m200[0m 0.086 ms - 840[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr4 [32m200[0m 0.138 ms - 845[0m
+[0mGET /api/v1/components/ram-kingston-fury-32gb-ddr4 [32m200[0m 0.076 ms - 845[0m
+[0mGET /api/v1/components/ram-corsair-vengeance-16gb-ddr4-3600 [32m200[0m 0.086 ms - 868[0m
+[0mGET /api/v1/components/ram-corsair-vengeance-16gb-ddr5 [32m200[0m 0.091 ms - 853[0m
+[0mGET /api/v1/components/ram-corsair-vengeance-32gb-ddr5-5600 [32m200[0m 0.081 ms - 868[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr5-6000 [32m200[0m 0.102 ms - 860[0m
+[0mGET /api/v1/components/ram-gskill-trident-z5-32gb-ddr5-6000 [32m200[0m 0.121 ms - 868[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr4-3600 [32m200[0m 0.114 ms - 1009[0m
+[0mGET /api/v1/components/ram-crucial-32gb-ddr4-3200 [32m200[0m 0.094 ms - 1026[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr5-5200 [32m200[0m 0.086 ms - 1009[0m
+[0mGET /api/v1/components/ram-kf432c16bbk2-16 [32m200[0m 0.083 ms - 1276[0m
+[0mGET /api/v1/components/ram-kf432c16bbk2-32 [32m200[0m 0.130 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf432c16bbk2-64 [32m200[0m 0.123 ms - 1327[0m
+[0mGET /api/v1/components/ram-kf436c18bbk2-32 [32m200[0m 0.108 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf552c40bbk2-32 [32m200[0m 0.120 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf556c40bbk2-32 [32m200[0m 0.080 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf560c40bbk2-32 [32m200[0m 0.083 ms - 1277[0m
+[0mGET /api/v1/components/ram-cmk32gx4m2e3200c16 [32m200[0m 0.074 ms - 1468[0m
+[0mGET /api/v1/components/ram-cmk32gx5m2b6000c36 [32m200[0m 0.085 ms - 1452[0m
+[0mGET /api/v1/components/ram-cmk64gx5m2b6000c40 [32m200[0m 0.082 ms - 1454[0m
+[0mGET /api/v1/components?category=storage [32m200[0m 0.212 ms - 27825[0m
+[0mGET /api/v1/components/ssd-kingston-a400-480gb [32m200[0m 0.078 ms - 955[0m
+[0mGET /api/v1/components/ssd-kingston-nv2-500gb [32m200[0m 0.129 ms - 910[0m
+[0mGET /api/v1/components/ssd-kingston-nv2-1tb [32m200[0m 0.154 ms - 904[0m
+[0mGET /api/v1/components/ssd-wd-blue-sn570-1tb [32m200[0m 0.121 ms - 1042[0m
+[0mGET /api/v1/components/ssd-wd-black-sn770-1tb [32m200[0m 0.076 ms - 976[0m
+[0mGET /api/v1/components/ssd-samsung-970-evo-plus-1tb [32m200[0m 0.100 ms - 921[0m
+[0mGET /api/v1/components/ssd-samsung-980-pro-2tb [32m200[0m 0.076 ms - 859[0m
+[0mGET /api/v1/components/hdd-seagate-barracuda-2tb [32m200[0m 0.190 ms - 1003[0m
+[0mGET /api/v1/components/ssd-kingston-a400-960gb [32m200[0m 0.110 ms - 1022[0m
+[0mGET /api/v1/components/ssd-samsung-970-evo-plus-250gb [32m200[0m 0.179 ms - 1710[0m
+[0mGET /api/v1/components/ssd-samsung-980-pro-1tb [32m200[0m 0.073 ms - 1693[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-250gb [32m200[0m 0.074 ms - 1438[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-500gb [32m200[0m 0.074 ms - 1438[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-1000gb [32m200[0m 0.073 ms - 1444[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-2000gb [32m200[0m 0.075 ms - 1444[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-4000gb [32m200[0m 0.073 ms - 1446[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-512gb [32m200[0m 0.092 ms - 1293[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-1024gb [32m200[0m 0.078 ms - 1301[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-2048gb [32m200[0m 0.078 ms - 1303[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-4096gb [32m200[0m 0.074 ms - 1303[0m
+[0mGET /api/v1/components/ssd-kingston-a400-240gb [32m200[0m 0.105 ms - 1297[0m
+[0mGET /api/v1/performance/games?category=nonexistent [32m200[0m 0.366 ms - 89[0m
+[0mGET /api/v1/components?category=not-a-category [33m400[0m 0.450 ms - 158[0m
+[0mGET /api/v1/components/no-such-part [33m404[0m 0.072 ms - 69[0m
+[0mPOST /api/v1/components/compatibility [32m200[0m 0.468 ms - 11655[0m
+▶ quality HTTP journey: catalog, analysis, budget, replacement, cooling, save/export/share/reload
+  ✔ catalog categories, price truth, empty result and invalid input (131.318626ms)
+[0mPOST /api/v1/build-summary [32m200[0m 2683.203 ms - 9474[0m
+[0mPOST /api/v1/build-summary [32m200[0m 1.067 ms - 9613[0m
+[0mPOST /api/v1/build-summary [33m400[0m 0.471 ms - 334[0m
+[0mPOST /api/v1/build-summary [33m404[0m 0.243 ms - 146[0m
+[0mPOST /api/v1/build-summary [32m200[0m 0.596 ms - 10002[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2717.412 ms - 9674[0m
+  ✔ complete/incomplete/incompatible, budget changes and RAM replacement (5419.3227ms)
+[0mPOST /api/v1/build-summary [32m200[0m 1.420 ms - 15835[0m
+[0mPOST /api/v1/saved-builds [32m201[0m 1.164 ms - 596[0m
+[0mGET /api/v1/saved-builds/build-001 [32m200[0m 0.327 ms - 607[0m
+[0mGET /api/v1/saved-builds/build-001/versions [32m200[0m 0.221 ms - 778[0m
+[0mGET /api/v1/saved-builds/build-001/export/json?includeSummary=true [32m200[0m 0.898 ms - 621[0m
+[0mPOST /api/v1/build-summary [32m200[0m 0.735 ms - 15835[0m
+[0mPOST /api/v1/share/build [32m200[0m 0.876 ms - 14533[0m
+[0mGET /api/v1/share/build/share-001 [32m200[0m 0.427 ms - 14532[0m
+[0mPATCH /api/v1/saved-builds/build-001 [32m200[0m 0.439 ms - 612[0m
+[0mGET /api/v1/saved-builds/build-001/versions [32m200[0m 0.095 ms - 1478[0m
+[0mGET /api/v1/saved-builds/build-001/versions/version-001 [32m200[0m 0.316 ms - 774[0m
+[0mPATCH /api/v1/saved-builds/build-001 [32m200[0m 0.277 ms - 615[0m
+[0mPOST /api/v1/saved-builds/build-001/revalidate [32m200[0m 0.509 ms - 689[0m
+[0mGET /api/v1/notifications?buildId=build-001 [32m200[0m 0.185 ms - 558[0m
+[0mDELETE /api/v1/saved-builds/build-001 [32m200[0m 0.284 ms - 619[0m
+[0mGET /api/v1/notifications?buildId=build-001 [32m200[0m 0.129 ms - 99[0m
+[0mGET /api/v1/saved-builds/build-001 [33m404[0m 0.149 ms - 79[0m
+[0mGET /api/v1/share/build/share-001 [32m200[0m 0.240 ms - 14532[0m
+  ✔ cooling quantities, unknown compatibility, save/version/export/share and removal (46.378428ms)
+[0mPOST /api/v1/performance/simulate-game [32m200[0m 0.403 ms - 750[0m
+[0mPOST /api/v1/performance/simulate-game [32m200[0m 0.320 ms - 749[0m
+[0mPOST /api/v1/performance/compare-games [32m200[0m 0.652 ms - 700[0m
+[0mPOST /api/v1/performance/compare-games [33m400[0m 0.172 ms - 86[0m
+[0mPOST /api/v1/performance/simulate-game [33m422[0m 0.209 ms - 187[0m
+[0mPOST /api/v1/performance/compare-games [33m422[0m 0.175 ms - 187[0m
+[0mPOST /api/v1/performance/simulate-software [33m422[0m 0.455 ms - 187[0m
+[0mPOST /api/v1/performance/simulate-game [33m422[0m 0.163 ms - 265[0m
+[0mPOST /api/v1/performance/compare-games [33m422[0m 0.208 ms - 265[0m
+[0mPOST /api/v1/performance/simulate-software [33m422[0m 0.217 ms - 265[0m
+[0mPOST /api/v1/performance/simulate-software [32m200[0m 0.500 ms - 815[0m
+[0mPOST /api/v1/performance/simulate-game [33m404[0m 0.102 ms - 62[0m
+[0mPOST /api/v1/bottlenecks/analyze [32m200[0m 0.193 ms - 265[0m
+[0mPOST /api/v1/build-comparison [32m200[0m 1.879 ms - 16596[0m
+  ✔ single/multiple games, software, bottlenecks and build comparison use actual service outputs (34.229355ms)
+[0mPOST /api/v1/recommendations/budget [33m422[0m 0.822 ms - 200[0m
+[0mPOST /api/v1/recommendations/budget [32m200[0m 332.696 ms - 9873[0m
+[0mPOST /api/v1/build-summary [32m200[0m 119.330 ms - 11314[0m
+[0mPOST /api/v1/recommendations/budget [32m200[0m 1672.685 ms - 9932[0m
+[0mPOST /api/v1/build-summary [32m200[0m 1552.658 ms - 10945[0m
+[0mPOST /api/v1/upgrades/suggest [32m200[0m 1993.150 ms - 11160[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2782.523 ms - 10280[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2712.753 ms - 9968[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2726.439 ms - 10049[0m
+  ✔ recommendation budget limits and upgrades preserve actual compatibility (13925.030131ms)
+[0mGET /api/v1/no-such-endpoint [33m404[0m 0.138 ms - 92[0m
+[0mPOST /api/v1/build-summary [33m400[0m 0.222 ms - 95[0m
+[0mPOST /api/v1/build-comparison [33m400[0m 0.288 ms - 73[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2729.685 ms - 9474[0m
+  ✔ malformed HTTP JSON, unknown routes and retry after controlled failures (2742.90205ms)
+✔ quality HTTP journey: catalog, analysis, budget, replacement, cooling, save/export/share/reload (22339.035168ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22524.32783

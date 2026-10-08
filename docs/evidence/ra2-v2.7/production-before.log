@@ -1,0 +1,20 @@
+127.0.0.1 - - [08/Oct/2026:03:07:47 +0000] "GET /quality-api/v2/missing HTTP/1.1" 200 557 "-" "node"
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: API must not receive SPA HTML: /quality-api/v2/missing
+
+200 !== 404
+
+    at file:///workspace/shared/pcpowerlab-v2-baseline/scripts/check-quality-production.mjs:16:12
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 200,
+  expected: 404,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
