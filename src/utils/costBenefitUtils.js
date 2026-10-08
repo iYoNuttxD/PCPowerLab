@@ -133,22 +133,22 @@ export function classifyCostBenefitScore(score) {
 export function buildCostBenefitSummary(component, score) {
   const categoryLabel = getCategoryLabel(component?.category);
   if (score >= 85) {
-    return `Excelente relação entre preço e desempenho para ${categoryLabel}.`;
+    return `Excelente relação entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;
   }
 
   if (score >= 70) {
-    return `Boa relação entre preço e desempenho para ${categoryLabel}.`;
+    return `Boa relação entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;
   }
 
   if (score >= 55) {
-    return `Relação equilibrada entre preço e desempenho para ${categoryLabel}.`;
+    return `Relação equilibrada entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;
   }
 
   if (score >= 40) {
-    return `Custo-benefício regular para ${categoryLabel}; compare com alternativas da mesma categoria.`;
+    return `Custo-benefício regular no catalogo para ${categoryLabel}; compare com alternativas da mesma categoria.`;
   }
 
-  return `Baixo custo-benefício para ${categoryLabel}, considerando preço e desempenho informados.`;
+  return `Baixo custo-benefício no catalogo para ${categoryLabel}, considerando preço estimado e desempenho simulado informados.`;
 }
 
 function getCategoryLabel(category) {

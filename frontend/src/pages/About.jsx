@@ -1,3 +1,4 @@
+import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import Card from '../components/ui/Card.jsx';
 
 export default function About() {
@@ -8,6 +9,7 @@ export default function About() {
         <h1>PCPowerLab</h1>
         <p>Uma API e interface web para apoiar decisões na montagem de computadores personalizados.</p>
       </section>
+      <DecisionMethodology />
       <Card>
         <h2>Como funciona</h2>
         <p>

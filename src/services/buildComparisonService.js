@@ -1,3 +1,4 @@
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { createBudget } from './budgetService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -43,6 +44,7 @@ export function compareBuilds(input) {
   const recommendedBuild = selectRecommendedBuild({ builds, comparisonCriteria });
 
   return removeEmptyFields({
+    methodology: buildDecisionMethodology({ usageType, scope: 'submitted_builds_only', ranking: 'Compara somente as builds enviadas; combina desempenho simulado, custo de referencia, compatibilidade, orcamento e penalidades de alertas/gargalos conforme o criterio.' }),
     comparisonCriteria,
     usageType,
     budget: budget
@@ -94,6 +96,8 @@ function analyzeBuildForComparison({
   const build = {
     name,
     totalEstimatedPrice: summary.totalEstimatedPrice,
+    priceBasis: 'catalog_reference_estimate',
+    performanceBasis: 'simulated_catalog_parameters',
     compatible: summary.compatibility.compatible,
     compatibilityStatus: summary.compatibility.status,
     unverifiedChecks: summary.compatibility.unverifiedChecks,
@@ -155,15 +159,15 @@ function buildComparisonSummary({
   const parts = [];
 
   parts.push(compatible
-    ? `Configuracao compativel para ${usageType}.`
+    ? `Configuracao compativel segundo as regras do catalogo para ${usageType}.`
     : 'Configuracao tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendacao.');
 
   if (budgetStatus === 'within_budget') {
-    parts.push('Esta dentro do orcamento informado.');
+    parts.push('O custo de referencia estimado esta dentro do orcamento informado.');
   } else if (budgetStatus === 'near_budget') {
-    parts.push('Fica proxima do orcamento, mas ultrapassa um pouco o valor informado.');
+    parts.push('O custo de referencia estimado fica proximo do orcamento, mas ultrapassa um pouco o valor informado.');
   } else if (budgetStatus === 'above_budget') {
-    parts.push('Esta acima do orcamento informado.');
+    parts.push('O custo de referencia estimado esta acima do orcamento informado.');
   }
 
   if (hasBottleneck) {
@@ -171,7 +175,7 @@ function buildComparisonSummary({
   }
 
   if (gamePerformance?.estimatedFps) {
-    parts.push(`Estimativa de ${gamePerformance.estimatedFps} FPS no jogo informado.`);
+    parts.push(`Simulacao estimada de ${gamePerformance.estimatedFps} FPS no jogo informado.`);
   }
 
   return parts.join(' ');

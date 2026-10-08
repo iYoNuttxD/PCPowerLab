@@ -1,3 +1,4 @@
+import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -184,6 +185,7 @@ export default function UpgradeSuggestions() {
         <h1>Sugestões de upgrade</h1>
         <p>Use gargalos, orçamento, compatibilidade e perfil de uso para encontrar o próximo passo da build.</p>
       </section>
+      <DecisionMethodology />
 
       {suggestionError && <ErrorState message={suggestionError} />}
       {feedbackMessage && <Alert type="success">{feedbackMessage}</Alert>}
@@ -272,7 +274,7 @@ export default function UpgradeSuggestions() {
           <div>
             <span className="eyebrow">Plano em etapas</span>
             <h2><Route size={22} aria-hidden="true" /> Plano de upgrades em etapas</h2>
-            <p>Monte uma sequência de trocas compatíveis respeitando orçamento total, tipo de uso e prioridade.</p>
+            <p>Planeje trocas entre as opções do catálogo, conforme o orçamento de referência, tipo de uso e prioridade. Revise as verificações de compatibilidade.</p>
           </div>
           <Badge tone="cyan">Roadmap</Badge>
         </div>
@@ -416,8 +418,8 @@ function UpgradeRoadmap({ result, currentSelection, onPreview, onFeedback }) {
                 </div>
 
                 <div className="roadmap-step-meta">
-                  <span>Custo da etapa: <strong>{formatCurrency(step.estimatedCost)}</strong></span>
-                  <span>Custo acumulado: <strong>{formatCurrency(step.cumulativeCost)}</strong></span>
+                  <span>Custo estimado da etapa: <strong>{formatCurrency(step.estimatedCost)}</strong></span>
+                  <span>Custo estimado acumulado: <strong>{formatCurrency(step.cumulativeCost)}</strong></span>
                   <span>Compatibilidade após troca: <strong>{formatCompatibility(step.compatibilityAfterStep)}</strong></span>
                 </div>
 

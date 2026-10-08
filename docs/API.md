@@ -1515,3 +1515,11 @@ Também são aceitos `components.cooler`/`components.coolerId` e `components.fan
 - CRUD de regras é um registro documental separado do motor codificado. Alterá-lo não muda a execução das verificações
 
 Limites físicos e fontes: [v2.1](RA2-V2.1-INTEGRACAO.md) e [catálogo](RA2-V2.1-CATALOG-SOURCES.md).
+
+## V2.6 — Proveniência de preço (campos aditivos)
+
+`GET /components` e consulta por ID preservam `price` (referência estimada) e expõem `pricing`: `productId`, `price`, `currency`, `source`, `updateStatus`, `queriedAt`, `validUntil`, `availability`, `isMarketQuote`. Catálogo atual: `catalog_reference`, `estimate`, datas nulas e `isMarketQuote: false`.
+
+Links de compra preservam arrays/slots e campos legados. Buscas acrescentam `kind: research`, `priceType: estimate`, `productUrl: null`, datas nulas, `updateStatus: not_queried`, `marketStatus`, `marketMessage`, `comparisonAvailable: false`. `price` não é cotação da loja. Futuras ofertas autorizadas usam `kind: offer`, `priceType: market_quote`, URL exata, fonte, consulta e validade; hoje nenhuma existe.
+
+Resumo acrescenta `pricing`: total estimado, subtotal exclusivamente de cotações disponíveis (nulo sem cotação), completude, IDs sem cotação/referência e metodologia. Nunca somar subtotal de mercado ao total de referência. Recomendações, upgrades, correções, custo-benefício e comparação expõem `methodology` explicando dados simulados, catálogo limitado e critérios. Não há endpoint de ingestão de ofertas, OAuth ou provedor conectado. [Detalhes e limites](RA2-V2.6-INTEGRACAO.md).

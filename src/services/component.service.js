@@ -1,3 +1,4 @@
+import { referencePrice } from './marketPriceService.js';
 import { findPerformanceParameterRecordByComponentId } from '../data/performance-parameter.repository.js';
 import {
   findComponentRecordById,
@@ -18,7 +19,8 @@ export function listComponents(filters = {}) {
 }
 
 export function findComponentById(componentId) {
-  return findComponentRecordById(componentId);
+  const component = findComponentRecordById(componentId);
+  return component ? { ...component, pricing: referencePrice(component) } : null;
 }
 
 export function findComponentsByIds(componentIds) {
@@ -49,7 +51,7 @@ export function withCatalogPerformance(component) {
     ? findPerformanceParameterRecordByComponentId(component.id) : null;
   const score = parameter?.performanceScore;
   const performanceScore = typeof score === 'number' && Number.isFinite(score) && score >= 0 && score <= 100 ? score : null;
-  return { ...component, performanceScore,
+  return { ...component, pricing: referencePrice(component), performanceScore,
     performanceMethodology: performanceScore === null ? null
       : 'Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS.' };
 }

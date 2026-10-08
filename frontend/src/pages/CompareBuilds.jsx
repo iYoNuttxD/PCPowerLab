@@ -1,3 +1,4 @@
+import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import BuildComponentsPreview from '../components/build/BuildComponentsPreview.jsx';
 import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
@@ -92,8 +93,9 @@ export default function CompareBuilds() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Versus mode</span>
         <h1>Comparação de builds</h1>
-        <p>Compare preço, compatibilidade, desempenho, custo-benefício e gargalos entre duas ou mais configurações.</p>
+        <p>Compare preço de referência, compatibilidade, desempenho estimado e custo-benefício e gargalos entre duas ou mais configurações.</p>
       </section>
+      <DecisionMethodology />
 
       {(validationError || request.error) && <ErrorState message={validationError || request.error.message} />}
 
@@ -118,7 +120,7 @@ export default function CompareBuilds() {
           {savedBuilds.map((savedBuild) => (
             <Card key={savedBuild.id} as="article" className={selectedIds.includes(savedBuild.id) ? 'is-selected' : ''}>
               <h3>{savedBuild.name}</h3>
-              <p>{formatCurrency(savedBuild.totalEstimatedPrice)}</p>
+              <p>Total estimado de referência: {formatCurrency(savedBuild.totalEstimatedPrice)}</p>
               <details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={savedBuild.components} /></details>
               <Button aria-pressed={selectedIds.includes(savedBuild.id)} variant={selectedIds.includes(savedBuild.id) ? 'success' : 'secondary'} onClick={() => toggleBuild(savedBuild.id)}>
                 {selectedIds.includes(savedBuild.id) ? 'Selecionada' : 'Selecionar'}
@@ -134,15 +136,15 @@ export default function CompareBuilds() {
             <h2>Resultado</h2>
             <Trophy aria-hidden="true" />
           </div>
-          <Alert type={(comparison.builds || []).some((item) => item.name === comparison.recommendedBuild?.name && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={`Recomendada: ${comparison.recommendedBuild?.name}`}>
+          <Alert type={(comparison.builds || []).some((item) => item.name === comparison.recommendedBuild?.name && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={`Sugestão entre as builds comparadas: ${comparison.recommendedBuild?.name || 'Não informada'}`}>
             {comparison.recommendedBuild?.reason}
           </Alert>
           <div className="comparison-table" role="region" aria-label="Comparação de builds — role horizontalmente para ver todos os critérios" tabIndex={0}>
             <table>
               <caption>Preço de referência e pontuação estimada das builds. Pontos maiores indicam melhor avaliação no modelo; não equivalem a FPS nem a uma medição real.</caption>
               <thead><tr>
-                <th scope="col">Build</th><th scope="col">Preço</th><th scope="col">Compatível</th>
-                <th scope="col">Pontuação de desempenho</th><th scope="col">Orçamento</th>
+                <th scope="col">Build</th><th scope="col">Preço estimado de referência</th><th scope="col">Compatível</th>
+                <th scope="col">Pontuação estimada de desempenho</th><th scope="col">Orçamento</th>
               </tr></thead>
               <tbody>
                 {(comparison.builds || []).map((item) => (

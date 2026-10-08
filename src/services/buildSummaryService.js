@@ -1,3 +1,4 @@
+import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkBuildCompatibilityAlerts } from './compatibility-alert.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
@@ -51,6 +52,7 @@ export function generateBuildSummary(input) {
 
   return removeEmptySections({
     components: compatibility.selectedComponents,
+    pricing: summarizeBuildPricing(selectBuildComponents(buildInput)),
     totalEstimatedPrice,
     budgetStatus,
     compatibility: {

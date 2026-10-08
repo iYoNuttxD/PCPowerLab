@@ -516,7 +516,7 @@ function FeedbackBuildSnapshot({ selectedComponents, totalEstimatedPrice }) {
           <h4>Configuração vinculada ao feedback</h4>
         </div>
         {Number.isFinite(Number(totalEstimatedPrice)) && Number(totalEstimatedPrice) > 0 && (
-          <strong className="price">{formatCurrency(totalEstimatedPrice)}</strong>
+          <strong className="price"><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(totalEstimatedPrice)}</strong>
         )}
       </div>
       <ul className="build-parts-list compact-build-list">

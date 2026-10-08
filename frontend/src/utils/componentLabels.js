@@ -54,6 +54,6 @@ export const priorityLabels = {
   performance: 'Desempenho',
   budget: 'Orçamento',
   balanced: 'Equilibrado',
-  'lowest-price': 'Menor preço',
+  'lowest-price': 'Menor preço de referência',
   'upgrade-ready': 'Preparado para upgrade'
 };

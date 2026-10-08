@@ -88,3 +88,7 @@ R15 e R16: **IMPLEMENTADO NÃO VALIDADO**. Catálogo agora combina filtros técn
 - R17: **IMPLEMENTADO NÃO VALIDADO**, preservando troca/desfazer/reanálise da v2.4; R20/R21 continuam **PARCIALMENTE IMPLEMENTADO**. Resumo consolidado existente satisfaz a interpretação técnica descrita em [auditoria v2.5](RA2-V2.5-AUDITORIA-UX.md), mas o significado de “simulação final” permanece a validar com participantes
 
 [Auditoria, antes/depois e pendências](RA2-V2.5-AUDITORIA-UX.md) · [comandos e evidências](evidence/ra2-v2.5/README.md). Nenhuma linha recebe VALIDADO por SSR, handlers, testes Node, lint ou build. Inspeção visual em 1440/1024/768/390/320 px e screenshots **não executados**. Fotos continuam 9/98; preços atuais, pesquisa humana e etapa 6 não realizados.
+
+## Atualização v2.6 — 08/10/2026
+
+R18/R19 permanecem **PARCIALMENTE IMPLEMENTADOS**. Referências, pesquisa externa e modelo de ofertas separados; datas fictícias removidas; orçamento não mistura cotações com referências; recomendações/comparações/rankings explicam custo, desempenho simulado, especificações, compatibilidade e escopo do catálogo. Contrato e estados de ofertas testados com fixtures, sem provedor conectado ou preço real verificado. 425 testes Node + 40 utilitários frontend, sete scripts SSR/handlers, lints/build aprovados; navegador e aceitação humana pendentes. [Relatório](RA2-V2.6-INTEGRACAO.md) e [fontes oficiais/restrições](RA2-V2.6-MARKET-SOURCES.md). R20 mantém validação parcial. Nenhum requisito promovido a VALIDADO.

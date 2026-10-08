@@ -1,3 +1,4 @@
+import { getProductMarket } from './marketPriceService.js';
 import { createComponentPurchaseLinks } from '../data/purchaseLinks.js';
 import { requiredBuildSlots, selectBuildComponents } from './build.service.js';
 import { findComponentById } from './component.service.js';
@@ -13,7 +14,12 @@ export function getPurchaseLinksByComponentId(componentIdInput) {
     throw error;
   }
 
-  return createComponentPurchaseLinks(component).map(formatPurchaseLink);
+  const market = getProductMarket(component.id);
+  const offers = market.offers.map(offer => ({ ...offer, componentId: component.id, kind: 'offer',
+    priceType: 'market_quote', url: offer.productUrl, lastUpdated: offer.queriedAt,
+    availabilityStatus: offer.availability, isAffiliate: false }));
+  return [...offers, ...createComponentPurchaseLinks(component)].map(link => ({ ...formatPurchaseLink(link),
+    comparisonAvailable: market.comparisonAvailable, marketStatus: market.status, marketMessage: market.message }));
 }
 
 export function getPurchaseLinksByBuild(buildInput) {
@@ -31,6 +37,7 @@ export function getPurchaseLinksByBuild(buildInput) {
 
 function formatPurchaseLink(purchaseLink) {
   return {
+    ...purchaseLink,
     componentId: purchaseLink.componentId,
     storeName: purchaseLink.storeName,
     url: purchaseLink.url,

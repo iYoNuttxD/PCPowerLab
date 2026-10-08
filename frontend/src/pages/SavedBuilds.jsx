@@ -254,7 +254,7 @@ export default function SavedBuilds() {
           <Card key={savedBuild.id} as="article">
             <div className="section-heading compact">
               <h2>{savedBuild.name}</h2>
-              <strong>{formatCurrency(savedBuild.totalEstimatedPrice)}</strong>
+              <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(savedBuild.totalEstimatedPrice)}</strong>
             </div>
             <p>{savedBuild.description || 'Sem descrição.'}</p>
             <ul className="build-parts-list">

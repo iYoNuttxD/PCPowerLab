@@ -334,7 +334,7 @@ export default function BuildSummary() {
                 onEdit={request.loading || loadingAction ? undefined : type => setReplacement({ type })} />
             </div>
             <div className="summary-overview-side">
-              <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
+              <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} pricing={build.summary?.pricing} />
               <BuildStatusCard
                 verified={typeof compatibilityData?.compatible === 'boolean' && compatibilityData?.status !== 'unverified'}
                 incompatible={isIncompatible}
@@ -452,7 +452,7 @@ export default function BuildSummary() {
         <Card className="summary-actions-card">
           <div className="section-heading compact">
             <div>
-              <h3>Desempenho esperado</h3>
+              <h3>Desempenho estimado</h3>
               <p>Escolha o jogo, resolução e qualidade para atualizar a estimativa de FPS.</p>
             </div>
           </div>
@@ -704,7 +704,7 @@ function FixSuggestionsPanel({ suggestions, onApply, onFeedback }) {
                   <div>
                     <span>Sugerido</span>
                     <ComponentIdentity component={suggestedComponent} category={componentType} fallback={suggestion.suggestedComponentName || 'Alternativa sugerida'} />
-                    {suggestedComponent?.price && <small>{formatCurrency(suggestedComponent.price)}</small>}
+                    {suggestedComponent?.price && <small>Preço estimado de referência: {formatCurrency(suggestedComponent.price)}</small>}
                   </div>
                 </div>
                 {suggestedComponent?.id && (

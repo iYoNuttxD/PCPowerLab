@@ -116,8 +116,8 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
     expect(result.budgetStatus.remaining).toBe(Number((5500 - expectedTotal).toFixed(2)));
     expect(result.compatibility.compatible).toBe(true);
     await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toContainText(`${result.gamePerformance.estimatedFps.toLocaleString('pt-BR')} FPS`);
-    await expect(page.getByRole('link', { name: 'Buscar na loja', exact: true }).first()).toBeVisible();
-    const shopLinks = await page.getByRole('link', { name: 'Buscar na loja', exact: true }).evaluateAll(links => links.map(link => ({ href: link.href, rel: link.rel, target: link.target })));
+    await expect(page.getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()).toBeVisible();
+    const shopLinks = await page.getByRole('link', { name: 'Pesquisar na loja', exact: true }).evaluateAll(links => links.map(link => ({ href: link.href, rel: link.rel, target: link.target })));
     expect(shopLinks.length).toBeGreaterThanOrEqual(7);
     for (const link of shopLinks) {
       expect(new URL(link.href).protocol).toBe('https:');

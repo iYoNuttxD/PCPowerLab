@@ -1,3 +1,4 @@
+import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentImage from '../components/componentsCatalog/ComponentImage.jsx';
 import { useEffect, useState } from 'react';
 import { BarChart3 } from 'lucide-react';
@@ -57,6 +58,7 @@ export default function Insights() {
         <h1>Custo-benefício de componentes</h1>
         <p>Compare componentes por valor entregue e encontre peças com boa relação entre preço e desempenho.</p>
       </section>
+      <DecisionMethodology />
 
       {error && <Alert type="error">{error}</Alert>}
 
@@ -64,7 +66,7 @@ export default function Insights() {
         <div className="section-heading compact">
           <div>
             <span className="eyebrow">Ranking de custo-benefício</span>
-            <h2><BarChart3 size={22} aria-hidden="true" /> Componentes com melhor relação preço/desempenho</h2>
+            <h2><BarChart3 size={22} aria-hidden="true" /> Relação preço/desempenho estimada no catálogo</h2>
           </div>
           <Badge tone="green">Ranking</Badge>
         </div>
@@ -134,7 +136,7 @@ function RankingList({ ranking }) {
                   <strong>{formatCurrency(component.price)}</strong>
                 </div>
                 <div>
-                  <span>Desempenho cadastrado</span>
+                  <span>Índice estimado cadastrado</span>
                   <strong>{formatNumber(entry.performanceScore)}{numericValue(entry.performanceScore) !== null && ' / 100'}</strong>
                 </div>
                 <div>

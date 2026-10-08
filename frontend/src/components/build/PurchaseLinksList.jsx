@@ -24,8 +24,9 @@ export default function PurchaseLinksList({
 
   return (
     <Card>
-      <h3>Links de compra</h3>
-      <p className="analysis-note">Valores demonstrativos, não cotações de cada loja. Não há consulta de preço ou estoque em tempo real.</p>
+      <h3>Preços e pesquisa em lojas</h3>
+      <p className="analysis-note">Referências do catálogo são estimativas. Ofertas só são exibidas quando há fonte autorizada, data e validade; não representam todo o mercado.</p>
+      <p className="hint-text" role="status">{flatLinks.find(link => link.marketMessage)?.marketMessage || 'Comparação automática indisponível: nenhuma fonte de preços autorizada está conectada.'}</p>
       <p className="hint-text">
         {variant === 'single'
           ? 'Os links direcionam para buscas em lojas externas. Confirme preço e disponibilidade na loja.'
@@ -44,11 +45,11 @@ export default function PurchaseLinksList({
                   <span className="purchase-component-category">{group.categoryLabel}</span>
                   <ComponentIdentity component={{ id: group.componentId, name: group.componentName }} category={group.category} />
                   {group.category === 'fan' && (
-                    <small>{group.quantity} pack(s) · preços das lojas por pack</small>
+                    <small>{group.quantity} pack(s) · valores por pack</small>
                   )}
                 </div>
                 {Number.isFinite(Number(group.componentPrice)) && (
-                  <span className="price">{formatCurrency(group.componentPrice)}</span>
+                  <span className="price">Referência estimada: {formatCurrency(group.componentPrice)}</span>
                 )}
               </div>
 
@@ -95,7 +96,12 @@ function ShopLinkCard({ link, renderEstimatedPrice }) {
   return (
     <article className="shop-link">
       <strong>{link.storeName}</strong>
-      <span>{renderEstimatedPrice(link)}</span>
+      <span>{link.kind === 'offer' ? `Cotação: ${formatCurrency(link.price, link.currency)}` : 'Pesquisa externa, sem cotação desta loja'}</span>
+      {link.kind === 'offer' ? <>
+        <small>Consultado em: {link.queriedAt}</small>
+        <small>Válido até: {link.validUntil}</small>
+        <small>Fonte: {link.source?.name}</small>
+      </> : <small>{renderEstimatedPrice(link)} (catálogo)</small>}
       <small>Status: {translateValue(link.availabilityStatus, 'Consultar na loja')}</small>
       <small>{link.isAffiliate ? 'Link afiliado' : 'Sem link afiliado'}</small>
       <a
@@ -105,7 +111,7 @@ function ShopLinkCard({ link, renderEstimatedPrice }) {
         rel="noopener noreferrer"
       >
         <ExternalLink size={16} aria-hidden="true" />
-        Buscar na loja
+        {link.kind === 'offer' ? 'Ver produto na loja' : 'Pesquisar na loja'}
       </a>
     </article>
   );

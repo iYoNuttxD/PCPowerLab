@@ -1,3 +1,4 @@
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { getSavedBuildById } from './savedBuildsService.js';
 import { selectBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
@@ -7,7 +8,7 @@ import { generateExplanation } from './explanationService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { listComponents } from './component.service.js';
 import { recommendBuildByBudget } from './recommendationService.js';
-import { calculateCostBenefitScore, getPerformanceScore } from '../utils/costBenefitUtils.js';
+import { calculateCostBenefitScore, getPerformanceScore, getEstimatedPrice } from '../utils/costBenefitUtils.js';
 import {
   buildUpgradeReason,
   getUpgradeImpact,
@@ -51,6 +52,7 @@ export function suggestUpgrades(input) {
   });
 
   return {
+    methodology: buildDecisionMethodology({ usageType, ranking: 'Ganho de indice simulado, custo estimado integral da peca, prioridade, capacidade preservada e compatibilidade pelas regras do catalogo. Nao desconta revenda da peca antiga.' }),
     currentBuildSummary: {
       totalEstimatedPrice: Number(calculateTotalPrice(currentBuild).toFixed(2)),
       mainBottleneck: getMainBottleneck(bottleneckAnalysis),
@@ -157,7 +159,9 @@ function buildCandidateSuggestion({
     return null;
   }
 
-  const estimatedUpgradeCost = Number((candidate.price || 0).toFixed(2));
+  const referencePrice = getEstimatedPrice(candidate);
+  if (referencePrice === null) return null;
+  const estimatedUpgradeCost = Number(referencePrice.toFixed(2));
 
   if (budget && estimatedUpgradeCost > budget.amount) {
     return null;
@@ -192,6 +196,8 @@ function buildCandidateSuggestion({
     currentComponent,
     suggestedComponent: candidate,
     estimatedUpgradeCost,
+    estimatedCostBasis: 'full_replacement_reference_price',
+    performanceBasis: 'simulated_score_difference',
     expectedImpact,
     scoreGain,
     reason: buildUpgradeReason({
@@ -286,16 +292,16 @@ function getMainBottleneck(bottleneckAnalysis) {
 
 function buildUpgradeSummary(suggestions, bottleneckAnalysis) {
   if (suggestions.length === 0) {
-    return 'Nao foram encontrados upgrades compativeis dentro das restricoes informadas.';
+    return 'Nao foram encontrados upgrades compativeis no catalogo dentro das restricoes e custos estimados informados.';
   }
 
   const firstSuggestion = suggestions[0];
 
   if (bottleneckAnalysis?.hasBottleneck) {
-    return `O upgrade mais recomendado e trocar ${firstSuggestion.componentType}, pois esse ponto limita o desempenho da configuracao.`;
+    return `Entre os candidatos do catalogo, o upgrade sugerido e trocar ${firstSuggestion.componentType}, pois esse ponto aparece como limitador na simulacao.`;
   }
 
-  return `O upgrade mais recomendado e trocar ${firstSuggestion.componentType}, pois oferece o melhor ganho encontrado para o perfil informado.`;
+  return `Entre os candidatos do catalogo, o upgrade sugerido e trocar ${firstSuggestion.componentType}, pois oferece o melhor ganho simulado encontrado para o perfil informado, com custo de referencia estimado.`;
 }
 
 function mapBuildToIds(build) {

@@ -1,3 +1,4 @@
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { listComponents } from './component.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { componentCategories } from '../models/component.model.js';
@@ -80,8 +81,12 @@ function formatCostBenefitEntry(entry, maxRawScore) {
       id: entry.component.id,
       name: entry.component.name,
       category: entry.component.category,
-      price: entry.component.price
+      price: entry.component.price,
+      estimatedPrice: getEstimatedPrice(entry.component),
+      specs: entry.component.specs,
+      priceBasis: 'catalog_reference_estimate'
     },
+    methodology: buildDecisionMethodology({ scope: 'same_category_catalog_entries', fallbackScore: null, ranking: 'Indice simulado de desempenho dividido pelo preco estimado, normalizado pelo maior resultado da mesma categoria para 0–100. As posicoes sao relativas a categoria, nao ao mercado.' }),
     performanceScore: entry.performanceScore,
     costBenefitScore,
     classification: classifyCostBenefitScore(costBenefitScore),
@@ -116,7 +121,7 @@ function compareRankedComponents(componentA, componentB) {
     return componentB.performanceScore - componentA.performanceScore;
   }
 
-  return componentA.component.price - componentB.component.price;
+  return componentA.component.estimatedPrice - componentB.component.estimatedPrice;
 }
 
 function normalizeCategory(category) {

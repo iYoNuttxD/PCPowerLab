@@ -12,7 +12,7 @@ export function selectCatalogComponent(selection, actions, component) {
   return true;
 }
 
-export const catalogMethodology = 'Desempenho: índice interno demonstrativo de 0 a 100, apenas entre peças da mesma categoria (CPU, GPU, RAM ou armazenamento). Não é benchmark, FPS ou garantia de desempenho. Índice por real = índice ÷ preço de referência × 1.000 (pontos por R$ 1.000); não considera qualidade, consumo, compatibilidade ou preço atual. Dados ausentes aparecem como Não informado e ficam no fim da ordenação. Refrigeração, gabinete, fonte e placa-mãe não recebem pontuação de desempenho.';
+export const catalogMethodology = 'Escopo: somente as peças cadastradas nesta base demonstrativa, não todo o mercado. Desempenho: índice interno demonstrativo de 0 a 100, apenas entre peças da mesma categoria (CPU, GPU, RAM ou armazenamento). Não é benchmark, FPS ou garantia de desempenho. Índice por real = índice ÷ preço de referência × 1.000 (pontos por R$ 1.000); não considera qualidade, consumo, compatibilidade ou preço atual. Dados ausentes aparecem como Não informado e ficam no fim da ordenação. Refrigeração, gabinete, fonte e placa-mãe não recebem pontuação de desempenho.';
 
 export function formatCatalogScore(value) {
   return typeof value === 'number' && Number.isFinite(value) ? value.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : 'Não informado';

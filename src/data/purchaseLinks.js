@@ -1,6 +1,6 @@
 import { components } from './components.mock.js';
 
-const lastUpdated = '2026-05-22';
+const lastUpdated = null;
 
 const stores = [
   {
@@ -36,6 +36,15 @@ export function createComponentPurchaseLinks(component) {
 
   return stores.map((store) => ({
     componentId: component.id,
+    productId: component.id,
+    storeId: toHyphenTerm(store.storeName),
+    kind: 'research',
+    priceType: 'estimate',
+    productUrl: null,
+    queriedAt: null,
+    validUntil: null,
+    source: { kind: 'catalog_reference', name: 'Catálogo demonstrativo' },
+    updateStatus: 'not_queried',
     storeName: store.storeName,
     url: store.buildUrl(terms),
     price: Number.isFinite(component.price) ? component.price : null,

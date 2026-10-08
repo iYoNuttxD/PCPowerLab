@@ -1,3 +1,4 @@
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { listComponents } from './component.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -414,6 +415,7 @@ function formatBudgetRangeRecommendation({
   );
 
   return {
+    methodology: recommendationMethodology(usageType, priority),
     name: buildRecommendationName(usageType, priority, position),
     usageType,
     priority,
@@ -441,6 +443,7 @@ function formatRecommendation({
 
   return {
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
+    methodology: recommendationMethodology(usageType, priority),
     remainingBudget: Number((budgetAmount - recommendation.totalEstimatedPrice).toFixed(2)),
     usageType,
     priority,
@@ -474,7 +477,7 @@ function buildRecommendationName(usageType, priority, position) {
   const priorityLabels = {
     'cost-benefit': 'Custo-beneficio',
     performance: 'Desempenho',
-    'lowest-price': 'Menor preco',
+    'lowest-price': 'Menor custo estimado no catalogo',
     balanced: 'Equilibrada'
   };
 
@@ -517,7 +520,7 @@ function buildBudgetRangeSummary(usageType, priority, performanceScore, warnings
     ? ' Ha possiveis gargalos basicos indicados nos avisos.'
     : ' Nao foram identificados gargalos basicos relevantes.';
 
-  return `${baseSummary} Foco em ${translatePriority(priority)} com nivel estimado ${getEstimatedPerformanceLevel(performanceScore)}.${bottleneckSummary}`;
+  return `${baseSummary} Comparacao de candidatos do catalogo com precos de referencia e desempenho simulado. Foco em ${translatePriority(priority)} com nivel estimado ${getEstimatedPerformanceLevel(performanceScore)}.${bottleneckSummary}`;
 }
 
 function buildStrategy(usageType) {
@@ -554,14 +557,14 @@ function buildWarnings(components, compatibilityAlerts) {
 function buildSummary(usageType, priority) {
   const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
 
-  return `${baseSummary} Foco em ${translatePriority(priority)}.`;
+  return `${baseSummary} Comparacao de candidatos do catalogo com precos de referencia e desempenho simulado. Foco em ${translatePriority(priority)}.`;
 }
 
 function translatePriority(priority) {
   const translations = {
     'cost-benefit': 'custo-beneficio',
     performance: 'desempenho',
-    'lowest-price': 'menor preco'
+    'lowest-price': 'menor custo estimado entre candidatos do catalogo'
   };
 
   return translations[priority] || translations['cost-benefit'];
@@ -721,4 +724,12 @@ function validateOptionalPrices(components) {
     error.statusCode = 422;
     throw error;
   }
+}
+
+function recommendationMethodology(usageType, priority) {
+  return buildDecisionMethodology({
+    usageType,
+    scope: 'shortlisted_catalog_candidates',
+    ranking: `Prioridade ${priority}; combina indice simulado, custo de referencia, pesos por perfil, uso do orcamento e penalidade de desequilibrio CPU/GPU. Busca em subconjunto de candidatos, sem garantia de otimo global. costBenefitScore de faixa e o score composto dividido por 100, nao uma porcentagem.`
+  });
 }

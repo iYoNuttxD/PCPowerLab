@@ -2,7 +2,7 @@ import Card from '../ui/Card.jsx';
 import Badge from '../ui/Badge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
-export default function BudgetPanel({ budget, totalPrice }) {
+export default function BudgetPanel({ budget, totalPrice, pricing }) {
   const amount = Number(budget?.amount);
   const hasBudget = budget?.amount !== '' && budget?.amount != null && Number.isFinite(amount) && amount > 0;
   const hasTotal = totalPrice !== null && totalPrice !== undefined && Number.isFinite(Number(totalPrice));
@@ -32,6 +32,11 @@ export default function BudgetPanel({ budget, totalPrice }) {
         </div>
       </div>
       {!hasTotal && <p role="status">Há peças sem preço informado. O total e a avaliação do orçamento estão indisponíveis.</p>}
+      {pricing && <div className="hint-text">
+        <p>Cotações com disponibilidade confirmada: {pricing.availableMarketQuotesTotal === null ? 'indisponíveis' : formatCurrency(pricing.availableMarketQuotesTotal)}{!pricing.marketTotalComplete && ' (subtotal incompleto)'}</p>
+        <p>Componentes sem cotação atual: {pricing.componentsWithoutCurrentQuote.length}</p>
+        <p>{pricing.methodology}</p>
+      </div>}
       <p className="hint-text">Calculado com preços estimados do catálogo. Não inclui frete nem acompanha ofertas em tempo real.</p>
     </Card>
   );

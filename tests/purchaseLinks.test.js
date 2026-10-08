@@ -33,7 +33,9 @@ test('deve buscar links de compra por componentId', () => {
   assert.equal(links.every((link) => link.isAffiliate === false), true);
   assert.equal(links.every((link) => link.availabilityStatus === 'unknown'), true);
   assert.equal(typeof links[0].isAffiliate, 'boolean');
-  assert.equal(Boolean(links[0].lastUpdated), true);
+  assert.equal(links[0].lastUpdated, null);
+  assert.equal(links[0].kind, 'research');
+  assert.equal(links[0].comparisonAvailable, false);
   assert.equal(['available', 'unavailable', 'unknown'].includes(links[0].availabilityStatus), true);
 });
 

@@ -35,8 +35,8 @@ export function getUpgradePrioritySlots({ usageType, bottleneckAnalysis }) {
 
 export function buildUpgradeReason({ componentType, expectedImpact, usageType, hasBottleneck }) {
   if (hasBottleneck) {
-    return `O componente ${componentType} aparece como limitador da configuracao. A troca deve gerar impacto ${expectedImpact} para ${usageType}.`;
+    return `O componente ${componentType} aparece como limitador da configuracao. Na simulacao, a troca tem impacto estimado ${expectedImpact} para ${usageType}.`;
   }
 
-  return `Para o perfil ${usageType}, o upgrade de ${componentType} oferece a melhor evolucao encontrada dentro das restricoes informadas.`;
+  return `Para o perfil ${usageType}, o upgrade de ${componentType} oferece a melhor evolucao simulada encontrada entre os candidatos do catalogo dentro das restricoes informadas.`;
 }

@@ -37,7 +37,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
         {(selectedComponents?.fans || []).map((fan, index) => <li key={`${fan.id}-${index}`}>
           {onEdit ? <button className="build-part-edit" type="button" onClick={() => onEdit('fans')}>Ventoinhas<small>Alterar modelo ou quantidade</small></button> : <span>Ventoinhas</span>}
           <ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s){fan.specs?.unitsPerPack ? ` · ${fan.quantity * fan.specs.unitsPerPack} unidade(s)` : ''}</small></ComponentIdentity>
-          <span>{formatCurrency(fanPackPrice(fan))}</span>
+          <span>Total estimado: {formatCurrency(fanPackPrice(fan))}</span>
         </li>)}
         {!!selectedComponents?.fans?.length && onRemove && <li><Button variant="ghost" onClick={() => onRemove('fans')}>Remover todas as ventoinhas</Button></li>}
       </ul>

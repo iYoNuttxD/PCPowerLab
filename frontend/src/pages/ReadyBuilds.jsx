@@ -1,3 +1,4 @@
+import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -321,6 +322,7 @@ export default function ReadyBuilds() {
         <h1>Builds prontas</h1>
         <p>Consulte configurações completas por perfil de uso ou gere uma recomendação dentro da sua faixa de orçamento.</p>
       </section>
+      <DecisionMethodology />
 
       {feedback && <Alert type="success">{feedback}</Alert>}
 
@@ -355,7 +357,7 @@ export default function ReadyBuilds() {
         <div className="section-heading compact">
           <div>
             <h2>Recomendar build por orçamento</h2>
-            <p>Informe uma faixa de preço para receber uma configuração completa compatível.</p>
+            <p>Informe uma faixa de orçamento para receber uma sugestão do catálogo. Confira as verificações de compatibilidade antes de comprar.</p>
           </div>
           <Wand2 size={28} aria-hidden="true" />
         </div>
@@ -497,7 +499,7 @@ function ReadyBuildCard({ readyBuild, componentMap, currentSelection, onApply, o
           <h2>{readyBuild.name}</h2>
           <Badge tone="cyan">{translateValue(readyBuild.usageProfile)}</Badge>
         </div>
-        <strong className="price">{formatCurrency(readyBuild.estimatedTotalPrice)}</strong>
+        <strong className="price"><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(readyBuild.estimatedTotalPrice)}</strong>
       </div>
       <p>{readyBuild.description}</p>
       <div className="metric-grid">
@@ -506,7 +508,7 @@ function ReadyBuildCard({ readyBuild, componentMap, currentSelection, onApply, o
           <strong>{formatBudgetRange(readyBuild.targetBudgetRange)}</strong>
         </div>
         <div>
-          <span>Desempenho esperado</span>
+          <span>Desempenho estimado</span>
           <strong>{translateValue(readyBuild.expectedPerformanceLevel)}</strong>
         </div>
       </div>
@@ -576,7 +578,7 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
           <p>{preservesCooling ? 'Configuração recomendada antes de incluir sua refrigeração atual.' : recommendation.summary || 'Configuração completa recomendada para a faixa informada.'}</p>
         </div>
         <div>
-          {preservesCooling && <small>Preço base, sem a refrigeração mantida</small>}
+          <small className="estimated-price-label">{preservesCooling ? 'Total estimado base, sem a refrigeração mantida' : 'Total estimado de referência'}</small>
           <strong className="price">{formatCurrency(totalPrice)}</strong>
         </div>
       </div>
@@ -595,8 +597,8 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
           <strong>{preservesCooling ? 'Não verificada' : translateValue(recommendation.compatibilityStatus || (recommendation.unverifiedChecks?.length ? 'unverified' : recommendation.compatible === true ? 'compatible' : recommendation.compatible === false ? 'incompatible' : 'unverified'))}</strong>
         </div>
         <div>
-          <span>Desempenho</span>
-          <strong>{translateValue(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel || 'good')}</strong>
+          <span>Desempenho estimado</span>
+          <strong>{(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel) ? translateValue(recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel) : 'Não informado'}</strong>
         </div>
       </div>
       <ul className="build-parts-list">

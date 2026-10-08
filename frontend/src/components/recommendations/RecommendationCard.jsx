@@ -1,3 +1,4 @@
+import DecisionMethodology from '../build/DecisionMethodology.jsx';
 import { useState } from 'react';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Button from '../ui/Button.jsx';
@@ -25,9 +26,10 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
     <Card className="recommendation-card">
       <div className="section-heading compact">
         <h3>Configuração recomendada</h3>
-        <strong>{formatCurrency(displayedTotal)}</strong>
+        <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(displayedTotal)}</strong>
       </div>
       {retainsCooling ? <p>O total inclui a refrigeração atual que será mantida. Esta combinação ainda não foi verificada: compatibilidade e orçamento precisam de nova análise antes de concluir a montagem.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
+      <DecisionMethodology />
       <ul className="build-parts-list">
         {[...componentTypes, ...(recommendation.components?.cooler ? ['cooler'] : [])].map((type) => {
           const component = recommendation.components?.[type];

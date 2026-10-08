@@ -144,7 +144,7 @@ test('imagem sem origem/licença não é carregada; preços ausentes não aparec
   const dialog = page.getByRole('dialog');
   await expect(dialog).toContainText('não cotações de cada loja');
   await expect(dialog).toContainText('Preço estimado não informado');
-  await expect(dialog.getByRole('link', { name: 'Buscar na loja', exact: true })).toHaveAttribute('target', '_blank');
+  await expect(dialog.getByRole('link', { name: 'Pesquisar na loja', exact: true })).toHaveAttribute('target', '_blank');
 });
 
 test('catálogo diferencia carregamento, falha, vazio e recuperação', async ({ page }) => {
