@@ -96,3 +96,9 @@ R18/R19 permanecem **PARCIALMENTE IMPLEMENTADOS**. Referências, pesquisa extern
 ## Atualização v2.7 — 08/10/2026
 
 R20/R21 permanecem **PARCIALMENTE IMPLEMENTADOS**: auditoria transversal com defeitos reproduzidos, correções, regressões, revisão de valor dos testes e percursos HTTP reais. Simulações diretas passam a respeitar compatibilidade completa; persistência, concorrência, compartilhamento e respostas inválidas receberam correções. Evidências e limitações em [RA2-V2-QUALIDADE](RA2-V2-QUALIDADE.md). R01–R06/R08/R09/R17 continuam **IMPLEMENTADO NÃO VALIDADO** no que depende de navegador/aceitação humana; 9/98 fotos e 89 pendências, nenhum provedor de preço. Nenhum requisito promovido a VALIDADO por contagem de testes, SSR ou build.
+
+## Atualização v2.8 — 08/10/2026
+
+Três jornadas técnicas separadas (iniciante, intermediário, experiente) percorreram adaptadores/utilitários frontend e API HTTP real, com escolha, orçamento, catálogo/fotos, filtros, compatibilidade, estimativas, troca/desfazer, roadmap e salvar/reler. Relatórios e rastreabilidade em [RA2-V2.8-JORNADAS](RA2-V2.8-JORNADAS.md). Corrigidos encaminhamento da build salva para upgrades e aceitação de etapas fracionárias, com regressões específicas.
+
+R20/R21 continuam **PARCIALMENTE IMPLEMENTADOS**; R01–R06/R08/R09/R17 mantêm os estados anteriores no que depende de browser e aceitação. R10–R16 mantêm limites individuais de fotos; R18/R19 sem preço real conectado. R22 (retenção/monetização) permanece pendente de validação com usuários reais. Nenhum requisito foi promovido a VALIDADO por jornadas técnicas. Não houve participante, satisfação/compreensão medida, screenshots ou execução responsiva/browser. Etapa 9 não executada neste registro.

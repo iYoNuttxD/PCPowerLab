@@ -329,7 +329,7 @@ export default function SavedBuilds() {
               >
                 <RefreshCw size={18} /> Revalidar compatibilidade
               </Button>
-              <Link className="btn btn-secondary btn-md" to="/upgrades">Upgrade</Link>
+              <Link className="btn btn-secondary btn-md" to={`/upgrades?buildId=${encodeURIComponent(savedBuild.id)}`}>Upgrade</Link>
               <Button variant="danger" disabled={request.loading} onClick={() => removeBuild(savedBuild.id)}><Trash2 size={18} /> Excluir</Button>
             </div>
           </Card>

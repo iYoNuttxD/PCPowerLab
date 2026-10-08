@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> pcpowerlab@0.1.0 audit:images
+> node scripts/audit-component-images.js
+
+PARTIAL: 9/98 active components verified (9.18%). 89 blocked/fallback; 0 orphan files; 0 suspect duplicate groups.

@@ -41,7 +41,7 @@ try {
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, ({ path }) => {
         let contents;
         if (path === 'react-proxy') contents = `import * as Real from ${JSON.stringify(realReact)}; export * from ${JSON.stringify(realReact)}; export default Real.default; ${['useState', 'useRef', 'useMemo', 'useCallback', 'useEffect'].map(name => `export const ${name} = (...args) => globalThis.__entryHooks ? globalThis.__entryHooks.${name}(...args) : Real.${name}(...args);`).join('\n')}`;
-        else if (path === 'router-proxy') contents = `export * from ${JSON.stringify(realRouter)}; export const useNavigate = () => globalThis.__entryFixtures.navigate;`;
+        else if (path === 'router-proxy') contents = `export * from ${JSON.stringify(realRouter)}; export const useNavigate = () => globalThis.__entryFixtures.navigate; export const useSearchParams = () => [new URLSearchParams(), () => {}];`;
         else if (path === 'build-fixture') contents = 'export const useBuildState = () => globalThis.__entryFixtures.build;';
         else if (path === 'catalog-fixture') contents = `export const useComponents = () => globalThis.__entryFixtures.catalog; export const ComponentsProvider = ({children}) => children; export const useCatalogComponent = component => ({component: globalThis.__entryFixtures.catalog.componentMap[typeof component === 'string' ? component : component?.id], loading:false, error:''});`;
         else contents = `export const ${path} = new Proxy({}, {get: (_, key) => globalThis.__entryFixtures.services.${path}[key]});`;

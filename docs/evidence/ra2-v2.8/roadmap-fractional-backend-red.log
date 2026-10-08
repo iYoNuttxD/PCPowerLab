@@ -1,0 +1,26 @@
+✖ roadmap rejects fractional step counts instead of silently producing a shorter or empty plan (4226.67763ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4323.817485
+
+✖ failing tests:
+
+test at tests/upgrade-roadmap-validation.test.js:12:1
+✖ roadmap rejects fractional step counts instead of silently producing a shorter or empty plan (4226.67763ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception: maxSteps=0.5 must be rejected
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/upgrade-roadmap-validation.test.js:14:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }

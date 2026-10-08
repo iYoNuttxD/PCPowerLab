@@ -1,7 +1,7 @@
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Route, Zap } from 'lucide-react';
 import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import Alert from '../components/ui/Alert.jsx';
@@ -10,6 +10,7 @@ import Button from '../components/ui/Button.jsx';
 import Card from '../components/ui/Card.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import Input from '../components/ui/Input.jsx';
+import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
 import { useSimulationRequest } from '../hooks/useSimulationRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
@@ -27,12 +28,20 @@ import { validateBudgetAmount } from '../utils/validation.js';
 
 export default function UpgradeSuggestions() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  // The URL owns the requested source, including while saved builds are loading.
+  // A missing requested ID must never silently select the unrelated current build.
+  const requestedBuildId = searchParams.get('buildId');
+  const buildId = requestedBuildId ?? '';
+  const hasRequestedBuild = requestedBuildId !== null;
   const build = useBuildState();
   const { components: catalogComponents } = useComponents();
   const [savedBuilds, setSavedBuilds] = useState([]);
+  const [savedBuildsLoading, setSavedBuildsLoading] = useState(true);
+  const [savedBuildsError, setSavedBuildsError] = useState('');
+  const [savedBuildsAttempt, setSavedBuildsAttempt] = useState(0);
   const [usageProfiles, setUsageProfiles] = useState([]);
   const [selectedUsageProfileId, setSelectedUsageProfileId] = useState('');
-  const [buildId, setBuildId] = useState('');
   const [budget, setBudget] = useState(1500);
   const [usageType, setUsageType] = useState(build.usageType);
   const [priority, setPriority] = useState('cost-benefit');
@@ -44,7 +53,12 @@ export default function UpgradeSuggestions() {
   const [replacement, setReplacement] = useState(null);
   const latestRevision = useRef(build.revision);
   latestRevision.current = build.revision;
-  const sourceKey = JSON.stringify([build.revision, buildId, buildId ? savedBuilds.find(item => item.id === buildId)?.components : build.buildPayload]);
+  const selectedSavedBuild = savedBuilds.find(item => item.id === buildId);
+  const sourceKey = JSON.stringify([build.revision, requestedBuildId, hasRequestedBuild ? selectedSavedBuild?.components : build.buildPayload]);
+  const sourceError = !hasRequestedBuild ? '' : savedBuildsLoading
+    ? 'Aguarde o carregamento da build salva selecionada.'
+    : savedBuildsError ? 'Não foi possível carregar a build salva selecionada. Tente novamente.'
+      : !selectedSavedBuild ? 'A build salva selecionada não está disponível. Escolha outra origem ou tente carregar novamente.' : '';
   const suggestionKey = JSON.stringify([sourceKey, budget, usageType, priority]);
   const roadmapKey = JSON.stringify([sourceKey, roadmapBudget, maxSteps, usageType, priority]);
   const request = useSimulationRequest(suggestionKey);
@@ -59,10 +73,20 @@ export default function UpgradeSuggestions() {
 
   useEffect(() => {
     let active = true;
+    setSavedBuildsLoading(true);
+    setSavedBuildsError('');
     savedBuildsService.list()
-      .then((data) => { if (active) setSavedBuilds(Array.isArray(data) ? data : []); })
-      .catch(() => { if (active) setSavedBuilds([]); });
+      .then((data) => {
+        if (!Array.isArray(data)) throw new Error('Resposta de builds salvas inválida.');
+        if (active) setSavedBuilds(data);
+      })
+      .catch((error) => { if (active) { setSavedBuilds([]); setSavedBuildsError(error.message); } })
+      .finally(() => { if (active) setSavedBuildsLoading(false); });
+    return () => { active = false; };
+  }, [savedBuildsAttempt]);
 
+  useEffect(() => {
+    let active = true;
     usageProfilesService.list()
       .then((data) => {
         if (!active) return;
@@ -76,6 +100,18 @@ export default function UpgradeSuggestions() {
       .catch(() => { if (active) setUsageProfiles([]); });
     return () => { active = false; };
   }, []);
+
+  function selectBuild(id) {
+    const next = new URLSearchParams(searchParams);
+    if (id) next.set('buildId', id);
+    else next.delete('buildId');
+    setSearchParams(next);
+  }
+
+  function reloadSavedBuilds() {
+    setSavedBuildsLoading(true);
+    setSavedBuildsAttempt(attempt => attempt + 1);
+  }
 
   function applyUsageProfile(profileId, profiles = usageProfiles) {
     setSelectedUsageProfileId(profileId);
@@ -96,6 +132,10 @@ export default function UpgradeSuggestions() {
 
   async function suggest() {
     setSuggestionValidation(null);
+    if (sourceError) {
+      setSuggestionValidation({ key: suggestionKey, message: sourceError });
+      return;
+    }
     const budgetError = validateBudgetAmount(budget);
     if (budgetError) {
       setSuggestionValidation({ key: suggestionKey, message: budgetError });
@@ -108,7 +148,7 @@ export default function UpgradeSuggestions() {
       priority
     };
 
-    if (buildId) {
+    if (hasRequestedBuild) {
       payload.buildId = buildId;
     } else if (hasCompleteBuild(build.selectedComponents)) {
       payload.build = buildToApiPayload(build.selectedComponents);
@@ -122,16 +162,14 @@ export default function UpgradeSuggestions() {
   }
 
   function resolveSelectedComponents() {
-    if (!buildId) return build.selectedComponents;
-    const savedBuild = savedBuilds.find((item) => item.id === buildId);
+    if (!hasRequestedBuild) return build.selectedComponents;
     const componentMap = Object.fromEntries(catalogComponents.map((component) => [component.id, component]));
-    return hydrateBuildComponents(savedBuild?.components, componentMap);
+    return hydrateBuildComponents(selectedSavedBuild?.components, componentMap);
   }
 
   function resolveBuildPayload() {
-    if (buildId) {
-      const savedBuild = savedBuilds.find((item) => item.id === buildId);
-      return savedBuild ? buildToApiPayload(savedBuild.components) : null;
+    if (hasRequestedBuild) {
+      return selectedSavedBuild ? buildToApiPayload(selectedSavedBuild.components) : null;
     }
 
     if (hasCompleteBuild(build.selectedComponents)) {
@@ -143,6 +181,10 @@ export default function UpgradeSuggestions() {
 
   async function generateRoadmap() {
     setRoadmapValidation(null);
+    if (sourceError) {
+      setRoadmapValidation({ key: roadmapKey, message: sourceError });
+      return;
+    }
     const budgetError = validateBudgetAmount(roadmapBudget);
     if (budgetError) {
       setRoadmapValidation({ key: roadmapKey, message: budgetError });
@@ -150,8 +192,8 @@ export default function UpgradeSuggestions() {
     }
 
     const normalizedMaxSteps = Number(maxSteps);
-    if (!Number.isFinite(normalizedMaxSteps) || normalizedMaxSteps <= 0) {
-      setRoadmapValidation({ key: roadmapKey, message: 'Informe uma quantidade de etapas maior que zero.' });
+    if (!Number.isInteger(normalizedMaxSteps) || normalizedMaxSteps <= 0) {
+      setRoadmapValidation({ key: roadmapKey, message: 'Informe uma quantidade inteira de etapas maior que zero.' });
       return;
     }
 
@@ -192,13 +234,18 @@ export default function UpgradeSuggestions() {
 
       <Card>
         <h2>Origem da build</h2>
+        {hasRequestedBuild && savedBuildsLoading && <LoadingSpinner label="Carregando a build salva selecionada..." />}
+        {savedBuildsError && <ErrorState message={`Não foi possível carregar as builds salvas. ${savedBuildsError}`} onRetry={reloadSavedBuilds} />}
+        {hasRequestedBuild && !savedBuildsLoading && !savedBuildsError && !selectedSavedBuild && <ErrorState message={sourceError} onRetry={reloadSavedBuilds} />}
+        {sourceError && hasCompleteBuild(build.selectedComponents) && <Button variant="secondary" onClick={() => selectBuild('')}>Usar build atual</Button>}
         <div className="form-grid">
           <Select
             label="Build salva"
             value={buildId}
-            onChange={(event) => setBuildId(event.target.value)}
+            onChange={(event) => selectBuild(event.target.value)}
             options={[
               { value: '', label: hasCompleteBuild(build.selectedComponents) ? 'Usar build atual' : 'Selecione uma build salva' },
+              ...(hasRequestedBuild && buildId && !selectedSavedBuild ? [{ value: buildId, label: savedBuildsLoading ? 'Carregando build selecionada...' : 'Build selecionada indisponível' }] : []),
               ...savedBuilds.map((savedBuild) => ({ value: savedBuild.id, label: savedBuild.name }))
             ]}
           />
@@ -215,7 +262,7 @@ export default function UpgradeSuggestions() {
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: priorityLabels[value] }))} />
         </div>
-        <Button loading={request.status === 'loading'} onClick={suggest}><Zap size={18} /> Gerar sugestões</Button>
+        <Button disabled={Boolean(sourceError)} loading={request.status === 'loading'} onClick={suggest}><Zap size={18} /> Gerar sugestões</Button>
       </Card>
 
       {result && (
@@ -316,7 +363,7 @@ export default function UpgradeSuggestions() {
         </div>
 
         <div className="button-row">
-          <Button disabled={roadmapLoading} loading={roadmapLoading} onClick={generateRoadmap}>
+          <Button disabled={roadmapLoading || Boolean(sourceError)} loading={roadmapLoading} onClick={generateRoadmap}>
             <Route size={18} /> Gerar plano de upgrades
           </Button>
         </div>

@@ -1,0 +1,123 @@
+=== frontend/scripts/check-async-regressions.mjs ===
+PASS: useApiRequest synchronously prevents duplicate mutation, reports failure, retries, and skips own post-unmount writes
+PASS: actual SavedBuilds duplicate share calls API once and disables competing mutation controls until completion
+PASS: VersionsModal keeps latest build, ignores closed-modal failure, and ignores unmounted response
+PASS: HistoryModal keeps latest build, ignores closed-modal failure, and ignores unmounted response
+=== frontend/scripts/check-catalog-render.mjs ===
+PASS: malformed object display fields are rejected before real card rendering; missing names/prices retain unavailable labels; actual catalog satisfies boundary
+PASS: server rendering includes technical fields, compatibility and sorting for all 9 categories
+PASS: comparison server rendering includes unknown values, differences and focusable named table region
+PASS: mixed-category comparison renders its rejection message
+LIMITATION: SSR does not execute effects or verify browser interactions, image loading, responsive geometry, scrolling or focus behavior
+=== frontend/scripts/check-chart-render.mjs ===
+PASS: score/power titles, scales, sources, text equivalents and unchanged 35% reference
+PASS: incomplete cooling power is labeled and suppresses reference/headroom
+PASS: missing chart values stay explicit and genuine zero is retained
+PASS: FPS table retains complete labels, requirements, unknown/zero data and settings; mean excludes unknown
+PASS: summary score missing values are neither zero nor a negative classification; valid scores unchanged
+PASS: ranking and weight bars preserve missing/zero distinctions and textual units
+LIMITATION: SSR and data checks do not render Recharts SVG geometry, execute effects, or validate mobile layout, hover, keyboard focus, scrolling, assistive technology or user comprehension
+=== frontend/scripts/check-commercial-disclosures.mjs ===
+PASS: scope, estimate labels and missing-performance states render honestly across recommendation cards
+LIMITATION: static rendering does not validate browser layout, focus or interaction
+=== frontend/scripts/check-navigation-wizard.mjs ===
+PASS: rendered navigation preserves grouped destinations, skip link and hidden administrative entry
+PASS: isolated navigation handlers restore focus target on same-route entries and breakpoints; Escape/outside dismissal and listener cleanup work
+PASS: wizard controls keep a single advance/summary path, explain blockers, and close step disclosure with Escape
+PASS: each cooler/fan edit clears the old wizard message before changing the configuration
+PASS: shared route rejects obsolete responses, resets by ID, keeps h1 in pending/error states and retries; admin also has a pending-state h1
+LIMITATION: isolated handlers/SSR do not validate real DOM events, keyboard focus, history, layout, contrast, scrolling, screenshots, or browser persistence
+=== frontend/scripts/check-page-audit.mjs ===
+{"route":"/","heading":"PCPowerLab","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/components","heading":"Componentes disponíveis","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/build","heading":"Monte seu PC","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/summary","heading":"Resumo da configuração","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/performance-lab","heading":"Simule o desempenho do seu PC","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/compare","heading":"Comparação de builds","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/insights","heading":"Custo-benefício de componentes","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/feedback","heading":"Central de feedback","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/feedback/new","heading":"Feedback geral","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/ready-builds","heading":"Builds prontas","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/saved-builds","heading":"Builds salvas","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/upgrades","heading":"Sugestões de upgrade","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/shared/audit-placeholder","heading":"Configuração compartilhada","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/admin","heading":"Área Administrativa","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/about","heading":"PCPowerLab","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/missing-route-v25","heading":"Fase não encontrada","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"foreground":"text","background":"bg","ratio":17.29,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"bg-elevated","ratio":15.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"panel","ratio":15.01,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"panel-strong","ratio":13.12,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"bg","ratio":11.01,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"bg-elevated","ratio":9.86,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"panel","ratio":9.56,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"panel-strong","ratio":8.36,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"bg","ratio":12.38,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"bg-elevated","ratio":11.08,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"panel","ratio":10.75,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"panel-strong","ratio":9.4,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"bg","ratio":12.53,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"bg-elevated","ratio":11.22,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"panel","ratio":10.88,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"panel-strong","ratio":9.51,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"bg","ratio":9.76,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"bg-elevated","ratio":8.74,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"panel","ratio":8.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"panel-strong","ratio":7.41,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"bg","ratio":12.82,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"bg-elevated","ratio":11.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"panel","ratio":11.13,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"panel-strong","ratio":9.73,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"bg","ratio":9.5,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"bg-elevated","ratio":8.5,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"panel","ratio":8.25,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"panel-strong","ratio":7.21,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"bg","ratio":10.52,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"bg-elevated","ratio":9.41,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"panel","ratio":9.13,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"panel-strong","ratio":7.98,"method":"opaque sRGB token calculation only"}
+PASS: 16 routes and 32 opaque text-token pairs. No effects, browser DOM, geometry, focus, screenshots or human validation executed.
+=== frontend/scripts/check-recommendation-entrypoints.mjs ===
+PASS: rendered recommendation distinguishes whole-build and individual paths, excludes unchanged parts and fan packs
+PASS: picker selection previews exactly one part; unchanged suggestions reset it; whole-build action remains separate
+PASS: ready-build preview cancels safely, applies one checked part with revision, and explicit whole-build editing retains its cooling
+PASS: wizard rejects a checked modal callback after the build revision changes
+PASS: late upgrade response is ignored after a build change; a current suggestion previews and applies only its checked part
+PASS: previewing a later roadmap step preserves the original CPU and does not apply preceding steps
+PASS: changed-and-restored budget criteria reject the obsolete recommendation response
+PASS: actual ReadyBuilds duplicate submit calls API once and retains accepted recommendation
+LIMITATION: isolated handlers and SSR do not verify DOM events, native dialogs, history, layout, focus, scrolling, or browser persistence
+=== frontend/scripts/check-saved-upgrade-source.mjs ===
+PASS: each actual saved-build card renders an encoded Upgrade URL identifying that build
+PASS: saved B remains the source through loading; both upgrade handlers target B and preserve global A
+PASS: changed route source rejects a late result; current A is used only after explicit selection
+PASS: unknown and empty requested IDs remain blocked until the user explicitly chooses another source
+PASS: failed saved-source loading shows a recoverable error; retry retains the requested ID
+PASS: malformed saved-list response cannot become a successful empty list or current-build fallback
+PASS: fractional roadmap step counts are rejected by the real frontend handler; an integer retries successfully
+LIMITATION: source handlers and real router SSR; no browser events, live router history, layout, or HTTP transport in this focused regression
+=== frontend/scripts/check-simulation-states.mjs ===
+PASS 1: loading catalogs block requests; loaded catalogs recover and select available defaults (SSR + handlers)
+PASS 2: single-game success submits current settings, seven build slots and cooling; mode changes preserve selections
+PASS 3: comparison boundaries: 0/1/>10 blocked even at handler level; 2 and 10 submit exactly the selected IDs
+PASS 4: each of the seven missing required build slots blocks game, comparison and software handlers
+PASS 5: empty catalogs are explicit and reloadable; missing saved game falls back; a one-game catalog cannot compare
+PASS 6: game/software catalog failures show honest messages and their retry handlers recover
+PASS 7: missing game/component/parameters and network failures render detail, retain selections and recover through retry
+PASS 8: comparison and software network-error retries retain chosen games/software and recover
+PASS 9: pending results cannot survive game/resolution/quality/mode/build-revision/build-payload changes; current retries succeed
+PASS 10: selected-game changes invalidate comparisons; resolution and quality A→B→A do not resurrect earlier requests
+PASS 11: completed results clear on criteria/build changes, while page-local selections survive a build replacement
+PASS 12: explicit limitation verified: a fresh PerformanceLab mount restores build.game defaults, not prior page-local edits
+PASS 13: software/build changes reject late professional results; independent software requests survive game-only edits
+PASS 14: actual request hook: latest repeated request wins, stale failures ignored, A→B→A safe, sync errors retryable, unmount blocks writes
+PASS 15: catalog request cleanup suppresses state writes after unmount
+PASS 16: BuildSummary loading has no fabricated option, blocks simulation, permits general summary, then enables available game
+PASS 17: BuildSummary catalog errors are visible and retry recovers without a fabricated game
+PASS 18: BuildSummary empty/malformed catalogs recover; missing selected game requires an available choice and retains other settings
+PASS 19: BuildSummary catalog cleanup blocks post-unmount writes; incomplete build guards the simulation handler
+SUMMARY: 19 scenario groups, 490 assertions passed against actual PerformanceLab/BuildSummary/useSimulationRequest source
+LIMITATION: SSR and isolated handlers/hooks only; service responses are fixtures. No browser, DOM events, layout, focus, chart geometry, real network or cross-navigation persistence was tested.
+NOTE: edited simulation settings are page-local; the page initializes a new mount from build.game rather than saving edits there.
+=== frontend/scripts/check-storage-regressions.mjs ===
+PASS: actual BuildProvider storage loader survives null settings, merges partial legacy fields and tolerates denied storage

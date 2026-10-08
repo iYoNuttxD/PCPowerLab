@@ -1,0 +1,80 @@
+PASS: each actual saved-build card renders an encoded Upgrade URL identifying that build
+PASS: saved B remains the source through loading; both upgrade handlers target B and preserve global A
+PASS: changed route source rejects a late result; current A is used only after explicit selection
+PASS: unknown and empty requested IDs remain blocked until the user explicitly chooses another source
+PASS: failed saved-source loading shows a recoverable error; retry retains the requested ID
+PASS: malformed saved-list response cannot become a successful empty list or current-build fallback
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Fractional maxSteps=0.5 must not reach the API
++ actual - expected
+
++ [
++   {
++     args: [
++       {
++         build: {
++           caseId: 'case-current',
++           coolerId: 'cooler-current',
++           cpuId: 'cpu-current',
++           fans: [
++             {
++               fanId: 'fan-current',
++               quantity: 2
++             }
++           ],
++           gpuId: 'gpu-current',
++           motherboardId: 'motherboard-current',
++           psuId: 'psu-current',
++           ramId: 'ram-current',
++           storageId: 'storage-current'
++         },
++         maxSteps: 0.5,
++         priority: 'cost-benefit',
++         totalBudget: 2500,
++         usageType: 'gaming'
++       }
++     ],
++     method: 'generate',
++     name: 'upgradeRoadmapService'
++   }
++ ]
+- []
+
+    at file:///workspace/shared/pcpowerlab-v2-baseline/frontend/scripts/check-saved-upgrade-source.mjs:205:12
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      name: 'upgradeRoadmapService',
+      method: 'generate',
+      args: [
+        {
+          build: {
+            cpuId: 'cpu-current',
+            gpuId: 'gpu-current',
+            motherboardId: 'motherboard-current',
+            ramId: 'ram-current',
+            storageId: 'storage-current',
+            psuId: 'psu-current',
+            caseId: 'case-current',
+            coolerId: 'cooler-current',
+            fans: [Array]
+          },
+          totalBudget: 2500,
+          maxSteps: 0.5,
+          usageType: 'gaming',
+          priority: 'cost-benefit'
+        }
+      ]
+    }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

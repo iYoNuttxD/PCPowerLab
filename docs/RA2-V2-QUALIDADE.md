@@ -73,3 +73,7 @@ Revisão independente também encontrou regressões **durante** a correção: to
 Verificação final: **453 testes distintos em `npm test`**, incluindo 48 utilitários frontend; esses 48 foram reexecutados separadamente, sem somar novamente. Nove scripts SSR/handlers, ambos os lints, build e HTTP de produção aprovados. 186 casos Playwright somente coletados, zero executados. Auditor de fotos parcial (exit 1): 9/98, 89 bloqueios, zero arquivos órfãos.
 
 Comandos, resultados exatos e logs em [evidências v2.7](evidence/ra2-v2.7/README.md). Feito: investigação, correções, regressões, revisão independente e verificações viáveis. Não feito: navegador, fotos adicionais, preços reais, benchmark, pesquisa humana, merge, deploy ou etapa 8. Publicação somente na branch autorizada com conferência de SHA/árvore e estado de CI; ausência de checks não significa CI aprovado.
+
+## Continuidade v2.8 — jornadas técnicas
+
+A etapa seguinte adiciona três percursos distintos com adaptadores frontend reais → HTTP Express → serviços/repositórios, incluindo roadmap e aplicação/hidratação de resultados. Encontrou também perda da identidade da build ao entrar em Upgrade a partir dos salvos, corrigida e retestada na v2.8. [Relatórios individuais, método e evidências](RA2-V2.8-JORNADAS.md). Esta adição não altera retroativamente as contagens/execuções da v2.7. Browser, captura, responsividade e pesquisa humana continuam pendentes; etapa 9 é independente.

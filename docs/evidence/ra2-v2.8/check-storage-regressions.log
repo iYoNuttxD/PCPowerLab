@@ -1,0 +1,1 @@
+PASS: actual BuildProvider storage loader survives null settings, merges partial legacy fields and tolerates denied storage

@@ -1,0 +1,2 @@
+PASS: scope, estimate labels and missing-performance states render honestly across recommendation cards
+LIMITATION: static rendering does not validate browser layout, focus or interaction

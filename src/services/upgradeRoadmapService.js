@@ -293,14 +293,14 @@ function normalizeMaxSteps(maxStepsInput) {
 
   const maxSteps = Number(maxStepsInput);
 
-  if (!Number.isFinite(maxSteps) || maxSteps <= 0) {
+  if (!Number.isInteger(maxSteps) || maxSteps <= 0) {
     const error = new Error('Quantidade de etapas invalida.');
     error.statusCode = 400;
-    error.errors = ['maxSteps deve ser um numero maior que zero.'];
+    error.errors = ['maxSteps deve ser um numero inteiro maior que zero.'];
     throw error;
   }
 
-  return Math.min(Math.floor(maxSteps), maxAllowedSteps);
+  return Math.min(maxSteps, maxAllowedSteps);
 }
 
 function normalizeBuildInput(buildInput) {
