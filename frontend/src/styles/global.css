@@ -800,7 +800,7 @@ p:last-child {
 
 .component-card {
   display: grid;
-  grid-template-rows: auto 11.75rem 2.7em 1.5rem 13.75rem auto auto;
+  grid-template-rows: auto minmax(14.5rem, auto) 2.7em 1.5rem 13.75rem auto auto;
   gap: var(--space-3);
   height: 100%;
   padding: var(--space-5);
@@ -2347,14 +2347,41 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .performance-chart { height: 240px; min-height: 0; }
 .energy-chart { height: 230px; min-height: 0; }
 .manual-legend i { box-shadow: none; flex-shrink: 0; }
-.component-media { margin: 0; display: grid; grid-template-rows: 132px 48px; gap: 8px; min-width: 0; }
-.component-image { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--panel-strong); }
+/* Exact-model images always contain the whole product; fallbacks occupy the same frame. */
+.component-media { margin: 0; display: grid; grid-template-rows: 140px minmax(84px, auto); gap: 8px; min-width: 0; align-content: start; }
+.component-image { position: relative; min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--panel-strong); }
 .component-image.has-photo { background: #fff; }
-.component-image img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.component-image-fallback { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); color: var(--muted); font-size: 0.8rem; }
-.component-image-fallback svg { color: var(--cyan); }
-.component-media figcaption { font-size: 0.72rem; line-height: 1.4; color: var(--muted); overflow-wrap: anywhere; }
+.component-image img { display: block; width: 100%; height: 100%; padding: 8px; object-fit: contain; object-position: center; }
+.component-image img.is-loading { visibility: hidden; }
+.component-image-fallback, .component-image-loading { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); color: var(--muted); font-size: 0.8rem; text-align: center; padding: 8px; }
+.component-image-loading { position: absolute; inset: 0; background: var(--panel-strong); }
+.component-image-fallback svg { color: var(--cyan); flex-shrink: 0; }
+.component-media figcaption { font-size: 0.72rem; font-weight: 400; line-height: 1.4; color: var(--muted); overflow-wrap: anywhere; }
+.component-image-modifications summary { cursor: pointer; }
+.component-image-modifications p { margin: 4px 0; font-size: inherit; line-height: inherit; }
 .component-media a { text-decoration: underline; text-underline-offset: 3px; }
+.component-image-product-link { display: block; font-size: inherit !important; }
+.component-media--compact { width: 88px; max-width: 100%; grid-template-rows: 76px auto; gap: 4px; }
+.component-media--compact .component-image img { padding: 4px; }
+.component-media--compact .component-image-fallback, .component-media--compact .component-image-loading { padding: 4px; gap: 3px; font-size: 0.63rem; line-height: 1.15; }
+.component-media--compact .component-image-fallback span { font-size: inherit; }
+.component-media--compact figcaption { font-size: 0.61rem; }
+.component-identity { min-width: 0; display: flex; align-items: flex-start; gap: 10px; overflow-wrap: anywhere; }
+.component-identity > .component-media { flex: 0 0 88px; }
+.component-identity-text { min-width: 0; display: grid; gap: 4px; align-self: center; }
+.component-identity-text strong { line-height: 1.4; font-weight: 700; }
+.component-identity-text small { font-weight: 400; color: var(--muted); }
+.build-parts-list li > .component-identity { align-self: start; }
+.wizard-sidebar .build-parts-list li > .component-identity { grid-column: 1 / -1; }
+.component-preview-list li { grid-template-columns: 1fr; }
+.build-image-details { font-weight: 400; margin-block: 8px; }
+.build-image-details summary { cursor: pointer; color: var(--cyan); padding-block: 8px; }
+.build-image-details .build-parts-list { min-width: 210px; }
+.replacement-option > .component-identity { flex: 1; }
+@media (max-width: 600px) {
+  .build-parts-list li > .component-identity { grid-column: 1 / -1; }
+  .upgrade-pair .component-identity { flex-wrap: wrap; }
+}
 .catalog-filter-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); align-items: start; }
 .catalog-filters { display: grid; gap: var(--space-3); }
 .catalog-filters > .btn { justify-self: start; }

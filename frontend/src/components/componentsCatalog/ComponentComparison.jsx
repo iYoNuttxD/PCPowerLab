@@ -1,3 +1,4 @@
+import ComponentImage from './ComponentImage.jsx';
 import Button from '../ui/Button.jsx';
 import { componentLabels } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
@@ -16,6 +17,7 @@ export default function ComponentComparison({ components, onRemove }) {
           <caption>Peças da mesma categoria · preços estimados, sem atualização em tempo real</caption>
           <thead><tr><th scope="col">Característica</th>{components.map(component => <th scope="col" key={component.id}>{component.name}</th>)}</tr></thead>
           <tbody>
+            <tr><th scope="row">Fotografia do modelo</th>{components.map(component => <td key={component.id}><ComponentImage component={component} /></td>)}</tr>
             <tr><th scope="row">Marca</th>{components.map(component => <td key={component.id}>{component.brand || 'Não informado'}</td>)}</tr>
             <tr><th scope="row">Modelo / código</th>{components.map(component => <td key={component.id}>{component.partNumber || 'Não informado'}</td>)}</tr>
             <tr><th scope="row">Preço estimado</th>{components.map(component => <td key={component.id}>{formatCurrency(component.price)}</td>)}</tr>

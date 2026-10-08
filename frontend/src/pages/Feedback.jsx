@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, Save, Send, Trash2, Upload } from 'lucide-react';
@@ -522,7 +523,7 @@ function FeedbackBuildSnapshot({ selectedComponents, totalEstimatedPrice }) {
         {componentTypes.map((type) => (
           <li key={type}>
             <span>{componentLabels[type]}</span>
-            <strong>{selectedComponents[type]?.name || selectedComponents[type]?.id || 'Componente não encontrado'}</strong>
+            <ComponentIdentity component={selectedComponents[type]} category={type} fallback="Componente não encontrado" />
           </li>
         ))}
         <CoolingParts components={selectedComponents} />
@@ -573,7 +574,7 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
             {componentTypes.map((type) => (
               <li key={type}>
                 <span>{componentLabels[type]}</span>
-                <strong>{selectedComponents[type]?.name || selectedComponents[type]?.id || 'Não informado'}</strong>
+                <ComponentIdentity component={selectedComponents[type]} category={type} />
               </li>
             ))}
             <CoolingParts components={selectedComponents} />
@@ -589,11 +590,11 @@ function UpgradeSummary({ context }) {
     <div className="upgrade-pair">
       <div className="upgrade-pair__item">
         <span className="upgrade-pair__label">Atual</span>
-        <strong className="upgrade-pair__value">{context.currentComponent?.name || 'Não informado'}</strong>
+        <ComponentIdentity component={context.currentComponent} />
       </div>
       <div className="upgrade-pair__item">
         <span className="upgrade-pair__label">Sugerido</span>
-        <strong className="upgrade-pair__value">{context.suggestedComponent?.name || 'Não informado'}</strong>
+        <ComponentIdentity component={context.suggestedComponent} />
       </div>
     </div>
   );
@@ -608,7 +609,7 @@ function CompatibilityFixSummary({ context }) {
       </div>
       <div className="upgrade-pair__item">
         <span className="upgrade-pair__label">Alternativa</span>
-        <strong className="upgrade-pair__value">{context.suggestedComponent?.name || 'Alternativa sugerida'}</strong>
+        <ComponentIdentity component={context.suggestedComponent} fallback="Alternativa sugerida" />
       </div>
     </div>
   );
@@ -732,13 +733,13 @@ function CoolingParts({ components }) {
       {components.cooler && (
         <li>
           <span>{componentLabels.cooler}</span>
-          <strong>{components.cooler.name || components.cooler.id}</strong>
+          <ComponentIdentity component={components.cooler} category="cooler" />
         </li>
       )}
       {(components.fans || []).map((fan) => (
         <li key={fan.id}>
           <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
-          <strong>{fan.name || fan.id}</strong>
+          <ComponentIdentity component={fan} category="fan" />
         </li>
       ))}
     </>

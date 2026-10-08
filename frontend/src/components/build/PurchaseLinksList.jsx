@@ -1,3 +1,4 @@
+import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { ExternalLink } from 'lucide-react';
 import Card from '../ui/Card.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
@@ -41,7 +42,7 @@ export default function PurchaseLinksList({
               <div className="purchase-component-header">
                 <div className="purchase-component-title">
                   <span className="purchase-component-category">{group.categoryLabel}</span>
-                  <strong className="purchase-component-name">{group.componentName}</strong>
+                  <ComponentIdentity component={{ id: group.componentId, name: group.componentName }} category={group.category} />
                   {group.category === 'fan' && (
                     <small>{group.quantity} pack(s) · preços das lojas por pack</small>
                   )}

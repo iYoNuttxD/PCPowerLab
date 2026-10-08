@@ -1,0 +1,1640 @@
+{
+  "cpu-ryzen-5-5500": {
+    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5500.html",
+    "blocker": "Busca exata trouxe imagens de vídeo/comparação; foto isolada exata não validada. Direitos: AMD_SITE_LIMITED.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5500.html",
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://commons.wikimedia.org/wiki/Category:AMD_Ryzen_5_5500",
+      "https://www.amd.com/en/newsroom/press-releases/2022-3-15-amd-launches-the-ultimate-gaming-processor-brings.html"
+    ],
+    "componentId": "cpu-ryzen-5-5500",
+    "model": "AMD Ryzen 5 5500",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "cpu-ryzen-5-5600": {
+    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html",
+    "blocker": "Foto isolada exata não validada; 5600X e 5600G são SKUs diferentes. Direitos: AMD_SITE_LIMITED.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html",
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://commons.wikimedia.org/wiki/Category:AMD_Ryzen_5_5600",
+      "https://www.amd.com/en/newsroom/press-releases/2022-3-15-amd-launches-the-ultimate-gaming-processor-brings.html"
+    ],
+    "componentId": "cpu-ryzen-5-5600",
+    "model": "AMD Ryzen 5 5600",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "cpu-ryzen-7-5700x": {
+    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-7-5700x.html",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-7-5700x.html",
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://www.amd.com/en/newsroom/press-releases/2022-3-15-amd-launches-the-ultimate-gaming-processor-brings.html",
+      "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_7_5700X_1.jpg",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_7_5700X_1.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a7/AMD_Ryzen_7_5700X_1.jpg",
+      "author": "Qurren",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "componentId": "cpu-ryzen-7-5700x",
+    "model": "AMD Ryzen 7 5700X",
+    "partNumber": null,
+    "status": "verified-acquired",
+    "verificationNotes": "No copyright-license blocker if attribution, license link, change disclosure and share-alike for adaptations are implemented. Parent acquired file and visually verified exact 5700X laser marking on 2026-10-08. Official support page confirms 100-000000926.",
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "cpu-ryzen-7-5800x3d": {
+    "manufacturerProductUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x3d.html",
+    "blocker": "Fonte e licença verificadas; aquisição retornou HTTP403 no integrador. Arquivo não integrado, inspeção de pixels pendente. Não contornar a restrição de acesso.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x3d.html",
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_7_5800X3D.jpg",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_7_5800X3D.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2b/AMD_Ryzen_7_5800X3D.jpg",
+      "author": "Phiarc",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "componentId": "cpu-ryzen-7-5800x3d",
+    "model": "AMD Ryzen 7 5800X3D",
+    "partNumber": null,
+    "status": "blocked-download",
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "cpu-ryzen-5-7600": {
+    "manufacturerProductUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600.html",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600.html",
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://commons.wikimedia.org/wiki/File:AMD@5nmCCD(6nmIOD)@Zen4@Raphael@Ryzen_5_7600@100-000001015_BQ_2246SUY_9LS4795W20142_DSCx02.jpg",
+      "https://creativecommons.org/publicdomain/zero/1.0/",
+      "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_5_7600_top_IMGP6773_smial_wp.jpg",
+      "https://artlibre.org/licence/lal/en/"
+    ],
+    "rejectedAsset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AMD@5nmCCD(6nmIOD)@Zen4@Raphael@Ryzen_5_7600@100-000001015_BQ_2246SUY_9LS4795W20142_DSCx02.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0f/AMD%405nmCCD%286nmIOD%29%40Zen4%40Raphael%40Ryzen_5_7600%40100-000001015_BQ_2246SUY_9LS4795W20142_DSCx02.jpg",
+      "author": "FritzchensFritz",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "componentId": "cpu-ryzen-5-7600",
+    "model": "AMD Ryzen 5 7600",
+    "partNumber": null,
+    "status": "verified-acquired",
+    "rightsReviewCode": "AMD_SITE_LIMITED",
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_5_7600_top_IMGP6773_smial_wp.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3d/AMD_Ryzen_5_7600_top_IMGP6773_smial_wp.jpg",
+      "author": "Rainer Knäpper (Smial)",
+      "license": "Free Art License 1.3",
+      "licenseUrl": "https://artlibre.org/licence/lal/en/",
+      "alternativeLicense": "GFDL 1.2 only",
+      "alternativeLicenseUrl": "https://www.gnu.org/licenses/old-licenses/fdl-1.2.html",
+      "width": 4888,
+      "height": 4888,
+      "date": "2023-11-21",
+      "attribution": "Photo: Rainer Knäpper (Smial), AMD Ryzen 5 7600 top IMGP6773 smial wp.jpg, 21 November 2023, Free Art License 1.3. Link the file source and license; append an accurate description of any actual edits and the editing author.",
+      "reuseObligations": [
+        "Choose FAL 1.3; file is alternatively GFDL 1.2-only, so both licenses need not be followed.",
+        "Give author name and precise license location, and link where recipients can access the original.",
+        "For modified copies, identify editing author and modifications; distribute adapted image under FAL 1.3 or a compatible license.",
+        "Keep image accessible separately from app and do not restrict licensed reuse of image through app terms. FAL sections 3 and 4 distinguish compilation/independent image from inseparable larger work."
+      ]
+    },
+    "verificationNotes": "Foto intacta alternativa de Rainer Knäpper (Smial) adquirida e verificada visualmente: AMD Ryzen 5 7600 / 100-000001015. Escolhida Free Art License 1.3. Foto CC0 decapada anterior rejeitada para representação de produto intacto e não integrada."
+  },
+  "cpu-ryzen-7-7700": {
+    "manufacturerProductUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700.html",
+    "blocker": "Foto isolada exata não validada; não substituir por 7700X. Direitos: AMD_SITE_LIMITED.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700.html",
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://commons.wikimedia.org/wiki/Category:AMD_Ryzen_7_7700"
+    ],
+    "componentId": "cpu-ryzen-7-7700",
+    "model": "AMD Ryzen 7 7700",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "cpu-intel-i3-12100f": {
+    "manufacturerProductUrl": "https://www.intel.com/content/www/us/en/products/sku/132223/intel-core-i312100f-processor-12m-cache-up-to-4-30-ghz/ordering.html",
+    "blocker": "Resultados de comparação não comprovaram foto isolada; 12100 sem F é diferente. Direitos: INTEL_EDITORIAL_ONLY.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.intel.com/content/www/us/en/products/sku/132223/intel-core-i312100f-processor-12m-cache-up-to-4-30-ghz/ordering.html",
+      "https://newsroom.intel.com/press-hub",
+      "https://commons.wikimedia.org/wiki/Category:Intel_Core_i3-12100F"
+    ],
+    "componentId": "cpu-intel-i3-12100f",
+    "model": "Intel Core i3-12100F",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "INTEL_EDITORIAL_ONLY"
+  },
+  "cpu-intel-i5-12400f": {
+    "manufacturerProductUrl": "https://www.intel.com/content/www/us/en/products/sku/134587/intel-core-i512400f-processor-18m-cache-up-to-4-40-ghz/ordering.html",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.intel.com/content/www/us/en/products/sku/134587/intel-core-i512400f-processor-18m-cache-up-to-4-40-ghz/ordering.html",
+      "https://newsroom.intel.com/press-hub",
+      "https://commons.wikimedia.org/wiki/File:Intel@intel7(10nmESF)@AlderLake@ADL-S(6P%2B0E)@i5-12400F@SRL5Z_DSCx01@VIS_(52402436460).jpg",
+      "https://creativecommons.org/publicdomain/zero/1.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Intel@intel7(10nmESF)@AlderLake@ADL-S(6P%2B0E)@i5-12400F@SRL5Z_DSCx01@VIS_(52402436460).jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Intel%40intel7%2810nmESF%29%40AlderLake%40ADL-S%286P%2B0E%29%40i5-12400F%40SRL5Z_DSCx01%40VIS_%2852402436460%29.jpg",
+      "author": "Fritzchens Fritz",
+      "license": "CC0 1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    "componentId": "cpu-intel-i5-12400f",
+    "model": "Intel Core i5-12400F",
+    "partNumber": null,
+    "status": "verified-acquired",
+    "verificationNotes": "No copyright-license blocker for CC0 asset. Parent acquired file and visually verified intact heatspreader laser marking SRL5Z on 2026-10-08; official ordering page confirms this exact 12400F H0 stepping. Flickr CC0 license reviewed on 2023-05-18.",
+    "rightsReviewCode": "INTEL_EDITORIAL_ONLY"
+  },
+  "cpu-intel-i5-13400f": {
+    "manufacturerProductUrl": "https://www.intel.com/content/www/us/en/products/sku/230501/intel-core-i513400f-processor-20m-cache-up-to-4-60-ghz/specifications.html",
+    "blocker": "Nenhuma foto exata licenciada validada na busca. Direitos: INTEL_EDITORIAL_ONLY.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.intel.com/content/www/us/en/products/sku/230501/intel-core-i513400f-processor-20m-cache-up-to-4-60-ghz/specifications.html",
+      "https://newsroom.intel.com/press-hub"
+    ],
+    "componentId": "cpu-intel-i5-13400f",
+    "model": "Intel Core i5-13400F",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "INTEL_EDITORIAL_ONLY"
+  },
+  "cpu-intel-i5-13600k": {
+    "manufacturerProductUrl": "https://www.intel.com/content/www/us/en/products/sku/230493/intel-core-i513600k-processor-24m-cache-up-to-5-10-ghz/specifications.html",
+    "blocker": "Fonte e licença verificadas; aquisição retornou HTTP403 no integrador. Arquivo não integrado, inspeção de pixels pendente. Não contornar a restrição de acesso.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.intel.com/content/www/us/en/products/sku/230493/intel-core-i513600k-processor-24m-cache-up-to-5-10-ghz/specifications.html",
+      "https://newsroom.intel.com/press-hub",
+      "https://commons.wikimedia.org/wiki/File:Intel_Core_i5_13600K.jpg",
+      "https://creativecommons.org/licenses/by/4.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Intel_Core_i5_13600K.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/7/70/Intel_Core_i5_13600K.jpg",
+      "author": "4300streetcar",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "componentId": "cpu-intel-i5-13600k",
+    "model": "Intel Core i5-13600K",
+    "partNumber": null,
+    "status": "blocked-download",
+    "rightsReviewCode": "INTEL_EDITORIAL_ONLY"
+  },
+  "cpu-intel-i7-13700k": {
+    "manufacturerProductUrl": "https://www.intel.com/content/www/us/en/products/sku/230500/intel-core-i713700k-processor-30m-cache-up-to-5-40-ghz/ordering.html",
+    "blocker": "Fonte e licença verificadas; aquisição retornou HTTP403 no integrador. Arquivo não integrado, inspeção de pixels pendente. Não contornar a restrição de acesso.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.intel.com/content/www/us/en/products/sku/230500/intel-core-i713700k-processor-30m-cache-up-to-5-40-ghz/ordering.html",
+      "https://newsroom.intel.com/press-hub",
+      "https://commons.wikimedia.org/wiki/File:Intel_Core_i7_13700K.jpg",
+      "https://creativecommons.org/licenses/by/4.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Intel_Core_i7_13700K.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Intel_Core_i7_13700K.jpg",
+      "author": "4300streetcar",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "componentId": "cpu-intel-i7-13700k",
+    "model": "Intel Core i7-13700K",
+    "partNumber": null,
+    "status": "blocked-download",
+    "rightsReviewCode": "INTEL_EDITORIAL_ONLY"
+  },
+  "cpu-intel-i5-14400f": {
+    "manufacturerProductUrl": "https://www.intel.com/content/www/us/en/products/sku/236777/intel-core-i5-processor-14400f-20m-cache-up-to-4-70-ghz/specifications.html?wapkw=14400f",
+    "blocker": "Nenhuma foto exata licenciada validada na busca. Direitos: INTEL_EDITORIAL_ONLY.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.intel.com/content/www/us/en/products/sku/236777/intel-core-i5-processor-14400f-20m-cache-up-to-4-70-ghz/specifications.html?wapkw=14400f",
+      "https://newsroom.intel.com/press-hub"
+    ],
+    "componentId": "cpu-intel-i5-14400f",
+    "model": "Intel Core i5-14400F",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "INTEL_EDITORIAL_ONLY"
+  },
+  "mb-b550m-aorus-elite": {
+    "manufacturerProductUrl": "https://www.gigabyte.com/Motherboard/B550M-AORUS-ELITE-rev-10-11-12",
+    "blocker": "Gigabyte B550M Aorus Elite: nenhuma foto exata licenciada validada; revisão PCB ausente. Direitos: GIGABYTE_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.gigabyte.com/Motherboard/B550M-AORUS-ELITE-rev-10-11-12",
+      "https://profile.gigabyte.com/TermsOfUse.aspx?l=en-US",
+      "https://www.gigabyte.com/Motherboard/B550M-AORUS-ELITE-rev-13/support"
+    ],
+    "componentId": "mb-b550m-aorus-elite",
+    "model": "Gigabyte B550M Aorus Elite",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "GIGABYTE_PERMISSION"
+  },
+  "mb-asus-tuf-b550m-plus": {
+    "manufacturerProductUrl": "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b550m-plus/techspec/",
+    "blocker": "ASUS TUF Gaming B550M-Plus: nenhuma foto exata licenciada validada. Direitos: ASUS_AUTHORIZED_USERS.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b550m-plus/techspec/",
+      "https://www.asus.com/microsite/demo/default.htm"
+    ],
+    "componentId": "mb-asus-tuf-b550m-plus",
+    "model": "ASUS TUF Gaming B550M-Plus",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ASUS_AUTHORIZED_USERS"
+  },
+  "mb-msi-b550-tomahawk": {
+    "manufacturerProductUrl": "https://www.msi.com/Motherboard/MAG-B550-TOMAHAWK",
+    "blocker": "Fonte e licença verificadas; aquisição retornou HTTP403 no integrador. Arquivo não integrado, inspeção de pixels pendente. Não contornar a restrição de acesso.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.msi.com/Motherboard/MAG-B550-TOMAHAWK",
+      "https://us.msi.com/page/website-terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:MSI_B550_Tomahawk_19354.jpg",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:MSI_B550_Tomahawk_19354.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9b/MSI_B550_Tomahawk_19354.jpg",
+      "author": "Michael Wolf, Penig",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    "componentId": "mb-msi-b550-tomahawk",
+    "model": "MSI B550 Tomahawk",
+    "partNumber": null,
+    "status": "blocked-download",
+    "rightsReviewCode": "MSI_PERMISSION"
+  },
+  "mb-asus-prime-b650m-a": {
+    "manufacturerProductUrl": "https://www.asus.com/motherboards-components/motherboards/prime/prime-b650m-a/helpdesk_qvl_cpu?model2Name=PRIME-B650M-A",
+    "blocker": "ASUS Prime B650M-A: nenhuma foto exata licenciada validada. Direitos: ASUS_AUTHORIZED_USERS.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.asus.com/motherboards-components/motherboards/prime/prime-b650m-a/helpdesk_qvl_cpu?model2Name=PRIME-B650M-A",
+      "https://www.asus.com/microsite/demo/default.htm"
+    ],
+    "componentId": "mb-asus-prime-b650m-a",
+    "model": "ASUS Prime B650M-A",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ASUS_AUTHORIZED_USERS"
+  },
+  "mb-gigabyte-b650-gaming-x-ax": {
+    "manufacturerProductUrl": "https://www.gigabyte.com/Motherboard/B650-GAMING-X-AX-rev-10-11-12/Support",
+    "blocker": "Gigabyte B650 Gaming X AX: nenhuma foto exata licenciada validada; revisão PCB ausente. Direitos: GIGABYTE_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.gigabyte.com/Motherboard/B650-GAMING-X-AX-rev-10-11-12/Support",
+      "https://profile.gigabyte.com/TermsOfUse.aspx?l=en-US",
+      "https://www.gigabyte.com/us/Motherboard/B650-GAMING-X-AX-rev-13/sp"
+    ],
+    "componentId": "mb-gigabyte-b650-gaming-x-ax",
+    "model": "Gigabyte B650 Gaming X AX",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "GIGABYTE_PERMISSION"
+  },
+  "mb-h610m-ddr4": {
+    "manufacturerProductUrl": null,
+    "blocker": "ASUS Prime H610M sem sufixo completo; modelo físico indeterminado. Direitos: ASUS_AUTHORIZED_USERS.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.asus.com/microsite/demo/default.htm",
+      "https://www.asus.com/motherboards-components/motherboards/prime/prime-h610m-a-d4/",
+      "https://www.asus.com/motherboards-components/motherboards/prime/prime-h610m-d-d4/techspec/"
+    ],
+    "componentId": "mb-h610m-ddr4",
+    "model": "ASUS Prime H610M DDR4",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ASUS_AUTHORIZED_USERS"
+  },
+  "mb-msi-pro-b660m-a-ddr4": {
+    "manufacturerProductUrl": "https://www.msi.com/Motherboard/PRO-B660M-A-DDR4/Specification",
+    "blocker": "MSI PRO B660M-A DDR4: nenhuma foto exata licenciada validada. Direitos: MSI_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.msi.com/Motherboard/PRO-B660M-A-DDR4/Specification",
+      "https://us.msi.com/page/website-terms-of-use"
+    ],
+    "componentId": "mb-msi-pro-b660m-a-ddr4",
+    "model": "MSI PRO B660M-A DDR4",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "MSI_PERMISSION"
+  },
+  "mb-gigabyte-b760m-ds3h-ddr4": {
+    "manufacturerProductUrl": "https://www.gigabyte.com/Motherboard/B760M-DS3H-DDR4-rev-10?lan=en",
+    "blocker": "Gigabyte B760M DS3H DDR4: nenhuma foto exata licenciada validada; revisão PCB ausente. Direitos: GIGABYTE_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.gigabyte.com/Motherboard/B760M-DS3H-DDR4-rev-10?lan=en",
+      "https://profile.gigabyte.com/TermsOfUse.aspx?l=en-US"
+    ],
+    "componentId": "mb-gigabyte-b760m-ds3h-ddr4",
+    "model": "Gigabyte B760M DS3H DDR4",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "GIGABYTE_PERMISSION"
+  },
+  "mb-asus-tuf-z790-plus-ddr5": {
+    "manufacturerProductUrl": null,
+    "blocker": "Nome legado não define a variante Z790-Plus/WiFi/revisão exata. Direitos: ASUS_AUTHORIZED_USERS.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.asus.com/microsite/demo/default.htm",
+      "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z790-plus-wifi/",
+      "https://www.asus.com/uk/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z790-plus-d4/techspec/"
+    ],
+    "componentId": "mb-asus-tuf-z790-plus-ddr5",
+    "model": "ASUS TUF Gaming Z790-Plus DDR5",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ASUS_AUTHORIZED_USERS"
+  },
+  "gpu-gtx-1650": {
+    "componentId": "gpu-gtx-1650",
+    "model": "NVIDIA GeForce GTX 1650 4GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-ph/geforce/graphics-cards/gtx-1650/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-ph/geforce/graphics-cards/gtx-1650/",
+      "https://commons.wikimedia.org/wiki/File:GTX_1650_Mobile.jpg"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rtx-3050": {
+    "componentId": "gpu-rtx-3050",
+    "model": "NVIDIA GeForce RTX 3050 8GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3050/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3050/"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rtx-3060": {
+    "componentId": "gpu-rtx-3060",
+    "model": "NVIDIA GeForce RTX 3060 12GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/",
+      "https://commons.wikimedia.org/wiki/File:Zotac_GeForce_RTX_3060_12GB_VRAM_LHR_video_card.jpg"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rtx-4060": {
+    "componentId": "gpu-rtx-4060",
+    "model": "NVIDIA GeForce RTX 4060 8GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+      "https://commons.wikimedia.org/wiki/Category:NVIDIA_GeForce_RTX_4060"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rtx-4060-ti": {
+    "componentId": "gpu-rtx-4060-ti",
+    "model": "NVIDIA GeForce RTX 4060 Ti 8GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+      "https://commons.wikimedia.org/wiki/Category:Nvidia_GeForce_40_series_video_cards"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rtx-4070": {
+    "componentId": "gpu-rtx-4070",
+    "model": "NVIDIA GeForce RTX 4070 12GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+      "https://commons.wikimedia.org/wiki/Category:Gigabyte_GeForce_RTX_4070_Aero_OC_12GB"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rtx-4070-super": {
+    "componentId": "gpu-rtx-4070-super",
+    "model": "NVIDIA GeForce RTX 4070 Super 12GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: NVIDIA_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://www.nvidia.com/en-us/about-nvidia/legal-info.html",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+      "https://commons.wikimedia.org/wiki/Category:NVIDIA_GeForce_RTX_4070_Super"
+    ],
+    "rightsReviewCode": "NVIDIA_PERSONAL_ONLY"
+  },
+  "gpu-rx-6600": {
+    "componentId": "gpu-rx-6600",
+    "model": "AMD Radeon RX 6600 8GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6600.html",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: AMD_SITE_LIMITED.",
+    "evidenceURLs": [
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6600.html"
+    ],
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "gpu-rx-7600": {
+    "componentId": "gpu-rx-7600",
+    "model": "AMD Radeon RX 7600 8GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: AMD_SITE_LIMITED.",
+    "evidenceURLs": [
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html"
+    ],
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "gpu-rx-7700-xt": {
+    "componentId": "gpu-rx-7700-xt",
+    "model": "AMD Radeon RX 7700 XT 12GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: AMD_SITE_LIMITED.",
+    "evidenceURLs": [
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html"
+    ],
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "gpu-rx-7800-xt": {
+    "componentId": "gpu-rx-7800-xt",
+    "model": "AMD Radeon RX 7800 XT 16GB",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series.html",
+    "manufacturerUrlKind": "família GPU; variante da placa não identificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Fabricante da placa, SKU, revisão e cooler não identificados. Foto AIB/Founders Edition específica seria suposição. Direitos: AMD_SITE_LIMITED.",
+    "evidenceURLs": [
+      "https://www.amd.com/en/legal/copyright.html",
+      "https://www.amd.com/en/products/graphics/desktops/radeon/7000-series.html"
+    ],
+    "rightsReviewCode": "AMD_SITE_LIMITED"
+  },
+  "ram-kingston-fury-8gb-ddr4": {
+    "componentId": "ram-kingston-fury-8gb-ddr4",
+    "model": "Kingston Fury Beast 8GB DDR4",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kingston-fury-16gb-ddr4": {
+    "componentId": "ram-kingston-fury-16gb-ddr4",
+    "model": "Kingston Fury Beast 16GB DDR4",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kingston-fury-32gb-ddr4": {
+    "componentId": "ram-kingston-fury-32gb-ddr4",
+    "model": "Kingston Fury Beast 32GB DDR4",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-corsair-vengeance-16gb-ddr4-3600": {
+    "componentId": "ram-corsair-vengeance-16gb-ddr4-3600",
+    "model": "Corsair Vengeance 16GB DDR4",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: CORSAIR_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:2023_Pamięci_Corsair_Vengeance_RGB.jpg"
+    ],
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "ram-corsair-vengeance-16gb-ddr5": {
+    "componentId": "ram-corsair-vengeance-16gb-ddr5",
+    "model": "Corsair Vengeance 16GB DDR5",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: CORSAIR_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:2023_Pamięci_Corsair_Vengeance_RGB.jpg"
+    ],
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "ram-corsair-vengeance-32gb-ddr5-5600": {
+    "componentId": "ram-corsair-vengeance-32gb-ddr5-5600",
+    "model": "Corsair Vengeance 32GB DDR5",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: CORSAIR_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:2023_Pamięci_Corsair_Vengeance_RGB.jpg"
+    ],
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "ram-kingston-fury-16gb-ddr5-6000": {
+    "componentId": "ram-kingston-fury-16gb-ddr5-6000",
+    "model": "Kingston Fury Beast 16GB DDR5",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-gskill-trident-z5-32gb-ddr5-6000": {
+    "componentId": "ram-gskill-trident-z5-32gb-ddr5-6000",
+    "model": "G.Skill Trident Z5 32GB DDR5",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: GSKILL_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.gskill.com/legal",
+      "https://www.gskill.com/specification/165/371/1640229844/F5-6000J3636F16GX2-TZ5S-F5-6000J3636F16GA2-TZ5S-Specification",
+      "https://www.gskill.com/product/165/371/1640229700/F5-6000J3636F16GX2-TZ5K-F5-6000J3636F16GA2-TZ5K"
+    ],
+    "rightsReviewCode": "GSKILL_PERMISSION"
+  },
+  "ssd-kingston-a400-480gb": {
+    "componentId": "ssd-kingston-a400-480gb",
+    "model": "Kingston A400 480GB SATA SSD",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.kingston.com/unitedkingdom/en/ssd/a400-solid-state-drive?partnum=SA400S37480G",
+    "manufacturerUrlKind": "família com capacidades; não licença",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 480GB; candidato Commons A400120GB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq",
+      "https://commons.wikimedia.org/wiki/File:SA400S37120G.jpg"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-nv2-500gb": {
+    "componentId": "ssd-kingston-nv2-500gb",
+    "model": "Kingston NV2 500GB NVMe",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.kingston.com/datasheets/SNV2S_en.pdf",
+    "manufacturerUrlKind": "ficha oficial da família",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 500GB; candidato Commons NV2 2TB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq",
+      "https://www.kingston.com/datasheets/SNV2S_en.pdf",
+      "https://commons.wikimedia.org/wiki/Category:Kingston_solid-state_drives"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-nv2-1tb": {
+    "componentId": "ssd-kingston-nv2-1tb",
+    "model": "Kingston NV2 1TB NVMe",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.kingston.com/datasheets/SNV2S_en.pdf",
+    "manufacturerUrlKind": "ficha oficial da família",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 1000GB; candidato Commons NV2 2TB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq",
+      "https://www.kingston.com/datasheets/SNV2S_en.pdf",
+      "https://commons.wikimedia.org/wiki/Category:Kingston_solid-state_drives"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-wd-blue-sn570-1tb": {
+    "componentId": "ssd-wd-blue-sn570-1tb",
+    "model": "WD Blue SN570 1TB NVMe",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/western-digital/product/internal-drives/wd-blue-nvme-ssd/product-brief-wd-blue-sn570-nvme-ssd.pdf",
+    "manufacturerUrlKind": "ficha oficial inclui SKU 1TB",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Modelo identificado; nenhuma foto exata com direitos comprovados nesta pesquisa. Direitos: WD_SANDISK_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.westerndigital.com/legal/terms-of-use",
+      "https://www.sandisk.com/en-ca/legal/terms-of-use",
+      "https://support-en.sandisk.com/app/answers/detailweb/a_id/30797",
+      "https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/western-digital/product/internal-drives/wd-blue-nvme-ssd/product-brief-wd-blue-sn570-nvme-ssd.pdf"
+    ],
+    "rightsReviewCode": "WD_SANDISK_PERMISSION"
+  },
+  "ssd-wd-black-sn770-1tb": {
+    "componentId": "ssd-wd-black-sn770-1tb",
+    "model": "WD Black SN770 1TB NVMe",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://shop.sandisk.com/en-ae/products/ssd/internal-ssd/wd-black-sn770-nvme-ssd?sku=WDS100T3X0E-00B3N0",
+    "manufacturerUrlKind": "página oficial SKU 1TB",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Modelo identificado; nenhuma foto exata com direitos comprovados nesta pesquisa. Direitos: WD_SANDISK_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.westerndigital.com/legal/terms-of-use",
+      "https://www.sandisk.com/en-ca/legal/terms-of-use",
+      "https://support-en.sandisk.com/app/answers/detailweb/a_id/30797",
+      "https://shop.sandisk.com/en-ae/products/ssd/internal-ssd/wd-black-sn770-nvme-ssd?sku=WDS100T3X0E-00B3N0"
+    ],
+    "rightsReviewCode": "WD_SANDISK_PERMISSION"
+  },
+  "ssd-samsung-970-evo-plus-1tb": {
+    "componentId": "ssd-samsung-970-evo-plus-1tb",
+    "model": "Samsung 970 EVO Plus 1TB NVMe",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Candidato Commons 18540 é CC BY-SA3.0, mas capacidade não informada e download403 impediu verificar rótulo. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/File:Samsung_NVMe_M.2_970_EVO_Plus_18540.jpg"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-samsung-980-pro-2tb": {
+    "componentId": "ssd-samsung-980-pro-2tb",
+    "model": "Samsung 980 Pro 2TB NVMe",
+    "partNumber": null,
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "não verificada",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Não reutilizar foto 1TB; nenhuma foto isolada exata 2TB validada. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "hdd-seagate-barracuda-2tb": {
+    "componentId": "hdd-seagate-barracuda-2tb",
+    "model": "Seagate Barracuda 2TB HDD",
+    "partNumber": null,
+    "manufacturerProductUrl": "https://www.seagate.com/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/",
+    "manufacturerUrlKind": "família; múltiplos modelos 2TB",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-identity-and-rights",
+    "blocker": "Part number e geração ausentes; múltiplos BarraCuda 2TB oficiais. Commons ST32000641AS é XT, sem correspondência comprovada. Direitos: SEAGATE_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.seagate.com/au/en/legal/website-use-terms-and-conditions/",
+      "https://www.seagate.com/support/internal-hard-drives/desktop-hard-drives/barracuda-3-5/",
+      "https://commons.wikimedia.org/wiki/File:ST32000641AS.jpg"
+    ],
+    "rightsReviewCode": "SEAGATE_PERMISSION"
+  },
+  "psu-generic-400w": {
+    "manufacturerProductUrl": null,
+    "blocker": "Sem produto físico exato verificável; placeholder honesto obrigatório. Direitos: NO_EXACT_PRODUCT.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [],
+    "componentId": "psu-generic-400w",
+    "model": "Fonte Genérica 400W",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "NO_EXACT_PRODUCT"
+  },
+  "psu-corsair-cv550": {
+    "manufacturerProductUrl": "https://www.corsair.com/ww/en/p/psu/cp-9020210-ww/cv-series-cv550-550-watt-80-plus-bronze-certified-psu-cp-9020210-ww",
+    "blocker": "CV550 sem SKU regional; foto exata licenciada não validada. Direitos: CORSAIR_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://www.corsair.com/ww/en/p/psu/cp-9020210-ww/cv-series-cv550-550-watt-80-plus-bronze-certified-psu-cp-9020210-ww"
+    ],
+    "componentId": "psu-corsair-cv550",
+    "model": "Corsair CV550 550W",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "psu-corsair-650w": {
+    "manufacturerProductUrl": "https://www.corsair.com/ww/en/p/psu/cp-9020211-ww/cv-series-cv650-650-watt-80-plus-bronze-certified-psu-cp-9020211-ww",
+    "blocker": "CV650 sem revisão/SKU; imagens oficiais podem mostrar CV550. Direitos: CORSAIR_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://www.corsair.com/ww/en/p/psu/cp-9020211-ww/cv-series-cv650-650-watt-80-plus-bronze-certified-psu-cp-9020211-ww",
+      "https://www.corsair.com/ww/en/p/psu/cp-9020236-na/cv-series-cv650-650-watt-80-plus-bronze-certified-psu-cp-9020236-na"
+    ],
+    "componentId": "psu-corsair-650w",
+    "model": "Corsair CV650 650W",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "psu-cooler-master-mwe-650w": {
+    "manufacturerProductUrl": null,
+    "blocker": "MWE650 Bronze sem revisão; V2 e V2 Full Range diferem. Direitos: COOLERMASTER_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://id.coolermaster.com/termsofuseagreement",
+      "https://www.coolermaster.com/en-my/products/mwe-650-bronze-v2.html",
+      "https://www.coolermaster.com/en-my/products/mwe-650-bronze-v2-full-range.html"
+    ],
+    "componentId": "psu-cooler-master-mwe-650w",
+    "model": "Cooler Master MWE 650W Bronze",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "COOLERMASTER_PERMISSION"
+  },
+  "psu-xpg-pylon-650w": {
+    "manufacturerProductUrl": "https://www.xpg.com/us/xpg/670",
+    "blocker": "Galeria da família não comprova licença; requer imagem rotulada650W. Direitos: XPG_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.xpg.com/us/xpg/670",
+      "https://www.xpg.com/us/terms"
+    ],
+    "componentId": "psu-xpg-pylon-650w",
+    "model": "XPG Pylon 650W",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "XPG_PERMISSION"
+  },
+  "psu-corsair-rm750e": {
+    "manufacturerProductUrl": null,
+    "blocker": "RM750e sem geração/cor/SKU; várias revisões. Direitos: CORSAIR_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://www.corsair.com/us/en/explorer/diy-builder/power-supply-units/rme-rm750e-power-supply-2023-instruction-manual/",
+      "https://assets.corsair.com/image/upload/corsairmedia/sys_master/productcontent/49_002627_AA_WW_RMe_Series_Web_QSG_F.pdf"
+    ],
+    "componentId": "psu-corsair-rm750e",
+    "model": "Corsair RM750e 750W Gold",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "psu-xpg-core-reactor-850w": {
+    "manufacturerProductUrl": "https://www.xpg.com/en/support/product/641",
+    "blocker": "CORE REACTOR original não é II/II VE; galeria antiga404, suporte oficial disponível. Direitos: XPG_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.xpg.com/en/support/product/641",
+      "https://www.xpg.com/us/terms",
+      "https://www.xpg.com/bb/xpg/641"
+    ],
+    "componentId": "psu-xpg-core-reactor-850w",
+    "model": "XPG Core Reactor 850W Gold",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "XPG_PERMISSION"
+  },
+  "psu-corsair-rm850x": {
+    "manufacturerProductUrl": null,
+    "blocker": "RM850x sem geração/cor/SKU; várias revisões. Direitos: CORSAIR_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://www.corsair.com/us/en/p/psu/cp-9020180-na/rmx-series-rm850x-850-watt-80-plus-gold-certified-fully-modular-psu-cp-9020180-na",
+      "https://assets.corsair.com/image/upload/corsairmedia/sys_master/productcontent/WW_RMx_Series_2021_QSG_Web_AD.pdf"
+    ],
+    "componentId": "psu-corsair-rm850x",
+    "model": "Corsair RM850x 850W Gold",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "case-mid-tower-airflow": {
+    "manufacturerProductUrl": null,
+    "blocker": "Sem produto físico exato verificável; placeholder honesto obrigatório. Direitos: NO_EXACT_PRODUCT.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [],
+    "componentId": "case-mid-tower-airflow",
+    "model": "Gabinete Mid Tower Airflow",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "NO_EXACT_PRODUCT"
+  },
+  "case-cooler-master-q300l": {
+    "manufacturerProductUrl": "https://www.coolermaster.com/en-global/products/masterbox-q300l.html",
+    "blocker": "Modelo identificado; nenhuma foto exata com direitos comprovados nesta pesquisa. Direitos: COOLERMASTER_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.coolermaster.com/en-global/products/masterbox-q300l.html",
+      "https://id.coolermaster.com/termsofuseagreement"
+    ],
+    "componentId": "case-cooler-master-q300l",
+    "model": "Cooler Master MasterBox Q300L",
+    "partNumber": "MCB-Q300L-KANN-S00",
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "COOLERMASTER_PERMISSION"
+  },
+  "case-nzxt-h5-flow": {
+    "manufacturerProductUrl": null,
+    "blocker": "H5 Flow sem ano/revisão/cor; versões2022 e2024 distintas. Direitos: NZXT_PERSONAL_ONLY.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://nzxt.com/policies/terms-of-service",
+      "https://support.nzxt.com/hc/en-us/articles/37734705208347-H5-2022-Series-Specs",
+      "https://nzxt.com/es-intl/blogs/news/nzxt-unveils-reimagined-h5-flow-mid-tower-atx-case"
+    ],
+    "componentId": "case-nzxt-h5-flow",
+    "model": "NZXT H5 Flow",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "NZXT_PERSONAL_ONLY"
+  },
+  "case-corsair-4000d-airflow": {
+    "manufacturerProductUrl": "https://www.corsair.com/ww/en/p/pc-cases/cc-9011200-ww/4000d-airflow-temper",
+    "blocker": "Fonte e licença verificadas; aquisição retornou HTTP403 no integrador. Arquivo não integrado, inspeção de pixels pendente. Não contornar a restrição de acesso.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.corsair.com/ww/en/p/pc-cases/cc-9011200-ww/4000d-airflow-temper",
+      "https://commons.wikimedia.org/wiki/File:Corsair_4000D_Airflow_mid-tower_ATX_case.tif",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Corsair_4000D_Airflow_mid-tower_ATX_case.tif",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Corsair_4000D_Airflow_mid-tower_ATX_case.tif/lossy-page1-960px-Corsair_4000D_Airflow_mid-tower_ATX_case.tif.jpg",
+      "author": "PJ",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "componentId": "case-corsair-4000d-airflow",
+    "model": "Corsair 4000D Airflow",
+    "partNumber": "CC-9011200-WW",
+    "status": "blocked-download",
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "case-montech-air-903-base": {
+    "manufacturerProductUrl": "https://www.montechpc.com/air-903-base",
+    "blocker": "Cor preta/branca ausente; BASE difere de MAX. Direitos: MONTECH_NO_GRANT_FOUND.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.montechpc.com/air-903-base"
+    ],
+    "componentId": "case-montech-air-903-base",
+    "model": "Montech Air 903 Base",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "MONTECH_NO_GRANT_FOUND"
+  },
+  "case-compact-matx": {
+    "manufacturerProductUrl": null,
+    "blocker": "Sem produto físico exato verificável; placeholder honesto obrigatório. Direitos: NO_EXACT_PRODUCT.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [],
+    "componentId": "case-compact-matx",
+    "model": "Gabinete Compact mATX",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "NO_EXACT_PRODUCT"
+  },
+  "case-gamer-atx-rgb": {
+    "manufacturerProductUrl": null,
+    "blocker": "Sem produto físico exato verificável; placeholder honesto obrigatório. Direitos: NO_EXACT_PRODUCT.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [],
+    "componentId": "case-gamer-atx-rgb",
+    "model": "Gabinete Gamer ATX RGB",
+    "partNumber": null,
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "NO_EXACT_PRODUCT"
+  },
+  "ram-kingston-fury-16gb-ddr4-3600": {
+    "componentId": "ram-kingston-fury-16gb-ddr4-3600",
+    "model": "Kingston Fury Beast 16GB DDR4-3600",
+    "partNumber": "KF436C18BB/16",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF436C18BB_16.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF436C18BB/16 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF436C18BB_16.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-crucial-32gb-ddr4-3200": {
+    "componentId": "ram-crucial-32gb-ddr4-3200",
+    "model": "Crucial 32GB DDR4-3200 UDIMM",
+    "partNumber": "CT32G4DFD832A",
+    "manufacturerProductUrl": null,
+    "manufacturerUrlKind": "URL anterior bloqueada na revalidação",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "CT32G4DFD832A: página antiga retornou Request Rejected; nenhuma foto exata na galeria Micron consultada. Direitos: MICRON_EXACT_GALLERY_MISSING.",
+    "evidenceURLs": [
+      "https://eu.crucial.com/memory/ddr4/ct32g4dfd832a/ct26139276",
+      "https://www.micron.com/legal/terms-of-use",
+      "https://www.micron.com/about/press/image-gallery/products-technology"
+    ],
+    "rightsReviewCode": "MICRON_EXACT_GALLERY_MISSING"
+  },
+  "ram-kingston-fury-16gb-ddr5-5200": {
+    "componentId": "ram-kingston-fury-16gb-ddr5-5200",
+    "model": "Kingston Fury Beast 16GB DDR5-5200",
+    "partNumber": "KF552C40BB-16",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF552C40BB-16.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF552C40BB-16 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF552C40BB-16.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-a400-960gb": {
+    "componentId": "ssd-kingston-a400-960gb",
+    "model": "Kingston A400 960GB SATA SSD",
+    "partNumber": "SA400S37/960G",
+    "manufacturerProductUrl": "https://www.kingston.com/en/ssd/a400-solid-state-drive",
+    "manufacturerUrlKind": "família com capacidades; não licença",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 960GB; candidato Commons A400120GB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/en/ssd/a400-solid-state-drive",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq",
+      "https://commons.wikimedia.org/wiki/File:SA400S37120G.jpg"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-samsung-970-evo-plus-250gb": {
+    "componentId": "ssd-samsung-970-evo-plus-250gb",
+    "model": "Samsung 970 EVO Plus 250GB NVMe",
+    "partNumber": "MZ-V7S250",
+    "manufacturerProductUrl": "https://www.samsung.com/ca/memory-storage/nvme-ssd/970-evo-plus-nvme-m-2-ssd-250gb-mz-v7s250b-am/",
+    "manufacturerUrlKind": "página oficial do produto/capacidade",
+    "sourceResearchAt": "2026-10-08",
+    "status": "verified-existing",
+    "blocker": null,
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_NVMe_SSD_970_EVO_Plus_Data_Sheet_Rev.3.0_10129514071343.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives",
+      "https://www.samsung.com/ca/memory-storage/nvme-ssd/970-evo-plus-nvme-m-2-ssd-250gb-mz-v7s250b-am/",
+      "https://commons.wikimedia.org/wiki/File:2023_Nap%C4%99d_Samsung_970_EVO_Plus_250GB_(1).jpg"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Nap%C4%99d_Samsung_970_EVO_Plus_250GB_(1).jpg",
+      "author": "Jacek Halicki",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "verificationNotes": "Licença e descrição exata revalidadas na página File; integrador inspecionou rótulo nos pixels locais e confirmou SKU/capacidade.",
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-samsung-980-pro-1tb": {
+    "componentId": "ssd-samsung-980-pro-1tb",
+    "model": "Samsung 980 PRO 1TB NVMe",
+    "partNumber": "MZ-V8P1T0",
+    "manufacturerProductUrl": "https://www.samsung.com/us/memory-storage/nvme-ssd/980-pro-pcie-4-0-nvme-ssd-1tb-sku-mz-v8p1t0b-am/",
+    "manufacturerUrlKind": "página oficial do produto/capacidade",
+    "sourceResearchAt": "2026-10-08",
+    "status": "verified-existing",
+    "blocker": null,
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung-NVMe-SSD-980-PRO-Data-Sheet_Rev.2.1_230509_10129500052824.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives",
+      "https://www.samsung.com/us/memory-storage/nvme-ssd/980-pro-pcie-4-0-nvme-ssd-1tb-sku-mz-v8p1t0b-am/",
+      "https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg"
+    ],
+    "asset": {
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg",
+      "author": "D-Kuru/Wikimedia Commons",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "verificationNotes": "Licença e descrição exata revalidadas na página File; integrador inspecionou rótulo nos pixels locais e confirmou SKU/capacidade.",
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ram-kf432c16bbk2-16": {
+    "componentId": "ram-kf432c16bbk2-16",
+    "model": "Kingston FURY Beast 16GB (2×8GB) DDR4-3200",
+    "partNumber": "KF432C16BBK2/16",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF432C16BBK2_16.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF432C16BBK2/16 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF432C16BBK2_16.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kf432c16bbk2-32": {
+    "componentId": "ram-kf432c16bbk2-32",
+    "model": "Kingston FURY Beast 32GB (2×16GB) DDR4-3200",
+    "partNumber": "KF432C16BBK2/32",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF432C16BBK2_32.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF432C16BBK2/32 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF432C16BBK2_32.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kf432c16bbk2-64": {
+    "componentId": "ram-kf432c16bbk2-64",
+    "model": "Kingston FURY Beast 64GB (2×32GB) DDR4-3200",
+    "partNumber": "KF432C16BBK2/64",
+    "manufacturerProductUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF432C16BBK2/64 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kf436c18bbk2-32": {
+    "componentId": "ram-kf436c18bbk2-32",
+    "model": "Kingston FURY Beast 32GB (2×16GB) DDR4-3600",
+    "partNumber": "KF436C18BBK2/32",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF436C18BBK2_32.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF436C18BBK2/32 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF436C18BBK2_32.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kf552c40bbk2-32": {
+    "componentId": "ram-kf552c40bbk2-32",
+    "model": "Kingston FURY Beast 32GB (2×16GB) DDR5-5200",
+    "partNumber": "KF552C40BBK2-32",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF552C40BBK2-32.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF552C40BBK2-32 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF552C40BBK2-32.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kf556c40bbk2-32": {
+    "componentId": "ram-kf556c40bbk2-32",
+    "model": "Kingston FURY Beast 32GB (2×16GB) DDR5-5600",
+    "partNumber": "KF556C40BBK2-32",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF556C40BBK2-32.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF556C40BBK2-32 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF556C40BBK2-32.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-kf560c40bbk2-32": {
+    "componentId": "ram-kf560c40bbk2-32",
+    "model": "Kingston FURY Beast 32GB (2×16GB) DDR5-6000",
+    "partNumber": "KF560C40BBK2-32",
+    "manufacturerProductUrl": "https://www.kingston.com/dataSheets/KF560C40BBK2-32.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU KF560C40BBK2-32 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/dataSheets/KF560C40BBK2-32.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ram-cmk32gx4m2e3200c16": {
+    "componentId": "ram-cmk32gx4m2e3200c16",
+    "model": "Corsair Vengeance LPX 32GB (2×16GB) DDR4-3200",
+    "partNumber": "CMK32GX4M2E3200C16",
+    "manufacturerProductUrl": "https://www.corsair.com/ww/en/p/memory/cmk32gx4m2e3200c16/vengeance-lpx-32gb-2-x-16gb-ddr4-dram-3200mhz-c16-memory-kit-black-cmk32gx4m2e3200c16",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU CMK32GX4M2E3200C16 identificado; nenhuma foto independente exata licenciada validada. Direitos: CORSAIR_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.corsair.com/ww/en/p/memory/cmk32gx4m2e3200c16/vengeance-lpx-32gb-2-x-16gb-ddr4-dram-3200mhz-c16-memory-kit-black-cmk32gx4m2e3200c16",
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:2023_Pamięci_Corsair_Vengeance_RGB.jpg"
+    ],
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "ram-cmk32gx5m2b6000c36": {
+    "componentId": "ram-cmk32gx5m2b6000c36",
+    "model": "Corsair Vengeance 32GB (2×16GB) DDR5-6000",
+    "partNumber": "CMK32GX5M2B6000C36",
+    "manufacturerProductUrl": "https://www.corsair.com/ww/en/p/memory/cmk32gx5m2b6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mhz-c36-memory-kit-black-cmk32gx5m2b6000c36",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU CMK32GX5M2B6000C36 identificado; nenhuma foto independente exata licenciada validada. Direitos: CORSAIR_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.corsair.com/ww/en/p/memory/cmk32gx5m2b6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mhz-c36-memory-kit-black-cmk32gx5m2b6000c36",
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:2023_Pamięci_Corsair_Vengeance_RGB.jpg"
+    ],
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "ram-cmk64gx5m2b6000c40": {
+    "componentId": "ram-cmk64gx5m2b6000c40",
+    "model": "Corsair Vengeance 64GB (2×32GB) DDR5-6000",
+    "partNumber": "CMK64GX5M2B6000C40",
+    "manufacturerProductUrl": "https://www.corsair.com/ww/en/p/memory/cmk64gx5m2b6000c40/vengeance-64gb-2x32gb-ddr5-dram-6000mhz-c40-memory-kit-black-cmk64gx5m2b6000c40",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "SKU CMK64GX5M2B6000C40 identificado; nenhuma foto independente exata licenciada validada. Direitos: CORSAIR_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.corsair.com/ww/en/p/memory/cmk64gx5m2b6000c40/vengeance-64gb-2x32gb-ddr5-dram-6000mhz-c40-memory-kit-black-cmk64gx5m2b6000c40",
+      "https://www.corsair.com/us/en/s/terms-of-use",
+      "https://commons.wikimedia.org/wiki/File:2023_Pamięci_Corsair_Vengeance_RGB.jpg"
+    ],
+    "rightsReviewCode": "CORSAIR_PERMISSION"
+  },
+  "ssd-samsung-870-evo-250gb": {
+    "componentId": "ssd-samsung-870-evo-250gb",
+    "model": "Samsung 870 EVO 250GB SATA",
+    "partNumber": "MZ-77E250",
+    "manufacturerProductUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 250GB / MZ-77E250; nenhuma foto isolada exata licenciada validada. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-samsung-870-evo-500gb": {
+    "componentId": "ssd-samsung-870-evo-500gb",
+    "model": "Samsung 870 EVO 500GB SATA",
+    "partNumber": "MZ-77E500",
+    "manufacturerProductUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 500GB / MZ-77E500; nenhuma foto isolada exata licenciada validada. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-samsung-870-evo-1000gb": {
+    "componentId": "ssd-samsung-870-evo-1000gb",
+    "model": "Samsung 870 EVO 1000GB SATA",
+    "partNumber": "MZ-77E1T0",
+    "manufacturerProductUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 1000GB / MZ-77E1T0; nenhuma foto isolada exata licenciada validada. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-samsung-870-evo-2000gb": {
+    "componentId": "ssd-samsung-870-evo-2000gb",
+    "model": "Samsung 870 EVO 2000GB SATA",
+    "partNumber": "MZ-77E2T0",
+    "manufacturerProductUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 2000GB / MZ-77E2T0; nenhuma foto isolada exata licenciada validada. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-samsung-870-evo-4000gb": {
+    "componentId": "ssd-samsung-870-evo-4000gb",
+    "model": "Samsung 870 EVO 4000GB SATA",
+    "partNumber": "MZ-77E4T0",
+    "manufacturerProductUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 4000GB / MZ-77E4T0; nenhuma foto isolada exata licenciada validada. Direitos: SAMSUNG_PERSONAL_ONLY.",
+    "evidenceURLs": [
+      "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "https://semiconductor.samsung.com/legal/",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_solid_state_drives",
+      "https://commons.wikimedia.org/wiki/Category:Samsung_M.2_solid_state_drives"
+    ],
+    "rightsReviewCode": "SAMSUNG_PERSONAL_ONLY"
+  },
+  "ssd-kingston-kc3000-512gb": {
+    "componentId": "ssd-kingston-kc3000-512gb",
+    "model": "Kingston KC3000 512GB NVMe",
+    "partNumber": "SKC3000S/512G",
+    "manufacturerProductUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 512GB / SKC3000S/512G; vídeo de build não comprova foto isolada exata. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-kc3000-1024gb": {
+    "componentId": "ssd-kingston-kc3000-1024gb",
+    "model": "Kingston KC3000 1024GB NVMe",
+    "partNumber": "SKC3000S/1024G",
+    "manufacturerProductUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 1024GB / SKC3000S/1024G; vídeo de build não comprova foto isolada exata. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-kc3000-2048gb": {
+    "componentId": "ssd-kingston-kc3000-2048gb",
+    "model": "Kingston KC3000 2048GB NVMe",
+    "partNumber": "SKC3000D/2048G",
+    "manufacturerProductUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 2048GB / SKC3000D/2048G; vídeo de build não comprova foto isolada exata. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-kc3000-4096gb": {
+    "componentId": "ssd-kingston-kc3000-4096gb",
+    "model": "Kingston KC3000 4096GB NVMe",
+    "partNumber": "SKC3000D/4096G",
+    "manufacturerProductUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+    "manufacturerUrlKind": "fonte técnica previamente verificada no catálogo; PDF ou página",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 4096GB / SKC3000D/4096G; vídeo de build não comprova foto isolada exata. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "ssd-kingston-a400-240gb": {
+    "componentId": "ssd-kingston-a400-240gb",
+    "model": "Kingston A400 240GB SATA SSD",
+    "partNumber": "SA400S37/240G",
+    "manufacturerProductUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G",
+    "manufacturerUrlKind": "família com capacidades; não licença",
+    "sourceResearchAt": "2026-10-08",
+    "status": "blocked-rights",
+    "blocker": "Capacidade 240GB; candidato Commons A400120GB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION.",
+    "evidenceURLs": [
+      "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G",
+      "https://www.kingston.com/unitedkingdom/en/company/legal-statement",
+      "https://lodasupport.kingston.com/faq",
+      "https://commons.wikimedia.org/wiki/File:SA400S37120G.jpg"
+    ],
+    "rightsReviewCode": "KINGSTON_PERMISSION"
+  },
+  "cooler-noctua-nh-u12s-redux": {
+    "manufacturerProductUrl": "https://www.noctua.at/en/products/nh-u12s-redux",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.noctua.at/en/products/nh-u12s-redux",
+      "https://www.noctua.at/en/press"
+    ],
+    "asset": {
+      "sourceUrl": "https://www.noctua.at/en/products/nh-u12s-redux",
+      "downloadUrl": "https://cdn.noctua.at/media/nh_u12s_redux_1.jpg",
+      "author": "Noctua",
+      "license": "Noctua royalty-free non-exclusive permission, until cancelled, for Noctua-created materials made available on noctua.at",
+      "licenseUrl": "https://www.noctua.at/en/press"
+    },
+    "componentId": "cooler-noctua-nh-u12s-redux",
+    "model": "Noctua NH-U12S redux",
+    "partNumber": "NH-U12S redux",
+    "status": "verified-acquired",
+    "verificationNotes": "Aquisição e inspeção de pixels concluídas pelo integrador; preservar enquadramento original.",
+    "rightsReviewCode": "NOCTUA_REVOCABLE_PERMISSION"
+  },
+  "cooler-noctua-nh-l9a-am4": {
+    "manufacturerProductUrl": "https://www.noctua.at/en/products/nh-l9a-am4",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.noctua.at/en/products/nh-l9a-am4",
+      "https://www.noctua.at/en/press"
+    ],
+    "asset": {
+      "sourceUrl": "https://www.noctua.at/en/products/nh-l9a-am4",
+      "downloadUrl": "https://cdn.noctua.at/media/nh_l9a_am4_1-1.jpg",
+      "author": "Noctua",
+      "license": "Noctua royalty-free non-exclusive permission, until cancelled, for Noctua-created materials made available on noctua.at",
+      "licenseUrl": "https://www.noctua.at/en/press"
+    },
+    "componentId": "cooler-noctua-nh-l9a-am4",
+    "model": "Noctua NH-L9a-AM4",
+    "partNumber": "NH-L9a-AM4",
+    "status": "verified-acquired",
+    "verificationNotes": "Aquisição e inspeção de pixels concluídas pelo integrador; preservar enquadramento original.",
+    "rightsReviewCode": "NOCTUA_REVOCABLE_PERMISSION"
+  },
+  "cooler-deepcool-ak620": {
+    "manufacturerProductUrl": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK620-High-Performance-CPU-Cooler-1851-1700-AM5/2024/13067.shtml",
+    "blocker": "SKU R-AK620-BKNNMT-G definido; sem imagem licenciada. ZERO DARK/DIGITAL/branco não equivalem. Direitos: DEEPCOOL_PERMISSION.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK620-High-Performance-CPU-Cooler-1851-1700-AM5/2024/13067.shtml",
+      "https://www.deepcool.com/public/Termsofuse.shtml"
+    ],
+    "componentId": "cooler-deepcool-ak620",
+    "model": "DeepCool AK620 (R-AK620-BKNNMT-G)",
+    "partNumber": "R-AK620-BKNNMT-G",
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "DEEPCOOL_PERMISSION"
+  },
+  "cooler-arctic-liquid-freezer-iii-240": {
+    "manufacturerProductUrl": "https://www.arctic.de/en/Liquid-Freezer-III-240/ACFRE00134A",
+    "blocker": "ACFRE00134A preto sem RGB; foto oficial existe, direitos de redistribuição não comprovados. Direitos: ARCTIC_NO_GRANT_FOUND.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.arctic.de/en/Liquid-Freezer-III-240/ACFRE00134A",
+      "https://www.arctic.de/en/about-arctic/press/",
+      "https://www.arctic.de/en/blog/liquid-freezer-iii-launch-promotion",
+      "https://www.arctic.de/media/1c/af/b3/1708429821/Spec_Sheet_Liquid_Freezer_III_240_Black_EN.pdf"
+    ],
+    "componentId": "cooler-arctic-liquid-freezer-iii-240",
+    "model": "ARCTIC Liquid Freezer III 240 Black",
+    "partNumber": "ACFRE00134A",
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ARCTIC_NO_GRANT_FOUND"
+  },
+  "cooler-arctic-liquid-freezer-iii-360": {
+    "manufacturerProductUrl": null,
+    "blocker": "ACFRE00136A preto sem RGB; página teve timeout, ficha oficial disponível, licença não comprovada. Direitos: ARCTIC_NO_GRANT_FOUND.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.arctic.de/media/16/63/19/1708429821/Spec_Sheet_Liquid_Freezer_III_360_Black_EN.pdf",
+      "https://www.arctic.de/en/about-arctic/press/",
+      "https://www.arctic.de/en/blog/liquid-freezer-iii-launch-promotion"
+    ],
+    "componentId": "cooler-arctic-liquid-freezer-iii-360",
+    "model": "ARCTIC Liquid Freezer III 360 Black",
+    "partNumber": "ACFRE00136A",
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ARCTIC_NO_GRANT_FOUND"
+  },
+  "fan-noctua-nf-p12-redux-1700-pwm": {
+    "manufacturerProductUrl": "https://www.noctua.at/en/products/nf-p12-redux-1700-pwm",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.noctua.at/en/products/nf-p12-redux-1700-pwm",
+      "https://www.noctua.at/en/press",
+      "https://cdn.noctua.at/media/nf_p12_redux_1700_pwm_2.jpg"
+    ],
+    "asset": {
+      "sourceUrl": "https://www.noctua.at/en/products/nf-p12-redux-1700-pwm",
+      "downloadUrl": "https://cdn.noctua.at/media/nf_p12_redux_1700_pwm_2.jpg",
+      "author": "Noctua",
+      "license": "Noctua royalty-free non-exclusive permission, until cancelled, for Noctua-created materials made available on noctua.at",
+      "licenseUrl": "https://www.noctua.at/en/press",
+      "modelMatchNote": "Variant-specific image URL extracted from the current exact product page HTML gallery. Manufacturer assignment and license verified; pixel-level label inspection is pending with parent, not claimed here."
+    },
+    "componentId": "fan-noctua-nf-p12-redux-1700-pwm",
+    "model": "Noctua NF-P12 redux-1700 PWM",
+    "partNumber": "NF-P12 redux-1700 PWM",
+    "status": "verified-acquired",
+    "rightsReviewCode": "NOCTUA_REVOCABLE_PERMISSION",
+    "verificationNotes": "Integrador adquiriu foto traseira _1700_pwm_2 e confirmou rótulo NF-P12 redux-1700 PWM nos pixels."
+  },
+  "fan-noctua-nf-a14-pwm": {
+    "manufacturerProductUrl": "https://www.noctua.at/en/products/nf-a14-pwm",
+    "blocker": null,
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.noctua.at/en/products/nf-a14-pwm",
+      "https://www.noctua.at/en/press",
+      "https://cdn.noctua.at/media/nf_a14_PWM_4.jpg"
+    ],
+    "asset": {
+      "sourceUrl": "https://www.noctua.at/en/products/nf-a14-pwm",
+      "downloadUrl": "https://cdn.noctua.at/media/nf_a14_PWM_4.jpg",
+      "author": "Noctua",
+      "license": "Noctua royalty-free non-exclusive permission, until cancelled, for Noctua-created materials made available on noctua.at",
+      "licenseUrl": "https://www.noctua.at/en/press",
+      "modelMatchNote": "Variant-specific image URL extracted from the current exact product page HTML gallery. Manufacturer assignment and license verified; pixel-level label inspection is pending with parent, not claimed here."
+    },
+    "componentId": "fan-noctua-nf-a14-pwm",
+    "model": "Noctua NF-A14 PWM",
+    "partNumber": "NF-A14 PWM",
+    "status": "verified-acquired",
+    "rightsReviewCode": "NOCTUA_REVOCABLE_PERMISSION",
+    "verificationNotes": "Integrador adquiriu foto traseira _PWM_4 e confirmou rótulo NF-A14 PWM 1500RPM nos pixels."
+  },
+  "fan-arctic-p12-pwm-pst": {
+    "manufacturerProductUrl": "https://www.arctic.de/en/P12-PWM-PST/ACFAN00120A",
+    "blocker": "ACFAN00120A unidade avulsa; nenhum asset fotográfico licenciado exato validado. Direitos: ARCTIC_NO_GRANT_FOUND.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.arctic.de/en/P12-PWM-PST/ACFAN00120A",
+      "https://www.arctic.de/en/about-arctic/press/",
+      "https://www.arctic.de/en/blog/p-wie-performance-arctic-fuehrt-druckoptimierte-p-luefter-ein"
+    ],
+    "componentId": "fan-arctic-p12-pwm-pst",
+    "model": "ARCTIC P12 PWM PST (1 fan)",
+    "partNumber": "ACFAN00120A",
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ARCTIC_NO_GRANT_FOUND"
+  },
+  "fan-arctic-p12-pwm-pst-5-pack": {
+    "manufacturerProductUrl": "https://www.arctic.de/P12-PWM-PST/ACFAN00137A",
+    "blocker": "ACFAN00137A kit5; imagem avulsa não representa silenciosamente quantidade do pacote. Direitos: ARCTIC_NO_GRANT_FOUND.",
+    "sourceResearchAt": "2026-10-08",
+    "evidenceURLs": [
+      "https://www.arctic.de/P12-PWM-PST/ACFAN00137A",
+      "https://www.arctic.de/en/about-arctic/press/",
+      "https://www.arctic.de/en/blog/p-wie-performance-arctic-fuehrt-druckoptimierte-p-luefter-ein"
+    ],
+    "componentId": "fan-arctic-p12-pwm-pst-5-pack",
+    "model": "ARCTIC P12 PWM PST (kit 5 fans)",
+    "partNumber": "ACFAN00137A",
+    "status": "blocked-rights-or-identity",
+    "rightsReviewCode": "ARCTIC_NO_GRANT_FOUND"
+  }
+}

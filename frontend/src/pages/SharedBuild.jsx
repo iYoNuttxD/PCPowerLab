@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
@@ -57,29 +58,23 @@ export default function SharedBuild() {
           {componentTypes.map((type) => (
             <li key={type}>
               <span>{componentLabels[type]}</span>
-              <strong>{getComponentName(components[type] || components[`${type}Id`])}</strong>
+              <ComponentIdentity component={components[type] || components[`${type}Id`]} category={type} />
             </li>
           ))}
           {(components.cooler || components.coolerId) && (
             <li>
               <span>{componentLabels.cooler}</span>
-              <strong>{getComponentName(components.cooler || components.coolerId)}</strong>
+              <ComponentIdentity component={components.cooler || components.coolerId} category="cooler" />
             </li>
           )}
           {(Array.isArray(components.fans) ? components.fans : []).map((fan, index) => (
             <li key={fan.id || fan.fanId || index}>
               <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
-              <strong>{getComponentName(fan)}</strong>
+              <ComponentIdentity component={fan} category="fan" />
             </li>
           ))}
         </ul>
       </Card>
     </div>
   );
-}
-
-function getComponentName(component) {
-  return typeof component === 'string'
-    ? component
-    : component?.name || component?.id || component?.fanId || 'Não informado';
 }

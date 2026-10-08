@@ -1,3 +1,4 @@
+import BuildComponentsPreview from '../components/build/BuildComponentsPreview.jsx';
 import { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
@@ -118,6 +119,7 @@ export default function CompareBuilds() {
             <Card key={savedBuild.id} as="article" className={selectedIds.includes(savedBuild.id) ? 'is-selected' : ''}>
               <h3>{savedBuild.name}</h3>
               <p>{formatCurrency(savedBuild.totalEstimatedPrice)}</p>
+              <details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={savedBuild.components} /></details>
               <Button aria-pressed={selectedIds.includes(savedBuild.id)} variant={selectedIds.includes(savedBuild.id) ? 'success' : 'secondary'} onClick={() => toggleBuild(savedBuild.id)}>
                 {selectedIds.includes(savedBuild.id) ? 'Selecionada' : 'Selecionar'}
               </Button>
@@ -145,7 +147,7 @@ export default function CompareBuilds() {
               <tbody>
                 {(comparison.builds || []).map((item) => (
                   <tr key={item.name}>
-                    <th scope="row">{item.name}</th>
+                    <th scope="row">{item.name}<details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={item.components} /></details></th>
                     <td>{formatCurrency(item.totalEstimatedPrice)}</td>
                     <td>
                       <span>{translateValue(getCompatibilityStatus(item))}</span>

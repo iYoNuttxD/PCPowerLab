@@ -1,3 +1,4 @@
+import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Card from '../ui/Card.jsx';
 import Button from '../ui/Button.jsx';
 import Select from '../ui/Select.jsx';
@@ -26,10 +27,12 @@ export default function CoolingPanel({ build, byType = {}, loading, error, onRet
       if (next) build.actions.selectComponent('cooler', next);
       else build.actions.removeComponent('cooler');
     }} />
+    {cooler && <ComponentIdentity component={cooler} category="cooler" />}
     {cooler && <Button variant="ghost" onClick={() => build.actions.removeComponent('cooler')}>Remover cooler</Button>}
     <p>Quantidade de ventoinhas = pacotes do produto. O preço usa pacotes; consumo e ocupação usam unidades por pacote.</p>
     {fans.map((fan, index) => <fieldset key={`${index}-${fan.id}`} className="form-grid">
       <legend>Ventoinhas {index + 1}</legend>
+      <ComponentIdentity component={fan} category="fan" />
       <Select label={`Modelo de ventoinha ${index + 1}`} value={fan.id} options={[
         ...(!fanOptions.some(item => item.id === fan.id) ? [{ value: fan.id, label: fan.name || fan.id }] : []),
         ...fanOptions.filter(item => item.id === fan.id || !fans.some(selected => selected.id === item.id)).map(item => ({ value: item.id, label: `${item.name} · ${formatCurrency(item.price)} / pacote` }))

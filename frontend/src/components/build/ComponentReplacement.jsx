@@ -1,3 +1,4 @@
+import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ComponentComparison from '../componentsCatalog/ComponentComparison.jsx';
@@ -57,6 +58,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
   return (
     <Modal open className="replacement-dialog" title={`Substituir ${componentLabels[type]}`} onClose={onClose}>
       <div className="replacement-preview">
+        {current && <ComponentIdentity component={current} category={type} />}
         <p>Peça atual: <strong>{current?.name || 'Não selecionada'}</strong>. As outras peças, o orçamento e o perfil de uso serão preservados.</p>
         <p className="analysis-note">Escolha uma alternativa e verifique a montagem antes de aplicar. Os valores são estimados, sem cotação em tempo real.</p>
         {loading ? <LoadingSpinner label="Carregando alternativas..." /> : error ? <ErrorState message={error} onRetry={reload} /> : <>
@@ -65,7 +67,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
             <legend>Nova peça</legend>
             {options.map(component => <label key={component.id} className="replacement-option">
               <input type="radio" name="replacement" checked={candidateId === component.id} onChange={() => setCandidateId(component.id)} />
-              <span>{component.name}<small>{component.brand} · {formatCurrency(component.price)} estimados</small></span>
+              <ComponentIdentity component={component} category={type}><small>{component.brand} · {formatCurrency(component.price)} estimados</small></ComponentIdentity>
             </label>)}
           </fieldset>
           {!options.length && !priceRangeError(filters) && <p>Nenhuma alternativa encontrada. Ajuste ou limpe os filtros.</p>}

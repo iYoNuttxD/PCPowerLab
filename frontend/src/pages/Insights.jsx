@@ -1,3 +1,4 @@
+import ComponentImage from '../components/componentsCatalog/ComponentImage.jsx';
 import { useEffect, useState } from 'react';
 import { BarChart3 } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
@@ -116,6 +117,7 @@ function RankingList({ ranking }) {
           <article key={component.id || index} className="cost-benefit-card">
             <div className="ranking-position">#{index + 1}</div>
             <div className="cost-benefit-card__body">
+              <ComponentImage component={component} compact />
               <div className="section-heading compact">
                 <div>
                   <span className="eyebrow">{componentLabels[component.category] || translateValue(component.category)}</span>

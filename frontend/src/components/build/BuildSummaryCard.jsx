@@ -1,3 +1,4 @@
+import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { Trash2 } from 'lucide-react';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
@@ -24,7 +25,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
                   {componentLabels[type]}<small>{component ? 'Alterar peça' : 'Escolher peça'}</small>
                 </button>
               ) : <span>{componentLabels[type]}</span>}
-              <strong>{component?.name || 'Não selecionado'}</strong>
+              <ComponentIdentity component={component} category={type} fallback="Não selecionado" />
               {component && onRemove && (
                 <Button variant="ghost" size="sm" onClick={() => onRemove(type)} aria-label={`Remover ${componentLabels[type]}`}>
                   <Trash2 size={16} aria-hidden="true" />
@@ -35,7 +36,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
         })}
         {(selectedComponents?.fans || []).map((fan, index) => <li key={`${fan.id}-${index}`}>
           {onEdit ? <button className="build-part-edit" type="button" onClick={() => onEdit('fans')}>Ventoinhas<small>Alterar modelo ou quantidade</small></button> : <span>Ventoinhas</span>}
-          <strong>{fan.name || fan.id} · {fan.quantity} pacote(s){fan.specs?.unitsPerPack ? ` · ${fan.quantity * fan.specs.unitsPerPack} unidade(s)` : ''}</strong>
+          <ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s){fan.specs?.unitsPerPack ? ` · ${fan.quantity * fan.specs.unitsPerPack} unidade(s)` : ''}</small></ComponentIdentity>
           <span>{formatCurrency(fanPackPrice(fan))}</span>
         </li>)}
         {!!selectedComponents?.fans?.length && onRemove && <li><Button variant="ghost" onClick={() => onRemove('fans')}>Remover todas as ventoinhas</Button></li>}

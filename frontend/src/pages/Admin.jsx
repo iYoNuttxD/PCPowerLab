@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useState } from 'react';
 import Alert from '../components/ui/Alert.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -254,7 +255,7 @@ export default function Admin() {
           {parameters.map((parameter) => (
             <article key={parameter.componentId} className="admin-row">
               <div>
-                <strong>{parameter.componentId}</strong>
+                <ComponentIdentity component={parameter.componentId} category={parameter.type}><small>{parameter.componentId}</small></ComponentIdentity>
                 <span>{translateValue(parameter.type)} • score {parameter.performanceScore}</span>
               </div>
               <Button variant="ghost" onClick={() => updateParameter(parameter)}>+1 score</Button>

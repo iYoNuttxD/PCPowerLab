@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, Upload, Wand2 } from 'lucide-react';
@@ -484,7 +485,7 @@ function ReadyBuildDetails({ readyBuild, componentMap, onApply, onFeedback }) {
         {componentTypes.map((type) => (
           <li key={type}>
             <span>{componentLabels[type]}</span>
-            <strong>{getComponentName(readyBuild.components, type, componentMap)}</strong>
+            <ComponentIdentity component={readyBuild.components?.[type] || readyBuild.components?.[`${type}Id`]} category={type} />
           </li>
         ))}
         <CoolingParts components={normalizeRecommendationComponents(readyBuild.components, componentMap)} />
@@ -540,7 +541,7 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
         {componentTypes.map((type) => (
           <li key={type}>
             <span>{componentLabels[type]}</span>
-            <strong>{components[type]?.name || components[type]?.id || 'Não informado'}</strong>
+            <ComponentIdentity component={components[type]} category={type} />
           </li>
         ))}
         <CoolingParts components={components} />
@@ -555,14 +556,14 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
 }
 
 function ComponentPreviewList({ componentsInput, componentMap }) {
-  const visibleTypes = ['cpu', 'gpu', 'motherboard', 'ram'];
+  const visibleTypes = componentTypes;
 
   return (
     <ul className="build-parts-list compact-list">
       {visibleTypes.map((type) => (
         <li key={type}>
           <span>{componentLabels[type]}</span>
-          <strong>{getComponentName(componentsInput, type, componentMap)}</strong>
+          <ComponentIdentity component={componentsInput?.[type] || componentsInput?.[`${type}Id`]} category={type} />
         </li>
       ))}
       <CoolingParts components={normalizeRecommendationComponents(componentsInput, componentMap)} />
@@ -643,13 +644,13 @@ function CoolingParts({ components }) {
       {components.cooler && (
         <li>
           <span>{componentLabels.cooler}</span>
-          <strong>{components.cooler.name || components.cooler.id}</strong>
+          <ComponentIdentity component={components.cooler} category="cooler" />
         </li>
       )}
       {(components.fans || []).map((fan) => (
         <li key={fan.id}>
           <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
-          <strong>{fan.name || fan.id}</strong>
+          <ComponentIdentity component={fan} category="fan" />
         </li>
       ))}
     </>
@@ -658,13 +659,6 @@ function CoolingParts({ components }) {
 
 function hasAllComponents(selectedComponents) {
   return componentTypes.every((type) => selectedComponents[type]?.id);
-}
-
-function getComponentName(componentsInput, type, componentMap) {
-  const componentValue = componentsInput?.[`${type}Id`] || componentsInput?.[type];
-  const componentId = typeof componentValue === 'string' ? componentValue : componentValue?.id;
-
-  return componentMap[componentId]?.name || componentValue?.name || componentId || 'Não informado';
 }
 
 function formatBudgetRange(range) {

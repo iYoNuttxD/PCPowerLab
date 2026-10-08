@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide-react';
@@ -664,11 +665,11 @@ function FixSuggestionsPanel({ suggestions, onApply, onFeedback }) {
                 <div className="fix-component-pair">
                   <div>
                     <span>Atual</span>
-                    <strong>{currentComponent?.name || suggestion.currentComponentName || 'Não informado'}</strong>
+                    <ComponentIdentity component={currentComponent} category={componentType} fallback={suggestion.currentComponentName || 'Não informado'} />
                   </div>
                   <div>
                     <span>Sugerido</span>
-                    <strong>{suggestedComponent?.name || suggestion.suggestedComponentName || 'Alternativa sugerida'}</strong>
+                    <ComponentIdentity component={suggestedComponent} category={componentType} fallback={suggestion.suggestedComponentName || 'Alternativa sugerida'} />
                     {suggestedComponent?.price && <small>{formatCurrency(suggestedComponent.price)}</small>}
                   </div>
                 </div>

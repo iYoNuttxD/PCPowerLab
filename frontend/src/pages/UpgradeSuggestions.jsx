@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Route, Zap } from 'lucide-react';
@@ -224,11 +225,11 @@ export default function UpgradeSuggestions() {
                 <div className="upgrade-pair">
                   <div className="upgrade-pair__item">
                     <span className="upgrade-pair__label">Atual</span>
-                    <strong className="upgrade-pair__value">{suggestion.currentComponent?.name}</strong>
+                    <ComponentIdentity component={suggestion.currentComponent} category={suggestion.componentType} />
                   </div>
                   <div className="upgrade-pair__item">
                     <span className="upgrade-pair__label">Sugerido</span>
-                    <strong className="upgrade-pair__value">{suggestion.suggestedComponent?.name}</strong>
+                    <ComponentIdentity component={suggestion.suggestedComponent} category={suggestion.componentType} />
                   </div>
                 </div>
                 <div className="upgrade-card__meta">
@@ -382,11 +383,11 @@ function UpgradeRoadmap({ result, onFeedback }) {
                 <div className="upgrade-pair">
                   <div className="upgrade-pair__item">
                     <span className="upgrade-pair__label">Atual</span>
-                    <strong className="upgrade-pair__value">{step.currentComponent?.name || 'Não informado'}</strong>
+                    <ComponentIdentity component={step.currentComponent} category={step.componentType} />
                   </div>
                   <div className="upgrade-pair__item">
                     <span className="upgrade-pair__label">Sugerido</span>
-                    <strong className="upgrade-pair__value">{step.suggestedComponent?.name || 'Não informado'}</strong>
+                    <ComponentIdentity component={step.suggestedComponent} category={step.componentType} />
                   </div>
                 </div>
 

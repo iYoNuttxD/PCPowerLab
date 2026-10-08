@@ -9,7 +9,9 @@
     "dev": "node src/server.js",
     "test": "node --test",
     "lint": "eslint src tests",
-    "inventory": "node scripts/catalog-inventory.js"
+    "inventory": "node scripts/catalog-inventory.js",
+    "audit:images": "node scripts/audit-component-images.js",
+    "audit:images:report": "node scripts/audit-component-images.js --report"
   },
   "keywords": [
     "pcpowerlab",

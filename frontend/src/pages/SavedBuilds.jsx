@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bell, CheckCircle2, Clock3, Edit3, History, MessageSquare, RefreshCw, Share2, Trash2, Upload } from 'lucide-react';
@@ -260,19 +261,19 @@ export default function SavedBuilds() {
               {componentTypes.map((type) => (
                 <li key={type}>
                   <span>{componentLabels[type]}</span>
-                  <strong>{getSavedComponentName(savedBuild, type, componentMap)}</strong>
+                  <ComponentIdentity component={savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`]} category={type} />
                 </li>
               ))}
               {(savedBuild.components?.coolerId || savedBuild.components?.cooler) && (
                 <li>
                   <span>{componentLabels.cooler}</span>
-                  <strong>{getSavedComponentName(savedBuild, 'cooler', componentMap)}</strong>
+                  <ComponentIdentity component={savedBuild.components?.cooler || savedBuild.components?.coolerId} category="cooler" />
                 </li>
               )}
               {(Array.isArray(savedBuild.components?.fans) ? savedBuild.components.fans : []).map((fan) => (
                 <li key={fan.fanId || fan.id}>
                   <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
-                  <strong>{componentMap[fan.fanId || fan.id]?.name || fan.name || fan.fanId || fan.id}</strong>
+                  <ComponentIdentity component={fan} category="fan" />
                 </li>
               ))}
             </ul>
@@ -458,13 +459,6 @@ function HistoryModal({ state, onClose, onShowDetails, onRemove }) {
       )}
     </Modal>
   );
-}
-
-function getSavedComponentName(savedBuild, type, componentMap) {
-  const component = savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`];
-  const id = typeof component === 'string' ? component : component?.id;
-
-  return componentMap[id]?.name || component?.name || id || 'Não informado';
 }
 
 function buildSnapshotFromSavedBuild(savedBuild) {

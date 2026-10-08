@@ -1,3 +1,4 @@
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
 import Modal from '../components/ui/Modal.jsx';
@@ -76,7 +77,7 @@ export default function ComponentsCatalog() {
       {!loading && !error && <section className="panel-card catalog-compare-bar" aria-label="Peças selecionadas para comparar">
         <p role="status">{comparedComponents.length ? `${comparedComponents.length} de 4 peças selecionadas · ${componentLabels[comparisonCategory]}. A seleção é mantida ao filtrar.` : 'Selecione de 2 a 4 peças da mesma categoria para comparar.'}</p>
         {comparedComponents.length > 0 && <>
-          <ul>{comparedComponents.map(component => <li key={component.id}>{component.name}<Button variant="ghost" size="sm" onClick={() => removeCompared(component.id)} aria-label={`Retirar ${component.name} da seleção`}>Retirar</Button></li>)}</ul>
+          <ul>{comparedComponents.map(component => <li key={component.id}><ComponentIdentity component={component} /><Button variant="ghost" size="sm" onClick={() => removeCompared(component.id)} aria-label={`Retirar ${component.name} da seleção`}>Retirar</Button></li>)}</ul>
           <p className="hint-text">Para comparar outra categoria, limpe esta seleção. Os filtros não removem as peças escolhidas.</p>
         </>}
         <div className="button-row">
@@ -100,6 +101,7 @@ export default function ComponentsCatalog() {
       </Modal>
 
       <Modal open={linksComponent !== null} title={`Lojas para ${linksComponent?.name || ''}`} onClose={() => setLinksComponent(null)}>
+        {linksComponent && <ComponentIdentity component={linksComponent} />}
         {linksLoading && <LoadingSpinner label="Buscando opções de compra..." />}
         {linksError && <ErrorState message={linksError} onRetry={() => {
           setLinksError(''); setLinksLoading(true); setLinksAttempt((attempt) => attempt + 1);

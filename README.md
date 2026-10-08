@@ -542,3 +542,11 @@ As verificações retornam `compatible`, `incompatible` ou `unverified`; dados i
 - [Implementação, testes e limites v2.1](docs/RA2-V2.1-INTEGRACAO.md)
 - [Modelos e fontes oficiais](docs/RA2-V2.1-CATALOG-SOURCES.md)
 - [Inventário gerado](docs/RA2-V2.1-INVENTARIO.json)
+
+## Fotografias do catálogo — v2.2 (parcial)
+
+Mídia exata/local com procedência, licença e fallback honesto integrado aos contextos de peças. A cobertura atual é 9/98 (9,18%), não 100%; os 89 bloqueios estão individualizados no relatório. Para recalcular: `npm run audit:images:report` (requer Python 3 + Pillow; exit 1 significa cobertura parcial). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
+
+- [Implementação, testes e pendências](docs/RA2-V2.2-INTEGRACAO.md)
+- [Cobertura e inventário dinâmico](docs/RA2-COBERTURA-IMAGENS.md)
+- [Direitos por produto](docs/RA2-V2.2-PHOTO-SOURCES.md)

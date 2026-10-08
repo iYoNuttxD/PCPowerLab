@@ -1,3 +1,4 @@
+import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
@@ -32,11 +33,11 @@ export default function RecommendationCard({ recommendation, onApply, currentCom
           return (
             <li key={type}>
               <span>{componentLabels[type]}</span>
-              <strong>{component?.name || 'Não sugerido'}</strong>
+              <ComponentIdentity component={component || recommendation.components?.[`${type}Id`]} category={type} fallback="Não sugerido" />
             </li>
           );
         })}
-        {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><strong>{fan.name || fan.fanId || fan.id} · {fan.quantity} pacote(s)</strong></li>)}
+        {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s)</small></ComponentIdentity></li>)}
       </ul>
       {onApply && <p className="hint-text">Se a recomendação não incluir refrigeração, as escolhas atuais de cooler e ventoinhas serão mantidas. Execute a análise novamente: total e compatibilidade podem mudar.</p>}
       {onApply && (

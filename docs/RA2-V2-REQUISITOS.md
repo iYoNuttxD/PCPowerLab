@@ -61,3 +61,7 @@ A tabela acima permanece como registro da linha de base. Para R11–R14, R17, R1
 | R21 | PARCIALMENTE IMPLEMENTADO | Estado não verificado explícito no resultado/compare; sem bônus FPS por refrigeração; validação de entendimento com pessoas não feita |
 
 Nenhum requisito recebe VALIDADO com base somente em código, testes de serviços ou build. As demais linhas não mudaram nesta etapa. Sem nova evidência para preço de mercado, pesquisa, retenção, monetização ou imagens.
+
+## Atualização v2.2 — 08/10/2026
+
+R10 continua **PARCIALMENTE IMPLEMENTADO**: 9/98 fotografias exatas licenciadas (9,18%), 89 bloqueios individuais. Mídia reutilizável integrada aos contextos, registro de procedência e auditoria dinâmica; cobertura integral e inspeção de telas continuam pendentes. [Relatório e limites](RA2-V2.2-INTEGRACAO.md), [cobertura real](RA2-COBERTURA-IMAGENS.md). Nenhum requisito recebe VALIDADO por lint, build ou testes sem navegador.

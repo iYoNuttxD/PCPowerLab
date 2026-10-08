@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-08",
+  "testCounts": {
+    "nodePassed": 354,
+    "browserCollectedNotRun": 123
+  },
+  "logs": {
+    "backend-final.log": {
+      "sha256": "78fcc67cfb7f5367402fbe91ee094274bded1e94a3218523f57d515e9076b197",
+      "tail": [
+        "✔ deve atualizar perfil e mudar updatedAt (0.448384ms)",
+        "✔ deve remover perfil de uso (0.235659ms)",
+        "✔ deve retornar erro controlado quando nome estiver ausente (0.521061ms)",
+        "✔ deve validar pesos invalidos (0.226956ms)",
+        "✔ deve retornar erro controlado para perfil inexistente (0.325512ms)",
+        "ℹ tests 354",
+        "ℹ suites 0",
+        "ℹ pass 354",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 17093.23176",
+        "npm notice",
+        "npm notice New major version of npm available! 11.9.0 -> 12.2.0",
+        "npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0",
+        "npm notice To update run: npm install -g npm@12.2.0",
+        "npm notice"
+      ]
+    },
+    "lint-backend-final.log": {
+      "sha256": "00a1410729738001691fd099113ef497f70d3d45850189a1f0d6443da5a77861",
+      "tail": [
+        "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.",
+        "",
+        "> pcpowerlab@0.1.0 lint",
+        "> eslint src tests",
+        ""
+      ]
+    },
+    "lint-frontend.log": {
+      "sha256": "6f0565483d6b3ff4aae74314c9cbbef1e8f11a6deea596661a209515247232cb",
+      "tail": [
+        "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.",
+        "",
+        "> pcpowerlab-frontend@0.1.0 lint",
+        "> eslint src tests scripts playwright.config.js playwright.integration.config.js",
+        ""
+      ]
+    },
+    "lint-audit.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tail": []
+    },
+    "build.log": {
+      "sha256": "5cea6d0c6847216c57856be4fcc9681e368abd4c2a6627d2897573416c8b79ea",
+      "tail": [
+        "",
+        "> pcpowerlab-frontend@0.1.0 build",
+        "> vite build",
+        "",
+        "vite v7.3.3 building client environment for production...",
+        "transforming...",
+        "✓ 2451 modules transformed.",
+        "rendering chunks...",
+        "computing gzip size...",
+        "dist/index.html                   0.56 kB │ gzip:   0.36 kB",
+        "dist/assets/index-DRNduR4_.css   47.20 kB │ gzip:   9.18 kB",
+        "dist/assets/index-q3Vk0vGC.js   813.27 kB │ gzip: 244.38 kB",
+        "",
+        "(!) Some chunks are larger than 500 kB after minification. Consider:",
+        "- Using dynamic import() to code-split the application",
+        "- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks",
+        "- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.",
+        "✓ built in 3.25s"
+      ]
+    },
+    "e2e-list.log": {
+      "sha256": "320aba29c0f5f5de2a244216ce6d01bf1273ed8b03f2b2f4e400a4390ab7e05f",
+      "tail": [
+        "  [mobile] › performance-lab.spec.js:142:1 › build incompleta bloqueia ambos os modos sem chamar as APIs",
+        "  [mobile] › performance-lab.spec.js:157:1 › ausência de parâmetros, falha de rede e falha de comparação permitem tentar novamente",
+        "  [mobile] › performance-lab.spec.js:184:1 › carregamento, erro e catálogo vazio são distintos; falha de software não bloqueia jogos",
+        "  [mobile] › performance-lab.spec.js:208:1 › dados ausentes não viram zero FPS nem entram na média",
+        "  [mobile] › performance-lab.spec.js:222:1 › simulação profissional mantém funcionamento e erros separados do jogo",
+        "  [mobile] › performance-lab.spec.js:238:1 › explicações e detalhes são acessíveis por teclado",
+        "  [mobile] › performance-lab.spec.js:254:1 › resumo distingue compatibilidade pendente e mantém avisos da nota geral visíveis",
+        "  [mobile] › performance-lab.spec.js:267:1 › gargalos e energia explicam unidades e preservam os valores e detalhes técnicos",
+        "  [mobile] › performance-lab.spec.js:285:1 › ranking explica a normalização por categoria e mantém preço e pontuação",
+        "  [mobile] › qa-regressions.spec.js:49:1 › alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade",
+        "  [mobile] › qa-regressions.spec.js:65:1 › resposta atrasada do resumo não restaura análises após editar uma peça em outra página",
+        "  [mobile] › qa-regressions.spec.js:85:1 › resposta atrasada do resumo não publica FPS dos parâmetros anteriores",
+        "  [mobile] › qa-regressions.spec.js:101:1 › build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento",
+        "  [mobile] › qa-regressions.spec.js:120:1 › falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento",
+        "  [mobile] › qa-regressions.spec.js:132:1 › tentar novamente uma recomendação não aumenta o orçamento e repete a consulta",
+        "  [mobile] › qa-regressions.spec.js:152:1 › comparação de builds invalida resultado e ignora resposta antiga ao alterar critérios",
+        "  [mobile] › qa-regressions.spec.js:181:1 › erro ao carregar peças salvas impede abrir com preços zerados e permite recuperar",
+        "Total: 108 tests in 6 files"
+      ]
+    },
+    "integration-list.log": {
+      "sha256": "abe668775f9294395a4d6504c5ee60840809bd3cb1bbda8064c3095d57bb5eef",
+      "tail": [
+        "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.",
+        "Listing tests:",
+        "  [desktop] › cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real",
+        "  [desktop] › cycle2.spec.js:143:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento",
+        "  [desktop] › cycle2.spec.js:171:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API",
+        "  [desktop] › cycle2.spec.js:215:1 › catálogo, imagens, comparação de peças e navegação pública",
+        "  [desktop] › cycle2.spec.js:239:1 › acesso administrativo direto, senha inválida, sessão protegida e logout",
+        "  [tablet] › cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real",
+        "  [tablet] › cycle2.spec.js:143:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento",
+        "  [tablet] › cycle2.spec.js:171:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API",
+        "  [tablet] › cycle2.spec.js:215:1 › catálogo, imagens, comparação de peças e navegação pública",
+        "  [tablet] › cycle2.spec.js:239:1 › acesso administrativo direto, senha inválida, sessão protegida e logout",
+        "  [mobile] › cycle2.spec.js:59:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real",
+        "  [mobile] › cycle2.spec.js:143:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento",
+        "  [mobile] › cycle2.spec.js:171:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API",
+        "  [mobile] › cycle2.spec.js:215:1 › catálogo, imagens, comparação de peças e navegação pública",
+        "  [mobile] › cycle2.spec.js:239:1 › acesso administrativo direto, senha inválida, sessão protegida e logout",
+        "Total: 15 tests in 1 file"
+      ]
+    },
+    "audit-final.log": {
+      "sha256": "ab3b02cab9b16c50e36c90195e28a88e23b97a764df57eb07d6847d75cc201aa",
+      "tail": [
+        "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.",
+        "",
+        "> pcpowerlab@0.1.0 audit:images:report",
+        "> node scripts/audit-component-images.js --report",
+        "",
+        "PARTIAL: 9/98 active components verified (9.18%). 89 blocked/fallback; 0 orphan files; 0 suspect duplicate groups. Reports: /workspace/shared/pcpowerlab-v2-baseline/docs/RA2-COBERTURA-IMAGENS.{md,json}"
+      ]
+    }
+  }
+}

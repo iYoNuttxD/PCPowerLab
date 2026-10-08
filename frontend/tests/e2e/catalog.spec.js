@@ -113,7 +113,7 @@ test('limita a comparação a quatro peças e identifica especificação ausente
 });
 
 test('fotografia licenciada, ausência e falha de imagem mantêm fallback e cards alinhados', async ({ page, isMobile }) => {
-  const fixtures = [photo, { ...photo, id: 'broken-photo', name: 'Modelo com imagem indisponível', image: { ...photo.image, url: '/images/components/inexistente.jpg' } }, { ...original.ram, name: 'Memória com nome muito longo para verificar o alinhamento de informações, preços e botões sem deformar o card' }];
+  const fixtures = [photo, { ...photo, id: 'broken-photo', name: 'Modelo com imagem indisponível', image: { ...photo.image, componentId: 'broken-photo', imagePath: '/images/components/inexistente.jpg' } }, { ...original.ram, name: 'Memória com nome muito longo para verificar o alinhamento de informações, preços e botões sem deformar o card' }];
   await page.route('**/api/v1/components', route => ok(route, fixtures));
   await page.goto('/components');
   const photoCard = page.locator('.component-card').first();

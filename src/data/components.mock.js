@@ -1,3 +1,4 @@
+import { attachComponentImage } from './component-images.js';
 import { catalogV21 } from './catalog.v21.js';
 import { enrichCaseCooling } from './caseCooling.v21.js';
 
@@ -896,14 +897,6 @@ export const components = [
       capacityGb: 250,
       readSpeedMbS: 3500,
       writeSpeedMbS: 2300
-    },
-    image: {
-      url: '/images/components/samsung-970-evo-plus-250gb.jpg',
-      alt: 'Samsung 970 EVO Plus com identificação de 250GB na etiqueta',
-      author: 'Jacek Halicki',
-      sourceUrl: 'https://commons.wikimedia.org/wiki/File:2023_Nap%C4%99d_Samsung_970_EVO_Plus_250GB_(1).jpg',
-      license: 'CC BY-SA 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/'
     }
   },
   {
@@ -920,15 +913,7 @@ export const components = [
       capacityGb: 1000,
       readSpeedMbS: 7000,
       writeSpeedMbS: 5000
-    },
-    image: {
-      url: '/images/components/samsung-980-pro-1tb.jpg',
-      alt: 'Samsung 980 PRO com identificação de 1TB na etiqueta',
-      author: 'D-Kuru/Wikimedia Commons',
-      sourceUrl: 'https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg',
-      license: 'CC BY-SA 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/'
     }
   },
   ...catalogV21
-].map(enrichCaseCooling);
+].map(enrichCaseCooling).map(attachComponentImage);
