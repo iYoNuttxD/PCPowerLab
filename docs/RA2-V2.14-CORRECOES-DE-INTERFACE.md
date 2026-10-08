@@ -51,3 +51,14 @@ O reteste visual e as suítes completas no navegador precisam ser executados no 
 - A reinspeção visual dos pesos de perfil confirmou controles uniformes e texto legível nas cinco larguras. A aceitação visual das demais rotas ainda estava em andamento ao registrar esta atualização
 
 Esta continuação altera somente asserções de integração e documentação. A execução da integração no novo SHA continua necessária.
+
+
+## Fechamento da integração e valores longos
+
+A integração real passou em 18/18 casos em `a710b285`. O E2E permaneceu em 219 aprovações e um teste ignorado em `67c32efd`; a diferença entre esses dois commits altera somente testes e documentação.
+
+A reinspeção visual de sete estados nas cinco larguras confirmou os alinhamentos, controles de 50 px, pesos de perfil, erro local de etapas e foco responsivo. Restaram opções longas cortadas em selects do upgrade e o título de Microsoft Flight Simulator no resumo em 768 px.
+
+Esta continuação dá mais largura à origem da build e ao seletor de jogo em telas menores, reduz somente opções genéricas do upgrade e preserva nomes completos. Quando o texto selecionado ainda excede a área útil do controle nativo, seu valor exato aparece com quebra natural logo abaixo, associado ao campo. O comportamento é opcional e limitado aos seletores de nomes dessas duas páginas; não acrescenta texto explicativo.
+
+A confirmação visual dessa última correção ainda exige reinspeção no novo SHA.

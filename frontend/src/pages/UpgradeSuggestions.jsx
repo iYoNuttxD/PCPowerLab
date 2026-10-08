@@ -285,9 +285,10 @@ export default function UpgradeSuggestions() {
         {savedBuildsError && <ErrorState message={`Não foi possível carregar as builds salvas. ${savedBuildsError}`} onRetry={reloadSavedBuilds} />}
         {hasRequestedBuild && !savedBuildsLoading && !savedBuildsError && !selectedSavedBuild && <ErrorState message={sourceError} onRetry={reloadSavedBuilds} />}
         {sourceError && hasCompleteBuild(build.selectedComponents) && <Button variant="secondary" onClick={() => selectBuild('')}>Usar build atual</Button>}
-        <div className="form-grid field-row-grid">
+        <div className="form-grid field-row-grid upgrade-source-grid">
           <Select
             label="Build salva"
+            revealSelectedValue
             value={buildId}
             onChange={(event) => selectBuild(event.target.value)}
             options={[
@@ -299,15 +300,16 @@ export default function UpgradeSuggestions() {
           <Input label="Orçamento para upgrade" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
           <Select
             label="Perfil personalizado"
+            revealSelectedValue
             value={selectedUsageProfileId}
             onChange={(event) => applyUsageProfile(event.target.value)}
             options={[
-              { value: '', label: 'Nenhum perfil personalizado' },
+              { value: '', label: 'Nenhum' },
               ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
             ]}
           />
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
-          <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: priorityLabels[value] }))} />
+          <Select label="Prioridade" value={priority} onChange={(event) => setPriority(event.target.value)} options={['cost-benefit', 'performance', 'lowest-price'].map((value) => ({ value, label: value === 'lowest-price' ? 'Menor preço' : value === 'upgrade-ready' ? 'Próximos upgrades' : priorityLabels[value] }))} />
         </div>
         <Button disabled={Boolean(sourceError)} loading={request.status === 'loading'} onClick={suggest}><Zap size={18} /> Gerar sugestões</Button>
       </Card>
@@ -405,7 +407,7 @@ export default function UpgradeSuggestions() {
             onChange={(event) => setPriority(event.target.value)}
             options={['cost-benefit', 'performance', 'balanced', 'lowest-price', 'upgrade-ready'].map((value) => ({
               value,
-              label: priorityLabels[value]
+              label: value === 'lowest-price' ? 'Menor preço' : value === 'upgrade-ready' ? 'Próximos upgrades' : priorityLabels[value]
             }))}
           />
         </div>

@@ -253,3 +253,38 @@ test('pesos do perfil mantêm armazenamento legível e controles iguais em telas
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
 });
+
+test('nomes selecionados permanecem completos sem abreviar builds nem jogos', async ({ page }) => {
+  const name = 'Minha configuração para edição de vídeo e desenvolvimento de jogos';
+  await seed(page);
+  await page.route('**/api/v1/saved-builds', route => ok(route, [{ ...saved, name }]));
+  await page.goto('/upgrades?buildId=qa-saved');
+  const source = page.getByRole('combobox', { name: 'Build salva', exact: true });
+  await expect(source).toHaveValue(saved.id);
+  await page.setViewportSize({ width: 320, height: 900 });
+  const fullName = source.locator('..').locator('.field-selected-value');
+  await expect(fullName).toHaveText(name);
+  await expect(fullName).toBeVisible();
+  await expect(source).toHaveAccessibleDescription(name);
+  await expect.poll(() => fullName.evaluate(node => node.scrollWidth <= node.clientWidth && node.scrollHeight <= node.clientHeight)).toBe(true);
+  await source.selectOption('');
+  await expect(fullName).toHaveCount(0);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await source.selectOption(saved.id);
+  await expect(source.locator('option:checked')).toHaveText(name);
+  await expect(fullName).toHaveCount(0);
+  const priority = page.locator('.upgrade-source-grid').getByRole('combobox', { name: 'Prioridade', exact: true });
+  await priority.selectOption('lowest-price');
+  await expect(priority.locator('option:checked')).toHaveText('Menor preço');
+
+  await page.goto('/summary');
+  await page.setViewportSize({ width: 768, height: 900 });
+  const game = page.getByRole('combobox', { name: 'Selecione um jogo para simular o desempenho', exact: true });
+  await game.selectOption('game-microsoft-flight-simulator');
+  await expect(game.locator('option:checked')).toHaveText('Microsoft Flight Simulator');
+  await expect.poll(() => game.evaluate(select => {
+    const grid = select.closest('.summary-game-controls').getBoundingClientRect();
+    return Math.abs(select.getBoundingClientRect().width - grid.width) <= 1;
+  })).toBe(true);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});

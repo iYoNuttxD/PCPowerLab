@@ -461,8 +461,9 @@ export default function BuildSummary() {
           {gamesLoading && <LoadingSpinner label="Carregando jogos..." />}
           {gamesError && <ErrorState message={gamesError} onRetry={() => setGamesReload(key => key + 1)} />}
           {!gamesLoading && !gamesError && !games.length && <div><p className="hint-text">Nenhum jogo disponível no catálogo. Gere o resumo para consultar as outras análises.</p><Button variant="secondary" onClick={() => setGamesReload(key => key + 1)}>Atualizar jogos</Button></div>}
-          <div className="form-grid">
+          <div className="form-grid field-row-grid summary-game-controls">
             <Select
+              revealSelectedValue
               label="Selecione um jogo para simular o desempenho"
               value={gameAvailable ? build.game.gameId : ''}
               onChange={(event) => changeGame({ gameId: event.target.value })}
