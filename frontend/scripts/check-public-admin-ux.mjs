@@ -30,6 +30,7 @@ try {
       export { default as Insights, RankingList } from './src/pages/Insights.jsx';
     ` },
     bundle: true, platform: 'node', format: 'esm', jsx: 'automatic', outfile: output,
+    define: { 'import.meta.env.VITE_API_BASE_URL': JSON.stringify('/api/v1') },
     banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },
     plugins: [{ name: 'public-admin-fixtures', setup(builder) {
       builder.onResolve({ filter: /^react$/ }, () => ({ path: 'react', namespace: 'fixture-react' }));
@@ -82,7 +83,18 @@ try {
   let markup = render(Home);
   assert.match(markup, /Montar meu PC/);
   for (const href of ['/build', '/components', '/ready-builds']) assert(markup.includes(`href="${href}"`));
-  assert(!markup.includes('98%') && !markup.includes('CPU + GPU SYNC'));
+  assert.match(markup, /<section class="hero">/);
+  assert.match(markup, /<h1>PCPowerLab<\/h1>/);
+  assert.match(markup, /class="hero-console" aria-hidden="true"/);
+  assert.match(markup, /class="console-screen"/);
+  assert.match(markup, /<strong>PC<\/strong>/);
+  assert.match(markup, /Exemplo ilustrativo/);
+  assert.match(markup, /class="scan-lines"/);
+  assert(!markup.includes('98%'));
+  assert.match(markup, /class="feature-grid" aria-label="Benefícios"/);
+  for (const title of ['Compatibilidade', 'Desempenho', 'Recomendações', 'Resumo claro']) assert(markup.includes(`<h2>${title}</h2>`));
+  for (const description of ['Valide socket, memória, gabinete, fonte', 'Simule jogos, gargalos e equilíbrio', 'Receba sugestões por orçamento, uso', 'Transforme dados técnicos em explicações simples']) assert(markup.includes(description));
+  assert(!markup.includes('home-task-hero') && !markup.includes('home-feature-list'));
   for (const change of [
     { selectedComponents: { cpu: { id: 'cpu' }, fans: [] } },
     { selectedComponents: { fans: [{ id: 'fan', quantity: 1 }] } },
@@ -94,8 +106,8 @@ try {
     assert.match(markup, /Continuar montagem/);
     assert(!markup.includes('Montar meu PC'));
   }
-  assert(markup.indexOf('href="/build"') < markup.indexOf('home-feature-list'));
-  pass('Home preserves all three entry points, detects component/cooling/budget/step progress, and removes decorative fake scores');
+  assert(markup.indexOf('href="/build"') < markup.indexOf('feature-grid'));
+  pass('Home restores the original hero, illustrative console and four descriptive cards while preserving all destinations and progress-aware entry');
 
   const calls = [];
   const rules = [{ id: 'r1', name: 'Regra de socket', sourceType: 'cpu', targetType: 'motherboard', severity: 'low' }];
