@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "d433bf930d7373eec073921427e146bc8c173f26",
+  "date_utc": "2026-10-08",
+  "environment": {
+    "os": "Debian GNU/Linux 13.6 (trixie), x86_64",
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "playwright": "1.64.0",
+    "vite": "7.3.3",
+    "system_chromium": "154.0.8037.57",
+    "requested_playwright_chromium": "156.0.8078.4 / revision 1248"
+  },
+  "overall": "partial: backend tests, both lints, and build pass; browser suites blocked by environment",
+  "unique_test_counts": {
+    "backend": 255,
+    "e2e": 90,
+    "integration": 15
+  },
+  "application_source_diff_exit_code": 0,
+  "scope_notes": [
+    "No application, test, lockfile, or repository Playwright configuration changes were made.",
+    "System-browser attempts imported original configurations via temporary wrappers, overriding only test/output paths, server cwd, executable path and CLI reporting.",
+    "Original-config attempts were executed after system-browser attempts to record the exact package-script blocker explicitly.",
+    "Browser failure counts are infrastructure setup failures before page creation; they are not proven application regressions. No cases were intentionally skipped.",
+    "Integration original and fallback commands each completed their production build before browser launch failures.",
+    "The integration test configuration uses its own randomly generated ephemeral admin password; no credentials or raw Playwright configuration environments are included in committed evidence.",
+    "Full local logs and failed-launch artifacts remain under /tmp/pcpowerlab-v2-tests and ignored frontend test output directories."
+  ],
+  "runs": [
+    {
+      "id": "root-npm-ci",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline",
+      "command": "npm ci",
+      "exit_code": 254,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/root-npm-ci.log"
+    },
+    {
+      "id": "frontend-npm-ci",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "npm ci",
+      "exit_code": 254,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-npm-ci.log"
+    },
+    {
+      "id": "root-npm-ci-tmp-cache",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline",
+      "command": "npm ci --cache /tmp/pcpowerlab-v2-tests/npm-cache-root",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/root-npm-ci-tmp-cache.log"
+    },
+    {
+      "id": "frontend-npm-ci-tmp-cache",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "npm ci --cache /tmp/pcpowerlab-v2-tests/npm-cache-frontend",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-npm-ci-tmp-cache.log"
+    },
+    {
+      "id": "backend-test",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline",
+      "command": "npm test",
+      "started_at": "2026-10-08T01:28:09Z",
+      "finished_at": "2026-10-08T01:28:15Z",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/backend-test.log",
+      "counts": {
+        "total": 255,
+        "passed": 255,
+        "failed": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "todo": 0
+      }
+    },
+    {
+      "id": "backend-lint",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline",
+      "command": "npm run lint",
+      "started_at": "2026-10-08T01:28:09Z",
+      "finished_at": "2026-10-08T01:28:12Z",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/backend-lint.log"
+    },
+    {
+      "id": "frontend-lint",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "npm run lint",
+      "started_at": "2026-10-08T01:28:10Z",
+      "finished_at": "2026-10-08T01:28:12Z",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-lint.log"
+    },
+    {
+      "id": "frontend-build",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "npm run build",
+      "started_at": "2026-10-08T01:28:09Z",
+      "finished_at": "2026-10-08T01:28:15Z",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-build.log"
+    },
+    {
+      "id": "playwright-install",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm_config_cache=/tmp/pcpowerlab-v2-tests/npm-cache-frontend npx playwright install chromium",
+      "started_at": "2026-10-08T01:28:10Z",
+      "finished_at": "2026-10-08T01:28:42Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/playwright-install.log"
+    },
+    {
+      "id": "playwright-install-headless",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm_config_cache=/tmp/pcpowerlab-v2-tests/npm-cache-frontend npx playwright install chromium --only-shell",
+      "started_at": "2026-10-08T01:28:58Z",
+      "finished_at": "2026-10-08T01:29:35Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/playwright-install-headless.log"
+    },
+    {
+      "id": "frontend-test-list",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "npm test -- --list",
+      "started_at": "2026-10-08T01:29:08Z",
+      "finished_at": "2026-10-08T01:29:09Z",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-test-list.log",
+      "discovered_tests": 90
+    },
+    {
+      "id": "frontend-integration-list",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "npx playwright test --config=playwright.integration.config.js --list",
+      "started_at": "2026-10-08T01:29:09Z",
+      "finished_at": "2026-10-08T01:29:10Z",
+      "exit_code": 0,
+      "outcome": "passed",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-integration-list.log",
+      "discovered_tests": 15
+    },
+    {
+      "id": "frontend-test-system",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/pcpowerlab-v2-tests/e2e-report.json npm test -- --config=/tmp/pcpowerlab-v2-tests/playwright.system.config.mjs --reporter=list\\,json",
+      "started_at": "2026-10-08T01:29:30Z",
+      "finished_at": "2026-10-08T01:29:57Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-test-system.log",
+      "counts": {
+        "total": 90,
+        "passed": 0,
+        "failed": 90,
+        "skipped": 0,
+        "flaky": 0,
+        "browser_launch_failures": 90,
+        "application_assertions_exercised": false
+      },
+      "failure_reason": "Installed Chromium browser launch aborts: socket() failed: Operation not permitted (1)"
+    },
+    {
+      "id": "frontend-integration-system",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/pcpowerlab-v2-tests/integration-report.json npm run test:integration -- --config=/tmp/pcpowerlab-v2-tests/playwright.integration.system.config.mjs --reporter=list\\,json",
+      "started_at": "2026-10-08T01:29:31Z",
+      "finished_at": "2026-10-08T01:29:45Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-integration-system.log",
+      "counts": {
+        "total": 15,
+        "passed": 0,
+        "failed": 15,
+        "skipped": 0,
+        "flaky": 0,
+        "browser_launch_failures": 15,
+        "application_assertions_exercised": false
+      },
+      "failure_reason": "Installed Chromium browser launch aborts: socket() failed: Operation not permitted (1)"
+    },
+    {
+      "id": "browser-system-smoke",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env HOME=/tmp/pcpowerlab-v2-tests/browser-home node --input-type=module -e import\\ \\{\\ chromium\\ \\}\\ from\\ \\'playwright\\'\\;\\ const\\ browser\\ =\\ await\\ chromium.launch\\(\\{executablePath:\\'/usr/bin/chromium\\'\\}\\)\\;\\ const\\ page\\ =\\ await\\ browser.newPage\\(\\)\\;\\ await\\ page.setContent\\(\\'\\<title\\>Browser\\ smoke\\</title\\>\\<h1\\>ready\\</h1\\>\\'\\)\\;\\ console.log\\(await\\ page.title\\(\\)\\)\\;\\ console.log\\(await\\ page.locator\\(\\'h1\\'\\).textContent\\(\\)\\)\\;\\ await\\ browser.close\\(\\)\\;",
+      "started_at": "2026-10-08T01:30:10Z",
+      "finished_at": "2026-10-08T01:30:10Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/browser-system-smoke.log",
+      "execution_mode": "require_escalated requested; socket restriction still present"
+    },
+    {
+      "id": "frontend-test-original",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm test",
+      "started_at": "2026-10-08T01:30:52Z",
+      "finished_at": "2026-10-08T01:31:14Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-test-original.log",
+      "counts": {
+        "total": 90,
+        "passed": 0,
+        "failed": 90,
+        "skipped": 0,
+        "flaky": 0,
+        "browser_launch_failures": 90,
+        "application_assertions_exercised": false
+      },
+      "failure_reason": "Bundled browser executable absent after archive download failures"
+    },
+    {
+      "id": "frontend-integration-original",
+      "cwd": "/workspace/shared/pcpowerlab-v2-baseline/frontend",
+      "command": "env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm run test:integration",
+      "started_at": "2026-10-08T01:30:54Z",
+      "finished_at": "2026-10-08T01:31:06Z",
+      "exit_code": 1,
+      "outcome": "environment_blocked",
+      "full_log": "/tmp/pcpowerlab-v2-tests/frontend-integration-original.log",
+      "counts": {
+        "total": 15,
+        "passed": 0,
+        "failed": 15,
+        "skipped": 0,
+        "flaky": 0,
+        "browser_launch_failures": 15,
+        "application_assertions_exercised": false
+      },
+      "failure_reason": "Bundled browser executable absent after archive download failures"
+    }
+  ],
+  "warnings": [
+    "Vite emitted a chunk-size warning: main JS 796.14 kB, gzip 239.17 kB (>500 kB).",
+    "npm emitted Unknown env config http-proxy warning.",
+    "Original npm cache path /home/agent/.npm failed with ENOENT; explicit /tmp caches resolved dependency installation."
+  ]
+}

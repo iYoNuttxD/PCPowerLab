@@ -1,0 +1,235 @@
+=== root-npm-ci ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline
+COMMAND: npm ci
+EXIT: 254
+FULL LOG SHA256: 3124a9499b2228c8f71319fa7ac13409961d5a33fa797cdc42945101b9078e9d
+npm warn cleanup   ]
+npm warn cleanup ]
+npm error code ENOENT
+npm error syscall mkdir
+npm error path /home/agent/.npm
+npm error errno -2
+npm error enoent ENOENT: no such file or directory, mkdir '/home/agent/.npm'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm error Log files were not written due to an error writing to the directory: /home/agent/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+
+=== frontend-npm-ci ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: npm ci
+EXIT: 254
+FULL LOG SHA256: 618b4d39d030f7b400925777caa70896b2007c1f1808f6a3256e4c1ad73235c7
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, lstat '/workspace/shared/pcpowerlab-v2-baseline/frontend/node_modules/lucide-react/dist'
+npm warn tar TAR_ENTRY_ERROR ENOENT: no such file or directory, lstat '/workspace/shared/pcpowerlab-v2-baseline/frontend/node_modules/@babel/helper-module-transforms/lib'
+npm error code ENOENT
+npm error syscall mkdir
+npm error path /home/agent/.npm
+npm error errno -2
+npm error enoent ENOENT: no such file or directory, mkdir '/home/agent/.npm'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm error Log files were not written due to an error writing to the directory: /home/agent/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal
+
+=== root-npm-ci-tmp-cache ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline
+COMMAND: npm ci --cache /tmp/pcpowerlab-v2-tests/npm-cache-root
+EXIT: 0
+FULL LOG SHA256: 7d2e1cf77bcdf4fbf09040938f979173974e0faeb0c1a218211de2c91f875ed9
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+added 171 packages in 9s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+=== frontend-npm-ci-tmp-cache ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: npm ci --cache /tmp/pcpowerlab-v2-tests/npm-cache-frontend
+EXIT: 0
+FULL LOG SHA256: 0b74b2e195c15cbc7b24b71b4d61c061484452ffcda1f162c0bdb27d9392c081
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+added 197 packages in 8s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+=== backend-test ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline
+COMMAND: npm test
+EXIT: 0
+FULL LOG SHA256: 528b49d4cbfa40a4b0d2da90acf75868dbc4552897a2ad8f8a9bed078b250497
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> pcpowerlab@0.1.0 test
+> node --test
+
+GET /api/v1/health 200 4.564 ms - 116
+[... output omitted ...]
+✔ deve retornar erro controlado quando nome estiver ausente (2.31284ms)
+✔ deve validar pesos invalidos (1.701136ms)
+✔ deve retornar erro controlado para perfil inexistente (1.284169ms)
+ℹ tests 255
+ℹ suites 0
+ℹ pass 255
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5617.886078
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+=== backend-lint ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline
+COMMAND: npm run lint
+EXIT: 0
+FULL LOG SHA256: 00a1410729738001691fd099113ef497f70d3d45850189a1f0d6443da5a77861
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> pcpowerlab@0.1.0 lint
+> eslint src tests
+
+
+=== frontend-lint ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: npm run lint
+EXIT: 0
+FULL LOG SHA256: 6f0565483d6b3ff4aae74314c9cbbef1e8f11a6deea596661a209515247232cb
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> pcpowerlab-frontend@0.1.0 lint
+> eslint src tests scripts playwright.config.js playwright.integration.config.js
+
+
+=== frontend-build ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: npm run build
+EXIT: 0
+FULL LOG SHA256: a4013526c1110fb36a5df4de704b5425a46c5af9ccba5cc8b13bc8050a29febc
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> pcpowerlab-frontend@0.1.0 build
+> vite build
+
+vite v7.3.3 building client environment for production...
+transforming...
+✓ 2447 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.56 kB │ gzip:   0.36 kB
+dist/assets/index-j47cyvFM.css   45.03 kB │ gzip:   8.76 kB
+dist/assets/index-hlNYwr3b.js   796.14 kB │ gzip: 239.17 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.74s
+
+=== playwright-install ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm_config_cache=/tmp/pcpowerlab-v2-tests/npm-cache-frontend npx playwright install chromium
+EXIT: 1
+FULL LOG SHA256: 7c528830d9ac370de534c1f4d6a7d6636cca4100456767b65e7709cedf0a3243
+Downloading Chrome for Testing 156.0.8078.4 (playwright chromium v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-linux64.zip
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+Failed to install browsers
+Error: Failed to download Chrome for Testing 156.0.8078.4 (playwright chromium v1248), caused by
+
+=== playwright-install-headless ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm_config_cache=/tmp/pcpowerlab-v2-tests/npm-cache-frontend npx playwright install chromium --only-shell
+EXIT: 1
+FULL LOG SHA256: c15726596b919b52452bbb2ec42a52a7155d7b00f1d89a10d13424f018023e23
+Downloading Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-headless-shell-linux64.zip
+Error: End of central directory record signature not found. Either not a zip file, or file is truncated.
+Failed to install browsers
+Error: Failed to download Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248), caused by
+
+=== frontend-test-list ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: npm test -- --list
+EXIT: 0
+FULL LOG SHA256: 98db6c99dbc1201ced515554e7d3206d28ecc12505289e3a1a6f9d155c3ed5c7
+[Selected verbatim output lines; repeated launch failures omitted]
+Total: 90 tests in 4 files
+
+=== frontend-integration-list ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: npx playwright test --config=playwright.integration.config.js --list
+EXIT: 0
+FULL LOG SHA256: abe668775f9294395a4d6504c5ee60840809bd3cb1bbda8064c3095d57bb5eef
+[Selected verbatim output lines; repeated launch failures omitted]
+Total: 15 tests in 1 file
+
+=== frontend-test-system ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/pcpowerlab-v2-tests/e2e-report.json npm test -- --config=/tmp/pcpowerlab-v2-tests/playwright.system.config.mjs --reporter=list\,json
+EXIT: 1
+FULL LOG SHA256: 9f5a5c09a05d2ffa9a9dc5f52d678c87610d84f98477e3499a7ac489c345344c
+[Selected verbatim output lines; repeated launch failures omitted]
+Running 90 tests using 2 workers
+    Error: browserType.launch: Target page, context or browser has been closed
+    [pid=110][err] [110:110:1007/222932.272246:FATAL:chrome/browser/process_singleton_posix.cc:297] Check failed: . socket() failed: Operation not permitted (1)
+  90 failed
+
+=== frontend-integration-system ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/pcpowerlab-v2-tests/integration-report.json npm run test:integration -- --config=/tmp/pcpowerlab-v2-tests/playwright.integration.system.config.mjs --reporter=list\,json
+EXIT: 1
+FULL LOG SHA256: f05a728cd14de4ef847e5fac6602cc88cf0cedecdb76be59401565b51aa9fa67
+[Selected verbatim output lines; repeated launch failures omitted]
+Running 15 tests using 1 worker
+    Error: browserType.launch: Target page, context or browser has been closed
+    [pid=90][err] [90:90:1007/222938.056796:FATAL:chrome/browser/process_singleton_posix.cc:297] Check failed: . socket() failed: Operation not permitted (1)
+  15 failed
+
+=== browser-system-smoke ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env HOME=/tmp/pcpowerlab-v2-tests/browser-home node --input-type=module -e import\ \{\ chromium\ \}\ from\ \'playwright\'\;\ const\ browser\ =\ await\ chromium.launch\(\{executablePath:\'/usr/bin/chromium\'\}\)\;\ const\ page\ =\ await\ browser.newPage\(\)\;\ await\ page.setContent\(\'\<title\>Browser\ smoke\</title\>\<h1\>ready\</h1\>\'\)\;\ console.log\(await\ page.title\(\)\)\;\ console.log\(await\ page.locator\(\'h1\'\).textContent\(\)\)\;\ await\ browser.close\(\)\;
+EXIT: 1
+FULL LOG SHA256: e12350129b32f4af10f715bcbcbfef613f5d5745f5ef07337ba6e3e903e5a1c1
+[pid=19][err] [19:19:1007/223010.572042:FATAL:chrome/browser/process_singleton_posix.cc:297] Check failed: . socket() failed: Operation not permitted (1)
+  - [pid=19][err] [19:19:1007/223010.572042:FATAL:chrome/browser/process_singleton_posix.cc:297] Check failed: . socket() failed: Operation not permitted (1)
+    '  - [pid=19][err] [19:19:1007/223010.572042:FATAL:chrome/browser/process_singleton_posix.cc:297] Check failed: . socket() failed: Operation not permitted (1)',
+
+=== frontend-test-original ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm test
+EXIT: 1
+FULL LOG SHA256: 3e964c48c2e8362e75efe4060e09ea7c8cc1fbda00101ba2fc081c5be1c0531b
+[Selected verbatim output lines; repeated launch failures omitted]
+Running 90 tests using 2 workers
+    Error: browserType.launch: Executable doesn't exist at /tmp/pcpowerlab-v2-tests/playwright-browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell
+  90 failed
+
+=== frontend-integration-original ===
+CWD: /workspace/shared/pcpowerlab-v2-baseline/frontend
+COMMAND: env PLAYWRIGHT_BROWSERS_PATH=/tmp/pcpowerlab-v2-tests/playwright-browsers npm run test:integration
+EXIT: 1
+FULL LOG SHA256: 92576dafa67cf1b94ee517e38e3be883376febad09de27325b3cfc00c94cdb6e
+[Selected verbatim output lines; repeated launch failures omitted]
+Running 15 tests using 1 worker
+    Error: browserType.launch: Executable doesn't exist at /tmp/pcpowerlab-v2-tests/playwright-browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell
+  15 failed
+
