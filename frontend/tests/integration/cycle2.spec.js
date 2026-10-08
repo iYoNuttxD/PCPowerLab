@@ -228,7 +228,7 @@ test('catálogo, imagens, comparação de peças e navegação pública', async 
   for (const part of expected.slice(0, 2)) await page.getByRole('button', { name: `Comparar: ${part.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Comparar peças (2)', exact: true }).click();
   await expect(page.getByRole('dialog')).toContainText('Leitura (até)');
-  await expect(page.getByRole('dialog')).toContainText('Preço estimado');
+  await expect(page.getByRole('dialog')).toContainText('Preço de referência');
   await capture(page, testInfo, 'catalog-comparison');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Comparar peças (2)', exact: true })).toBeFocused();

@@ -30,8 +30,8 @@ test('external URLs, SVG, traversal, query strings and encoded paths fail closed
   }
 });
 
-test('missing provenance, rights, verification or partial licensed attribution is rejected', () => {
-  for (const field of ['componentId', 'imageSource', 'manufacturerProductUrl', 'rightsBasis', 'lastVerifiedAt', 'author', 'license', 'licenseUrl']) {
+test('missing exact provenance or verification and unsafe optional attribution is rejected', () => {
+  for (const field of ['componentId', 'imageSource', 'manufacturerProductUrl', 'lastVerifiedAt']) {
     assert.equal(verifiedComponentImage({ ...photo, image: { ...photo.image, [field]: null } }), null, field);
   }
   for (const field of ['imageSource', 'manufacturerProductUrl', 'licenseUrl']) {
@@ -41,10 +41,19 @@ test('missing provenance, rights, verification or partial licensed attribution i
     assert.equal(verifiedComponentImage({ ...photo, image: { ...photo.image, lastVerifiedAt } }), null);
   }
   assert.equal(verifiedComponentImage({ ...photo, image: { ...photo.image, author: 5 } }), null);
-  assert.equal(verifiedComponentImage({ ...photo, image: { ...photo.image, author: null, license: null, licenseUrl: null } }), null);
+  for (const field of ['author', 'license', 'modifications', 'alt', 'identityNotes', 'identityLevel']) {
+    assert.equal(verifiedComponentImage({ ...photo, image: { ...photo.image, [field]: { invalid: true } } }), null);
+  }
   assert.equal(isSecureImageLink('https://name:secret@example.com/image'), false);
   assert.equal(isSecureImageLink('https://example.com/a b'), false);
   assert.equal(isSecureImageLink('http://example.com/a'), false);
+});
+
+test('sourced exact-model photos do not require an explicit reuse license', () => {
+  const image = { ...photo.image, rightsBasis: null, author: null, license: null, licenseUrl: null };
+  assert.equal(verifiedComponentImage({ ...photo, image }), image);
+  const { rightsBasis: _rights, author: _author, license: _license, licenseUrl: _url, ...withoutAttribution } = image;
+  assert.equal(verifiedComponentImage({ ...photo, image: withoutAttribution }), withoutAttribution);
 });
 
 test('legacy image.url and sourceUrl fields never authorize a photograph', () => {

@@ -11,6 +11,8 @@ import { addComponentRecord, listComponentRecords } from '../src/data/component.
 import { components as repositoryComponents } from '../src/data/components.mock.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const cropFixtures = JSON.parse(fs.readFileSync(path.join(projectRoot, 'tests/fixtures/component-image-crops.json'), 'utf8'));
+const cropMediaRoot = path.join(projectRoot, 'tests/fixtures/component-images');
 const now = '2026-10-08T12:00:00.000Z';
 function setup(t) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'component-image-audit-'));
@@ -220,12 +222,12 @@ test('empty files, excessive byte size, dimensions and tiny placeholders fail', 
   assert.ok(codes(run([component()])).includes('image_too_small'));
 });
 
-test('missing provenance and licensing metadata is listed per component', (t) => {
+test('missing provenance metadata is listed per component', (t) => {
   const { makeImage, run } = setup(t);
   makeImage();
   const report = run([component('component-a', { rightsBasis: null, imageSource: null, manufacturerProductUrl: '', author: '', license: '', licenseUrl: null, lastVerifiedAt: null })]);
   assert.ok(codes(report).includes('missing_metadata'));
-  for (const field of ['rightsBasis', 'imageSource', 'manufacturerProductUrl', 'author', 'license', 'licenseUrl', 'lastVerifiedAt']) assert.ok(report.components[0].missingMetadata.includes(field));
+  for (const field of ['rightsBasis', 'imageSource', 'manufacturerProductUrl', 'author', 'lastVerifiedAt']) assert.ok(report.components[0].missingMetadata.includes(field));
   assert.equal(report.summary.verified, 0);
 });
 
@@ -378,7 +380,7 @@ test('untrusted snapshot category keys cannot modify the category accumulator pr
 });
 
 test('reviewed Ryzen windows share only the pinned intact original; ordinary duplicates remain blocked', () => {
-  const report = auditComponentImages({ now });
+  const report = auditComponentImages({ now, components: cropFixtures, mediaRoot: cropMediaRoot });
   for (const id of ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600']) {
     const row = report.components.find(component => component.id === id);
     assert.equal(row.status, 'verified', JSON.stringify(row.issues));
@@ -393,7 +395,7 @@ test('reviewed Ryzen windows share only the pinned intact original; ordinary dup
 });
 
 test('crop size exception cannot override an explicit stricter image limit', () => {
-  const report = auditComponentImages({ now, limits: { maxBytes: 2 * 1024 * 1024 } });
+  const report = auditComponentImages({ now, components: cropFixtures, mediaRoot: cropMediaRoot, limits: { maxBytes: 2 * 1024 * 1024 } });
   for (const id of ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600']) {
     assert.equal(report.components.find(row => row.id === id).status, 'blocked');
     assert.ok(codes(report, id).includes('file_too_large'));
@@ -401,21 +403,21 @@ test('crop size exception cannot override an explicit stricter image limit', () 
 });
 
 test('wrong model, overlapping or out-of-bounds crop and forged original digest never authorize source reuse', () => {
-  const original = repositoryComponents.find(row => row.id === 'cpu-ryzen-5-5500');
-  const other = repositoryComponents.find(row => row.id === 'cpu-ryzen-5-5600');
+  const original = cropFixtures.find(row => row.id === 'cpu-ryzen-5-5500');
+  const other = cropFixtures.find(row => row.id === 'cpu-ryzen-5-5600');
   for (const change of [
     { crop: null }, { crop: [] }, { crop: {} }, { crop: { ...original.image.crop, points: [[-1, 0], [100, 0], [100, 100], [0, 100]] } },
     { crop: { ...original.image.crop, points: [[0, 0], [2561, 0], [2561, 100], [0, 100]] } },
     { crop: other.image.crop }, { sha256: 'a'.repeat(64) }, { crop: { ...original.image.crop, sourceWidth: 2561 } }
   ]) {
     const edited = { ...original, image: { ...original.image, ...change } };
-    const report = auditComponentImages({ components: [edited, other], now });
+    const report = auditComponentImages({ components: [edited, other], now, mediaRoot: cropMediaRoot });
     assert.equal(report.components[0].status, 'blocked');
     assert.ok(codes(report, original.id).includes('unapproved_image_crop'));
     assert.equal(report.reviewedSharedOriginals.length, 0);
   }
   const moved = { ...original, id: 'cpu-another-model', image: { ...original.image, componentId: 'cpu-another-model' } };
-  const report = auditComponentImages({ components: [moved, other], now });
+  const report = auditComponentImages({ components: [moved, other], now, mediaRoot: cropMediaRoot });
   assert.ok(codes(report, moved.id).includes('unapproved_image_crop'));
   assert.equal(report.reviewedSharedOriginals.length, 0);
 });
@@ -423,9 +425,44 @@ test('wrong model, overlapping or out-of-bounds crop and forged original digest 
 test('decoded dimensions and actual hash must match the reviewed composite metadata', (t) => {
   const { makeImage, run } = setup(t);
   makeImage('amd-ryzen-5500-5600-original.png', { width: 256, height: 144 });
-  const original = repositoryComponents.find(row => row.id === 'cpu-ryzen-5-5500');
+  const original = cropFixtures.find(row => row.id === 'cpu-ryzen-5-5500');
   const report = run([original]);
   assert.ok(codes(report, original.id).includes('reviewed_sha256_mismatch'));
   assert.ok(codes(report, original.id).includes('crop_source_dimensions_mismatch'));
   assert.equal(report.summary.verified, 0);
+});
+
+test('public academic reference photography records unknown permission without inventing a license', (t) => {
+  const { makeImage, run } = setup(t);
+  makeImage();
+  const report = run([component('component-a', { license: null, licenseUrl: null, rightsBasis: 'Public product reference for an academic noncommercial project; reuse permission not established.', identityLevel: 'exact-model' })]);
+  assert.equal(report.passed, true);
+  assert.equal(report.summary.actualPhotos, 1);
+  assert.equal(report.summary.identityLevels['exact-model'], 1);
+});
+
+test('reviewed family sharing is explicit and counted separately from exact models', (t) => {
+  const { makeImage, run } = setup(t);
+  const filename = makeImage();
+  const sha256 = createHash('sha256').update(fs.readFileSync(filename)).digest('hex');
+  const image = { imagePath: '/images/components/component-a.png', sha256, identityLevel: 'model-family', identityNotes: 'Same manufacturer family housing; capacity variant is not asserted by the photo.', sharedAssetGroup: 'test-family', sharedAssetComponentIds: ['component-a', 'component-b'] };
+  const report = run([component('component-a', image), component('component-b', image)]);
+  assert.equal(report.passed, true);
+  assert.equal(report.summary.identityLevels['model-family'], 2);
+  assert.equal(report.summary.identityLevels['exact-model'], 0);
+  assert.equal(report.reviewedSharedFamilies.length, 1);
+  const unreviewed = run([component('component-a', image), component('component-b', { ...image, sharedAssetComponentIds: ['component-b'] })]);
+  assert.equal(unreviewed.passed, false);
+  assert.equal(unreviewed.duplicateFiles.length, 1);
+});
+
+test('category illustrations count separately and require an identified photographed product', (t) => {
+  const { makeImage, run } = setup(t);
+  makeImage();
+  const metadata = { identityLevel: 'representative-product', identityNotes: 'Illustrative category photograph; not the identity or specifications of the generic catalog entry.', depictedProduct: 'Example physical ATX case' };
+  const report = run([component('component-a', metadata)]);
+  assert.equal(report.passed, true);
+  assert.equal(report.summary.identityLevels['representative-product'], 1);
+  assert.equal(report.summary.identityLevels['exact-model'], 0);
+  assert.equal(run([component('component-a', { ...metadata, depictedProduct: null })]).passed, false);
 });

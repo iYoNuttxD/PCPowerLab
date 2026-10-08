@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 import { components } from '../../../src/data/components.mock.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
 import { validateCatalogResponse } from '../../src/utils/catalogResponse.js';
@@ -10,6 +11,7 @@ const ids = { ...readyBuilds[0].components, storageId: photo.id, fans: [] };
 const selected = Object.fromEntries(types.map(type => [type, components.find(component => component.id === ids[`${type}Id`])]));
 const saved = { id: 'photo-build', name: 'Build com fotografia verificada', components: ids, totalEstimatedPrice: 5000 };
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
+const cropCpus = JSON.parse(readFileSync(new URL('../../../tests/fixtures/component-image-crops.json', import.meta.url), 'utf8'));
 
 async function setup(page, catalog = components) {
   // Invalid photo metadata is allowed here; malformed catalog identities are not.
@@ -34,7 +36,10 @@ async function verifyPhoto(page, locator = page.locator(`.component-media[data-c
   await expect(locator.locator('img')).toBeVisible();
   await expect(locator).toHaveAttribute('data-image-state', 'verified');
   await expect(locator.locator('img')).toHaveCSS('object-fit', 'contain');
+  await expect(locator.locator('.component-image-credits')).not.toHaveAttribute('open');
+  await locator.locator('summary').click();
   await expect(locator.getByRole('link', { name: `Foto: ${photo.image.author}`, exact: true })).toHaveAttribute('href', photo.image.imageSource);
+  await locator.locator('summary').click();
 }
 
 test('shows exact local images in summary, wizard, recommendations and ID-only saved/shared contexts', async ({ page }) => {
@@ -143,8 +148,9 @@ test('changing a failed model to a different exact model resets image state', as
 });
 
 test('exact Ryzen CPUs display distinct reviewed windows of the intact licensed original', async ({ page }) => {
-  const cpus = ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600'].map(id => components.find(component => component.id === id));
+  const cpus = cropCpus;
   await setup(page, cpus);
+  await page.route(`**${cpus[0].image.imagePath}`, route => route.fulfill({ body: readFileSync(new URL('../../../tests/fixtures/component-images/amd-ryzen-5500-5600-original.png', import.meta.url)), contentType: 'image/png' }));
   await page.goto('/components');
   for (const cpu of cpus) {
     const media = page.locator(`.component-card .component-media[data-component-id="${cpu.id}"]`);
@@ -154,11 +160,13 @@ test('exact Ryzen CPUs display distinct reviewed windows of the intact licensed 
     await expect(image).toHaveAttribute('data-image-crop', 'reviewed');
     await expect(image.locator('image')).toHaveAttribute('href', cpu.image.imagePath);
     await expect(image.locator('polygon')).toHaveAttribute('points', cpu.image.crop.points.map(point => point.join(',')).join(' '));
+    await expect(media.locator('details')).not.toHaveAttribute('open');
+    await media.locator('summary').click();
     await expect(media.getByRole('link', { name: 'Foto: Мой Компьютер', exact: true })).toHaveAttribute('href', cpu.image.imageSource);
     await expect(media.getByRole('link', { name: 'CC BY 3.0', exact: true })).toHaveAttribute('href', cpu.image.licenseUrl);
     await expect(media.getByRole('link', { name: 'Modelo no fabricante', exact: true })).toHaveAttribute('href', cpu.image.manufacturerProductUrl);
-    await media.locator('summary').click();
     await expect(media.locator('details')).toContainText('preservando o PNG original byte a byte');
+    await media.locator('summary').click();
   }
   const clipIds = await page.locator('.component-card clipPath').evaluateAll(elements => elements.map(element => element.id));
   expect(new Set(clipIds).size).toBe(2);
@@ -166,7 +174,7 @@ test('exact Ryzen CPUs display distinct reviewed windows of the intact licensed 
 });
 
 test('an unavailable composite original falls back accessibly for both exact CPU models', async ({ page }) => {
-  const cpus = ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600'].map(id => components.find(component => component.id === id));
+  const cpus = cropCpus;
   await setup(page, cpus);
   await page.route(`**${cpus[0].image.imagePath}`, route => route.abort());
   await page.goto('/components');

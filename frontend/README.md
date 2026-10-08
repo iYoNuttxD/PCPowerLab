@@ -265,6 +265,6 @@ Os caminhos acima são relativos à raiz. `scripts/qa-visual.mjs` prepara captur
 
 As telas compartilham catálogo/identidade/mídia, troca individual e estado da montagem. Mudanças invalidam análises, e respostas antigas são descartadas. Upgrade aberto de uma build salva transporta `buildId`; erro/ausência não muda silenciosamente para a montagem global.
 
-Os dez scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots ficam pendentes em ambiente autorizado.
+Os 14 scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots ficam pendentes em ambiente autorizado.
 
-Fotos: 9/98, com crédito/licença e fallback explícito para 89 produtos. Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.
+Fotos: 98/98. Créditos, escopo visual e variantes ficam em detalhes opcionais; veja [v2.11](../docs/RA2-V2.11-FOTOS-E-UI.md). Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.

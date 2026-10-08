@@ -19,13 +19,16 @@ function ComponentImageFrame({ component, category, name, media, catalogLoading,
   const [state, setState] = useState('loading');
   const clipId = useId();
   const crop = approvedComponentImageCrop(media, component?.id);
-  const imageAlt = media?.alt || `Fotografia de ${name}`;
+  const illustrative = media?.identityLevel === 'representative-product';
+  const baseAlt = media?.alt || `Fotografia de ${name}`;
+  const imageAlt = illustrative && !/^imagem ilustrativa/i.test(baseAlt) ? `Imagem ilustrativa: ${baseAlt}` : baseAlt;
   const Icon = icons[component?.category || category] || Cpu;
   const showImage = Boolean(media) && state !== 'error';
   const pending = catalogLoading || (showImage && state === 'loading');
   return (
     <figure className={`component-media${compact ? ' component-media--compact' : ''}`}
       data-component-id={component?.id || component?.fanId || (typeof component === 'string' ? component : '')}
+      data-image-identity={media?.identityLevel}
       data-image-state={pending ? 'loading' : showImage ? 'verified' : 'unavailable'}>
       <div className={`component-image${showImage ? ' has-photo' : ''}`} aria-busy={pending}>
         {showImage && (crop ? <svg viewBox={imageCropViewBox(crop).join(' ')} preserveAspectRatio="xMidYMid meet"
@@ -40,15 +43,22 @@ function ComponentImageFrame({ component, category, name, media, catalogLoading,
         {pending ? <div className="component-image-loading" role="status"><span>Carregando fotografia…</span></div>
           : !showImage && <div className="component-image-fallback" role="img" aria-label={`Fotografia não disponível: ${name}`}>
             <Icon size={compact ? 24 : 46} aria-hidden="true" />
-            <span aria-hidden="true">Fotografia não disponível</span>
+            {!compact && <span aria-hidden="true">Sem imagem</span>}
           </div>}
       </div>
-      {showImage && state === 'loaded' ? <figcaption>
-        <a href={media.imageSource} target="_blank" rel="noopener noreferrer">{media.author ? `Foto: ${media.author}` : 'Origem da fotografia'}</a>
-        {media.license && <> · <a href={media.licenseUrl} target="_blank" rel="noopener noreferrer">{media.license}</a></>}
-        <span className="component-image-product-link"><a href={media.manufacturerProductUrl} target="_blank" rel="noopener noreferrer">Modelo no fabricante</a></span>
-        {media.modifications && <details className="component-image-modifications"><summary>Imagem modificada: detalhes</summary><p>{media.modifications}</p></details>}
-      </figcaption> : !compact && <figcaption>{pending ? 'Aguardando a fotografia verificada' : 'Ícone ilustrativo da categoria'}</figcaption>}
+      {showImage && state === 'loaded' && <ComponentImageCredits media={media} name={name} compact={compact} />}
     </figure>
   );
+}
+
+export function ComponentImageCredits({ media, name, compact = false }) {
+  const illustrative = media.identityLevel === 'representative-product';
+  return <figcaption><details className="component-image-credits">
+    <summary aria-label={`${illustrative ? 'Imagem ilustrativa' : 'Fonte da imagem'} de ${name}`}>{illustrative ? 'Imagem ilustrativa' : compact ? 'Fonte' : 'Fonte da imagem'}</summary>
+    {media.identityNotes && <p>{media.identityNotes}</p>}
+    <a href={media.imageSource} target="_blank" rel="noopener noreferrer">{media.author ? `Foto: ${media.author}` : 'Origem da fotografia'}</a>
+    {media.license && <> · {media.licenseUrl ? <a href={media.licenseUrl} target="_blank" rel="noopener noreferrer">{media.license}</a> : media.license}</>}
+    <span className="component-image-product-link"><a href={media.manufacturerProductUrl} target="_blank" rel="noopener noreferrer">Modelo no fabricante</a></span>
+    {media.modifications && <p>Alterações: {media.modifications}</p>}
+  </details></figcaption>;
 }

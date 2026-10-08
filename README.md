@@ -1,6 +1,6 @@
 # PCPowerLab
 
-> RA2 V2.10: **NÃO HOMOLOGADA**. [Continuidade, correções e limites](docs/RA2-V2.10-CONTINUIDADE.md), [rastreabilidade técnica](docs/RA2-V2-FEEDBACK-PROVENIENCIA.md) e [matriz](docs/RA2-V2-REQUISITOS.md). Fotos 11/98; 42 referências datadas e 56 estimativas, sem preço ao vivo. Reteste visual no SHA publicado e validação humana pendentes.
+> RA2 V2.11: [fotos e interface compacta](docs/RA2-V2.11-FOTOS-E-UI.md). Fotos 98/98; referência de preços sem cotação ao vivo. Validação visual no navegador e homologação humana pendentes.
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
@@ -545,13 +545,13 @@ As verificações retornam `compatible`, `incompatible` ou `unverified`; dados i
 - [Modelos e fontes oficiais](docs/RA2-V2.1-CATALOG-SOURCES.md)
 - [Inventário gerado](docs/RA2-V2.1-INVENTARIO.json)
 
-## Fotografias do catálogo — v2.2 (parcial)
+## Fotografias do catálogo — v2.11
 
-Mídia exata/local com procedência, licença e fallback honesto integrado aos contextos de peças. A cobertura atual é 9/98 (9,18%), não 100%; os 89 bloqueios estão individualizados no relatório. Para recalcular: `npm run audit:images:report` (requer Python 3 + Pillow; exit 1 significa cobertura parcial). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
+Fotografias locais de produtos e embalagens: 98/98. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos e notas ficam em detalhes opcionais. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
 
-- [Implementação, testes e pendências](docs/RA2-V2.2-INTEGRACAO.md)
+- [Implementação e verificação](docs/RA2-V2.11-FOTOS-E-UI.md)
 - [Cobertura e inventário dinâmico](docs/RA2-COBERTURA-IMAGENS.md)
-- [Direitos por produto](docs/RA2-V2.2-PHOTO-SOURCES.md)
+- [Atribuições e fontes por produto](frontend/public/images/components/ATTRIBUTION.md)
 
 ### Transparência comercial v2.6
 

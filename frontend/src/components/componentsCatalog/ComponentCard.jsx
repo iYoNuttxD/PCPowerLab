@@ -1,5 +1,4 @@
 import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
-import { referenceLabel } from '../../utils/referencePricing.js';
 import { useState } from 'react';
 import { Check, ExternalLink, PlusCircle } from 'lucide-react';
 import Badge from '../ui/Badge.jsx';
@@ -35,16 +34,15 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
             </div>
           ))}
         </dl>
-        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}<br />Comparável apenas na mesma categoria. Veja a metodologia do catálogo.</p>}
+        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices estimados, comparáveis apenas na mesma categoria. Veja a metodologia do catálogo.">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
         {compatibilityPreview && <div className="catalog-compatibility-note">
           <p>{compatibilityPreview.status === 'compatible' ? 'Compatível nas regras verificadas' : compatibilityPreview.status === 'incompatible' ? 'Conflito na montagem resultante' : 'Verificação incompleta'}</p>
           {[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].length > 0 && <details><summary>Ver motivos de compatibilidade</summary><ul>{[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].map((item, index) => <li key={`${item.code}-${index}`}>{item.message}</li>)}</ul></details>}
         </div>}
         <div className="component-card-price">
-          <span>{referenceLabel(component)}</span>
           <strong className="price">{formatCurrency(component?.price)}</strong>
+          <ReferencePriceNote component={component} compact />
         </div>
-        <ReferencePriceNote component={component} compact />
         <div className="button-row">
           {onSelect && (
             <Button type="button" onClick={() => onSelect(component)} variant={selected ? 'success' : 'primary'}
@@ -70,7 +68,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         <ComponentImage component={component} />
         <p>{component?.brand || 'Marca não informada'} · {componentLabels[component?.category]}</p>
         {component?.partNumber && <p>Modelo: {component.partNumber}</p>}
-        <p><span className="price">{formatCurrency(component?.price)}</span> · {referenceLabel(component)}</p>
+        <p className="price">{formatCurrency(component?.price)}</p>
         <ReferencePriceNote component={component} />
         <p className="hint-text">Especificações do cadastro; taxas máximas dependem do sistema. Confira os dados do fabricante antes da compra.</p>
         <dl className="spec-grid component-details">

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 const photoResearch = JSON.parse(readFileSync(new URL('./component-photo-research.json', import.meta.url), 'utf8'));
 
 // One metadata record per component; names/specifications remain in the catalog.
-// A source page is not permission. Only manually reviewed exact photos enter this registry.
+// Reviewed public product photography: provenance and identity scope are recorded separately from reuse permission.
 export const verifiedComponentImages = JSON.parse(readFileSync(new URL('./component-verified-images.json', import.meta.url), 'utf8'));
 
 export function componentImageIdentity(component) {
@@ -23,7 +23,7 @@ export function unavailableComponentImage(component, blocker) {
     imageType: null,
     lastVerifiedAt: null,
     sourceResearchAt: research?.sourceResearchAt ?? null,
-    blocker: blocker ?? research?.blocker ?? 'Fotografia exata com autorização de reutilização não verificada. Fornecer ativo do modelo/variante e licença ou autorização do titular.',
+    blocker: blocker ?? research?.blocker ?? 'Fotografia do produto ainda não disponível.',
   };
 }
 

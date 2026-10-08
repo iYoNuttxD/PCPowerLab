@@ -5,7 +5,7 @@ export function datedReference(component) {
 }
 export function referenceLabel(component) {
   const reference = datedReference(component);
-  return reference ? `Referência datada · PIX · ${reference.queriedAt}` : 'Preço estimado · sem fonte datada validada';
+  return reference ? ['Referência PIX', reference.store, reference.queriedAt].filter(Boolean).join(' · ') : 'Estimativa do catálogo';
 }
 export function referenceCoverage(selection = {}) {
   let dated = 0, estimated = 0;

@@ -10,18 +10,19 @@ const crawlAge = value => value === 'today' ? 'no dia da consulta' : value === '
 const description = value => typeof value === 'string' ? value : value?.status || 'Não verificado';
 export default function ReferencePriceNote({ component, compact = false }) {
   const reference = datedReference(component);
-  if (!reference) return <p className="hint-text">{referenceLabel(component)}. Condição de pagamento e estoque não verificados.</p>;
-  const url = safeUrl(reference.productUrl);
-  return <div className="hint-text">
-    {!compact && <p>{referenceLabel(component)} · {reference.store}. Sem atualização em tempo real.</p>}
-    <details open={compact ? undefined : true}>
-      <summary>Fonte e condições do preço · {reference.store} · {reference.queriedAt}</summary>
-      <p>Modelo observado: {reference.model} · Vendedor: {reference.seller || reference.store}</p>
-      <p>Pagamento usado no total: {reference.paymentCondition?.replace('discount', 'de desconto')}. Cartão: {formatCurrency(reference.cardTotal)}{reference.installments && ` (${reference.installments})`}</p>
-      <p>Consulta: {reference.queriedAt} · Idade do conteúdo retornado: {crawlAge(reference.retrievalCrawlLabel)}. A consulta pode retornar conteúdo indexado; não comprova o preço atual.</p>
-      <p>Estoque na observação: {reference.observedAvailability === 'available' ? 'a fonte informava disponível; confirme novamente' : 'não confirmado'}. Condição: {reference.condition === 'new' ? 'novo na fonte' : 'não informada'}.</p>
-      <p>Frete: {description(reference.shipping)}. Tributos: {description(reference.taxes)}.</p>
-      {url && <a href={url} target="_blank" rel="noopener noreferrer">Ver página exata da referência</a>}
-    </details>
-  </div>;
+  const url = safeUrl(reference?.productUrl);
+  return <details className={`reference-price-note${compact ? ' reference-price-note--compact' : ''}`}>
+    <summary title="Preço de referência; preço atual e estoque não confirmados. Abra para ver fonte e condições.">{referenceLabel(component)}</summary>
+    <div className="reference-price-details">
+      <p>Preço atual e estoque não confirmados. Sem atualização em tempo real.</p>
+      {reference ? <>
+        <p>Modelo observado: {reference.model} · Vendedor: {reference.seller || reference.store}</p>
+        <p>Pagamento usado no total: {reference.paymentCondition?.replace('discount', 'de desconto')}. Cartão: {formatCurrency(reference.cardTotal)}{reference.installments && ` (${reference.installments})`}</p>
+        <p>Consulta: {reference.queriedAt} · Idade do conteúdo retornado: {crawlAge(reference.retrievalCrawlLabel)}. A consulta pode retornar conteúdo indexado; não comprova o preço atual.</p>
+        <p>Estoque na observação: {reference.observedAvailability === 'available' ? 'a fonte informava disponível; confirme novamente' : 'não confirmado'}. Condição: {reference.condition === 'new' ? 'novo na fonte' : 'não informada'}.</p>
+        <p>Frete: {description(reference.shipping)}. Tributos: {description(reference.taxes)}.</p>
+        {url && <a href={url} target="_blank" rel="noopener noreferrer">Ver página exata da referência</a>}
+      </> : <p>Estimativa sem fonte datada validada. Condição de pagamento não verificada; frete e custos adicionais não incluídos.</p>}
+    </div>
+  </details>;
 }

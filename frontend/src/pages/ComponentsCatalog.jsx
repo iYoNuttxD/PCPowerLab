@@ -95,11 +95,11 @@ export default function ComponentsCatalog() {
 
       <div className="catalog-toolbar panel-card">
         <ComponentFilters components={components} filters={filters} onChange={setFilters} hasBuild={hasBuild} />
-        {!loading && !error && <p className="hint-text">{components.filter(datedReference).length} de {components.length} peças com referência datada · demais preços são estimativas sem fonte datada validada.</p>}
-        <p className="analysis-note">Preços combinam referências datadas à vista (PIX) e estimativas sem fonte datada validada. Veja fonte e condições por peça. Sem atualização em tempo real; frete excluído. Buscas nas cinco lojas não são ofertas verificadas.</p>
+        {!loading && !error && <p className="hint-text">{components.filter(datedReference).length}/{components.length} referências datadas · preços e estoque sem atualização ao vivo</p>}
       </div>
 
       <details className="panel-card catalog-methodology"><summary>Como interpretar desempenho, valor e compatibilidade</summary>
+        <p>Preços combinam referências datadas à vista (PIX) e estimativas sem fonte datada validada. Veja fonte e condições por peça. Frete excluído. Buscas nas lojas não são ofertas verificadas.</p>
         <p>{catalogMethodology}</p>
         <p>A compatibilidade considera a troca desta categoria na montagem atual, ou a inclusão de 1 pacote de fans. Usa as mesmas regras do resumo. Conflitos já existentes em outras peças também afetam o resultado. Montagens parciais e especificações insuficientes ficam com verificação incompleta; mesmo compatível não certifica BIOS, QVL, folgas ou todas as condições físicas.</p>
         <p>Selecionar substitui somente a peça da categoria. Fans já selecionados mantêm a quantidade; ajuste os pacotes no assistente. A seleção não aprova automaticamente a montagem.</p>

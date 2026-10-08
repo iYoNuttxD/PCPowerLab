@@ -11,7 +11,7 @@ import { approvedComponentImageCrop, validImageCrop, imageCropViewBox, imageCrop
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const mediaPrefix = '/images/components/';
 const extensions = new Map([['.jpg', 'JPEG'], ['.jpeg', 'JPEG'], ['.png', 'PNG'], ['.webp', 'WEBP'], ['.avif', 'AVIF']]);
-const metadataFields = ['componentId', 'imagePath', 'imageSource', 'manufacturerProductUrl', 'rightsBasis', 'imageType', 'lastVerifiedAt', 'status', 'author', 'license', 'licenseUrl'];
+const metadataFields = ['componentId', 'imagePath', 'imageSource', 'manufacturerProductUrl', 'rightsBasis', 'imageType', 'lastVerifiedAt', 'status', 'author'];
 export const defaultImageLimits = Object.freeze({ maxBytes: 2 * 1024 * 1024, maxDimension: 4096, maxPixels: 16 * 1024 * 1024, minDimension: 64 });
 // One approved original exceeds the normal 2 MiB limit; its bytes remain unchanged.
 const reviewedOriginalMaxBytes = 3 * 1024 * 1024;
@@ -114,6 +114,10 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     if (metadata?.status !== 'verified') add('unverified_status', 'A imagem não tem status verified.', 'status');
     if (metadata?.status === 'blocked' && !textPresent(metadata.blocker)) add('missing_blocker', 'Um registro blocked precisa de motivo explícito.', 'blocker');
     if (metadata?.status === 'verified' && textPresent(metadata.blocker)) add('conflicting_blocker', 'Um registro verified ainda declara um bloqueio.', 'blocker');
+    if (metadata?.identityLevel != null && !['exact-model', 'model-family', 'representative-product'].includes(metadata.identityLevel)) add('invalid_identity_level', 'identityLevel deve declarar exact-model, model-family ou representative-product.');
+    if (['model-family', 'representative-product'].includes(metadata?.identityLevel) && !textPresent(metadata.identityNotes)) add('missing_identity_notes', 'Uma fotografia de família precisa explicar a correspondência visual e os limites da variante.');
+    if (metadata?.identityLevel === 'representative-product' && !textPresent(metadata.depictedProduct)) add('missing_depicted_product', 'A ilustração deve nomear o produto real fotografado sem alterar o registro genérico.');
+    if (metadata?.license && metadata.license !== 'Permission not established' && !httpsUrl(metadata.licenseUrl)) add('missing_license_url', 'Uma licença declarada precisa de fonte HTTPS.');
     if (metadata?.imageType !== 'photo') add('not_product_photo', 'Somente imageType photo conta como fotografia; ícones e placeholders são fallback.', 'imageType');
     for (const field of ['imageSource', 'manufacturerProductUrl', 'licenseUrl']) {
       if (textPresent(metadata?.[field]) && !httpsUrl(metadata[field])) add('unsafe_metadata_url', `${field} deve ser uma URL HTTPS sem credenciais.`, field);
@@ -184,18 +188,30 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
   }
   const duplicateFiles = [];
   const reviewedSharedOriginals = [];
+  const reviewedSharedFamilies = [];
   for (const [sha256, rows] of hashes) {
     const componentIds = [...new Set(rows.map((row) => row.id))];
     if (componentIds.length < 2) continue;
     // The exception is pinned to this original and two reviewed model windows.
     // A new hash, ID, overlapping window, invalid row or inconsistent credits still fails.
-    const sourceFields = ['imagePath', 'imageSource', 'originalAssetUrl', 'originalVideoUrl', 'author', 'license', 'licenseUrl'];
+    const sourceFields = ['imagePath', 'imageSource', 'originalAssetUrl', 'originalVideoUrl', 'author'];
     const approvedWindows = sha256 === reviewedCompositeOriginal.sha256
       && rows.every(row => row.issues.length === 0 && row.file.decoded && approvedComponentImageCrop(row.image, row.id)
         && sourceFields.every(field => row.image[field] === rows[0].image[field]))
       && rows.every((row, index) => rows.slice(index + 1).every(other => !imageCropsOverlap(row.image.crop, other.image.crop)));
     if (approvedWindows) {
       reviewedSharedOriginals.push({ sha256, componentIds, imagePath: rows[0].image.imagePath, crops: rows.map(row => ({ componentId: row.id, ...row.image.crop })) });
+      continue;
+    }
+    const approvedFamily = rows.every(row => row.issues.length === 0 && row.file.decoded
+      && row.image.identityLevel === 'model-family' && textPresent(row.image.identityNotes)
+      && textPresent(row.image.sharedAssetGroup) && row.image.sharedAssetGroup === rows[0].image.sharedAssetGroup
+      && row.image.imageSource === rows[0].image.imageSource
+      && Array.isArray(row.image.sharedAssetComponentIds)
+      && componentIds.every(id => row.image.sharedAssetComponentIds.includes(id))
+      && row.image.sha256 === sha256);
+    if (approvedFamily) {
+      reviewedSharedFamilies.push({ sha256, componentIds, group: rows[0].image.sharedAssetGroup, imageSource: rows[0].image.imageSource });
       continue;
     }
     duplicateFiles.push({ sha256, componentIds, paths: [...new Set(rows.map((row) => row.image.imagePath))] });
@@ -214,6 +230,8 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     row.blocker = row.status === 'verified' ? null : [textPresent(row.image?.blocker) ? row.image.blocker : null, ...row.issues.map(({ message }) => message)].filter(Boolean).join(' ');
   }
   const verified = reportRows.filter((row) => row.status === 'verified').length;
+  const identityLevels = { 'exact-model': 0, 'model-family': 0, 'representative-product': 0, unclassified: 0 };
+  for (const row of reportRows.filter(row => row.status === 'verified')) identityLevels[row.image.identityLevel || 'unclassified']++;
   const categories = Object.create(null);
   for (const row of reportRows) {
     const key = row.category || 'unknown';
@@ -225,11 +243,12 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     schemaVersion: 1, generatedAt: now.toISOString(), catalogSource,
     result: issues.length === 0 ? 'complete' : 'partial', passed: issues.length === 0,
     summary: { active: active.length, inactiveExcluded: components.length - active.length, verified, blocked: active.length - verified,
+      actualPhotos: verified, identityLevels, reviewedSharedFamilyGroups: reviewedSharedFamilies.length,
       fallbackCount: active.length - verified, coveragePercent: active.length ? Number((100 * verified / active.length).toFixed(2)) : 0,
       orphanFiles: orphanFiles.length, suspectDuplicateGroups: duplicateFiles.length, issueCount: issues.length, categories },
     validationLimits: { ...limits, reviewedOriginalException: { sha256: reviewedCompositeOriginal.sha256, maxBytes: Object.hasOwn(overrides, 'maxBytes') ? limits.maxBytes : reviewedOriginalMaxBytes }, allowedFormats: [...new Set(extensions.values())], decoder: 'Pillow (verify + full load)' },
-    verificationScope: 'Validação estrutural e decodificação local. status verified é uma declaração de revisão humana registrada, não uma prova produzida por este script. O script não confirma identidade visual/modelo/variante, titularidade, permissão jurídica, disponibilidade remota ou o conteúdo atual das fontes. Revalidar as evidências e a licença antes de publicar.',
-    components: reportRows, issues, orphanFiles, duplicateFiles, reviewedSharedOriginals
+    verificationScope: 'Validação estrutural e decodificação local. status verified é uma declaração de revisão humana registrada, não uma prova produzida por este script. O script não confirma identidade visual/modelo/variante, titularidade, permissão jurídica, disponibilidade remota ou o conteúdo atual das fontes. As imagens públicas de referência acadêmica podem ter permissão de reutilização não estabelecida; esse estado deve ser registrado sem inventar licença. Fotografias de família visual são contabilizadas separadamente e não atestam SKU exato.',
+    components: reportRows, issues, orphanFiles, duplicateFiles, reviewedSharedOriginals, reviewedSharedFamilies
   };
 }
 
@@ -240,7 +259,7 @@ export function renderImageAuditMarkdown(report) {
     '# RA2 — Cobertura de imagens do catálogo', '', `Gerado em: ${report.generatedAt}`, '', `Origem: ${report.catalogSource}`, '',
     `Resultado: **${report.result === 'complete' ? 'cobertura estrutural completa' : 'PARCIAL / BLOQUEADO'}**`, '',
     `- Componentes ativos: ${summary.active}`, `- Fotografias com metadados verified e validação estrutural: ${summary.verified}`,
-    `- Bloqueados / fallback: ${summary.blocked}`, `- Cobertura: ${summary.coveragePercent}%`, `- Inativos excluídos: ${summary.inactiveExcluded}`,
+    `- Identidade visual: ${summary.identityLevels['exact-model']} modelo exato; ${summary.identityLevels['model-family']} família; ${summary.identityLevels['representative-product']} ilustrativas; ${summary.identityLevels.unclassified} sem classificação`, `- Bloqueados / fallback: ${summary.blocked}`, `- Cobertura: ${summary.coveragePercent}%`, `- Inativos excluídos: ${summary.inactiveExcluded}`,
     `- Arquivos órfãos: ${summary.orphanFiles}`, `- Grupos duplicados suspeitos (SHA-256): ${summary.suspectDuplicateGroups}`, '',
     '## Limites e revisão de evidências', '', report.verificationScope, '',
     `Decodificador: ${report.validationLimits.decoder}. Formatos: ${report.validationLimits.allowedFormats.join(', ')}. Máximo: ${report.validationLimits.maxBytes} bytes, ${report.validationLimits.maxDimension}px por dimensão, ${report.validationLimits.maxPixels} pixels; mínimo: ${report.validationLimits.minDimension}px por dimensão.`, '',

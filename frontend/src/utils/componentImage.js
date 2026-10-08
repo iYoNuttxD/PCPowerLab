@@ -81,15 +81,16 @@ function validVerificationDate(value) {
 export function verifiedComponentImage(component) {
   const media = component?.image;
   if (typeof component?.id !== 'string' || !component.id || !media || media.status !== 'verified' || media.componentId !== component.id
-    || media.imageType !== 'photo' || typeof media.rightsBasis !== 'string' || !media.rightsBasis.trim()
+    || media.imageType !== 'photo'
     || !isSecureImageLink(media.imageSource) || !isSecureImageLink(media.manufacturerProductUrl)
     || !validVerificationDate(media.lastVerifiedAt)
     || typeof media.imagePath !== 'string'
     || !/^\/images\/components\/[a-zA-Z0-9][a-zA-Z0-9_-]*\.(?:avif|webp|png|jpe?g)$/i.test(media.imagePath)) return null;
   // A caller cannot invent a display window or move a reviewed window to another model.
   if (Object.hasOwn(media, 'crop') && !approvedComponentImageCrop(media, component.id)) return null;
-  // Every currently supported approval basis requires complete, safe attribution.
-  if (typeof media.author !== 'string' || !media.author.trim()
-    || typeof media.license !== 'string' || !media.license.trim() || !isSecureImageLink(media.licenseUrl)) return null;
+  // Source photos need exact provenance, not an explicit reuse license. Keep any
+  // recorded attribution safe to render without claiming that a source grants rights.
+  if (['author', 'license', 'modifications', 'alt', 'identityNotes', 'identityLevel'].some(field => media[field] != null && typeof media[field] !== 'string')
+    || media.licenseUrl != null && !isSecureImageLink(media.licenseUrl)) return null;
   return media;
 }

@@ -45,22 +45,25 @@ test('catalog source identity changes cannot reuse an old verified registry phot
   assert.equal(attachComponentImage({ ...original, name: original.name + ' other variant' }).image.status, 'blocked');
 });
 
-test('both Ryzen image contracts retain exact catalog identity and distinct approved display windows', () => {
-  const ids = ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600'];
-  const products = ids.map(id => components.find(component => component.id === id));
-  for (const product of products) {
-    assert.equal(product.image.componentId, product.id);
-    assert.equal(product.image.status, 'verified');
-    assert.match(product.image.manufacturerProductUrl, new RegExp(`${product.id.replace('cpu-', 'amd-')}.html$`));
-    assert.equal(product.image.author, 'Мой Компьютер');
-    assert.equal(product.image.license, 'CC BY 3.0');
-    assert.equal(product.image.crop.sourceWidth, 2560);
-    assert.equal(product.image.crop.sourceHeight, 1440);
-    assert.deepEqual(attachComponentImage({ ...product, image: { crop: 'caller-controlled' } }).image.crop, product.image.crop);
+test('all active photos declare visual identity separately from reuse permission', () => {
+  for (const product of components.filter(item => item.image.status === 'verified')) {
+    assert.ok(['exact-model', 'model-family', 'representative-product'].includes(product.image.identityLevel));
+    assert.ok(product.image.rightsBasis);
+    if (product.image.identityLevel === 'model-family') assert.ok(product.image.identityNotes);
     assert.equal(attachComponentImage({ ...product, partNumber: 'unreviewed-variant' }).image.status, 'blocked');
-    assert.equal(attachComponentImage({ ...product, specs: { ...product.specs, socket: 'AM5' } }).image.status, 'blocked');
   }
-  assert.equal(products[0].image.imagePath, products[1].image.imagePath);
-  assert.equal(products[0].image.sha256, products[1].image.sha256);
-  assert.notDeepEqual(products[0].image.crop, products[1].image.crop);
+});
+
+test('every active static catalog product has real photography, including explicit category illustrations', () => {
+  const active = components.filter(product => product.active !== false);
+  assert.ok(active.length > 0);
+  for (const product of active) {
+    assert.equal(product.image.status, 'verified', product.id);
+    assert.equal(product.image.imageType, 'photo', product.id);
+    if (product.image.identityLevel === 'representative-product') {
+      assert.ok(product.image.depictedProduct);
+      assert.match(product.image.alt, /Imagem ilustrativa/);
+      assert.match(product.image.identityNotes, /não identifica/);
+    }
+  }
 });

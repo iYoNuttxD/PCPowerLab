@@ -1,9 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { validImageCrop, approvedComponentImageCrop, imageCropViewBox, imageCropsOverlap, verifiedComponentImage } from '../src/utils/componentImage.js';
-import { components } from '../../src/data/components.mock.js';
-
-const cpus = ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600'].map(id => components.find(component => component.id === id));
+const cpus = JSON.parse(readFileSync(new URL('../../tests/fixtures/component-image-crops.json', import.meta.url), 'utf8'));
 const sample = { sourceWidth: 100, sourceHeight: 80, points: [[0, 0], [100, 0], [100, 80], [0, 80]] };
 
 test('crop geometry accepts only four convex source-pixel corners within bounded dimensions', () => {

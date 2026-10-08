@@ -36,13 +36,19 @@ export default function BudgetPanel({ budget, totalPrice, pricing, selectedCompo
         </div>
       </div>
       {!hasTotal && <p role="status">Há peças sem preço informado. O total e a avaliação do orçamento estão indisponíveis.</p>}
-      {pricing && <div className="hint-text">
-        <p>Cotações com disponibilidade confirmada: {pricing.availableMarketQuotesTotal === null ? 'indisponíveis' : formatCurrency(pricing.availableMarketQuotesTotal)}{!pricing.marketTotalComplete && ' (subtotal incompleto)'}</p>
-        <p>Componentes sem cotação atual: {pricing.componentsWithoutCurrentQuote.length}</p>
-        <p>{pricing.methodology}</p>
-      </div>}
-      <p className="hint-text">{Number.isFinite(dated) && Number.isFinite(estimated) ? `${dated} pack(s) com referência datada · ${estimated} com estimativa sem fonte datada validada.` : 'Cobertura de fontes da seleção não informada.'}</p>
-      <p className="hint-text">{priceMethodology}</p>
+      <details className="reference-price-note">
+        <summary>Referências de preço{Number.isFinite(dated) && Number.isFinite(estimated) ? ` · ${dated} datadas · ${estimated} estimadas` : ''}</summary>
+        <div className="reference-price-details">
+          <p>Preço atual e estoque não confirmados.</p>
+          {pricing && <div>
+            <p>Cotações com disponibilidade confirmada: {pricing.availableMarketQuotesTotal === null ? 'indisponíveis' : formatCurrency(pricing.availableMarketQuotesTotal)}{!pricing.marketTotalComplete && ' (subtotal incompleto)'}</p>
+            <p>Componentes sem cotação atual: {pricing.componentsWithoutCurrentQuote?.length ?? 'Não informado'}</p>
+            <p>{pricing.methodology}</p>
+          </div>}
+          <p>{Number.isFinite(dated) && Number.isFinite(estimated) ? `${dated} pack(s) com referência datada · ${estimated} com estimativa sem fonte datada validada.` : 'Cobertura de fontes da seleção não informada.'}</p>
+          <p>{priceMethodology}</p>
+        </div>
+      </details>
     </Card>
   );
 }

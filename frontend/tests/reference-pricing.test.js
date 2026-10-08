@@ -6,7 +6,11 @@ test('dated badge refuses saved old price paired with new pricing metadata', () 
   assert.ok(datedReference(component));
   assert.equal(datedReference({ ...component, price: 10 }), null);
   assert.equal(datedReference({ ...component, pricing: { ...component.pricing, isMarketQuote: true } }), null);
-  assert.match(referenceLabel({ id: 'old', price: 10 }), /sem fonte datada/);
+  assert.equal(referenceLabel({ id: 'old', price: 10 }), 'Estimativa do catálogo');
+});
+test('compact price labels retain source date and never claim current quotes', () => {
+  assert.equal(referenceLabel({ ...component, pricing: { ...component.pricing, store: 'Loja' } }), 'Referência PIX · Loja · 2026-10-08');
+  assert.equal(referenceLabel(component), 'Referência PIX · 2026-10-08');
 });
 test('coverage separates dated and demonstrative pack counts', () => {
   assert.deepEqual(referenceCoverage({ cpu: component, gpu: { id: 'b', price: 100 }, fans: [{ ...component, quantity: 3 }] }), { dated: 4, estimated: 1, total: 5 });

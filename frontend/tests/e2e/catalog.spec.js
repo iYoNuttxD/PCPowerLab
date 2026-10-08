@@ -114,16 +114,19 @@ test('limita a comparação a quatro peças e identifica especificação ausente
 });
 
 test('fotografia licenciada, ausência e falha de imagem mantêm fallback e cards alinhados', async ({ page, isMobile }) => {
-  const fixtures = [photo, { ...photo, id: 'broken-photo', name: 'Modelo com imagem indisponível', image: { ...photo.image, componentId: 'broken-photo', imagePath: '/images/components/inexistente.jpg' } }, { ...original.ram, name: 'Memória com nome muito longo para verificar o alinhamento de informações, preços e botões sem deformar o card' }];
+  const fixtures = [photo, { ...photo, id: 'broken-photo', name: 'Modelo com imagem indisponível', image: { ...photo.image, componentId: 'broken-photo', imagePath: '/images/components/inexistente.jpg' } }, { ...original.ram, image: null, name: 'Memória com nome muito longo para verificar o alinhamento de informações, preços e botões sem deformar o card' }];
   await page.route('**/api/v1/components', route => ok(route, fixtures));
   await page.goto('/components');
   const photoCard = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: photo.name, exact: true }) });
   const image = photoCard.getByRole('img', { name: photo.image.alt });
   await expect(image).toBeVisible();
   await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true);
+  await expect(photoCard.locator('.component-image-credits')).not.toHaveAttribute('open');
+  await photoCard.getByText('Fonte da imagem', { exact: true }).click();
   await expect(photoCard.getByRole('link', { name: `Foto: ${photo.image.author}`, exact: true })).toBeVisible();
+  await photoCard.getByText('Fonte da imagem', { exact: true }).click();
   await page.locator('.component-card').filter({ has: page.getByRole('heading', { name: 'Modelo com imagem indisponível', exact: true }) }).scrollIntoViewIfNeeded();
-  await expect(page.getByText('Fotografia não disponível', { exact: true })).toHaveCount(2);
+  await expect(page.getByText('Sem imagem', { exact: true })).toHaveCount(2);
   if (!isMobile) {
     const boxes = await page.locator('.component-card').evaluateAll(cards => cards.map(card => ({ top: card.getBoundingClientRect().top, height: card.getBoundingClientRect().height, price: card.querySelector('.component-card-price').getBoundingClientRect().top })));
     expect(new Set(boxes.map(box => box.height)).size).toBe(1);
@@ -134,17 +137,40 @@ test('fotografia licenciada, ausência e falha de imagem mantêm fallback e card
   await expect(page.getByRole('dialog').getByRole('link', { name: 'Consultar especificações do fabricante' })).toHaveAttribute('href', photo.specSourceUrl);
 });
 
-test('imagem sem origem/licença não é carregada; preços ausentes não aparecem como zero', async ({ page }) => {
-  await page.route('**/api/v1/components', route => ok(route, [{ ...photo, price: null, image: { ...photo.image, license: null } }]));
+test('imagem sem origem não é carregada; preços ausentes não aparecem como zero', async ({ page }) => {
+  await page.route('**/api/v1/components', route => ok(route, [{ ...photo, price: null, image: { ...photo.image, imageSource: null } }]));
   await page.goto('/components');
   await expect(page.locator('.component-card img')).toHaveCount(0);
-  await expect(page.getByText('Fotografia não disponível', { exact: true })).toBeVisible();
+  await expect(page.getByText('Sem imagem', { exact: true })).toBeVisible();
   await expect(page.getByText('Preço indisponível', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: `Lojas para ${photo.name}`, exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog).toContainText('não cotações de cada loja');
+  await dialog.getByText('Sobre os preços e links', { exact: true }).click();
+  await expect(dialog).toContainText('não são cotações de cada loja');
   await expect(dialog).toContainText('Preço estimado não informado');
   await expect(dialog.getByRole('link', { name: 'Pesquisar na loja', exact: true })).toHaveAttribute('target', '_blank');
+});
+
+test('preço e créditos ficam compactos com detalhes acessíveis; foto com fonte dispensa licença explícita', async ({ page }) => {
+  const pricing = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', queriedAt: '2026-10-08', model: photo.partNumber, paymentCondition: 'PIX à vista', observedAvailability: 'unknown' };
+  await page.route('**/api/v1/components', route => ok(route, [{ ...photo, price: pricing.price, pricing, image: { ...photo.image, rightsBasis: null, author: null, license: null, licenseUrl: null } }]));
+  await page.goto('/components');
+  const card = page.locator('.component-card');
+  await expect(card.locator('img')).toBeVisible();
+  const priceDetails = card.locator('.reference-price-note');
+  const summary = priceDetails.locator('summary');
+  await expect(summary).toHaveText('Referência PIX · KaBuM! · 2026-10-08');
+  await expect(priceDetails.locator('.reference-price-details')).toBeHidden();
+  await summary.focus();
+  await page.keyboard.press('Enter');
+  await expect(priceDetails.locator('.reference-price-details')).toBeVisible();
+  await expect(priceDetails).toContainText('Preço atual e estoque não confirmados');
+  await page.keyboard.press('Enter');
+  await expect(priceDetails.locator('.reference-price-details')).toBeHidden();
+  const source = card.locator('.component-image-credits');
+  await source.locator('summary').click();
+  await expect(source.getByRole('link', { name: 'Origem da fotografia', exact: true })).toHaveAttribute('href', photo.image.imageSource);
+  await expect(source).not.toContainText('undefined');
 });
 
 test('catálogo diferencia carregamento, falha, vazio e recuperação', async ({ page }) => {

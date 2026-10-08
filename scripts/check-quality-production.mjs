@@ -47,9 +47,9 @@ try {
     photos += 1;
     imagePaths.add(image);
   }
-  assert.equal(photos, 11);
-  assert.equal(imagePaths.size, 10);
-  console.log(`Production HTTP passed: custom API prefix + JSON errors + 4 SPA routes + actual bundles + ${photos}/98 products with verified photography (${imagePaths.size} intact/derived source files). No browser executed.`);
+  assert.equal(photos, catalog.filter(component => component.active !== false).length, 'Every active product must serve an actual photo');
+  assert.ok(imagePaths.size > 0);
+  console.log(`Production HTTP passed: custom API prefix + JSON errors + 4 SPA routes + actual bundles + ${photos}/${catalog.length} products with verified photography (${imagePaths.size} intact/derived source files). No browser executed.`);
 } finally {
   await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); });
 }
