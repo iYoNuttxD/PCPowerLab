@@ -1,5 +1,6 @@
 import Badge from '../ui/Badge.jsx';
 import Card from '../ui/Card.jsx';
+import AnalysisHelp from '../build/AnalysisHelp.jsx';
 import { translateSeverity, translateValue } from '../../utils/translations.js';
 
 export default function CompatibilityStatus({ result }) {
@@ -8,6 +9,7 @@ export default function CompatibilityStatus({ result }) {
       <Card>
         <h3>Compatibilidade ainda não verificada</h3>
         <p>Monte uma build completa e execute a análise para receber alertas técnicos.</p>
+        <AnalysisHelp topics={['compatibility']} title="O que a compatibilidade verifica?" />
       </Card>
     );
   }
@@ -20,6 +22,8 @@ export default function CompatibilityStatus({ result }) {
         <h3>{result.compatible ? 'Build compatível' : 'Atenção: incompatibilidades encontradas'}</h3>
         <Badge tone={result.compatible ? 'green' : 'red'}>{result.compatible ? 'OK' : `${issues.length} alerta(s)`}</Badge>
       </div>
+      <p className="analysis-note">Verificação pelas especificações cadastradas. Compatibilidade indica se as peças podem funcionar juntas; não é uma garantia de FPS.</p>
+      <AnalysisHelp topics={['compatibility']} title="Entenda a compatibilidade" />
       {issues.length === 0 ? (
         <p>Nenhuma incompatibilidade crítica foi retornada pela API.</p>
       ) : (

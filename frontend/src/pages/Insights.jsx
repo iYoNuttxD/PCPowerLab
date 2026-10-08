@@ -8,6 +8,7 @@ import EmptyState from '../components/ui/EmptyState.jsx';
 import Input from '../components/ui/Input.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
+import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import { costBenefitService } from '../services/costBenefitService.js';
 import { componentLabels } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
@@ -66,6 +67,8 @@ export default function Insights() {
           <Badge tone="green">Ranking</Badge>
         </div>
 
+        <p className="analysis-note">Índice calculado com desempenho cadastrado e preço de referência. A nota de custo-benefício é relativa à categoria; filtre uma categoria para comparar peças equivalentes.</p>
+        <AnalysisHelp topics={['costBenefit', 'score']} title="Como ler este ranking" />
         <div className="form-grid compact-form-grid">
           <Select
             label="Categoria"
@@ -124,16 +127,16 @@ function RankingList({ ranking }) {
               </div>
               <div className="metric-grid compact-metric-grid">
                 <div>
-                  <span>Preço</span>
+                  <span>Preço de referência</span>
                   <strong>{formatCurrency(component.price)}</strong>
                 </div>
                 <div>
-                  <span>Performance</span>
-                  <strong>{formatNumber(entry.performanceScore)}</strong>
+                  <span>Desempenho cadastrado</span>
+                  <strong>{formatNumber(entry.performanceScore)} / 100</strong>
                 </div>
                 <div>
                   <span>Custo-benefício</span>
-                  <strong>{formatNumber(entry.costBenefitScore)}</strong>
+                  <strong>{formatNumber(entry.costBenefitScore)} / 100</strong>
                 </div>
               </div>
               <p>{entry.summary || 'Componente bem posicionado no ranking de custo-benefício.'}</p>

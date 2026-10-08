@@ -66,6 +66,8 @@ Para usar uma instalação local do Google Chrome: `PLAYWRIGHT_CHANNEL=chrome np
 
 A suíte cobre avanço e retorno, bloqueios e validação, substituição sem perda de peças, persistência da etapa, navegação entre páginas, foco e rolagem com movimento reduzido, falhas de API, respostas tardias e aplicação/salvamento de recomendações. Os testes de regras técnicas do backend continuam na raiz: `npm test`.
 
+Também inclui `tests/e2e/performance-lab.spec.js`: simulação de um jogo, comparação de 2 a 10 jogos, contratos das APIs, classificações e requisitos, carregamento, parâmetros ausentes, recuperação de erros, respostas tardias, navegação por teclado e explicações dos painéis técnicos. O mesmo comando executa as duas suítes em desktop e celular. Veja as decisões e evidências em [RA2 — Análises e simulação de jogos](../docs/RA2-CICLO2-ANALISES.md).
+
 ## Estrutura
 
 ```text

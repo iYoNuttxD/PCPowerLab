@@ -4,6 +4,9 @@ import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
+import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
+import GameSimulationResult from '../components/build/GameSimulationResult.jsx';
+import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
@@ -243,6 +246,7 @@ export default function BuildSummary() {
             <div className="summary-overview-side">
               <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
               <BuildStatusCard
+                verified={typeof compatibilityData?.compatible === 'boolean'}
                 incompatible={isIncompatible}
                 loading={loadingAction === 'fixes'}
                 disabled={Boolean(loadingAction)}
@@ -320,6 +324,7 @@ export default function BuildSummary() {
 
       <SummarySection eyebrow="Compatibilidade e desempenho" title="Análises da configuração">
         <div className="summary-analysis-stack">
+          <CompatibilityStatus result={compatibilityData} />
           {fixSuggestions && (
             <FixSuggestionsPanel
               suggestions={fixSuggestions}
@@ -399,19 +404,7 @@ export default function BuildSummary() {
         )}
 
         {build.gamePerformance && build.gamePerformance.status !== 'unavailable' && (
-          <Card className="game-summary-card">
-            <div className="section-heading compact">
-              <div>
-                <h3>{build.gamePerformance.game || 'Jogo simulado'}</h3>
-                <p>{build.gamePerformance.summary}</p>
-              </div>
-              <Badge tone="green">{translateValue(build.gamePerformance.performanceLevel)}</Badge>
-            </div>
-            <div className="metric-grid">
-              <div><span>FPS estimado</span><strong>{build.gamePerformance.estimatedFps}</strong></div>
-              <div><span>Nível</span><strong>{translateValue(build.gamePerformance.performanceLevel)}</strong></div>
-            </div>
-          </Card>
+          <GameSimulationResult result={build.gamePerformance} />
         )}
 
         {build.summary && (
@@ -474,20 +467,20 @@ function SummarySection({ eyebrow, title, children }) {
   );
 }
 
-function BuildStatusCard({ incompatible, loading = false, disabled = false, onFixes }) {
+function BuildStatusCard({ incompatible, verified, loading = false, disabled = false, onFixes }) {
   return (
     <Card className="build-status-card">
       <div className="section-heading compact">
         <div>
           <h3>Status da build</h3>
-          <p>{incompatible ? 'Há incompatibilidades técnicas que precisam de atenção.' : 'Nenhuma incompatibilidade crítica.'}</p>
+          <p>{!verified ? 'Gere o resumo ou analise a montagem para verificar as peças.' : incompatible ? 'Há incompatibilidades técnicas que precisam de atenção.' : 'Nenhuma incompatibilidade crítica identificada nos dados analisados.'}</p>
         </div>
-        <Badge tone={incompatible ? 'yellow' : 'green'}>
-          {incompatible ? 'Atenção' : 'OK'}
+        <Badge tone={!verified ? 'cyan' : incompatible ? 'yellow' : 'green'}>
+          {!verified ? 'Pendente' : incompatible ? 'Atenção' : 'Verificado'}
         </Badge>
       </div>
-      <strong className={incompatible ? 'status-text warning' : 'status-text success'}>
-        {incompatible ? 'Incompatível' : 'Compatível'}
+      <strong className={!verified ? 'status-text' : incompatible ? 'status-text warning' : 'status-text success'}>
+        {!verified ? 'Compatibilidade não verificada' : incompatible ? 'Incompatível' : 'Compatível'}
       </strong>
       {incompatible && (
         <div className="button-row">
@@ -511,6 +504,7 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
           </div>
           <Badge tone="cyan">0-100</Badge>
         </div>
+        <AnalysisHelp topics={['buildScore', 'score']} title="O que significa a nota geral?" />
         <Button variant="secondary" disabled={disabled} loading={loading} onClick={onCalculate}>
           <Sparkles size={18} /> Calcular nota da build
         </Button>
@@ -536,8 +530,11 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
         </div>
         <Badge tone={getScoreTone(score.overallScore)}>{score.classification || classifyScore(score.overallScore)}</Badge>
       </div>
+      <p className="chart-caption">Nota calculada de 0 a 100. As barras detalham os critérios usados; não representam FPS nem resultados de um teste real.</p>
+      {Array.isArray(score.warnings) && score.warnings.length > 0 && <Alert type="warning" title="Limitações desta nota"><ul>{score.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
+      <AnalysisHelp topics={['buildScore', 'score', 'compatibility']} title="Como interpretar a nota e seus critérios" />
       <div className="score-overview">
-        <div className="score-circle" aria-label={`Nota ${score.overallScore || 0} de 100`}>
+        <div className="score-circle" role="img" aria-label={`Nota ${score.overallScore || 0} de 100`}>
           <strong>{formatScore(score.overallScore)}</strong>
           <span>de 100</span>
         </div>

@@ -1,0 +1,1206 @@
+{
+  "browser": "154.0.8037.98",
+  "checks": [
+    {
+      "width": 1440,
+      "label": "initial",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "single",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "single-details",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "comparison",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "comparison-details",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "software",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "summary",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1440,
+      "label": "ranking",
+      "scrollWidth": 1440
+    },
+    {
+      "width": 1024,
+      "label": "initial",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "single",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "single-details",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "comparison",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "comparison-details",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "software",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "summary",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 1024,
+      "label": "ranking",
+      "scrollWidth": 1024
+    },
+    {
+      "width": 768,
+      "label": "initial",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "single",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "single-details",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "comparison",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "comparison-details",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "software",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "summary",
+      "scrollWidth": 768
+    },
+    {
+      "width": 768,
+      "label": "ranking",
+      "scrollWidth": 768
+    },
+    {
+      "width": 390,
+      "label": "initial",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "single",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "single-details",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "comparison",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "comparison-details",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "software",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "summary",
+      "scrollWidth": 390
+    },
+    {
+      "width": 390,
+      "label": "ranking",
+      "scrollWidth": 390
+    },
+    {
+      "width": 320,
+      "label": "initial",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "single",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "single-details",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "comparison",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "comparison-details",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "software",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "summary",
+      "scrollWidth": 320
+    },
+    {
+      "width": 320,
+      "label": "ranking",
+      "scrollWidth": 320
+    }
+  ],
+  "axeChecks": [
+    {
+      "width": 1440,
+      "label": "single",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "label": "comparison",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".recharts-cartesian-axis-tick-label.recharts-layer:nth-child(1) > .recharts-cartesian-axis-tick-value[y=\"210\"][text-anchor=\"middle\"] > tspan[dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"365.5\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"611\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"856.5\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"1102\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"65.5\"] > tspan[dy=\"-0.14500000000000002em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"65.5\"] > tspan[dy=\"1em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "target": [
+                "text[y=\"156.5\"] > tspan[dy=\"-0.14500000000000002em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"156.5\"] > tspan[dy=\"1em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[dy=\"0em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "label": "summary",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(2) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(2) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".score-circle > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".score-circle > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(3) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(3) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(4) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(4) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(5) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(5) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "tspan[x=\"177.25\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"449.75\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"722.25\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"994.75\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"205\"][fill=\"var(--muted)\"][x=\"33\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "target": [
+                "text[y=\"155\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"105\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"55\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".recharts-cartesian-axis-tick-label.recharts-layer:nth-child(5) > text[fill=\"var(--muted)\"][x=\"33\"][text-anchor=\"end\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"592\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"192\"][fill=\"#b9f8ff\"][x=\"52\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"147\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"102\"][fill=\"#b9f8ff\"][x=\"52\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"57\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".recharts-cartesian-axis-tick-label.recharts-layer:nth-child(5) > text[fill=\"#b9f8ff\"][x=\"52\"][text-anchor=\"end\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(6) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(6) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .section-heading.compact > div > h3"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .section-heading.compact > div > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .section-heading.compact > .badge-cyan.badge"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(1) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(1) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(2) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(2) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(3) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(3) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "div:nth-child(4) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "div:nth-child(4) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > details:nth-child(5) > summary"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "details:nth-child(6) > summary"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(7) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(7) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(8) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(8) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "label": "ranking",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "label": "single",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "label": "comparison",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".game-checkbox-card:nth-child(19) > span > small"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".game-checkbox-card:nth-child(20) > span > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".game-checkbox-card:nth-child(20) > span > small"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".recharts-cartesian-axis-tick-label.recharts-layer:nth-child(1) > .recharts-cartesian-axis-tick-value[y=\"210\"][text-anchor=\"middle\"] > tspan[dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"196\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"272\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"65.5\"] > tspan[dy=\"-0.14500000000000002em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"65.5\"] > tspan[dy=\"1em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "target": [
+                "text[y=\"156.5\"] > tspan[dy=\"-0.14500000000000002em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"156.5\"] > tspan[dy=\"1em\"][x=\"112\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[dy=\"0em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "label": "summary",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(2) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(2) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".score-circle > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".score-circle > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(3) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(3) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(4) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(4) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(5) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(5) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "tspan[x=\"72.5\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"135.5\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"198.5\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"261.5\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"205\"][fill=\"var(--muted)\"][x=\"33\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "target": [
+                "text[y=\"155\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"105\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"55\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".recharts-cartesian-axis-tick-label.recharts-layer:nth-child(5) > text[fill=\"var(--muted)\"][x=\"33\"][text-anchor=\"end\"] > tspan[x=\"33\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "tspan[x=\"177\"][dy=\"0.71em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"192\"][fill=\"#b9f8ff\"][x=\"52\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"147\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"102\"][fill=\"#b9f8ff\"][x=\"52\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                "text[y=\"57\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".recharts-cartesian-axis-tick-label.recharts-layer:nth-child(5) > text[fill=\"#b9f8ff\"][x=\"52\"][text-anchor=\"end\"] > tspan[x=\"52\"][dy=\"0.355em\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(6) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(6) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .section-heading.compact > div > h3"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .section-heading.compact > div > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .section-heading.compact > .badge-cyan.badge"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(1) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(1) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(2) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(2) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(3) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > .metric-grid > div:nth-child(3) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "div:nth-child(4) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "div:nth-child(4) > strong"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".performance-result-panel > details:nth-child(5) > summary"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "details:nth-child(6) > summary"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(7) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(7) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(8) > .summary-section-heading > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".summary-section:nth-child(8) > .summary-section-heading > h2"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "label": "ranking",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".page-hero > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "h1"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                ".page-hero > p"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "footer > span"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "target": [
+                "a[href$=\"about\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "realApi": {
+    "individual": true,
+    "comparison": true,
+    "software": true,
+    "summary": true,
+    "score": true,
+    "ranking": true
+  }
+}

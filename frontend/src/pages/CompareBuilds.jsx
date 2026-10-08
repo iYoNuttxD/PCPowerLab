@@ -138,10 +138,10 @@ export default function CompareBuilds() {
           </Alert>
           <div className="comparison-table" role="region" aria-label="Comparação de builds — role horizontalmente para ver todos os critérios" tabIndex={0}>
             <table>
-              <caption>Preço e desempenho das builds selecionadas</caption>
+              <caption>Preço de referência e pontuação estimada das builds. Pontos maiores indicam melhor avaliação no modelo; não equivalem a FPS nem a uma medição real.</caption>
               <thead><tr>
                 <th scope="col">Build</th><th scope="col">Preço</th><th scope="col">Compatível</th>
-                <th scope="col">Score</th><th scope="col">Orçamento</th>
+                <th scope="col">Pontuação de desempenho</th><th scope="col">Orçamento</th>
               </tr></thead>
               <tbody>
                 {(comparison.builds || []).map((item) => (

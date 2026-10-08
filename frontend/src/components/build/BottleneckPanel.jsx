@@ -1,16 +1,22 @@
-import { Bar, BarChart, CartesianGrid, Cell, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useId } from 'react';
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Link } from 'react-router-dom';
 import Badge from '../ui/Badge.jsx';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
+import AnalysisHelp from './AnalysisHelp.jsx';
+import { numericValue } from '../../utils/performancePresentation.js';
 import { translateBottleneckType, translateComponent, translateMetricLabel, translateSeverity, translateValue } from '../../utils/translations.js';
 
 export default function BottleneckPanel({ result }) {
+  const scoreDescriptionId = useId();
+  const powerDescriptionId = useId();
   if (!result) {
     return (
       <Card>
         <h3>Gargalos</h3>
         <p>A análise será exibida depois que uma build completa for enviada.</p>
+        <AnalysisHelp topics={['bottleneck']} title="O que é um gargalo?" />
       </Card>
     );
   }
@@ -70,15 +76,16 @@ export default function BottleneckPanel({ result }) {
     storageScore: 'var(--yellow)'
   };
   const chartData = scoreKeys
-    .filter((name) => Number.isFinite(Number(performanceSummary[name])))
+    .filter((name) => numericValue(performanceSummary[name]) !== null)
     .map((name) => ({
       key: name,
       name: translateMetricLabel(name),
+      shortName: { cpuScore: 'CPU', gpuScore: 'GPU', ramScore: 'RAM', storageScore: 'SSD/HD' }[name],
       score: performanceSummary[name],
       color: performanceColors[name]
     }));
   const powerData = buildPowerData(performanceSummary);
-  const safetyMargin = Number(performanceSummary.psuWatts) - Number(performanceSummary.estimatedConsumptionWatts);
+  const safetyMargin = powerData.length ? powerData[0].psuWatts - powerData[0].estimatedConsumptionWatts : null;
   const hasPowerData = powerData.length > 0;
 
   const tooltipFormatter = (value, name) => [
@@ -102,18 +109,21 @@ export default function BottleneckPanel({ result }) {
           {translateValue(analysis.overallBalance || (analysis.hasBottleneck ? 'moderate' : 'balanced'))}
         </Badge>
       </div>
+      <p className="analysis-note">Análise estimada a partir dos parâmetros cadastrados. Um gargalo indica uma possível limitação entre peças, não um defeito ou uma medição feita no seu PC.</p>
+      <AnalysisHelp topics={['bottleneck', 'score', 'energy']} />
       {chartData.length > 0 && (
-        <div className="performance-chart-panel" aria-label="Gráfico de desempenho dos componentes">
+        <div className="performance-chart-panel" role="group" aria-label="Gráfico de desempenho dos componentes" aria-describedby={scoreDescriptionId}>
+          <p id={scoreDescriptionId} className="chart-caption">Pontuações de 0 a 100 por componente. Barras maiores indicam maior pontuação no cadastro; os pontos não são FPS. Avalie o equilíbrio junto dos alertas abaixo.</p>
           <div className="chart-box performance-chart">
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#234" />
-                <XAxis dataKey="name" stroke="#b9f8ff" />
-                <YAxis stroke="#b9f8ff" />
+                <XAxis dataKey="shortName" stroke="var(--muted)" tick={{ fontSize: 12 }} />
+                <YAxis stroke="var(--muted)" domain={[0, 100]} width={36} />
                 <Tooltip
                   content={<PerformanceTooltip />}
                 />
-                <Bar dataKey="score" radius={[6, 6, 0, 0]}>
+                <Bar dataKey="score" name="Pontuação" radius={[6, 6, 0, 0]} isAnimationActive={false}>
                   {chartData.map((entry) => (
                     <Cell key={entry.key} fill={entry.color} />
                   ))}
@@ -121,11 +131,11 @@ export default function BottleneckPanel({ result }) {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="manual-legend performance-legend" aria-label="Legenda do desempenho dos componentes">
+          <div className="manual-legend performance-legend" role="group" aria-label="Legenda do desempenho dos componentes">
             {chartData.map((entry) => (
               <span key={entry.key}>
                 <i style={{ background: entry.color }} aria-hidden="true" />
-                {entry.name}
+                {entry.shortName}: {entry.name} · {entry.score} pontos
               </span>
             ))}
           </div>
@@ -135,9 +145,9 @@ export default function BottleneckPanel({ result }) {
         <div className="energy-panel">
           <div>
             <h4>Consumo energético</h4>
-            <p>Veja se a fonte selecionada tem folga suficiente para a configuração.</p>
+            <p id={powerDescriptionId} className="chart-caption">Compare a potência estimada das peças com a capacidade da fonte, em watts (W). A barra da fonte indica sua capacidade, não o consumo medido na tomada.</p>
           </div>
-          <div className="chart-box energy-chart" aria-label="Gráfico de consumo energético da build">
+          <div className="chart-box energy-chart" role="group" aria-label="Gráfico de consumo energético da build" aria-describedby={powerDescriptionId}>
             <ResponsiveContainer width="100%" height={230}>
               <BarChart data={powerData} margin={{ top: 12, right: 12, bottom: 8, left: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#234" />
@@ -148,21 +158,17 @@ export default function BottleneckPanel({ result }) {
                   labelFormatter={tooltipLabelFormatter}
                   contentStyle={{ background: '#09111f', border: '1px solid #36f2ff', color: '#fff' }}
                 />
-                <Legend
-                  formatter={(value) => translateMetricLabel(value)}
-                  wrapperStyle={{ color: '#eefbff', paddingTop: 12 }}
-                />
-                <Bar dataKey="estimatedConsumptionWatts" fill="#36f2ff" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="recommendedWatts" fill="#ffd166" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="psuWatts" fill="#39ff88" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="estimatedConsumptionWatts" fill="var(--cyan)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="recommendedWatts" fill="var(--yellow)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="psuWatts" fill="var(--green)" radius={[6, 6, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="manual-legend" aria-label="Legenda do consumo energético">
+          <div className="manual-legend" role="group" aria-label="Legenda do consumo energético">
             {powerLegendItems.map(([key, color]) => (
               <span key={key}>
                 <i style={{ background: color }} aria-hidden="true" />
-                {translateMetricLabel(key)}
+                {key === 'recommendedWatts' ? 'Referência da fonte com folga' : translateMetricLabel(key)}: {powerData[0][key]} W
               </span>
             ))}
           </div>
@@ -171,6 +177,7 @@ export default function BottleneckPanel({ result }) {
               Margem de segurança da fonte: <strong>{safetyMargin} W</strong>.
             </p>
           )}
+          <details className="analysis-help"><summary>Como interpretar a referência da fonte</summary><p>A referência visual usa o consumo estimado acrescido de 35% de folga, arredondado para o próximo múltiplo de 50 W. A margem exibida é a potência nominal da fonte menos o consumo estimado. Consulte também os alertas técnicos e as recomendações dos fabricantes.</p></details>
         </div>
       )}
       <div className="stack">
@@ -185,6 +192,7 @@ export default function BottleneckPanel({ result }) {
               {bottleneck.relatedComponent ? ` relacionado a ${translateComponent(bottleneck.relatedComponent)}` : ''}
             </small>
             {bottleneck.technicalDetails && (
+              <details className="analysis-help"><summary>Ver detalhes técnicos deste gargalo</summary>
               <dl className="technical-details">
                 {Object.entries(bottleneck.technicalDetails).map(([key, value]) => (
                   <div key={key}>
@@ -193,6 +201,7 @@ export default function BottleneckPanel({ result }) {
                   </div>
                 ))}
               </dl>
+              </details>
             )}
           </article>
         ))}
@@ -221,8 +230,8 @@ function PerformanceTooltip({ active, payload }) {
 }
 
 function buildPowerData(performanceSummary) {
-  const estimated = Number(performanceSummary.estimatedConsumptionWatts);
-  const psu = Number(performanceSummary.psuWatts);
+  const estimated = numericValue(performanceSummary.estimatedConsumptionWatts);
+  const psu = numericValue(performanceSummary.psuWatts);
 
   if (!Number.isFinite(estimated) || !Number.isFinite(psu)) {
     return [];
