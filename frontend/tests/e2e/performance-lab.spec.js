@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { mockWizardAnalysis } from './helpers/analysis.js';
 import { components } from '../../../src/data/components.mock.js';
 import { games } from '../../../src/data/games.js';
 import { professionalSoftware } from '../../../src/data/professionalSoftware.js';
@@ -265,11 +266,13 @@ test('resumo distingue compatibilidade pendente e mantém avisos da nota geral v
 });
 
 test('gargalos e energia explicam unidades e preservam os valores e detalhes técnicos', async ({ page }) => {
-  await seed(page, { wizardStep: 'review', compatibility: { compatible: true, alerts: [] }, bottlenecks: { status: 'success', data: {
+  await seed(page, { wizardStep: 'review' });
+  await mockWizardAnalysis(page, { bottlenecks: {
     hasBottleneck: true, overallBalance: 'moderate', performanceSummary: { cpuScore: 70, gpuScore: 90, ramScore: 65, storageScore: 80, estimatedConsumptionWatts: 300, psuWatts: 650 },
     bottlenecks: [{ type: 'cpu_bottleneck', severity: 'medium', component: 'cpu', message: 'Limitação estimada do processador.', technicalDetails: { differencePercent: 20 } }]
-  } } });
+  } });
   await page.goto('/build');
+  await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByText(/os pontos não são FPS/)).toBeVisible();
   await expect(page.getByText(/não o consumo medido na tomada/)).toBeVisible();
   await expect(page.getByText('Referência da fonte com folga: 450 W', { exact: true })).toBeVisible();

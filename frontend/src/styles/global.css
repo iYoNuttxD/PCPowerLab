@@ -2482,3 +2482,6 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .saved-build-card .component-media--compact { width: 56px; grid-template-rows: 48px auto; }
 .saved-build-card .component-identity > .component-media { flex-basis: 56px; }
 .saved-build-card .build-parts-list li { padding: var(--space-2); gap: var(--space-1); }
+
+.component-legacy-note { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.component-legacy-note a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }

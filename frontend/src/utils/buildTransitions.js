@@ -52,6 +52,7 @@ export function reconcileBuildCatalog(state, componentMap) {
     const refreshed = hydrateBuildComponents(selection, componentMap, { preferCatalog: true });
     const mark = component => {
       if (!componentMap[component.id]) return { ...component, price: null, pricing: null, catalogStatus: 'unavailable' };
+      if (['active', 'legacy', 'inactive'].includes(component.catalogStatus)) return component;
       const { catalogStatus: _status, ...known } = component;
       return known;
     };

@@ -43,7 +43,7 @@ export default function Feedback() {
   const [searchParams] = useSearchParams();
   const isNewFeedbackRoute = location.pathname === '/feedback/new';
   const buildState = useBuildState();
-  const { components } = useComponents();
+  const { componentMap } = useComponents();
   const context = location.state || {};
   const initialType = context.recommendationType || searchParams.get('type') || 'general';
   const recommendationId = context.recommendationId || searchParams.get('recommendationId') || '';
@@ -75,10 +75,6 @@ export default function Feedback() {
   const [centralLoading, setCentralLoading] = useState(false);
   const [removingFeedbackId, setRemovingFeedbackId] = useState('');
   const [appliedFeedbackBuildId, setAppliedFeedbackBuildId] = useState('');
-
-  const componentMap = useMemo(() => (
-    Object.fromEntries((components || []).map((component) => [component.id, component]))
-  ), [components]);
 
   const contextBuildSnapshot = useMemo(() => normalizeFeedbackBuildSnapshot(context), [context]);
 

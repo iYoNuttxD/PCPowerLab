@@ -1,3 +1,4 @@
+import { URL } from 'node:url';
 import { readFileSync } from 'node:fs';
 const facts = JSON.parse(readFileSync(new URL('./approved-price-facts.json', import.meta.url), 'utf8'));
 const ids = { cpu: 'cpu-ryzen-5-5600', motherboard: 'mb-b550m-aorus-elite', gpu: 'gpu-rtx-4060',

@@ -23,13 +23,13 @@ test('link da rota atual fecha o grupo e devolve foco ao título; voltar e avan�
   await openGroup(page, 'explore');
   await page.locator('header a[href="/components"]').focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('heading', { name: 'Componentes disponíveis', exact: true })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Catálogo de componentes', exact: true })).toBeFocused();
   await expect(page.locator('#nav-explore')).toBeHidden();
   await openGroup(page, 'builds');
   await page.locator('header a[href="/saved-builds"]').click();
   await expect(page.getByRole('heading', { name: 'Builds salvas', exact: true })).toBeFocused();
   await page.goBack();
-  await expect(page.getByRole('heading', { name: 'Componentes disponíveis', exact: true })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Catálogo de componentes', exact: true })).toBeFocused();
   await page.goForward();
   await expect(page.getByRole('heading', { name: 'Builds salvas', exact: true })).toBeFocused();
 });

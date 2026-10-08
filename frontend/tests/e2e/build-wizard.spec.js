@@ -111,8 +111,9 @@ test('avança pelas nove etapas, mantém ações visíveis e retorna sem perder 
 });
 
 test('substitui e remove uma peça sem apagar as outras; invalida análises antigas', async ({ page }) => {
-  await seed(page, { wizardStep: 'review', selectedComponents: selection, compatibility: { compatible: true }, alerts: { compatible: true }, bottlenecks: { status: 'success', data: {} }, summary: { summary: 'Antiga' }, gamePerformance: { fps: 100 } });
+  await seed(page, { wizardStep: 'review', selectedComponents: selection });
   await page.goto('/build');
+  await analyze(page);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
   await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
   await expectPositionedHeading(page);
@@ -192,7 +193,7 @@ test('mantém etapa e contexto ao visitar outra página e aceita storage anterio
 
 test('catálogo apresenta carregamento, falha, recuperação e ausência de peças', async ({ page }) => {
   let release;
-  await page.route('**/api/v1/components', async route => {
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, async route => {
     await new Promise(resolve => { release = resolve; });
     await respond(route, 'Catálogo temporariamente indisponível.', 503);
   });
@@ -203,13 +204,13 @@ test('catálogo apresenta carregamento, falha, recuperação e ausência de peç
   release();
   await expect(page.getByRole('alert')).toContainText('Catálogo temporariamente indisponível.');
   await expect(page.locator('#wizard-guidance')).toContainText('Tentar novamente');
-  await page.route('**/api/v1/components', route => respond(route, components.filter(component => component.category !== 'gpu')));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => respond(route, components.filter(component => component.category !== 'gpu')));
   await page.getByRole('button', { name: 'Tentar novamente' }).click();
   await page.getByRole('button', { name: /^Selecionar:/ }).first().click();
   await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await expect(page.getByText('Nenhuma peça nesta categoria', { exact: true })).toBeVisible();
   await expect(page.locator('#wizard-guidance')).toContainText('Não há peças');
-  await page.route('**/api/v1/components', route => respond(route, components));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => respond(route, components));
   await page.getByRole('button', { name: 'Atualizar catálogo' }).click();
   await expect(page.getByRole('button', { name: /^Selecionar:/ }).first()).toBeVisible();
 });
@@ -374,7 +375,7 @@ test('editar refrigeração limpa sucesso antigo e mantém revisão pendente', a
   await page.goto('/build');
   await analyze(page);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
-  await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(components.find(component => component.category === 'cooler').id);
+  await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(components.find(component => component.category === 'cooler' && component.active !== false).id);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toHaveCount(0);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
   expect((await stored(page)).compatibility).toBeNull();

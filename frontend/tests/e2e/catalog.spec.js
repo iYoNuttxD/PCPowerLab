@@ -1,15 +1,19 @@
 import { test, expect } from '@playwright/test';
-import { components } from '../../../src/data/components.mock.js';
+import { listComponents } from '../../../src/services/component.service.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
+
+const components = listComponents({ includeLegacy: true });
+const activeComponents = components.filter(component => component.selectable);
+const literalName = name => new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 
 const storageKey = 'pcpowerlab-build-state';
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const original = Object.fromEntries(types.map(type => [type, components.find(component => component.id === readyBuilds[0].components[`${type}Id`])]));
 original.fans = [];
 const ram16 = components.find(component => component.id === 'ram-kingston-fury-16gb-ddr4-3600');
-const ram32 = components.find(component => component.id === 'ram-crucial-32gb-ddr4-3200');
+const ram32 = components.find(component => component.id === 'ram-kvr32n22d8-32');
 const ramDdr5 = components.find(component => component.id === 'ram-kingston-fury-16gb-ddr5-5200');
-const photo = components.find(component => component.id === 'ssd-samsung-980-pro-1tb');
+const photo = components.find(component => component.id === 'ssd-xpg-gammix-s70-blade-1tb');
 const failures = new WeakMap();
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const fail = (route, message = 'Não foi possível consultar o catálogo.', status = 503) => route.fulfill({ status, json: { success: false, message } });
@@ -62,22 +66,22 @@ test('combina marca, categoria, nome e limites inclusivos de preço; explica fai
   await page.goto('/components');
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('ram');
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
-  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill('249.9');
-  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('299.9');
+  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill(String(ram16.price));
+  await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(String(components.find(component => component.id === 'ram-kingston-fury-16gb-ddr5-6000').price));
   await page.getByRole('searchbox').fill('  FuRy  ');
   await expect(page.locator('.component-card')).toHaveCount(2);
   await expect(page.getByRole('heading', { name: ram16.name, exact: true })).toBeVisible();
-  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill('400');
+  await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill('600');
   await expect(page.getByText('O preço mínimo deve ser menor ou igual ao máximo.', { exact: true })).toBeVisible();
   await expect(page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true })).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
-  await expect(page.locator('.component-card')).toHaveCount(components.length);
+  await expect(page.locator('.component-card')).toHaveCount(activeComponents.length);
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Intel');
-  await expect(page.locator('.component-card')).toHaveCount(components.filter(component => component.brand === 'Intel').length);
+  await expect(page.locator('.component-card')).toHaveCount(activeComponents.filter(component => component.brand === 'Intel').length);
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('storage');
   await expect(page.getByRole('combobox', { name: 'Marca', exact: true })).toHaveValue('all');
-  await expect(page.locator('.component-card')).toHaveCount(components.filter(component => component.category === 'storage').length);
+  await expect(page.locator('.component-card')).toHaveCount(activeComponents.filter(component => component.category === 'storage').length);
 });
 
 test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniza unidades', async ({ page }) => {
@@ -85,7 +89,7 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('ram');
   await page.getByRole('button', { name: `Comparar: ${ram16.name}`, exact: true }).click();
   await expect(page.getByRole('button', { name: 'Comparar peças (1)', exact: true })).toBeDisabled();
-  await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Crucial');
+  await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption(ram32.brand);
   await page.getByRole('button', { name: `Comparar: ${ram32.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
   await expect(page.getByRole('button', { name: `Comparar: ${original.cpu.name}`, exact: true })).toBeDisabled();
@@ -95,7 +99,7 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
   await expect(dialog.getByRole('row').filter({ hasText: 'Capacidade' })).toContainText('16 GB');
   await expect(dialog.getByRole('row').filter({ hasText: 'Capacidade' })).toContainText('32 GB');
   await expect(dialog.getByRole('row').filter({ hasText: 'Taxa de transferência' })).toContainText('3.600 MT/s');
-  await expect(dialog.getByRole('row').filter({ hasText: 'Modelo / código' })).toContainText('CT32G4DFD832A');
+  await expect(dialog.getByRole('row').filter({ hasText: 'Modelo / código' })).toContainText(ram32.partNumber);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Comparar peças (2)', exact: true })).toBeFocused();
   await page.getByRole('button', { name: 'Limpar seleção', exact: true }).click();
@@ -104,7 +108,7 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
 
 test('limita a comparação a quatro peças e identifica especificação ausente', async ({ page }) => {
   const cpus = components.filter(component => component.category === 'cpu').slice(0, 5).map((component, index) => index ? component : { ...component, specs: { socket: 'AM4' } });
-  await page.route('**/api/v1/components', route => ok(route, cpus));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, cpus));
   await page.goto('/components');
   for (const component of cpus.slice(0, 4)) await page.getByRole('button', { name: `Comparar: ${component.name}`, exact: true }).click();
   await expect(page.getByRole('button', { name: `Comparar: ${cpus[4].name}`, exact: true })).toBeDisabled();
@@ -113,9 +117,9 @@ test('limita a comparação a quatro peças e identifica especificação ausente
   await expect(row.getByRole('cell', { name: 'Não informado', exact: true })).toHaveCount(1);
 });
 
-test('fotografia licenciada, ausência e falha de imagem mantêm fallback e cards alinhados', async ({ page, isMobile }) => {
+test('fotografia com origem registrada, ausência e falha de imagem mantêm fallback e cards alinhados', async ({ page, isMobile }) => {
   const fixtures = [photo, { ...photo, id: 'broken-photo', name: 'Modelo com imagem indisponível', image: { ...photo.image, componentId: 'broken-photo', imagePath: '/images/components/inexistente.jpg' } }, { ...original.ram, image: null, name: 'Memória com nome muito longo para verificar o alinhamento de informações, preços e botões sem deformar o card' }];
-  await page.route('**/api/v1/components', route => ok(route, fixtures));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, fixtures));
   await page.goto('/components');
   const photoCard = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: photo.name, exact: true }) });
   const image = photoCard.getByRole('img', { name: photo.image.alt });
@@ -130,12 +134,12 @@ test('fotografia licenciada, ausência e falha de imagem mantêm fallback e card
     expect(new Set(boxes.map(box => box.price)).size).toBe(1);
   }
   await page.getByRole('button', { name: `Detalhes de ${photo.name}`, exact: true }).click();
-  await expect(page.getByRole('dialog')).toContainText('MZ-V8P1T0');
+  await expect(page.getByRole('dialog')).toContainText(photo.partNumber);
   await expect(page.getByRole('dialog').getByRole('link', { name: 'Consultar especificações do fabricante' })).toHaveAttribute('href', photo.specSourceUrl);
 });
 
 test('imagem sem origem não é carregada; preços ausentes não aparecem como zero', async ({ page }) => {
-  await page.route('**/api/v1/components', route => ok(route, [{ ...photo, price: null, image: { ...photo.image, imageSource: null } }]));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, [{ ...photo, price: null, image: { ...photo.image, imageSource: null } }]));
   await page.goto('/components');
   await expect(page.locator('.component-card img')).toHaveCount(0);
   await expect(page.getByText('Sem imagem', { exact: true })).toBeVisible();
@@ -149,7 +153,7 @@ test('imagem sem origem não é carregada; preços ausentes não aparecem como z
 
 test('preço tem fonte direta e créditos têm destino único, sem explicações ocultas', async ({ page }) => {
   const pricing = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', queriedAt: '2026-10-08', model: photo.partNumber, paymentCondition: 'PIX à vista', productUrl: 'https://www.kabum.com.br/produto/fixture', observedAvailability: 'unknown' };
-  await page.route('**/api/v1/components', route => ok(route, [{ ...photo, price: pricing.price, pricing, image: { ...photo.image, rightsBasis: null, author: null, license: null, licenseUrl: null } }]));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, [{ ...photo, price: pricing.price, pricing, image: { ...photo.image, rightsBasis: null, author: null, license: null, licenseUrl: null } }]));
   await page.goto('/components');
   const card = page.locator('.component-card');
   await expect(card.locator('img')).toBeVisible();
@@ -165,17 +169,17 @@ test('preço tem fonte direta e créditos têm destino único, sem explicações
 
 test('catálogo diferencia carregamento, falha, vazio e recuperação', async ({ page }) => {
   let release;
-  await page.route('**/api/v1/components', async route => { await new Promise(resolve => { release = resolve; }); await fail(route); });
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, async route => { await new Promise(resolve => { release = resolve; }); await fail(route); });
   await page.goto('/components');
   await expect(page.getByText('Carregando dados do laboratório...', { exact: true })).toBeVisible();
   await expect.poll(() => Boolean(release)).toBe(true); release();
   await expect(page.getByRole('alert')).toContainText('Não foi possível consultar o catálogo.');
-  await page.route('**/api/v1/components', route => ok(route, []));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, []));
   await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toBeVisible();
-  await page.route('**/api/v1/components', route => ok(route, components));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, components));
   await page.reload();
-  await expect(page.locator('.component-card')).toHaveCount(components.length);
+  await expect(page.locator('.component-card')).toHaveCount(activeComponents.length);
 });
 
 test('substitui uma peça recomendada no resumo após verificar e preserva a montagem', async ({ page }) => {
@@ -185,7 +189,7 @@ test('substitui uma peça recomendada no resumo após verificar e preserva a mon
   await expect(page.getByText('Nota anterior à troca.', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Alterar Memória RAM', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM' });
-  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeDisabled();
   await expect(dialog.getByRole('button', { name: 'Verificar substituição' })).toBeInViewport();
   const request = page.waitForRequest(request => request.url().endsWith('/build-summary'));
@@ -218,7 +222,7 @@ test('incompatibilidade impede aplicar; fechar a prévia mantém as escolhas e a
   await page.route('**/build-summary', route => ok(route, summary(route.request().postDataJSON(), { compatibility: { compatible: false, alerts: [{ message: 'A memória DDR5 não corresponde à placa-mãe DDR4.', severity: 'high' }] } })));
   const dialog = await openReplacement(page);
   const before = await getState(page);
-  await dialog.getByRole('radio', { name: new RegExp(ramDdr5.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ramDdr5.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   await expect(dialog.getByText('A memória DDR5 não corresponde à placa-mãe DDR4.', { exact: true })).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeDisabled();
@@ -231,7 +235,7 @@ test('excesso de orçamento e análises indisponíveis são informados sem inven
   await seed(page, { budget: { amount: 1000, currency: 'BRL', priority: 'cost-benefit' } });
   await page.route('**/build-summary', route => ok(route, summary(route.request().postDataJSON(), { bottlenecks: { available: false, message: 'Parâmetros ausentes.' }, gamePerformance: { available: false, message: 'FPS indisponível por falta de parâmetros.' } })));
   const dialog = await openReplacement(page);
-  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   await expect(dialog.getByText(/O novo total excede o orçamento/)).toBeVisible();
   await expect(dialog.getByText(/Parte das análises de desempenho está indisponível/)).toBeVisible();
@@ -244,7 +248,7 @@ test('falha de API e resposta atrasada não alteram a montagem nem aprovam outra
   await seed(page);
   await page.route('**/build-summary', route => fail(route, 'Dados insuficientes para verificar a substituição.', 400));
   const dialog = await openReplacement(page);
-  await dialog.getByRole('radio', { name: new RegExp(ram16.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ram16.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   await expect(dialog.getByRole('alert')).toContainText('Dados insuficientes');
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeDisabled();
@@ -253,7 +257,7 @@ test('falha de API e resposta atrasada não alteram a montagem nem aprovam outra
   await dialog.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
   await expect(dialog.getByRole('button', { name: 'Verificar substituição' })).toBeDisabled();
   await expect.poll(() => Boolean(release)).toBe(true);
-  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check(); release();
+  await dialog.getByRole('radio', { name: literalName(ram32.name) }).check(); release();
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeDisabled();
   expect((await getState(page)).selectedComponents).toEqual(original);
   await page.route('**/build-summary', route => ok(route, summary(route.request().postDataJSON())));
@@ -266,20 +270,27 @@ test('montagem incompleta orienta completar as outras peças sem chamar a API de
   let requests = 0;
   await page.route('**/build-summary', route => { requests++; return fail(route); });
   const dialog = await openReplacement(page);
-  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();
   await expect(dialog.getByText(/Complete as outras categorias/)).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Verificar substituição' })).toBeDisabled();
   expect(requests).toBe(0);
 });
 
 test('sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de aplicar', async ({ page }) => {
-  await seed(page, { selectedComponents: { ...original, ram: ramDdr5 }, summary: null, compatibility: { compatible: false, alerts: [{ message: 'Tipo de memória incompatível.', severity: 'high' }] } });
+  await seed(page, { selectedComponents: { ...original, ram: ramDdr5 } });
+  await page.route('**/build-summary', route => {
+    const payload = route.request().postDataJSON();
+    const incompatible = payload.build.ramId === ramDdr5.id;
+    return ok(route, summary(payload, { compatibility: { compatible: !incompatible, alerts: incompatible ? [{ message: 'Tipo de memória incompatível.', severity: 'high' }] : [] } }));
+  });
   await page.route('**/compatibility/fix-suggestions', route => ok(route, { suggestions: [{ componentType: 'ram', currentComponent: ramDdr5, suggestedComponent: ram32, reason: 'Usar DDR4.' }] }));
   await page.goto('/summary');
+  await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Atenção: incompatibilidades encontradas', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Ver sugestões de correção', exact: true }).first().click();
   await page.getByRole('button', { name: 'Revisar substituição', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM' });
-  await expect(dialog.getByRole('radio', { name: new RegExp(ram32.name) })).toBeChecked();
+  await expect(dialog.getByRole('radio', { name: literalName(ram32.name) })).toBeChecked();
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeDisabled();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   await dialog.getByRole('button', { name: 'Aplicar substituição' }).click();
@@ -289,7 +300,7 @@ test('sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de
 test('v2.4 undo after reload restores previous pieces and recalculates matching analyses', async ({ page }) => {
   await seed(page);
   const dialog = await openReplacement(page);
-  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   await dialog.getByRole('button', { name: 'Aplicar substituição' }).click();
   await page.reload();
@@ -310,7 +321,7 @@ test('v2.4 pending technical data allow explicit single replacement without clai
     gamePerformance: { available: false, message: 'Compatibilidade não confirmada.' }
   })));
   const dialog = await openReplacement(page);
-  await dialog.getByRole('radio', { name: new RegExp(ram32.name) }).check();
+  await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
   await expect(dialog.getByText('Compatibilidade não verificada', { exact: true })).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeEnabled();

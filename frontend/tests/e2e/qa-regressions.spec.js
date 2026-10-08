@@ -47,8 +47,9 @@ test.beforeEach(async ({ page }) => {
 test.afterEach(async ({ page }) => { expect(failures.get(page)).toEqual([]); });
 
 test('alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade', async ({ page }) => {
-  await seed(page, { summary, gamePerformance: oldGame, compatibility: summary.compatibility });
+  await seed(page);
   await page.goto('/summary');
+  await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
   await expect(page.getByText('120 FPS', { exact: true })).toBeVisible();
   await page.getByRole('combobox', { name: 'Resolução', exact: true }).selectOption('4k');
   await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);
@@ -100,7 +101,7 @@ test('resposta atrasada do resumo não publica FPS dos parâmetros anteriores', 
 
 test('build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento', async ({ page }) => {
   let release;
-  await page.route('**/api/v1/components', async route => {
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, async route => {
     await new Promise(resolve => { release = resolve; });
     await ok(route, components);
   });
@@ -179,12 +180,12 @@ test('comparação de builds invalida resultado e ignora resposta antiga ao alte
 });
 
 test('erro ao carregar peças salvas impede abrir com preços zerados e permite recuperar', async ({ page }) => {
-  await page.route('**/api/v1/components', route => route.fulfill({ status: 503, json: { success: false, message: 'Catálogo indisponível.' } }));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => route.fulfill({ status: 503, json: { success: false, message: 'Catálogo indisponível.' } }));
   await page.goto('/saved-builds');
   const open = page.getByRole('button', { name: 'Abrir montagem', exact: true });
   await expect(open).toBeDisabled();
   await expect(page.getByText(/Não foi possível carregar as peças salvas/)).toBeVisible();
-  await page.unroute('**/api/v1/components');
+  await page.unroute(/\/api\/v1\/components(?:\?.*)?$/);
   await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
   await expect(open).toBeEnabled();
   await open.click();

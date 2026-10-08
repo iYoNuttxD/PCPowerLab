@@ -2,6 +2,7 @@ import { createContext, createElement, useContext, useEffect, useMemo, useState,
 import { componentsService } from '../services/componentsService.js';
 import { catalogComponentTypes } from '../utils/componentLabels.js';
 
+import { catalogView, suggestedReplacement } from '../utils/catalogAvailability.js';
 import { validateCatalogResponse } from '../utils/catalogResponse.js';
 
 const ComponentsContext = createContext(null);
@@ -21,7 +22,8 @@ export function useComponents() {
 export function useCatalogComponent(component) {
   const { componentMap, loading, error } = useComponents();
   const id = typeof component === 'string' ? component : component?.id || component?.fanId;
-  return { component: typeof id === 'string' && Object.hasOwn(componentMap, id) ? componentMap[id] : undefined, loading, error };
+  const current = typeof id === 'string' && Object.hasOwn(componentMap, id) ? componentMap[id] : undefined;
+  return { component: current, replacement: suggestedReplacement(current, componentMap), loading, error };
 }
 
 function useCatalogRequest() {
@@ -36,7 +38,7 @@ function useCatalogRequest() {
     setComponents([]);
     setError('');
     try {
-      const data = validateCatalogResponse(await componentsService.getAll());
+      const data = validateCatalogResponse(await componentsService.getAll({ includeLegacy: true }));
       if (id === requestId.current) setComponents(data);
     } catch (requestError) {
       if (id === requestId.current) setError(requestError?.message || 'Não foi possível carregar o catálogo.');
@@ -51,16 +53,15 @@ function useCatalogRequest() {
     return () => { requestId.current += 1; };
   }, [reload]);
 
+  const view = useMemo(() => catalogView(components), [components]);
+
   const byType = useMemo(() => catalogComponentTypes.reduce((grouped, type) => ({
     ...grouped,
-    [type]: components.filter((component) => component.category === type)
-  }), {}), [components]);
-
-  const componentMap = useMemo(() => Object.fromEntries(components.map(component => [component.id, component])), [components]);
+    [type]: view.components.filter((component) => component.category === type)
+  }), {}), [view]);
 
   return {
-    components,
-    componentMap,
+    ...view,
     byType,
     loading,
     error,

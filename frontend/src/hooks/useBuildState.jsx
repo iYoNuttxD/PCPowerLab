@@ -1,3 +1,4 @@
+import { isSelectableComponent } from '../utils/catalogAvailability.js';
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, recommendationSelection } from '../utils/buildHelpers.js';
 import { normalizeWizardStep } from '../utils/wizardSteps.js';
@@ -32,6 +33,7 @@ export function BuildProvider({ children }) {
     },
     selectComponent(type, component) {
       component = currentCatalog.current?.[component?.id] || component;
+      if (!isSelectableComponent(component)) return;
       setState(current => current.selectedComponents[type]?.id === component?.id ? current
         : changeSelection(current, { ...current.selectedComponents, [type]: component }));
     },

@@ -1,6 +1,11 @@
+import { replacementCatalog } from './catalogReplacements.js';
+
 // Capacities for different diameters are alternative layouts, not additive.
 // Position/clearance interactions still require the case manual.
 export const caseCoolingV21 = {
+  ...Object.fromEntries(replacementCatalog.filter(component => component.category === 'case').map(component => [component.id, {
+    source: component.specSourceUrl, partNumber: component.partNumber, specs: component.specs
+  }])),
   'case-cooler-master-q300l': {
     source: 'https://www.coolermaster.com/en-global/products/masterbox-q300l.html',
     partNumber: 'MCB-Q300L-KANN-S00',

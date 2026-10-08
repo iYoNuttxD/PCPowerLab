@@ -1543,7 +1543,7 @@
     "seller": "MOCK VAREJO",
     "condition": "unknown",
     "productUrl": "https://www.kabum.com.br/produto/196410/hd-seagate-2tb-barracuda-3-5-sata-st2000dm008",
-    "price": 1116.0,
+    "price": 1116,
     "currency": "BRL",
     "paymentCondition": "PIX à vista, 10% desconto",
     "cardTotal": null,
@@ -1616,9 +1616,19 @@
         "storageInterfaces": [
           "M.2 NVMe",
           "SATA"
-        ]
-      },
-      "partNumber": null
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
     },
     "demonstrativePrice": 899.9,
     "source": {
@@ -1715,9 +1725,19 @@
         "storageInterfaces": [
           "M.2 NVMe",
           "SATA"
-        ]
-      },
-      "partNumber": null
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
     },
     "demonstrativePrice": 699.9,
     "source": {
@@ -1764,9 +1784,17 @@
         "storageInterfaces": [
           "M.2 NVMe",
           "SATA"
-        ]
-      },
-      "partNumber": null
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "m2Slots": 3,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
     },
     "demonstrativePrice": 1499.9,
     "source": {
@@ -1813,9 +1841,16 @@
         "storageInterfaces": [
           "M.2 NVMe",
           "SATA"
-        ]
-      },
-      "partNumber": null
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          80
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
     },
     "demonstrativePrice": 949.9,
     "source": {
@@ -1912,9 +1947,19 @@
         "storageInterfaces": [
           "M.2 NVMe",
           "SATA"
-        ]
-      },
-      "partNumber": null
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
     },
     "demonstrativePrice": 1099.9,
     "source": {
@@ -1961,9 +2006,18 @@
         "storageInterfaces": [
           "M.2 NVMe",
           "SATA"
-        ]
-      },
-      "partNumber": null
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
     },
     "demonstrativePrice": 799.9,
     "source": {
@@ -3733,5 +3787,1080 @@
     "limitations": [
       "Referência datada, sem garantia de preço ou estoque atual."
     ]
+  },
+  {
+    "price": 799.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/28919/placa-mae-gigabyte-b650m-d3hp-chipset-b650-amd-am5-matx-ddr5",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, 15% desconto",
+    "cardTotal": 941.16,
+    "installments": "12x R$78,43 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Página direta: Pronta entrega; Restam 6; Comprar agora",
+    "retrievalCrawlLabel": "3 days ago",
+    "productId": "mb-gigabyte-b650m-d3hp",
+    "model": "B650M D3HP",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Gigabyte B650M D3HP",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b650m-d3hp",
+      "name": "Gigabyte B650M D3HP",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "partNumber": "B650M D3HP",
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "mATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "sataPorts": 4,
+        "m2Slots": 2,
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2,
+        "pcieGeneration": 4,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "memorySupportNotes": "Velocidade XMP/EXPO e capacidade por módulo dependem de CPU, BIOS e QVL."
+      }
+    }
+  },
+  {
+    "price": 589.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/43174/gabinete-gamer-cooler-master-elite-502-argb-vidro-temperado-mid-tower-atx-com-3-fans-branco-e502-wgnn-s00",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, 15% desconto",
+    "cardTotal": 694.11,
+    "installments": "12x R$57,84 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Página direta: Pronta entrega; Restam 2; Comprar agora",
+    "retrievalCrawlLabel": "3 weeks ago",
+    "productId": "case-cooler-master-elite-502-white",
+    "model": "E502-WGNN-S00",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Cooler Master Elite 502 White",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "case-cooler-master-elite-502-white",
+      "name": "Cooler Master Elite 502 White",
+      "brand": "Cooler Master",
+      "category": "case",
+      "partNumber": "E502-WGNN-S00",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX",
+          "E-ATX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 170,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360,
+          420
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 7
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 5
+          }
+        ],
+        "includedFanCount": 3,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Frente 3x120/140; topo 3x120 ou2x140; traseira1x120. Três120ARGB incluídos na frente. Frente até420mm limitado457x140x27mm; topo até360mm. GPU410mm somente sem radiador frontal; 360mm com montagem HDD indicada. E-ATX até305x277mm. Confirmar layout/folgas no manual.",
+        "frontRadiatorMaxThicknessMm": 27,
+        "maxGpuLengthWithHddBracketMm": 360,
+        "includedFanDiameterMm": 120,
+        "color": "White",
+        "maxGpuLengthWithoutFrontRadiatorMm": 410
+      }
+    }
+  },
+  {
+    "price": 3213.22,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/1055759/memoria-ram-kingston-ddr4-32gb-3200mhz-kvr32n22d8-32",
+    "store": "KaBuM!",
+    "seller": "TH INFORMATICA",
+    "paymentCondition": "à vista no PIX",
+    "cardTotal": null,
+    "installments": "10 x R$321,32 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Enabled Comprar agora and Adicionar ao carrinho, adjacent to exact product heading and seller TH INFORMATICA",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kvr32n22d8-32",
+    "model": "KVR32N22D8/32",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston ValueRAM 32GB (1x32GB) DDR4-3200 CL22",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kvr32n22d8-32",
+      "name": "Kingston ValueRAM 32GB (1x32GB) DDR4-3200 CL22",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KVR32N22D8/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 32,
+        "casLatency": 22,
+        "voltageV": 1.2,
+        "speedProfile": "JEDEC DDR4-3200; no XMP needed for rated JEDEC profile",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 31.25,
+          "thickness": null
+        },
+        "rgb": false
+      }
+    }
+  },
+  {
+    "price": 3489.99,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/480530/memoria-ram-kingston-fury-beast-rgb-32gb-2x16gb-3200mhz-ddr4-cl16-preto-kf432c16bb12ak2-32",
+    "store": "KaBuM!",
+    "seller": "KaBuM!",
+    "paymentCondition": "à vista no PIX, 15% discount stated",
+    "cardTotal": null,
+    "installments": "10 x R$410,58 sem juros; up to 36x NuPay also advertised, terms not inspected",
+    "availability": "available",
+    "availabilityEvidence": "Enabled Comprar agora and Adicionar ao carrinho next to exact 32GB (2x16GB) heading, PIX price and seller KaBuM!",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kf432c16bb12ak2-32",
+    "model": "KF432C16BB12AK2/32",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston FURY Beast RGB 32GB (2x16GB) DDR4-3200 CL16",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb12ak2-32",
+      "name": "Kingston FURY Beast RGB 32GB (2x16GB) DDR4-3200 CL16",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BB12AK2/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 4949.99,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/480536/memoria-ram-kingston-fury-beast-rgb-64gb-2x32gb-3200mhz-ddr4-cl16-preto-kf432c16bb2ak2-64",
+    "store": "KaBuM!",
+    "seller": "KaBuM!",
+    "paymentCondition": "à vista no PIX, 15% discount stated",
+    "cardTotal": null,
+    "installments": "10 x R$582,35 sem juros; up to 36x NuPay also advertised, terms not inspected",
+    "availability": "available",
+    "availabilityEvidence": "Exact 64GB variant selected; enabled Comprar agora and Adicionar ao carrinho; seller KaBuM!; R$4.949,99 current PIX container distinct from struck-through R$7.058,81 and installment R$582,35",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kf432c16bb2ak2-64",
+    "model": "KF432C16BB2AK2/64",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston FURY Beast RGB 64GB (2x32GB) DDR4-3200 CL16",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb2ak2-64",
+      "name": "Kingston FURY Beast RGB 64GB (2x32GB) DDR4-3200 CL16",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BB2AK2/64",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 64,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 32,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 2999.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-pro-sl-rgb-32gb-2x16gb-ddr4-3600mhz-cl18-preto-cmh32gx4m2z3600c18",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "à vista no PIX, 15% discount",
+    "cardTotal": 3529.4,
+    "installments": "12 x R$294,12 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "PRODUTO DISPONÍVEL and enabled COMPRAR COLOCAR NO CARRINHO after hydration",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-cmh32gx4m2z3600c18",
+    "model": "CMH32GX4M2Z3600C18",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Corsair Vengeance RGB PRO SL 32GB (2x16GB) DDR4-3600 CL18 Black",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmh32gx4m2z3600c18",
+      "name": "Corsair Vengeance RGB PRO SL 32GB (2x16GB) DDR4-3600 CL18 Black",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMH32GX4M2Z3600C18",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "casLatency": 18,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 138.3,
+          "height": 44.8,
+          "thickness": 7.5
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 10799.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-rgb-64gb-2x32gb-ddr5-6000mhz-c30-branco-cmh64gx5m2b6000z30w",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "à vista no PIX, 15% discount",
+    "cardTotal": 12705.87,
+    "installments": "12 x R$1.058,82 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "PRODUTO DISPONÍVEL with enabled COMPRAR COLOCAR NO CARRINHO after hydration; screenshot confirms exact SKU, two modules, price and payment basis",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-cmh64gx5m2b6000z30w",
+    "model": "CMH64GX5M2B6000Z30W",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Corsair Vengeance RGB 64GB (2x32GB) DDR5-6000 CL30 White",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmh64gx5m2b6000z30w",
+      "name": "Corsair Vengeance RGB 64GB (2x32GB) DDR5-6000 CL30 White",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMH64GX5M2B6000Z30W",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 64,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 32,
+        "casLatency": 30,
+        "voltageV": 1.4,
+        "speedProfile": "AMD EXPO & Intel XMP",
+        "dimensionsMm": {
+          "length": 135,
+          "height": 44,
+          "thickness": 8
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 159.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/38349/cooler-para-processador-be-quiet-pure-rock-3-120mm-intelamd-preto-bk039",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX or boleto, 15% discount",
+    "cardTotal": 188.22,
+    "installments": "9x R$20.91 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 21; Comprar agora; Novo",
+    "retrievalCrawlLabel": "yesterday",
+    "productId": "cooler-bequiet-pure-rock-3-black",
+    "model": "BK039",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "be quiet! Pure Rock 3 Black",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-bequiet-pure-rock-3-black",
+      "name": "be quiet! Pure Rock 3 Black",
+      "brand": "be quiet!",
+      "category": "cooler",
+      "partNumber": "BK039",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1851",
+          "LGA1700",
+          "LGA1200",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155"
+        ],
+        "heightMm": 154,
+        "includedFanCount": 1,
+        "powerWatts": 3.6,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 71,
+          "width": 124,
+          "height": 154
+        }
+      }
+    }
+  },
+  {
+    "price": 469.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/cooler-para-processador-noctua-nh-l9a-am4-chromax-92mm-preta-nh-l9a-am4-ch-bk",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "PIX, 15% discount",
+    "cardTotal": 552.93,
+    "installments": "12x R$46.08 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Cloud browser: PRODUTO DISPONÍVEL plus enabled COMPRAR COLOCAR NO CARRINHO button; exact SKU and listed prices verified",
+    "retrievalCrawlLabel": "4 days ago",
+    "productId": "cooler-noctua-nh-l9a-am4-chromax-black",
+    "model": "NH-L9A-AM4-CH.BK",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Noctua NH-L9a-AM4 chromax.black",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-noctua-nh-l9a-am4-chromax-black",
+      "name": "Noctua NH-L9a-AM4 chromax.black",
+      "brand": "Noctua",
+      "category": "cooler",
+      "partNumber": "NH-L9A-AM4-CH.BK",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4"
+        ],
+        "heightMm": 37,
+        "includedFanCount": 1,
+        "powerWatts": 2.52,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "height": 37,
+          "width": 114,
+          "length": 92
+        }
+      }
+    }
+  },
+  {
+    "price": 679.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39904/water-cooler-arctic-liquid-freezer-iii-pro-240-argb-240mm-intel-amd-branco-acfre00186a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX or boleto, 15% discount",
+    "cardTotal": 799.99,
+    "installments": "12x R$66.67 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 2; Comprar agora; Novo",
+    "retrievalCrawlLabel": "last week",
+    "productId": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+    "model": "ACFRE00186A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+      "name": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00186A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "includedFanCount": 2,
+        "powerWatts": 18.72,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "radiatorSizeMm": 240,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 277,
+          "width": 120,
+          "height": 38
+        },
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "totalEnvelopeThicknessMm": 66,
+        "compatibilityNotes": "Conferir revisão, kit incluso, dissipadores M.2/VRM, RAM e folgas. Envelope conservador do conjunto: 66 mm; não apenas a espessura nominal do radiador."
+      }
+    }
+  },
+  {
+    "price": 739.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/36013/water-cooler-arctic-liquid-freezer-iii-pro-360-360mm-intel-amd-preto-acfre00180a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX or boleto, 15% discount",
+    "cardTotal": 870.58,
+    "installments": "12x R$72.55 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 11; Novo",
+    "retrievalCrawlLabel": "today",
+    "productId": "cooler-arctic-liquid-freezer-iii-pro-360",
+    "model": "ACFRE00180A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC Liquid Freezer III Pro 360 Black",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-360",
+      "name": "ARCTIC Liquid Freezer III Pro 360 Black",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00180A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "includedFanCount": 3,
+        "powerWatts": 16.68,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "radiatorSizeMm": 360,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 398,
+          "width": 120,
+          "height": 38
+        },
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "totalEnvelopeThicknessMm": 66,
+        "compatibilityNotes": "Conferir revisão, kit incluso, dissipadores M.2/VRM, RAM e folgas. Envelope conservador do conjunto: 66 mm; não apenas a espessura nominal do radiador."
+      }
+    }
+  },
+  {
+    "price": 59.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39644/cooler-para-gabinete-arctic-p12-pro-120mm-preto-acfan00305a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX or boleto, 15% discount",
+    "cardTotal": 70.58,
+    "installments": "3x R$23.53 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 307; Comprar agora; Novo",
+    "retrievalCrawlLabel": "today",
+    "productId": "fan-arctic-p12-pro",
+    "model": "ACFAN00305A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC P12 Pro (1 fan)",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-arctic-p12-pro",
+      "name": "ARCTIC P12 Pro (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00305A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 1,
+        "connector": "4-pin PWM",
+        "powerWatts": 3.96,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": false,
+        "auxiliaryPowerNotes": null,
+        "rgb": false
+      }
+    }
+  },
+  {
+    "price": 59.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39882/cooler-para-gabinete-arctic-p12-pro-pst-120mm-pwm-branco-acfan00308a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX or boleto, 15% discount",
+    "cardTotal": 70.58,
+    "installments": "3x R$23.53 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Novo, Pronta entrega, Restam 12, Comprar agora on directly opened product page",
+    "retrievalCrawlLabel": "today",
+    "productId": "fan-arctic-p12-pro-pst-white",
+    "model": "ACFAN00308A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC P12 Pro PST White (1 fan)",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-arctic-p12-pro-pst-white",
+      "name": "ARCTIC P12 Pro PST White (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00308A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 1,
+        "connector": "4-pin PWM plug + 4-pin socket (PST)",
+        "powerWatts": 3.96,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": false,
+        "auxiliaryPowerNotes": null,
+        "rgb": false
+      }
+    }
+  },
+  {
+    "price": 259.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/35779/kit-fan-com-3-unidades-cooler-master-sickleflow-edge-white-edition-argb-120mm-com-controladora-branco-mfx-b2dw-253p2-r2",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX or boleto, 15% discount",
+    "cardTotal": 305.87,
+    "installments": "12x R$25.49 interest-free",
+    "availability": "available",
+    "availabilityEvidence": "Novo; Pronta entrega; Restam8; Comprar agora on directly opened page",
+    "retrievalCrawlLabel": "today",
+    "productId": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+    "model": "MFX-B2DW-253P2-R2",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Cooler Master SickleFlow Edge 120 A-RGB White (kit 3 fans)",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+      "name": "Cooler Master SickleFlow Edge 120 A-RGB White (kit 3 fans)",
+      "brand": "Cooler Master",
+      "category": "fan",
+      "partNumber": "MFX-B2DW-253P2-R2",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 3,
+        "connector": "4-pin PWM",
+        "powerWatts": 3.45,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": true,
+        "auxiliaryPowerNotes": "Consumo próprio da controladora não especificado; não incluído.",
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 729.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/31563/ssd-kingston-nv3-500gb-m2-nvme-2280-pcie-40-leitura-5000mbs-e-gravacao-3000mbs-snv3s500g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 858.71,
+    "installments": "12x R$71,56 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 17",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-kingston-nv3-500gb",
+    "model": "SNV3S/500G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston NV3 500GB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-500gb",
+      "name": "Kingston NV3 500GB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/500G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 5000,
+        "writeSpeedMbS": 3000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 160,
+        "m2LengthMm": 80
+      }
+    }
+  },
+  {
+    "price": 1499.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/25625/ssd-xpg-gammmix-s70-blade-1tb-m2-2280-nvme-leitura-7400mbs-e-gravacao-5500mbs-agammixs70b-1t-cs",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 1764.69,
+    "installments": "12x R$147,06 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 2",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-xpg-gammix-s70-blade-1tb",
+    "model": "AGAMMIXS70B-1T-CS",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "XPG GAMMIX S70 BLADE 1TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-xpg-gammix-s70-blade-1tb",
+      "name": "XPG GAMMIX S70 BLADE 1TB",
+      "brand": "XPG",
+      "category": "storage",
+      "partNumber": "AGAMMIXS70B-1T-CS",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1024,
+        "readSpeedMbS": 7400,
+        "writeSpeedMbS": 5500,
+        "formFactor": "M.2 2280",
+        "enduranceTBW": 740,
+        "m2LengthMm": 80
+      }
+    }
+  },
+  {
+    "price": 2199.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/31565/ssd-kingston-nv3-2tb-m2-nvme-2280-pcie-40-leitura-6000mbs-e-gravacao-5000mbs-snv3s2000g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 2588.12,
+    "installments": "12x R$215,68 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 8",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-kingston-nv3-2tb",
+    "model": "SNV3S/2000G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston NV3 2TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-2tb",
+      "name": "Kingston NV3 2TB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/2000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 5000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 640,
+        "m2LengthMm": 80
+      }
+    }
+  },
+  {
+    "price": 3249.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/42987/ssd-sandisk-520-2tb-sata-iii-leitura-560mbs-e-gravacao-520mbs-sdss51200tab-000g0",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 3823.41,
+    "installments": "12x R$318,62 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 1",
+    "retrievalCrawlLabel": "last week",
+    "productId": "ssd-sandisk-520-2tb",
+    "model": "SDSS51200TAB-000G0",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "SanDisk 520 SATA SSD 2TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-sandisk-520-2tb",
+      "name": "SanDisk 520 SATA SSD 2TB",
+      "brand": "SanDisk",
+      "category": "storage",
+      "partNumber": "SDSS51200TAB-000G0",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 520,
+        "formFactor": "2.5-inch 7mm",
+        "enduranceTBW": 700
+      }
+    }
+  },
+  {
+    "price": 3899.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/32888/ssd-kingston-nv3-4tb-m2-nvme-2280-pcie-40-leitura-6000mbs-e-gravacao-5000mbs-snv3s4000g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 4588.12,
+    "installments": "12x R$382,34 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 3",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-kingston-nv3-4tb",
+    "model": "SNV3S/4000G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston NV3 4TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-4tb",
+      "name": "Kingston NV3 4TB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/4000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 4000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 5000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 1280,
+        "m2LengthMm": 80
+      }
+    }
   }
 ]

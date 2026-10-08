@@ -1,3 +1,4 @@
+import { isSelectableComponent } from './catalogAvailability.js';
 // The catalog uses the same BuildProvider actions and fan-pack representation as the wizard.
 export function isCatalogComponentSelected(selection, component) {
   return component.category === 'fan'
@@ -6,7 +7,7 @@ export function isCatalogComponentSelected(selection, component) {
 }
 
 export function selectCatalogComponent(selection, actions, component) {
-  if (isCatalogComponentSelected(selection, component)) return false;
+  if (!isSelectableComponent(component) || isCatalogComponentSelected(selection, component)) return false;
   if (component.category === 'fan') actions.setFans([...(selection.fans || []), { ...component, quantity: 1 }]);
   else actions.selectComponent(component.category, component);
   return true;

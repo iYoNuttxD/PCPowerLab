@@ -13,14 +13,15 @@ import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksServ
 const additions = components.filter(component => component.specSourceUrl && ['ram', 'storage'].includes(component.category));
 const reference = readyBuilds[0].components;
 // Reviewed source facts are an independent price oracle, not the service output under test.
-const priceFacts = JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8'));
+const priceFacts = { ...JSON.parse(readFileSync(new URL('./helpers/approved-price-facts.json', import.meta.url), 'utf8')),
+  ...JSON.parse(readFileSync(new URL('./fixtures/replacement-source-facts.json', import.meta.url), 'utf8')) };
 
 for (const component of additions) {
   test(`catalogo ampliado: ${component.id} participa de compatibilidade, orçamento e desempenho`, () => {
     const selection = { ...reference, [`${component.category}Id`]: component.id };
     if (component.specs.memoryType === 'DDR5') {
       selection.cpuId = 'cpu-ryzen-5-7600';
-      selection.motherboardId = 'mb-asus-prime-b650m-a';
+      selection.motherboardId = 'mb-gigabyte-b650-gaming-x-ax';
     }
     const summary = generateBuildSummary({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming', gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' });
     assert.equal(summary.compatibility.compatible, true);

@@ -57,3 +57,31 @@ test('saved cards keep actions available and component gallery optional on table
   await card.getByRole('button', { name: 'Editar', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Editar build salva' })).toBeVisible();
 });
+
+test('retired items keep their identity in saved builds and alternatives require explicit selection', async ({ page }) => {
+  const original = selection.storage;
+  const replacement = { ...original, id: 'storage-replacement-fixture', name: 'Alternativa de armazenamento', image: null, price: 450, catalogStatus: 'active', selectable: true, active: true };
+  const legacy = { ...original, active: false, catalogStatus: 'legacy', selectable: false, price: null, replacementId: replacement.id,
+    replacement: { id: replacement.id, name: replacement.name, category: 'storage', requiresSelection: true } };
+  const observedQueries = [];
+  await setup(page);
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => {
+    observedQueries.push(new URL(route.request().url()).searchParams.get('includeLegacy'));
+    return ok(route, [...components.filter(part => part.id !== original.id), legacy, replacement]);
+  });
+  await page.goto('/saved-builds');
+  const gallery = page.locator('.saved-build-components');
+  await gallery.locator('summary').click();
+  const identity = gallery.locator('.component-identity').filter({ hasText: original.name });
+  await expect(identity).toContainText('Item anterior');
+  await expect(identity).not.toContainText(replacement.name);
+  await identity.getByRole('link', { name: 'Ver alternativa', exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`replacementFor=${original.id}`));
+  await expect(page.locator('.component-card')).toHaveCount(1);
+  await expect(page.locator('.component-card')).toContainText(replacement.name);
+  await expect(page.locator('.component-card')).not.toContainText(original.name);
+  expect(observedQueries.every(value => value === 'true')).toBe(true);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('pcpowerlab-build-state')).selectedComponents.storage.id)).toBe(original.id);
+  await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('pcpowerlab-build-state')).selectedComponents.storage.id)).toBe(replacement.id);
+});

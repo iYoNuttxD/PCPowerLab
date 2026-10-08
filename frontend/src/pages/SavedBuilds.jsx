@@ -1,5 +1,5 @@
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bell, CheckCircle2, Clock3, Edit3, History, MessageSquare, RefreshCw, Share2, Trash2, Upload } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
@@ -39,7 +39,7 @@ const analysisTypeLabels = {
 export default function SavedBuilds() {
   const navigate = useNavigate();
   const buildState = useBuildState();
-  const { components, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
+  const { componentMap, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
   const request = useApiRequest();
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,6 @@ export default function SavedBuilds() {
   const versionsRequest = useRef(0);
   const historyRequest = useRef(0);
   useEffect(() => () => { versionsRequest.current += 1; historyRequest.current += 1; }, []);
-  const componentMap = useMemo(() => Object.fromEntries(components.map((component) => [component.id, component])), [components]);
 
   async function loadBuilds() {
     setLoading(true);

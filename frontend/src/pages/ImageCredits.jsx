@@ -16,7 +16,7 @@ export function ImageCredit({ component }) {
 }
 
 export default function ImageCredits() {
-  const { components, loading, error, reload } = useComponents();
+  const { allComponents: components, loading, error, reload } = useComponents();
   return <div className="page-stack">
     <section className="page-hero compact-hero"><h1>Créditos das imagens</h1>
       <p>As fotografias pertencem aos respectivos titulares. Licenças conhecidas estão indicadas abaixo.</p>

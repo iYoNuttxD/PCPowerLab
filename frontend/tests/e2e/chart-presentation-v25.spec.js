@@ -1,5 +1,6 @@
 // Authored for a future authorized browser run; collection is not execution.
 import { test, expect } from '@playwright/test';
+import { mockWizardAnalysis } from './helpers/analysis.js';
 import { components } from '../../../src/data/components.mock.js';
 import { games } from '../../../src/data/games.js';
 import { professionalSoftware } from '../../../src/data/professionalSoftware.js';
@@ -25,8 +26,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('gráficos têm títulos, unidades e categorias legíveis sem depender da cor', async ({ page }) => {
-  await seed(page, { bottlenecks: { status: 'success', data: { hasBottleneck: false, performanceSummary: powerSummary } } });
+  await seed(page);
+  await mockWizardAnalysis(page, { bottlenecks: { hasBottleneck: false, performanceSummary: powerSummary } });
   await page.goto('/build');
+  await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Pontuação de desempenho por componente' })).toBeVisible();
   const energy = page.getByRole('group', { name: 'Gráfico de consumo energético da build' });
   for (const label of ['Consumo', 'Referência', 'Fonte']) await expect(energy.getByText(label, { exact: true })).toBeVisible();
@@ -41,8 +44,10 @@ test('gráficos têm títulos, unidades e categorias legíveis sem depender da c
 });
 
 test('consumo parcial não apresenta referência da fonte nem diferença como cálculo completo', async ({ page }) => {
-  await seed(page, { bottlenecks: { status: 'success', data: { hasBottleneck: false, performanceSummary: { ...powerSummary, powerEstimateComplete: false, unknownPowerComponents: ['cooler-unknown'] } } } });
+  await seed(page);
+  await mockWizardAnalysis(page, { bottlenecks: { hasBottleneck: false, performanceSummary: { ...powerSummary, powerEstimateComplete: false, unknownPowerComponents: ['cooler-unknown'] } } });
   await page.goto('/build');
+  await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Consumo parcial' })).toBeVisible();
   const legend = page.getByRole('group', { name: 'Legenda do consumo energético' });
   await expect(legend).toContainText('Consumo parcial conhecido: 300 W');

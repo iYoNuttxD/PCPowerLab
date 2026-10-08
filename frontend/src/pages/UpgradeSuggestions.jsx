@@ -31,7 +31,7 @@ export default function UpgradeSuggestions() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const build = useBuildState();
-  const { components: catalogComponents, loading: catalogLoading, error: catalogError, reload: reloadCatalog } = useComponents();
+  const { componentMap, loading: catalogLoading, error: catalogError, reload: reloadCatalog } = useComponents();
   const identity = analysisIdentity([build.revision, build.selectedComponents, build.usageType]);
   const hasUrlSource = searchParams.has('buildId') || searchParams.get('source') === 'current';
   const [initialInputs] = useState(() => {
@@ -211,7 +211,6 @@ export default function UpgradeSuggestions() {
 
   function resolveSelectedComponents() {
     if (!hasRequestedBuild) return build.selectedComponents;
-    const componentMap = Object.fromEntries(catalogComponents.map((component) => [component.id, component]));
     return hydrateBuildComponents(selectedSavedBuild?.components, componentMap, { preferCatalog: true });
   }
 

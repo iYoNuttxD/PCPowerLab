@@ -73,6 +73,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         {component?.partNumber && <p>Modelo: {component.partNumber}</p>}
         <p className="price">{formatCurrency(component?.price)}</p>
         <ReferencePriceNote component={component} />
+        {Array.isArray(component?.selectionNotes) && component.selectionNotes.length > 0 && <section><h3>Cuidados ao escolher</h3><ul>{component.selectionNotes.map(note => <li key={note}>{note}</li>)}</ul></section>}
         {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices estimados, comparáveis apenas na mesma categoria. Veja a metodologia do catálogo.">Índice estimado: {formatCatalogScore(catalogPerformanceScore(component))} / 100<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
         <dl className="spec-grid component-details">
           {keys.map((key) => (

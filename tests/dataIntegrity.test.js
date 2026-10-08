@@ -1,3 +1,4 @@
+import { replacementCatalog } from '../src/data/catalogReplacements.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -35,7 +36,7 @@ test('deve manter dados mockados principais consistentes', () => {
     componentIds.add(component.id);
   }
   assert.equal(components.filter(component => component.price === null).length, 20);
-  assert.equal(components.filter(component => Number.isFinite(component.price)).length, 78);
+  assert.equal(components.filter(component => Number.isFinite(component.price)).length, 78 + replacementCatalog.length);
 
   for (const parameter of performanceParameters) {
     assert.equal(componentIds.has(parameter.componentId), true);

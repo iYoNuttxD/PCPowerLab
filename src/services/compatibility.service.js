@@ -20,6 +20,7 @@ export function evaluateResolvedBuildCompatibility(selectedBuild) {
   validateCpuAndMotherboard(build, alerts, unverifiedChecks);
   validateRamAndMotherboard(build, alerts, unverifiedChecks);
   validateStorageAndMotherboard(build, alerts, unverifiedChecks);
+  validateReplacementDependencies(build, alerts, unverifiedChecks);
   validatePsu(build, alerts, unverifiedChecks);
   validateCase(build, alerts, unverifiedChecks);
   const status = alerts.length ? 'incompatible' : unverifiedChecks.length ? 'unverified' : 'compatible';
@@ -110,5 +111,34 @@ function validateCase(build, alerts, unverifiedChecks) {
       severity: 'medium',
       message: `A placa de vídeo possui ${build.gpu.specs.lengthMm}mm, mas o gabinete suporta até ${build.case.specs.maxGpuLengthMm}mm.`
     });
+  }
+}
+
+// New models carry verified kit/form-factor inputs. Do not retroactively claim these
+// additional checks for historical generic records that never supplied those inputs.
+function validateReplacementDependencies(build, alerts, unverifiedChecks) {
+  const motherboard = build.motherboard.specs;
+  const ram = build.ram.specs;
+  const storage = build.storage.specs;
+  const unknown = (code, message) => unverifiedChecks.push({ code, severity: 'medium', verification: 'unverified', message });
+  const conflict = (code, message) => alerts.push({ code, severity: 'high', message });
+  if (build.ram.catalogRevision || build.motherboard.catalogRevision) {
+    if (!Number.isInteger(ram.modulesPerKit) || !Number.isInteger(motherboard.memorySlots)) {
+      unknown('RAM_SLOT_COUNT_UNVERIFIED', 'Quantidade de módulos ou slots não confirmada para este modelo. Confira a ficha da placa-mãe.');
+    } else if (ram.modulesPerKit > motherboard.memorySlots) {
+      conflict('RAM_SLOT_COUNT_EXCEEDED', 'O kit tem mais módulos que os slots de memória da placa-mãe.');
+    }
+    if (!Number.isFinite(ram.capacityGb) || !Number.isFinite(motherboard.maxMemoryGb)) {
+      unknown('RAM_CAPACITY_LIMIT_UNVERIFIED', 'Capacidade máxima de memória desta placa-mãe não confirmada.');
+    } else if (ram.capacityGb > motherboard.maxMemoryGb) {
+      conflict('RAM_CAPACITY_EXCEEDED', 'A capacidade do kit excede o limite de memória da placa-mãe.');
+    }
+  }
+  if (build.storage.catalogRevision && storage.interface === 'M.2 NVMe') {
+    if (!Number.isFinite(storage.m2LengthMm) || !Array.isArray(motherboard.m2SupportedLengthsMm)) {
+      unknown('M2_LENGTH_UNVERIFIED', 'Comprimento do SSD M.2 ou suporte físico da placa-mãe não confirmado.');
+    } else if (!motherboard.m2SupportedLengthsMm.includes(storage.m2LengthMm)) {
+      conflict('M2_LENGTH_INCOMPATIBLE', 'A placa-mãe não declara suporte ao comprimento deste SSD M.2.');
+    }
   }
 }

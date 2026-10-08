@@ -1,14 +1,16 @@
 import { test, expect } from '@playwright/test';
-import { components } from '../../../src/data/components.mock.js';
+import { listComponents } from '../../../src/services/component.service.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
 
 // Browser execution is deliberately separate from collection. `--list` is not a pass.
+const components = listComponents({ includeLegacy: true });
+const activeComponents = components.filter(component => component.selectable);
 const storageKey = 'pcpowerlab-build-state';
 const byId = id => components.find(component => component.id === id);
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const original = Object.fromEntries(types.map(type => [type, byId(readyBuilds[0].components[`${type}Id`])]));
-original.cooler = byId('cooler-noctua-nh-l9a-am4');
-original.fans = [{ ...byId('fan-noctua-nf-p12-redux-1700-pwm'), quantity: 2 }];
+original.cooler = byId('cooler-noctua-nh-l9a-am4-chromax-black');
+original.fans = [{ ...byId('fan-arctic-p12-pro'), quantity: 2 }];
 const errors = new WeakMap();
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const getState = page => page.evaluate(key => JSON.parse(localStorage.getItem(key)), storageKey);
@@ -61,13 +63,13 @@ test('v2.3 combina CPU AMD AM4 até R$ 1000 e limpa filtros técnicos ao trocar 
   await select(page, 'Marca', 'AMD');
   await select(page, 'Socket', 'AM4');
   await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('1000');
-  await expectCards(page, components.filter(component => component.category === 'cpu' && component.brand === 'AMD' && component.specs.socket === 'AM4' && component.price <= 1000));
+  await expectCards(page, activeComponents.filter(component => component.category === 'cpu' && component.brand === 'AMD' && component.specs.socket === 'AM4' && component.price <= 1000));
   await select(page, 'Marca', 'all');
   await select(page, 'Categoria', 'ram');
   await expect(page.getByRole('combobox', { name: 'Socket', exact: true })).toHaveCount(0);
-  await expectCards(page, components.filter(component => component.category === 'ram' && component.price <= 1000));
+  await expectCards(page, activeComponents.filter(component => component.category === 'ram' && component.price <= 1000));
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
-  await expectCards(page, components);
+  await expectCards(page, activeComponents);
   await expect(page.getByRole('combobox', { name: 'Categoria', exact: true })).toHaveValue('all');
   await expect(page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true })).toHaveValue('');
 });
@@ -76,17 +78,17 @@ for (const scenario of [
   { category: 'ram', filters: [['Tipo de memória', 'DDR4'], ['Capacidade', '16']], matches: spec => spec.memoryType === 'DDR4' && spec.capacityGb === 16 },
   { category: 'storage', filters: [['Interface', 'M.2 NVMe'], ['Capacidade', '1000']], matches: spec => spec.interface === 'M.2 NVMe' && spec.capacityGb === 1000 },
   { category: 'cooler', filters: [['Tipo de refrigeração', 'aio'], ['Sockets suportados', 'AM4'], ['Tamanho do radiador', '240']], matches: spec => spec.coolingType === 'aio' && spec.supportedSockets.includes('AM4') && spec.radiatorSizeMm === 240 },
-  { category: 'fan', filters: [['Diâmetro', '120'], ['Espessura', '25'], ['Conector', '4-pin PWM PST']], matches: spec => spec.diameterMm === 120 && spec.thicknessMm === 25 && spec.connector === '4-pin PWM PST' }
+  { category: 'fan', filters: [['Diâmetro', '120'], ['Espessura', '25'], ['Conector', '4-pin PWM plug + 4-pin socket (PST)']], matches: spec => spec.diameterMm === 120 && spec.thicknessMm === 25 && spec.connector === '4-pin PWM plug + 4-pin socket (PST)' }
 ]) {
   test(`v2.3 combina filtros técnicos de ${scenario.category}`, async ({ page }) => {
     await page.goto('/components');
     await select(page, 'Categoria', scenario.category);
     for (const [label, value] of scenario.filters) await select(page, label, value);
-    const expected = components.filter(component => component.category === scenario.category && scenario.matches(component.specs));
+    const expected = activeComponents.filter(component => component.category === scenario.category && scenario.matches(component.specs));
     expect(expected.length).toBeGreaterThan(0);
     await expectCards(page, expected);
     await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
-    await expectCards(page, components);
+    await expectCards(page, activeComponents);
   });
 }
 
@@ -99,7 +101,7 @@ test('v2.3 ordena preço, desempenho e custo-benefício depois dos filtros, mant
     { ...source, id: 'cpu-unknown', name: 'CPU D sem estimativa', price: 300, performanceScore: null },
     { ...source, id: 'cpu-excluded', name: 'CPU Z fora do filtro', price: 1500, performanceScore: 100 }
   ];
-  await page.route('**/api/v1/components', route => ok(route, fixtures));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, fixtures));
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
   await select(page, 'Socket', 'AM4');
@@ -123,7 +125,7 @@ test('v2.3 destaca diferenças sem transformar dados desconhecidos em zero e blo
     { ...source, id: 'cpu-known', name: 'CPU com núcleos informados', performanceScore: 70 },
     { ...source, id: 'cpu-unknown', name: 'CPU sem núcleos informados', price: null, performanceScore: null, specs: { ...source.specs, cores: null } }
   ];
-  await page.route('**/api/v1/components', route => ok(route, [...cpus, original.ram]));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, [...cpus, original.ram]));
   await page.goto('/components');
   await page.getByRole('button', { name: `Comparar: ${cpus[0].name}`, exact: true }).click();
   await expect(page.getByRole('button', { name: `Comparar: ${original.ram.name}`, exact: true })).toBeDisabled();
@@ -137,7 +139,7 @@ test('v2.3 destaca diferenças sem transformar dados desconhecidos em zero e blo
   await expect(coreRow.getByRole('cell', { name: 'Não informado', exact: true })).toHaveCount(1);
   await expect(coreRow.getByRole('cell', { name: '0', exact: true })).toHaveCount(0);
   await expect(comparisonRow(dialog, 'Socket')).not.toHaveClass(/comparison-difference/);
-  await expect(comparisonRow(dialog, 'Preço estimado')).toContainText('Preço indisponível');
+  await expect(comparisonRow(dialog, 'Preço de referência')).toContainText('Preço indisponível');
   await dialog.getByRole('button', { name: `Remover ${cpus[1].name} da comparação`, exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Comparar peças (1)', exact: true })).toBeDisabled();
@@ -192,7 +194,7 @@ test('v2.3 compatibilidade usa a montagem atual e diferencia compatível, confli
   const statuses = ['compatible', 'incompatible', 'unverified'];
   let requestBody;
   let requestCount = 0;
-  await page.route('**/api/v1/components', route => ok(route, candidates));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, candidates));
   await page.route('**/api/v1/components/compatibility', route => {
     requestCount++;
     requestBody = route.request().postDataJSON();
@@ -224,7 +226,7 @@ test('v2.3 adicionar fan pela comparação mantém quantidades existentes e não
   await page.goto('/components');
   await select(page, 'Categoria', 'fan');
   const existing = byId(original.fans[0].id);
-  const added = byId('fan-arctic-p12-pwm-pst-5-pack');
+  const added = byId('fan-coolermaster-sickleflow-edge-120-argb-white-3-pack');
   const dialog = await compare(page, [existing, added]);
   await expect(dialog.getByRole('button', { name: `Selecionado: ${existing.name}`, exact: true })).toBeDisabled();
   await dialog.getByRole('button', { name: `Selecionar: ${added.name}`, exact: true }).click();
@@ -250,7 +252,7 @@ test('v2.3 faixa de desempenho inválida tem orientação e muda de categoria se
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toHaveCount(0);
   await select(page, 'Categoria', 'fan');
   await expect(page.getByRole('spinbutton', { name: 'Desempenho mínimo estimado', exact: true })).toHaveCount(0);
-  await expectCards(page, components.filter(component => component.category === 'fan'));
+  await expectCards(page, activeComponents.filter(component => component.category === 'fan'));
   await select(page, 'Categoria', 'cpu');
   await expect(page.getByRole('spinbutton', { name: 'Desempenho mínimo estimado', exact: true })).toHaveValue('');
   await expect(page.getByRole('spinbutton', { name: 'Desempenho máximo estimado', exact: true })).toHaveValue('');
@@ -259,7 +261,7 @@ test('v2.3 faixa de desempenho inválida tem orientação e muda de categoria se
 test('v2.3 falha de compatibilidade permite tentar novamente e resposta antiga não filtra outra montagem', async ({ page }) => {
   await seed(page);
   const candidates = components.filter(component => component.category === 'ram').slice(0, 2);
-  await page.route('**/api/v1/components', route => ok(route, candidates));
+  await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, candidates));
   let attempts = 0;
   let releaseOld;
   let oldReplyFinished = false;

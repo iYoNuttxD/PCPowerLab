@@ -13,6 +13,9 @@ export const componentSpecFields = {
 };
 
 const units = {
+  maxMemoryGb: 'GB', capacityPerModuleGb: 'GB', voltageV: 'V', enduranceTBW: 'TB', m2LengthMm: 'mm',
+  radiatorThicknessMm: 'mm', fanDiameterMm: 'mm', fanThicknessMm: 'mm', totalEnvelopeThicknessMm: 'mm', maxRadiatorThicknessMm: 'mm',
+  frontRadiatorMaxThicknessMm: 'mm', maxGpuLengthWithHddBracketMm: 'mm', maxGpuLengthWithoutFrontRadiatorMm: 'mm', includedFanDiameterMm: 'mm',
   dataRateMTs: 'MT/s', maxFanThicknessMm: 'mm',
   baseClockGhz: 'GHz', boostClockGhz: 'GHz', tdpWatts: 'W', recommendedPsuWatts: 'W',
   heightMm: 'mm', radiatorSizeMm: 'mm', diameterMm: 'mm', thicknessMm: 'mm', maxCoolerHeightMm: 'mm', powerWatts: 'W', lengthMm: 'mm', maxGpuLengthMm: 'mm', speedMhz: 'MT/s', capacityGb: 'GB', vramGb: 'GB',
@@ -32,6 +35,12 @@ export function formatSpecValue(key, value) {
   if (value === undefined || value === null || value === '' || (Array.isArray(value) && !value.length)) return 'Não informado';
   if (key === 'fanMounts' && Array.isArray(value)) return value.map(mount => `${mount.diameterMm ?? '?'} mm: até ${mount.capacity ?? '?'} ventoinha(s)`).join('; ');
   if (key === 'radiatorSizesMm' && Array.isArray(value)) return value.map(size => `${size} mm`).join(', ');
+  if (key === 'm2SupportedLengthsMm' && Array.isArray(value)) return value.map(size => `${size} mm`).join(', ');
+  if (['dimensionsMm', 'radiatorDimensionsMm'].includes(key) && typeof value === 'object' && !Array.isArray(value)) {
+    const names = { length: 'Comprimento', width: 'Largura', height: 'Altura', thickness: 'Espessura' };
+    return Object.entries(value).map(([dimension, size]) => `${names[dimension] || dimension}: ${size == null ? 'não informado' : `${Number(size).toLocaleString('pt-BR')} mm`}`).join(' · ');
+  }
+  if (key === 'color') return { White: 'Branco', Black: 'Preto', white: 'Branco', black: 'Preto' }[value] || String(value);
   if (Array.isArray(value)) return value.map(item => typeof item === 'object' ? JSON.stringify(item) : item).join(', ');
   if (typeof value === 'object') return JSON.stringify(value);
   if (key === 'coolingType') return value === 'air' ? 'A ar' : value === 'aio' ? 'Líquida (AIO)' : String(value);

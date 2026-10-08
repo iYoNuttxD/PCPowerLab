@@ -1,6 +1,6 @@
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, Upload, Wand2 } from 'lucide-react';
 import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
@@ -52,7 +52,7 @@ const initialBudgetRange = {
 export default function ReadyBuilds() {
   const navigate = useNavigate();
   const buildState = useBuildState();
-  const { components, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
+  const { componentMap, loading: componentsLoading, error: componentsError, reload: reloadComponents } = useComponents();
   const request = useApiRequest();
   const recommendationRequest = useApiRequest();
   const recommendationSectionRef = useRef(null);
@@ -81,10 +81,6 @@ export default function ReadyBuilds() {
   latestRevision.current = buildState.revision;
   const latestProfile = useRef(selectedProfile);
   latestProfile.current = selectedProfile;
-
-  const componentMap = useMemo(() => (
-    Object.fromEntries(components.map((component) => [component.id, component]))
-  ), [components]);
 
   useEffect(() => {
     loadReadyBuilds(selectedProfile);
@@ -122,11 +118,6 @@ export default function ReadyBuilds() {
     }
 
     buildState.actions.applyRecommendation({ ...readyBuild, components: selectedComponents }, { replaceCooling: true });
-    buildState.actions.setBudget({
-      amount: readyBuild.targetBudgetRange?.max || '',
-      currency: 'BRL',
-      priority: 'cost-benefit'
-    });
     buildState.actions.setUsageType(readyBuild.usageProfile || buildState.usageType);
     if (destination === '/build') buildState.actions.setWizardStep('cpu');
     setFeedback(`Build "${readyBuild.name}" aplicada como build atual.`);
@@ -149,8 +140,8 @@ export default function ReadyBuilds() {
         build: readyBuild.components,
         ...feedbackBuild,
         summary: readyBuild.description,
-        totalEstimatedPrice: readyBuild.estimatedTotalPrice,
-        compatibilityStatus: 'compatible',
+        totalEstimatedPrice: getCurrentBuildPricing(readyBuild, componentMap).total,
+        compatibilityStatus: getReadyBuildCompatibility(readyBuild),
         performanceLevel: readyBuild.expectedPerformanceLevel,
         usageType: readyBuild.usageProfile,
         source: 'ready-build'
@@ -213,7 +204,7 @@ export default function ReadyBuilds() {
       if (!isCurrent()) return;
       setRecommendations(normalizeRecommendationList(result));
       setRecommendationContext(recommendationKey);
-      setFeedback('Recomendação por faixa de orçamento gerada com sucesso.');
+      setFeedback('Consulta por faixa de orçamento concluída. Confira o total e o status da sugestão.');
     });
   }
 
@@ -331,6 +322,7 @@ export default function ReadyBuilds() {
             componentMap={componentMap}
             onApply={() => applyReadyBuild(readyBuild)}
             currentSelection={buildState.selectedComponents}
+            currentBudget={buildState.budget}
             onPreview={previewComponent}
             onDetails={() => setDetailsBuild(readyBuild)}
             onFeedback={() => openReadyBuildFeedback(readyBuild)}
@@ -345,7 +337,7 @@ export default function ReadyBuilds() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Atalhos inteligentes</span>
         <h1>Builds prontas</h1>
-        <p>Consulte configurações completas por perfil de uso ou gere uma recomendação dentro da sua faixa de orçamento.</p>
+        <p>Consulte configurações completas por perfil de uso ou consulte sugestões para sua faixa de orçamento.</p>
         <nav className="button-row" aria-label="Seções de builds prontas">
           <a className="btn btn-primary btn-md" href="#budget-recommendation" onClick={focusRecommendation}>Recomendar por orçamento</a>
           <a className="btn btn-secondary btn-md" href="#ready-build-catalog" onClick={(event) => focusSection(readyBuildsSectionRef, event)}>Explorar builds prontas</a>
@@ -432,6 +424,7 @@ export default function ReadyBuilds() {
                   recommendation={recommendation}
                   currentSelection={buildState.selectedComponents}
                   componentMap={componentMap}
+                  budgetRange={budgetRange}
                   onApply={() => applyRecommendation(recommendation)}
                   onPreview={previewComponent}
                   onFeedback={() => {
@@ -447,7 +440,7 @@ export default function ReadyBuilds() {
                         build: recommendation.components || recommendation.build,
                         ...feedbackBuild,
                         summary: recommendation.summary,
-                        totalEstimatedPrice: getRecommendationPrice(recommendation),
+                        totalEstimatedPrice: getCurrentBuildPricing(recommendation, componentMap).total,
                         compatibilityStatus: recommendation.compatibilityStatus,
                         performanceLevel: recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel,
                         usageType: budgetRange.usageType,
@@ -468,7 +461,7 @@ export default function ReadyBuilds() {
           <div className="section-heading compact">
             <div>
               <h2 id="ready-build-catalog-heading">Configurações por perfil</h2>
-              <p>Escolha um perfil para filtrar builds já validadas pelo backend.</p>
+              <p>Escolha um perfil e confira o preço atual de referência e a compatibilidade de cada configuração.</p>
             </div>
             <Select
               label="Perfil de uso"
@@ -505,6 +498,7 @@ export default function ReadyBuilds() {
             onApply={() => applyReadyBuild(detailsBuild)}
             onEdit={() => applyReadyBuild(detailsBuild, '/build')}
             currentSelection={buildState.selectedComponents}
+            currentBudget={buildState.budget}
             onPreview={previewComponent}
             onFeedback={() => openReadyBuildFeedback(detailsBuild)}
           />
@@ -525,7 +519,8 @@ export default function ReadyBuilds() {
   );
 }
 
-function ReadyBuildCard({ readyBuild, componentMap, currentSelection, onApply, onPreview, onDetails, onFeedback }) {
+function ReadyBuildCard({ readyBuild, componentMap, currentSelection, currentBudget, onApply, onPreview, onDetails, onFeedback }) {
+  const pricing = getCurrentBuildPricing(readyBuild, componentMap);
   return (
     <Card as="article" className="ready-build-card">
       <div className="section-heading compact">
@@ -533,23 +528,24 @@ function ReadyBuildCard({ readyBuild, componentMap, currentSelection, onApply, o
           <h2>{readyBuild.name}</h2>
           <Badge tone="cyan">{translateValue(readyBuild.usageProfile)}</Badge>
         </div>
-        <strong className="price"><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(readyBuild.estimatedTotalPrice)}</strong>
+        <strong className="price"><small className="estimated-price-label">{pricing.complete ? 'Total estimado atual de referência' : 'Subtotal conhecido · preço incompleto'}</small>{formatCurrency(pricing.knownCount ? pricing.knownTotal : null)}</strong>
       </div>
       <p>{readyBuild.description}</p>
       <div className="metric-grid">
         <div>
-          <span>Faixa de orçamento</span>
-          <strong>{formatBudgetRange(readyBuild.targetBudgetRange)}</strong>
+          <span>{currentBudget?.amount ? `Seu orçamento: ${formatCurrency(currentBudget.amount)}` : 'Seu orçamento'}</span>
+          <strong>{getBudgetFitLabel(pricing, { max: currentBudget?.amount }, true)}</strong>
         </div>
         <div>
           <span>Desempenho estimado</span>
           <strong>{translateValue(readyBuild.expectedPerformanceLevel)}</strong>
         </div>
       </div>
+      <ReadyBuildChecks readyBuild={readyBuild} pricing={pricing} />
       <ComponentPreviewList componentsInput={readyBuild.components} componentMap={componentMap} />
       <InfoList title="Limitações" items={readyBuild.limitations} emptyMessage="Nenhuma limitação informada." />
       <SuggestedPiecePicker components={mapReadyBuildToSelectedComponents(readyBuild, componentMap)} currentComponents={currentSelection} onPreview={onPreview} />
-      <p className="hint-text">Usar a build inteira substitui a montagem atual, incluindo a refrigeração, e carrega o orçamento e o perfil desta build pronta.</p>
+      <p className="hint-text">Usar a build inteira substitui a montagem atual, incluindo a refrigeração, e carrega o perfil desta configuração. Seu orçamento é mantido.</p>
       <div className="button-row">
         <Button variant="secondary" onClick={onApply}><Upload size={18} /> Usar build inteira</Button>
         <Button variant="ghost" onClick={onDetails}><Eye size={18} /> Ver detalhes</Button>
@@ -559,18 +555,19 @@ function ReadyBuildCard({ readyBuild, componentMap, currentSelection, onApply, o
   );
 }
 
-function ReadyBuildDetails({ readyBuild, componentMap, currentSelection, onApply, onPreview, onEdit, onFeedback }) {
+function ReadyBuildDetails({ readyBuild, componentMap, currentSelection, currentBudget, onApply, onPreview, onEdit, onFeedback }) {
+  const pricing = getCurrentBuildPricing(readyBuild, componentMap);
   return (
     <div className="page-stack">
       <p>{readyBuild.description}</p>
       <div className="metric-grid">
         <div>
-          <span>Preço estimado</span>
-          <strong>{formatCurrency(readyBuild.estimatedTotalPrice)}</strong>
+          <span>{pricing.complete ? 'Total estimado atual de referência' : 'Subtotal conhecido · preço incompleto'}</span>
+          <strong>{formatCurrency(pricing.knownCount ? pricing.knownTotal : null)}</strong>
         </div>
         <div>
-          <span>Faixa de orçamento</span>
-          <strong>{formatBudgetRange(readyBuild.targetBudgetRange)}</strong>
+          <span>{currentBudget?.amount ? `Seu orçamento: ${formatCurrency(currentBudget.amount)}` : 'Seu orçamento'}</span>
+          <strong>{getBudgetFitLabel(pricing, { max: currentBudget?.amount }, true)}</strong>
         </div>
         <div>
           <span>Perfil</span>
@@ -586,10 +583,11 @@ function ReadyBuildDetails({ readyBuild, componentMap, currentSelection, onApply
         ))}
         <CoolingParts components={normalizeRecommendationComponents(readyBuild.components, componentMap)} />
       </ul>
+      <ReadyBuildChecks readyBuild={readyBuild} pricing={pricing} />
       <InfoList title="Indicado para" items={readyBuild.recommendedFor} emptyMessage="Nenhuma indicação informada." />
       <InfoList title="Limitações" items={readyBuild.limitations} emptyMessage="Nenhuma limitação informada." />
       <SuggestedPiecePicker components={mapReadyBuildToSelectedComponents(readyBuild, componentMap)} currentComponents={currentSelection} onPreview={onPreview} />
-      <p className="hint-text">Usar ou editar a build inteira substitui a montagem atual, incluindo a refrigeração, o orçamento e o perfil.</p>
+      <p className="hint-text">Usar ou editar a build inteira substitui a montagem atual, incluindo a refrigeração e o perfil. Seu orçamento é mantido.</p>
       <div className="button-row">
         <Button variant="secondary" onClick={onApply}><Upload size={18} /> Usar build inteira</Button>
         <Button variant="ghost" onClick={onFeedback}>Avaliar build</Button>
@@ -599,9 +597,9 @@ function ReadyBuildDetails({ readyBuild, componentMap, currentSelection, onApply
   );
 }
 
-function RecommendationResultCard({ recommendation, componentMap, currentSelection = {}, onApply, onPreview, onFeedback }) {
+function RecommendationResultCard({ recommendation, componentMap, budgetRange, currentSelection = {}, onApply, onPreview, onFeedback }) {
   const components = normalizeRecommendationComponents(recommendation, componentMap);
-  const totalPrice = getRecommendationPrice(recommendation);
+  const pricing = getCurrentBuildPricing(recommendation, componentMap);
   const preservesCooling = recommendationPreservesCooling(recommendation, currentSelection);
 
   return (
@@ -609,11 +607,11 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
       <div className="section-heading compact">
         <div>
           <h2>Build recomendada</h2>
-          <p>{preservesCooling ? 'Configuração recomendada antes de incluir sua refrigeração atual.' : recommendation.summary || 'Configuração completa recomendada para a faixa informada.'}</p>
+          <p>{preservesCooling ? 'Configuração recomendada antes de incluir sua refrigeração atual.' : 'Configuração sugerida para os critérios informados. Confira o preço atual abaixo.'}</p>
         </div>
         <div>
-          <small className="estimated-price-label">{preservesCooling ? 'Total estimado base, sem a refrigeração mantida' : 'Total estimado de referência'}</small>
-          <strong className="price">{formatCurrency(totalPrice)}</strong>
+          <small className="estimated-price-label">{!pricing.complete ? 'Subtotal conhecido · preço incompleto' : preservesCooling ? 'Total estimado base, sem a refrigeração mantida' : 'Total estimado atual de referência'}</small>
+          <strong className="price">{formatCurrency(pricing.knownCount ? pricing.knownTotal : null)}</strong>
         </div>
       </div>
       {preservesCooling && (
@@ -624,7 +622,7 @@ function RecommendationResultCard({ recommendation, componentMap, currentSelecti
       <div className="metric-grid">
         <div>
           <span>Status do orçamento</span>
-          <strong>{preservesCooling ? 'Recalcular no resumo' : translateValue(recommendation.budgetStatus || 'compatible')}</strong>
+          <strong>{!pricing.complete ? 'Preço incompleto: orçamento não verificado' : preservesCooling ? 'Recalcular no resumo' : getBudgetFitLabel(pricing, budgetRange)}</strong>
         </div>
         <div>
           <span>Compatibilidade</span>
@@ -687,11 +685,11 @@ function InfoList({ title, items = [], emptyMessage }) {
 }
 
 function mapReadyBuildToSelectedComponents(readyBuild, componentMap) {
-  return hydrateBuildComponents(readyBuild.components, componentMap);
+  return hydrateBuildComponents(readyBuild.components, componentMap, { preferCatalog: true });
 }
 
 function normalizeRecommendationComponents(recommendationOrComponents = {}, componentMap = {}) {
-  return hydrateBuildComponents(getRecommendationComponents(recommendationOrComponents), componentMap);
+  return hydrateBuildComponents(getRecommendationComponents(recommendationOrComponents), componentMap, { preferCatalog: true });
 }
 
 function getRecommendationComponents(recommendationOrComponents = {}) {
@@ -761,12 +759,52 @@ function hasAllComponents(selectedComponents) {
   return componentTypes.every((type) => selectedComponents[type]?.id);
 }
 
-function formatBudgetRange(range) {
-  if (!range) {
-    return 'Não informado';
-  }
+function ReadyBuildChecks({ readyBuild, pricing }) {
+  const compatibilityStatus = getReadyBuildCompatibility(readyBuild);
+  return <p className="hint-text">
+    {!pricing.complete && 'Há peças sem preço atual. O subtotal conhecido não confirma o custo total nem o enquadramento no orçamento. '}
+    Compatibilidade: {translateValue(compatibilityStatus)}.
+    {compatibilityStatus !== 'compatible' && ' Confira as verificações no resumo antes de comprar.'}
+  </p>;
+}
 
-  return `${formatCurrency(range.min)} a ${formatCurrency(range.max)}`;
+function getReadyBuildCompatibility(readyBuild) {
+  const compatibility = readyBuild.compatibility || readyBuild;
+  if (compatibility.status === 'incompatible') return 'incompatible';
+  if (compatibility.status === 'unverified' || compatibility.unverifiedChecks?.length) return 'unverified';
+  if (compatibility.compatible === false) return 'incompatible';
+  return compatibility.status === 'compatible' || compatibility.compatible === true ? 'compatible' : 'unverified';
+}
+
+function getCurrentBuildPricing(build, componentMap) {
+  const selected = normalizeRecommendationComponents(build, componentMap);
+  const parts = componentTypes.map(type => selected[type]);
+  if (selected.cooler) parts.push(selected.cooler);
+  parts.push(...selected.fans);
+  let knownTotal = 0;
+  let knownCount = 0;
+  for (const component of parts) {
+    // An explicit unknown catalog price must never fall back to a saved estimate.
+    const current = componentMap?.[component?.id];
+    const value = current && Object.hasOwn(current, 'price') ? current.price : current?.estimatedPrice;
+    const price = value === null || value === undefined || value === '' ? NaN : Number(value);
+    if (!component?.id || !Number.isFinite(price) || price < 0) continue;
+    knownTotal += price * Number(component.quantity ?? 1);
+    knownCount += 1;
+  }
+  knownTotal = Number(knownTotal.toFixed(2));
+  const complete = knownCount === parts.length;
+  return { knownTotal, knownCount, complete, total: complete ? knownTotal : null };
+}
+
+function getBudgetFitLabel(pricing, range = {}, isUserBudget = false) {
+  if (!pricing.complete) return 'Preço incompleto: orçamento não verificado';
+  const max = Number(range.max);
+  if (!Number.isFinite(max) || max <= 0) return 'Orçamento não informado';
+  if (pricing.total > max) return isUserBudget ? 'Acima do seu orçamento' : 'Acima da faixa informada';
+  const min = Number(range.min);
+  if (Number.isFinite(min) && min > 0 && pricing.total < min) return 'Abaixo da faixa informada';
+  return isUserBudget ? 'Dentro do seu orçamento' : 'Dentro da faixa informada';
 }
 
 function validateBudgetRange(range) {
@@ -802,15 +840,4 @@ function normalizeRecommendationList(result) {
   }
 
   return result ? [result] : [];
-}
-
-function getRecommendationPrice(recommendation) {
-  return recommendation.totalEstimatedPrice
-    ?? recommendation.estimatedTotalPrice
-    ?? recommendation.totalPrice
-    ?? recommendation.price
-    ?? recommendation.build?.totalEstimatedPrice
-    ?? recommendation.build?.estimatedTotalPrice
-    ?? recommendation.build?.totalPrice
-    ?? null;
 }

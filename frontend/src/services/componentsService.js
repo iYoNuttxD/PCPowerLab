@@ -3,7 +3,7 @@ import { buildQueryParams } from '../utils/queryParams.js';
 
 export const componentsService = {
   getCatalogCompatibility: (payload) => api.post('/components/compatibility', payload),
-  getAll: () => api.get('/components'),
+  getAll: ({ includeLegacy = false } = {}) => api.get(`/components${includeLegacy ? '?includeLegacy=true' : ''}`),
   getByType: (type) => api.get(`/components?type=${encodeURIComponent(type)}`),
   getById: (id) => api.get(`/components/${encodeURIComponent(id)}`),
   getCostBenefit: (filters = {}) => api.get(`/components/cost-benefit${buildQueryParams(filters)}`),

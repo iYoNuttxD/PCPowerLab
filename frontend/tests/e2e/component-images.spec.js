@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
-import { components } from '../../../src/data/components.mock.js';
+import { listComponents } from '../../../src/services/component.service.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
 import { validateCatalogResponse } from '../../src/utils/catalogResponse.js';
 
-const photo = components.find(component => component.id === 'ssd-samsung-980-pro-1tb');
-const otherPhoto = components.find(component => component.id === 'ssd-samsung-970-evo-plus-250gb');
+const components = listComponents({ includeLegacy: true });
+const photo = components.find(component => component.id === 'ssd-xpg-gammix-s70-blade-1tb');
+const otherPhoto = components.find(component => component.id === 'ssd-kingston-nv3-500gb');
+const legacyPhoto = components.find(component => component.id === 'ssd-samsung-980-pro-1tb');
 const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
 const ids = { ...readyBuilds[0].components, storageId: photo.id, fans: [] };
 const selected = Object.fromEntries(types.map(type => [type, components.find(component => component.id === ids[`${type}Id`])]));
@@ -13,26 +15,30 @@ const saved = { id: 'photo-build', name: 'Build com fotografia verificada', comp
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 const cropCpus = JSON.parse(readFileSync(new URL('../../../tests/fixtures/component-image-crops.json', import.meta.url), 'utf8'));
 
-async function setup(page, catalog = components) {
+async function setup(page, catalog = components, storage = photo) {
+  const currentIds = { ...ids, storageId: storage.id };
+  const currentSelected = { ...selected, storage };
+  const currentSaved = { ...saved, components: currentIds };
   // Invalid photo metadata is allowed here; malformed catalog identities are not.
   validateCatalogResponse(catalog);
-  await page.addInitScript(selection => localStorage.setItem('pcpowerlab-build-state', JSON.stringify({ selectedComponents: selection, wizardStep: 'review', budget: { amount: 6000, currency: 'BRL' }, recommendation: { components: selection, totalEstimatedPrice: 5000 } })), selected);
+  await page.addInitScript(selection => localStorage.setItem('pcpowerlab-build-state', JSON.stringify({ selectedComponents: selection, wizardStep: 'review', budget: { amount: 6000, currency: 'BRL' }, recommendation: { components: selection, totalEstimatedPrice: 5000 } })), currentSelected);
   await page.route('**/api/v1/**', route => {
     const path = new URL(route.request().url()).pathname.replace('/api/v1', '');
     if (path === '/components') return ok(route, catalog);
-    if (path === '/saved-builds') return ok(route, [saved]);
-    if (path === '/ready-builds') return ok(route, [{ ...readyBuilds[0], components: ids }]);
-    if (path.startsWith('/share/build/')) return ok(route, { buildSummary: { name: saved.name, components: ids } });
+    if (path === '/recommendations/budget') return ok(route, { components: currentSelected, totalEstimatedPrice: 5000 });
+    if (path === '/saved-builds') return ok(route, [currentSaved]);
+    if (path === '/ready-builds') return ok(route, [{ ...readyBuilds[0], components: currentIds }]);
+    if (path.startsWith('/share/build/')) return ok(route, { buildSummary: { name: currentSaved.name, components: currentIds } });
     if (path === '/upgrades/suggest') return ok(route, { suggestions: [{ componentType: 'storage', currentComponent: { id: otherPhoto.id, name: otherPhoto.name }, suggestedComponent: { id: photo.id, name: photo.name }, reason: 'Teste da apresentação de peças', estimatedUpgradeCost: 100 }] });
-    if (path === '/build-comparison') return ok(route, { builds: [{ name: 'Build atual', components: selected, totalEstimatedPrice: 5000 }, saved], recommendedBuild: { name: 'Build atual' } });
+    if (path === '/build-comparison') return ok(route, { builds: [{ name: 'Build atual', components: currentSelected, totalEstimatedPrice: 5000 }, currentSaved], recommendedBuild: { name: 'Build atual' } });
     if (path === '/components/cost-benefit') return ok(route, [{ component: { id: photo.id, name: photo.name }, costBenefitScore: 80 }]);
     return ok(route, []);
   });
 }
 
-async function verifyPhoto(page, locator = page.locator(`.component-media[data-component-id="${photo.id}"]`).first()) {
+async function verifyPhoto(page, locator = page.locator(`.component-media[data-component-id="${photo.id}"]`).first(), component = photo) {
   await locator.scrollIntoViewIfNeeded();
-  await expect(locator.locator('img')).toHaveAttribute('src', photo.image.imagePath);
+  await expect(locator.locator('img')).toHaveAttribute('src', component.image.imagePath);
   await expect(locator.locator('img')).toBeVisible();
   await expect(locator).toHaveAttribute('data-image-state', 'verified');
   await expect(locator.locator('img')).toHaveCSS('object-fit', 'contain');
@@ -49,7 +55,20 @@ test('shows exact local images in summary, wizard, recommendations and ID-only s
     await expect(page.locator('body')).toHaveJSProperty('scrollWidth', await page.evaluate(() => document.body.clientWidth));
   }
   await page.goto('/build');
+  await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
   await verifyPhoto(page, page.locator('.recommendation-card').locator(`.component-media[data-component-id="${photo.id}"]`));
+});
+
+test('retired Samsung storage keeps its exact image and identity in existing saved and shared builds', async ({ page }) => {
+  await setup(page, components, legacyPhoto);
+  for (const path of ['/summary', '/build', '/saved-builds', '/shared/photo-build']) {
+    await page.goto(path);
+    if (path === '/saved-builds') await page.locator('.saved-build-components summary').first().click();
+    await verifyPhoto(page, page.locator(`.component-media[data-component-id="${legacyPhoto.id}"]`).first(), legacyPhoto);
+  }
+  await page.goto('/components');
+  await expect(page.locator(`.component-card .component-media[data-component-id="${legacyPhoto.id}"]`)).toHaveCount(0);
+  await expect(page.locator(`.component-card .component-media[data-component-id="${photo.id}"]`)).toHaveCount(1);
 });
 
 test('ready build details and build comparison selections render ID-resolved media', async ({ page }) => {
@@ -182,9 +201,9 @@ test('an unavailable composite original falls back accessibly for both exact CPU
 
 
 test('one credits destination preserves photo author, source, license and modifications', async ({ page }) => {
-  await setup(page, [photo, ...cropCpus]);
+  await setup(page, [legacyPhoto, ...cropCpus]);
   await page.goto('/image-credits');
-  for (const component of [photo, ...cropCpus]) {
+  for (const component of [legacyPhoto, ...cropCpus]) {
     const credit = page.locator(`.image-credit[id="${component.id}"]`);
     await expect(credit.getByRole('heading', { name: component.name, exact: true })).toBeVisible();
     await expect(credit.getByRole('link', { name: `Foto: ${component.image.author}`, exact: true })).toHaveAttribute('href', component.image.imageSource);

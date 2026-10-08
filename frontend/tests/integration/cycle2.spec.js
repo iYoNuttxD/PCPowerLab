@@ -39,11 +39,17 @@ async function step(page, label) {
   await expect(page.locator('#wizard-step-heading')).toHaveText(label);
 }
 async function applyReady(page) {
+  // Presets preserve the user's budget; recommendation tests supply one explicitly.
+  await page.addInitScript(key => {
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ budget: { amount: 6000, currency: 'BRL', priority: 'cost-benefit' } }));
+  }, key);
   await page.goto('/ready-builds');
-  const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: 'PC Gamer 1080p Custo-beneficio', exact: true }) });
+  const card = page.getByRole('article').filter({ has: page.getByRole('heading', { name: 'PC Gamer 1080p Custo-benefício', exact: true }) });
   await card.getByRole('button', { name: 'Usar build inteira', exact: true }).click();
   await expect(page).toHaveURL(/\/summary$/);
-  return state(page);
+  const applied = await state(page);
+  expect(applied.budget.amount).toBe(6000);
+  return applied;
 }
 
 test.beforeEach(async ({ page }) => {
@@ -172,12 +178,12 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   const original = await applyReady(page);
   await page.getByRole('button', { name: 'Alterar Memória RAM', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM', exact: true });
-  await dialog.getByRole('radio', { name: /Crucial 32GB DDR4-3200 UDIMM/ }).check();
+  await dialog.getByRole('radio', { name: /Kingston ValueRAM 32GB \(1x32GB\) DDR4-3200 CL22/ }).check();
   const preview = await action(page, '/build-summary', () => dialog.getByRole('button', { name: 'Verificar substituição', exact: true }).click());
   expect(preview.compatibility.compatible).toBe(true);
   await dialog.getByRole('button', { name: 'Aplicar substituição', exact: true }).click();
   const replaced = await state(page);
-  expect(replaced.selectedComponents.ram.id).toBe('ram-crucial-32gb-ddr4-3200');
+  expect(replaced.selectedComponents.ram.id).toBe('ram-kvr32n22d8-32');
   for (const type of types.filter(type => type !== 'ram')) expect(replaced.selectedComponents[type]).toEqual(original.selectedComponents[type]);
   await navigation(page, 'analyze', '/performance-lab');
   const first = await action(page, '/performance/simulate-game', () => page.getByRole('button', { name: 'Simular jogo', exact: true }).click());
@@ -216,12 +222,15 @@ test('catálogo, imagens, comparação de peças e navegação pública', async 
   const catalog = await api(request, '/components');
   await page.goto('/components');
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('storage');
-  await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Samsung');
+  await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
   await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('700');
-  const expected = catalog.filter(part => part.category === 'storage' && part.brand === 'Samsung' && part.price <= 700);
+  const expected = catalog.filter(part => part.category === 'storage' && part.brand === 'Kingston' && part.price <= 700);
   await expect(page.locator('.component-card')).toHaveCount(expected.length);
   for (const part of expected) await expect(page.locator('.component-card').filter({ has: page.getByRole('heading', { name: part.name, exact: true }) })).toContainText(currency(part.price));
-  const photo = page.getByRole('img', { name: 'Samsung 980 PRO com identificação de 1TB na etiqueta' });
+  expect(expected.length).toBeGreaterThanOrEqual(2);
+  const photoPart = expected.find(part => part.id === 'ssd-kingston-kc3000-512gb');
+  expect(photoPart?.image.status).toBe('verified');
+  const photo = page.getByRole('img', { name: photoPart.image.alt, exact: true });
   await photo.scrollIntoViewIfNeeded();
   await expect.poll(() => photo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   await capture(page, testInfo, 'catalog-photo', photo);

@@ -28,5 +28,6 @@ test('pending compatibility and legacy alert wording are clear Portuguese withou
   assert.equal(translateValue('fans'), 'Ventoinhas');
   assert.equal(readableMessage('Atencao: configuracao com fans sem verificacoes.'), 'Atenção: configuração com ventoinhas sem verificações.');
   assert.equal(readableMessage('Noctua NH-U12S redux · 120 mm'), 'Noctua NH-U12S redux · 120 mm');
+  assert.equal(readableMessage('Confirme o layout e os fans incluídos.'), 'Confirme o layout e as ventoinhas incluídas.');
   assert.equal(readableMessage(null), null);
 });

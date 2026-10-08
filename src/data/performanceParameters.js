@@ -1,3 +1,4 @@
+import { replacementCatalog } from './catalogReplacements.js';
 import { catalogV21 } from './catalog.v21.js';
 
 export const performanceParameters = [
@@ -803,7 +804,7 @@ export const performanceParameters = [
 
 // Internal illustrative scores only. No physical benchmark or FPS measurement.
 // Cooling accessories intentionally have no performance parameters.
-performanceParameters.push(...catalogV21.filter(c => ['ram', 'storage'].includes(c.category)).map(component => {
+performanceParameters.push(...[...catalogV21, ...replacementCatalog].filter(c => ['ram', 'storage'].includes(c.category)).map(component => {
   const { specs } = component;
   const score = component.category === 'ram'
     ? Math.min(92, 50 + specs.capacityGb / 2 + (specs.speedMhz - 3200) / 200)
@@ -819,6 +820,11 @@ performanceParameters.push(...catalogV21.filter(c => ['ram', 'storage'].includes
     gamingScore: score,
     productivityScore: score,
     scoreKind: 'internal-demonstrative',
+    scoreInputs: component.category === 'ram'
+      ? { capacityGb: specs.capacityGb, speedMhz: specs.speedMhz } : { readSpeedMbS: specs.readSpeedMbS },
+    scoreFormula: component.category === 'ram'
+      ? 'min(92, 50 + capacityGb / 2 + (speedMhz - 3200) / 200)' : 'min(92, 50 + readSpeedMbS / 200)',
+    scoreLimitations: 'Modelo interno simplificado: não mede latência, controlador, durabilidade, temperatura ou desempenho sustentado. Taxas declaradas pelo fabricante não são medições.',
     scoreDisclaimer: 'Índice interno demonstrativo; não é benchmark, medição de FPS ou ganho garantido',
     recommendedUse: ['general', 'study', 'gaming', 'programming']
   };

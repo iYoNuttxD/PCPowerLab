@@ -1,6 +1,6 @@
 # PCPowerLab
 
-> RA2 V2.12: [interface simples e preços consultados](docs/RA2-V2.12-SIMPLICIDADE-PRECOS.md). 78 referências datadas; 20 preços indisponíveis. Fotos 98/98. Reteste visual desta publicação e validação humana pendentes.
+> Revisão do catálogo: [substituições, compatibilidade e preservação de configurações](docs/RA2-CATALOG-REPLACEMENTS.md). 97 componentes ativos com referência datada e fotografia; 20 modelos anteriores preservados. Disponibilidade observada não é estoque ao vivo.
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
@@ -492,14 +492,14 @@ A aplicação atual é uma API backend com dados em memória. Os mocks ficam em 
 
 Base mockada atual:
 
-- Catálogo v2.1: 98 componentes (12 CPUs, 9 placas-mãe, 11 GPUs, 21 RAM, 21 armazenamentos, 8 fontes, 7 gabinetes, 5 coolers e 4 produtos de fans). Recalcule pelo comando `npm run inventory`; a API lista o estado atual, inclusive alterações administrativas.
+- Catálogo ativo: 97 componentes (12 CPUs, 9 placas-mãe, 11 GPUs, 21 RAM, 20 armazenamentos, 8 fontes, 7 gabinetes, 5 coolers e 4 produtos de fans), além de 20 identidades anteriores preservadas. Recalcule pelo comando `npm run inventory`; a API lista o estado atual, inclusive alterações administrativas.
 - 89 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
 - 20 jogos reais para simulação estimada, incluindo competitivos, battle royale, RPGs, mundo aberto, corrida, simuladores e jogos AAA pesados.
 - 490 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
 
 Os jogos da simulação usam requisitos simplificados e scores estimados para fins acadêmicos. Eles não representam requisitos oficiais nem garantem FPS real; o desempenho pode variar conforme drivers, sistema operacional, configurações gráficas, resolução, temperatura e otimização de cada jogo.
 
-Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. O catálogo contém 78 referências comerciais datadas e 20 preços indisponíveis; a disponibilidade atual fica como `unknown`. O usuário deve confirmar valor e estoque diretamente na loja. Variantes e exemplos comerciais são identificados sem modificar as especificações do catálogo.
+Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. O catálogo ativo contém 97 referências comerciais datadas; 21 registraram disponibilidade na observação e 76 não confirmam estoque. A disponibilidade atual fica como `unknown`. Os 20 preços ausentes pertencem aos modelos anteriores, fora da seleção nova. O usuário deve confirmar valor e estoque diretamente na loja. Variantes e exemplos comerciais são identificados sem modificar as especificações do catálogo.
 
 Os dados são reiniciados a cada execução do processo. Não há banco de dados real, contas por usuário ou integração com ofertas reais nesta versão. Há sessão administrativa para proteger o CRUD. O frontend em `frontend/` consome esses dados mockados pela API local.
 
@@ -547,7 +547,7 @@ As verificações retornam `compatible`, `incompatible` ou `unverified`; dados i
 
 ## Fotografias do catálogo — v2.11
 
-Fotografias locais de produtos e embalagens: 98/98. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos completos ficam em uma página própria, acessível pelo rodapé. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
+Fotografias locais de produtos e embalagens: 97/97 componentes ativos; as imagens dos registros anteriores também são preservadas. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos completos ficam em uma página própria, acessível pelo rodapé. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
 
 - [Implementação e verificação](docs/RA2-V2.11-FOTOS-E-UI.md)
 - [Cobertura e inventário dinâmico](docs/RA2-COBERTURA-IMAGENS.md)
@@ -563,7 +563,7 @@ Preços do catálogo são referências estimadas. As lojas oferecem links de pes
 
 ## Auditoria final v2.9
 
-A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificações locais. O estado consolidado está no relatório acima; documentos de etapas anteriores são históricos. [Inventário atual dos 98 ativos](docs/RA2-V2.9-INVENTARIO.json), incluindo 3 air coolers, 2 AIOs e 4 produtos fan. Os 69 IDs da base foram preservados.
+A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificações locais. O estado consolidado está no relatório acima; documentos de etapas anteriores são históricos. [Inventário histórico v2.9 dos então 98 ativos](docs/RA2-V2.9-INVENTARIO.json), incluindo 3 air coolers, 2 AIOs e 4 produtos fan. Os 69 IDs da base foram preservados.
 
 - As três jornadas são percursos técnicos com adaptadores frontend e HTTP real; não testes com participantes
 - A suíte Node da raiz inclui os testes frontend em `frontend/tests/*.test.js`; não somar uma reexecução isolada

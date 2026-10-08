@@ -11,6 +11,7 @@ export function getCoolingPower(build) {
     if (knownNumber(fan.specs.powerWatts) && Number.isInteger(fan.specs.unitsPerPack) && fan.specs.unitsPerPack > 0) {
       knownWatts += fan.specs.powerWatts * fan.specs.unitsPerPack * fan.quantity;
     } else unknownComponents.push(fan.id);
+    if (fan.specs.auxiliaryPowerUnknown && !unknownComponents.includes(fan.id)) unknownComponents.push(fan.id);
   }
   return { knownWatts: Number(knownWatts.toFixed(2)), complete: unknownComponents.length === 0, unknownComponents };
 }

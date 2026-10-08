@@ -1,3 +1,5 @@
+import { enrichMotherboardLimits } from './motherboardLimits.js';
+import { replacementCatalog, attachCatalogLifecycle } from './catalogReplacements.js';
 import { attachDatedReference } from './dated-price-references.js';
 import { attachComponentImage } from './component-images.js';
 import { catalogV21 } from './catalog.v21.js';
@@ -916,5 +918,6 @@ export const components = [
       writeSpeedMbS: 5000
     }
   },
-  ...catalogV21
-].map(enrichCaseCooling).map(attachComponentImage).map(attachDatedReference);
+  ...catalogV21,
+  ...replacementCatalog
+].map(enrichCaseCooling).map(enrichMotherboardLimits).map(attachComponentImage).map(attachDatedReference).map(attachCatalogLifecycle);

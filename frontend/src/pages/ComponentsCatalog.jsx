@@ -1,3 +1,4 @@
+import { suggestedReplacement } from '../utils/catalogAvailability.js';
 import { datedReference } from '../utils/referencePricing.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
@@ -13,20 +14,29 @@ import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { componentsService } from '../services/componentsService.js';
 import { catalogMethodology, isCatalogComponentSelected, selectCatalogComponent } from '../utils/catalogSelection.js';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useComponents } from '../hooks/useComponents.js';
 import { purchaseLinksService } from '../services/purchaseLinksService.js';
 import { emptyCatalogFilters, filterComponents, priceRangeError, performanceRangeError } from '../utils/componentPresentation.js';
 import { componentLabels } from '../utils/componentLabels.js';
 
 export default function ComponentsCatalog() {
-  const { components, loading, error, reload } = useComponents();
+  const { components, componentMap, loading, error, reload } = useComponents();
+  const [searchParams] = useSearchParams();
+  const replacementFor = searchParams.get('replacementFor');
+  const legacy = replacementFor ? componentMap[replacementFor] : null;
+  const proposedReplacement = suggestedReplacement(legacy, componentMap);
   const build = useBuildState();
   const hasBuild = Object.entries(build.selectedComponents).some(([key, value]) => key === 'fans' ? value?.length > 0 : Boolean(value?.id));
   const [selectionNotice, setSelectionNotice] = useState('');
   const [compatibility, setCompatibility] = useState({ key: '', data: {}, error: '' });
   const [compatibilityAttempt, setCompatibilityAttempt] = useState(0);
   const [filters, setFilters] = useState(emptyCatalogFilters);
+  useEffect(() => {
+    if (proposedReplacement?.selectable !== false && proposedReplacement?.id) {
+      setFilters({ ...emptyCatalogFilters, category: proposedReplacement.category, search: proposedReplacement.name });
+    }
+  }, [proposedReplacement?.id, proposedReplacement?.name, proposedReplacement?.category, proposedReplacement?.selectable]);
   const [comparisonIds, setComparisonIds] = useState([]);
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [links, setLinks] = useState(null);
@@ -89,10 +99,11 @@ export default function ComponentsCatalog() {
     <div className="page-stack">
       <section className="page-hero compact-hero">
         <span className="eyebrow">Catálogo técnico</span>
-        <h1>Componentes disponíveis</h1>
+        <h1>Catálogo de componentes</h1>
         <p>Encontre as peças para seu próximo PC. Compare especificações, preços estimados e opções de compra.</p>
       </section>
 
+      {legacy?.catalogStatus === 'legacy' && <section className="panel-card"><p>Alternativa para {legacy.name}. Sua montagem não foi alterada.</p>{Array.isArray(legacy.replacementNotes) && <ul>{legacy.replacementNotes.map(note => <li key={note}>{note}</li>)}</ul>}</section>}
       <div className="catalog-toolbar panel-card">
         <ComponentFilters components={components} filters={filters} onChange={setFilters} hasBuild={hasBuild} />
         {!loading && !error && <p className="hint-text">{components.filter(datedReference).length}/{components.length} referências datadas · confirme preço e estoque na loja</p>}

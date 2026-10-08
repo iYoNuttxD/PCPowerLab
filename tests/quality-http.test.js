@@ -88,8 +88,9 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     const pricedCooling = await sum({ ...build, coolerId: 'cooler-deepcool-ak620', fans: [{ fanId: 'fan-noctua-nf-a14-pwm', quantity: 2 }] });
     assert.equal(pricedCooling.totalEstimatedPrice, (referenceCents + 44999 + 2 * 19499) / 100);
     assert.equal(pricedCooling.pricing.referenceTotalComplete, true);
-    const cooler = catalog.find(part => part.id === 'cooler-noctua-nh-u12s-redux');
-    const fan = catalog.find(part => part.id === 'fan-noctua-nf-p12-redux-1700-pwm');
+    assert.equal(catalog.some(part => part.id === 'cooler-noctua-nh-u12s-redux'), false);
+    const cooler = await call('/components/cooler-noctua-nh-u12s-redux');
+    const fan = await call('/components/fan-noctua-nf-p12-redux-1700-pwm');
     assert.equal(cooler.price, null);
     assert.equal(fan.price, null);
     const cooling = { ...build, coolerId: cooler.id, fans: [{ fanId: fan.id, quantity: 2 }] };

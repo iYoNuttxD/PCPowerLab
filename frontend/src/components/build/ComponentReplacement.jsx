@@ -23,7 +23,7 @@ import { translateValue } from '../../utils/translations.js';
 export default function ComponentReplacement({ type, build, initialComponent, onApply, onClose }) {
   const { components, loading, error, reload } = useComponents();
   const [filters, setFilters] = useState({ ...emptyCatalogFilters, category: type });
-  const [candidateId, setCandidateId] = useState(initialComponent?.id || '');
+  const [candidateId, setCandidateId] = useState(initialComponent?.id || build.selectedComponents[type]?.replacementId || '');
   const verificationRef = useRef(null);
   const current = build.selectedComponents[type];
   const options = filterComponents(components, filters).filter(component => component.id !== current?.id);
@@ -83,6 +83,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
           <div><h3>Peça atual</h3><ComponentIdentity component={current} category={type} fallback="Não selecionada" /><p>{formatCurrency(current?.price)} de referência</p></div>
           <div><h3>Alternativa escolhida</h3>{candidate ? <><ComponentIdentity component={candidate} category={type} /><p>{formatCurrency(candidate.price)} de referência</p></> : <p>{loading && initialComponent ? `Carregando ${initialComponent.name || 'a alternativa'}…` : 'Escolha uma alternativa abaixo.'}</p>}</div>
         </section>
+        {candidate?.id === current?.replacementId && Array.isArray(current?.replacementNotes) && <Alert type="warning"><ul>{current.replacementNotes.map(note => <li key={note}>{note}</li>)}</ul></Alert>}
         <p>As outras peças, o orçamento e o perfil de uso serão preservados. A alteração ainda não foi aplicada.</p>
         <p className="analysis-note">Escolha uma alternativa para comparar custo, desempenho estimado e consumo antes e depois. Verifique a montagem antes de aplicar. Os valores são estimados, sem cotação em tempo real.</p>
         {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0 || type === 'cooler') && <p className="hint-text">Cooler e ventoinhas selecionados entram na verificação. Dados ausentes de encaixe, espaço ou consumo serão indicados como não verificados.</p>}
@@ -92,7 +93,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
             <legend>Nova peça</legend>
             {options.map(component => <label key={component.id} className="replacement-option">
               <input type="radio" name="replacement" checked={candidateId === component.id} onChange={() => setCandidateId(component.id)} />
-              <ComponentIdentity component={component} category={type}><small>{component.brand} · {formatCurrency(component.price)} estimados</small></ComponentIdentity>
+              <ComponentIdentity component={component} category={type}><small>{component.brand} · {formatCurrency(component.price)}</small></ComponentIdentity>
             </label>)}
           </fieldset>
           {!options.length && !priceRangeError(filters) && <p>Nenhuma alternativa encontrada. Ajuste ou limpe os filtros.</p>}

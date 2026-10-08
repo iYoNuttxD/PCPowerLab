@@ -59,6 +59,20 @@ export const bottleneckReasonLabels = {
 };
 
 export const specLabels = {
+  memorySlots: 'Slots de memória', maxMemoryGb: 'Memória máxima', capacityPerModuleGb: 'Capacidade por módulo',
+  casLatency: 'Latência CAS', voltageV: 'Tensão', rgb: 'Iluminação RGB', color: 'Cor',
+  dimensionsMm: 'Dimensões', radiatorDimensionsMm: 'Dimensões do radiador',
+  radiatorThicknessMm: 'Espessura do radiador', fanDiameterMm: 'Diâmetro das ventoinhas', fanThicknessMm: 'Espessura das ventoinhas',
+  totalEnvelopeThicknessMm: 'Espessura total conservadora', maxRadiatorThicknessMm: 'Espessura máxima de radiador',
+  powerBasis: 'Base do consumo', auxiliaryPowerUnknown: 'Consumo auxiliar não verificado', auxiliaryPowerNotes: 'Observação sobre consumo auxiliar',
+  compatibilityNotes: 'Observações de compatibilidade', coolingSupportNotes: 'Posições e limites de refrigeração',
+  memorySupportNotes: 'Condições de suporte à memória', storageSupportNotes: 'Condições dos slots de armazenamento',
+  m2LengthMm: 'Comprimento M.2', m2SupportedLengthsMm: 'Comprimentos M.2 suportados', m2Slots: 'Slots M.2', sataPorts: 'Portas SATA',
+  cpuFanHeaders: 'Conectores para cooler', systemFanHeaders: 'Conectores para ventoinhas', pcieGeneration: 'Geração PCIe',
+  enduranceTBW: 'Durabilidade declarada (TBW)', frontRadiatorMaxThicknessMm: 'Espessura máxima do radiador frontal',
+  maxGpuLengthWithHddBracketMm: 'Limite de GPU com suporte de HD', maxGpuLengthWithoutFrontRadiatorMm: 'Limite de GPU sem radiador frontal',
+  includedFanDiameterMm: 'Diâmetro das ventoinhas incluídas',
+
   coolingType: 'Tipo de refrigeração', supportedSockets: 'Sockets suportados', heightMm: 'Altura', radiatorSizeMm: 'Tamanho do radiador', powerWatts: 'Consumo por unidade', diameterMm: 'Diâmetro', thicknessMm: 'Espessura', connector: 'Conector', unitsPerPack: 'Ventoinhas por pacote', maxCoolerHeightMm: 'Altura máxima do cooler', radiatorSizesMm: 'Radiadores suportados (mm)', fanMounts: 'Suportes para ventoinhas', coolingSupportVerified: 'Suporte de refrigeração verificado', includedFans: 'Ventoinhas incluídas', fanMountsShared: 'Suportes compartilhados', radiatorFanSlots: 'Slots ocupados pelo radiador',
   dataRateMTs: 'Taxa de transferência',
   modulesPerKit: 'Módulos por kit',
@@ -209,7 +223,8 @@ function humanizeTechnicalKey(value) {
 export function readableMessage(value) {
   if (typeof value !== 'string') return value;
   const words = { atencao: 'atenção', configuracao: 'configuração', configuracoes: 'configurações', fans: 'ventoinhas', nao: 'não', verificacoes: 'verificações', analise: 'análise' };
-  return value.replace(/\b(atencao|configuracao|configuracoes|fans|nao|verificacoes|analise)\b/gi, word => {
+  return value.replace(/\bos fans incluídos\b/gi, phrase => phrase[0] === 'O' ? 'As ventoinhas incluídas' : 'as ventoinhas incluídas')
+    .replace(/\b(atencao|configuracao|configuracoes|fans|nao|verificacoes|analise)\b/gi, word => {
     const replacement = words[word.toLowerCase()];
     return word[0] === word[0].toUpperCase() ? replacement[0].toUpperCase() + replacement.slice(1) : replacement;
   });

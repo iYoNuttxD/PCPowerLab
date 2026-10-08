@@ -4,12 +4,27 @@ import { components } from './components.mock.js';
 
 export function listComponentRecords(options = {}) {
   const includeInactive = options.includeInactive === true;
+  const includeLegacy = options.includeLegacy === true;
 
-  return components.filter((component) => includeInactive || component.active !== false);
+  return components.filter((component) => includeInactive || isSelectableComponentRecord(component)
+    || (includeLegacy && component.lifecycle === 'legacy'));
 }
 
 export function findComponentRecordById(componentId, options = {}) {
   return listComponentRecords(options).find((component) => component.id === componentId) || null;
+}
+
+export function isSelectableComponentRecord(component) {
+  return component.active !== false && component.lifecycle !== 'legacy';
+}
+
+// Existing selections must retain the exact model originally selected. Legacy
+// records remain resolvable, but an ordinary admin deactivation stays hidden.
+// Never follow replacementId here: a replacement requires an explicit selection.
+export function resolveComponentRecordById(componentId) {
+  const component = findComponentRecordById(componentId, { includeInactive: true });
+  return component && (isSelectableComponentRecord(component) || component.lifecycle === 'legacy')
+    ? component : null;
 }
 
 export function addComponentRecord(component) {

@@ -1,3 +1,4 @@
+import { replacementCatalog } from '../src/data/catalogReplacements.js';
 import { readFileSync } from 'node:fs';
 import { URL } from 'node:url';
 import test from 'node:test';
@@ -10,10 +11,10 @@ import { referencePrice, assessMarketQuote, summarizeBuildPricing, getProductMar
 import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksService.js';
 import { calculateBuildPrice } from '../src/services/build.service.js';
 
-test('78 scoped research references propagate effective prices and preserve demonstrative originals', () => {
-  assert.equal(datedReferenceCount, 78);
+test('scoped research references propagate effective prices and preserve historical demonstrative values', () => {
+  assert.equal(datedReferenceCount, 78 + replacementCatalog.length);
   const covered = listComponents().filter(c => c.pricing.updateStatus === 'dated_snapshot');
-  assert.equal(covered.length, 78);
+  assert.equal(covered.length, 78 + replacementCatalog.length);
   for (const component of covered) {
     assert.equal(component.price, component.pricing.price);
     assert.equal(component.pricing.isMarketQuote, false);
@@ -22,7 +23,8 @@ test('78 scoped research references propagate effective prices and preserve demo
     assert.ok(component.pricing.seller && component.pricing.model && component.pricing.paymentCondition);
     assert.doesNotMatch(JSON.stringify(component.pricing), /\/tmp\/|\/workspace\/|mappingProposal|researchDetail|catalogEvidence/);
     assert.equal(component.pricing.source, 'dated_public_reference');
-    assert.ok(component.demonstrativePrice > 0);
+    if (component.catalogRevision) assert.equal(component.demonstrativePrice, null);
+    else assert.ok(component.demonstrativePrice > 0);
     assert.equal(getProductMarket(component.id).offers.length, 0);
     assert.notEqual(assessMarketQuote(component.pricing, component.id).status, 'valid');
   }
@@ -102,7 +104,7 @@ test('effective catalogue equals 78 independently frozen reviewed source facts',
 
 test('reference identities separate exact products, family variants and illustrative examples', () => {
   const dated = listComponents().filter(component => component.pricing.updateStatus === 'dated_snapshot');
-  assert.equal(dated.filter(component => component.pricing.referenceScope === 'exact').length, 49);
+  assert.equal(dated.filter(component => component.pricing.referenceScope === 'exact').length, 49 + replacementCatalog.length);
   assert.equal(dated.filter(component => component.pricing.referenceScope === 'family').length, 25);
   assert.equal(dated.filter(component => component.pricing.referenceScope === 'benchmark').length, 4);
   for (const component of dated.filter(component => component.pricing.referenceScope !== 'exact')) {
@@ -115,10 +117,11 @@ test('reference identities separate exact products, family variants and illustra
   assert.notEqual(gpu.partNumber, gpu.pricing.model, 'Research must not silently adopt commercial variant specs');
 });
 
-test('twenty unverified prices remain absent, not demonstrative prices sold as real', () => {
-  const missing = listComponents().filter(component => component.price == null);
+test('twenty historical unverified prices remain absent after retirement', () => {
+  const missing = listComponents({ includeLegacy: true }).filter(component => component.price == null);
   assert.equal(missing.length, 20);
   for (const component of missing) {
+    assert.equal(component.catalogStatus, 'legacy');
     assert.equal(component.priceKind, 'unavailable');
     assert.equal(component.pricing.price, null);
     assert.equal(getDatedReference(component), null);
