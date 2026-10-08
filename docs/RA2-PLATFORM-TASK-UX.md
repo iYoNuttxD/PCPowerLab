@@ -44,3 +44,11 @@ A prior browser inspection found that nested recommendation cards left only a fe
 ## Cooling integration
 
 The optional cooling stage remains outside the nine required wizard steps. Temperature/noise scenarios also have a dedicated Performance task. Scenario settings persist with the local working build, without changing API game results or selecting hardware automatically. Outputs are approximate bands with stated assumptions; fan quantities affect selected-source acoustics, not the CPU-plus-cooler thermal estimate. Missing physical cooling evidence stays visibly qualified as “Refrigeração não verificada”, including core-compatible presets and results.
+
+## Cooling selection revision
+
+Cooler and extra-fan choices use the same visual product cards as the component catalog, including images, prices and details. Pack quantities and removal stay beside selected fan cards. Selection contains no temperature/noise charts. The existing scenario panel is shown in Summary, reached by “Ver temperatura e ruído” from review; Performance retains its analysis task. Both views share the same local scenario settings.
+
+The saved-build deletion dialog explicitly focuses Cancel after native dialog opening. Browser selectors and optional-stage navigation were reconciled with the current controls; repeated-task request checks retain an exact settled baseline. Browser and visual verification of this revision remain pending.
+
+Revision checks: 933 Node tests, all 16 source/handler/SSR scripts, both lints and production build pass. The browser suite collects 268 end-to-end and 18 integration cases; collection is not execution. Actual browser focus, card geometry and Summary anchor behavior remain pending on the next publication.

@@ -149,9 +149,15 @@ test('troca de tarefa mantém resposta pendente e cache; mudar jogo e configura�
 
 test('tarefas retêm entradas e resultados independentes sem refazer chamadas ao revisitar', async ({ page }) => {
   const calls = { single: 0, compare: 0, software: 0, games: 0, programs: 0 };
+  let pendingCatalogRequests = 0;
+  const serveCatalog = async (route, category, items) => {
+    calls[category]++;
+    pendingCatalogRequests++;
+    try { await ok(route, items); } finally { pendingCatalogRequests--; }
+  };
   await seed(page);
-  await page.route('**/performance/games', route => { calls.games++; return ok(route, games); });
-  await page.route('**/professional-software', route => { calls.programs++; return ok(route, professionalSoftware); });
+  await page.route('**/performance/games', route => serveCatalog(route, 'games', games));
+  await page.route('**/professional-software', route => serveCatalog(route, 'programs', professionalSoftware));
   await page.route('**/performance/simulate-game', route => { calls.single++; return ok(route, singleResult); });
   await page.route('**/performance/compare-games', route => { calls.compare++; return ok(route, comparisonResult); });
   await page.route('**/performance/simulate-software', route => { calls.software++; return ok(route, { software: professionalSoftware[1].name, performanceScore: 82 }); });
@@ -169,6 +175,11 @@ test('tarefas retêm entradas e resultados independentes sem refazer chamadas ao
   await page.getByRole('combobox', { name: 'Software', exact: true }).selectOption(professionalSoftware[1].id);
   await page.getByRole('button', { name: 'Simular software', exact: true }).click();
   await expect(page.getByRole('region', { name: 'Resultado da simulação profissional' })).toBeVisible();
+  await expect.poll(() => pendingCatalogRequests).toBe(0);
+  // StrictMode can repeat initial mount effects; revisiting tasks must add no requests.
+  const initialCatalogCalls = { games: calls.games, programs: calls.programs };
+  expect(initialCatalogCalls.games).toBeGreaterThan(0);
+  expect(initialCatalogCalls.programs).toBeGreaterThan(0);
   for (let revisit = 0; revisit < 2; revisit++) {
     await taskMode(page, 'Um jogo');
     await expect(page.getByRole('tabpanel')).toHaveCount(1);
@@ -184,7 +195,8 @@ test('tarefas retêm entradas e resultados independentes sem refazer chamadas ao
     await expect(page.getByRole('combobox', { name: 'Software', exact: true })).toHaveValue(professionalSoftware[1].id);
     await expect(page.getByRole('region', { name: 'Resultado da simulação profissional' })).toBeVisible();
   }
-  expect(calls).toEqual({ single: 1, compare: 1, software: 1, games: 1, programs: 1 });
+  await expect.poll(() => pendingCatalogRequests).toBe(0);
+  expect(calls).toEqual({ single: 1, compare: 1, software: 1, ...initialCatalogCalls });
 });
 
 test('build incompleta bloqueia ambos os modos sem chamar as APIs', async ({ page }) => {
@@ -345,12 +357,13 @@ test('gargalos e energia explicam unidades e preservam os valores e detalhes té
 test('ranking explica a normalização por categoria e mantém preço e pontuação', async ({ page }) => {
   await page.route('**/components/cost-benefit*', route => ok(route, [{ component: components[0], performanceScore: 70, costBenefitScore: 100, classification: 'Excelente' }]));
   await page.goto('/insights');
-  await expect(page.getByText(/A nota de custo-benefício é relativa à categoria/)).toBeVisible();
-  const help = page.locator('summary').filter({ hasText: 'Como ler este ranking' });
+  await expect(page.getByText('Índice relativo à categoria · preço de referência. Compare peças da mesma categoria.', { exact: true })).toBeVisible();
+  const help = page.locator('summary').filter({ hasText: 'Metodologia do ranking' });
   await help.focus(); await page.keyboard.press('Enter');
   await expect(page.getByText(/a melhor relação de cada categoria recebe 100 pontos/)).toBeVisible();
   await expect(page.getByText('70 / 100', { exact: true })).toBeVisible();
   await expect(page.getByText('100 / 100', { exact: true })).toBeVisible();
+  await expect(page.getByRole('article').filter({ has: page.getByRole('heading', { name: components[0].name, exact: true }) })).toContainText(components[0].price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
 });
 
 

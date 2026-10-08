@@ -19,7 +19,7 @@ const originalFormData = globalThis.FormData;
 try {
   const output = join(temporary, 'checks.mjs');
   await build({
-    stdin: { resolveDir: frontend, loader: 'jsx', contents: `export { default as React } from 'react'; export { renderToStaticMarkup } from 'react-dom/server'; export { MemoryRouter } from 'react-router-dom'; export { default as SavedBuilds } from './src/pages/SavedBuilds.jsx';` },
+    stdin: { resolveDir: frontend, loader: 'jsx', contents: `export { default as React } from 'react'; export { renderToStaticMarkup } from 'react-dom/server'; export { MemoryRouter } from 'react-router-dom'; export { default as SavedBuilds } from './src/pages/SavedBuilds.jsx'; export { default as Modal } from './src/components/ui/Modal.jsx';` },
     bundle: true, platform: 'node', format: 'esm', jsx: 'automatic', outfile: output,
     banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },
     plugins: [{ name: 'saved-build-fixtures', setup(builder) {
@@ -31,7 +31,7 @@ try {
       builder.onLoad({ filter: /.*/, namespace: 'service' }, ({ path }) => ({ contents: `export const ${path} = new Proxy({}, {get: (_, method) => (...args) => globalThis.__savedQA.service(${JSON.stringify(path)}, method, args)});` }));
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, ({ path }) => {
         let contents;
-        if (path === 'react') contents = `import * as Real from ${JSON.stringify(require.resolve('react'))}; export * from ${JSON.stringify(require.resolve('react'))}; export default Real.default; ${['useState', 'useRef', 'useMemo', 'useCallback', 'useEffect'].map(name => `export const ${name} = (...args) => globalThis.__savedQAHooks ? globalThis.__savedQAHooks.${name}(...args) : Real.${name}(...args);`).join('\n')}`;
+        if (path === 'react') contents = `import * as Real from ${JSON.stringify(require.resolve('react'))}; export * from ${JSON.stringify(require.resolve('react'))}; export default Real.default; ${['useState', 'useRef', 'useMemo', 'useCallback', 'useEffect', 'useId'].map(name => `export const ${name} = (...args) => globalThis.__savedQAHooks ? globalThis.__savedQAHooks.${name}(...args) : Real.${name}(...args);`).join('\n')}`;
         else if (path === 'router') contents = `import * as Real from ${JSON.stringify(require.resolve('react-router-dom'))}; export * from ${JSON.stringify(require.resolve('react-router-dom'))}; export const useNavigate = () => globalThis.__savedQAHooks ? globalThis.__savedQA.navigate : Real.useNavigate();`;
         else if (path.startsWith('useBuildState')) contents = 'export const useBuildState = () => globalThis.__savedQA.build;';
         else contents = 'export const useComponents = () => globalThis.__savedQA.catalog; export const useCatalogComponent = component => ({component: globalThis.__savedQA.catalog.componentMap[typeof component === "string" ? component : component?.id], loading:false, error:""});';
@@ -39,7 +39,7 @@ try {
       });
     }}]
   });
-  const { React, renderToStaticMarkup, MemoryRouter, SavedBuilds } = await import(pathToFileURL(output).href);
+  const { React, renderToStaticMarkup, MemoryRouter, SavedBuilds, Modal } = await import(pathToFileURL(output).href);
   const all = (node, predicate) => !node || typeof node !== 'object' ? [] : Array.isArray(node) ? node.flatMap(child => all(child, predicate)) : [...(predicate(node) ? [node] : []), ...all(node.props?.children, predicate)];
   const label = node => typeof node === 'string' || typeof node === 'number' ? String(node) : Array.isArray(node) ? node.map(label).join('') : node?.props ? label(node.props.children) : '';
   const named = (tree, name) => all(tree, node => node.type?.name === name);
@@ -184,7 +184,8 @@ try {
     assert(removalDialog(removalTree).props.open);
     assert(label(removalDialog(removalTree)).includes(saved[0].name), 'Confirmation identifies the exact saved build');
     assert.equal(fixture.calls.length, 0, 'Opening confirmation must not delete');
-    assert(button(removalDialog(removalTree), 'Cancelar').props.autoFocus, 'Cancel is the initial focus target');
+    assert.equal(removalDialog(removalTree).props.initialFocusSelector, '[data-dialog-initial-focus]', 'The dialog explicitly selects its safe initial focus target');
+    assert.equal(button(removalDialog(removalTree), 'Cancelar').props['data-dialog-initial-focus'], true, 'Cancel carries the initial focus marker');
     assert.deepEqual(named(removalDialog(removalTree), 'Button').map(node => label(node).trim()), ['Cancelar', 'Confirmar exclusão']);
     button(removalDialog(removalTree), 'Cancelar').props.onClick(); removalTree = removalPage.render();
     assert(!removalDialog(removalTree).props.open); assert.equal(fixture.calls.length, 0);
@@ -207,6 +208,57 @@ try {
     assert(!removalDialog(removalTree).props.open); assert.equal(fixture.calls.length, 2);
     removalPage.close();
     console.log('PASS: named delete confirmation is non-mutating until confirmed; cancel/Escape, duplicate confirmation, failure and retry are covered');
+
+    const originalDocument = Object.getOwnPropertyDescriptor(globalThis, 'document');
+    try {
+      for (const scenario of ['cancel', 'missing-target', 'default', 'closed']) {
+        const events = [];
+        const selector = scenario === 'default' ? undefined : '[data-dialog-initial-focus]';
+        const opener = { isConnected: true, focus: options => { assert.deepEqual(options, { preventScroll: true }); events.push('restore-opener'); } };
+        const documentFixture = { activeElement: opener, body: { style: { overflow: 'auto' } } };
+        const cancel = { focus: options => {
+          assert(dialog.open, 'Initial focus must occur after the native dialog opens');
+          assert.deepEqual(options, { preventScroll: true });
+          documentFixture.activeElement = cancel;
+          events.push('focus-cancel');
+        } };
+        const dialog = {
+          open: false,
+          showModal() { this.open = true; events.push('show-modal'); },
+          querySelector(actual) { assert.equal(actual, selector); events.push('find-target'); return scenario === 'cancel' ? cancel : null; },
+          close() { this.open = false; events.push('close-modal'); }
+        };
+        Object.defineProperty(globalThis, 'document', { configurable: true, value: documentFixture });
+        let effect;
+        globalThis.__savedQAHooks = {
+          useRef: () => ({ current: dialog }),
+          useId: () => 'focus-regression-title',
+          useEffect(callback, dependencies) {
+            assert.deepEqual(dependencies, [scenario !== 'closed', selector ?? null]);
+            effect = callback;
+          }
+        };
+        try { Modal({ open: scenario !== 'closed', title: 'Excluir build salva', initialFocusSelector: selector, onClose() {} }); }
+        finally { delete globalThis.__savedQAHooks; }
+        const cleanup = effect();
+        if (scenario === 'closed') {
+          assert.equal(cleanup, undefined); assert.deepEqual(events, []);
+          assert.equal(documentFixture.body.style.overflow, 'auto');
+          continue;
+        }
+        assert.deepEqual(events, scenario === 'cancel' ? ['show-modal', 'find-target', 'focus-cancel'] : scenario === 'missing-target' ? ['show-modal', 'find-target'] : ['show-modal']);
+        if (scenario === 'cancel') assert.equal(documentFixture.activeElement, cancel);
+        assert.equal(documentFixture.body.style.overflow, 'hidden');
+        cleanup();
+        assert.equal(dialog.open, false); assert.equal(documentFixture.body.style.overflow, 'auto');
+        assert.deepEqual(events.slice(-2), ['close-modal', 'restore-opener']);
+      }
+    } finally {
+      if (originalDocument) Object.defineProperty(globalThis, 'document', originalDocument);
+      else delete globalThis.document;
+      delete globalThis.__savedQAHooks;
+    }
+    console.log('PASS: actual Modal effect opens before focusing Cancel, tolerates absent/default targets, and restores scrolling and opener on close');
 
     reset();
     fixture.notifications = [{ id: 'notice-a', buildId: saved[0].id, message: 'Atenção: fonte incompatível', severity: 'high', read: false }];

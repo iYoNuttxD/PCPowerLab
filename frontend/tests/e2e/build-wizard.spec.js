@@ -385,7 +385,7 @@ test('editar refrigeração limpa sucesso antigo e mantém revisão pendente', a
   await analyze(page);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: 'Alterar refrigeração', exact: true }).click();
-  await page.getByRole('combobox', { name: 'Cooler do processador', exact: true }).selectOption(activePart(components, 'cooler-noctua-nh-l9a-am4-chromax-black').id);
+  await page.getByRole('button', { name: `Selecionar: ${activePart(components, 'cooler-noctua-nh-l9a-am4-chromax-black').name}`, exact: true }).click();
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toHaveCount(0);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
   expect((await stored(page)).compatibility).toBeNull();

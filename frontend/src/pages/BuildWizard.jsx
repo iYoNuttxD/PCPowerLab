@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { stepSelectionConflicts } from '../utils/selectionConflicts.js';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Save, Wand2 } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import CoolingPanel from '../components/build/CoolingPanel.jsx';
@@ -39,6 +39,7 @@ export default function BuildWizard() {
   const request = useApiRequest();
   const [feedback, setFeedback] = useState(null);
   const [replacement, setReplacement] = useState(null);
+  const [coolingSection, setCoolingSection] = useState('cooler');
   const currentStep = build.wizardStep;
   const stepIndex = wizardSteps.indexOf(currentStep);
   const layoutRef = useRef(null);
@@ -131,7 +132,8 @@ export default function BuildWizard() {
     request.setError('');
   }
 
-  function changeStep(step) {
+  function changeStep(step, section = 'cooler') {
+    if (step === 'cooling') setCoolingSection(section);
     clearMessages();
     if (step === currentStep) focusStepContent();
     build.actions.setWizardStep(step);
@@ -329,7 +331,7 @@ export default function BuildWizard() {
           </>
         )}
 
-        {currentStep === 'cooling' && <CoolingPanel build={build} byType={byType} loading={loading} error={error} onRetry={reload} onChange={clearMessages} />}
+        {currentStep === 'cooling' && <CoolingPanel initialSection={coolingSection} activeSection={coolingSection} onSectionChange={setCoolingSection} build={build} byType={byType} loading={loading} error={error} onRetry={reload} onChange={clearMessages} />}
 
         {currentStep === 'budget' && (
           <Card>
@@ -365,7 +367,7 @@ export default function BuildWizard() {
           <div className="page-stack">
             <Card>
               <h3>Revisão e análises</h3>
-              <div className="cooling-review-row"><span>{build.selectedComponents.cooler?.name || 'Nenhum cooler adicional'}{build.selectedComponents.fans?.length > 0 ? ' · Ventoinhas extras selecionadas' : ''}</span><Button variant="ghost" onClick={() => changeStep('cooling')}>Alterar refrigeração</Button></div>
+              <div className="cooling-review-row"><span>{build.selectedComponents.cooler?.name || 'Nenhum cooler adicional'}{build.selectedComponents.fans?.length > 0 ? ' · Ventoinhas extras selecionadas' : ''}</span><Button variant="ghost" onClick={() => changeStep('cooling')}>Alterar refrigeração</Button><Link to="/summary#cooling-simulation">Ver temperatura e ruído</Link></div>
               {!build.compatibility && <p>Análise pendente. Analise novamente após alterar peças ou orçamento.</p>}
               {missingSlots.length > 0 && <Alert type="warning">Faltam peças: {missingSlots.map(slot => componentLabels[slot]).join(', ')}. Volte à categoria para escolher.</Alert>}
               {budgetError && <Alert type="warning">{budgetError} Volte à etapa Orçamento para corrigir.</Alert>}
@@ -399,7 +401,7 @@ export default function BuildWizard() {
         <BuildSummaryCard
           selectedComponents={build.selectedComponents}
           totalPrice={build.totalPrice}
-          onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'cooling' : type)}
+          onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'cooling' : type, type === 'fans' ? 'fans' : 'cooler')}
           onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
       </aside>

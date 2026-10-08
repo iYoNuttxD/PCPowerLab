@@ -365,11 +365,11 @@ export default function SavedBuilds() {
         ))}
       </div>
 
-      <Modal open={Boolean(pendingRemoval)} title="Excluir build salva" onClose={() => setPendingRemoval(null)}>
+      <Modal open={Boolean(pendingRemoval)} title="Excluir build salva" initialFocusSelector="[data-dialog-initial-focus]" onClose={() => setPendingRemoval(null)}>
         {pendingRemoval && <>
           <p>Excluir “{pendingRemoval.name}” das builds salvas?</p>
           <div className="button-row">
-            <Button variant="ghost" autoFocus disabled={request.loading} onClick={() => setPendingRemoval(null)}>Cancelar</Button>
+            <Button variant="ghost" data-dialog-initial-focus disabled={request.loading} onClick={() => setPendingRemoval(null)}>Cancelar</Button>
             <Button variant="danger" disabled={request.loading} loading={request.loading} onClick={() => removeBuild(pendingRemoval.id)}>Confirmar exclusão</Button>
           </div>
           {request.error && <Alert type="error">{request.error}</Alert>}

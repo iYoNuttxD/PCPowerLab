@@ -49,3 +49,19 @@
 .cooling-simulation-method dl { display: grid; gap: .5rem; }
 .cooling-simulation-method dd { margin-left: 0; color: var(--muted); }
 .cooling-temperature-chart figcaption small { display: block; color: var(--muted); font-weight: 400; font-size: .8rem; margin-top: .2rem; }
+
+/* Visual optional products reuse the same identity, photos and prices as the catalogue. */
+.cooling-card-selection .task-panel { min-width: 0; }
+.cooling-card-selection .task-panel > .hint-text { margin-bottom: .75rem; }
+.cooling-product-grid { align-items: stretch; }
+/* Optional quantity/removal footers need independent tracks, not the catalogue’s eight-row subgrid. */
+.cooling-card-selection .cooling-product-grid > .component-card {
+  grid-row: auto;
+  grid-template-rows: auto 184px minmax(2.7em, auto) auto auto auto auto auto auto;
+  align-content: start;
+}
+.cooling-card-controls { display: grid; gap: .6rem; border-top: 1px solid var(--border); margin-top: .75rem; padding-top: .75rem; min-width: 0; }
+.cooling-card-controls p, .cooling-card-controls strong { margin: 0; overflow-wrap: anywhere; }
+.cooling-card-controls .field { margin: 0; }
+.cooling-card-selection .task-tabs { flex-wrap: wrap; }
+.cooling-card-selection .task-tabs button { white-space: normal; }

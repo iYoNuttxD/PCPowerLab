@@ -169,14 +169,23 @@ try {
 
   const actionCalls = [];
   const cooler = { id: 'cooler-one', name: 'Cooler', category: 'cooler' }; const fan = { id: 'fan-one', name: 'Fan', category: 'fan', quantity: 1 };
-  const cooling = runtime(() => CoolingPanel({ build: { selectedComponents: { cooler, fans: [fan] }, actions: Object.fromEntries(['setFans', 'selectComponent', 'removeComponent'].map(name => [name, (...args) => actionCalls.push([name, ...args])])) }, byType: { cooler: [cooler], fan: [fan, { ...fan, id: 'fan-two' }] }, onChange: () => actionCalls.push(['clear']) }));
-  const exercise = callback => { actionCalls.length = 0; callback(cooling.render()); assert.equal(actionCalls[0][0], 'clear'); assert.equal(actionCalls.length, 2); };
-  exercise(tree => find(tree, node => node.props?.label === 'Cooler do processador').props.onChange({ target: { value: 'cooler-one' } }));
-  exercise(tree => button(tree, 'Remover cooler').props.onClick());
-  exercise(tree => find(tree, node => node.props?.label === 'Modelo de ventoinha 1').props.onChange({ target: { value: 'fan-two' } }));
-  exercise(tree => find(tree, node => node.props?.label === 'Pacotes de ventoinhas 1').props.onChange({ target: { value: '2' } }));
-  exercise(tree => button(tree, 'Remover ventoinhas 1').props.onClick());
-  exercise(tree => find(tree, node => node.props?.label === 'Adicionar ventoinhas').props.onChange({ target: { value: 'fan-two' } }));
+  const otherCooler = { ...cooler, id: 'cooler-two', name: 'Other cooler' };
+  const otherFan = { ...fan, id: 'fan-two', name: 'Other fan' };
+  const cooling = runtime(() => CoolingPanel({ build: { selectedComponents: { cooler, fans: [fan] }, actions: Object.fromEntries(['setFans', 'selectComponent', 'removeComponent'].map(name => [name, (...args) => actionCalls.push([name, ...args])])) }, byType: { cooler: [cooler, otherCooler], fan: [fan, otherFan] }, onChange: () => actionCalls.push(['clear']) }));
+  const exercise = (callback, mutation) => { actionCalls.length = 0; callback(cooling.render()); assert.deepEqual(actionCalls, [['clear'], mutation]); };
+  exercise(tree => find(tree, node => node.props?.component?.id === 'cooler-two').props.onSelect(otherCooler), ['selectComponent', 'cooler', otherCooler]);
+  exercise(tree => button(tree, 'Remover cooler').props.onClick(), ['removeComponent', 'cooler']);
+  exercise(tree => find(tree, node => node.props?.label === 'Pacotes: Fan').props.onChange({ target: { value: '2' } }), ['setFans', [{ ...fan, quantity: 2 }]]);
+  exercise(tree => button(tree, 'Remover ventoinhas').props.onClick(), ['setFans', []]);
+  exercise(tree => find(tree, node => node.props?.component?.id === 'fan-two').props.onSelect(otherFan), ['setFans', [fan, { ...otherFan, quantity: 1 }]]);
+  actionCalls.length = 0;
+  const selectedTree = cooling.render();
+  find(selectedTree, node => node.props?.component?.id === 'fan-one').props.onSelect(fan);
+  find(selectedTree, node => node.props?.component?.id === 'cooler-one').props.onSelect(cooler);
+  for (const value of ['', '0', '-1', '21', '1.5']) find(selectedTree, node => node.props?.label === 'Pacotes: Fan').props.onChange({ target: { value } });
+  assert.deepEqual(actionCalls, [], 'repeated selected-card actions and invalid quantities cannot mutate the build');
+  assert.equal(named(selectedTree, 'Select').length, 0);
+  assert.equal(named(selectedTree, 'CoolingSimulationPanel').length, 0);
   cooling.close();
   console.log('PASS: each cooler/fan edit clears the old wizard message before changing the configuration');
 

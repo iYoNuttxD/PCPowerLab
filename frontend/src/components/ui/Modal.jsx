@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef } from 'react';
 import Button from './Button.jsx';
 
-export default function Modal({ open, title, children, onClose, className = '' }) {
+export default function Modal({ open, title, children, onClose, className = '', initialFocusSelector = null }) {
   const dialogRef = useRef(null);
   const titleId = useId();
 
@@ -10,6 +10,7 @@ export default function Modal({ open, title, children, onClose, className = '' }
     const dialog = dialogRef.current;
     const opener = document.activeElement;
     dialog.showModal();
+    if (initialFocusSelector) dialog.querySelector(initialFocusSelector)?.focus({ preventScroll: true });
     // Native modal dialogs make the underlying page inert, including nested dialogs.
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -18,7 +19,7 @@ export default function Modal({ open, title, children, onClose, className = '' }
       document.body.style.overflow = previousOverflow;
       if (opener?.isConnected) opener.focus({ preventScroll: true });
     };
-  }, [open]);
+  }, [open, initialFocusSelector]);
 
   if (!open) return null;
 

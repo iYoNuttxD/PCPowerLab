@@ -63,7 +63,7 @@ try {
       builder.onLoad({ filter: /.*/, namespace: 'fixture' }, ({ path }) => {
         let contents;
         if (path === 'react-proxy') contents = `import * as Real from ${JSON.stringify(realReact)}; export * from ${JSON.stringify(realReact)}; export default Real.default; ${['useState', 'useRef', 'useMemo', 'useCallback', 'useEffect'].map(name => `export const ${name} = (...args) => globalThis.__simulationHooks ? globalThis.__simulationHooks.${name}(...args) : Real.${name}(...args);`).join('\n')}`;
-        else if (path === 'router-proxy') contents = `export * from ${JSON.stringify(realRouter)}; export const useNavigate = () => globalThis.__simulationFixtures.navigate;`;
+        else if (path === 'router-proxy') contents = `import * as Real from ${JSON.stringify(realRouter)}; export * from ${JSON.stringify(realRouter)}; export const useNavigate = () => globalThis.__simulationFixtures.navigate; export const useLocation = () => globalThis.__simulationHooks ? globalThis.__simulationFixtures.location : Real.useLocation();`;
         else if (path === 'build-fixture') contents = 'export const useBuildState = () => globalThis.__simulationFixtures.build;';
         else if (path === 'catalog-fixture') contents = `export const useComponents = () => globalThis.__simulationFixtures.catalog; export const useCatalogComponent = component => ({component: globalThis.__simulationFixtures.catalog.componentMap[typeof component === 'string' ? component : component?.id], loading:false, error:''});`;
         else contents = `export const ${path} = new Proxy({}, {get: (_, key) => globalThis.__simulationFixtures.services.${path}[key]});`;
@@ -89,7 +89,7 @@ try {
     selectedComponents.fans = [{ id: 'fan-1', quantity: 3 }];
     const record = (name, result) => async payload => { calls.push({ name, payload }); return result(); };
     fixtures = {
-      calls, navigate() {},
+      calls, navigate() {}, location: { pathname: '/summary', search: '', hash: '', key: 'summary-fixture' },
       catalog: { componentMap: Object.fromEntries(Object.values(selectedComponents).flat().map(part => [part.id, part])), byType: {}, loading: false, error: '', reload() {} },
       build: { revision: 7, selectedComponents, buildPayload: { ...Object.fromEntries(types.map(type => [`${type}Id`, `${type}-1`])), coolerId: 'cooler-1', fans: [{ fanId: 'fan-1', quantity: 3 }] }, totalPrice: 5000, budget: { amount: 6000, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: { gameId: 'game-1', targetResolution: '1080p', qualityPreset: 'high' }, actions: new Proxy({}, { get: (_, key) => () => { throw new Error(`Unexpected persisted build action: ${String(key)}`); } }) },
       services: {
@@ -535,6 +535,30 @@ try {
   }
   const summaryGameLabel = 'Jogo';
   const summaryHint = tree => childrenText(all(tree, node => node.props?.id === 'summary-simulation-hint')[0]);
+  reset(); summaryActions();
+  fixtures.build.coolingConditions = { inletCelsius: 27, coolerSpeedFraction: 0.75, fanSpeedFraction: 0.5 };
+  fixtures.build.actions.setCoolingConditions = conditions => { fixtures.build = { ...fixtures.build, coolingConditions: conditions }; };
+  page = await loadedPage(BuildSummary); tree = page.render();
+  const summaryCoolingPanels = named(tree, 'CoolingSimulationPanel');
+  equal(summaryCoolingPanels.length, 1, 'Summary renders exactly one real thermal simulator');
+  const summaryCooling = summaryCoolingPanels[0];
+  for (const [prop, slot] of [['cpu', 'cpu'], ['cooler', 'cooler'], ['fans', 'fans'], ['caseComponent', 'case']]) {
+    verify(summaryCooling.props[prop] === fixtures.build.selectedComponents[slot], `Summary passes the exact selected ${slot}`);
+  }
+  verify(summaryCooling.props.conditions === fixtures.build.coolingConditions, 'Summary passes the persisted scenario unchanged');
+  verify(summaryCooling.props.onConditionsChange === fixtures.build.actions.setCoolingConditions, 'Summary uses the shared conditions action');
+  const summaryCoolingSection = all(tree, node => node.props?.id === 'cooling-simulation');
+  equal(summaryCoolingSection.length, 1);
+  equal(summaryCoolingSection[0].props.tabIndex, -1);
+  equal(named(summaryCoolingSection[0], 'CoolingSimulationPanel').length, 1, 'Thermal anchor wraps the actual simulator');
+  const nextSummaryConditions = { ...fixtures.build.coolingConditions, inletCelsius: 30 };
+  summaryCooling.props.onConditionsChange(nextSummaryConditions);
+  tree = page.render();
+  verify(named(tree, 'CoolingSimulationPanel')[0].props.conditions === nextSummaryConditions);
+  equal(fixtures.calls, [], 'Editing a Summary thermal scenario sends no analysis requests');
+  page.close();
+  pass('BuildSummary renders one anchored thermal simulator with the exact selected hardware, persisted conditions and shared conditions action');
+
   reset(); summaryActions(); pending = deferred(); fixtures.services.performanceService.listGames = () => pending.promise;
   page = runtime(BuildSummary); tree = page.render();
   verify(select(tree, summaryGameLabel).props.disabled);

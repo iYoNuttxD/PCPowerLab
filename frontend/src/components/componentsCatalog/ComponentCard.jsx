@@ -13,7 +13,7 @@ import { performanceScoreLabel } from '../../utils/performanceMethodology.js';
 import { formatCatalogScore } from '../../utils/catalogSelection.js';
 import ComponentImage from './ComponentImage.jsx';
 
-export default function ComponentCard({ component, onSelect, onLinks, onCompare, compared = false, compareDisabled = false, selected = false, compatibilityPreview = null }) {
+export default function ComponentCard({ component, onSelect, onLinks, onCompare, compared = false, compareDisabled = false, selected = false, compatibilityPreview = null, selectLabel = 'Selecionar', selectedLabel = 'Selecionado', children }) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const specs = component?.specs && typeof component.specs === 'object' ? component.specs : {};
   const keys = specKeys([component]);
@@ -54,9 +54,9 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         <div className="button-row">
           {onSelect && (
             <Button type="button" onClick={() => onSelect(component)} variant={selected ? 'success' : 'primary'}
-              aria-pressed={selected} aria-label={`${selected ? 'Selecionado' : 'Selecionar'}: ${name}`}>
+              aria-pressed={selected} aria-label={`${selected ? selectedLabel : selectLabel}: ${name}`}>
               {selected ? <Check size={18} aria-hidden="true" /> : <PlusCircle size={18} aria-hidden="true" />}
-              {selected ? 'Selecionado' : 'Selecionar'}
+              {selected ? selectedLabel : selectLabel}
             </Button>
           )}
           {onLinks && (
@@ -71,6 +71,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
             {compared ? 'Na comparação' : 'Comparar'}
           </Button>}
         </div>
+        {children}
       </Card>
       <Modal open={detailsOpen} title={name} onClose={() => setDetailsOpen(false)}>
         <ComponentImage component={component} />

@@ -322,7 +322,7 @@ test('sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de
   await page.goto('/summary');
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Atenção: incompatibilidades encontradas', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Ver sugestões de correção', exact: true }).first().click();
+  await page.getByRole('button', { name: 'Ver correções', exact: true }).first().click();
   await page.getByRole('button', { name: 'Revisar substituição', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM' });
   await expect(dialog.getByRole('radio', { name: literalName(ram32.name) })).toBeChecked();

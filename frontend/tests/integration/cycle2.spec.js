@@ -102,6 +102,12 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
     const position = await page.evaluate(() => ({ heading: document.querySelector('#wizard-step-heading').getBoundingClientRect().top, actions: document.querySelector('.wizard-actions').getBoundingClientRect().bottom }));
     expect(position.heading).toBeGreaterThan(position.actions);
   }
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Refrigeração');
+  const continueCooling = page.getByRole('button', { name: 'Continuar', exact: true });
+  await expect(continueCooling).toBeInViewport();
+  await continueCooling.click();
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await expect(page.locator('#wizard-step-heading')).toBeFocused();
   await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('6000');
   await next.click();
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();

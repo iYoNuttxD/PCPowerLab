@@ -1,10 +1,11 @@
+import CoolingSimulationPanel from '../components/build/CoolingSimulationPanel.jsx';
 import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
 import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { summarySimulationHint } from '../utils/summarySimulationHint.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Copy, FileJson, FileText, Save, Share2, Sparkles, Wrench } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import BudgetPanel from '../components/build/BudgetPanel.jsx';
@@ -43,6 +44,20 @@ import { translateValue } from '../utils/translations.js';
 
 export default function BuildSummary() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const coolingSectionRef = useRef(null);
+  useEffect(() => {
+    if (location.hash !== '#cooling-simulation') return;
+    const frame = requestAnimationFrame(() => {
+      const section = coolingSectionRef.current;
+      if (!section) return;
+      const headerHeight = document.querySelector('.topbar')?.getBoundingClientRect().height || 0;
+      section.style.scrollMarginTop = `${headerHeight + 16}px`;
+      section.focus({ preventScroll: true });
+      section.scrollIntoView({ block: 'start', behavior: 'auto' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [location.hash, location.key]);
   const build = useBuildState();
   const catalog = useComponents();
   const request = useApiRequest();
@@ -493,6 +508,12 @@ export default function BuildSummary() {
         )}
       </SummarySection>
 
+      <section id="cooling-simulation" ref={coolingSectionRef} tabIndex={-1} aria-label="Temperatura e ruído" className="summary-section">
+        <CoolingSimulationPanel cpu={build.selectedComponents.cpu} cooler={build.selectedComponents.cooler}
+          fans={build.selectedComponents.fans || []} caseComponent={build.selectedComponents.case}
+          conditions={build.coolingConditions} onConditionsChange={build.actions.setCoolingConditions} />
+      </section>
+
       <SummarySection eyebrow="Compra" title="Links de compra">
         <PurchaseLinksList linksBySlot={linksByBuild} selectedComponents={build.selectedComponents} />
       </SummarySection>
@@ -501,7 +522,7 @@ export default function BuildSummary() {
         <TechnicalReportView report={technicalReport} />
       </Modal>
 
-      {replacement && ['cooler', 'fans'].includes(replacement.type) && <Modal open title="Alterar refrigeração" onClose={() => setReplacement(null)}><CoolingPanel build={build} byType={catalog.byType} loading={catalog.loading} error={catalog.error} onRetry={catalog.reload} /></Modal>}
+      {replacement && ['cooler', 'fans'].includes(replacement.type) && <Modal open title="Alterar refrigeração" onClose={() => setReplacement(null)}><CoolingPanel initialSection={replacement.type === 'fans' ? 'fans' : 'cooler'} build={build} byType={catalog.byType} loading={catalog.loading} error={catalog.error} onRetry={catalog.reload} /></Modal>}
       {replacement && !['cooler', 'fans'].includes(replacement.type) && <ComponentReplacement type={replacement.type} initialComponent={replacement.component}
         build={build} onApply={applyReplacement} onClose={() => setReplacement(null)} />}
 

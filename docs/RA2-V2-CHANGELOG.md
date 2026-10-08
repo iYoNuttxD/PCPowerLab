@@ -64,3 +64,10 @@ Após autorização do usuário, oito lacunas de score recebem coeficientes inve
 - Separadas observações comerciais datadas, scores sintéticos e validação física/humana
 - Preservadas contagens históricas e destacados retestes pendentes da união de interface, refrigeração e compatibilidade
 - Não declarada homologação, publicação final, merge, deploy ou pesquisa humana
+
+### Cooling cards and Summary analysis follow-up
+
+- Replaced select-based cooling choices with visual product cards and inline pack controls.
+- Moved the selection-stage temperature/noise panel to Summary, with a direct review link; retained the Performance analysis task and local scenario state.
+- Focused Cancel after opening saved-build deletion dialogs.
+- Reconciled verified browser fixture/locator changes without removing outcome assertions or adding skips. Browser and visual acceptance of the new revision is pending.
