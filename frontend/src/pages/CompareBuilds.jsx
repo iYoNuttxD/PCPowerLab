@@ -142,11 +142,11 @@ export default function CompareBuilds() {
           <Alert type={(comparison.builds || []).some((item) => item.comparisonIndex === comparison.recommendedBuild?.comparisonIndex && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={comparison.recommendedBuild?.available === false ? 'Comparação de custo pendente' : `Sugestão entre as builds comparadas: ${Number.isInteger(comparison.recommendedBuild?.comparisonIndex) ? `${comparison.recommendedBuild.comparisonIndex + 1} · ` : ''}${comparison.recommendedBuild?.name || 'Não informada'}`}>
             {comparison.recommendedBuild?.reason}
           </Alert>
-          <details className="analysis-help"><summary>Por que a configuração sugerida pode ter menos desempenho?</summary><p>A escolha usa a pontuação final, não só o índice de desempenho. Estar dentro do orçamento acrescenta pontos; ultrapassá-lo reduz a pontuação. Incompatibilidades, alertas e gargalos também pesam. O teto não exclui automaticamente uma configuração: veja seu status de orçamento antes de decidir.</p></details>
-          <p>O índice de custo-benefício combina pontuações e preços de referência do catálogo. Leia também os alertas: uma pontuação maior não comprova compatibilidade nem uma compra melhor.</p>
+          <details className="analysis-help"><summary>Como a sugestão é escolhida?</summary><p>A pontuação combina desempenho, orçamento, compatibilidade e alertas. Estar acima do orçamento reduz a nota, mas não exclui automaticamente a configuração.</p></details>
+          <p className="comparison-scroll-hint">Deslize para ver todos os critérios. Pelo teclado, foque a tabela e use as setas.</p>
           <div className="comparison-table" role="region" aria-label="Comparação de configurações — role horizontalmente para ver todos os critérios" tabIndex={0}>
             <table>
-              <caption>Preço de referência e pontuação estimada das builds. Pontos maiores indicam melhor avaliação no modelo; não equivalem a FPS nem a uma medição real.</caption>
+              <caption>Preços de referência e desempenho estimado</caption>
               <thead><tr>
                 <th scope="col">Build</th><th scope="col">Preço estimado de referência</th><th scope="col">Compatível</th>
                 <th scope="col">Pontuação estimada de desempenho</th><th scope="col">Índice de custo-benefício</th><th scope="col">Alertas e gargalos</th><th scope="col">Orçamento</th><th scope="col">Pontuação final do critério</th>
@@ -155,7 +155,7 @@ export default function CompareBuilds() {
                 {(comparison.builds || []).map((item) => (
                   <tr key={item.comparisonIndex}>
                     <th scope="row">{item.comparisonIndex + 1} · {item.name}<details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={item.components} /></details></th>
-                    <td>{formatCurrency(item.totalEstimatedPrice)}</td>
+                    <td className="comparison-money">{formatCurrency(item.totalEstimatedPrice)}</td>
                     <td>
                       <span>{translateValue(getCompatibilityStatus(item))}</span>
                       {Array.isArray(item.unverifiedChecks) && item.unverifiedChecks.length > 0 && (

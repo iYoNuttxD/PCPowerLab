@@ -94,7 +94,7 @@ try {
   const shareOne = shareButton.props.onClick(); const shareTwo = shareButton.props.onClick();
   assert.equal(shareCalls, 1);
   mutationTree = mutationPage.render();
-  for (const name of ['Compartilhar', 'Criar versão atual', 'Excluir']) {
+  for (const name of ['Compartilhar', 'Criar versão', 'Excluir']) {
     assert(buttons(mutationTree, name).every(button => button.props.disabled));
   }
   assert(buttons(mutationTree, 'Ver versões').every(button => !button.props.disabled));

@@ -22,6 +22,8 @@ export const statusLabels = {
   compatible: 'Compatível',
   incompatible: 'Incompatível',
   unverified: 'Não verificada',
+  unverified_compatibility: 'Compatibilidade pendente',
+  fans: 'Ventoinhas',
   excellent: 'Excelente',
   good: 'Bom',
   entry: 'Entrada',
@@ -201,4 +203,14 @@ function humanizeTechnicalKey(value) {
     .replace(/[_-]+/g, ' ')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+// Presentation-only cleanup of known legacy Portuguese messages; keep IDs and API values intact.
+export function readableMessage(value) {
+  if (typeof value !== 'string') return value;
+  const words = { atencao: 'atenção', configuracao: 'configuração', configuracoes: 'configurações', fans: 'ventoinhas', nao: 'não', verificacoes: 'verificações', analise: 'análise' };
+  return value.replace(/\b(atencao|configuracao|configuracoes|fans|nao|verificacoes|analise)\b/gi, word => {
+    const replacement = words[word.toLowerCase()];
+    return word[0] === word[0].toUpperCase() ? replacement[0].toUpperCase() + replacement.slice(1) : replacement;
+  });
 }

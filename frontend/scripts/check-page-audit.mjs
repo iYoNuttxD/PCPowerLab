@@ -21,7 +21,7 @@ try {
   define: { 'import.meta.env.VITE_API_BASE_URL': JSON.stringify('/api/v1') },
   banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" } });
   const { render } = await import(pathToFileURL(output));
-  const routes = ['/', '/components', '/build', '/summary', '/performance-lab', '/compare', '/insights', '/feedback', '/feedback/new', '/ready-builds', '/saved-builds', '/upgrades', '/shared/audit-placeholder', '/admin', '/about', '/missing-route-v25'];
+  const routes = ['/', '/components', '/build', '/summary', '/performance-lab', '/compare', '/insights', '/feedback', '/feedback/new', '/ready-builds', '/saved-builds', '/upgrades', '/shared/audit-placeholder', '/admin', '/about', '/image-credits', '/missing-route-v25'];
   for (const route of routes) {
     const html = render(route);
     assert.equal((html.match(/<main\b/g) || []).length, 1, route + ': one main landmark');
@@ -43,5 +43,5 @@ try {
       console.log(JSON.stringify({ foreground, background, ratio: Number(ratio.toFixed(2)), method: 'opaque sRGB token calculation only' }));
     }
   }
-  console.log('PASS: 16 routes and 32 opaque text-token pairs. No effects, browser DOM, geometry, focus, screenshots or human validation executed.');
+  console.log('PASS: 17 routes and 32 opaque text-token pairs. No effects, browser DOM, geometry, focus, screenshots or human validation executed.');
 } finally { await rm(temporary, { recursive: true, force: true }); }

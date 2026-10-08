@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { specLabel, formatSpecValue, specKeys } from '../src/utils/componentPresentation.js';
-import { translateValue } from '../src/utils/translations.js';
+import { translateValue, readableMessage } from '../src/utils/translations.js';
 test('RAM presents transfer rate, kit count and profile in Portuguese with correct units', () => {
   assert.equal(specLabel('dataRateMTs'), 'Taxa de transferência');
   assert.equal(specLabel('modulesPerKit'), 'Módulos por kit');
@@ -20,4 +20,13 @@ test('equivalent RAM rate aliases display once without concealing divergent or s
  assert.equal(specKeys([ram({speedMhz:3200,dataRateMTs:3200})]).includes('dataRateMTs'),false);
  assert.equal(specKeys([ram({dataRateMTs:3200})]).includes('dataRateMTs'),true);
  assert.equal(specKeys([ram({speedMhz:3200,dataRateMTs:3600})]).includes('dataRateMTs'),true);
+});
+
+
+test('pending compatibility and legacy alert wording are clear Portuguese without changing identifiers', () => {
+  assert.equal(translateValue('unverified_compatibility'), 'Compatibilidade pendente');
+  assert.equal(translateValue('fans'), 'Ventoinhas');
+  assert.equal(readableMessage('Atencao: configuracao com fans sem verificacoes.'), 'Atenção: configuração com ventoinhas sem verificações.');
+  assert.equal(readableMessage('Noctua NH-U12S redux · 120 mm'), 'Noctua NH-U12S redux · 120 mm');
+  assert.equal(readableMessage(null), null);
 });

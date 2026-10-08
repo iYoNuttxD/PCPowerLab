@@ -44,6 +44,7 @@ test('shows exact local images in summary, wizard, recommendations and ID-only s
   await setup(page);
   for (const path of ['/summary', '/build', '/saved-builds', '/shared/photo-build']) {
     await page.goto(path);
+    if (path === '/saved-builds') await page.locator('.saved-build-components summary').first().click();
     await verifyPhoto(page);
     await expect(page.locator('body')).toHaveJSProperty('scrollWidth', await page.evaluate(() => document.body.clientWidth));
   }
@@ -63,7 +64,7 @@ test('ready build details and build comparison selections render ID-resolved med
   await verifyPhoto(page);
   await page.getByRole('button', { name: 'Selecionar', exact: true }).click();
   await page.getByRole('button', { name: 'Comparar selecionadas', exact: true }).click();
-  const comparison = page.getByRole('region', { name: /Comparação de builds/ });
+  const comparison = page.getByRole('region', { name: /Comparação de configurações/ });
   await comparison.getByText('Ver componentes', { exact: true }).first().click();
   await verifyPhoto(page, comparison.locator(`.component-media[data-component-id="${photo.id}"]`).first());
 });
@@ -105,6 +106,7 @@ test('a name-only saved snapshot cannot infer an approved catalog photo by name'
     components: { storage: { name: photo.name, category: 'storage', image: photo.image } }
   }]));
   await page.goto('/saved-builds');
+  await page.locator('.saved-build-components summary').first().click();
   const media = page.locator('.component-media').filter({
     has: page.getByRole('img', { name: `Fotografia não disponível: ${photo.name}`, exact: true })
   });

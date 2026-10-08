@@ -43,6 +43,9 @@ try {
 
   const unavailable = render(BottleneckPanel, { result: { status: 'unavailable', reason: 'missing_performance_parameters' } });
   assert(unavailable.includes('equipe responsável pelo catálogo'));
+  const pending = render(BottleneckPanel, { result: { status: 'unavailable', reason: 'unverified_compatibility', message: 'Atencao: configuracao com fans sem verificacoes.' } });
+  assert(pending.includes('Compatibilidade pendente') && pending.includes('Atenção: configuração com ventoinhas sem verificações.'));
+  assert(!pending.includes('Unverified Compatibility'));
   assert(!unavailable.includes('href="/admin"'), 'public missing-data state must not advertise admin');
   let html = render(BottleneckPanel, bottlenecks(values));
   for (const label of ['Pontuação de desempenho por componente', 'Pontuações de 0 a 100', 'os pontos não são FPS', 'não o consumo medido na tomada', 'Consumo estimado: 300 W', 'Referência da fonte com folga: 450 W', 'Capacidade nominal da fonte: 650 W', '35% de folga', 'Fonte dos dados:', 'não garante segurança elétrica', '0 pontos']) assert(html.includes(label), label);

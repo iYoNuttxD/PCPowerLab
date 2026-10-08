@@ -2042,7 +2042,8 @@ p:last-child {
 
 .comparison-table table {
   width: 100%;
-  min-width: 600px;
+  min-width: 1280px;
+  table-layout: fixed;
   border-collapse: collapse;
   text-align: left;
 }
@@ -2468,3 +2469,16 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .component-card .button-row { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
 .component-card .btn { white-space: nowrap; overflow-wrap: normal; gap: 4px; padding-inline: 4px; }
 .component-card .btn svg { flex: 0 0 16px; width: 16px; }
+
+/* Keep full words and monetary values legible; horizontal scrolling stays local. */
+.comparison-table { max-width: 100%; overscroll-behavior-x: contain; }
+.comparison-table th, .comparison-table td { overflow-wrap: normal; word-break: normal; vertical-align: top; }
+.comparison-table .comparison-money { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.comparison-table tbody th { overflow-wrap: break-word; }
+.comparison-table:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.saved-build-components summary { cursor: pointer; padding-block: var(--space-2); color: var(--cyan); }
+.saved-build-card > .button-row { align-items: stretch; }
+.saved-build-card .btn { overflow-wrap: normal; word-break: normal; }
+.saved-build-card .component-media--compact { width: 56px; grid-template-rows: 48px auto; }
+.saved-build-card .component-identity > .component-media { flex-basis: 56px; }
+.saved-build-card .build-parts-list li { padding: var(--space-2); gap: var(--space-1); }

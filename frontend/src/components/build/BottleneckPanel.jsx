@@ -6,7 +6,7 @@ import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
 import AnalysisHelp from './AnalysisHelp.jsx';
 import { formatPerformanceNumber, numericValue } from '../../utils/performancePresentation.js';
-import { translateBottleneckType, translateComponent, translateMetricLabel, translateSeverity, translateValue } from '../../utils/translations.js';
+import { translateBottleneckType, translateComponent, translateMetricLabel, translateSeverity, translateValue, readableMessage } from '../../utils/translations.js';
 
 export default function BottleneckPanel({ result }) {
   const scoreDescriptionId = useId();
@@ -42,7 +42,7 @@ export default function BottleneckPanel({ result }) {
           <h3>Análise de gargalos indisponível</h3>
           <Badge tone="yellow">{translateValue(reason)}</Badge>
         </div>
-        <p>{result.message || defaultUnavailableMessage(reason)}</p>
+        <p>{readableMessage(result.message) || defaultUnavailableMessage(reason)}</p>
         {reason === 'missing_performance_parameters' && (
           <p>Os parâmetros precisam ser atualizados pela equipe responsável pelo catálogo. Suas escolhas foram mantidas; revise as peças ou tente novamente após a atualização dos dados.</p>
         )}

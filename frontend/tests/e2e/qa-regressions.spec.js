@@ -105,7 +105,7 @@ test('build salva aguarda o catálogo antes de abrir e recupera nomes, preços e
     await ok(route, components);
   });
   await page.goto('/saved-builds');
-  const open = page.getByRole('button', { name: 'Abrir no wizard', exact: true });
+  const open = page.getByRole('button', { name: 'Abrir montagem', exact: true });
   await expect(open).toBeDisabled();
   await expect(page.getByText('Carregando dados das peças salvas...', { exact: true })).toBeVisible();
   release();
@@ -162,7 +162,7 @@ test('comparação de builds invalida resultado e ignora resposta antiga ao alte
   await page.getByRole('button', { name: 'Selecionar', exact: true }).click();
   const compare = page.getByRole('button', { name: 'Comparar selecionadas', exact: true });
   await compare.click();
-  const table = page.getByRole('region', { name: /^Comparação de builds/ });
+  const table = page.getByRole('region', { name: /^Comparação de configurações/ });
   await expect(table).toContainText('75');
   await page.getByRole('combobox', { name: 'Critério', exact: true }).selectOption('performance');
   await expect(table).toHaveCount(0);
@@ -181,7 +181,7 @@ test('comparação de builds invalida resultado e ignora resposta antiga ao alte
 test('erro ao carregar peças salvas impede abrir com preços zerados e permite recuperar', async ({ page }) => {
   await page.route('**/api/v1/components', route => route.fulfill({ status: 503, json: { success: false, message: 'Catálogo indisponível.' } }));
   await page.goto('/saved-builds');
-  const open = page.getByRole('button', { name: 'Abrir no wizard', exact: true });
+  const open = page.getByRole('button', { name: 'Abrir montagem', exact: true });
   await expect(open).toBeDisabled();
   await expect(page.getByText(/Não foi possível carregar as peças salvas/)).toBeVisible();
   await page.unroute('**/api/v1/components');

@@ -97,7 +97,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
     expect(saved.totalEstimatedPrice).toBe(expectedTotal);
     await expect(page.getByText('Build salva com sucesso.', { exact: true })).toBeVisible();
     await navigation(page, 'builds', '/saved-builds');
-    await page.getByRole('article').filter({ has: page.getByRole('heading', { name: saved.name, exact: true }) }).getByRole('button', { name: 'Abrir no wizard', exact: true }).click();
+    await page.getByRole('article').filter({ has: page.getByRole('heading', { name: saved.name, exact: true }) }).getByRole('button', { name: 'Abrir montagem', exact: true }).click();
     await expect(page).toHaveURL(/\/build$/);
     expect((await state(page)).selectedComponents).toEqual({ ...selected, fans: [] });
     expect((await state(page)).budget.amount).toBe(5500);

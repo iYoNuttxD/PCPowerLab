@@ -297,6 +297,8 @@ export default function SavedBuilds() {
               <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(savedBuild.totalEstimatedPrice)}</strong>
             </div>
             <p>{savedBuild.description || 'Sem descrição.'}</p>
+            <details className="saved-build-components">
+              <summary>Ver componentes</summary>
             <ul className="build-parts-list">
               {componentTypes.map((type) => (
                 <li key={type}>
@@ -312,18 +314,19 @@ export default function SavedBuilds() {
               )}
               {(Array.isArray(savedBuild.components?.fans) ? savedBuild.components.fans : []).map((fan) => (
                 <li key={fan.fanId || fan.id}>
-                  <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+                  <span>{componentLabels.fan} · {fan.quantity ?? 1} pacote(s)</span>
                   <ComponentIdentity component={fan} category="fan" />
                 </li>
               ))}
             </ul>
+            </details>
             <div className="button-row">
-              <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
-              <Button variant="secondary" disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild, '/summary')}>Trocar componente nesta configuração</Button>
+              <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir montagem</Button>
+              <Button variant="secondary" disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild, '/summary')}>Trocar peça</Button>
               <Button variant="ghost" onClick={() => openEditor(savedBuild)}><Edit3 size={18} /> Editar</Button>
               <Button variant="ghost" disabled={request.loading} onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
               <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>
-              <Button variant="ghost" disabled={request.loading} onClick={() => createVersion(savedBuild)}>Criar versão atual</Button>
+              <Button variant="ghost" disabled={request.loading} onClick={() => createVersion(savedBuild)}>Criar versão</Button>
               <Button variant="ghost" onClick={() => openHistory(savedBuild)}><History size={18} /> Histórico</Button>
               <Button
                 variant="ghost"

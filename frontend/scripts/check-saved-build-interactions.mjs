@@ -87,6 +87,11 @@ try {
   const submit = (tree, name = 'Nome atualizado') => form(tree).props.onSubmit({ preventDefault() {}, currentTarget: { name, description: 'Descrição atualizada' } });
   reset();
   const page = runtime(); page.render(); await tick(); let tree = page.render();
+  const componentDetails = all(tree, node => node.type === 'details' && node.props.className === 'saved-build-components');
+  assert.equal(componentDetails.length, 2);
+  assert(componentDetails.every(node => !node.props.open), 'Saved component galleries start closed');
+  assert(componentDetails.every(node => named(node, 'Button').length === 0), 'Primary actions must remain outside collapsed galleries');
+  assert(button(tree, 'Abrir montagem') && button(tree, 'Trocar peça') && button(tree, 'Editar'));
   if (!versionsOnly) {
     button(tree, 'Editar').props.onClick(); tree = page.render();
     const pending = deferred(); update = () => pending.promise;
@@ -122,7 +127,7 @@ try {
     assert.equal(named(tree, 'Input').find(node => node.props.name === 'name').props.defaultValue, 'Outro PC');
     assert(!button(tree, 'Salvar alterações').props.disabled, 'A late old save cannot mark a newly opened editor as saved');
     button(tree, 'Cancelar').props.onClick(); tree = page.render();
-    button(tree, 'Abrir no wizard').props.onClick();
+    button(tree, 'Abrir montagem').props.onClick();
     assert.equal(fixture.loads[0][0], saved[0]); assert.deepEqual(fixture.routes, [['/build']]);
     assert(all(tree, node => node.props?.to === '/upgrades?buildId=build-a').length === 1);
     console.log('PASS: close/reopen rejects stale edit completion; loading saved configuration and encoded Upgrade destination remain intact');
@@ -143,7 +148,7 @@ try {
   assert(detailMarkup.includes('gpu-no-longer-known'), 'Raw technical data must still preserve the original snapshot');
   assert.equal(snapshot.components.cpu.name, 'Nome histórico do processador');
   detail.props.onClose(); tree = page.render(); assert(named(tree, 'VersionsModal')[0].props.state.open);
-  button(tree, 'Criar versão atual').props.onClick(); await tick();
+  button(tree, 'Criar versão').props.onClick(); await tick();
   const creation = fixture.calls.find(call => call.name === 'savedBuildVersionsService' && call.method === 'create');
   assert(creation); assert(!creation.args[1].reason.includes('frontend')); assert.deepEqual(creation.args[1].buildSnapshot.components, saved[0].components);
   console.log('PASS: readable historical names, missing-piece fallback, cooler/fan quantities, budget/use settings, and closed raw-data details preserve the exact snapshot');

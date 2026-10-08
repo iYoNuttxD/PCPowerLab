@@ -1,7 +1,7 @@
 import Badge from '../ui/Badge.jsx';
 import Card from '../ui/Card.jsx';
 import AnalysisHelp from '../build/AnalysisHelp.jsx';
-import { translateSeverity, translateValue } from '../../utils/translations.js';
+import { translateSeverity, translateValue, readableMessage } from '../../utils/translations.js';
 
 export default function CompatibilityStatus({ result }) {
   if (!result) {
@@ -27,22 +27,22 @@ export default function CompatibilityStatus({ result }) {
       </div>
       <p className="analysis-note">Verificação pelas especificações cadastradas. Compatibilidade indica se as peças podem funcionar juntas; não é uma garantia de FPS.</p>
       <AnalysisHelp topics={['compatibility']} title="Entenda a compatibilidade" />
-      {unverifiedChecks.length > 0 && <div className="stack"><h4>Verificações pendentes</h4>{unverifiedChecks.map((check, index) => <article className="issue-card" key={check.code || index}><strong>{check.title || translateValue(check.code, 'Dados técnicos insuficientes')}</strong><p>{typeof check === 'string' ? check : check.message || check.reason}</p></article>)}</div>}
+      {unverifiedChecks.length > 0 && <div className="stack"><h4>Verificações pendentes</h4>{unverifiedChecks.map((check, index) => <article className="issue-card" key={check.code || index}><strong>{readableMessage(check.title) || translateValue(check.code, 'Dados técnicos insuficientes')}</strong><p>{readableMessage(typeof check === 'string' ? check : check.message || check.reason)}</p></article>)}</div>}
       {issues.length === 0 ? (
         <p>{unverified ? 'Dados incompletos não confirmam compatibilidade. Verifique as especificações do fabricante.' : 'Nenhuma incompatibilidade crítica foi identificada nas regras verificadas.'}</p>
       ) : (
         <div className="stack">
           {issues.map((alert, index) => (
             <article key={`${alert.code || alert.title}-${index}`} className={`issue-card severity-${alert.severity || 'medium'}`}>
-              <strong>{alert.title || translateValue(alert.code, 'Alerta técnico')}</strong>
-              <p>{alert.message}</p>
+              <strong>{readableMessage(alert.title) || translateValue(alert.code, 'Alerta técnico')}</strong>
+              <p>{readableMessage(alert.message)}</p>
               <small>
                 Severidade {translateSeverity(alert.severity || 'medium')}
                 {Array.isArray(alert.components) && alert.components.length > 0
                   ? ` • Componentes: ${alert.components.map((component) => translateValue(component)).join(', ')}`
                   : ''}
               </small>
-              {alert.suggestion && <p className="suggestion-text">{alert.suggestion}</p>}
+              {alert.suggestion && <p className="suggestion-text">{readableMessage(alert.suggestion)}</p>}
             </article>
           ))}
         </div>
