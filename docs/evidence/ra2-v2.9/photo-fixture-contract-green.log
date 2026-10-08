@@ -1,0 +1,1 @@
+PASS: exact revised catalog fixture has three API-valid identities and three rejected photo records; standard/single/blocked fixtures valid; name-only snapshot remains rejected; setup now enforces catalog schema. This is a Node contract check, not browser execution.

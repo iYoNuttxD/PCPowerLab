@@ -271,12 +271,24 @@ function buildFinalRecommendation({
     return 'Considere trocar alguns componentes para reduzir o custo total.';
   }
 
-  if (bottlenecks?.hasBottleneck) {
-    return 'A configuracao funciona, mas vale ajustar os componentes destacados para melhorar o equilibrio.';
+  if (gamePerformance?.available === false) {
+    return 'Nao foi possivel avaliar o desempenho para o jogo informado. Revise os dados e execute a simulacao novamente antes de concluir a recomendacao.';
   }
 
-  if (gamePerformance?.performanceLevel === 'poor') {
-    return 'Considere uma GPU ou CPU mais forte para o jogo informado.';
+  if (gamePerformance?.performanceLevel === 'insufficient' || gamePerformance?.meetsMinimumRequirements === false) {
+    return 'O jogo apresenta desempenho estimado insuficiente nas configuracoes selecionadas. Revise os requisitos e considere reduzir a qualidade ou resolucao, ou melhorar as pecas limitantes.';
+  }
+
+  if (bottlenecks?.available === false) {
+    return 'Dados de desempenho insuficientes para concluir a recomendacao. A compatibilidade pelas regras do catalogo nao confirma o desempenho.';
+  }
+
+  if (bottlenecks?.hasBottleneck) {
+    return 'Foram identificados possiveis gargalos. Considere ajustar os componentes destacados para melhorar o equilibrio estimado.';
+  }
+
+  if (!gamePerformance) {
+    return 'Configuracao compativel pelas regras do catalogo. O desempenho para um jogo especifico ainda nao foi simulado.';
   }
 
   return 'Configuracao recomendada para o perfil informado.';

@@ -1,0 +1,30 @@
+✔ cooling costs include pack quantities without fabricated performance or NaN (6.78456ms)
+✔ recommendations reject uncertain selected cooling instead of dropping it (1824.790603ms)
+✔ upgrades and roadmap retain cooling in prices and reject unverified candidates (3886.774094ms)
+✔ compatibility fixes do not silently discard selected accessories (0.940812ms)
+✔ partial performance has no cooling bonus and full unverified cooling builds are blocked (2.589109ms)
+✔ known air cooler height never substitutes for unknown RAM and VRM clearance (2127.974907ms)
+✔ roadmap rejects fractional step counts instead of silently producing a shorter or empty plan (2.796825ms)
+✔ upgrade suggestions resolve mixed aliases exactly as the central selector (2625.447468ms)
+✔ roadmap initial compatibility and steps use the same mixed-alias selection (4312.854884ms)
+✔ legacy slot names, flat ID aliases, nested aliases and saved builds retain identical upgrade results (14394.558166ms)
+✔ nested cooling options retain IDs, pack quantities, cost and unverified compatibility (6083.398206ms)
+✔ explicit top-level cooling removal overrides nested options in upgrades and roadmap (5172.960823ms)
+✔ deve gerar plano de upgrades em etapas respeitando orcamento e limite (6977.725531ms)
+✔ deve usar maxSteps padrao e limitar maxSteps a 5 (5802.528483ms)
+✔ deve retornar lista vazia quando nao houver upgrade possivel dentro do orcamento (2490.549518ms)
+✔ deve validar build e orcamento obrigatorios (0.564205ms)
+✔ deve expor rota POST de roadmap de upgrades (0.16224ms)
+✔ deve sugerir upgrade para build direta respeitando orcamento e compatibilidade (3359.761131ms)
+✔ deve sugerir upgrade para build salva por ID (5462.715581ms)
+✔ deve retornar mensagem clara quando nao houver upgrade dentro do orcamento (1266.753676ms)
+✔ deve retornar erro controlado quando build nao for informada (0.65566ms)
+✔ deve retornar erro controlado quando build salva nao existir (0.339783ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32731.456458

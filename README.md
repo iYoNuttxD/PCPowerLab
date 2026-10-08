@@ -1,5 +1,7 @@
 # PCPowerLab
 
+> RA2 V2.9: **NÃO HOMOLOGADA**. [Relatório final](docs/RA2-V2-RELATORIO-FINAL.md), [matriz](docs/RA2-V2-REQUISITOS.md), [testes](docs/RA2-V2-REGISTRO-TESTES.md) e [changelog](docs/RA2-V2-CHANGELOG.md). Fotos 9/98, browser sem execução atual, preços demonstrativos e validação humana pendente.
+
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links mockados de compra.
 
 O repositório também possui um frontend React em `frontend/`, com tema retro-arcade/tech gamer e integração com a API local.
@@ -558,3 +560,15 @@ Preços do catálogo são referências estimadas. As lojas oferecem links de pes
 ### Auditoria de qualidade v2.7
 
 [Defeitos reproduzidos, correções, testes e pendências](docs/RA2-V2-QUALIDADE.md). Inclui percursos HTTP reais e regressões de estado; execução em navegador permanece pendente no ambiente desta entrega. Testes automáticos aprovados não significam ausência total de bugs nem homologação de produção.
+
+## Auditoria final v2.9
+
+A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificações locais. O estado consolidado está no relatório acima; documentos de etapas anteriores são históricos. [Inventário atual dos 98 ativos](docs/RA2-V2.9-INVENTARIO.json), incluindo 3 air coolers, 2 AIOs e 4 produtos fan. Os 69 IDs da base foram preservados.
+
+- As três jornadas são percursos técnicos com adaptadores frontend e HTTP real; não testes com participantes
+- A suíte Node da raiz inclui os testes frontend em `frontend/tests/*.test.js`; não somar uma reexecução isolada
+- Suítes Playwright foram somente coletadas nesta rodada; nenhum screenshot atual ou aprovação de responsividade
+- Fotos faltantes, preços reais e dados físicos insuficientes são pendências obrigatórias; fallback não é foto
+- A auditoria corrigiu orientação final contraditória, fração de centavo no total local, validação de listas técnicas e fixture fotográfica; ver regressões e demais achados no relatório
+- Servidor mantém dados globais em memória. Não há persistência durável, isolamento de contas ou qualificação de produção
+- Nenhum merge/deploy/autoaprovação faz parte desta entrega. Revisão do responsável necessária

@@ -1533,3 +1533,19 @@ Resumo acrescenta `pricing`: total estimado, subtotal exclusivamente de cotaçõ
 - Em produção, endpoints inexistentes sob o `API_PREFIX` configurado retornam JSON **404**, sem cair no HTML da SPA.
 
 Evidências, cenários, limitações e mudanças de persistência: [auditoria v2.7](RA2-V2-QUALIDADE.md). Nenhum contrato implica preço real, benchmark ou compatibilidade física integral.
+
+## V2.9 — Resultado final de auditoria e contratos atuais
+
+[Relatório final](RA2-V2-RELATORIO-FINAL.md): **NÃO HOMOLOGADA**. [Testes deduplicados](RA2-V2-REGISTRO-TESTES.md). A execução HTTP real desta rodada não certifica implantação pública, segurança completa, hardware físico ou oferta de mercado.
+
+- Catálogo versionado: 98 ativos, 89 parâmetros das categorias principais e 490 links de pesquisa. Admin em memória pode alterar o estado de um processo; inventário de imports não é snapshot de outro servidor
+- `POST /components/compatibility` usa `{components: <seleção>, category?: <categoria>}`; resposta por candidato inclui `componentId`, `status`, `compatible`, `alerts`, `unverifiedChecks`. Montagem parcial/ausente não é automaticamente compatível
+- `POST /upgrades/roadmap` exige `maxSteps` inteiro positivo; fração é 400. Sugestões aceitam `buildId` explícito; a interface mantém essa origem durante carregamento e falhas
+- `POST /build-summary`: `finalRecommendation` não aprova desempenho insuficiente, jogo solicitado indisponível ou falta de parâmetros. Sem jogo, a orientação explicita que desempenho específico não foi simulado. Compatibilidade/orçamento mantêm precedência; fórmulas de FPS não foram alteradas
+- Listas técnicas presentes `storageInterfaces` (placa-mãe) e `supportedFormFactors` (gabinete) exigem arrays não vazios de textos. Entradas malformadas no admin recebem 400 sem mutação. Interfaces ausentes podem continuar desconhecidas em placa-mãe; dado legado inválido é não verificado e não deve causar TypeError na recomendação
+- Sugestões de upgrade e roadmap usam a mesma precedência de aliases do seletor central: seleção do nível superior e remoção explícita `cooler:null`/`fans:[]` não são substituídas por aliases/acessórios aninhados
+- Valores monetários da apresentação são normalizados em centavos antes de comparar o teto; não cria desconto, atualização de mercado ou previsão de compra
+- Recursos salvos, versões, histórico, notificações e compartilhamentos são globais e em memória. Reinício perde alterações; sem autenticação de usuário/isolamento durável. Compartilhamento é snapshot e pode permanecer após apagar a origem
+- CRUD de regras é documental, não altera as regras codificadas do motor. Não há endpoint de ingestão de cotação nem provedor comercial conectado
+
+Documentação de schemas anteriores descreve o contrato aditivo histórico. Preço `price`, `totalEstimatedPrice` e FPS continuam referências/modelo, não evidências comerciais ou físicas.

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { components } from '../../../src/data/components.mock.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
+import { validateCatalogResponse } from '../../src/utils/catalogResponse.js';
 
 const photo = components.find(component => component.id === 'ssd-samsung-980-pro-1tb');
 const otherPhoto = components.find(component => component.id === 'ssd-samsung-970-evo-plus-250gb');
@@ -11,6 +12,8 @@ const saved = { id: 'photo-build', name: 'Build com fotografia verificada', comp
 const ok = (route, data) => route.fulfill({ json: { success: true, data } });
 
 async function setup(page, catalog = components) {
+  // Invalid photo metadata is allowed here; malformed catalog identities are not.
+  validateCatalogResponse(catalog);
   await page.addInitScript(selection => localStorage.setItem('pcpowerlab-build-state', JSON.stringify({ selectedComponents: selection, wizardStep: 'review', budget: { amount: 6000, currency: 'BRL' }, recommendation: { components: selection, totalEstimatedPrice: 5000 } })), selected);
   await page.route('**/api/v1/**', route => {
     const path = new URL(route.request().url()).pathname.replace('/api/v1', '');
@@ -79,18 +82,32 @@ test('a stale verified snapshot cannot override current blocked metadata or load
   await expect(media.getByRole('img', { name: `Fotografia não disponível: ${photo.name}`, exact: true })).toBeVisible();
 });
 
-test('mismatched IDs, external paths, unverified statuses and name-only snapshots fail closed', async ({ page }) => {
+test('mismatched IDs, external paths and unverified statuses fail closed', async ({ page }) => {
   const invalid = [
     { ...photo, id: 'wrong-model' },
     { ...photo, id: 'external-path', image: { ...photo.image, componentId: 'external-path', imagePath: 'https://example.com/image.jpg' } },
-    { ...photo, id: 'unverified', image: { ...photo.image, componentId: 'unverified', status: 'pending' } },
-    { name: photo.name, category: 'storage', image: photo.image }
+    { ...photo, id: 'unverified', image: { ...photo.image, componentId: 'unverified', status: 'pending' } }
   ];
   await setup(page, invalid);
   await page.goto('/components');
-  await expect(page.locator('.component-card')).toHaveCount(4);
+  await expect(page.locator('.component-card')).toHaveCount(3);
   await expect(page.locator('.component-card img')).toHaveCount(0);
-  await expect(page.locator('.component-card .component-image-fallback')).toHaveCount(4);
+  await expect(page.locator('.component-card .component-image-fallback')).toHaveCount(3);
+});
+
+test('a name-only saved snapshot cannot infer an approved catalog photo by name', async ({ page }) => {
+  await setup(page);
+  await page.route('**/api/v1/saved-builds', route => ok(route, [{
+    ...saved,
+    components: { storage: { name: photo.name, category: 'storage', image: photo.image } }
+  }]));
+  await page.goto('/saved-builds');
+  const media = page.locator('.component-media').filter({
+    has: page.getByRole('img', { name: `Fotografia não disponível: ${photo.name}`, exact: true })
+  });
+  await expect(media).toHaveCount(1);
+  await expect(media.locator('img')).toHaveCount(0);
+  await expect(media).toHaveAttribute('data-image-state', 'unavailable');
 });
 
 test('loading, error and subsequent verified source have accessible states and no broken image', async ({ page }) => {

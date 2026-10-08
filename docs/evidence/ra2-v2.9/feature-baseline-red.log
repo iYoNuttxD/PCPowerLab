@@ -1,0 +1,161 @@
+✖ frontend totals preserve centavos and match the backend for real catalogue prices (2.0557ms)
+✖ an exact-centavo budget renders within budget and one cent less renders over (102.353287ms)
+✖ final guidance does not recommend a balanced build with insufficient game performance (5.992973ms)
+✖ insufficient game guidance takes precedence over generic bottleneck guidance (1.443595ms)
+✖ unavailable requested game analysis cannot become an unconditional recommendation (2.21156ms)
+✖ omitting a game keeps compatibility separate from game performance approval (0.653146ms)
+✖ missing performance parameters remain unavailable in final guidance (1.274475ms)
+✔ compatibility and budget retain precedence over game guidance (3.463002ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 1
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 213.776522
+
+✖ failing tests:
+
+test at frontend/tests/build-budget-total.test.js:17:1
+✖ frontend totals preserve centavos and match the backend for real catalogue prices (2.0557ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 3889.3000000000006
+  - 3889.3
+          ^
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/frontend/tests/build-budget-total.test.js:19:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3889.3000000000006,
+    expected: 3889.3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at frontend/tests/build-budget-total.test.js:25:1
+✖ an exact-centavo budget renders within budget and one cent less renders over (102.353287ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression />Dentro</. Input:
+
+  '<section class="panel-card budget-panel"><div class="section-heading compact"><h3>Orçamento</h3><span class="badge badge-red">Acima</span></div><div class="metric-grid"><div><span>Orçamento</span><strong>R$ 3.889,30</strong></div><div><span>Total estimado da build</span><strong>R$ 3.889,30</strong></div><div><span>Excedente</span><strong>R$ 0,00</strong></div></div><p class="hint-text">Calculado com preços estimados do catálogo. Não inclui frete nem acompanha ofertas em tempo real.</p></section>'
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/frontend/tests/build-budget-total.test.js:42:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<section class="panel-card budget-panel"><div class="section-heading compact"><h3>Orçamento</h3><span class="badge badge-red">Acima</span></div><div class="metric-grid"><div><span>Orçamento</span><strong>R$ 3.889,30</strong></div><div><span>Total estimado da build</span><strong>R$ 3.889,30</strong></div><div><span>Excedente</span><strong>R$ 0,00</strong></div></div><p class="hint-text">Calculado com preços estimados do catálogo. Não inclui frete nem acompanha ofertas em tempo real.</p></section>',
+    expected: />Dentro</,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/final-recommendation.test.js:13:1
+✖ final guidance does not recommend a balanced build with insufficient game performance (5.992973ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /desempenho estimado insuficiente/i. Input:
+
+  'Configuracao recomendada para o perfil informado.'
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:19:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Configuracao recomendada para o perfil informado.',
+    expected: /desempenho estimado insuficiente/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/final-recommendation.test.js:23:1
+✖ insufficient game guidance takes precedence over generic bottleneck guidance (1.443595ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /desempenho estimado insuficiente/i. Input:
+
+  'A configuracao funciona, mas vale ajustar os componentes destacados para melhorar o equilibrio.'
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:28:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'A configuracao funciona, mas vale ajustar os componentes destacados para melhorar o equilibrio.',
+    expected: /desempenho estimado insuficiente/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/final-recommendation.test.js:32:1
+✖ unavailable requested game analysis cannot become an unconditional recommendation (2.21156ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /nao foi possivel avaliar o desempenho/i. Input:
+
+  'Configuracao recomendada para o perfil informado.'
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:35:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Configuracao recomendada para o perfil informado.',
+    expected: /nao foi possivel avaliar o desempenho/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/final-recommendation.test.js:39:1
+✖ omitting a game keeps compatibility separate from game performance approval (0.653146ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /jogo especifico ainda nao foi simulado/i. Input:
+
+  'Configuracao recomendada para o perfil informado.'
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:42:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Configuracao recomendada para o perfil informado.',
+    expected: /jogo especifico ainda nao foi simulado/i,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/final-recommendation.test.js:46:1
+✖ missing performance parameters remain unavailable in final guidance (1.274475ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /dados de desempenho insuficientes/i. Input:
+
+  'Configuracao recomendada para o perfil informado.'
+
+      at TestContext.<anonymous> (file:///workspace/shared/pcpowerlab-v2-baseline/tests/final-recommendation.test.js:53:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Configuracao recomendada para o perfil informado.',
+    expected: /dados de desempenho insuficientes/i,
+    operator: 'match',
+    diff: 'simple'
+  }

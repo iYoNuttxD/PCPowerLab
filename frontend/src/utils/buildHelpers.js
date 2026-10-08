@@ -30,8 +30,10 @@ export function calculateBuildPrice(selectedComponents) {
   const parts = [...componentTypes, 'cooler'].map(type => selectedComponents?.[type]).filter(Boolean);
   const fans = selectedComponents?.fans || [];
   if ([...parts, ...fans].some(component => componentPrice(component) === null)) return null;
-  return parts.reduce((total, component) => total + componentPrice(component), 0)
+  const total = parts.reduce((total, component) => total + componentPrice(component), 0)
     + fans.reduce((total, fan) => total + componentPrice(fan) * Number(fan.quantity ?? 1), 0);
+  // Match the backend monetary boundary before comparing with a centavo budget.
+  return Number(total.toFixed(2));
 }
 
 function componentPrice(component) {

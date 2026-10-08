@@ -1,4 +1,5 @@
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
+import { isNonEmptyTextArray } from '../models/component.model.js';
 import { listComponents } from './component.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -330,7 +331,8 @@ function isPartialSelectionViable(components) {
     return false;
   }
 
-  if (components.storage && components.motherboard && !components.motherboard.specs.storageInterfaces.includes(components.storage.specs.interface)) {
+  if (components.storage && components.motherboard && (!isNonEmptyTextArray(components.motherboard.specs.storageInterfaces)
+    || !components.motherboard.specs.storageInterfaces.includes(components.storage.specs.interface))) {
     return false;
   }
 
@@ -345,7 +347,8 @@ function isPartialSelectionViable(components) {
     }
   }
 
-  if (components.case && components.motherboard && !components.case.specs.supportedFormFactors.includes(components.motherboard.specs.formFactor)) {
+  if (components.case && components.motherboard && (!isNonEmptyTextArray(components.case.specs.supportedFormFactors)
+    || !components.case.specs.supportedFormFactors.includes(components.motherboard.specs.formFactor))) {
     return false;
   }
 

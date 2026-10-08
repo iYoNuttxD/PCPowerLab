@@ -1,4 +1,5 @@
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
+import { isNonEmptyTextArray } from '../models/component.model.js';
 import { serializeBuildSelection } from './build.service.js';
 import { getCoolingPower } from './cooling.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
@@ -148,7 +149,8 @@ function buildCaseFormFactorOptions(build) {
     {
       replaceComponent: 'case',
       candidates: listComponents({ category: 'case' })
-        .filter((computerCase) => computerCase.specs.supportedFormFactors.includes(build.motherboard.specs.formFactor)),
+        .filter((computerCase) => isNonEmptyTextArray(computerCase.specs.supportedFormFactors)
+          && computerCase.specs.supportedFormFactors.includes(build.motherboard.specs.formFactor)),
       buildReason: () => (
         `Este gabinete suporta placa-mae no formato ${build.motherboard.specs.formFactor}.`
       )

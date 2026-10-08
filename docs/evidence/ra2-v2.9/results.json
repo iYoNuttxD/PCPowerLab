@@ -1,0 +1,45 @@
+{
+  "sourceInputCommit": "5de7d88c906b2b66c63a4bc69e115045e012bf0d",
+  "scope": "final audited source plus documented corrections; source hashes in source-manifest.json",
+  "node": {
+    "tests": 473,
+    "pass": 473,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "frontendSubsetAlreadyIncluded": 50,
+  "ssrHandlerScripts": {
+    "passed": 10,
+    "failed": 0
+  },
+  "httpJourneys": {
+    "passed": 3,
+    "steps": 17
+  },
+  "productionHttp": "passed",
+  "lints": {
+    "backend": "passed",
+    "frontend": "passed"
+  },
+  "build": "passed-with-chunk-size-warning",
+  "browser": {
+    "collected": 188,
+    "controlled": 170,
+    "integration": 18,
+    "executed": 0,
+    "passed": 0,
+    "observedApplicationFailures": 0,
+    "blockedNotRun": 188
+  },
+  "screenshots": 0,
+  "imageAudit": {
+    "exit": 1,
+    "active": 98,
+    "verified": 9,
+    "blocked": 89,
+    "coveragePercent": 9.18
+  },
+  "verdict": "NÃO HOMOLOGADA"
+}

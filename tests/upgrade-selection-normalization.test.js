@@ -1,0 +1,67 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { calculateBuildPrice, selectBuildComponents, serializeBuildSelection } from '../src/services/build.service.js';
+import { saveBuild } from '../src/services/savedBuildsService.js';
+import { suggestUpgrades } from '../src/services/upgradeSuggestionService.js';
+import { generateUpgradeRoadmap } from '../src/services/upgradeRoadmapService.js';
+
+const build = { cpu: 'cpu-ryzen-5-5600', motherboard: 'mb-b550m-aorus-elite', gpu: 'gpu-rtx-4060',
+  ram: 'ram-kingston-fury-16gb-ddr4', storage: 'ssd-kingston-nv2-1tb', psu: 'psu-corsair-650w', case: 'case-mid-tower-airflow' };
+const mixed = { ...build, components: { cpuId: 'cpu-intel-i3-12100f' } };
+const suggest = input => suggestUpgrades({ build: input, budget: { amount: 1000 }, usageType: 'gaming' });
+const roadmap = input => generateUpgradeRoadmap({ build: input, totalBudget: 1000, maxSteps: 1, usageType: 'gaming' });
+
+test('upgrade suggestions resolve mixed aliases exactly as the central selector', () => {
+  assert.equal(selectBuildComponents(mixed).cpu.id, build.cpu);
+  const result = suggest(mixed);
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  for (const suggestion of result.suggestions) {
+    assert.equal(suggestion.currentComponent.id, build[suggestion.componentType]);
+  }
+});
+
+test('roadmap initial compatibility and steps use the same mixed-alias selection', () => {
+  const result = roadmap(mixed);
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(result.initialCompatibility.status, 'compatible');
+  assert.deepEqual(result.initialCompatibility.alerts, []);
+  assert.ok(result.steps.length > 0);
+  assert.equal(result.steps[0].buildAfterStep.cpu, build.cpu);
+});
+
+test('legacy slot names, flat ID aliases, nested aliases and saved builds retain identical upgrade results', () => {
+  const aliases = Object.fromEntries(Object.entries(build).map(([slot, id]) => [`${slot}Id`, id]));
+  const expected = suggest(build);
+  for (const input of [aliases, { components: aliases }]) {
+    assert.deepEqual(suggest(input), expected);
+  }
+  const saved = saveBuild({ name: 'Upgrade normalization fixture', components: aliases });
+  assert.deepEqual(suggestUpgrades({ buildId: saved.id, budget: { amount: 1000 }, usageType: 'gaming' }), expected);
+  assert.deepEqual(roadmap({ components: aliases }), roadmap(saved.components));
+});
+
+test('nested cooling options retain IDs, pack quantities, cost and unverified compatibility', () => {
+  const options = { coolerId: 'cooler-noctua-nh-u12s-redux', fans: [{ fanId: 'fan-arctic-p12-pwm-pst-5-pack', quantity: 2 }] };
+  const input = { components: { ...build, ...options } };
+  const selected = selectBuildComponents(input);
+  assert.deepEqual(serializeBuildSelection(selected).fans, options.fans);
+  assert.equal(calculateBuildPrice(selected), 5699);
+  const upgrades = suggest(input);
+  assert.equal(upgrades.currentBuildSummary.totalEstimatedPrice, 5699);
+  assert.deepEqual(upgrades.suggestions, []);
+  const plan = roadmap(input);
+  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, 5699);
+  assert.equal(plan.initialCompatibility.status, 'unverified');
+  assert.deepEqual(plan.steps, []);
+});
+
+test('explicit top-level cooling removal overrides nested options in upgrades and roadmap', () => {
+  const input = { ...build, cooler: null, fans: [], components: {
+    coolerId: 'cooler-noctua-nh-u12s-redux', fans: [{ fanId: 'fan-arctic-p12-pwm-pst-5-pack', quantity: 2 }]
+  } };
+  assert.equal(selectBuildComponents(input).cooler, undefined);
+  assert.equal(suggest(input).currentBuildSummary.totalEstimatedPrice, 4699.3);
+  const plan = roadmap(input);
+  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(plan.initialCompatibility.status, 'compatible');
+});

@@ -5,7 +5,7 @@ import {
   listComponentRecords,
   updateComponentRecord
 } from '../data/component.repository.js';
-import { componentCategories, isValidComponentCategory } from '../models/component.model.js';
+import { componentCategories, isNonEmptyTextArray, isValidComponentCategory } from '../models/component.model.js';
 
 const requiredSpecFieldsByCategory = {
   cpu: ['socket', 'cores', 'threads', 'baseClockGhz', 'boostClockGhz', 'tdpWatts'],
@@ -188,6 +188,10 @@ function validateComponentForSave(component) {
 
   if (errors.length === 0) {
     errors.push(...validateRequiredSpecs(component.category, component.specs));
+    const arrayField = { motherboard: 'storageInterfaces', case: 'supportedFormFactors' }[component.category];
+    if (arrayField && component.specs[arrayField] != null && !isNonEmptyTextArray(component.specs[arrayField])) {
+      errors.push(`Campo tecnico invalido para ${component.category}: ${arrayField} deve ser uma lista nao vazia de textos.`);
+    }
     errors.push(...validateCoolingSpecs(component.category, component.specs));
   }
 

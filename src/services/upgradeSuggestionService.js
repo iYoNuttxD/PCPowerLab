@@ -261,17 +261,7 @@ function resolveBuildInput(input) {
 }
 
 function normalizeBuildInput(buildInput) {
-  buildInput = { ...buildInput.components, ...buildInput };
-  return {
-    ...buildInput,
-    cpuId: buildInput.cpuId ?? buildInput.cpu,
-    motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
-    gpuId: buildInput.gpuId ?? buildInput.gpu,
-    ramId: buildInput.ramId ?? buildInput.ram,
-    storageId: buildInput.storageId ?? buildInput.storage,
-    psuId: buildInput.psuId ?? buildInput.psu,
-    caseId: buildInput.caseId ?? buildInput.case
-  };
+  return serializeBuildSelection(selectBuildComponents(buildInput));
 }
 
 function validateUpgradePayload(input) {

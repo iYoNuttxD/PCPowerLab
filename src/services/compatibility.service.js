@@ -1,5 +1,6 @@
 import { selectBuildComponents, calculateBuildPrice } from './build.service.js';
 import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
+import { isNonEmptyTextArray } from '../models/component.model.js';
 
 export function checkBuildCompatibility(selectedComponents) {
   const build = selectBuildComponents(selectedComponents);
@@ -54,7 +55,7 @@ function validateRamAndMotherboard(build, alerts, unverifiedChecks) {
 function validateStorageAndMotherboard(build, alerts, unverifiedChecks) {
   const supportedInterfaces = build.motherboard.specs.storageInterfaces;
 
-  if (!Array.isArray(supportedInterfaces) || !build.storage.specs.interface) {
+  if (!isNonEmptyTextArray(supportedInterfaces) || !build.storage.specs.interface) {
     unverifiedChecks.push({ code: 'STORAGE_INTERFACE_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Interfaces de armazenamento nao verificadas.' });
     return;
   }
@@ -89,7 +90,7 @@ function validatePsu(build, alerts, unverifiedChecks) {
 function validateCase(build, alerts, unverifiedChecks) {
   const supportedFormFactors = build.case.specs.supportedFormFactors;
 
-  if (!Array.isArray(supportedFormFactors) || !build.motherboard.specs.formFactor) {
+  if (!isNonEmptyTextArray(supportedFormFactors) || !build.motherboard.specs.formFactor) {
     unverifiedChecks.push({ code: 'CASE_FORM_FACTOR_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Formatos de placa-mae suportados nao verificados.' });
   } else if (!supportedFormFactors.includes(build.motherboard.specs.formFactor)) {
     alerts.push({

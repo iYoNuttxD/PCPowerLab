@@ -1,5 +1,7 @@
 # PCPowerLab Frontend
 
+> Estado final RA2 V2.9: **NÃO HOMOLOGADA**. [Relatório](../docs/RA2-V2-RELATORIO-FINAL.md) e [registro de testes](../docs/RA2-V2-REGISTRO-TESTES.md). SSR/handlers não substituem navegador.
+
 Interface web do PCPowerLab, criada com Vite + React para consumir a API REST local do projeto.
 
 ## Tecnologias
@@ -256,3 +258,13 @@ node frontend/scripts/check-simulation-states.mjs
 ```
 
 Os caminhos acima são relativos à raiz. `scripts/qa-visual.mjs` prepara captura de todas as telas em 1440, 1024, 768, 390 e 320 px; exige build, Chromium autorizado e `PCPOWERLAB_AXE_PATH`. Não foi executado nesta etapa por bloqueios do ambiente. Casos Playwright coletados não contam como casos executados.
+
+## Estado final v2.9 e limites de validação
+
+`npm test` na raiz inclui os testes Node frontend, inclusive o total em centavos e renderização SSR do orçamento exato. `npm test` dentro de frontend usa Playwright: na auditoria final houve somente coleta, não execução. O caso de foto inválida agora usa registros com IDs válidos; snapshot sem ID tem cenário separado.
+
+As telas compartilham catálogo/identidade/mídia, troca individual e estado da montagem. Mudanças invalidam análises, e respostas antigas são descartadas. Upgrade aberto de uma build salva transporta `buildId`; erro/ausência não muda silenciosamente para a montagem global.
+
+Os dez scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots ficam pendentes em ambiente autorizado.
+
+Fotos: 9/98, com crédito/licença e fallback explícito para 89 produtos. Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.
