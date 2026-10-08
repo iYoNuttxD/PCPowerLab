@@ -136,12 +136,12 @@ export default function BottleneckPanel({ result }) {
         {powerData.length > 0 ? (
           <div className="chart-box energy-chart" role="group" aria-label="Gráfico de consumo energético da build" aria-describedby={powerDescriptionId}>
             <ResponsiveContainer width="100%" height={230}>
-              <BarChart data={powerData} margin={{ top: 12, right: 12, bottom: 8, left: 0 }} accessibilityLayer>
+              <BarChart data={powerData} layout="vertical" margin={{ top: 12, right: 12, bottom: 8, left: 0 }} accessibilityLayer>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                <XAxis dataKey="shortName" stroke="var(--muted)" tick={{ fontSize: 12 }} interval={0} />
-                <YAxis stroke="var(--muted)" unit=" W" />
+                <XAxis type="number" stroke="var(--muted)" unit=" W" tick={{ fontSize: 11 }} tickCount={3} />
+                <YAxis type="category" dataKey="shortName" stroke="var(--muted)" tick={{ fontSize: 12 }} width={78} interval={0} />
                 <Tooltip content={<PowerTooltip />} />
-                <Bar dataKey="watts" name="Potência (W)" radius={[6, 6, 0, 0]} isAnimationActive={false}>
+                <Bar dataKey="watts" name="Potência (W)" radius={[0, 6, 6, 0]} isAnimationActive={false}>
                   {powerData.map(entry => <Cell key={entry.key} fill={entry.color} />)}
                 </Bar>
               </BarChart>

@@ -31,9 +31,9 @@ export default function GameComparisonResult({ result }) {
               <ResponsiveContainer width="100%" height={Math.max(240, games.length * 56 + 48)}>
                 <BarChart data={chartData} layout="vertical" margin={{ top: 20, right: 32, bottom: 8, left: 0 }} accessibilityLayer>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
-                  <XAxis type="number" stroke="var(--muted)" unit=" FPS" tick={{ fontSize: 12 }} />
+                  <XAxis type="number" stroke="var(--muted)" unit=" FPS" tick={{ fontSize: 11 }} tickCount={3} />
                   <YAxis dataKey="name" type="category" width={120} stroke="var(--muted)" tick={{ fontSize: 12 }} tickFormatter={name => name.length > 18 ? `${name.slice(0, 17)}…` : name} />
-                  <Tooltip content={<ComparisonTooltip />} />
+                  <Tooltip content={<ComparisonTooltip />} position={{ x: 0, y: 0 }} allowEscapeViewBox={{ x: false, y: false }} wrapperStyle={{ maxWidth: '100%', width: 'min(260px, 100%)' }} />
                   <ReferenceLine x={60} ifOverflow="extendDomain" stroke="var(--yellow)" strokeDasharray="4 4" label={{ value: '60 FPS', fill: 'var(--yellow)', position: 'top' }} />
                   <Bar dataKey="estimatedFps" name="FPS estimado" fill="var(--cyan)" radius={[0, 6, 6, 0]} isAnimationActive={false} />
                 </BarChart>

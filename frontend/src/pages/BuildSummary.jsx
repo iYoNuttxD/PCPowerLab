@@ -1,3 +1,4 @@
+import { summarySimulationHint } from '../utils/summarySimulationHint.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -314,10 +315,12 @@ export default function BuildSummary() {
 
   return (
     <div className="page-stack">
+      {build.catalogNotice && <Alert type="info">{build.catalogNotice}</Alert>}
       <section className="page-hero compact-hero">
         <span className="eyebrow">Painel final</span>
         <h1>Resumo da configuração</h1>
         <p>Consolide componentes, orçamento, compatibilidade, desempenho, gargalos e links de compra.</p>
+        <p className="hint-text">Ao navegar pelo menu, o resumo da montagem é preservado. Recarregar o site ou mudar dados do catálogo exige uma nova análise; peças e orçamento são mantidos. Notas e relatórios extras desta página precisam ser recalculados ao retornar.</p>
       </section>
 
       {build.canUndo && <Card>
@@ -334,7 +337,7 @@ export default function BuildSummary() {
                 onEdit={request.loading || loadingAction ? undefined : type => setReplacement({ type })} />
             </div>
             <div className="summary-overview-side">
-              <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} pricing={build.summary?.pricing} />
+              <BudgetPanel selectedComponents={build.selectedComponents} budget={build.budget} totalPrice={build.totalPrice} pricing={build.summary?.pricing} />
               <BuildStatusCard
                 verified={typeof compatibilityData?.compatible === 'boolean' && compatibilityData?.status !== 'unverified'}
                 incompatible={isIncompatible}
@@ -377,7 +380,7 @@ export default function BuildSummary() {
               <h3>Relatórios e correções</h3>
               <p>Use ferramentas extras para consultar correções automáticas, gerar relatório técnico e exportar dados.</p>
             </div>
-            <Badge tone="cyan">Sprint analítica</Badge>
+            <Badge tone="cyan">Análises complementares</Badge>
           </div>
           {analyticsError && <Alert type="error">{analyticsError}</Alert>}
           <div className="button-row">
@@ -480,7 +483,7 @@ export default function BuildSummary() {
               options={['low', 'medium', 'high', 'ultra'].map((value) => ({ value, label: translateValue(value) }))}
             />
           </div>
-          <p id="summary-simulation-hint" className="hint-text" role="status">{!hasCompleteBuild(build.selectedComponents) ? 'Complete a montagem antes de simular.' : gamesLoading ? 'Aguarde o carregamento dos jogos.' : gamesError ? 'Recarregue o catálogo para simular um jogo.' : !gameAvailable ? 'Selecione um jogo disponível para simular.' : 'Execute a simulação para ver uma estimativa para o jogo, a resolução e a qualidade selecionados.'}</p>
+          <p id="summary-simulation-hint" className="hint-text" role="status">{summarySimulationHint({ complete: hasCompleteBuild(build.selectedComponents), gamesLoading, gamesError, gameAvailable, loading: request.loading, error: request.error, result: build.gamePerformance })}</p>
           <div className="button-row">
             <Button disabled={request.loading || simulationBlocked} loading={request.loading} aria-describedby="summary-simulation-hint" onClick={generateSummary}>
               Simular desempenho
@@ -625,7 +628,7 @@ function BuildScorePanel({ score, onCalculate, loading = false, disabled = false
           <h3>Nota geral</h3>
           <p>{score.summary || 'Nota consolidada da configuração atual.'}</p>
         </div>
-        <Badge tone={getScoreTone(overallScore)}>{overallScore === null ? 'Não disponível' : score.classification || classifyScore(overallScore)}</Badge>
+        <Badge tone={getScoreTone(overallScore)}>{overallScore === null ? 'Não disponível' : score.classification ? translateValue(score.classification) : classifyScore(overallScore)}</Badge>
       </div>
       <p className="chart-caption">Nota calculada de 0 a 100. As barras detalham os critérios usados; não representam FPS nem resultados de um teste real.</p>
       {Array.isArray(score.warnings) && score.warnings.length > 0 && <Alert type="warning" title="Limitações desta nota"><ul>{score.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}

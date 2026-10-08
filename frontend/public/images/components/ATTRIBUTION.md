@@ -118,3 +118,29 @@ Verificadas em 08/10/2026. Fotografias têm licenças próprias, independentes d
 - Alterações: Conversão PCPowerLab em 08/10/2026: redimensionamento proporcional até 960px e WebP qualidade 85; sem corte. Derivado sob Free Art License 1.3.
 - Conversão técnica: PCPowerLab, 08/10/2026
 - SHA-256: 528d81545c0a756ca398c632dd6975603b5bbc77e59f99432032a5904a5ff26e
+
+## Original compartilhado AMD Ryzen 5 5500 e Ryzen 5 5600
+
+Este PNG é distribuído intacto, com janelas distintas de exibição SVG para isolar cada processador fotografado. As janelas não geram, redesenham, retocam nem substituem os pixels originais.
+
+- Arquivo original independente: [amd-ryzen-5500-5600-original.png](amd-ryzen-5500-5600-original.png)
+- Dimensões: 2560 × 1440; 2.293.406 bytes
+- Autor original: Мой Компьютер
+- Título: Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5; quadro 00:02:05.200
+- [Fonte no Commons](https://commons.wikimedia.org/wiki/File:%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_(%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80).png) · [Vídeo original](https://www.youtube.com/watch?v=fRBpUmEv7PQ)
+- Licença: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+- Evidência primária: a descrição expandida do vídeo do autor exibia “Licença de atribuição Creative Commons (reutilização permitida)” em 08/10/2026. A revisão de licença do Commons ainda estava pendente; não foi declarada concluída.
+- SHA-256: 5bb56eec1d860765ba6aada606e9257d6eba6279844c074f6cc5a5dbd9c99b28
+- Nenhum endosso dos autores ou fabricantes é implicado
+
+### cpu-ryzen-5-5500
+
+- [Modelo no fabricante](https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5500.html)
+- Janela em pixels do original, em ordem convexa: [[1274, 672], [1722, 723], [1676, 1158], [1223, 1097]]
+- Alterações de apresentação: Enquadramento de exibição PCPowerLab em 08/10/2026: janela poligonal sobre o processador inferior (5500), preservando o PNG original byte a byte, sem edição ou geração de pixels. Fonte: “Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5”, Мой Компьютер, 00:02:05.200. Sem endosso implícito.
+
+### cpu-ryzen-5-5600
+
+- [Modelo no fabricante](https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html)
+- Janela em pixels do original, em ordem convexa: [[1326, 256], [1777, 290], [1724, 720], [1272, 669]]
+- Alterações de apresentação: Enquadramento de exibição PCPowerLab em 08/10/2026: janela poligonal sobre o processador superior (5600), preservando o PNG original byte a byte, sem edição ou geração de pixels. Fonte: “Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5”, Мой Компьютер, 00:02:05.200. Sem endosso implícito.

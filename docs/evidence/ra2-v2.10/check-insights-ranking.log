@@ -1,0 +1,10 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-insights-ranking.mjs
+Exit: 0
+PASS 1: Every offered category reaches the real backend ranking contract; cooling and build-only fans are excluded
+PASS 2: Zero, negative, fractional, blank, nonnumeric and out-of-range limits show an associated inline error without a request or empty-state claim
+PASS 3: Valid boundary limits recover and send numeric request parameters
+PASS 4: Only a successful empty array shows empty results; failed and malformed responses remain errors, and changing filters clears old results
+PASS 5: Loading disables filter edits and repeated submissions, with no premature empty-state claim

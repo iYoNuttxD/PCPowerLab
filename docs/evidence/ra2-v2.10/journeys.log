@@ -1,0 +1,10 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node scripts/check-profile-journeys.mjs
+Exit: 0
+Synthetic journeys passed: 3
+Integrated steps passed: 17 (7 + 5 + 5)
+Coverage: selection, budget, recommendations, saving/reloading, comparisons, simulations and upgrades.
+Browser executions: 0
+Real participants: 0

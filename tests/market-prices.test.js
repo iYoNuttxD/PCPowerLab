@@ -11,7 +11,8 @@ test('no provider or real offer is invented for catalog and research links', () 
   assert.equal(getProductMarket('cpu-test').offers.length, 0);
   for (const component of listComponents()) {
     assert.equal(component.pricing.isMarketQuote, false);
-    assert.equal(component.pricing.queriedAt, null);
+    assert.equal(component.pricing.queriedAt, component.pricing.updateStatus === 'dated_snapshot' ? '2026-10-08' : null);
+    assert.equal(component.pricing.validUntil, null);
     for (const link of getPurchaseLinksByComponentId(component.id)) {
       assert.equal(link.kind, 'research'); assert.equal(link.productUrl, null);
       assert.equal(link.lastUpdated, null); assert.equal(link.updateStatus, 'not_queried');

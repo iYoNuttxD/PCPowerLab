@@ -34,7 +34,7 @@ try {
   const { PurchaseLinksList, BudgetPanel, React, MemoryRouter, ComponentsProvider, renderToStaticMarkup, DecisionMethodology, RecommendationCard, ReadyBuildCard, RecommendationResultCard } = await import(pathToFileURL(output).href);
   const render = (Component, props = {}) => renderToStaticMarkup(React.createElement(MemoryRouter, null, React.createElement(ComponentsProvider, null, React.createElement(Component, props))));
   const methodology = render(DecisionMethodology);
-  for (const text of ['base demonstrativa', 'sem consulta de ofertas ou estoque em tempo real', 'somente as peças', 'não benchmarks medidos', 'BIOS', 'Dados ausentes']) assert(methodology.includes(text), `Missing disclosure: ${text}`);
+  for (const text of ['registros de pesquisa datados à vista (PIX)', 'estimativas demonstrativas', 'Não são ofertas ou estoque em tempo real', 'Cartão não entra no total', 'somente as peças', 'não benchmarks medidos', 'BIOS', 'Dados ausentes']) assert(methodology.includes(text), `Missing disclosure: ${text}`);
   const recommendation = render(RecommendationCard, { recommendation: { components: {}, totalEstimatedPrice: 1000 } });
   assert(recommendation.includes('Total estimado de referência'));
   assert(recommendation.includes('nem garantem a melhor compra'));
@@ -55,6 +55,12 @@ try {
   for (const text of ['Cotação:', 'Consultado em:', 'Válido até:', 'Synthetic test source', 'Ver produto na loja', 'Uma única loja']) assert(offer.includes(text));
   const budget = render(BudgetPanel, { totalPrice: 500, budget: { amount: 600 }, pricing: { availableMarketQuotesTotal: 90, marketTotalComplete: false, componentsWithoutCurrentQuote: ['missing'], methodology: 'Valores nunca são misturados' } });
   assert(budget.includes('subtotal incompleto')); assert(budget.includes('Valores nunca são misturados'));
+  const dated = { price: 125.75, updateStatus: 'dated_snapshot', source: 'dated_public_reference', isMarketQuote: false, store: 'KaBuM!', seller: 'DAXFY', model: 'MZ-77E500B/EU', queriedAt: '2026-10-08', productUrl: 'https://www.kabum.com.br/produto/647831/fixture', paymentCondition: 'PIX à vista', cardTotal: 139.72, installments: '10x sem juros', retrievalCrawlLabel: '5 days ago', observedAvailability: 'unknown', condition: 'unknown', shipping: 'Não verificado', taxes: 'Não discriminados' };
+  const datedResearch = render(PurchaseLinksList, { variant: 'single', links: [{ kind: 'research', componentId: 'fixture', storeName: 'KaBuM!', url: 'https://www.kabum.com.br/busca/fixture', price: 125.75, currency: 'BRL', availabilityStatus: 'unknown', referencePricing: dated }] });
+  for (const text of ['DAXFY', 'MZ-77E500B/EU', '2026-10-08', 'PIX à vista', '5 dias antes da consulta', 'Estoque na observação: não confirmado', 'Condição: não informada', 'Ver página exata da referência', 'Pesquisa externa, sem cotação desta loja']) assert(datedResearch.includes(text), `Missing dated disclosure: ${text}`);
+  assert(!datedResearch.includes('Cotação:'));
+  const mixedBudget = render(BudgetPanel, { totalPrice: 451.5, budget: { amount: 500 }, selectedComponents: { cpu: { id: 'estimated', price: 200 }, fans: [{ id: 'dated', price: 125.75, pricing: dated, quantity: 2 }] } });
+  for (const text of ['2 pack(s) com referência datada', '1 com estimativa sem fonte datada validada', 'base demonstrativa', 'PIX', 'cartão', 'frete', 'Não é cotação ao vivo']) assert(mixedBudget.includes(text), `Missing mixed-budget disclosure: ${text}`);
   console.log('PASS: scope, estimate labels and missing-performance states render honestly across recommendation cards');
   console.log('LIMITATION: static rendering does not validate browser layout, focus or interaction');
 } finally {

@@ -36,6 +36,7 @@ try {
   }
   const catalog = (await (await fetch(origin + '/quality-api/v2/components')).json()).data;
   let photos = 0;
+  const imagePaths = new Set();
   for (const component of catalog) {
     const image = component.image?.imagePath;
     if (!image) continue;
@@ -44,9 +45,11 @@ try {
     assert.match(response.headers.get('content-type'), /image\//);
     assert.ok((await response.arrayBuffer()).byteLength > 100);
     photos += 1;
+    imagePaths.add(image);
   }
-  assert.equal(photos, 9);
-  console.log(`Production HTTP passed: custom API prefix + JSON errors + 4 SPA routes + actual bundles + ${photos}/98 image files. No browser executed.`);
+  assert.equal(photos, 11);
+  assert.equal(imagePaths.size, 10);
+  console.log(`Production HTTP passed: custom API prefix + JSON errors + 4 SPA routes + actual bundles + ${photos}/98 products with verified photography (${imagePaths.size} intact/derived source files). No browser executed.`);
 } finally {
   await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); });
 }

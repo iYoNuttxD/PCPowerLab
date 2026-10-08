@@ -1,3 +1,4 @@
+import { priceIdentity } from './dated-price-references.js';
 import { componentImageIdentity, unavailableComponentImage } from './component-images.js';
 import { components } from './components.mock.js';
 
@@ -37,6 +38,15 @@ export function updateComponentRecord(componentId, componentData) {
     components[componentIndex].image = unavailableComponentImage(components[componentIndex], 'Modelo ou variante alterado: a fotografia anterior não comprova o novo produto; revalidar identidade, fonte e licença.');
   }
 
+  const identityChanged = priceIdentity(previous) !== priceIdentity(components[componentIndex]);
+  if (identityChanged || previous.price !== components[componentIndex].price) {
+    delete components[componentIndex].datedReferenceIdentity;
+    delete components[componentIndex].demonstrativePrice;
+    components[componentIndex].priceKind = 'estimated-reference';
+    components[componentIndex].priceLabel = 'Estimativa cadastrada, sem fonte datada validada';
+    // An unchanged old amount cannot price a newly identified product.
+    if (identityChanged && previous.price === components[componentIndex].price) components[componentIndex].price = null;
+  }
   return components[componentIndex];
 }
 

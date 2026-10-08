@@ -7,15 +7,15 @@ export default function About() {
       <section className="page-hero compact-hero">
         <span className="eyebrow">Sobre</span>
         <h1>PCPowerLab</h1>
-        <p>Uma API e interface web para apoiar decisões na montagem de computadores personalizados.</p>
+        <p>Uma ferramenta para escolher peças e planejar um computador de acordo com seu uso e orçamento.</p>
       </section>
       <DecisionMethodology />
       <Card>
         <h2>Como funciona</h2>
         <p>
-          O frontend consome a API REST local, organiza os fluxos de montagem e apresenta dados
-          técnicos em linguagem mais simples. Compatibilidade, gargalos, orçamento e recomendações
-          continuam sendo calculados pelo backend.
+          Escolha peças, compare alternativas e confira encaixes, custos e desempenho estimado.
+          As análises usam especificações e regras do catálogo. Dados ausentes são sinalizados;
+          uma simulação não substitui medidas reais nem a conferência dos manuais antes da compra.
         </p>
       </Card>
     </div>

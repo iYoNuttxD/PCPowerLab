@@ -19,7 +19,7 @@ export function getPurchaseLinksByComponentId(componentIdInput) {
     priceType: 'market_quote', url: offer.productUrl, lastUpdated: offer.queriedAt,
     availabilityStatus: offer.availability, isAffiliate: false }));
   return [...offers, ...createComponentPurchaseLinks(component)].map(link => ({ ...formatPurchaseLink(link),
-    comparisonAvailable: market.comparisonAvailable, marketStatus: market.status, marketMessage: market.message }));
+    referencePricing: component.pricing, comparisonAvailable: market.comparisonAvailable, marketStatus: market.status, marketMessage: market.message }));
 }
 
 export function getPurchaseLinksByBuild(buildInput) {

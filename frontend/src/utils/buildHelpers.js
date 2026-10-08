@@ -46,12 +46,12 @@ export function fanPackPrice(fan) {
   return price === null ? null : price * Number(fan.quantity ?? 1);
 }
 
-export function hydrateBuildComponents(components = {}, componentMap = {}) {
+export function hydrateBuildComponents(components = {}, componentMap = {}, { preferCatalog = false } = {}) {
   components = components && typeof components === 'object' && !Array.isArray(components) ? components : {};
   const selection = [...componentTypes, 'cooler'].reduce((result, type) => {
     const value = components[type] || components[`${type}Id`];
     const id = typeof value === 'string' ? value : value?.id;
-    if (typeof id === 'string' && id.trim()) result[type] = { ...componentMap[id], ...(typeof value === 'object' ? value : {}), id };
+    if (typeof id === 'string' && id.trim()) result[type] = { ...(preferCatalog ? { ...(typeof value === 'object' ? value : {}), ...componentMap[id] } : { ...componentMap[id], ...(typeof value === 'object' ? value : {}) }), id };
     return result;
   }, {});
   selection.fans = (Array.isArray(components.fans) ? components.fans : []).filter(fan => {
@@ -61,7 +61,7 @@ export function hydrateBuildComponents(components = {}, componentMap = {}) {
   }).map(fan => {
     const id = fan.fanId || fan.id;
     const { fanId: _fanId, ...details } = fan;
-    return { ...componentMap[id], ...details, id, quantity: Number(fan.quantity ?? 1) };
+    return { ...(preferCatalog ? { ...details, ...componentMap[id] } : { ...componentMap[id], ...details }), id, quantity: Number(fan.quantity ?? 1) };
   });
   return selection;
 }

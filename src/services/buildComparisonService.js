@@ -44,7 +44,7 @@ export function compareBuilds(input) {
   const recommendedBuild = selectRecommendedBuild({ builds, comparisonCriteria });
 
   return removeEmptyFields({
-    methodology: buildDecisionMethodology({ usageType, scope: 'submitted_builds_only', ranking: 'Compara somente as builds enviadas; combina desempenho simulado, custo de referencia, compatibilidade, orcamento e penalidades de alertas/gargalos conforme o criterio.' }),
+    methodology: buildDecisionMethodology({ usageType, scope: 'submitted_builds_only', ranking: 'Compara somente as builds enviadas; combina desempenho simulado, custo de referencia, compatibilidade, orçamento e penalidades de alertas/gargalos conforme o critério.' }),
     comparisonCriteria,
     usageType,
     budget: budget
@@ -94,6 +94,7 @@ function analyzeBuildForComparison({
   const alertSummary = summarizeAlerts(summary.compatibility.alerts);
   const bottleneckSummary = summarizeBottlenecks(summary.bottlenecks);
   const build = {
+    comparisonIndex: index,
     name,
     totalEstimatedPrice: summary.totalEstimatedPrice,
     priceBasis: 'catalog_reference_estimate',
@@ -107,6 +108,7 @@ function analyzeBuildForComparison({
     costBenefitScore,
     hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
     bottleneckSummary,
+    bottleneckStatus: summary.compatibility.compatible === true && summary.compatibility.status !== 'unverified' && typeof summary.bottlenecks?.hasBottleneck === 'boolean' && summary.bottlenecks?.available !== false ? 'analyzed' : 'unavailable',
     budgetStatus,
     gamePerformance: summary.gamePerformance,
     summary: buildComparisonSummary({
@@ -143,6 +145,7 @@ function selectRecommendedBuild({ builds, comparisonCriteria }) {
   }, null);
 
   return {
+    comparisonIndex: selectedBuild.comparisonIndex,
     name: selectedBuild.name,
     reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild }),
     comparisonScore: selectedBuild.comparisonScore
@@ -159,15 +162,15 @@ function buildComparisonSummary({
   const parts = [];
 
   parts.push(compatible
-    ? `Configuracao compativel segundo as regras do catalogo para ${usageType}.`
-    : 'Configuracao tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendacao.');
+    ? `Configuração compatível segundo as regras do catálogo para ${usageType}.`
+    : 'Configuração tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendação.');
 
   if (budgetStatus === 'within_budget') {
-    parts.push('O custo de referencia estimado esta dentro do orcamento informado.');
+    parts.push('O custo de referencia estimado está dentro do orçamento informado.');
   } else if (budgetStatus === 'near_budget') {
-    parts.push('O custo de referencia estimado fica proximo do orcamento, mas ultrapassa um pouco o valor informado.');
+    parts.push('O custo de referencia estimado fica próximo do orçamento, mas ultrapassa um pouco o valor informado.');
   } else if (budgetStatus === 'above_budget') {
-    parts.push('O custo de referencia estimado esta acima do orcamento informado.');
+    parts.push('O custo de referencia estimado está acima do orçamento informado.');
   }
 
   if (hasBottleneck) {
@@ -175,7 +178,7 @@ function buildComparisonSummary({
   }
 
   if (gamePerformance?.estimatedFps) {
-    parts.push(`Simulacao estimada de ${gamePerformance.estimatedFps} FPS no jogo informado.`);
+    parts.push(`Simulação estimada de ${gamePerformance.estimatedFps} FPS no jogo informado.`);
   }
 
   return parts.join(' ');
@@ -183,15 +186,15 @@ function buildComparisonSummary({
 
 function validateComparisonPayload(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
-    const error = new Error('Informe os dados para comparar configuracoes.');
+    const error = new Error('Informe os dados para comparar configurações.');
     error.statusCode = 400;
     throw error;
   }
 
   if (!Array.isArray(input.builds) || input.builds.length < 2) {
-    const error = new Error('Informe pelo menos duas builds para comparacao.');
+    const error = new Error('Informe pelo menos duas builds para comparação.');
     error.statusCode = 400;
-    error.errors = ['builds deve conter pelo menos duas configuracoes.'];
+    error.errors = ['builds deve conter pelo menos duas configurações.'];
     throw error;
   }
 }
@@ -205,14 +208,14 @@ function validateGameWhenInformed(gameId) {
     return;
   }
 
-  const error = new Error('Jogo nao encontrado.');
+  const error = new Error('Jogo não encontrado.');
   error.statusCode = 404;
   throw error;
 }
 
 function normalizeBuildComponentsInput(buildInput) {
   if (!buildInput || typeof buildInput !== 'object' || Array.isArray(buildInput)) {
-    const error = new Error('Build invalida para comparacao.');
+    const error = new Error('Build inválida para comparação.');
     error.statusCode = 400;
     throw error;
   }
@@ -220,7 +223,7 @@ function normalizeBuildComponentsInput(buildInput) {
   const components = buildInput.components ?? buildInput.build ?? buildInput;
 
   if (!components || typeof components !== 'object' || Array.isArray(components)) {
-    const error = new Error('Componentes da build invalidos para comparacao.');
+    const error = new Error('Componentes da build inválidos para comparação.');
     error.statusCode = 400;
     throw error;
   }
@@ -235,9 +238,9 @@ function normalizeComparisonCriteria(criteriaInput) {
     return criteria;
   }
 
-  const error = new Error('Criterio de comparacao invalido.');
+  const error = new Error('Critério de comparação inválido.');
   error.statusCode = 400;
-  error.errors = [`Criterios aceitos: ${supportedComparisonCriteria.join(', ')}.`];
+  error.errors = [`Critérios aceitos: ${supportedComparisonCriteria.join(', ')}.`];
   throw error;
 }
 

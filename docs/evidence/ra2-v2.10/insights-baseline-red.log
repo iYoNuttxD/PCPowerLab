@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-insights-ranking.mjs --baseline
+Exit: 1 (expected negative control)
+Observed regression: Base options included cooler/fan/fans outside the intended ranking UI contract.
+The corresponding current-source checks passed; detailed traces are not published.

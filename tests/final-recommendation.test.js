@@ -17,7 +17,7 @@ test('final guidance does not recommend a balanced build with insufficient game 
   assert.equal(result.gamePerformance.estimatedFps, 23);
   assert.equal(result.gamePerformance.performanceLevel, 'insufficient');
   assert.match(result.finalRecommendation, /desempenho estimado insuficiente/i);
-  assert.doesNotMatch(result.finalRecommendation, /configuracao recomendada/i);
+  assert.doesNotMatch(result.finalRecommendation, /configuração recomendada/i);
 });
 
 test('insufficient game guidance takes precedence over generic bottleneck guidance', () => {
@@ -26,21 +26,21 @@ test('insufficient game guidance takes precedence over generic bottleneck guidan
   assert.equal(result.bottlenecks.hasBottleneck, true);
   assert.equal(result.gamePerformance.performanceLevel, 'insufficient');
   assert.match(result.finalRecommendation, /desempenho estimado insuficiente/i);
-  assert.doesNotMatch(result.finalRecommendation, /configuracao funciona/i);
+  assert.doesNotMatch(result.finalRecommendation, /configuração funciona/i);
 });
 
 test('unavailable requested game analysis cannot become an unconditional recommendation', () => {
   const result = generateBuildSummary({ build, gameId: 'game-not-found' });
   assert.equal(result.gamePerformance.available, false);
-  assert.match(result.finalRecommendation, /nao foi possivel avaliar o desempenho/i);
-  assert.doesNotMatch(result.finalRecommendation, /configuracao recomendada/i);
+  assert.match(result.finalRecommendation, /não foi possível avaliar o desempenho/i);
+  assert.doesNotMatch(result.finalRecommendation, /configuração recomendada/i);
 });
 
 test('omitting a game keeps compatibility separate from game performance approval', () => {
   const result = generateBuildSummary({ build });
   assert.equal(result.gamePerformance, undefined);
-  assert.match(result.finalRecommendation, /jogo especifico ainda nao foi simulado/i);
-  assert.doesNotMatch(result.finalRecommendation, /configuracao recomendada/i);
+  assert.match(result.finalRecommendation, /jogo específico ainda não foi simulado/i);
+  assert.doesNotMatch(result.finalRecommendation, /configuração recomendada/i);
 });
 
 test('missing performance parameters remain unavailable in final guidance', () => {

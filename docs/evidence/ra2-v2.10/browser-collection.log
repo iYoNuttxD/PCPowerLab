@@ -1,0 +1,8 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: npx playwright test --list
+Exit: 0
+Collected cases: 184
+Browser executions: 0
+Collection only; no visual or interaction pass is claimed.

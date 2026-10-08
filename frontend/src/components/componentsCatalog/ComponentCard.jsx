@@ -1,3 +1,5 @@
+import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
+import { referenceLabel } from '../../utils/referencePricing.js';
 import { useState } from 'react';
 import { Check, ExternalLink, PlusCircle } from 'lucide-react';
 import Badge from '../ui/Badge.jsx';
@@ -39,9 +41,10 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
           {[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].length > 0 && <details><summary>Ver motivos de compatibilidade</summary><ul>{[...(compatibilityPreview.alerts || []), ...(compatibilityPreview.unverifiedChecks || [])].map((item, index) => <li key={`${item.code}-${index}`}>{item.message}</li>)}</ul></details>}
         </div>}
         <div className="component-card-price">
-          <span>Preço estimado · base demonstrativa</span>
+          <span>{referenceLabel(component)}</span>
           <strong className="price">{formatCurrency(component?.price)}</strong>
         </div>
+        <ReferencePriceNote component={component} compact />
         <div className="button-row">
           {onSelect && (
             <Button type="button" onClick={() => onSelect(component)} variant={selected ? 'success' : 'primary'}
@@ -67,7 +70,8 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         <ComponentImage component={component} />
         <p>{component?.brand || 'Marca não informada'} · {componentLabels[component?.category]}</p>
         {component?.partNumber && <p>Modelo: {component.partNumber}</p>}
-        <p><span className="price">{formatCurrency(component?.price)}</span> · Preço estimado, sem atualização em tempo real.</p>
+        <p><span className="price">{formatCurrency(component?.price)}</span> · {referenceLabel(component)}</p>
+        <ReferencePriceNote component={component} />
         <p className="hint-text">Especificações do cadastro; taxas máximas dependem do sistema. Confira os dados do fabricante antes da compra.</p>
         <dl className="spec-grid component-details">
           {keys.map((key) => (

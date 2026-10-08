@@ -1,3 +1,4 @@
+import { attachDatedReference } from './dated-price-references.js';
 import { attachComponentImage } from './component-images.js';
 import { catalogV21 } from './catalog.v21.js';
 import { enrichCaseCooling } from './caseCooling.v21.js';
@@ -916,4 +917,4 @@ export const components = [
     }
   },
   ...catalogV21
-].map(enrichCaseCooling).map(attachComponentImage);
+].map(enrichCaseCooling).map(attachComponentImage).map(attachDatedReference);

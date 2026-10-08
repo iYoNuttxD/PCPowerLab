@@ -21,7 +21,7 @@ export function generateBuildSummary(input) {
     : null;
   const bottlenecks = runOptionalAnalysis(
     () => analyzeBuildBottlenecks(buildInput),
-    'Analise de gargalos indisponivel para os dados informados.'
+    'Análise de gargalos indisponível para os dados informados.'
   );
   const gamePerformance = input.gameId
     ? compatibility.compatible !== true
@@ -33,7 +33,7 @@ export function generateBuildSummary(input) {
         qualityPreset: input.qualityPreset,
         build: buildInput
       }),
-      'Simulacao de desempenho indisponivel para os dados informados.'
+      'Simulação de desempenho indisponível para os dados informados.'
     )
     : null;
   const simpleExplanations = buildSimpleExplanations({
@@ -82,13 +82,13 @@ export function generateBuildSummary(input) {
 
 function validateSummaryPayload(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
-    const error = new Error('Informe os dados para gerar o resumo da configuracao.');
+    const error = new Error('Informe os dados para gerar o resumo da configuração.');
     error.statusCode = 400;
     throw error;
   }
 
   if (!input.build || typeof input.build !== 'object' || Array.isArray(input.build)) {
-    const error = new Error('Informe a build para gerar o resumo da configuracao.');
+    const error = new Error('Informe a build para gerar o resumo da configuração.');
     error.statusCode = 400;
     throw error;
   }
@@ -204,8 +204,8 @@ function buildSimpleExplanations({
   return [generateExplanation({
     type: 'general',
     data: {
-      title: 'Resumo da configuracao',
-      message: 'A configuracao foi consolidada com os dados disponiveis.',
+      title: 'Resumo da configuração',
+      message: 'A configuração foi consolidada com os dados disponiveis.',
       suggestion: 'Revise os componentes e os precos antes de finalizar a compra.'
     }
   })];
@@ -220,10 +220,10 @@ function buildSummaryText({
   const parts = [];
 
   parts.push(compatibility.compatible
-    ? 'A configuracao esta compativel'
+    ? 'A configuração está compatível'
     : compatibility.status === 'unverified'
-      ? 'A compatibilidade nao foi verificada por falta de dados tecnicos'
-      : 'A configuracao possui incompatibilidades que precisam de revisao');
+      ? 'A compatibilidade não foi verificada por falta de dados técnicos'
+      : 'A configuração possui incompatibilidades que precisam de revisão');
 
   if (budgetStatus) {
     parts.push(buildBudgetSummaryText(budgetStatus));
@@ -232,11 +232,11 @@ function buildSummaryText({
   if (bottlenecks?.hasBottleneck === true) {
     parts.push('foram identificados gargalos que podem afetar o desempenho');
   } else if (bottlenecks?.hasBottleneck === false) {
-    parts.push('o conjunto apresenta bom equilibrio entre os principais componentes');
+    parts.push('o conjunto apresenta bom equilíbrio entre os principais componentes');
   }
 
   if (gamePerformance?.estimatedFps) {
-    parts.push(`a simulacao indica cerca de ${gamePerformance.estimatedFps} FPS no jogo informado`);
+    parts.push(`a simulação indica cerca de ${gamePerformance.estimatedFps} FPS no jogo informado`);
   }
 
   return `${parts.join(', ')}.`;
@@ -244,14 +244,14 @@ function buildSummaryText({
 
 function buildBudgetSummaryText(budgetStatus) {
   if (budgetStatus.status === 'within_budget') {
-    return 'esta dentro do orcamento informado';
+    return 'está dentro do orçamento informado';
   }
 
   if (budgetStatus.status === 'near_budget') {
-    return 'esta proxima do orcamento, mas ultrapassa um pouco o valor informado';
+    return 'está próxima do orçamento, mas ultrapassa um pouco o valor informado';
   }
 
-  return 'esta acima do orcamento informado';
+  return 'está acima do orçamento informado';
 }
 
 function buildFinalRecommendation({
@@ -261,7 +261,7 @@ function buildFinalRecommendation({
   gamePerformance
 }) {
   if (compatibility.status === 'unverified') {
-    return 'Confirme os dados tecnicos pendentes de refrigeração e montagem antes da compra.';
+    return 'Confirme os dados técnicos pendentes de refrigeração e montagem antes da compra.';
   }
   if (!compatibility.compatible) {
     return 'Revise as incompatibilidades antes de seguir com a compra.';
@@ -272,26 +272,26 @@ function buildFinalRecommendation({
   }
 
   if (gamePerformance?.available === false) {
-    return 'Nao foi possivel avaliar o desempenho para o jogo informado. Revise os dados e execute a simulacao novamente antes de concluir a recomendacao.';
+    return 'Não foi possível avaliar o desempenho para o jogo informado. Revise os dados e execute a simulação novamente antes de concluir a recomendação.';
   }
 
   if (gamePerformance?.performanceLevel === 'insufficient' || gamePerformance?.meetsMinimumRequirements === false) {
-    return 'O jogo apresenta desempenho estimado insuficiente nas configuracoes selecionadas. Revise os requisitos e considere reduzir a qualidade ou resolucao, ou melhorar as pecas limitantes.';
+    return 'O jogo apresenta desempenho estimado insuficiente nas configurações selecionadas. Revise os requisitos e considere reduzir a qualidade ou resolução, ou melhorar as peças limitantes.';
   }
 
   if (bottlenecks?.available === false) {
-    return 'Dados de desempenho insuficientes para concluir a recomendacao. A compatibilidade pelas regras do catalogo nao confirma o desempenho.';
+    return 'Dados de desempenho insuficientes para concluir a recomendação. A compatibilidade pelas regras do catálogo não confirma o desempenho.';
   }
 
   if (bottlenecks?.hasBottleneck) {
-    return 'Foram identificados possiveis gargalos. Considere ajustar os componentes destacados para melhorar o equilibrio estimado.';
+    return 'Foram identificados possíveis gargalos. Considere ajustar os componentes destacados para melhorar o equilíbrio estimado.';
   }
 
   if (!gamePerformance) {
-    return 'Configuracao compativel pelas regras do catalogo. O desempenho para um jogo especifico ainda nao foi simulado.';
+    return 'Configuração compatível pelas regras do catálogo. O desempenho para um jogo específico ainda não foi simulado.';
   }
 
-  return 'Configuracao recomendada para o perfil informado.';
+  return 'Configuração recomendada para o perfil informado.';
 }
 
 function buildRecommendationObservation({ input, compatibility, budgetStatus }) {
@@ -315,13 +315,13 @@ function buildRecommendationObservation({ input, compatibility, budgetStatus }) 
       });
 
       return {
-        message: 'Existe uma recomendacao compativel para comparar com a build atual.',
+        message: 'Existe uma recomendação compatível para comparar com a build atual.',
         totalEstimatedPrice: recommendation.totalEstimatedPrice,
         remainingBudget: recommendation.remainingBudget,
         performanceScore: recommendation.performanceScore
       };
     },
-    'Recomendacao comparativa indisponivel para os dados informados.'
+    'Recomendacao comparativa indisponível para os dados informados.'
   );
 }
 

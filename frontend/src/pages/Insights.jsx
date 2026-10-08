@@ -12,40 +12,51 @@ import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
 import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import { costBenefitService } from '../services/costBenefitService.js';
-import { componentLabels } from '../utils/componentLabels.js';
+import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { numericValue } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
 
 const categoryOptions = [
   { value: '', label: 'Todos' },
-  ...Object.entries(componentLabels).map(([value, label]) => ({ value, label }))
+  // Cooling has no performance-score model; build-only labels are not API categories.
+  ...componentTypes.map((value) => ({ value, label: componentLabels[value] }))
 ];
 
 export default function Insights() {
-  const [ranking, setRanking] = useState([]);
+  const [ranking, setRanking] = useState(null);
   const [rankingFilters, setRankingFilters] = useState({ category: '', limit: 10 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [limitError, setLimitError] = useState('');
 
   useEffect(() => {
     loadRanking();
   }, []);
 
   async function loadRanking() {
-    setLoading(true);
+    const limit = Number(rankingFilters.limit);
     setError('');
+    setRanking(null);
+    if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+      setLimitError('Informe um número inteiro entre 1 e 50.');
+      return;
+    }
+
+    setLimitError('');
+    setLoading(true);
 
     try {
       const filters = {
         ...(rankingFilters.category && { category: rankingFilters.category }),
-        ...(rankingFilters.limit && { limit: Number(rankingFilters.limit) })
+        limit
       };
       const result = await costBenefitService.listComponents(filters);
-      setRanking(Array.isArray(result) ? result : []);
+      if (!Array.isArray(result)) throw new Error('Não foi possível carregar o ranking de custo-benefício.');
+      setRanking(result);
     } catch (rankingError) {
       setError(rankingError.message || 'Não foi possível carregar o ranking de custo-benefício.');
-      setRanking([]);
+      setRanking(null);
     } finally {
       setLoading(false);
     }
@@ -72,12 +83,18 @@ export default function Insights() {
         </div>
 
         <p className="analysis-note">Índice calculado com desempenho cadastrado e preço de referência. A nota de custo-benefício é relativa à categoria; filtre uma categoria para comparar peças equivalentes.</p>
+        <p className="analysis-note">Coolers e ventoinhas não participam deste ranking porque não possuem índice de desempenho para esta comparação.</p>
         <AnalysisHelp topics={['costBenefit', 'score']} title="Como ler este ranking" />
         <div className="form-grid compact-form-grid">
           <Select
             label="Categoria"
+            disabled={loading}
             value={rankingFilters.category}
-            onChange={(event) => setRankingFilters((current) => ({ ...current, category: event.target.value }))}
+            onChange={(event) => {
+              setRankingFilters((current) => ({ ...current, category: event.target.value }));
+              setRanking(null);
+              setError('');
+            }}
             options={categoryOptions}
           />
           <Input
@@ -85,8 +102,17 @@ export default function Insights() {
             type="number"
             min="1"
             max="50"
+            step="1"
+            disabled={loading}
+            hint="De 1 a 50 componentes."
+            error={limitError}
             value={rankingFilters.limit}
-            onChange={(event) => setRankingFilters((current) => ({ ...current, limit: event.target.value }))}
+            onChange={(event) => {
+              setRankingFilters((current) => ({ ...current, limit: event.target.value }));
+              setLimitError('');
+              setError('');
+              setRanking(null);
+            }}
           />
         </div>
         <div className="button-row">
@@ -95,7 +121,7 @@ export default function Insights() {
           </Button>
         </div>
 
-        {loading ? <LoadingSpinner /> : <RankingList ranking={ranking} />}
+        {loading ? <LoadingSpinner /> : ranking !== null && !error && !limitError && <RankingList ranking={ranking} />}
       </Card>
     </div>
   );
@@ -127,7 +153,7 @@ function RankingList({ ranking }) {
                   <h3>{component.name || 'Componente sem nome'}</h3>
                 </div>
                 <Badge tone={getCostBenefitTone(entry.costBenefitScore)}>
-                  {numericValue(entry.costBenefitScore) === null ? 'Não disponível' : entry.classification || classifyCostBenefit(entry.costBenefitScore)}
+                  {numericValue(entry.costBenefitScore) === null ? 'Não disponível' : entry.classification ? translateValue(entry.classification) : classifyCostBenefit(entry.costBenefitScore)}
                 </Badge>
               </div>
               <div className="metric-grid compact-metric-grid">

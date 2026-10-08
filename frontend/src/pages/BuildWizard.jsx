@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { stepSelectionConflicts } from '../utils/selectionConflicts.js';
 import { useNavigate } from 'react-router-dom';
 import { Save, Wand2 } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
@@ -53,8 +54,9 @@ export default function BuildWizard() {
   const missingSlots = getMissingBuildSlots(build.selectedComponents);
   const budgetError = validateBudgetAmount(build.budget.amount);
   const isComponentStep = componentTypes.includes(currentStep);
+  const immediateConflicts = stepSelectionConflicts(build.selectedComponents, currentStep);
   const canAdvance = isComponentStep
-    ? Boolean(build.selectedComponents[currentStep])
+    ? Boolean(build.selectedComponents[currentStep]) && immediateConflicts.length === 0
     : currentStep === 'budget'
       ? !budgetError
       : missingSlots.length === 0;
@@ -65,13 +67,14 @@ export default function BuildWizard() {
   const bottlenecksComplete = build.bottlenecks?.status === 'success'
     || (!build.bottlenecks?.status && typeof build.bottlenecks?.hasBottleneck === 'boolean' && build.bottlenecks?.available !== false);
   const completedSteps = wizardSteps.filter((step) => componentTypes.includes(step)
-    ? Boolean(build.selectedComponents[step])
+    ? Boolean(build.selectedComponents[step]) && stepSelectionConflicts(build.selectedComponents, step).length === 0
     : step === 'budget' ? !budgetError
       : !missingSlots.length && !budgetError && bottlenecksComplete
         && !hasWizardCompatibilityBlockers(build.compatibility, build.alerts));
 
   const guidance = isComponentStep
-    ? canAdvance ? `Peça selecionada. Avance para ${wizardLabels[wizardSteps[stepIndex + 1]]}.`
+    ? immediateConflicts.length ? 'Estas peças não funcionam juntas. Confira o alerta e troque uma das peças indicadas antes de avançar.'
+      : canAdvance ? `Peça selecionada. Avance para ${wizardLabels[wizardSteps[stepIndex + 1]]}.`
       : loading ? 'Aguarde o catálogo carregar para escolher uma peça.'
         : error ? 'Não foi possível carregar as peças. Use Tentar novamente abaixo.'
           : !stepComponents.length ? 'Não há peças nesta categoria. Tente atualizar o catálogo abaixo.'
@@ -276,6 +279,7 @@ export default function BuildWizard() {
   return (
     <div className="wizard-layout" ref={layoutRef}>
       <section className="wizard-main">
+        {build.catalogNotice && <Alert type="info">{build.catalogNotice}</Alert>}
         <div className="page-hero compact-hero">
           <span className="eyebrow">Assistente de montagem</span>
           <h1>Monte seu PC</h1>
@@ -301,6 +305,12 @@ export default function BuildWizard() {
               <p className="wizard-selection"><strong>Peça atual: {build.selectedComponents[currentStep].name || 'Componente selecionado'}</strong>
                 <span>Para substituir, selecione outra opção. As demais peças serão mantidas.</span></p>
             )}
+            {immediateConflicts.length > 0 && <Alert type="error" title="Conflito entre as peças escolhidas">
+              {immediateConflicts.map(conflict => <div key={conflict.code}><p>{conflict.message}</p>
+                <div className="button-row">{conflict.slots.filter(slot => slot !== currentStep).map(slot => <Button key={slot} variant="secondary" onClick={() => changeStep(slot)}>Trocar {componentLabels[slot]}</Button>)}</div>
+              </div>)}
+              <p>As outras escolhas foram mantidas. A análise completa continua necessária na revisão.</p>
+            </Alert>}
             {loading && <LoadingSpinner />}
             {error && <ErrorState message={error} onRetry={reload} />}
             {!loading && !error && stepComponents.length === 0 && <EmptyState title="Nenhuma peça nesta categoria">
@@ -347,7 +357,7 @@ export default function BuildWizard() {
                 options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
-            <BudgetPanel budget={build.budget} totalPrice={build.totalPrice} />
+            <BudgetPanel selectedComponents={build.selectedComponents} budget={build.budget} totalPrice={build.totalPrice} />
           </Card>
         )}
 

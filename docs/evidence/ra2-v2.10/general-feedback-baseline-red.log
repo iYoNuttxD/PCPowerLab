@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-recommendation-feedback-access.mjs --baseline-feedback
+Exit: 1 (expected negative control)
+Observed regression: General feedback must not display: Você seguiria esta recomendação?
+The corresponding current-source checks passed; detailed traces are not published.

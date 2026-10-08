@@ -1,4 +1,4 @@
-import { buildToApiPayload } from './buildHelpers.js';
+import { buildToApiPayload, hydrateBuildComponents } from './buildHelpers.js';
 import { canApplyReplacement } from './replacementComparison.js';
 import { componentTypes } from './componentLabels.js';
 
@@ -44,4 +44,26 @@ export function undoBuildReplacement(state) {
     ...changeSelection(state, history[history.length - 1], { remember: false }),
     replacementHistory: history.slice(0, -1)
   };
+}
+
+// Reconcile only the active working copy. Historical saved receipts are untouched.
+export function reconcileBuildCatalog(state, componentMap) {
+  function reconcile(selection) {
+    const refreshed = hydrateBuildComponents(selection, componentMap, { preferCatalog: true });
+    const mark = component => {
+      if (!componentMap[component.id]) return { ...component, price: null, pricing: null, catalogStatus: 'unavailable' };
+      const { catalogStatus: _status, ...known } = component;
+      return known;
+    };
+    for (const [slot, component] of Object.entries(refreshed)) {
+      refreshed[slot] = slot === 'fans' ? component.map(mark) : mark(component);
+    }
+    return refreshed;
+  }
+  const selectedComponents = reconcile(state.selectedComponents);
+  const history = (state.replacementHistory || []).map(reconcile);
+  const changed = JSON.stringify(selectedComponents) !== JSON.stringify(state.selectedComponents);
+  if (!changed && JSON.stringify(history) === JSON.stringify(state.replacementHistory || [])) return state;
+  return { ...state, ...(changed ? { ...emptyResults, revision: (state.revision || 0) + 1,
+    catalogNotice: 'As peças da montagem foram atualizadas com as referências disponíveis no catálogo. Confira o orçamento e execute as análises novamente.' } : {}), selectedComponents, replacementHistory: history };
 }

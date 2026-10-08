@@ -1,8 +1,8 @@
 # PCPowerLab
 
-> RA2 V2.9: **NÃO HOMOLOGADA**. [Relatório final](docs/RA2-V2-RELATORIO-FINAL.md), [matriz](docs/RA2-V2-REQUISITOS.md), [testes](docs/RA2-V2-REGISTRO-TESTES.md) e [changelog](docs/RA2-V2-CHANGELOG.md). Fotos 9/98, browser sem execução atual, preços demonstrativos e validação humana pendente.
+> RA2 V2.10: **NÃO HOMOLOGADA**. [Continuidade, correções e limites](docs/RA2-V2.10-CONTINUIDADE.md), [rastreabilidade técnica](docs/RA2-V2-FEEDBACK-PROVENIENCIA.md) e [matriz](docs/RA2-V2-REQUISITOS.md). Fotos 11/98; 42 referências datadas e 56 estimativas, sem preço ao vivo. Reteste visual no SHA publicado e validação humana pendentes.
 
-PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links mockados de compra.
+PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
 O repositório também possui um frontend React em `frontend/`, com tema retro-arcade/tech gamer e integração com a API local.
 

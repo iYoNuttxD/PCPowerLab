@@ -12,7 +12,7 @@ import ErrorState from '../components/ui/ErrorState.jsx';
 import Input from '../components/ui/Input.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
-import { useSimulationRequest } from '../hooks/useSimulationRequest.js';
+import { useSessionSimulationRequest } from '../hooks/useSessionSimulationRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
@@ -25,28 +25,39 @@ import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
 import { consumeSelectedUsageProfile, inferUsageSettingsFromProfile } from '../utils/usageProfileHelpers.js';
 import { validateBudgetAmount } from '../utils/validation.js';
+import { analysisIdentity, isOptionalNumber, isOptionalText, isRecord, isSessionId, readAnalysisSession, writeAnalysisSession } from '../utils/analysisSession.js';
 
 export default function UpgradeSuggestions() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  // The URL owns the requested source, including while saved builds are loading.
-  // A missing requested ID must never silently select the unrelated current build.
-  const requestedBuildId = searchParams.get('buildId');
+  const build = useBuildState();
+  const { components: catalogComponents, loading: catalogLoading, error: catalogError, reload: reloadCatalog } = useComponents();
+  const identity = analysisIdentity([build.revision, build.selectedComponents, build.usageType]);
+  const hasUrlSource = searchParams.has('buildId') || searchParams.get('source') === 'current';
+  const [initialInputs] = useState(() => {
+    const stored = readAnalysisSession('upgrade-inputs', identity, validUpgradeInputs);
+    if (stored && (!hasUrlSource || stored.buildId === searchParams.get('buildId'))) return stored;
+    return { buildId: searchParams.get('buildId'), sourceIdentity: null, selectedUsageProfileId: '', budget: 1500,
+      usageType: build.usageType, priority: 'cost-benefit', roadmapBudget: 2500, maxSteps: 3 };
+  });
+  const lastSource = useRef(initialInputs.buildId);
+  // Explicit URLs always win, including unavailable IDs. Bare navigation resumes
+  // this tab's last source; canonical current URLs preserve Back/Forward intent.
+  const requestedBuildId = hasUrlSource ? searchParams.get('buildId') : lastSource.current;
+  lastSource.current = requestedBuildId;
   const buildId = requestedBuildId ?? '';
   const hasRequestedBuild = requestedBuildId !== null;
-  const build = useBuildState();
-  const { components: catalogComponents } = useComponents();
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [savedBuildsLoading, setSavedBuildsLoading] = useState(true);
   const [savedBuildsError, setSavedBuildsError] = useState('');
   const [savedBuildsAttempt, setSavedBuildsAttempt] = useState(0);
   const [usageProfiles, setUsageProfiles] = useState([]);
-  const [selectedUsageProfileId, setSelectedUsageProfileId] = useState('');
-  const [budget, setBudget] = useState(1500);
-  const [usageType, setUsageType] = useState(build.usageType);
-  const [priority, setPriority] = useState('cost-benefit');
-  const [roadmapBudget, setRoadmapBudget] = useState(2500);
-  const [maxSteps, setMaxSteps] = useState(3);
+  const [selectedUsageProfileId, setSelectedUsageProfileId] = useState(initialInputs.selectedUsageProfileId);
+  const [budget, setBudget] = useState(initialInputs.budget);
+  const [usageType, setUsageType] = useState(initialInputs.usageType);
+  const [priority, setPriority] = useState(initialInputs.priority);
+  const [roadmapBudget, setRoadmapBudget] = useState(initialInputs.roadmapBudget);
+  const [maxSteps, setMaxSteps] = useState(initialInputs.maxSteps);
   const [suggestionValidation, setSuggestionValidation] = useState(null);
   const [roadmapValidation, setRoadmapValidation] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -54,15 +65,19 @@ export default function UpgradeSuggestions() {
   const latestRevision = useRef(build.revision);
   latestRevision.current = build.revision;
   const selectedSavedBuild = savedBuilds.find(item => item.id === buildId);
-  const sourceKey = JSON.stringify([build.revision, requestedBuildId, hasRequestedBuild ? selectedSavedBuild?.components : build.buildPayload]);
-  const sourceError = !hasRequestedBuild ? '' : savedBuildsLoading
+  const sourceKey = analysisIdentity([identity, requestedBuildId, hasRequestedBuild ? selectedSavedBuild : null, resolveSelectedComponents()]);
+  const sourceError = catalogLoading ? 'Aguarde a atualização do catálogo de componentes.'
+    : catalogError ? 'Não foi possível atualizar o catálogo de componentes. Tente novamente.'
+      : !hasRequestedBuild ? '' : savedBuildsLoading
     ? 'Aguarde o carregamento da build salva selecionada.'
     : savedBuildsError ? 'Não foi possível carregar a build salva selecionada. Tente novamente.'
       : !selectedSavedBuild ? 'A build salva selecionada não está disponível. Escolha outra origem ou tente carregar novamente.' : '';
   const suggestionKey = JSON.stringify([sourceKey, budget, usageType, priority]);
   const roadmapKey = JSON.stringify([sourceKey, roadmapBudget, maxSteps, usageType, priority]);
-  const request = useSimulationRequest(suggestionKey);
-  const roadmapRequest = useSimulationRequest(roadmapKey);
+  const sourceReady = !sourceError && !catalogLoading && !catalogError;
+  const sourceInvalid = Boolean(catalogError) || hasRequestedBuild && !savedBuildsLoading && Boolean(sourceError);
+  const request = useSessionSimulationRequest('upgrade-suggestions', suggestionKey, validSuggestionSnapshot, { ready: sourceReady, invalid: sourceInvalid });
+  const roadmapRequest = useSessionSimulationRequest('upgrade-roadmap', roadmapKey, validRoadmapSnapshot, { ready: sourceReady, invalid: sourceInvalid });
   const result = request.result?.data;
   const resultComponents = request.result?.components || {};
   const roadmapResult = roadmapRequest.result?.data;
@@ -70,6 +85,39 @@ export default function UpgradeSuggestions() {
   const suggestionError = (suggestionValidation?.key === suggestionKey && suggestionValidation.message) || request.error?.message;
   const roadmapError = (roadmapValidation?.key === roadmapKey && roadmapValidation.message) || roadmapRequest.error?.message;
   const roadmapLoading = roadmapRequest.status === 'loading';
+  const restoredSourceChecked = useRef(false);
+
+  useEffect(() => {
+    if (restoredSourceChecked.current || catalogLoading || (hasRequestedBuild && savedBuildsLoading)) return;
+    restoredSourceChecked.current = true;
+    // Settings saved for a previous version of a saved build must not silently
+    // become the settings of an edited source after returning to this page.
+    if (initialInputs.sourceIdentity && requestedBuildId === initialInputs.buildId
+      && (!sourceReady || initialInputs.sourceIdentity !== sourceKey)) {
+      setSelectedUsageProfileId('');
+      setBudget(1500);
+      setUsageType(build.usageType);
+      setPriority('cost-benefit');
+      setRoadmapBudget(2500);
+      setMaxSteps(3);
+    }
+  }, [catalogLoading, hasRequestedBuild, savedBuildsLoading, initialInputs, requestedBuildId, sourceReady, sourceKey, build.usageType]);
+
+  useEffect(() => {
+    if (hasUrlSource) return;
+    const next = new URLSearchParams(searchParams);
+    if (requestedBuildId !== null) next.set('buildId', requestedBuildId);
+    else next.set('source', 'current');
+    setSearchParams(next, { replace: true });
+  }, [hasUrlSource, requestedBuildId, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    const pendingSource = catalogLoading || (hasRequestedBuild && savedBuildsLoading);
+    const sourceIdentity = sourceReady ? sourceKey
+      : pendingSource && requestedBuildId === initialInputs.buildId ? initialInputs.sourceIdentity : null;
+    writeAnalysisSession('upgrade-inputs', identity,
+      { buildId: requestedBuildId, sourceIdentity, selectedUsageProfileId, budget, usageType, priority, roadmapBudget, maxSteps }, validUpgradeInputs);
+  }, [identity, initialInputs, requestedBuildId, sourceKey, sourceReady, catalogLoading, hasRequestedBuild, savedBuildsLoading, selectedUsageProfileId, budget, usageType, priority, roadmapBudget, maxSteps]);
 
   useEffect(() => {
     let active = true;
@@ -103,8 +151,8 @@ export default function UpgradeSuggestions() {
 
   function selectBuild(id) {
     const next = new URLSearchParams(searchParams);
-    if (id) next.set('buildId', id);
-    else next.delete('buildId');
+    if (id) { next.set('buildId', id); next.delete('source'); }
+    else { next.delete('buildId'); next.set('source', 'current'); }
     setSearchParams(next);
   }
 
@@ -164,7 +212,7 @@ export default function UpgradeSuggestions() {
   function resolveSelectedComponents() {
     if (!hasRequestedBuild) return build.selectedComponents;
     const componentMap = Object.fromEntries(catalogComponents.map((component) => [component.id, component]));
-    return hydrateBuildComponents(selectedSavedBuild?.components, componentMap);
+    return hydrateBuildComponents(selectedSavedBuild?.components, componentMap, { preferCatalog: true });
   }
 
   function resolveBuildPayload() {
@@ -234,6 +282,8 @@ export default function UpgradeSuggestions() {
 
       <Card>
         <h2>Origem da build</h2>
+        {catalogLoading && <LoadingSpinner label="Atualizando o catálogo de componentes..." />}
+        {catalogError && <ErrorState message="Não foi possível atualizar o catálogo de componentes. Tente novamente." onRetry={reloadCatalog} />}
         {hasRequestedBuild && savedBuildsLoading && <LoadingSpinner label="Carregando a build salva selecionada..." />}
         {savedBuildsError && <ErrorState message={`Não foi possível carregar as builds salvas. ${savedBuildsError}`} onRetry={reloadSavedBuilds} />}
         {hasRequestedBuild && !savedBuildsLoading && !savedBuildsError && !selectedSavedBuild && <ErrorState message={sourceError} onRetry={reloadSavedBuilds} />}
@@ -268,7 +318,7 @@ export default function UpgradeSuggestions() {
       {result && (
         <>
           <Alert type={result.suggestions?.length ? 'success' : 'warning'} title="Resultado de upgrade">
-            {result.summary}
+            {translateUpgradeText(result.summary)}
           </Alert>
           <Alert type="info">A prévia troca uma peça na build atual e mantém as outras escolhas. Sugestões de builds salvas serão verificadas novamente com a montagem atual; a build salva não será editada.</Alert>
           <div className="cards-grid">
@@ -446,8 +496,8 @@ function UpgradeRoadmap({ result, currentSelection, onPreview, onFeedback }) {
                     <h3>Trocar {componentLabels[step.componentType] || translateValue(step.componentType)}</h3>
                   </div>
                   <div className="button-row">
-                    <Badge tone={getImpactTone(step.expectedImpact)}>{translateValue(step.expectedImpact)}</Badge>
-                    <Badge tone={getImpactTone(step.priority)}>{translateValue(step.priority)}</Badge>
+                    <Badge tone={getImpactTone(step.expectedImpact)}>Impacto esperado: {translateValue(step.expectedImpact)}</Badge>
+                    <Badge tone={getImpactTone(step.priority)}>Prioridade: {translateValue(step.priority)}</Badge>
                   </div>
                 </div>
 
@@ -505,6 +555,7 @@ function previewUnavailableMessage(suggestion, currentSelection = {}) {
 
 function translateUpgradeText(text = '') {
   return String(text)
+    .replace(/R\$\s*(-?\d+(?:\.\d+)?)(?![\d,]|\.\d)/g, (_match, amount) => formatCurrency(Number(amount)))
     .replace(/\bcpu\b/gi, 'processador')
     .replace(/\bgpu\b/gi, 'placa de vídeo')
     .replace(/\bram\b/gi, 'memória RAM')
@@ -513,7 +564,46 @@ function translateUpgradeText(text = '') {
     .replace(/\bgaming\b/gi, 'jogos')
     .replace(/\blow\b/gi, 'baixo')
     .replace(/\bmedium\b/gi, 'médio')
-    .replace(/\bhigh\b/gi, 'alto');
+    .replace(/\bhigh\b/gi, 'alto')
+    .replace(/\b(catalogo|simulacao|referencia|configuracao|orcamento|nao|Nao|compativeis|restricoes|posicoes|proximo|tecnicos|basico)\b/g, word => ({ catalogo: 'catálogo', simulacao: 'simulação', referencia: 'referência', configuracao: 'configuração', orcamento: 'orçamento', nao: 'não', Nao: 'Não', compativeis: 'compatíveis', restricoes: 'restrições', posicoes: 'posições', proximo: 'próximo', tecnicos: 'técnicos', basico: 'básico' })[word])
+    .replace('upgrade sugerido e trocar', 'upgrade sugerido é trocar');
+}
+
+function validUpgradeInputs(value) {
+  const amount = number => (typeof number === 'number' && Number.isFinite(number))
+    || (typeof number === 'string' && number.length <= 30 && (number === '' || Number.isFinite(Number(number))));
+  return isRecord(value) && (value.buildId === null || isSessionId(value.buildId))
+    && (value.sourceIdentity === null || typeof value.sourceIdentity === 'string')
+    && isSessionId(value.selectedUsageProfileId) && amount(value.budget) && amount(value.roadmapBudget) && amount(value.maxSteps)
+    && [...usageTypes, 'cost-benefit', 'high-performance'].includes(value.usageType)
+    && ['cost-benefit', 'performance', 'balanced', 'lowest-price', 'upgrade-ready'].includes(value.priority);
+}
+
+function validSuggestionSnapshot(value) {
+  return isRecord(value) && validSnapshotComponents(value.components) && isRecord(value.data)
+    && typeof value.data.summary === 'string' && Array.isArray(value.data.suggestions)
+    && value.data.suggestions.length <= 50 && value.data.suggestions.every(validUpgradeStep);
+}
+
+function validRoadmapSnapshot(value) {
+  return isRecord(value) && validSnapshotComponents(value.components) && isRecord(value.data)
+    && typeof value.data.summary === 'string' && Array.isArray(value.data.steps)
+    && value.data.steps.length <= 5 && value.data.steps.every(validUpgradeStep);
+}
+
+function validUpgradeStep(value) {
+  return isRecord(value) && isSessionId(value.componentType) && validSnapshotComponent(value.suggestedComponent)
+    && (value.currentComponent == null || validSnapshotComponent(value.currentComponent))
+    && isOptionalText(value.reason) && isOptionalNumber(value.step) && isOptionalNumber(value.orderRecommended);
+}
+
+function validSnapshotComponent(value) {
+  return isRecord(value) && isSessionId(value.id) && isOptionalText(value.name) && isOptionalNumber(value.quantity);
+}
+
+function validSnapshotComponents(value) {
+  return isRecord(value) && [...componentTypes, 'cooler'].every(type => value[type] === undefined || validSnapshotComponent(value[type]))
+    && (value.fans === undefined || Array.isArray(value.fans) && value.fans.every(validSnapshotComponent));
 }
 
 function createUpgradeFeedbackState({ suggestion, selectedComponents, title, source }) {

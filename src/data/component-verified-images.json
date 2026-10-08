@@ -147,5 +147,87 @@
     "modifications": "Conversão PCPowerLab em 08/10/2026: redimensionamento proporcional até 960px e WebP qualidade 85; sem corte. Derivado sob Free Art License 1.3.",
     "productIdentity": "527af4711aa4fedbcbc85214ee7cbf8f8059f63074d09671ece6e3df785a7ebc",
     "sha256": "528d81545c0a756ca398c632dd6975603b5bbc77e59f99432032a5904a5ff26e"
+  },
+  "cpu-ryzen-5-5500": {
+    "status": "verified",
+    "imagePath": "/images/components/amd-ryzen-5500-5600-original.png",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_(%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80).png",
+    "originalAssetUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_%28%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%29.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "originalVideoUrl": "https://www.youtube.com/watch?v=fRBpUmEv7PQ",
+    "sourceTitle": "Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5",
+    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5500.html",
+    "rightsBasis": "CC BY 3.0: autoria, origem, licença e descrição do enquadramento mantidas. Licença de reutilização confirmada na descrição do vídeo do autor; a revisão de licença do Commons permanece pendente.",
+    "imageType": "photo",
+    "lastVerifiedAt": "2026-10-08",
+    "author": "Мой Компьютер",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "alt": "Fotografia AMD Ryzen 5 5500 com identificação exata legível no processador",
+    "modifications": "Enquadramento de exibição PCPowerLab em 08/10/2026: janela poligonal sobre o processador inferior (5500), preservando o PNG original byte a byte, sem edição ou geração de pixels. Fonte: “Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5”, Мой Компьютер, 00:02:05.200. Sem endosso implícito.",
+    "productIdentity": "5954a940cb4abbcca1daf1fe36bc026aac9addaf729f98ee9adf7bbbc9fb6193",
+    "sha256": "5bb56eec1d860765ba6aada606e9257d6eba6279844c074f6cc5a5dbd9c99b28",
+    "crop": {
+      "sourceWidth": 2560,
+      "sourceHeight": 1440,
+      "points": [
+        [
+          1274,
+          672
+        ],
+        [
+          1722,
+          723
+        ],
+        [
+          1676,
+          1158
+        ],
+        [
+          1223,
+          1097
+        ]
+      ]
+    }
+  },
+  "cpu-ryzen-5-5600": {
+    "status": "verified",
+    "imagePath": "/images/components/amd-ryzen-5500-5600-original.png",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_(%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80).png",
+    "originalAssetUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_%28%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%29.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+    "originalVideoUrl": "https://www.youtube.com/watch?v=fRBpUmEv7PQ",
+    "sourceTitle": "Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5",
+    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html",
+    "rightsBasis": "CC BY 3.0: autoria, origem, licença e descrição do enquadramento mantidas. Licença de reutilização confirmada na descrição do vídeo do autor; a revisão de licença do Commons permanece pendente.",
+    "imageType": "photo",
+    "lastVerifiedAt": "2026-10-08",
+    "author": "Мой Компьютер",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "alt": "Fotografia AMD Ryzen 5 5600 com identificação exata legível no processador",
+    "modifications": "Enquadramento de exibição PCPowerLab em 08/10/2026: janela poligonal sobre o processador superior (5600), preservando o PNG original byte a byte, sem edição ou geração de pixels. Fonte: “Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5”, Мой Компьютер, 00:02:05.200. Sem endosso implícito.",
+    "productIdentity": "d7486819d707ac46fe5b35f4d024d39ffeb0b88a1b2d8db1d0506fc813970d72",
+    "sha256": "5bb56eec1d860765ba6aada606e9257d6eba6279844c074f6cc5a5dbd9c99b28",
+    "crop": {
+      "sourceWidth": 2560,
+      "sourceHeight": 1440,
+      "points": [
+        [
+          1326,
+          256
+        ],
+        [
+          1777,
+          290
+        ],
+        [
+          1724,
+          720
+        ],
+        [
+          1272,
+          669
+        ]
+      ]
+    }
   }
 }

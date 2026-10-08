@@ -1,3 +1,4 @@
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -48,7 +49,7 @@ test('deve exportar uma build direta com resumo quando solicitado', () => {
     includeSummary: true
   });
 
-  assert.equal(exportedBuild.summary.totalEstimatedPrice, 4699.3);
+  assert.equal(exportedBuild.summary.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(exportedBuild.summary.compatibilityStatus, 'compatible');
 });
 

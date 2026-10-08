@@ -1,3 +1,4 @@
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -39,7 +40,7 @@ test('deve salvar uma configuração montada', () => {
   assert.equal(savedBuild.components.cpu, validSavedBuildInput.components.cpuId);
   assert.equal(savedBuild.budget.amount, 5000);
   assert.equal(savedBuild.usageType, 'gaming');
-  assert.equal(savedBuild.totalEstimatedPrice, 4699.3);
+  assert.equal(savedBuild.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(Boolean(savedBuild.createdAt), true);
   assert.equal(Boolean(savedBuild.updatedAt), true);
 });

@@ -1,3 +1,4 @@
+import { getDatedReference } from '../data/dated-price-references.js';
 import { URL } from 'node:url';
 // No live provider is configured. Only server-controlled, authorized observations belong here.
 // Catalog prices remain estimates and are never replaced by a partial market subtotal.
@@ -6,6 +7,10 @@ export const marketIntegrationStatus = Object.freeze({ status: 'not_configured',
 export const marketQuotes = Object.freeze([]);
 
 export function referencePrice(component) {
+  const snapshot = getDatedReference(component);
+  if (snapshot) return { ...snapshot, source: 'dated_public_reference', updateStatus: 'dated_snapshot',
+    isMarketQuote: false, basis: 'PIX à vista; frete excluído', observedAvailability: snapshot.availability,
+    availability: 'unknown', validityMessage: 'Registro de pesquisa datado; sem validade futura ou estoque ao vivo' };
   return { productId: component.id, price: validPrice(component.price) ? component.price : null,
     currency: 'BRL', source: 'catalog_reference', updateStatus: 'estimate', queriedAt: null,
     validUntil: null, availability: 'unknown', isMarketQuote: false };
@@ -66,10 +71,15 @@ export function summarizeBuildPricing(build, quotes = marketQuotes, now = Date.n
   const entries = Object.entries(build).flatMap(([slot, value]) => slot === 'fans'
     ? (value || []).map(fan => ({ component: fan, quantity: fan.quantity }))
     : value && typeof value === 'object' && value.id ? [{ component: value, quantity: 1 }] : []);
-  let estimated = 0, availableQuotes = 0;
+  let estimated = 0, availableQuotes = 0, datedReferenceUnits = 0, estimatedReferenceUnits = 0;
+  const referenceComponents = [];
   const withoutReference = [], withoutQuote = [], quotedComponents = [];
   for (const { component, quantity } of entries) {
     const reference = referencePrice(component);
+    if (reference.updateStatus === 'dated_snapshot') datedReferenceUnits += quantity;
+    else estimatedReferenceUnits += quantity;
+    referenceComponents.push({ productId: component.id, quantity, price: reference.price,
+      basis: reference.updateStatus, store: reference.store ?? null, queriedAt: reference.queriedAt });
     if (reference.price === null) withoutReference.push(component.id);
     else estimated += reference.price * quantity;
     const offer = getProductMarket(component.id, quotes, now).offers.find(item => item.availability === 'available');
@@ -83,6 +93,7 @@ export function summarizeBuildPricing(build, quotes = marketQuotes, now = Date.n
     availableMarketQuotesTotal: quotedComponents.length ? Number(availableQuotes.toFixed(2)) : null,
     marketTotalComplete: entries.length > 0 && withoutQuote.length === 0,
     componentsWithoutCurrentQuote: withoutQuote, componentsWithoutReference: withoutReference, quotedComponents,
-    basis: 'catalog_reference', excludesShipping: true,
-    methodology: 'Total estimado soma referências do catálogo; subtotal de cotações soma apenas itens com disponibilidade confirmada. Valores nunca são misturados. Frete, condições de pagamento e montagem não incluídos.' };
+    basis: datedReferenceUnits ? (estimatedReferenceUnits ? 'mixed_dated_and_estimated_reference' : 'dated_reference') : 'catalog_reference',
+    datedReferenceUnits, estimatedReferenceUnits, referenceComponents, paymentBasis: 'Referências datadas: PIX à vista; demais valores: estimativas sem condição de pagamento verificada', excludesShipping: true,
+    methodology: 'Total estimado pode combinar referências datadas à vista (PIX) e estimativas demonstrativas; cobertura informada por packs. Registros datados não são cotações atuais. O total soma referências do catálogo; subtotal de cotações soma apenas itens com disponibilidade confirmada. Valores nunca são misturados. Frete, condições de pagamento e montagem não incluídos.' };
 }

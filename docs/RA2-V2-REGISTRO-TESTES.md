@@ -1,5 +1,7 @@
 # RA2 V2.9 — registro final de testes e evidências
 
+> Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
+
 08/10/2026 UTC. Fonte de entrada: `5de7d88c906b2b66c63a4bc69e115045e012bf0d`; execução final na árvore com as correções F01–F05 do [relatório](RA2-V2-RELATORIO-FINAL.md). Não somar reexecuções nem confundir coleta com execução.
 
 ## Contagem final

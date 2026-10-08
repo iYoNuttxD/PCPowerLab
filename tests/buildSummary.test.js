@@ -1,3 +1,4 @@
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -18,7 +19,7 @@ test('deve gerar resumo final estruturado para uma build completa', () => {
   const summary = generateBuildSummary({
     build: validBuild,
     budget: {
-      amount: 5000,
+      amount: Number((referenceFixtureTotal() + 300.7).toFixed(2)),
       currency: 'BRL',
       priority: 'cost-benefit'
     },
@@ -30,17 +31,17 @@ test('deve gerar resumo final estruturado para uma build completa', () => {
 
   assert.equal(summary.components.cpu.id, validBuild.cpuId);
   assert.equal(summary.components.gpu.id, validBuild.gpuId);
-  assert.equal(summary.totalEstimatedPrice, 4699.3);
+  assert.equal(summary.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(summary.compatibility.compatible, true);
   assert.deepEqual(summary.compatibility.alerts, []);
   assert.equal(summary.bottlenecks.hasBottleneck, false);
-  assert.equal(summary.budgetStatus.amount, 5000);
+  assert.equal(summary.budgetStatus.amount, Number((referenceFixtureTotal() + 300.7).toFixed(2)));
   assert.equal(summary.budgetStatus.remaining, 300.7);
   assert.equal(summary.budgetStatus.status, 'within_budget');
   assert.equal(summary.gamePerformance.gameId, 'game-cyberpunk-2077');
   assert.equal(Number.isInteger(summary.gamePerformance.estimatedFps), true);
-  assert.equal(summary.summary.includes('configuracao esta compativel'), true);
-  assert.equal(summary.finalRecommendation, 'Configuracao recomendada para o perfil informado.');
+  assert.equal(summary.summary.includes('configuração está compatível'), true);
+  assert.equal(summary.finalRecommendation, 'Configuração recomendada para o perfil informado.');
 });
 
 test('deve funcionar sem orcamento e sem jogo informado', () => {
@@ -49,7 +50,7 @@ test('deve funcionar sem orcamento e sem jogo informado', () => {
   });
 
   assert.equal(summary.components.motherboard.id, validBuild.motherboardId);
-  assert.equal(summary.totalEstimatedPrice, 4699.3);
+  assert.equal(summary.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(summary.compatibility.compatible, true);
   assert.equal(summary.budgetStatus, undefined);
   assert.equal(summary.gamePerformance, undefined);
@@ -106,7 +107,7 @@ test('deve retornar erro controlado quando build nao for informada', () => {
     () => generateBuildSummary({}),
     (error) => {
       assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Informe a build para gerar o resumo da configuracao.');
+      assert.equal(error.message, 'Informe a build para gerar o resumo da configuração.');
       return true;
     }
   );

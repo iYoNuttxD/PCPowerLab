@@ -1,0 +1,212 @@
+{
+  "case-cooler-master-q300l": {
+    "price": 309.99,
+    "sku": "MCB-Q300L-KANN-S00",
+    "seller": "Pichau"
+  },
+  "cooler-deepcool-ak620": {
+    "price": 449.99,
+    "sku": "R-AK620-BKNNMT-G",
+    "seller": "Pichau"
+  },
+  "cpu-intel-i3-12100f": {
+    "price": 629.99,
+    "sku": "BX8071512100F-BR",
+    "seller": "Pichau"
+  },
+  "cpu-intel-i5-12400f": {
+    "price": 789.99,
+    "sku": "BX8071512400F",
+    "seller": "Pichau"
+  },
+  "cpu-intel-i5-13400f": {
+    "price": 949.99,
+    "sku": "BX8071513400F",
+    "seller": "Pichau"
+  },
+  "cpu-intel-i5-13600k": {
+    "price": 1399.99,
+    "sku": "BX8071513600K",
+    "seller": "Pichau"
+  },
+  "cpu-intel-i5-14400f": {
+    "price": 949.99,
+    "sku": "BX8071514400F-BR",
+    "seller": "Pichau"
+  },
+  "cpu-intel-i7-13700k": {
+    "price": 2299.99,
+    "sku": "BX8071513700K",
+    "seller": "Pichau"
+  },
+  "cpu-ryzen-5-5500": {
+    "price": 999.99,
+    "sku": "100-100000457BOX-BR",
+    "seller": "Pichau"
+  },
+  "cpu-ryzen-5-5600": {
+    "price": 899.99,
+    "sku": "100-100000927BOX-BR",
+    "seller": "Pichau"
+  },
+  "cpu-ryzen-5-7600": {
+    "price": 999.99,
+    "sku": "100-100001015BOX-BR",
+    "seller": "Pichau"
+  },
+  "cpu-ryzen-7-5700x": {
+    "price": 1199.99,
+    "sku": "100-100000926WOF-BR",
+    "seller": "Pichau"
+  },
+  "cpu-ryzen-7-5800x3d": {
+    "price": 2499.99,
+    "sku": "100-100000651WOF",
+    "seller": "Pichau"
+  },
+  "cpu-ryzen-7-7700": {
+    "price": 1649.99,
+    "sku": "100-100000592SBX",
+    "seller": "Pichau"
+  },
+  "fan-noctua-nf-a14-pwm": {
+    "price": 194.99,
+    "sku": "NF-A14 PWM",
+    "seller": "Pichau"
+  },
+  "mb-asus-tuf-b550m-plus": {
+    "price": 799.99,
+    "sku": "TUF-GAMING-B550M-PLUS",
+    "seller": "Pichau"
+  },
+  "mb-msi-b550-tomahawk": {
+    "price": 1289.99,
+    "sku": "MAG-B550-TOMAHAWK",
+    "seller": "Pichau"
+  },
+  "mb-msi-pro-b660m-a-ddr4": {
+    "price": 1545.36,
+    "sku": "PRO-B660M-A DDR4",
+    "seller": "Pichau"
+  },
+  "psu-corsair-650w": {
+    "price": 443.7,
+    "sku": "CP-9020211-BR",
+    "seller": "Pichau"
+  },
+  "psu-corsair-cv550": {
+    "price": 469.99,
+    "sku": "CP-9020210-BR",
+    "seller": "Pichau"
+  },
+  "psu-xpg-core-reactor-850w": {
+    "price": 699.99,
+    "sku": "COREREACTOR850G-BKCBR",
+    "seller": "Pichau"
+  },
+  "psu-xpg-pylon-650w": {
+    "price": 399.99,
+    "sku": "PYLON650B-BKCBR",
+    "seller": "Pichau"
+  },
+  "ram-cmk32gx4m2e3200c16": {
+    "price": 549.99,
+    "sku": "CMK32GX4M2E3200C16",
+    "seller": "Pichau"
+  },
+  "ram-cmk32gx5m2b6000c36": {
+    "price": 2099.99,
+    "sku": "CMK32GX5M2B6000C36",
+    "seller": "Pichau"
+  },
+  "ram-kf432c16bbk2-16": {
+    "price": 1699.9,
+    "sku": "KF432C16BBK2/16",
+    "seller": "TerabyteShop"
+  },
+  "ram-kf552c40bbk2-32": {
+    "price": 2249.99,
+    "sku": "KF552C40BBK2-32",
+    "seller": "Pichau"
+  },
+  "ram-kf556c40bbk2-32": {
+    "price": 2339.99,
+    "sku": "KF556C40BBK2-32",
+    "seller": "Pichau"
+  },
+  "ram-kf560c40bbk2-32": {
+    "price": 1299.99,
+    "sku": "KF560C40BBK2-32",
+    "seller": "Pichau"
+  },
+  "ram-kingston-fury-16gb-ddr4-3600": {
+    "price": 306.99,
+    "sku": "KF436C18BB/16",
+    "seller": "Pichau"
+  },
+  "ram-kingston-fury-16gb-ddr5-5200": {
+    "price": 1999.99,
+    "sku": "KF552C40BB-16",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-a400-240gb": {
+    "price": 479.99,
+    "sku": "SA400S37/240G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-a400-480gb": {
+    "price": 569.99,
+    "sku": "SA400S37/480G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-a400-960gb": {
+    "price": 949.99,
+    "sku": "SA400S37/960G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-kc3000-1024gb": {
+    "price": 1969.99,
+    "sku": "SKC3000S/1024G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-kc3000-2048gb": {
+    "price": 3669.74,
+    "sku": "SKC3000D/2048G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-kc3000-4096gb": {
+    "price": 5669.99,
+    "sku": "SKC3000D/4096G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-kc3000-512gb": {
+    "price": 689.99,
+    "sku": "SKC3000S/512G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-nv2-1tb": {
+    "price": 499.99,
+    "sku": "SNV2S/1000G",
+    "seller": "Pichau"
+  },
+  "ssd-kingston-nv2-500gb": {
+    "price": 345.99,
+    "sku": "SNV2S/500G",
+    "seller": "Pichau"
+  },
+  "ssd-samsung-870-evo-500gb": {
+    "price": 862.83,
+    "sku": "MZ-77E500B/EU",
+    "seller": "DAXFY"
+  },
+  "ssd-wd-black-sn770-1tb": {
+    "price": 639.99,
+    "sku": "WDS100T3X0E",
+    "seller": "Pichau"
+  },
+  "ssd-wd-blue-sn570-1tb": {
+    "price": 599.9,
+    "sku": "WDS100T3B0C",
+    "seller": "Pichau"
+  }
+}

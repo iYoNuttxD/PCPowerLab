@@ -1,6 +1,6 @@
 # PCPowerLab Frontend
 
-> Estado final RA2 V2.9: **NÃO HOMOLOGADA**. [Relatório](../docs/RA2-V2-RELATORIO-FINAL.md) e [registro de testes](../docs/RA2-V2-REGISTRO-TESTES.md). SSR/handlers não substituem navegador.
+> Estado RA2 V2.10: **NÃO HOMOLOGADA**. [Correções, testes e pendências](../docs/RA2-V2.10-CONTINUIDADE.md). Navegação, resumos e referências datadas integrados; SSR/handlers não substituem navegador.
 
 Interface web do PCPowerLab, criada com Vite + React para consumir a API REST local do projeto.
 

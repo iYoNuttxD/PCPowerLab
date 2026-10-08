@@ -1,5 +1,7 @@
 # PCPowerLab — auditoria final independente RA2 V2.9
 
+> Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
+
 **Veredito: NÃO HOMOLOGADA.** Há requisitos obrigatórios incompletos. Os critérios de aceite não foram relaxados para aprovar a entrega.
 
 08/10/2026 UTC · repositório [iYoNuttxD/PCPowerLab](https://github.com/iYoNuttxD/PCPowerLab) · branch `codex/pcpowerlab-ra2-ciclo2`.

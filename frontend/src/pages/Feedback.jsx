@@ -127,7 +127,7 @@ export default function Feedback() {
     const rating = Number(form.rating);
 
     if (!form.recommendationType) {
-      setError('Informe o tipo de recomendação.');
+      setError('Informe o tipo de avaliação.');
       return;
     }
 
@@ -136,7 +136,7 @@ export default function Feedback() {
       return;
     }
 
-    if (requiresBuildSnapshot(context) && !feedbackBuildSnapshot) {
+    if (isContextual && requiresBuildSnapshot(context) && !feedbackBuildSnapshot) {
       setError('Esta recomendação não possui uma build completa para vincular ao feedback.');
       return;
     }
@@ -147,11 +147,11 @@ export default function Feedback() {
     try {
       const totalEstimatedPrice = getContextPrice(context, selectedComponents);
       const payload = {
-        recommendationType: form.recommendationType,
-        ...(recommendationId && { recommendationId }),
+        recommendationType: isContextual ? form.recommendationType : 'general',
+        ...(isContextual && recommendationId && { recommendationId }),
         rating,
         ...(form.comment.trim() && { comment: form.comment.trim().slice(0, 500) }),
-        wouldFollowRecommendation: form.wouldFollowRecommendation === 'true',
+        ...(isContextual && { wouldFollowRecommendation: form.wouldFollowRecommendation === 'true' }),
         ...(isContextual && context.source && { source: context.source }),
         ...(isContextual && getContextTitle(context) && { recommendationTitle: getContextTitle(context).slice(0, 120) }),
         ...(isContextual && getContextSummary(context) && { recommendationSummary: getContextSummary(context).slice(0, 500) }),
@@ -256,7 +256,7 @@ export default function Feedback() {
           {isNewFeedbackRoute
             ? (isContextual
               ? 'Avalie se esta recomendação fez sentido para sua necessidade.'
-              : 'Registre uma avaliação geral sobre as recomendações do PCPowerLab.')
+              : 'Conte como foi sua experiência com o PCPowerLab: clareza das telas, facilidade de uso e informações do projeto.')
             : 'Acompanhe avaliações registradas, reutilize builds avaliadas e filtre o histórico.'}
         </p>
       </section>
@@ -266,12 +266,12 @@ export default function Feedback() {
 
       {isNewFeedbackRoute ? (
         <>
-          <div className="feedback-layout">
-            <RecommendationSummary
+          <div className={isContextual ? 'feedback-layout' : 'page-stack'}>
+            {isContextual && <RecommendationSummary
               context={context}
               selectedComponents={selectedComponents}
               hasRecommendationBuild={hasRecommendationBuild}
-            />
+            />}
 
             <FeedbackForm
               form={form}
@@ -285,12 +285,14 @@ export default function Feedback() {
           <Card className="feedback-actions-card">
             <div className="section-heading compact">
               <div>
-                <h2>Continuar com esta recomendação</h2>
-                <p>Usar aplica a configuração inteira avaliada, incluindo refrigeração. Para alterar só uma peça, abra o resumo da sua montagem atual.</p>
+                <h2>{isContextual ? 'Continuar com esta recomendação' : 'Continuar explorando o PCPowerLab'}</h2>
+                <p>{isContextual
+                  ? 'Usar aplica a configuração inteira avaliada, incluindo refrigeração. Para alterar só uma peça, abra o resumo da sua montagem atual.'
+                  : 'Volte ao histórico de avaliações ou explore configurações para montar seu PC.'}</p>
               </div>
             </div>
             <div className="button-row">
-              {hasRecommendationBuild && (
+              {isContextual && hasRecommendationBuild && (
                 <>
                   <Button variant="secondary" onClick={() => useRecommendationBuild()}>
                     <Upload size={18} /> Usar esta build inteira
@@ -304,6 +306,7 @@ export default function Feedback() {
                 </>
               )}
               <Link className="btn btn-secondary btn-md" to={returnLink.to}>{returnLink.label}</Link>
+              {!isContextual && <Link className="btn btn-ghost btn-md" to="/ready-builds">Explorar builds prontas</Link>}
               {!hasRecommendationBuild && isContextual && (
                 <Link className="btn btn-ghost btn-md" to={returnLink.to}>{getFallbackActionLabel(context)}</Link>
               )}
@@ -334,12 +337,12 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
         <div>
           <span className="eyebrow">Sua avaliação</span>
           <h2>{contextual ? 'Avaliar recomendação' : 'Feedback geral'}</h2>
-          <p>{contextual ? 'O tipo de recomendação foi preenchido com o contexto enviado.' : 'Registre uma avaliação geral sobre as recomendações recebidas.'}</p>
+          <p>{contextual ? 'O tipo de recomendação foi preenchido com o contexto enviado.' : 'Avalie sua experiência com o projeto e conte o que podemos melhorar.'}</p>
         </div>
       </div>
 
       <form className="profile-form" onSubmit={onSubmit}>
-        <Select
+        {contextual && <Select
           label="Tipo de recomendação"
           value={form.recommendationType}
           onChange={(event) => onChange((current) => ({ ...current, recommendationType: event.target.value }))}
@@ -347,7 +350,7 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
             value: type,
             label: recommendationTypeLabels[type] || translateValue(type)
           }))}
-        />
+        />}
         <Input
           label="Nota"
           type="number"
@@ -357,7 +360,7 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
           onChange={(event) => onChange((current) => ({ ...current, rating: event.target.value }))}
           required
         />
-        <Select
+        {contextual && <Select
           label="Você seguiria esta recomendação?"
           value={form.wouldFollowRecommendation}
           onChange={(event) => onChange((current) => ({ ...current, wouldFollowRecommendation: event.target.value }))}
@@ -365,7 +368,7 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
             { value: 'true', label: 'Sim' },
             { value: 'false', label: 'Não' }
           ]}
-        />
+        />}
         <label className="field">
           <span>Comentário opcional</span>
           <textarea
@@ -412,7 +415,7 @@ function CentralFeedback({
           <div>
             <span className="eyebrow">Avaliações registradas</span>
             <h2>Histórico de feedbacks</h2>
-            <p>As avaliações aparecerão aqui quando você avaliar builds recomendadas, upgrades ou correções.</p>
+            <p>As avaliações aparecerão aqui quando você compartilhar sua experiência com o projeto ou avaliar builds, upgrades e correções.</p>
           </div>
           <div className="feedback-toolbar">
             <div className="feedback-filter">
@@ -436,7 +439,7 @@ function CentralFeedback({
         ) : feedbacks.length === 0 ? (
           <EmptyState
             title="Nenhuma avaliação registrada ainda"
-            message="As avaliações aparecerão aqui quando você avaliar builds recomendadas, upgrades ou correções."
+            message="As avaliações aparecerão aqui quando você compartilhar sua experiência com o projeto ou avaliar builds, upgrades e correções."
           />
         ) : (
           <div className="feedback-list">
@@ -456,7 +459,9 @@ function CentralFeedback({
                       <h3>Nota {item.rating || 'N/D'}/5</h3>
                       <p>{item.comment || item.recommendationSummary || 'Sem comentário.'}</p>
                       <small>
-                        Seguiria: {item.wouldFollowRecommendation === true ? 'Sim' : item.wouldFollowRecommendation === false ? 'Não' : 'Não informado'}
+                        {item.recommendationType === 'general'
+                          ? 'Experiência com o projeto'
+                          : `Seguiria: ${item.wouldFollowRecommendation === true ? 'Sim' : item.wouldFollowRecommendation === false ? 'Não' : 'Não informado'}`}
                         {item.recommendationId ? ` • Ref.: ${item.recommendationId}` : ''}
                         {item.createdAt ? ` • ${new Date(item.createdAt).toLocaleString('pt-BR')}` : ''}
                       </small>

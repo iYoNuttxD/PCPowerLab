@@ -1,3 +1,4 @@
+import { datedReference } from '../utils/referencePricing.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
@@ -94,7 +95,8 @@ export default function ComponentsCatalog() {
 
       <div className="catalog-toolbar panel-card">
         <ComponentFilters components={components} filters={filters} onChange={setFilters} hasBuild={hasBuild} />
-        <p className="analysis-note">Preços estimados da base demonstrativa, sem atualização em tempo real. Os links das lojas são buscas; confirme o modelo, o preço e a disponibilidade antes de comprar.</p>
+        {!loading && !error && <p className="hint-text">{components.filter(datedReference).length} de {components.length} peças com referência datada · demais preços são estimativas sem fonte datada validada.</p>}
+        <p className="analysis-note">Preços combinam referências datadas à vista (PIX) e estimativas sem fonte datada validada. Veja fonte e condições por peça. Sem atualização em tempo real; frete excluído. Buscas nas cinco lojas não são ofertas verificadas.</p>
       </div>
 
       <details className="panel-card catalog-methodology"><summary>Como interpretar desempenho, valor e compatibilidade</summary>

@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, recommendationSelection } from '../utils/buildHelpers.js';
 import { normalizeWizardStep } from '../utils/wizardSteps.js';
 
-import { emptyResults, changeSelection, replaceBuildComponent, undoBuildReplacement, analyzedResults } from '../utils/buildTransitions.js';
+import { useComponents } from './useComponents.js';
+import { reconcileBuildCatalog, emptyResults, changeSelection, replaceBuildComponent, undoBuildReplacement, analyzedResults } from '../utils/buildTransitions.js';
 
 import { buildStorageKey as storageKey, initialBuildState as initialState, readPersistedBuild } from '../utils/buildPersistence.js';
 
@@ -10,6 +11,12 @@ const BuildContext = createContext(null);
 
 export function BuildProvider({ children }) {
   const [state, setState] = useState(() => loadInitialState());
+  const catalog = useComponents();
+  const currentCatalog = useRef(null);
+  if (!catalog.loading && !catalog.error) currentCatalog.current = catalog.componentMap;
+  useEffect(() => {
+    if (!catalog.loading && !catalog.error) setState(current => reconcileBuildCatalog(current, catalog.componentMap));
+  }, [catalog.componentMap, catalog.loading, catalog.error]);
 
   useEffect(() => {
     try {
@@ -24,6 +31,7 @@ export function BuildProvider({ children }) {
       setState((current) => ({ ...current, wizardStep: normalizeWizardStep(step) }));
     },
     selectComponent(type, component) {
+      component = currentCatalog.current?.[component?.id] || component;
       setState(current => current.selectedComponents[type]?.id === component?.id ? current
         : changeSelection(current, { ...current.selectedComponents, [type]: component }));
     },
@@ -37,7 +45,8 @@ export function BuildProvider({ children }) {
       setState(current => current.revision === expectedRevision ? { ...current, ...analyzedResults(summary) } : current);
     },
     setFans(fans) {
-      setState(current => changeSelection(current, { ...current.selectedComponents, fans }));
+      const currentFans = hydrateBuildComponents({ fans }, currentCatalog.current || {}, { preferCatalog: true }).fans;
+      setState(current => changeSelection(current, { ...current.selectedComponents, fans: currentFans }));
     },
     removeComponent(type) {
       setState(current => {
@@ -86,7 +95,8 @@ export function BuildProvider({ children }) {
     },
     loadSavedBuild(savedBuild, componentMap = {}) {
       const components = savedBuild?.components || {};
-      const selectedComponents = hydrateBuildComponents(components, componentMap);
+      const hydrated = hydrateBuildComponents(components, currentCatalog.current ?? componentMap, { preferCatalog: true });
+      const selectedComponents = currentCatalog.current ? reconcileBuildCatalog({ selectedComponents: hydrated, replacementHistory: [], revision: 0 }, currentCatalog.current).selectedComponents : hydrated;
 
       setState((current) => ({
         ...changeSelection(current, selectedComponents, { remember: false }),
@@ -98,7 +108,7 @@ export function BuildProvider({ children }) {
     },
     applyRecommendation(recommendation, { replaceCooling = false } = {}) {
       setState(current => changeSelection(current,
-        recommendationSelection(current.selectedComponents, recommendation?.components || {}, replaceCooling)));
+        hydrateBuildComponents(recommendationSelection(current.selectedComponents, recommendation?.components || {}, replaceCooling), currentCatalog.current || {}, { preferCatalog: true })));
 
     }
   }), []);

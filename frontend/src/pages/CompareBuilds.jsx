@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { selectedComparisonBuilds } from '../utils/buildComparisonSelection.js';
+import { formatPerformanceNumber } from '../utils/performancePresentation.js';
 import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
 import BuildComponentsPreview from '../components/build/BuildComponentsPreview.jsx';
 import { useEffect, useState } from 'react';
@@ -14,8 +17,8 @@ import { useSimulationRequest } from '../hooks/useSimulationRequest.js';
 import { useBuildState } from '../hooks/useBuildState.jsx';
 import { buildComparisonService } from '../services/buildComparisonService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
-import { componentTypes, priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
-import { buildToApiPayload, normalizeBudgetPayload } from '../utils/buildHelpers.js';
+import { priorityLabels, usageLabels, usageTypes } from '../utils/componentLabels.js';
+import { hasCompleteBuild, normalizeBudgetPayload } from '../utils/buildHelpers.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
 import { validateBudgetAmount } from '../utils/validation.js';
@@ -25,10 +28,13 @@ export default function CompareBuilds() {
   const [validationError, setValidationError] = useState('');
   const [savedBuilds, setSavedBuilds] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [includeCurrent, setIncludeCurrent] = useState(true);
+  const currentComplete = hasCompleteBuild(build.selectedComponents);
+  const chosenBuilds = selectedComparisonBuilds({ savedBuilds, selectedIds, currentComponents: build.selectedComponents, includeCurrent });
   const [budget, setBudget] = useState(build.budget.amount || 5000);
   const [usageType, setUsageType] = useState(build.usageType);
   const [criteria, setCriteria] = useState('cost-benefit');
-  const request = useSimulationRequest(JSON.stringify([selectedIds, budget, usageType, criteria, build.buildPayload]));
+  const request = useSimulationRequest(JSON.stringify([selectedIds, includeCurrent, savedBuilds, budget, usageType, criteria, build.buildPayload]));
   const comparison = request.result;
   const [loadingBuilds, setLoadingBuilds] = useState(true);
   const [buildsError, setBuildsError] = useState('');
@@ -57,22 +63,10 @@ export default function CompareBuilds() {
       return;
     }
 
-    const selectedBuilds = savedBuilds
-      .filter((savedBuild) => selectedIds.includes(savedBuild.id))
-      .map((savedBuild) => ({
-        name: savedBuild.name,
-        components: buildToApiPayload(savedBuild.components)
-      }));
-
-    if (componentTypes.every((type) => build.selectedComponents[type])) {
-      selectedBuilds.unshift({
-        name: 'Build atual',
-        components: buildToApiPayload(build.selectedComponents)
-      });
-    }
+    const selectedBuilds = chosenBuilds;
 
     if (selectedBuilds.length < 2) {
-      setValidationError('Selecione pelo menos duas builds ou mantenha uma build atual completa.');
+      setValidationError('Escolha pelo menos duas configurações. A montagem atual conta apenas quando está completa e marcada abaixo.');
       return;
     }
 
@@ -91,9 +85,9 @@ export default function CompareBuilds() {
   return (
     <div className="page-stack">
       <section className="page-hero compact-hero">
-        <span className="eyebrow">Versus mode</span>
-        <h1>Comparação de builds</h1>
-        <p>Compare preço de referência, compatibilidade, desempenho estimado e custo-benefício e gargalos entre duas ou mais configurações.</p>
+        <span className="eyebrow">Alternativas lado a lado</span>
+        <h1>Comparação de configurações</h1>
+        <p>Compare preço de referência, compatibilidade, desempenho estimado e custo-benefício e possíveis gargalos entre duas ou mais configurações.</p>
       </section>
       <DecisionMethodology />
 
@@ -106,15 +100,24 @@ export default function CompareBuilds() {
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Critério" value={criteria} onChange={(event) => setCriteria(event.target.value)} options={['cost-benefit', 'performance', 'budget', 'balanced'].map((value) => ({ value, label: priorityLabels[value] || value }))} />
         </div>
-        <Button loading={request.status === 'loading'} onClick={compare}>Comparar selecionadas</Button>
+        <p id="build-comparison-guidance" role="status">{chosenBuilds.length} configuração(ões) selecionada(s). Escolha pelo menos duas; mudar as escolhas invalida o resultado anterior.</p>
+        <Button disabled={chosenBuilds.length < 2 || request.status === 'loading'} aria-describedby="build-comparison-guidance" loading={request.status === 'loading'} onClick={compare}>Comparar selecionadas</Button>
       </Card>
 
+      <Card>
+        <h2>Montagem atual</h2>
+        {currentComplete ? <>
+          <label className="checkbox-label"><input type="checkbox" checked={includeCurrent} onChange={event => { setIncludeCurrent(event.target.checked); setValidationError(''); }} /> Incluir minha montagem atual na comparação</label>
+          <details className="build-image-details"><summary>Ver componentes da montagem atual</summary><BuildComponentsPreview components={build.selectedComponents} /></details>
+          <p>Desmarque para comparar somente configurações salvas. Suas peças não serão alteradas.</p>
+        </> : <p>Complete a montagem para incluí-la, ou escolha duas configurações salvas. <Link to="/build">Continuar montagem</Link></p>}
+      </Card>
       {loadingBuilds && <LoadingSpinner label="Carregando builds para comparar..." />}
       {buildsError && <ErrorState message={buildsError} onRetry={() => {
         setBuildsError(''); setLoadingBuilds(true); setLoadAttempt((attempt) => attempt + 1);
       }} />}
       {!loadingBuilds && !buildsError && (savedBuilds.length === 0 ? (
-        <EmptyState title="Nenhuma build salva" message="Você ainda pode comparar quando salvar builds no assistente." />
+        <EmptyState title="Nenhuma configuração salva" message="Salve uma configuração, altere as peças e compare as alternativas aqui."><Link to="/summary">Abrir resumo e salvar configuração</Link></EmptyState>
       ) : (
         <div className="cards-grid compact-cards">
           {savedBuilds.map((savedBuild) => (
@@ -136,20 +139,22 @@ export default function CompareBuilds() {
             <h2>Resultado</h2>
             <Trophy aria-hidden="true" />
           </div>
-          <Alert type={(comparison.builds || []).some((item) => item.name === comparison.recommendedBuild?.name && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={`Sugestão entre as builds comparadas: ${comparison.recommendedBuild?.name || 'Não informada'}`}>
+          <Alert type={(comparison.builds || []).some((item) => item.comparisonIndex === comparison.recommendedBuild?.comparisonIndex && getCompatibilityStatus(item) === 'compatible') ? 'success' : 'warning'} title={`Sugestão entre as builds comparadas: ${Number.isInteger(comparison.recommendedBuild?.comparisonIndex) ? `${comparison.recommendedBuild.comparisonIndex + 1} · ` : ''}${comparison.recommendedBuild?.name || 'Não informada'}`}>
             {comparison.recommendedBuild?.reason}
           </Alert>
-          <div className="comparison-table" role="region" aria-label="Comparação de builds — role horizontalmente para ver todos os critérios" tabIndex={0}>
+          <details className="analysis-help"><summary>Por que a configuração sugerida pode ter menos desempenho?</summary><p>A escolha usa a pontuação final, não só o índice de desempenho. Estar dentro do orçamento acrescenta pontos; ultrapassá-lo reduz a pontuação. Incompatibilidades, alertas e gargalos também pesam. O teto não exclui automaticamente uma configuração: veja seu status de orçamento antes de decidir.</p></details>
+          <p>O índice de custo-benefício combina pontuações e preços de referência do catálogo. Leia também os alertas: uma pontuação maior não comprova compatibilidade nem uma compra melhor.</p>
+          <div className="comparison-table" role="region" aria-label="Comparação de configurações — role horizontalmente para ver todos os critérios" tabIndex={0}>
             <table>
               <caption>Preço de referência e pontuação estimada das builds. Pontos maiores indicam melhor avaliação no modelo; não equivalem a FPS nem a uma medição real.</caption>
               <thead><tr>
                 <th scope="col">Build</th><th scope="col">Preço estimado de referência</th><th scope="col">Compatível</th>
-                <th scope="col">Pontuação estimada de desempenho</th><th scope="col">Orçamento</th>
+                <th scope="col">Pontuação estimada de desempenho</th><th scope="col">Índice de custo-benefício</th><th scope="col">Alertas e gargalos</th><th scope="col">Orçamento</th><th scope="col">Pontuação final do critério</th>
               </tr></thead>
               <tbody>
                 {(comparison.builds || []).map((item) => (
-                  <tr key={item.name}>
-                    <th scope="row">{item.name}<details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={item.components} /></details></th>
+                  <tr key={item.comparisonIndex}>
+                    <th scope="row">{item.comparisonIndex + 1} · {item.name}<details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={item.components} /></details></th>
                     <td>{formatCurrency(item.totalEstimatedPrice)}</td>
                     <td>
                       <span>{translateValue(getCompatibilityStatus(item))}</span>
@@ -162,8 +167,10 @@ export default function CompareBuilds() {
                         </div>
                       )}
                     </td>
-                    <td>{item.performanceScore}</td>
-                    <td>{translateValue(item.budgetStatus)}</td>
+                    <td>{formatPerformanceNumber(item.performanceScore)} / 100</td>
+                    <td>{formatPerformanceNumber(item.costBenefitScore)} / 100<small>Índice interno relativo; não equivale a desconto ou economia.</small></td>
+                    <td><p>{item.alertSummary?.total ?? 'Não informado'} alerta(s) de compatibilidade</p><p>{item.bottleneckStatus === 'analyzed' ? `${item.bottleneckSummary?.total ?? 'Não informado'} possível(is) gargalo(s)` : 'Gargalos: sem conclusão para esta configuração'}</p></td>
+                    <td>{translateValue(item.budgetStatus)}</td><td>{formatPerformanceNumber(item.comparisonScore)}<small>Combina o critério escolhido com orçamento, compatibilidade e alertas; pode ultrapassar 100.</small></td>
                   </tr>
                 ))}
               </tbody>

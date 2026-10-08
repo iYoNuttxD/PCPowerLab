@@ -1,5 +1,7 @@
 # Changelog RA2 V2 — 08/10/2026
 
+> Continuidade posterior: [V2.10 — feedback, referências e UI](RA2-V2.10-CONTINUIDADE.md). O registro v2.9 abaixo permanece histórico, sem alteração retroativa de seus resultados.
+
 Este registro resume a sequência publicada na branch `codex/pcpowerlab-ra2-ciclo2`. Datas e evidências de etapas antigas permanecem nos respectivos relatórios. [Cadeia completa de commits e veredito](RA2-V2-RELATORIO-FINAL.md).
 
 ## v2.9 — auditoria final independente

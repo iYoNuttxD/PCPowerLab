@@ -1549,3 +1549,12 @@ Evidências, cenários, limitações e mudanças de persistência: [auditoria v2
 - CRUD de regras é documental, não altera as regras codificadas do motor. Não há endpoint de ingestão de cotação nem provedor comercial conectado
 
 Documentação de schemas anteriores descreve o contrato aditivo histórico. Preço `price`, `totalEstimatedPrice` e FPS continuam referências/modelo, não evidências comerciais ou físicas.
+
+
+## V2.10 — referências manuais datadas e identidade de comparação
+
+A seção V2.6 acima é histórica. `price` continua referência para cálculos, agora com 42 registros manuais datados e 56 estimativas demonstrativas. `pricing.source=dated_public_reference`, `updateStatus=dated_snapshot`, `isMarketQuote=false` identifica pesquisa pontual. Expõe loja, vendedor, SKU, pagamento, cartão, data da consulta, idade do conteúdo, condição e `observedAvailability`; `availability` atual continua unknown e `validUntil` nulo. Nunca passa pelo gate de oferta `authorized_api`. Nenhum provedor ao vivo foi configurado.
+
+`pricing` do resumo acrescenta `datedReferenceUnits`/`estimatedReferenceUnits`; quantidades de fans contam pacotes. Totais à vista podem combinar as duas bases com metodologia explícita; cartão e subtotal de ofertas ao vivo ficam separados. Links permanecem `kind=research` com `referencePricing` adicional, sem atribuir o preço consultado às outras lojas.
+
+Comparação de builds acrescenta `comparisonIndex` por posição enviada e na recomendação, evitando ambiguidade por nome repetido; `bottleneckStatus` distingue análise de ausência de conclusão. A pontuação final pondera o critério com orçamento/compatibilidade/alertas e pode diferir da ordem de desempenho bruto. [Contrato, fontes e limites](RA2-V2.10-CONTINUIDADE.md).

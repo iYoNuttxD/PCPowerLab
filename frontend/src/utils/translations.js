@@ -58,7 +58,13 @@ export const bottleneckReasonLabels = {
 
 export const specLabels = {
   coolingType: 'Tipo de refrigeração', supportedSockets: 'Sockets suportados', heightMm: 'Altura', radiatorSizeMm: 'Tamanho do radiador', powerWatts: 'Consumo por unidade', diameterMm: 'Diâmetro', thicknessMm: 'Espessura', connector: 'Conector', unitsPerPack: 'Ventoinhas por pacote', maxCoolerHeightMm: 'Altura máxima do cooler', radiatorSizesMm: 'Radiadores suportados (mm)', fanMounts: 'Suportes para ventoinhas', coolingSupportVerified: 'Suporte de refrigeração verificado', includedFans: 'Ventoinhas incluídas', fanMountsShared: 'Suportes compartilhados', radiatorFanSlots: 'Slots ocupados pelo radiador',
-  socket: 'Socket',
+  dataRateMTs: 'Taxa de transferência',
+  modulesPerKit: 'Módulos por kit',
+  speedProfile: 'Perfil de velocidade',
+  maxFanThicknessMm: 'Espessura máxima da ventoinha',
+  includedFanCount: 'Ventoinhas incluídas',
+  chipset: 'Chipset da placa-mãe',
+  socket: 'Encaixe do processador (socket)',
   cores: 'Núcleos',
   threads: 'Threads',
   baseClockGhz: 'Frequência base',
@@ -131,7 +137,25 @@ export const issueCodeLabels = {
   PSU_POWER_BELOW_RECOMMENDED: 'Fonte abaixo do recomendado',
   CASE_MOTHERBOARD_FORM_FACTOR_INCOMPATIBLE: 'Gabinete incompatível com placa-mãe',
   CASE_GPU_LENGTH_INCOMPATIBLE: 'Placa de vídeo grande para o gabinete',
-  REQUIRED_COMPONENT_MISSING: 'Componente obrigatório ausente'
+  REQUIRED_COMPONENT_MISSING: 'Componente obrigatório ausente',
+  COOLER_SOCKET_UNVERIFIED: 'Encaixe do cooler a confirmar',
+  AIR_COOLER_CLEARANCE_UNVERIFIED: 'Espaço ao redor do cooler a confirmar',
+  COOLER_HEIGHT_UNVERIFIED: 'Altura disponível a confirmar',
+  RADIATOR_SIZE_UNVERIFIED: 'Tamanho do radiador a confirmar',
+  RADIATOR_CLEARANCE_UNVERIFIED: 'Posição e espaço do radiador a confirmar',
+  COOLER_TYPE_UNVERIFIED: 'Tipo de refrigeração não informado',
+  FAN_DIAMETER_UNVERIFIED: 'Diâmetro das ventoinhas a confirmar',
+  FAN_THICKNESS_UNVERIFIED: 'Espessura das ventoinhas a confirmar',
+  FAN_CAPACITY_UNVERIFIED: 'Quantidade de ventoinhas a confirmar',
+  FAN_LAYOUT_UNVERIFIED: 'Posições das ventoinhas a confirmar',
+  FAN_CONNECTORS_UNVERIFIED: 'Conexões elétricas das ventoinhas a confirmar',
+  COOLING_POWER_UNVERIFIED: 'Consumo da refrigeração não informado',
+  COOLER_CPU_SOCKET_INCOMPATIBLE: 'Cooler incompatível com o processador',
+  CASE_COOLER_HEIGHT_INCOMPATIBLE: 'Cooler alto demais para o gabinete',
+  CASE_RADIATOR_SIZE_INCOMPATIBLE: 'Radiador incompatível com o gabinete',
+  CASE_FAN_DIAMETER_INCOMPATIBLE: 'Ventoinha incompatível com o suporte',
+  CASE_FAN_THICKNESS_INCOMPATIBLE: 'Ventoinha espessa demais para o gabinete',
+  CASE_FAN_CAPACITY_EXCEEDED: 'Ventoinhas excedem os espaços disponíveis'
 };
 
 export function translateValue(value, fallback = 'Não informado') {

@@ -1,8 +1,12 @@
+import { referenceCoverage, priceMethodology } from '../../utils/referencePricing.js';
 import Card from '../ui/Card.jsx';
 import Badge from '../ui/Badge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
-export default function BudgetPanel({ budget, totalPrice, pricing }) {
+export default function BudgetPanel({ budget, totalPrice, pricing, selectedComponents }) {
+  const coverage = referenceCoverage(selectedComponents);
+  const dated = selectedComponents ? coverage.dated : pricing?.datedReferenceUnits;
+  const estimated = selectedComponents ? coverage.estimated : pricing?.estimatedReferenceUnits;
   const amount = Number(budget?.amount);
   const hasBudget = budget?.amount !== '' && budget?.amount != null && Number.isFinite(amount) && amount > 0;
   const hasTotal = totalPrice !== null && totalPrice !== undefined && Number.isFinite(Number(totalPrice));
@@ -37,7 +41,8 @@ export default function BudgetPanel({ budget, totalPrice, pricing }) {
         <p>Componentes sem cotação atual: {pricing.componentsWithoutCurrentQuote.length}</p>
         <p>{pricing.methodology}</p>
       </div>}
-      <p className="hint-text">Calculado com preços estimados do catálogo. Não inclui frete nem acompanha ofertas em tempo real.</p>
+      <p className="hint-text">{Number.isFinite(dated) && Number.isFinite(estimated) ? `${dated} pack(s) com referência datada · ${estimated} com estimativa sem fonte datada validada.` : 'Cobertura de fontes da seleção não informada.'}</p>
+      <p className="hint-text">{priceMethodology}</p>
     </Card>
   );
 }

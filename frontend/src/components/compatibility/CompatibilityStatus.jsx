@@ -29,7 +29,7 @@ export default function CompatibilityStatus({ result }) {
       <AnalysisHelp topics={['compatibility']} title="Entenda a compatibilidade" />
       {unverifiedChecks.length > 0 && <div className="stack"><h4>Verificações pendentes</h4>{unverifiedChecks.map((check, index) => <article className="issue-card" key={check.code || index}><strong>{check.title || translateValue(check.code, 'Dados técnicos insuficientes')}</strong><p>{typeof check === 'string' ? check : check.message || check.reason}</p></article>)}</div>}
       {issues.length === 0 ? (
-        <p>{unverified ? 'Dados incompletos não confirmam compatibilidade. Verifique as especificações do fabricante.' : 'Nenhuma incompatibilidade crítica foi retornada pela API.'}</p>
+        <p>{unverified ? 'Dados incompletos não confirmam compatibilidade. Verifique as especificações do fabricante.' : 'Nenhuma incompatibilidade crítica foi identificada nas regras verificadas.'}</p>
       ) : (
         <div className="stack">
           {issues.map((alert, index) => (

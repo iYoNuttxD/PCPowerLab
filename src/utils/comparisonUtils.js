@@ -104,20 +104,20 @@ export function calculateComparisonScore({ build, criteria }) {
 
 export function buildRecommendationReason({ criteria, selectedBuild }) {
   if (criteria === 'performance') {
-    return 'Maior pontuacao de desempenho simulado entre as builds enviadas, considerando compatibilidade e gargalos.';
+    return 'Melhor pontuação final no critério Desempenho: considera o desempenho estimado, a compatibilidade, o orçamento e as penalidades por alertas e gargalos. Uma configuração com desempenho bruto maior pode ficar atrás se ultrapassar o orçamento.';
   }
 
   if (criteria === 'budget') {
     return selectedBuild.budgetStatus === 'within_budget'
-      ? 'Melhor aderencia ao orcamento informado com menor custo estimado relativo entre as builds enviadas.'
-      : 'Menor custo de referencia estimado ponderado pelo orcamento entre as opcoes comparadas.';
+      ? 'Melhor aderência ao orçamento informado com menor custo estimado relativo entre as builds enviadas.'
+      : 'Menor custo de referencia estimado ponderado pelo orçamento entre as opções comparadas.';
   }
 
   if (criteria === 'balanced') {
-    return 'Melhor equilibrio calculado entre desempenho simulado, compatibilidade, custo estimado e gargalos nas builds enviadas.';
+    return 'Melhor equilíbrio calculado entre desempenho simulado, compatibilidade, custo estimado e gargalos nas builds enviadas.';
   }
 
-  return 'Melhor relacao calculada entre desempenho simulado, preco estimado e orcamento informado nas builds enviadas.';
+  return 'Melhor relação calculada entre desempenho simulado, preço estimado e orçamento informado nas builds enviadas.';
 }
 
 function getBudgetScore(budgetStatus) {

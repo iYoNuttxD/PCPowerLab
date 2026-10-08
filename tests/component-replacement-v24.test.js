@@ -1,3 +1,4 @@
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { components } from '../src/data/components.mock.js';
@@ -9,7 +10,7 @@ import { changeSelection, replaceBuildComponent, undoBuildReplacement, emptyResu
 const find = id => components.find(item => item.id === id);
 const ids = { cpu: 'cpu-ryzen-5-5600', motherboard: 'mb-b550m-aorus-elite', gpu: 'gpu-rtx-4060', ram: 'ram-kingston-fury-16gb-ddr4', storage: 'ssd-kingston-nv2-1tb', psu: 'psu-corsair-650w', case: 'case-mid-tower-airflow' };
 const original = Object.fromEntries(Object.entries(ids).map(([type,id]) => [type, find(id)]));
-const fixture = (cooling = false) => ({ selectedComponents: { ...original, ...(cooling ? { cooler: components.find(item => item.category === 'cooler'), fans: [{ ...components.find(item => item.category === 'fan'), quantity: 2 }] } : { fans: [] }) }, budget: { amount: 4600, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' }, revision: 0, replacementHistory: [], ...emptyResults });
+const fixture = (cooling = false) => ({ selectedComponents: { ...original, ...(cooling ? { cooler: components.find(item => item.category === 'cooler'), fans: [{ ...components.find(item => item.category === 'fan'), quantity: 2 }] } : { fans: [] }) }, budget: { amount: Number((referenceFixtureTotal() - 99.3).toFixed(2)), currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' }, revision: 0, replacementHistory: [], ...emptyResults });
 const analyze = state => generateBuildSummary({ build: buildToApiPayload(state.selectedComponents), budget: state.budget, usageType: state.usageType, ...state.game });
 
 test('v2.4 RTX 4060 → RX 7600 changes exactly GPU, preserving optional cooling and budget', () => {
@@ -27,8 +28,8 @@ test('v2.4 recalculates cost, budget, power, performance and compatibility for o
   const before = fixture();
   const after = replaceBuildComponent(before, 'gpu', find('gpu-rx-7600'));
   const oldSummary = analyze(before), newSummary = analyze(after);
-  assert.equal(oldSummary.totalEstimatedPrice, 4699.3);
-  assert.equal(newSummary.totalEstimatedPrice, 4499.3);
+  assert.equal(oldSummary.totalEstimatedPrice, referenceFixtureTotal());
+  assert.equal(newSummary.totalEstimatedPrice, referenceFixtureTotal({ gpu: 'gpu-rx-7600' }));
   assert.equal(newSummary.budgetStatus.status, 'within_budget');
   assert.equal(oldSummary.budgetStatus.status, 'near_budget');
   assert.equal(newSummary.compatibility.compatible, true);
@@ -111,8 +112,8 @@ test('v2.4 higher-price replacement keeps the budget and exposes the exact overa
   const after = replaceBuildComponent(state, 'gpu', candidate);
   const summary = analyze(after);
   const committed = replaceBuildComponent(state, 'gpu', candidate, summary, 0);
-  assert.equal(committed.budget.amount, 4600);
-  assert.equal(committed.summary.totalEstimatedPrice, 6699.3);
+  assert.equal(committed.budget.amount, state.budget.amount);
+  assert.equal(committed.summary.totalEstimatedPrice, referenceFixtureTotal({ gpu: 'gpu-rtx-4070' }));
   assert.equal(committed.summary.budgetStatus.remaining, -2099.3);
   assert.equal(committed.summary.budgetStatus.status, 'over_budget');
 });

@@ -110,7 +110,7 @@ test('deve comparar mais de duas builds', () => {
   });
 
   assert.equal(result.builds.length, 3);
-  assert.equal(result.recommendedBuild.reason.includes('equilibrio'), true);
+  assert.equal(result.recommendedBuild.reason.includes('equilíbrio'), true);
 });
 
 test('deve marcar build acima do orcamento', () => {
@@ -141,7 +141,7 @@ test('deve retornar erro controlado quando houver menos de duas builds', () => {
     }),
     (error) => {
       assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Informe pelo menos duas builds para comparacao.');
+      assert.equal(error.message, 'Informe pelo menos duas builds para comparação.');
       return true;
     }
   );
@@ -158,7 +158,7 @@ test('deve retornar erro controlado para criterio invalido', () => {
     }),
     (error) => {
       assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Criterio de comparacao invalido.');
+      assert.equal(error.message, 'Critério de comparação inválido.');
       return true;
     }
   );

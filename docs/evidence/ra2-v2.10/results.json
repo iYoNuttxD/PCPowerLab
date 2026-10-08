@@ -1,0 +1,74 @@
+{
+  "baseCommit": "64bf1c248fab4c42e833709917834b1703f967a4",
+  "sourceFrozenAt": "2026-10-08T05:00:15Z",
+  "completedAt": "2026-10-08T05:03:05Z",
+  "node": {
+    "tests": 511,
+    "passed": 511,
+    "failed": 0
+  },
+  "frontendContracts": {
+    "scriptCount": 14,
+    "passed": 14
+  },
+  "httpJourneys": {
+    "syntheticProfiles": 3,
+    "steps": 17,
+    "passed": 17,
+    "participants": 0
+  },
+  "imageCoverage": {
+    "active": 98,
+    "verifiedProducts": 11,
+    "imageFiles": 10,
+    "blockedProducts": 87,
+    "auditExitCode": 1,
+    "reason": "Mandatory full photograph coverage remains incomplete"
+  },
+  "pricing": {
+    "datedReferences": 42,
+    "demonstrativeEstimates": 56,
+    "liveQuotes": 0
+  },
+  "browser": {
+    "executed": false,
+    "collectedE2E": 184,
+    "collectedIntegration": 18,
+    "screenshots": [],
+    "matchingCommitRetest": "pending"
+  },
+  "gates": {
+    "node-test": 0,
+    "backend-lint": 0,
+    "frontend-lint": 0,
+    "build": 0,
+    "check-analysis-navigation": 0,
+    "check-async-regressions": 0,
+    "check-catalog-render": 0,
+    "check-chart-render": 0,
+    "check-commercial-disclosures": 0,
+    "check-insights-ranking": 0,
+    "check-navigation-wizard": 0,
+    "check-page-audit": 0,
+    "check-recommendation-entrypoints": 0,
+    "check-recommendation-feedback-access": 0,
+    "check-saved-build-interactions": 0,
+    "check-saved-upgrade-source": 0,
+    "check-simulation-states": 0,
+    "check-storage-regressions": 0,
+    "production-http": 0,
+    "browser-collection": 0,
+    "integration-collection": 0,
+    "journeys": 0
+  },
+  "negativeControls": {
+    "navigationDropSession": 1,
+    "savedEditBase": 1,
+    "versionBase": 1,
+    "insightsBase": 1,
+    "readyEntryBase": 1,
+    "generalFeedbackBase": 1
+  },
+  "publishedLogs": "sanitized execution summaries; detailed logs retained locally, not published",
+  "publicDocumentation": "technical scope and decisions only; private research provenance retained locally, not published"
+}

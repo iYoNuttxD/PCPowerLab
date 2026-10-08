@@ -1,15 +1,15 @@
 # RA2 — Cobertura de imagens do catálogo
 
-Gerado em: 2026-10-08T03:51:31.761Z
+Gerado em: 2026-10-08T04:47:20.878Z
 
 Origem: repository:listComponentRecords({ includeInactive: true })
 
 Resultado: **PARCIAL / BLOQUEADO**
 
 - Componentes ativos: 98
-- Fotografias com metadados verified e validação estrutural: 9
-- Bloqueados / fallback: 89
-- Cobertura: 9.18%
+- Fotografias com metadados verified e validação estrutural: 11
+- Bloqueados / fallback: 87
+- Cobertura: 11.22%
 - Inativos excluídos: 0
 - Arquivos órfãos: 0
 - Grupos duplicados suspeitos (SHA-256): 0
@@ -28,7 +28,7 @@ A auditoria usa todos os registros ativos recebidos. Novos IDs administrativos p
 | --- | ---: | ---: | ---: |
 | case | 7 | 0 | 7 |
 | cooler | 5 | 2 | 3 |
-| cpu | 12 | 3 | 9 |
+| cpu | 12 | 5 | 7 |
 | fan | 4 | 2 | 2 |
 | gpu | 11 | 0 | 11 |
 | motherboard | 9 | 0 | 9 |
@@ -40,8 +40,8 @@ A auditoria usa todos os registros ativos recebidos. Novos IDs administrativos p
 
 | ID | Nome | Marca | Categoria | Part number | Specs / variante | Estado | Imagem local | Bloqueio |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| cpu-ryzen-5-5500 | AMD Ryzen 5 5500 | AMD | cpu | — | {"socket":"AM4","cores":6,"threads":12,"baseClockGhz":3.6,"boostClockGhz":4.2,"tdpWatts":65} | blocked | — | Busca exata trouxe imagens de vídeo/comparação; foto isolada exata não validada. Direitos: AMD_SITE_LIMITED. Metadados ausentes: imagePath, imageSource, rightsBasis, imageType, lastVerifiedAt, author, license, licenseUrl. A imagem não tem status verified. Somente imageType photo conta como fotografia; ícones e placeholders são fallback. A foto deve usar um caminho local seguro sob /images/components/. |
-| cpu-ryzen-5-5600 | AMD Ryzen 5 5600 | AMD | cpu | — | {"socket":"AM4","cores":6,"threads":12,"baseClockGhz":3.5,"boostClockGhz":4.4,"tdpWatts":65} | blocked | — | Foto isolada exata não validada; 5600X e 5600G são SKUs diferentes. Direitos: AMD_SITE_LIMITED. Metadados ausentes: imagePath, imageSource, rightsBasis, imageType, lastVerifiedAt, author, license, licenseUrl. A imagem não tem status verified. Somente imageType photo conta como fotografia; ícones e placeholders são fallback. A foto deve usar um caminho local seguro sob /images/components/. |
+| cpu-ryzen-5-5500 | AMD Ryzen 5 5500 | AMD | cpu | — | {"socket":"AM4","cores":6,"threads":12,"baseClockGhz":3.6,"boostClockGhz":4.2,"tdpWatts":65} | verified | /images/components/amd-ryzen-5500-5600-original.png | — |
+| cpu-ryzen-5-5600 | AMD Ryzen 5 5600 | AMD | cpu | — | {"socket":"AM4","cores":6,"threads":12,"baseClockGhz":3.5,"boostClockGhz":4.4,"tdpWatts":65} | verified | /images/components/amd-ryzen-5500-5600-original.png | — |
 | cpu-ryzen-7-5700x | AMD Ryzen 7 5700X | AMD | cpu | — | {"socket":"AM4","cores":8,"threads":16,"baseClockGhz":3.4,"boostClockGhz":4.6,"tdpWatts":65} | verified | /images/components/cpu-ryzen-7-5700x.webp | — |
 | cpu-ryzen-7-5800x3d | AMD Ryzen 7 5800X3D | AMD | cpu | — | {"socket":"AM4","cores":8,"threads":16,"baseClockGhz":3.4,"boostClockGhz":4.5,"tdpWatts":105} | blocked | — | Fonte e licença verificadas; aquisição retornou HTTP403 no integrador. Arquivo não integrado, inspeção de pixels pendente. Não contornar a restrição de acesso. Metadados ausentes: imagePath, imageSource, rightsBasis, imageType, lastVerifiedAt, author, license, licenseUrl. A imagem não tem status verified. Somente imageType photo conta como fotografia; ícones e placeholders são fallback. A foto deve usar um caminho local seguro sob /images/components/. |
 | cpu-ryzen-5-7600 | AMD Ryzen 5 7600 | AMD | cpu | — | {"socket":"AM5","cores":6,"threads":12,"baseClockGhz":3.8,"boostClockGhz":5.1,"tdpWatts":65} | verified | /images/components/cpu-ryzen-5-7600.webp | — |
@@ -143,8 +143,8 @@ A auditoria usa todos os registros ativos recebidos. Novos IDs administrativos p
 
 | ID | Origem da foto | Produto do fabricante | Base de direitos | Autor | Licença | URL da licença | Última verificação |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| cpu-ryzen-5-5500 | — | https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5500.html | — | — | — | — | — |
-| cpu-ryzen-5-5600 | — | https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html | — | — | — | — | — |
+| cpu-ryzen-5-5500 | https://commons.wikimedia.org/wiki/File:%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_(%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80).png | https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5500.html | CC BY 3.0: autoria, origem, licença e descrição do enquadramento mantidas. Licença de reutilização confirmada na descrição do vídeo do autor; a revisão de licença do Commons permanece pendente. | Мой Компьютер | CC BY 3.0 | https://creativecommons.org/licenses/by/3.0/ | 2026-10-08 |
+| cpu-ryzen-5-5600 | https://commons.wikimedia.org/wiki/File:%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_(%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80).png | https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html | CC BY 3.0: autoria, origem, licença e descrição do enquadramento mantidas. Licença de reutilização confirmada na descrição do vídeo do autor; a revisão de licença do Commons permanece pendente. | Мой Компьютер | CC BY 3.0 | https://creativecommons.org/licenses/by/3.0/ | 2026-10-08 |
 | cpu-ryzen-7-5700x | https://commons.wikimedia.org/wiki/File:AMD_Ryzen_7_5700X_1.jpg | https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-7-5700x.html | CC BY-SA 4.0: atribuição, licença e conversão distribuída sob a mesma licença. Identificação exata visível na fotografia. | Qurren | CC BY-SA 4.0 | https://creativecommons.org/licenses/by-sa/4.0/ | 2026-10-08 |
 | cpu-ryzen-7-5800x3d | — | https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x3d.html | — | — | — | — | — |
 | cpu-ryzen-5-7600 | https://commons.wikimedia.org/wiki/File:AMD_Ryzen_5_7600_top_IMGP6773_smial_wp.jpg | https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600.html | Free Art License 1.3 escolhida entre as licenças oferecidas pelo autor: manter autoria, origem, licença, alterações e mesma licença para esta conversão; arquivo acessível separadamente. | Rainer Knäpper (Smial) | Free Art License 1.3 | https://artlibre.org/licence/lal/en/ | 2026-10-08 |

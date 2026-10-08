@@ -1,3 +1,5 @@
+import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
+import { referenceLabel } from '../../utils/referencePricing.js';
 import ComponentImage from './ComponentImage.jsx';
 import Button from '../ui/Button.jsx';
 import { componentLabels } from '../../utils/componentLabels.js';
@@ -11,7 +13,9 @@ export default function ComponentComparison({ components, onRemove, onSelect, se
   const rows = [
     ['Marca', components.map(component => component.brand || 'Não informado')],
     ['Modelo / código', components.map(component => component.partNumber || 'Não informado')],
-    ['Preço estimado', components.map(component => formatCurrency(component.price))],
+    ['Preço de referência', components.map(component => formatCurrency(component.price))],
+    ['Base do preço', components.map(referenceLabel)],
+    ['Loja da referência datada', components.map(component => component.pricing?.updateStatus === 'dated_snapshot' ? `${component.pricing.store} · ${component.pricing.model}` : 'Não informada')],
     ...specKeys(components).map(key => [specLabel(key), components.map(component => formatSpecValue(key, component.specs?.[key]))]),
     ['Desempenho estimado (0–100)', components.map(component => formatCatalogScore(catalogPerformanceScore(component)))],
     ['Índice por real (pontos / R$ 1.000)', components.map(component => formatCatalogScore(componentValueScore(component)))]
@@ -25,10 +29,11 @@ export default function ComponentComparison({ components, onRemove, onSelect, se
       <p className="comparison-scroll-hint">Deslize a tabela para os lados para ver todas as peças. Pelo teclado, foque a tabela e use as setas.</p>
       <div className="analysis-table-scroll" role="region" aria-label="Tabela de comparação de peças" tabIndex={0}>
         <table className="analysis-table component-comparison-table">
-          <caption>Peças da mesma categoria · preços estimados, sem atualização em tempo real</caption>
+          <caption>Peças da mesma categoria · referências datadas PIX e estimativas; frete excluído; sem atualização em tempo real</caption>
           <thead><tr><th scope="col">Característica</th>{components.map(component => <th scope="col" key={component.id}>{component.name}</th>)}</tr></thead>
           <tbody>
             <tr><th scope="row">Fotografia do modelo</th>{components.map(component => <td key={component.id}><ComponentImage component={component} /></td>)}</tr>
+            <tr><th scope="row">Condições da referência</th>{components.map(component => <td key={component.id}><ReferencePriceNote component={component} compact /></td>)}</tr>
             {rows.map(([label, values]) => {
               const differs = new Set(values).size > 1;
               return <tr key={label} className={differs ? 'comparison-difference' : ''}><th scope="row">{label}{differs && <small className="comparison-difference-label">Diferença</small>}</th>{values.map((value, index) => <td key={components[index].id}>{value}</td>)}</tr>;

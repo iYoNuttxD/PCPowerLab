@@ -56,6 +56,9 @@ export default function ReadyBuilds() {
   const request = useApiRequest();
   const recommendationRequest = useApiRequest();
   const recommendationSectionRef = useRef(null);
+  const readyBuildsSectionRef = useRef(null);
+  const usageProfilesSectionRef = useRef(null);
+  const recommendationHighlightTimer = useRef(null);
   const consumedProfileRef = useRef(false);
   const readyRequestSequence = useRef(0);
   const recommendationSequence = useRef(0);
@@ -90,6 +93,7 @@ export default function ReadyBuilds() {
   useEffect(() => () => {
     readyRequestSequence.current += 1;
     recommendationSequence.current += 1;
+    clearTimeout(recommendationHighlightTimer.current);
   }, []);
 
   async function loadReadyBuilds(profile = selectedProfile) {
@@ -249,10 +253,31 @@ export default function ReadyBuilds() {
     setFeedback(`Perfil "${profile.name}" aplicado aos critérios da recomendação.`);
 
     if (shouldFocusRecommendation) {
-      setHighlightRecommendation(true);
-      recommendationSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(() => setHighlightRecommendation(false), 1600);
+      focusRecommendation();
     }
+  }
+
+  function focusSection(sectionRef, event) {
+    // Modified link clicks retain their native open/copy-link behavior.
+    if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0)) return;
+    const section = sectionRef.current;
+    if (!section) return;
+    event?.preventDefault();
+    const headerHeight = document.querySelector('.topbar')?.getBoundingClientRect().height || 0;
+    section.style.scrollMarginTop = `${headerHeight + 16}px`;
+    section.focus({ preventScroll: true });
+    section.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  }
+
+  function focusRecommendation(event) {
+    focusSection(recommendationSectionRef, event);
+    if (event && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button > 0)) return;
+    setHighlightRecommendation(true);
+    clearTimeout(recommendationHighlightTimer.current);
+    recommendationHighlightTimer.current = setTimeout(() => setHighlightRecommendation(false), 1600);
   }
 
   function handleProfilesLoaded(profiles) {
@@ -321,143 +346,152 @@ export default function ReadyBuilds() {
         <span className="eyebrow">Atalhos inteligentes</span>
         <h1>Builds prontas</h1>
         <p>Consulte configurações completas por perfil de uso ou gere uma recomendação dentro da sua faixa de orçamento.</p>
+        <nav className="button-row" aria-label="Seções de builds prontas">
+          <a className="btn btn-primary btn-md" href="#budget-recommendation" onClick={focusRecommendation}>Recomendar por orçamento</a>
+          <a className="btn btn-secondary btn-md" href="#ready-build-catalog" onClick={(event) => focusSection(readyBuildsSectionRef, event)}>Explorar builds prontas</a>
+          <a className="btn btn-ghost btn-md" href="#ready-build-profiles" onClick={(event) => focusSection(usageProfilesSectionRef, event)}>Gerenciar perfis</a>
+        </nav>
       </section>
       <DecisionMethodology />
 
       {feedback && <Alert type="success">{feedback}</Alert>}
 
-      <Card>
-        <div className="section-heading compact">
-          <div>
-            <h2>Configurações por perfil</h2>
-            <p>Escolha um perfil para filtrar builds já validadas pelo backend.</p>
+      <section id="budget-recommendation" ref={recommendationSectionRef} tabIndex={-1} aria-labelledby="budget-recommendation-heading">
+        <Card className={highlightRecommendation ? 'recommendation-section is-highlighted' : 'recommendation-section'}>
+          <div className="section-heading compact">
+            <div>
+              <h2 id="budget-recommendation-heading">Recomendar build por orçamento</h2>
+              <p>Informe uma faixa de orçamento para receber uma sugestão do catálogo. Confira as verificações de compatibilidade antes de comprar.</p>
+            </div>
+            <Wand2 size={28} aria-hidden="true" />
           </div>
-          <Select
-            label="Perfil de uso"
-            value={selectedProfile}
-            onChange={(event) => setSelectedProfile(event.target.value)}
-            options={readyBuildProfiles.map((profile) => ({
-              value: profile,
-              label: profile === 'all' ? 'Todos os perfis' : translateValue(profile)
-            }))}
-          />
-        </div>
-      </Card>
 
-      {renderReadyBuilds()}
+          <form className="form-grid" onSubmit={submitBudgetRecommendation}>
+            <Input
+              label="Orçamento mínimo"
+              type="number"
+              min="1"
+              value={budgetRange.min}
+              onChange={(event) => updateRecommendationCriteria({ min: event.target.value })}
+              required
+            />
+            <Input
+              label="Orçamento máximo"
+              type="number"
+              min="1"
+              value={budgetRange.max}
+              onChange={(event) => updateRecommendationCriteria({ max: event.target.value })}
+              required
+            />
+            <Select
+              label="Perfil personalizado"
+              value={selectedUsageProfileId}
+              onChange={(event) => applyUsageProfile(event.target.value)}
+              options={[
+                { value: '', label: 'Nenhum perfil personalizado' },
+                ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
+              ]}
+            />
+            <Select
+              label="Tipo de uso"
+              value={budgetRange.usageType}
+              onChange={(event) => updateRecommendationCriteria({ usageType: event.target.value })}
+              options={recommendationUsageTypes.map((usageType) => ({
+                value: usageType,
+                label: translateValue(usageType)
+              }))}
+            />
+            <Select
+              label="Prioridade"
+              value={budgetRange.priority}
+              onChange={(event) => updateRecommendationCriteria({ priority: event.target.value })}
+              options={priorityOptions.map((priority) => ({
+                value: priority,
+                label: priorityLabels[priority] || translateValue(priority)
+              }))}
+            />
+            <div className="button-row">
+              <Button type="submit" loading={recommendationRequest.loading} disabled={recommendationRequest.loading}>
+                <Wand2 size={18} /> Gerar recomendação
+              </Button>
+            </div>
+          </form>
 
-      <UsageProfilesManager
-        appliedProfileId={selectedUsageProfileId}
-        onProfilesLoaded={handleProfilesLoaded}
-        onApplyProfile={(profile) => applyUsageProfile(profile, usageProfiles, true)}
-      />
+          {recommendationRequest.error && (
+            <ErrorState
+              message={recommendationRequest.error}
+              onRetry={() => submitBudgetRecommendation()}
+            />
+          )}
+          {recommendationRequest.loading && <LoadingSpinner />}
+          {!recommendationRequest.loading && recommendationContext === recommendationKey && recommendations.length > 0 && (
+            <div className="cards-grid">
+              {recommendations.map((recommendation, index) => (
+                <RecommendationResultCard
+                  key={recommendation.id || recommendation.name || index}
+                  recommendation={recommendation}
+                  currentSelection={buildState.selectedComponents}
+                  componentMap={componentMap}
+                  onApply={() => applyRecommendation(recommendation)}
+                  onPreview={previewComponent}
+                  onFeedback={() => {
+                    const feedbackBuild = createFeedbackBuildContext(recommendation.components || recommendation.build || recommendation, componentMap);
+                    navigate('/feedback/new', {
+                      state: {
+                        mode: 'contextual',
+                        recommendationType: 'build-recommendation',
+                        recommendationId: recommendation.id || recommendation.name || `budget-range-${index + 1}`,
+                        title: recommendation.name || 'Build recomendada',
+                        recommendationTitle: recommendation.name || 'Build recomendada',
+                        recommendation,
+                        build: recommendation.components || recommendation.build,
+                        ...feedbackBuild,
+                        summary: recommendation.summary,
+                        totalEstimatedPrice: getRecommendationPrice(recommendation),
+                        compatibilityStatus: recommendation.compatibilityStatus,
+                        performanceLevel: recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel,
+                        usageType: budgetRange.usageType,
+                        priority: budgetRange.priority,
+                        source: 'builds-by-budget'
+                      }
+                    });
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </Card>
+      </section>
 
-      <div ref={recommendationSectionRef}>
-      <Card className={highlightRecommendation ? 'recommendation-section is-highlighted' : 'recommendation-section'}>
-        <div className="section-heading compact">
-          <div>
-            <h2>Recomendar build por orçamento</h2>
-            <p>Informe uma faixa de orçamento para receber uma sugestão do catálogo. Confira as verificações de compatibilidade antes de comprar.</p>
+      <section id="ready-build-catalog" ref={readyBuildsSectionRef} tabIndex={-1} aria-labelledby="ready-build-catalog-heading" className="page-stack">
+        <Card>
+          <div className="section-heading compact">
+            <div>
+              <h2 id="ready-build-catalog-heading">Configurações por perfil</h2>
+              <p>Escolha um perfil para filtrar builds já validadas pelo backend.</p>
+            </div>
+            <Select
+              label="Perfil de uso"
+              value={selectedProfile}
+              onChange={(event) => setSelectedProfile(event.target.value)}
+              options={readyBuildProfiles.map((profile) => ({
+                value: profile,
+                label: profile === 'all' ? 'Todos os perfis' : translateValue(profile)
+              }))}
+            />
           </div>
-          <Wand2 size={28} aria-hidden="true" />
-        </div>
+        </Card>
 
-        <form className="form-grid" onSubmit={submitBudgetRecommendation}>
-          <Input
-            label="Orçamento mínimo"
-            type="number"
-            min="1"
-            value={budgetRange.min}
-            onChange={(event) => updateRecommendationCriteria({ min: event.target.value })}
-            required
-          />
-          <Input
-            label="Orçamento máximo"
-            type="number"
-            min="1"
-            value={budgetRange.max}
-            onChange={(event) => updateRecommendationCriteria({ max: event.target.value })}
-            required
-          />
-          <Select
-            label="Perfil personalizado"
-            value={selectedUsageProfileId}
-            onChange={(event) => applyUsageProfile(event.target.value)}
-            options={[
-              { value: '', label: 'Nenhum perfil personalizado' },
-              ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
-            ]}
-          />
-          <Select
-            label="Tipo de uso"
-            value={budgetRange.usageType}
-            onChange={(event) => updateRecommendationCriteria({ usageType: event.target.value })}
-            options={recommendationUsageTypes.map((usageType) => ({
-              value: usageType,
-              label: translateValue(usageType)
-            }))}
-          />
-          <Select
-            label="Prioridade"
-            value={budgetRange.priority}
-            onChange={(event) => updateRecommendationCriteria({ priority: event.target.value })}
-            options={priorityOptions.map((priority) => ({
-              value: priority,
-              label: priorityLabels[priority] || translateValue(priority)
-            }))}
-          />
-          <div className="button-row">
-            <Button type="submit" loading={recommendationRequest.loading} disabled={recommendationRequest.loading}>
-              <Wand2 size={18} /> Gerar recomendação
-            </Button>
-          </div>
-        </form>
+        {renderReadyBuilds()}
+      </section>
 
-        {recommendationRequest.error && (
-          <ErrorState
-            message={recommendationRequest.error}
-            onRetry={() => submitBudgetRecommendation()}
-          />
-        )}
-        {recommendationRequest.loading && <LoadingSpinner />}
-        {!recommendationRequest.loading && recommendationContext === recommendationKey && recommendations.length > 0 && (
-          <div className="cards-grid">
-            {recommendations.map((recommendation, index) => (
-              <RecommendationResultCard
-                key={recommendation.id || recommendation.name || index}
-                recommendation={recommendation}
-                currentSelection={buildState.selectedComponents}
-                componentMap={componentMap}
-                onApply={() => applyRecommendation(recommendation)}
-                onPreview={previewComponent}
-                onFeedback={() => {
-                  const feedbackBuild = createFeedbackBuildContext(recommendation.components || recommendation.build || recommendation, componentMap);
-                  navigate('/feedback/new', {
-                    state: {
-                      mode: 'contextual',
-                      recommendationType: 'build-recommendation',
-                      recommendationId: recommendation.id || recommendation.name || `budget-range-${index + 1}`,
-                      title: recommendation.name || 'Build recomendada',
-                      recommendationTitle: recommendation.name || 'Build recomendada',
-                      recommendation,
-                      build: recommendation.components || recommendation.build,
-                      ...feedbackBuild,
-                      summary: recommendation.summary,
-                      totalEstimatedPrice: getRecommendationPrice(recommendation),
-                      compatibilityStatus: recommendation.compatibilityStatus,
-                      performanceLevel: recommendation.performanceLevel || recommendation.expectedPerformanceLevel || recommendation.estimatedPerformanceLevel,
-                      usageType: budgetRange.usageType,
-                      priority: budgetRange.priority,
-                      source: 'builds-by-budget'
-                    }
-                  });
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </Card>
-      </div>
+      <section id="ready-build-profiles" ref={usageProfilesSectionRef} tabIndex={-1} aria-label="Perfis personalizados">
+        <UsageProfilesManager
+          appliedProfileId={selectedUsageProfileId}
+          onProfilesLoaded={handleProfilesLoaded}
+          onApplyProfile={(profile) => applyUsageProfile(profile, usageProfiles, true)}
+        />
+      </section>
 
       <Modal
         open={Boolean(detailsBuild)}

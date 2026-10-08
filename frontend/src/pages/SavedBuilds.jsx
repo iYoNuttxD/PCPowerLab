@@ -20,7 +20,7 @@ import { savedBuildsService } from '../services/savedBuildsService.js';
 import { savedBuildVersionsService } from '../services/savedBuildVersionsService.js';
 import { sharingService } from '../services/sharingService.js';
 import { buildToApiPayload, hydrateBuildComponents } from '../utils/buildHelpers.js';
-import { componentLabels, componentTypes } from '../utils/componentLabels.js';
+import { componentLabels, componentTypes, priorityLabels, usageLabels } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
 
@@ -45,6 +45,9 @@ export default function SavedBuilds() {
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState('');
   const [editing, setEditing] = useState(null);
+  const [editSaved, setEditSaved] = useState(false);
+  const editSession = useRef(0);
+  const editIsSaved = useRef(false);
   const [notifications, setNotifications] = useState([]);
   const [versionsModal, setVersionsModal] = useState({ open: false, build: null, versions: [], loading: false });
   const [historyModal, setHistoryModal] = useState({ open: false, build: null, records: [], loading: false });
@@ -131,8 +134,23 @@ export default function SavedBuilds() {
     });
   }
 
+  function openEditor(savedBuild) {
+    editSession.current += 1;
+    editIsSaved.current = false;
+    setEditSaved(false);
+    request.setError('');
+    setEditing(savedBuild);
+  }
+
+  function closeEditor() {
+    editSession.current += 1;
+    setEditing(null);
+  }
+
   async function updateBuild(event) {
     event.preventDefault();
+    if (!editing || editIsSaved.current) return;
+    const token = editSession.current;
     const formData = new FormData(event.currentTarget);
 
     await request.run(async () => {
@@ -140,7 +158,12 @@ export default function SavedBuilds() {
         name: String(formData.get('name')).slice(0, 80),
         description: String(formData.get('description')).slice(0, 180)
       });
-      setEditing(null);
+      // Keep the native dialog open: removing the old inline editor made the
+      // page shrink, exposing unrelated card actions to the next double-click.
+      if (token === editSession.current) {
+        editIsSaved.current = true;
+        setEditSaved(true);
+      }
       setFeedback('Build atualizada com sucesso.');
       await loadBuilds();
     });
@@ -178,7 +201,7 @@ export default function SavedBuilds() {
     const token = versionsRequest.current;
     await request.run(async () => {
       await savedBuildVersionsService.create(savedBuild.id, {
-        reason: `Snapshot criado pelo frontend em ${new Date().toLocaleString('pt-BR')}.`,
+        reason: 'Cópia da configuração salva para consultar depois.',
         buildSnapshot: buildSnapshotFromSavedBuild(savedBuild)
       });
       setFeedback('Versão criada com sucesso.');
@@ -233,7 +256,7 @@ export default function SavedBuilds() {
       </section>
 
       {request.error && <ErrorState message={request.error} onRetry={loadBuilds} />}
-      {feedback && <Alert type="success">{feedback}</Alert>}
+      {feedback && !editing && <Alert type="success">{feedback}</Alert>}
       {loading && <LoadingSpinner />}
       {componentsLoading && <LoadingSpinner label="Carregando dados das peças salvas..." />}
       {componentsError && <ErrorState message={`Não foi possível carregar as peças salvas. ${componentsError}`} onRetry={reloadComponents} />}
@@ -268,7 +291,7 @@ export default function SavedBuilds() {
 
       <div className="cards-grid">
         {savedBuilds.map((savedBuild) => (
-          <Card key={savedBuild.id} as="article">
+          <Card key={savedBuild.id} as="article" className="saved-build-card">
             <div className="section-heading compact">
               <h2>{savedBuild.name}</h2>
               <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(savedBuild.totalEstimatedPrice)}</strong>
@@ -297,7 +320,7 @@ export default function SavedBuilds() {
             <div className="button-row">
               <Button disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild)}><Upload size={18} /> Abrir no wizard</Button>
               <Button variant="secondary" disabled={componentsLoading || Boolean(componentsError)} onClick={() => loadIntoWizard(savedBuild, '/summary')}>Trocar componente nesta configuração</Button>
-              <Button variant="ghost" onClick={() => setEditing(savedBuild)}><Edit3 size={18} /> Editar</Button>
+              <Button variant="ghost" onClick={() => openEditor(savedBuild)}><Edit3 size={18} /> Editar</Button>
               <Button variant="ghost" disabled={request.loading} onClick={() => shareBuild(savedBuild)}><Share2 size={18} /> Compartilhar</Button>
               <Button variant="ghost" onClick={() => openVersions(savedBuild)}><Clock3 size={18} /> Ver versões</Button>
               <Button variant="ghost" disabled={request.loading} onClick={() => createVersion(savedBuild)}>Criar versão atual</Button>
@@ -336,25 +359,25 @@ export default function SavedBuilds() {
         ))}
       </div>
 
-      {editing && (
-        <Card>
-          <h2>Editar build salva</h2>
-          <form className="form-grid" onSubmit={updateBuild}>
-            <Input label="Nome" name="name" defaultValue={editing.name} maxLength="80" required />
-            <Input label="Descrição" name="description" defaultValue={editing.description || ''} maxLength="180" />
-            <div className="button-row">
-              <Button disabled={request.loading} type="submit">Salvar alterações</Button>
-              <Button variant="ghost" type="button" onClick={() => setEditing(null)}>Cancelar</Button>
-            </div>
-          </form>
-        </Card>
-      )}
+      <Modal open={Boolean(editing)} title="Editar build salva" onClose={closeEditor}>
+        {editing && <form key={editing.id} className="form-grid" onSubmit={updateBuild}
+          onChange={() => { editIsSaved.current = false; setEditSaved(false); }}>
+          <Input label="Nome" name="name" defaultValue={editing.name} maxLength="80" required disabled={request.loading} />
+          <Input label="Descrição" name="description" defaultValue={editing.description || ''} maxLength="180" disabled={request.loading} />
+          <div className="button-row">
+            <Button disabled={request.loading || editSaved} loading={request.loading} type="submit">Salvar alterações</Button>
+            <Button variant="ghost" type="button" onClick={closeEditor}>{editSaved ? 'Concluir' : 'Cancelar'}</Button>
+          </div>
+          {editSaved && <Alert type="success">Alterações salvas. Você pode fechar esta janela ou continuar editando.</Alert>}
+          {request.error && <Alert type="error">{request.error}</Alert>}
+        </form>}
+      </Modal>
 
       <VersionsModal
         busy={request.loading}
         state={versionsModal}
         onClose={() => { versionsRequest.current += 1; setVersionsModal({ open: false, build: null, versions: [], loading: false }); }}
-        onShowSnapshot={(version) => setDetailModal({ open: true, title: `Snapshot da versão ${version.versionNumber}`, data: version.buildSnapshot })}
+        onShowSnapshot={(version) => setDetailModal({ open: true, title: `Configuração da versão ${version.versionNumber}`, data: version.buildSnapshot, kind: 'version' })}
         onRemove={removeVersion}
       />
 
@@ -362,12 +385,14 @@ export default function SavedBuilds() {
         busy={request.loading}
         state={historyModal}
         onClose={() => { historyRequest.current += 1; setHistoryModal({ open: false, build: null, records: [], loading: false }); }}
-        onShowDetails={(record) => setDetailModal({ open: true, title: `Detalhes de ${getAnalysisTypeLabel(record.analysisType)}`, data: record })}
+        onShowDetails={(record) => setDetailModal({ open: true, title: `Detalhes de ${getAnalysisTypeLabel(record.analysisType)}`, data: record, kind: 'history' })}
         onRemove={removeHistoryRecord}
       />
 
       <Modal open={detailModal.open} title={detailModal.title} onClose={() => setDetailModal({ open: false, title: '', data: null })}>
-        <pre className="json-preview">{JSON.stringify(detailModal.data || {}, null, 2)}</pre>
+        {detailModal.kind === 'version' ? <SavedVersionSummary snapshot={detailModal.data} componentMap={componentMap} /> : (
+          <pre className="json-preview">{JSON.stringify(detailModal.data || {}, null, 2)}</pre>
+        )}
       </Modal>
     </div>
   );
@@ -440,11 +465,11 @@ function VersionsModal({ busy, state, onClose, onShowSnapshot, onRemove }) {
             <article key={version.id} className="saved-build-extra-card">
               <div>
                 <strong>Versão {version.versionNumber}</strong>
-                <p>{version.reason}</p>
+                <p>{versionReasonLabel(version.reason)}</p>
                 <small>{formatDate(version.createdAt)}</small>
               </div>
               <div className="button-row">
-                <Button variant="secondary" onClick={() => onShowSnapshot(version)}>Ver snapshot</Button>
+                <Button variant="secondary" onClick={() => onShowSnapshot(version)}>Ver configuração</Button>
                 <Button variant="danger" disabled={busy} onClick={() => onRemove(version)}>Excluir versão</Button>
               </div>
             </article>
@@ -453,6 +478,47 @@ function VersionsModal({ busy, state, onClose, onShowSnapshot, onRemove }) {
       )}
     </Modal>
   );
+}
+
+function versionReasonLabel(reason) {
+  if (!reason || /^Snapshot criado pelo frontend/i.test(reason)) return 'Cópia da configuração salva para consultar depois.';
+  if (reason === 'Versao inicial da configuracao salva.') return 'Primeira versão da configuração salva.';
+  if (reason === 'Atualizacao da configuracao salva.') return 'Configuração atualizada.';
+  return reason;
+}
+
+function SavedVersionSummary({ snapshot, componentMap }) {
+  const saved = snapshot && typeof snapshot === 'object' ? snapshot : {};
+  const selection = hydrateBuildComponents(saved.components, componentMap);
+  const nameFor = component => component?.name || 'Peça registrada, mas não encontrada no catálogo atual';
+  const budgetAmount = saved.budget?.amount ?? (typeof saved.budget === 'number' ? saved.budget : null);
+  return <div className="saved-version-summary">
+    <p>Esta é a configuração guardada nesta versão. Consultá-la não altera sua build atual.</p>
+    <h3>{saved.name || 'Configuração salva'}</h3>
+    {saved.description && <p>{saved.description}</p>}
+    <h4>Peças desta versão</h4>
+    <dl>
+      {componentTypes.map(type => <div key={type}>
+        <dt>{componentLabels[type]}</dt><dd>{selection[type] ? nameFor(selection[type]) : 'Não informado nesta versão'}</dd>
+      </div>)}
+      <div><dt>{componentLabels.cooler}</dt><dd>{selection.cooler ? nameFor(selection.cooler) : 'Nenhum cooler separado registrado'}</dd></div>
+      <div><dt>Ventoinhas adicionais</dt><dd>{selection.fans.length ? <ul>{selection.fans.map(fan => (
+        <li key={fan.id}>{nameFor(fan)} · {fan.quantity} {fan.quantity === 1 ? 'pacote' : 'pacotes'}</li>
+      ))}</ul> : 'Nenhuma ventoinha adicional registrada'}</dd></div>
+    </dl>
+    <h4>Orçamento e preferências</h4>
+    <dl>
+      <div><dt>Uso principal</dt><dd>{usageLabels[saved.usageType] || 'Não informado nesta versão'}</dd></div>
+      <div><dt>Orçamento planejado</dt><dd>{budgetAmount == null ? 'Não informado nesta versão' : formatCurrency(budgetAmount, saved.budget?.currency || 'BRL')}</dd></div>
+      <div><dt>Prioridade</dt><dd>{priorityLabels[saved.budget?.priority] || 'Não informada nesta versão'}</dd></div>
+      <div><dt>Total estimado registrado</dt><dd>{formatCurrency(saved.totalEstimatedPrice)}</dd></div>
+    </dl>
+    <p className="hint-text">O total é uma referência guardada nesta versão, não uma cotação atual. Quando a versão contém apenas o código da peça, o nome é consultado no catálogo atual.</p>
+    <details>
+      <summary>Ver dados técnicos desta versão</summary>
+      <pre className="json-preview">{JSON.stringify(saved, null, 2)}</pre>
+    </details>
+  </div>;
 }
 
 function HistoryModal({ busy, state, onClose, onShowDetails, onRemove }) {

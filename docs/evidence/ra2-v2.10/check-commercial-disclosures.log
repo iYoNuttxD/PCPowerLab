@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-commercial-disclosures.mjs
+Exit: 0
+PASS: scope, estimate labels and missing-performance states render honestly across recommendation cards
+LIMITATION: static rendering does not validate browser layout, focus or interaction

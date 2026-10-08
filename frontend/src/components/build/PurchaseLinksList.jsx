@@ -1,3 +1,4 @@
+import ReferencePriceNote from './ReferencePriceNote.jsx';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { ExternalLink } from 'lucide-react';
 import Card from '../ui/Card.jsx';
@@ -25,13 +26,14 @@ export default function PurchaseLinksList({
   return (
     <Card>
       <h3>Preços e pesquisa em lojas</h3>
-      <p className="analysis-note">Referências do catálogo são estimativas. Ofertas só são exibidas quando há fonte autorizada, data e validade; não representam todo o mercado.</p>
+      <p className="analysis-note">Referências datadas e estimativas do catálogo não são ofertas ao vivo. A página exata da pesquisa fica separada das buscas das cinco lojas. Ofertas atuais só aparecem quando recebidas de uma fonte comercial autorizada, com data e validade.</p>
       <p className="hint-text" role="status">{flatLinks.find(link => link.marketMessage)?.marketMessage || 'Comparação automática indisponível: nenhuma fonte de preços autorizada está conectada.'}</p>
       <p className="hint-text">
         {variant === 'single'
           ? 'Os links direcionam para buscas em lojas externas. Confirme preço e disponibilidade na loja.'
           : 'Os links direcionam para buscas em lojas externas. Preços e disponibilidade devem ser confirmados diretamente na loja.'}
       </p>
+      {variant === 'single' && flatLinks[0]?.referencePricing && <ReferencePriceNote component={{ price: flatLinks[0].price, pricing: flatLinks[0].referencePricing }} compact />}
       {variant === 'single' ? (
         <SingleLinksGrid links={flatLinks} renderEstimatedPrice={renderEstimatedPrice} />
       ) : !hasAnyLink ? (
@@ -45,14 +47,15 @@ export default function PurchaseLinksList({
                   <span className="purchase-component-category">{group.categoryLabel}</span>
                   <ComponentIdentity component={{ id: group.componentId, name: group.componentName }} category={group.category} />
                   {group.category === 'fan' && (
-                    <small>{group.quantity} pack(s) · valores por pack</small>
+                    <small>{group.quantity} pack(s) · links mostram valores por pack</small>
                   )}
                 </div>
                 {Number.isFinite(Number(group.componentPrice)) && (
-                  <span className="price">Referência estimada: {formatCurrency(group.componentPrice)}</span>
+                  <span className="price">{group.category === 'fan' ? 'Total estimado dos packs' : 'Referência estimada'}: {formatCurrency(group.componentPrice)}</span>
                 )}
               </div>
 
+              <ReferencePriceNote component={{ price: group.category === 'fan' ? group.links[0]?.price : group.componentPrice, pricing: group.links[0]?.referencePricing }} compact />
               {group.links.length === 0 ? (
                 <p className="hint-text">Nenhum link cadastrado para este componente.</p>
               ) : (

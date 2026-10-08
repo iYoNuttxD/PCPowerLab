@@ -1,3 +1,4 @@
+import { referenceFixtureTotal, referenceFixtureCoolingTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { calculateBuildPrice, selectBuildComponents, serializeBuildSelection } from '../src/services/build.service.js';
@@ -14,7 +15,7 @@ const roadmap = input => generateUpgradeRoadmap({ build: input, totalBudget: 100
 test('upgrade suggestions resolve mixed aliases exactly as the central selector', () => {
   assert.equal(selectBuildComponents(mixed).cpu.id, build.cpu);
   const result = suggest(mixed);
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
   for (const suggestion of result.suggestions) {
     assert.equal(suggestion.currentComponent.id, build[suggestion.componentType]);
   }
@@ -22,7 +23,7 @@ test('upgrade suggestions resolve mixed aliases exactly as the central selector'
 
 test('roadmap initial compatibility and steps use the same mixed-alias selection', () => {
   const result = roadmap(mixed);
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(result.initialCompatibility.status, 'compatible');
   assert.deepEqual(result.initialCompatibility.alerts, []);
   assert.ok(result.steps.length > 0);
@@ -45,12 +46,12 @@ test('nested cooling options retain IDs, pack quantities, cost and unverified co
   const input = { components: { ...build, ...options } };
   const selected = selectBuildComponents(input);
   assert.deepEqual(serializeBuildSelection(selected).fans, options.fans);
-  assert.equal(calculateBuildPrice(selected), 5699);
+  assert.equal(calculateBuildPrice(selected), referenceFixtureCoolingTotal());
   const upgrades = suggest(input);
-  assert.equal(upgrades.currentBuildSummary.totalEstimatedPrice, 5699);
+  assert.equal(upgrades.currentBuildSummary.totalEstimatedPrice, referenceFixtureCoolingTotal());
   assert.deepEqual(upgrades.suggestions, []);
   const plan = roadmap(input);
-  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, 5699);
+  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, referenceFixtureCoolingTotal());
   assert.equal(plan.initialCompatibility.status, 'unverified');
   assert.deepEqual(plan.steps, []);
 });
@@ -60,8 +61,8 @@ test('explicit top-level cooling removal overrides nested options in upgrades an
     coolerId: 'cooler-noctua-nh-u12s-redux', fans: [{ fanId: 'fan-arctic-p12-pwm-pst-5-pack', quantity: 2 }]
   } };
   assert.equal(selectBuildComponents(input).cooler, undefined);
-  assert.equal(suggest(input).currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(suggest(input).currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
   const plan = roadmap(input);
-  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(plan.currentBuildSummary.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(plan.initialCompatibility.status, 'compatible');
 });

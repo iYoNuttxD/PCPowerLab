@@ -13,7 +13,7 @@ import ErrorState from '../components/ui/ErrorState.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
 import { useBuildState } from '../hooks/useBuildState.jsx';
-import { useSimulationRequest } from '../hooks/useSimulationRequest.js';
+import { useSessionSimulationRequest } from '../hooks/useSessionSimulationRequest.js';
 import { gameComparisonService } from '../services/gameComparisonService.js';
 import { performanceService } from '../services/performanceService.js';
 import { professionalSoftwareService } from '../services/professionalSoftwareService.js';
@@ -22,22 +22,33 @@ import { componentLabels } from '../utils/componentLabels.js';
 import { getMissingBuildSlots } from '../utils/validation.js';
 import { formatPerformanceNumber, formatRequirement, getPerformanceErrorMessage } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
+import { analysisIdentity, isOptionalNumber, isOptionalText, isRecord, isSessionId, readAnalysisSession, writeAnalysisSession } from '../utils/analysisSession.js';
 
 export default function PerformanceLab() {
   const build = useBuildState();
   const games = useOptions(performanceService.listGames);
   const software = useOptions(professionalSoftwareService.list);
-  const [mode, setMode] = useState('single');
-  const [gameId, setGameId] = useState(build.game.gameId);
-  const [selectedGameIds, setSelectedGameIds] = useState(['game-counter-strike-2', 'game-cyberpunk-2077']);
-  const [targetResolution, setTargetResolution] = useState(build.game.targetResolution);
-  const [qualityPreset, setQualityPreset] = useState(build.game.qualityPreset);
-  const [softwareId, setSoftwareId] = useState('software-adobe-premiere-pro');
+  const identity = analysisIdentity([build.revision, build.selectedComponents, build.game]);
+  const [initialInputs] = useState(() => readAnalysisSession('performance-inputs', identity, validPerformanceInputs) || {
+    mode: 'single', gameId: build.game.gameId,
+    selectedGameIds: ['game-counter-strike-2', 'game-cyberpunk-2077'],
+    targetResolution: build.game.targetResolution, qualityPreset: build.game.qualityPreset,
+    softwareId: 'software-adobe-premiere-pro'
+  });
+  const [mode, setMode] = useState(initialInputs.mode);
+  const [gameId, setGameId] = useState(initialInputs.gameId);
+  const [selectedGameIds, setSelectedGameIds] = useState(initialInputs.selectedGameIds);
+  const [targetResolution, setTargetResolution] = useState(initialInputs.targetResolution);
+  const [qualityPreset, setQualityPreset] = useState(initialInputs.qualityPreset);
+  const [softwareId, setSoftwareId] = useState(initialInputs.softwareId);
   const buildComplete = hasCompleteBuild(build.selectedComponents);
   const buildPayload = buildToApiPayload(build.selectedComponents);
-  const gameRequest = useSimulationRequest(JSON.stringify([build.revision, buildPayload, mode, gameId, selectedGameIds, targetResolution, qualityPreset]));
-  const softwareRequest = useSimulationRequest(JSON.stringify([build.revision, buildPayload, softwareId]));
   const selectedSoftware = software.items.find(item => item.id === softwareId);
+
+  useEffect(() => {
+    writeAnalysisSession('performance-inputs', identity,
+      { mode, gameId, selectedGameIds, targetResolution, qualityPreset, softwareId }, validPerformanceInputs);
+  }, [identity, mode, gameId, selectedGameIds, targetResolution, qualityPreset, softwareId]);
 
   useEffect(() => {
     if (!games.items.length) return;
@@ -55,7 +66,13 @@ export default function PerformanceLab() {
 
   const selectionValid = mode === 'single'
     ? games.items.some(game => game.id === gameId)
-    : selectedGameIds.length >= 2 && selectedGameIds.length <= 10;
+    : selectedGameIds.length >= 2 && selectedGameIds.length <= 10 && selectedGameIds.every(id => games.items.some(game => game.id === id));
+  const gameRequest = useSessionSimulationRequest('performance-games',
+    analysisIdentity([identity, mode, gameId, selectedGameIds, targetResolution, qualityPreset]),
+    mode === 'single' ? validGameResult : validComparisonResult,
+    { ready: buildComplete && !games.loading && !games.error && selectionValid, invalid: !games.loading && (!buildComplete || Boolean(games.error) || !selectionValid) });
+  const softwareRequest = useSessionSimulationRequest('performance-software', analysisIdentity([identity, softwareId]), validSoftwareResult,
+    { ready: buildComplete && !software.loading && !software.error && Boolean(selectedSoftware), invalid: !software.loading && (!buildComplete || Boolean(software.error) || !selectedSoftware) });
   const gameBlockReason = !buildComplete ? 'Complete a montagem para simular. As peças que faltam estão indicadas acima.'
     : games.loading ? 'Aguarde o carregamento dos jogos.'
       : games.error ? 'Não foi possível carregar os jogos. Use Tentar novamente.'
@@ -146,6 +163,38 @@ export default function PerformanceLab() {
       </div>
     </div>
   );
+}
+
+function validPerformanceInputs(value) {
+  return isRecord(value) && ['single', 'compare'].includes(value.mode) && isSessionId(value.gameId)
+    && Array.isArray(value.selectedGameIds) && value.selectedGameIds.length <= 100 && value.selectedGameIds.every(isSessionId)
+    && new Set(value.selectedGameIds).size === value.selectedGameIds.length
+    && ['1080p', '1440p', '4k'].includes(value.targetResolution)
+    && ['low', 'medium', 'high', 'ultra'].includes(value.qualityPreset) && isSessionId(value.softwareId);
+}
+
+function validGameResult(value) {
+  return isRecord(value) && typeof value.game === 'string' && validGameFields(value);
+}
+
+function validGameFields(value) {
+  return ['game', 'gameName', 'name', 'targetResolution', 'qualityPreset', 'performanceLevel', 'summary'].every(key => isOptionalText(value[key]))
+    && isOptionalNumber(value.estimatedFps)
+    && (value.warnings === undefined || Array.isArray(value.warnings) && value.warnings.every(item => typeof item === 'string'))
+    && (value.technicalDetails?.bottlenecks === undefined || Array.isArray(value.technicalDetails.bottlenecks)
+      && value.technicalDetails.bottlenecks.every(item => isRecord(item) && isOptionalText(item.message)));
+}
+
+function validComparisonResult(value) {
+  const games = value?.results ?? value?.games;
+  return isRecord(value) && ['targetResolution', 'qualityPreset', 'summary'].every(key => isOptionalText(value[key]))
+    && Array.isArray(games) && games.length <= 10 && games.every(game => isRecord(game)
+      && typeof (game.gameName ?? game.name ?? game.game) === 'string' && validGameFields(game));
+}
+
+function validSoftwareResult(value) {
+  return isRecord(value) && typeof value.software === 'string' && isOptionalNumber(value.performanceScore)
+    && ['category', 'summary', 'performanceLevel'].every(key => isOptionalText(value[key]));
 }
 
 function RequestError({ error, onRetry }) {

@@ -1,0 +1,1287 @@
+{
+  "method": "frontend adapters/utilities + real HTTP/Express/services/in-memory repository; no browser",
+  "browserExecuted": false,
+  "screenshots": [],
+  "journeys": [
+    {
+      "profile": "beginner",
+      "steps": [
+        {
+          "name": "Access home and assistant HTTP routes",
+          "status": "passed",
+          "observed": [
+            {
+              "route": "/",
+              "http": 200,
+              "hydration": "not executed"
+            },
+            {
+              "route": "/build",
+              "http": 200,
+              "hydration": "not executed"
+            }
+          ]
+        },
+        {
+          "name": "Select built-in gaming usage and limited reference budget",
+          "status": "passed",
+          "observed": {
+            "usageType": "gaming",
+            "amount": 4000,
+            "customProfiles": 0,
+            "note": "Built-in usage choice; empty custom profiles are not invented presets"
+          }
+        },
+        {
+          "name": "Search actual catalog and verify photo delivery/fallback eligibility",
+          "status": "passed",
+          "observed": {
+            "found": [
+              "cpu-ryzen-5-5500",
+              "cpu-ryzen-5-5600",
+              "cpu-ryzen-5-7600"
+            ],
+            "photos": 11,
+            "missing": 87,
+            "imagePixelsInspected": false
+          }
+        },
+        {
+          "name": "Request guidance, recover from insufficient budget and apply recommendation",
+          "status": "passed",
+          "observed": {
+            "componentIds": {
+              "cpuId": "cpu-intel-i5-12400f",
+              "gpuId": "gpu-rx-6600",
+              "motherboardId": "mb-h610m-ddr4",
+              "ramId": "ram-kingston-fury-16gb-ddr4",
+              "storageId": "ssd-samsung-970-evo-plus-250gb",
+              "psuId": "psu-xpg-pylon-650w",
+              "caseId": "case-mid-tower-airflow",
+              "fans": []
+            },
+            "total": 3779.48,
+            "guidance": {
+              "title": "Boa escolha para custo-beneficio",
+              "simpleExplanation": "Essa peca foi recomendada porque combina bem com a configuracao e segue a prioridade de custo-beneficio.",
+              "suggestion": "E indicada para quem quer jogar em 1080p com boa qualidade grafica.",
+              "severity": "medium"
+            },
+            "comprehension": "not tested"
+          }
+        },
+        {
+          "name": "Consolidate compatibility, estimated performance and budget alerts",
+          "status": "passed",
+          "observed": {
+            "total": 3779.48,
+            "compatibility": "compatible",
+            "estimatedFps": 133,
+            "budgetAlert": "over_budget",
+            "pricing": {
+              "currency": "BRL",
+              "estimatedTotal": 3779.48,
+              "availableMarketQuotesTotal": null,
+              "marketTotalComplete": false,
+              "componentsWithoutCurrentQuote": [
+                "cpu-intel-i5-12400f",
+                "mb-h610m-ddr4",
+                "gpu-rx-6600",
+                "ram-kingston-fury-16gb-ddr4",
+                "ssd-samsung-970-evo-plus-250gb",
+                "psu-xpg-pylon-650w",
+                "case-mid-tower-airflow"
+              ],
+              "componentsWithoutReference": [],
+              "quotedComponents": [],
+              "basis": "mixed_dated_and_estimated_reference",
+              "datedReferenceUnits": 2,
+              "estimatedReferenceUnits": 5,
+              "referenceComponents": [
+                {
+                  "productId": "cpu-intel-i5-12400f",
+                  "quantity": 1,
+                  "price": 789.99,
+                  "basis": "dated_snapshot",
+                  "store": "Pichau",
+                  "queriedAt": "2026-10-08"
+                },
+                {
+                  "productId": "mb-h610m-ddr4",
+                  "quantity": 1,
+                  "price": 589.9,
+                  "basis": "estimate",
+                  "store": null,
+                  "queriedAt": null
+                },
+                {
+                  "productId": "gpu-rx-6600",
+                  "quantity": 1,
+                  "price": 1199.9,
+                  "basis": "estimate",
+                  "store": null,
+                  "queriedAt": null
+                },
+                {
+                  "productId": "ram-kingston-fury-16gb-ddr4",
+                  "quantity": 1,
+                  "price": 249.9,
+                  "basis": "estimate",
+                  "store": null,
+                  "queriedAt": null
+                },
+                {
+                  "productId": "ssd-samsung-970-evo-plus-250gb",
+                  "quantity": 1,
+                  "price": 249.9,
+                  "basis": "estimate",
+                  "store": null,
+                  "queriedAt": null
+                },
+                {
+                  "productId": "psu-xpg-pylon-650w",
+                  "quantity": 1,
+                  "price": 399.99,
+                  "basis": "dated_snapshot",
+                  "store": "Pichau",
+                  "queriedAt": "2026-10-08"
+                },
+                {
+                  "productId": "case-mid-tower-airflow",
+                  "quantity": 1,
+                  "price": 299.9,
+                  "basis": "estimate",
+                  "store": null,
+                  "queriedAt": null
+                }
+              ],
+              "paymentBasis": "Referências datadas: PIX à vista; demais valores: estimativas sem condição de pagamento verificada",
+              "excludesShipping": true,
+              "methodology": "Total estimado pode combinar referências datadas à vista (PIX) e estimativas demonstrativas; cobertura informada por packs. Registros datados não são cotações atuais. O total soma referências do catálogo; subtotal de cotações soma apenas itens com disponibilidade confirmada. Valores nunca são misturados. Frete, condições de pagamento e montagem não incluídos."
+            }
+          }
+        },
+        {
+          "name": "Retain cooling during recommendation and expose unresolved compatibility",
+          "status": "passed",
+          "observed": {
+            "retainedCooler": "cooler-noctua-nh-u12s-redux",
+            "retainedFan": "fan-noctua-nf-p12-redux-1700-pwm",
+            "quantity": 2,
+            "total": 4479.18,
+            "compatibility": "unverified",
+            "alerts": [
+              {
+                "code": "AIR_COOLER_CLEARANCE_UNVERIFIED",
+                "title": "Atencao na compatibilidade",
+                "message": "Altura e encaixe não confirmam o espaço ao redor do cooler. Confira no manual se ele encosta na memória RAM ou nos componentes de alimentação da placa-mãe (VRM).",
+                "severity": "medium",
+                "blocking": false,
+                "components": [],
+                "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+              },
+              {
+                "code": "COOLER_HEIGHT_UNVERIFIED",
+                "title": "Atencao na compatibilidade",
+                "message": "Altura do cooler ou limite do gabinete não informado.",
+                "severity": "medium",
+                "blocking": false,
+                "components": [],
+                "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+              },
+              {
+                "code": "FAN_DIAMETER_UNVERIFIED",
+                "title": "Atencao na compatibilidade",
+                "message": "Diâmetro ou suportes do gabinete não verificados para Noctua NF-P12 redux-1700 PWM.",
+                "severity": "medium",
+                "blocking": false,
+                "components": [],
+                "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+              },
+              {
+                "code": "FAN_THICKNESS_UNVERIFIED",
+                "title": "Atencao na compatibilidade",
+                "message": "Espessura ou folga do gabinete não verificada para Noctua NF-P12 redux-1700 PWM.",
+                "severity": "medium",
+                "blocking": false,
+                "components": [],
+                "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+              },
+              {
+                "code": "FAN_CAPACITY_UNVERIFIED",
+                "title": "Atencao na compatibilidade",
+                "message": "Capacidade de fans, unidades por pack ou fans incluídos não verificados.",
+                "severity": "medium",
+                "blocking": false,
+                "components": [],
+                "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+              },
+              {
+                "code": "FAN_CONNECTORS_UNVERIFIED",
+                "title": "Atencao na compatibilidade",
+                "message": "Confirme os conectores da placa-mãe, a corrente máxima e a necessidade de divisores ou controladoras para as ventoinhas.",
+                "severity": "medium",
+                "blocking": false,
+                "components": [],
+                "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+              }
+            ],
+            "incompatibleStatus": "incompatible",
+            "fpsSuppressed": true
+          }
+        },
+        {
+          "name": "Save final configuration and reload within the process",
+          "status": "passed",
+          "observed": {
+            "savedId": "build-002",
+            "total": 3779.48
+          }
+        }
+      ],
+      "finalBuild": {
+        "cpu": "cpu-intel-i5-12400f",
+        "motherboard": "mb-h610m-ddr4",
+        "gpu": "gpu-rx-6600",
+        "ram": "ram-kingston-fury-16gb-ddr4",
+        "storage": "ssd-samsung-970-evo-plus-250gb",
+        "psu": "psu-xpg-pylon-650w",
+        "case": "case-mid-tower-airflow",
+        "fans": []
+      },
+      "status": "passed"
+    },
+    {
+      "profile": "intermediate",
+      "steps": [
+        {
+          "name": "Access catalog and ready-build routes",
+          "status": "passed",
+          "observed": [
+            {
+              "route": "/components",
+              "http": 200,
+              "hydration": "not executed"
+            },
+            {
+              "route": "/ready-builds",
+              "http": 200,
+              "hydration": "not executed"
+            }
+          ]
+        },
+        {
+          "name": "Combine brand, specs, price, category and value sorting against real catalog",
+          "status": "passed",
+          "observed": [
+            {
+              "id": "ram-kingston-fury-16gb-ddr4",
+              "price": 249.9,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 16,
+                "speedMhz": 3200
+              },
+              "valueIndex": 240.09603841536614
+            },
+            {
+              "id": "ram-kingston-fury-8gb-ddr4",
+              "price": 149.9,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 8,
+                "speedMhz": 3200
+              },
+              "valueIndex": 233.4889926617745
+            },
+            {
+              "id": "ram-kingston-fury-16gb-ddr4-3600",
+              "price": 306.99,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 16,
+                "speedMhz": 3600
+              },
+              "valueIndex": 208.47584611876607
+            },
+            {
+              "id": "ram-kingston-fury-32gb-ddr4",
+              "price": 499.9,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 32,
+                "speedMhz": 3200
+              },
+              "valueIndex": 144.02880576115223
+            },
+            {
+              "id": "ram-kf432c16bbk2-32",
+              "price": 519.9,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 32,
+                "speedMhz": 3200,
+                "dataRateMTs": 3200,
+                "modulesPerKit": 2,
+                "speedProfile": "XMP; requer configuração e plataforma compatível"
+              },
+              "valueIndex": 126.94748990190422
+            },
+            {
+              "id": "ram-kf436c18bbk2-32",
+              "price": 569.9,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 32,
+                "speedMhz": 3600,
+                "dataRateMTs": 3600,
+                "modulesPerKit": 2,
+                "speedProfile": "XMP; requer configuração e plataforma compatível"
+              },
+              "valueIndex": 119.31917880329883
+            },
+            {
+              "id": "ram-kf432c16bbk2-64",
+              "price": 999.9,
+              "specs": {
+                "memoryType": "DDR4",
+                "capacityGb": 64,
+                "speedMhz": 3200,
+                "dataRateMTs": 3200,
+                "modulesPerKit": 2,
+                "speedProfile": "XMP; requer configuração e plataforma compatível"
+              },
+              "valueIndex": 82.00820082008201
+            }
+          ]
+        },
+        {
+          "name": "Compare budget alternatives and analyze bottleneck and game",
+          "status": "passed",
+          "observed": {
+            "alternatives": [
+              {
+                "total": 4279.48,
+                "components": {
+                  "cpuId": "cpu-intel-i5-12400f",
+                  "gpuId": "gpu-rx-7600",
+                  "motherboardId": "mb-h610m-ddr4",
+                  "ramId": "ram-kingston-fury-16gb-ddr4",
+                  "storageId": "ssd-samsung-970-evo-plus-250gb",
+                  "psuId": "psu-xpg-pylon-650w",
+                  "caseId": "case-mid-tower-airflow",
+                  "fans": []
+                }
+              },
+              {
+                "total": 4439.48,
+                "components": {
+                  "cpuId": "cpu-intel-i5-14400f",
+                  "gpuId": "gpu-rx-7600",
+                  "motherboardId": "mb-h610m-ddr4",
+                  "ramId": "ram-kingston-fury-16gb-ddr4",
+                  "storageId": "ssd-samsung-970-evo-plus-250gb",
+                  "psuId": "psu-xpg-pylon-650w",
+                  "caseId": "case-mid-tower-airflow",
+                  "fans": []
+                }
+              },
+              {
+                "total": 4439.48,
+                "components": {
+                  "cpuId": "cpu-intel-i5-13400f",
+                  "gpuId": "gpu-rx-7600",
+                  "motherboardId": "mb-h610m-ddr4",
+                  "ramId": "ram-kingston-fury-16gb-ddr4",
+                  "storageId": "ssd-samsung-970-evo-plus-250gb",
+                  "psuId": "psu-xpg-pylon-650w",
+                  "caseId": "case-mid-tower-airflow",
+                  "fans": []
+                }
+              }
+            ],
+            "comparison": {
+              "comparisonIndex": 1,
+              "name": "Alternative 2",
+              "reason": "Melhor equilíbrio calculado entre desempenho simulado, compatibilidade, custo estimado e gargalos nas builds enviadas.",
+              "comparisonScore": 91.17
+            },
+            "bottleneck": {
+              "cpuScore": 72,
+              "gpuScore": 72,
+              "ramScore": 60,
+              "storageScore": 68,
+              "estimatedConsumptionWatts": 330,
+              "psuWatts": 650
+            },
+            "estimatedFps": 145
+          }
+        },
+        {
+          "name": "Verify RAM candidate, replace single slot, compare deltas and undo",
+          "status": "passed",
+          "observed": {
+            "from": "ram-kingston-fury-16gb-ddr4",
+            "to": "ram-kingston-fury-32gb-ddr4",
+            "comparison": {
+              "cost": {
+                "before": 4279.48,
+                "after": 4529.48,
+                "delta": 250
+              },
+              "power": {
+                "before": 330,
+                "after": 330,
+                "delta": 0,
+                "beforeComplete": true,
+                "afterComplete": true
+              },
+              "performance": {
+                "before": 145,
+                "after": 149,
+                "delta": 4,
+                "comparable": true,
+                "percentage": 2.76,
+                "game": "Counter-Strike 2",
+                "targetResolution": "1080p",
+                "qualityPreset": "high",
+                "reason": null
+              }
+            },
+            "budgetStatus": {
+              "amount": 6000,
+              "currency": "BRL",
+              "priority": "balanced",
+              "totalEstimatedPrice": 4529.48,
+              "remaining": 1470.52,
+              "status": "within_budget",
+              "warnings": [],
+              "explanation": {
+                "title": "Configuracao dentro do orcamento",
+                "simpleExplanation": "A configuracao recomendada fica abaixo do valor maximo informado, mantendo uma boa relacao entre preco e desempenho.",
+                "suggestion": "O valor restante pode ser usado para melhorar armazenamento, memoria RAM ou perifericos.",
+                "severity": "low"
+              }
+            },
+            "undoClearedAnalysis": true
+          }
+        },
+        {
+          "name": "Save final value choice",
+          "status": "passed",
+          "observed": {
+            "savedId": "build-003",
+            "total": 4529.48
+          }
+        }
+      ],
+      "finalBuild": {
+        "cpu": "cpu-intel-i5-12400f",
+        "motherboard": "mb-h610m-ddr4",
+        "gpu": "gpu-rx-7600",
+        "ram": "ram-kingston-fury-32gb-ddr4",
+        "storage": "ssd-samsung-970-evo-plus-250gb",
+        "psu": "psu-xpg-pylon-650w",
+        "case": "case-mid-tower-airflow",
+        "fans": []
+      },
+      "status": "passed"
+    },
+    {
+      "profile": "experienced",
+      "steps": [
+        {
+          "name": "Access upgrades and saved-build routes",
+          "status": "passed",
+          "observed": [
+            {
+              "route": "/upgrades",
+              "http": 200,
+              "hydration": "not executed"
+            },
+            {
+              "route": "/saved-builds",
+              "http": 200,
+              "hydration": "not executed"
+            }
+          ]
+        },
+        {
+          "name": "Load existing PC saved through actual frontend normalization",
+          "status": "passed",
+          "observed": {
+            "savedId": "build-004",
+            "componentIds": {
+              "cpuId": "cpu-ryzen-5-5600",
+              "gpuId": "gpu-rtx-4060",
+              "motherboardId": "mb-b550m-aorus-elite",
+              "ramId": "ram-kingston-fury-16gb-ddr4",
+              "storageId": "ssd-kingston-nv2-1tb",
+              "psuId": "psu-corsair-650w",
+              "caseId": "case-mid-tower-airflow",
+              "fans": []
+            }
+          }
+        },
+        {
+          "name": "Identify current limits and compatible candidate upgrades",
+          "status": "passed",
+          "observed": {
+            "bottleneck": {
+              "cpuScore": 70,
+              "gpuScore": 76,
+              "ramScore": 60,
+              "storageScore": 65,
+              "estimatedConsumptionWatts": 280,
+              "psuWatts": 650
+            },
+            "candidates": [
+              {
+                "componentType": "storage",
+                "currentComponent": {
+                  "id": "ssd-kingston-nv2-1tb",
+                  "name": "Kingston NV2 1TB NVMe",
+                  "category": "storage",
+                  "brand": "Kingston",
+                  "price": 499.99,
+                  "specs": {
+                    "interface": "M.2 NVMe",
+                    "storageType": "SSD",
+                    "capacityGb": 1000,
+                    "readSpeedMbS": 3500,
+                    "writeSpeedMbS": 2100
+                  },
+                  "image": {
+                    "componentId": "ssd-kingston-nv2-1tb",
+                    "status": "blocked",
+                    "imagePath": null,
+                    "imageSource": null,
+                    "manufacturerProductUrl": "https://www.kingston.com/datasheets/SNV2S_en.pdf",
+                    "rightsBasis": null,
+                    "imageType": null,
+                    "lastVerifiedAt": null,
+                    "sourceResearchAt": "2026-10-08",
+                    "blocker": "Capacidade 1000GB; candidato Commons NV2 2TB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION."
+                  },
+                  "demonstrativePrice": 349.9,
+                  "priceKind": "dated-reference-snapshot",
+                  "priceCurrency": "BRL",
+                  "priceLabel": "Referência datada à vista (PIX), sem atualização em tempo real",
+                  "datedReferenceIdentity": "4260b7ca5edd4b01878f62b98b71c7ac6c5b570673844503b59aa6342b2f8fc7",
+                  "pricing": {
+                    "productId": "ssd-kingston-nv2-1tb",
+                    "model": "SNV2S/1000G",
+                    "store": "Pichau",
+                    "productUrl": "https://www.pichau.com.br/ssd-kingston-nv2-1tb-m-2-2280-pcie-nvme-leitura-3500mb-s-gravacao-2100mb-s-snv2s-1000g",
+                    "price": 499.99,
+                    "currency": "BRL",
+                    "paymentCondition": "PIX à vista, 15% desconto",
+                    "cardTotal": 588.22,
+                    "installments": "até 12x sem juros",
+                    "queriedAt": "2026-10-08",
+                    "validUntil": null,
+                    "source": "dated_public_reference",
+                    "availability": "unknown",
+                    "shipping": "Não verificado; excluído do valor",
+                    "taxes": "Não discriminados; preço exibido, não total de checkout",
+                    "identityMatch": "exact_model",
+                    "snapshotEligible": true,
+                    "limitations": [
+                      "Disponibilidade não explicitada no conteúdo recuperado",
+                      "Observação datada; não representa preço em tempo real nem menor preço de mercado",
+                      "Preço sujeito a alteração; confirmar na loja antes de comprar",
+                      "Data de consulta não garante atualização do site: conteúdo retornado pela ferramenta de pesquisa pode ser indexado/cacheado; crawl indicado separadamente"
+                    ],
+                    "retrievalCrawlLabel": "today",
+                    "selectedStore": true,
+                    "seller": "Pichau",
+                    "condition": "unknown",
+                    "conditionEvidence": "Não explicitada no texto recuperado",
+                    "updateStatus": "dated_snapshot",
+                    "isMarketQuote": false,
+                    "basis": "PIX à vista; frete excluído",
+                    "observedAvailability": "unknown",
+                    "validityMessage": "Registro de pesquisa datado; sem validade futura ou estoque ao vivo"
+                  }
+                },
+                "suggestedComponent": {
+                  "id": "ssd-samsung-980-pro-1tb",
+                  "name": "Samsung 980 PRO 1TB NVMe",
+                  "category": "storage",
+                  "brand": "Samsung",
+                  "price": 699.9,
+                  "partNumber": "MZ-V8P1T0",
+                  "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung-NVMe-SSD-980-PRO-Data-Sheet_Rev.2.1_230509_10129500052824.pdf",
+                  "specs": {
+                    "interface": "M.2 NVMe",
+                    "storageType": "SSD",
+                    "capacityGb": 1000,
+                    "readSpeedMbS": 7000,
+                    "writeSpeedMbS": 5000
+                  },
+                  "image": {
+                    "status": "verified",
+                    "imagePath": "/images/components/samsung-980-pro-1tb.webp",
+                    "imageSource": "https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg",
+                    "manufacturerProductUrl": "https://www.samsung.com/us/memory-storage/nvme-ssd/980-pro-pcie-4-0-nvme-ssd-1tb-sku-mz-v8p1t0b-am/",
+                    "rightsBasis": "CC BY-SA 4.0: atribuição, link da licença e mesma licença para a conversão WebP. Fonte e modelo/etiqueta revisados.",
+                    "imageType": "photo",
+                    "lastVerifiedAt": "2026-10-08",
+                    "author": "D-Kuru/Wikimedia Commons",
+                    "license": "CC BY-SA 4.0",
+                    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+                    "alt": "Samsung 980 PRO, etiqueta MZ-V8P1T0 e capacidade 1TB",
+                    "modifications": "Miniatura de 960px convertida de JPEG para WebP, qualidade 85; sem corte.",
+                    "productIdentity": "7aa2fdb58ef1cb0d052c3c113540961386d47ce0e1c9dfcdf57ce6a69e47666b",
+                    "sha256": "8d99885c6060c841069d4cb3313eb6e70da81ce5f6d51bceb35f914a90a6f2d1",
+                    "componentId": "ssd-samsung-980-pro-1tb"
+                  },
+                  "pricing": {
+                    "productId": "ssd-samsung-980-pro-1tb",
+                    "price": 699.9,
+                    "currency": "BRL",
+                    "source": "catalog_reference",
+                    "updateStatus": "estimate",
+                    "queriedAt": null,
+                    "validUntil": null,
+                    "availability": "unknown",
+                    "isMarketQuote": false
+                  },
+                  "performanceScore": 88,
+                  "performanceMethodology": "Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS."
+                },
+                "estimatedUpgradeCost": 699.9,
+                "estimatedCostBasis": "full_replacement_reference_price",
+                "performanceBasis": "simulated_score_difference",
+                "expectedImpact": "high",
+                "scoreGain": 20,
+                "reason": "Para o perfil gaming, o upgrade de storage oferece a melhor evolucao simulada encontrada entre os candidatos do catalogo dentro das restricoes informadas.",
+                "explanation": {
+                  "title": "Boa escolha para custo-beneficio",
+                  "simpleExplanation": "Essa armazenamento foi recomendada porque combina bem com a configuracao e segue a prioridade de custo-beneficio.",
+                  "suggestion": "E indicada para quem quer jogar em 1080p com boa qualidade grafica.",
+                  "severity": "medium"
+                },
+                "compatibilityStatus": "compatible"
+              },
+              {
+                "componentType": "ram",
+                "currentComponent": {
+                  "id": "ram-kingston-fury-16gb-ddr4",
+                  "name": "Kingston Fury Beast 16GB DDR4",
+                  "category": "ram",
+                  "brand": "Kingston",
+                  "price": 249.9,
+                  "specs": {
+                    "memoryType": "DDR4",
+                    "capacityGb": 16,
+                    "speedMhz": 3200
+                  },
+                  "image": {
+                    "componentId": "ram-kingston-fury-16gb-ddr4",
+                    "status": "blocked",
+                    "imagePath": null,
+                    "imageSource": null,
+                    "manufacturerProductUrl": null,
+                    "rightsBasis": null,
+                    "imageType": null,
+                    "lastVerifiedAt": null,
+                    "sourceResearchAt": "2026-10-08",
+                    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: KINGSTON_PERMISSION."
+                  },
+                  "pricing": {
+                    "productId": "ram-kingston-fury-16gb-ddr4",
+                    "price": 249.9,
+                    "currency": "BRL",
+                    "source": "catalog_reference",
+                    "updateStatus": "estimate",
+                    "queriedAt": null,
+                    "validUntil": null,
+                    "availability": "unknown",
+                    "isMarketQuote": false
+                  }
+                },
+                "suggestedComponent": {
+                  "id": "ram-kf432c16bbk2-64",
+                  "name": "Kingston FURY Beast 64GB (2×32GB) DDR4-3200",
+                  "category": "ram",
+                  "brand": "Kingston",
+                  "price": 999.9,
+                  "partNumber": "KF432C16BBK2/64",
+                  "specSourceUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+                  "specVerifiedAt": "2026-10-08",
+                  "priceKind": "estimated-reference",
+                  "priceCurrency": "BRL",
+                  "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+                  "specs": {
+                    "memoryType": "DDR4",
+                    "capacityGb": 64,
+                    "speedMhz": 3200,
+                    "dataRateMTs": 3200,
+                    "modulesPerKit": 2,
+                    "speedProfile": "XMP; requer configuração e plataforma compatível"
+                  },
+                  "image": {
+                    "componentId": "ram-kf432c16bbk2-64",
+                    "status": "blocked",
+                    "imagePath": null,
+                    "imageSource": null,
+                    "manufacturerProductUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+                    "rightsBasis": null,
+                    "imageType": null,
+                    "lastVerifiedAt": null,
+                    "sourceResearchAt": "2026-10-08",
+                    "blocker": "SKU KF432C16BBK2/64 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION."
+                  },
+                  "pricing": {
+                    "productId": "ram-kf432c16bbk2-64",
+                    "price": 999.9,
+                    "currency": "BRL",
+                    "source": "catalog_reference",
+                    "updateStatus": "estimate",
+                    "queriedAt": null,
+                    "validUntil": null,
+                    "availability": "unknown",
+                    "isMarketQuote": false
+                  },
+                  "performanceScore": 82,
+                  "performanceMethodology": "Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS."
+                },
+                "estimatedUpgradeCost": 999.9,
+                "estimatedCostBasis": "full_replacement_reference_price",
+                "performanceBasis": "simulated_score_difference",
+                "expectedImpact": "high",
+                "scoreGain": 20,
+                "reason": "Para o perfil gaming, o upgrade de ram oferece a melhor evolucao simulada encontrada entre os candidatos do catalogo dentro das restricoes informadas.",
+                "explanation": {
+                  "title": "Boa escolha para custo-beneficio",
+                  "simpleExplanation": "Essa memoria RAM foi recomendada porque combina bem com a configuracao e segue a prioridade de custo-beneficio.",
+                  "suggestion": "E indicada para quem quer jogar em 1080p com boa qualidade grafica.",
+                  "severity": "medium"
+                },
+                "compatibilityStatus": "compatible"
+              },
+              {
+                "componentType": "cpu",
+                "currentComponent": {
+                  "id": "cpu-ryzen-5-5600",
+                  "name": "AMD Ryzen 5 5600",
+                  "category": "cpu",
+                  "brand": "AMD",
+                  "price": 899.99,
+                  "specs": {
+                    "socket": "AM4",
+                    "cores": 6,
+                    "threads": 12,
+                    "baseClockGhz": 3.5,
+                    "boostClockGhz": 4.4,
+                    "tdpWatts": 65
+                  },
+                  "image": {
+                    "status": "verified",
+                    "imagePath": "/images/components/amd-ryzen-5500-5600-original.png",
+                    "imageSource": "https://commons.wikimedia.org/wiki/File:%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_(%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80).png",
+                    "originalAssetUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/%D0%92%D1%8B%D0%B1%D0%B8%D1%80%D0%B0%D0%B5%D0%BC_%D0%BB%D1%83%D1%87%D1%88%D0%B8%D0%B9_Ryzen_%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D0%BE%D0%B2_%D0%BD%D0%B0_AM4_%D0%B8_AM5-00.02.05.200_%28%D0%9C%D0%BE%D0%B9_%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%29.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+                    "originalVideoUrl": "https://www.youtube.com/watch?v=fRBpUmEv7PQ",
+                    "sourceTitle": "Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5",
+                    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-5-5600.html",
+                    "rightsBasis": "CC BY 3.0: autoria, origem, licença e descrição do enquadramento mantidas. Licença de reutilização confirmada na descrição do vídeo do autor; a revisão de licença do Commons permanece pendente.",
+                    "imageType": "photo",
+                    "lastVerifiedAt": "2026-10-08",
+                    "author": "Мой Компьютер",
+                    "license": "CC BY 3.0",
+                    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+                    "alt": "Fotografia AMD Ryzen 5 5600 com identificação exata legível no processador",
+                    "modifications": "Enquadramento de exibição PCPowerLab em 08/10/2026: janela poligonal sobre o processador superior (5600), preservando o PNG original byte a byte, sem edição ou geração de pixels. Fonte: “Выбираем лучший Ryzen | Тест процессоров на AM4 и AM5”, Мой Компьютер, 00:02:05.200. Sem endosso implícito.",
+                    "productIdentity": "d7486819d707ac46fe5b35f4d024d39ffeb0b88a1b2d8db1d0506fc813970d72",
+                    "sha256": "5bb56eec1d860765ba6aada606e9257d6eba6279844c074f6cc5a5dbd9c99b28",
+                    "crop": {
+                      "sourceWidth": 2560,
+                      "sourceHeight": 1440,
+                      "points": [
+                        [
+                          1326,
+                          256
+                        ],
+                        [
+                          1777,
+                          290
+                        ],
+                        [
+                          1724,
+                          720
+                        ],
+                        [
+                          1272,
+                          669
+                        ]
+                      ]
+                    },
+                    "componentId": "cpu-ryzen-5-5600"
+                  },
+                  "demonstrativePrice": 799.9,
+                  "priceKind": "dated-reference-snapshot",
+                  "priceCurrency": "BRL",
+                  "priceLabel": "Referência datada à vista (PIX), sem atualização em tempo real",
+                  "datedReferenceIdentity": "89335f9cd32001d63f93f4e1ef4178b923e5932bc70524b73513b6e43b6e1417",
+                  "pricing": {
+                    "productId": "cpu-ryzen-5-5600",
+                    "model": "100-100000927BOX-BR",
+                    "store": "Pichau",
+                    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-5-5600-6-core-12-threads-3-5ghz-4-4ghz-turbo-cache-35mb-am4-100-100000927box-br",
+                    "price": 899.99,
+                    "currency": "BRL",
+                    "paymentCondition": "PIX à vista, 15% desconto",
+                    "cardTotal": 1058.81,
+                    "installments": "até 12x sem juros",
+                    "queriedAt": "2026-10-08",
+                    "validUntil": null,
+                    "source": "dated_public_reference",
+                    "availability": "unknown",
+                    "shipping": "Não verificado; excluído do valor",
+                    "taxes": "Não discriminados; preço exibido, não total de checkout",
+                    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+                    "snapshotEligible": true,
+                    "limitations": [
+                      "Disponibilidade não explicitada no conteúdo recuperado",
+                      "Observação datada; não representa preço em tempo real nem menor preço de mercado",
+                      "Preço sujeito a alteração; confirmar na loja antes de comprar",
+                      "Data de consulta não garante atualização do site: conteúdo retornado pela ferramenta de pesquisa pode ser indexado/cacheado; crawl indicado separadamente"
+                    ],
+                    "retrievalCrawlLabel": "today",
+                    "selectedStore": true,
+                    "seller": "Pichau",
+                    "condition": "unknown",
+                    "conditionEvidence": "Não explicitada no texto recuperado",
+                    "updateStatus": "dated_snapshot",
+                    "isMarketQuote": false,
+                    "basis": "PIX à vista; frete excluído",
+                    "observedAvailability": "unknown",
+                    "validityMessage": "Registro de pesquisa datado; sem validade futura ou estoque ao vivo"
+                  }
+                },
+                "suggestedComponent": {
+                  "id": "cpu-ryzen-7-5700x",
+                  "name": "AMD Ryzen 7 5700X",
+                  "category": "cpu",
+                  "brand": "AMD",
+                  "price": 1199.99,
+                  "specs": {
+                    "socket": "AM4",
+                    "cores": 8,
+                    "threads": 16,
+                    "baseClockGhz": 3.4,
+                    "boostClockGhz": 4.6,
+                    "tdpWatts": 65
+                  },
+                  "image": {
+                    "status": "verified",
+                    "imagePath": "/images/components/cpu-ryzen-7-5700x.webp",
+                    "imageSource": "https://commons.wikimedia.org/wiki/File:AMD_Ryzen_7_5700X_1.jpg",
+                    "manufacturerProductUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-5000-series/amd-ryzen-7-5700x.html",
+                    "rightsBasis": "CC BY-SA 4.0: atribuição, licença e conversão distribuída sob a mesma licença. Identificação exata visível na fotografia.",
+                    "imageType": "photo",
+                    "lastVerifiedAt": "2026-10-08",
+                    "author": "Qurren",
+                    "license": "CC BY-SA 4.0",
+                    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+                    "alt": "Fotografia AMD Ryzen 7 5700X com identificação gravada 100-000000926",
+                    "modifications": "Redimensionamento proporcional até 960px e conversão WebP qualidade 85; sem corte.",
+                    "productIdentity": "bf5b1a5f5042ed1aefc421bee8c40b55bb60642f017eb435edc39503e17a429e",
+                    "sha256": "6f9ebef9f7bc0cb7e7a5eb422a627ec2c0e3e7b6fe731c8da8593378019b80eb",
+                    "componentId": "cpu-ryzen-7-5700x"
+                  },
+                  "demonstrativePrice": 1199.9,
+                  "priceKind": "dated-reference-snapshot",
+                  "priceCurrency": "BRL",
+                  "priceLabel": "Referência datada à vista (PIX), sem atualização em tempo real",
+                  "datedReferenceIdentity": "5651a7aa47b16fe6d0d06481f75ecbd095b5213bb9631d2aef0664410cff6fd8",
+                  "pricing": {
+                    "productId": "cpu-ryzen-7-5700x",
+                    "model": "100-100000926WOF-BR",
+                    "store": "Pichau",
+                    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-7-5700x-8-core-16-threads-3-4ghz-4-6ghz-turbo-cache-36mb-am4-100-100000926wof-br",
+                    "price": 1199.99,
+                    "currency": "BRL",
+                    "paymentCondition": "PIX à vista, 15% desconto",
+                    "cardTotal": 1411.75,
+                    "installments": "até 12x sem juros",
+                    "queriedAt": "2026-10-08",
+                    "validUntil": null,
+                    "source": "dated_public_reference",
+                    "availability": "unknown",
+                    "shipping": "Não verificado; excluído do valor",
+                    "taxes": "Não discriminados; preço exibido, não total de checkout",
+                    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+                    "snapshotEligible": true,
+                    "limitations": [
+                      "Disponibilidade não explicitada no conteúdo recuperado",
+                      "Observação datada; não representa preço em tempo real nem menor preço de mercado",
+                      "Preço sujeito a alteração; confirmar na loja antes de comprar",
+                      "Data de consulta não garante atualização do site: conteúdo retornado pela ferramenta de pesquisa pode ser indexado/cacheado; crawl indicado separadamente"
+                    ],
+                    "retrievalCrawlLabel": "today",
+                    "selectedStore": true,
+                    "seller": "Pichau",
+                    "condition": "unknown",
+                    "conditionEvidence": "Não explicitada no texto recuperado",
+                    "updateStatus": "dated_snapshot",
+                    "isMarketQuote": false,
+                    "basis": "PIX à vista; frete excluído",
+                    "observedAvailability": "unknown",
+                    "validityMessage": "Registro de pesquisa datado; sem validade futura ou estoque ao vivo"
+                  },
+                  "performanceScore": 78,
+                  "performanceMethodology": "Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS."
+                },
+                "estimatedUpgradeCost": 1199.99,
+                "estimatedCostBasis": "full_replacement_reference_price",
+                "performanceBasis": "simulated_score_difference",
+                "expectedImpact": "low",
+                "scoreGain": 4,
+                "reason": "Para o perfil gaming, o upgrade de cpu oferece a melhor evolucao simulada encontrada entre os candidatos do catalogo dentro das restricoes informadas.",
+                "explanation": {
+                  "title": "Boa escolha para custo-beneficio",
+                  "simpleExplanation": "Essa processador foi recomendada porque combina bem com a configuracao e segue a prioridade de custo-beneficio.",
+                  "suggestion": "E indicada para quem quer jogar em 1080p com boa qualidade grafica.",
+                  "severity": "medium"
+                },
+                "compatibilityStatus": "compatible"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Generate sequential upgrade plan within incremental budget",
+          "status": "passed",
+          "observed": {
+            "totalBudget": 2500,
+            "maxSteps": 3,
+            "totalEstimatedCost": 1699.8,
+            "remainingBudget": 800.2,
+            "steps": [
+              {
+                "step": 1,
+                "orderRecommended": 1,
+                "componentType": "storage",
+                "currentComponent": {
+                  "id": "ssd-kingston-nv2-1tb",
+                  "name": "Kingston NV2 1TB NVMe",
+                  "category": "storage",
+                  "brand": "Kingston",
+                  "price": 499.99,
+                  "specs": {
+                    "interface": "M.2 NVMe",
+                    "storageType": "SSD",
+                    "capacityGb": 1000,
+                    "readSpeedMbS": 3500,
+                    "writeSpeedMbS": 2100
+                  },
+                  "image": {
+                    "componentId": "ssd-kingston-nv2-1tb",
+                    "status": "blocked",
+                    "imagePath": null,
+                    "imageSource": null,
+                    "manufacturerProductUrl": "https://www.kingston.com/datasheets/SNV2S_en.pdf",
+                    "rightsBasis": null,
+                    "imageType": null,
+                    "lastVerifiedAt": null,
+                    "sourceResearchAt": "2026-10-08",
+                    "blocker": "Capacidade 1000GB; candidato Commons NV2 2TB rejeitado por capacidade diferente. Direitos: KINGSTON_PERMISSION."
+                  },
+                  "demonstrativePrice": 349.9,
+                  "priceKind": "dated-reference-snapshot",
+                  "priceCurrency": "BRL",
+                  "priceLabel": "Referência datada à vista (PIX), sem atualização em tempo real",
+                  "datedReferenceIdentity": "4260b7ca5edd4b01878f62b98b71c7ac6c5b570673844503b59aa6342b2f8fc7",
+                  "pricing": {
+                    "productId": "ssd-kingston-nv2-1tb",
+                    "model": "SNV2S/1000G",
+                    "store": "Pichau",
+                    "productUrl": "https://www.pichau.com.br/ssd-kingston-nv2-1tb-m-2-2280-pcie-nvme-leitura-3500mb-s-gravacao-2100mb-s-snv2s-1000g",
+                    "price": 499.99,
+                    "currency": "BRL",
+                    "paymentCondition": "PIX à vista, 15% desconto",
+                    "cardTotal": 588.22,
+                    "installments": "até 12x sem juros",
+                    "queriedAt": "2026-10-08",
+                    "validUntil": null,
+                    "source": "dated_public_reference",
+                    "availability": "unknown",
+                    "shipping": "Não verificado; excluído do valor",
+                    "taxes": "Não discriminados; preço exibido, não total de checkout",
+                    "identityMatch": "exact_model",
+                    "snapshotEligible": true,
+                    "limitations": [
+                      "Disponibilidade não explicitada no conteúdo recuperado",
+                      "Observação datada; não representa preço em tempo real nem menor preço de mercado",
+                      "Preço sujeito a alteração; confirmar na loja antes de comprar",
+                      "Data de consulta não garante atualização do site: conteúdo retornado pela ferramenta de pesquisa pode ser indexado/cacheado; crawl indicado separadamente"
+                    ],
+                    "retrievalCrawlLabel": "today",
+                    "selectedStore": true,
+                    "seller": "Pichau",
+                    "condition": "unknown",
+                    "conditionEvidence": "Não explicitada no texto recuperado",
+                    "updateStatus": "dated_snapshot",
+                    "isMarketQuote": false,
+                    "basis": "PIX à vista; frete excluído",
+                    "observedAvailability": "unknown",
+                    "validityMessage": "Registro de pesquisa datado; sem validade futura ou estoque ao vivo"
+                  }
+                },
+                "suggestedComponent": {
+                  "id": "ssd-samsung-980-pro-1tb",
+                  "name": "Samsung 980 PRO 1TB NVMe",
+                  "category": "storage",
+                  "brand": "Samsung",
+                  "price": 699.9,
+                  "partNumber": "MZ-V8P1T0",
+                  "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung-NVMe-SSD-980-PRO-Data-Sheet_Rev.2.1_230509_10129500052824.pdf",
+                  "specs": {
+                    "interface": "M.2 NVMe",
+                    "storageType": "SSD",
+                    "capacityGb": 1000,
+                    "readSpeedMbS": 7000,
+                    "writeSpeedMbS": 5000
+                  },
+                  "image": {
+                    "status": "verified",
+                    "imagePath": "/images/components/samsung-980-pro-1tb.webp",
+                    "imageSource": "https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg",
+                    "manufacturerProductUrl": "https://www.samsung.com/us/memory-storage/nvme-ssd/980-pro-pcie-4-0-nvme-ssd-1tb-sku-mz-v8p1t0b-am/",
+                    "rightsBasis": "CC BY-SA 4.0: atribuição, link da licença e mesma licença para a conversão WebP. Fonte e modelo/etiqueta revisados.",
+                    "imageType": "photo",
+                    "lastVerifiedAt": "2026-10-08",
+                    "author": "D-Kuru/Wikimedia Commons",
+                    "license": "CC BY-SA 4.0",
+                    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+                    "alt": "Samsung 980 PRO, etiqueta MZ-V8P1T0 e capacidade 1TB",
+                    "modifications": "Miniatura de 960px convertida de JPEG para WebP, qualidade 85; sem corte.",
+                    "productIdentity": "7aa2fdb58ef1cb0d052c3c113540961386d47ce0e1c9dfcdf57ce6a69e47666b",
+                    "sha256": "8d99885c6060c841069d4cb3313eb6e70da81ce5f6d51bceb35f914a90a6f2d1",
+                    "componentId": "ssd-samsung-980-pro-1tb"
+                  },
+                  "pricing": {
+                    "productId": "ssd-samsung-980-pro-1tb",
+                    "price": 699.9,
+                    "currency": "BRL",
+                    "source": "catalog_reference",
+                    "updateStatus": "estimate",
+                    "queriedAt": null,
+                    "validUntil": null,
+                    "availability": "unknown",
+                    "isMarketQuote": false
+                  },
+                  "performanceScore": 88,
+                  "performanceMethodology": "Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS."
+                },
+                "estimatedCost": 699.9,
+                "cumulativeCost": 699.9,
+                "expectedImpact": "high",
+                "priority": "high",
+                "reason": "Para o perfil gaming, o upgrade de storage oferece a melhor evolucao simulada encontrada entre os candidatos do catalogo dentro das restricoes informadas.",
+                "compatibilityAfterStep": {
+                  "compatible": true,
+                  "status": "compatible",
+                  "unverifiedChecks": [],
+                  "alerts": [],
+                  "estimatedPrice": 5193.19
+                },
+                "buildAfterStep": {
+                  "cpu": "cpu-ryzen-5-5600",
+                  "motherboard": "mb-b550m-aorus-elite",
+                  "gpu": "gpu-rtx-4060",
+                  "ram": "ram-kingston-fury-16gb-ddr4",
+                  "storage": "ssd-samsung-980-pro-1tb",
+                  "psu": "psu-corsair-650w",
+                  "case": "case-mid-tower-airflow"
+                }
+              },
+              {
+                "step": 2,
+                "orderRecommended": 2,
+                "componentType": "ram",
+                "currentComponent": {
+                  "id": "ram-kingston-fury-16gb-ddr4",
+                  "name": "Kingston Fury Beast 16GB DDR4",
+                  "category": "ram",
+                  "brand": "Kingston",
+                  "price": 249.9,
+                  "specs": {
+                    "memoryType": "DDR4",
+                    "capacityGb": 16,
+                    "speedMhz": 3200
+                  },
+                  "image": {
+                    "componentId": "ram-kingston-fury-16gb-ddr4",
+                    "status": "blocked",
+                    "imagePath": null,
+                    "imageSource": null,
+                    "manufacturerProductUrl": null,
+                    "rightsBasis": null,
+                    "imageType": null,
+                    "lastVerifiedAt": null,
+                    "sourceResearchAt": "2026-10-08",
+                    "blocker": "SKU, cor, latência e quantidade de módulos não identificados; não presumir kit/variante. Direitos: KINGSTON_PERMISSION."
+                  },
+                  "pricing": {
+                    "productId": "ram-kingston-fury-16gb-ddr4",
+                    "price": 249.9,
+                    "currency": "BRL",
+                    "source": "catalog_reference",
+                    "updateStatus": "estimate",
+                    "queriedAt": null,
+                    "validUntil": null,
+                    "availability": "unknown",
+                    "isMarketQuote": false
+                  }
+                },
+                "suggestedComponent": {
+                  "id": "ram-kf432c16bbk2-64",
+                  "name": "Kingston FURY Beast 64GB (2×32GB) DDR4-3200",
+                  "category": "ram",
+                  "brand": "Kingston",
+                  "price": 999.9,
+                  "partNumber": "KF432C16BBK2/64",
+                  "specSourceUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+                  "specVerifiedAt": "2026-10-08",
+                  "priceKind": "estimated-reference",
+                  "priceCurrency": "BRL",
+                  "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+                  "specs": {
+                    "memoryType": "DDR4",
+                    "capacityGb": 64,
+                    "speedMhz": 3200,
+                    "dataRateMTs": 3200,
+                    "modulesPerKit": 2,
+                    "speedProfile": "XMP; requer configuração e plataforma compatível"
+                  },
+                  "image": {
+                    "componentId": "ram-kf432c16bbk2-64",
+                    "status": "blocked",
+                    "imagePath": null,
+                    "imageSource": null,
+                    "manufacturerProductUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+                    "rightsBasis": null,
+                    "imageType": null,
+                    "lastVerifiedAt": null,
+                    "sourceResearchAt": "2026-10-08",
+                    "blocker": "SKU KF432C16BBK2/64 identificado; nenhuma foto independente exata licenciada validada. Direitos: KINGSTON_PERMISSION."
+                  },
+                  "pricing": {
+                    "productId": "ram-kf432c16bbk2-64",
+                    "price": 999.9,
+                    "currency": "BRL",
+                    "source": "catalog_reference",
+                    "updateStatus": "estimate",
+                    "queriedAt": null,
+                    "validUntil": null,
+                    "availability": "unknown",
+                    "isMarketQuote": false
+                  },
+                  "performanceScore": 82,
+                  "performanceMethodology": "Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS."
+                },
+                "estimatedCost": 999.9,
+                "cumulativeCost": 1699.8,
+                "expectedImpact": "high",
+                "priority": "high",
+                "reason": "Para o perfil gaming, o upgrade de ram oferece a melhor evolucao simulada encontrada entre os candidatos do catalogo dentro das restricoes informadas.",
+                "compatibilityAfterStep": {
+                  "compatible": true,
+                  "status": "compatible",
+                  "unverifiedChecks": [],
+                  "alerts": [],
+                  "estimatedPrice": 5943.19
+                },
+                "buildAfterStep": {
+                  "cpu": "cpu-ryzen-5-5600",
+                  "motherboard": "mb-b550m-aorus-elite",
+                  "gpu": "gpu-rtx-4060",
+                  "ram": "ram-kf432c16bbk2-64",
+                  "storage": "ssd-samsung-980-pro-1tb",
+                  "psu": "psu-corsair-650w",
+                  "case": "case-mid-tower-airflow"
+                }
+              }
+            ],
+            "currentBuildSummary": {
+              "totalEstimatedPrice": 4993.28,
+              "mainBottleneck": null,
+              "hasBottleneck": false
+            },
+            "initialCompatibility": {
+              "compatible": true,
+              "status": "compatible",
+              "unverifiedChecks": [],
+              "alerts": [],
+              "estimatedPrice": 4993.28
+            },
+            "analysisContext": {
+              "usageType": "gaming",
+              "priority": "cost-benefit",
+              "mainBottleneck": null,
+              "performanceParametersCount": 89,
+              "recommendationReference": {
+                "totalEstimatedPrice": 4279.48,
+                "performanceScore": 71,
+                "summary": "Configuração recomendada para jogos com foco em custo-benefício. Comparacao de candidatos do catalogo com precos de referencia e desempenho simulado. Foco em custo-beneficio."
+              }
+            },
+            "summary": "O plano recomenda iniciar por storage e finalizar com ram, com custo acumulado estimado de R$ 1699.8 e saldo aproximado de R$ 800.2."
+          }
+        },
+        {
+          "name": "Compare selected upgrade value/performance, replace and save independently",
+          "status": "passed",
+          "observed": {
+            "originalSavedId": "build-004",
+            "upgradedSavedId": "build-005",
+            "category": "storage",
+            "candidate": "ssd-samsung-980-pro-1tb",
+            "incrementalPurchaseReference": 699.9,
+            "comparison": {
+              "cost": {
+                "before": 4993.28,
+                "after": 5193.19,
+                "delta": 199.91
+              },
+              "power": {
+                "before": 280,
+                "after": 280,
+                "delta": 0,
+                "beforeComplete": true,
+                "afterComplete": true
+              },
+              "performance": {
+                "before": 146,
+                "after": 147,
+                "delta": 1,
+                "comparable": true,
+                "percentage": 0.68,
+                "game": "Counter-Strike 2",
+                "targetResolution": "1080p",
+                "qualityPreset": "high",
+                "reason": null
+              }
+            },
+            "originalPreserved": true
+          }
+        }
+      ],
+      "finalBuild": {
+        "cpu": "cpu-ryzen-5-5600",
+        "motherboard": "mb-b550m-aorus-elite",
+        "gpu": "gpu-rtx-4060",
+        "ram": "ram-kingston-fury-16gb-ddr4",
+        "storage": "ssd-samsung-980-pro-1tb",
+        "psu": "psu-corsair-650w",
+        "case": "case-mid-tower-airflow",
+        "fans": []
+      },
+      "status": "passed"
+    }
+  ],
+  "status": "passed"
+}

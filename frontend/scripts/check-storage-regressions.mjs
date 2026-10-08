@@ -12,6 +12,7 @@ try {
   const output = join(temporary, 'loader.mjs');
   await build({
     stdin: { resolveDir: frontend, contents: "export { loadInitialState } from './src/hooks/useBuildState.jsx';" },
+    define: { 'import.meta.env.VITE_API_BASE_URL': JSON.stringify('/api/v1') },
     bundle: true, platform: 'node', format: 'esm', jsx: 'automatic', outfile: output,
     plugins: [{ name: 'expose-private-loader-for-test', setup(builder) {
       builder.onLoad({ filter: /hooks\/useBuildState\.jsx$/ }, async ({ path }) => {

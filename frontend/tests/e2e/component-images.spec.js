@@ -141,3 +141,39 @@ test('changing a failed model to a different exact model resets image state', as
   await expect(page.getByRole('dialog').locator('.component-media')).toHaveAttribute('data-image-state', 'verified');
   await expect(page.getByRole('dialog').locator('img')).toHaveAttribute('src', otherPhoto.image.imagePath);
 });
+
+test('exact Ryzen CPUs display distinct reviewed windows of the intact licensed original', async ({ page }) => {
+  const cpus = ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600'].map(id => components.find(component => component.id === id));
+  await setup(page, cpus);
+  await page.goto('/components');
+  for (const cpu of cpus) {
+    const media = page.locator(`.component-card .component-media[data-component-id="${cpu.id}"]`);
+    await expect(media).toHaveAttribute('data-image-state', 'verified');
+    const image = media.getByRole('img', { name: cpu.image.alt, exact: true });
+    await expect(image).toBeVisible();
+    await expect(image).toHaveAttribute('data-image-crop', 'reviewed');
+    await expect(image.locator('image')).toHaveAttribute('href', cpu.image.imagePath);
+    await expect(image.locator('polygon')).toHaveAttribute('points', cpu.image.crop.points.map(point => point.join(',')).join(' '));
+    await expect(media.getByRole('link', { name: 'Foto: Мой Компьютер', exact: true })).toHaveAttribute('href', cpu.image.imageSource);
+    await expect(media.getByRole('link', { name: 'CC BY 3.0', exact: true })).toHaveAttribute('href', cpu.image.licenseUrl);
+    await expect(media.getByRole('link', { name: 'Modelo no fabricante', exact: true })).toHaveAttribute('href', cpu.image.manufacturerProductUrl);
+    await media.locator('summary').click();
+    await expect(media.locator('details')).toContainText('preservando o PNG original byte a byte');
+  }
+  const clipIds = await page.locator('.component-card clipPath').evaluateAll(elements => elements.map(element => element.id));
+  expect(new Set(clipIds).size).toBe(2);
+  await expect(page.locator('body')).toHaveJSProperty('scrollWidth', await page.evaluate(() => document.body.clientWidth));
+});
+
+test('an unavailable composite original falls back accessibly for both exact CPU models', async ({ page }) => {
+  const cpus = ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600'].map(id => components.find(component => component.id === id));
+  await setup(page, cpus);
+  await page.route(`**${cpus[0].image.imagePath}`, route => route.abort());
+  await page.goto('/components');
+  for (const cpu of cpus) {
+    const media = page.locator(`.component-card .component-media[data-component-id="${cpu.id}"]`);
+    await expect(media).toHaveAttribute('data-image-state', 'unavailable');
+    await expect(media.locator('image')).toHaveCount(0);
+    await expect(media.getByRole('img', { name: `Fotografia não disponível: ${cpu.name}`, exact: true })).toBeVisible();
+  }
+});

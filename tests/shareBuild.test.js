@@ -1,3 +1,4 @@
+import { referenceFixtureTotal } from './helpers/reference-price-fixture.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -45,7 +46,7 @@ test('deve gerar compartilhamento para build salva', () => {
   assert.equal(sharedBuild.source, 'saved_build');
   assert.equal(sharedBuild.buildId, savedBuild.id);
   assert.equal(sharedBuild.buildSummary.name, validSavedBuildInput.name);
-  assert.equal(sharedBuild.buildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(sharedBuild.buildSummary.totalEstimatedPrice, referenceFixtureTotal());
   assert.equal(sharedBuild.buildSummary.compatibility.compatible, true);
   assert.equal(sharedBuild.buildSummary.componentIds.cpu, validBuild.cpuId);
   assert.equal(Boolean(sharedBuild.createdAt), true);
@@ -58,7 +59,7 @@ test('deve gerar compartilhamento para build direta', () => {
     name: 'Build direta para comunidade',
     build: validBuild,
     budget: {
-      amount: 4800,
+      amount: Number((referenceFixtureTotal() + 100.7).toFixed(2)),
       currency: 'BRL'
     },
     usageType: 'gaming'

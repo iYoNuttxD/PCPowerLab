@@ -79,12 +79,15 @@ export default function ComponentReplacement({ type, build, initialComponent, on
   return (
     <Modal open className="replacement-dialog" title={`Substituir ${componentLabels[type]}`} onClose={onClose}>
       <div className="replacement-preview">
-        {current && <ComponentIdentity component={current} category={type} />}
-        <p>Peça atual: <strong>{current?.name || 'Não selecionada'}</strong>. As outras peças, o orçamento e o perfil de uso serão preservados.</p>
+        <section className="replacement-pair" aria-label="Peça atual e alternativa escolhida">
+          <div><h3>Peça atual</h3><ComponentIdentity component={current} category={type} fallback="Não selecionada" /><p>{formatCurrency(current?.price)} de referência</p></div>
+          <div><h3>Alternativa escolhida</h3>{candidate ? <><ComponentIdentity component={candidate} category={type} /><p>{formatCurrency(candidate.price)} de referência</p></> : <p>{loading && initialComponent ? `Carregando ${initialComponent.name || 'a alternativa'}…` : 'Escolha uma alternativa abaixo.'}</p>}</div>
+        </section>
+        <p>As outras peças, o orçamento e o perfil de uso serão preservados. A alteração ainda não foi aplicada.</p>
         <p className="analysis-note">Escolha uma alternativa para comparar custo, desempenho estimado e consumo antes e depois. Verifique a montagem antes de aplicar. Os valores são estimados, sem cotação em tempo real.</p>
         {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0 || type === 'cooler') && <p className="hint-text">Cooler e ventoinhas selecionados entram na verificação. Dados ausentes de encaixe, espaço ou consumo serão indicados como não verificados.</p>}
         {loading ? <LoadingSpinner label="Carregando alternativas..." /> : error ? <ErrorState message={error} onRetry={reload} /> : <>
-          <ComponentFilters components={components} filters={filters} fixedCategory={type} onChange={setFilters} />
+          <details className="analysis-help" open={!initialComponent}><summary>Filtrar outras alternativas</summary><ComponentFilters components={components} filters={filters} fixedCategory={type} onChange={setFilters} /></details>
           <fieldset className="replacement-options">
             <legend>Nova peça</legend>
             {options.map(component => <label key={component.id} className="replacement-option">

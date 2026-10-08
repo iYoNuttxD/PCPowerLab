@@ -6,12 +6,15 @@ import { fileURLToPath, URL } from 'node:url';
 import process from 'node:process';
 import console from 'node:console';
 import { listComponentRecords } from '../src/data/component.repository.js';
+import { approvedComponentImageCrop, validImageCrop, imageCropViewBox, imageCropsOverlap, reviewedCompositeOriginal } from '../frontend/src/utils/componentImage.js';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const mediaPrefix = '/images/components/';
 const extensions = new Map([['.jpg', 'JPEG'], ['.jpeg', 'JPEG'], ['.png', 'PNG'], ['.webp', 'WEBP'], ['.avif', 'AVIF']]);
 const metadataFields = ['componentId', 'imagePath', 'imageSource', 'manufacturerProductUrl', 'rightsBasis', 'imageType', 'lastVerifiedAt', 'status', 'author', 'license', 'licenseUrl'];
 export const defaultImageLimits = Object.freeze({ maxBytes: 2 * 1024 * 1024, maxDimension: 4096, maxPixels: 16 * 1024 * 1024, minDimension: 64 });
+// One approved original exceeds the normal 2 MiB limit; its bytes remain unchanged.
+const reviewedOriginalMaxBytes = 3 * 1024 * 1024;
 const textPresent = (value) => typeof value === 'string' && value.trim().length > 0;
 const validSha256 = (value) => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 const inside = (root, target) => { const relative = path.relative(root, target); return relative !== '' && relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative); };
@@ -117,6 +120,10 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     }
     if (metadata && Object.hasOwn(metadata, 'sha256') && !validSha256(metadata.sha256)) add('invalid_reviewed_sha256', 'sha256 revisado deve conter exatamente 64 caracteres hexadecimais minúsculos.', 'sha256');
     if (textPresent(metadata?.lastVerifiedAt) && !validDate(metadata.lastVerifiedAt, now)) add('invalid_verification_date', 'lastVerifiedAt deve conter data ISO válida, não futura.', 'lastVerifiedAt');
+    if (metadata && Object.hasOwn(metadata, 'crop')) {
+      if (!validImageCrop(metadata.crop)) add('invalid_image_crop', 'A janela da fotografia deve conter quatro cantos convexos inteiros dentro da imagem original.', 'crop');
+      if (!approvedComponentImageCrop(metadata, component.id)) add('unapproved_image_crop', 'O enquadramento não corresponde à revisão do ID, SHA-256 e janela exata autorizados.', 'crop');
+    }
     const filename = localPath(metadata?.imagePath, root);
     if (!filename) {
       add(textPresent(metadata?.imagePath) ? 'unsafe_image_path' : 'missing_image_path', 'A foto deve usar um caminho local seguro sob /images/components/.', 'imagePath');
@@ -131,12 +138,14 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
           if (!stats.isFile()) add('not_a_file', 'O caminho de imagem não aponta para um arquivo.', 'imagePath');
           else {
             row.file = { path: metadata.imagePath, bytes: stats.size, sha256: null, width: null, height: null, format: null, decoded: false };
+            const allowedBytes = !Object.hasOwn(overrides, 'maxBytes') && approvedComponentImageCrop(metadata, component.id)
+              ? reviewedOriginalMaxBytes : limits.maxBytes;
             if (!stats.size) add('empty_file', 'O arquivo está vazio.');
-            else if (stats.size > limits.maxBytes) add('file_too_large', `Arquivo excede ${limits.maxBytes} bytes.`);
+            else if (stats.size > allowedBytes) add('file_too_large', `Arquivo excede ${allowedBytes} bytes.`);
             else {
               const sha256 = createHash('sha256').update(fs.readFileSync(realFile)).digest('hex');
               row.file.sha256 = sha256;
-              fileInfo.set(filename, { realFile, sha256 });
+              fileInfo.set(filename, { realFile, sha256, allowedBytes });
             }
           }
         }
@@ -146,7 +155,8 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     }
     reportRows.push(row);
   }
-  const decoded = decodeFiles([...new Set([...fileInfo.values()].map(({ realFile }) => realFile))], limits, pythonExecutable);
+  const decodeLimits = { ...limits, maxBytes: Math.max(limits.maxBytes, ...[...fileInfo.values()].map(info => info.allowedBytes)) };
+  const decoded = decodeFiles([...new Set([...fileInfo.values()].map(({ realFile }) => realFile))], decodeLimits, pythonExecutable);
   for (const row of reportRows) {
     if (!row.file?.sha256) continue;
     const info = fileInfo.get(localPath(row.image.imagePath, root));
@@ -158,6 +168,9 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
       Object.assign(row.file, { decoded: true, width: result.width, height: result.height, format: result.format, sha256: result.sha256 });
       if (validSha256(row.image.sha256) && row.image.sha256 !== result.sha256) add('reviewed_sha256_mismatch', 'Os bytes locais não correspondem ao SHA-256 da fotografia revisada; revalidar o arquivo e seus direitos.');
       if (result.format !== extensions.get(path.extname(row.image.imagePath).toLowerCase())) add('format_mismatch', 'A extensão não corresponde ao formato real do arquivo.');
+      if (row.image.crop && (row.image.crop.sourceWidth !== result.width || row.image.crop.sourceHeight !== result.height)) add('crop_source_dimensions_mismatch', 'As dimensões declaradas da janela não correspondem aos bytes decodificados.');
+      const cropBox = imageCropViewBox(row.image.crop);
+      if (cropBox && Math.min(cropBox[2], cropBox[3]) < limits.minDimension) add('crop_too_small', `A janela deve ter pelo menos ${limits.minDimension}px em ambas as dimensões.`);
       if (Math.min(result.width, result.height) < limits.minDimension) add('image_too_small', `Ambas as dimensões devem ser de pelo menos ${limits.minDimension}px.`);
     }
   }
@@ -170,9 +183,21 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     }
   }
   const duplicateFiles = [];
+  const reviewedSharedOriginals = [];
   for (const [sha256, rows] of hashes) {
     const componentIds = [...new Set(rows.map((row) => row.id))];
     if (componentIds.length < 2) continue;
+    // The exception is pinned to this original and two reviewed model windows.
+    // A new hash, ID, overlapping window, invalid row or inconsistent credits still fails.
+    const sourceFields = ['imagePath', 'imageSource', 'originalAssetUrl', 'originalVideoUrl', 'author', 'license', 'licenseUrl'];
+    const approvedWindows = sha256 === reviewedCompositeOriginal.sha256
+      && rows.every(row => row.issues.length === 0 && row.file.decoded && approvedComponentImageCrop(row.image, row.id)
+        && sourceFields.every(field => row.image[field] === rows[0].image[field]))
+      && rows.every((row, index) => rows.slice(index + 1).every(other => !imageCropsOverlap(row.image.crop, other.image.crop)));
+    if (approvedWindows) {
+      reviewedSharedOriginals.push({ sha256, componentIds, imagePath: rows[0].image.imagePath, crops: rows.map(row => ({ componentId: row.id, ...row.image.crop })) });
+      continue;
+    }
     duplicateFiles.push({ sha256, componentIds, paths: [...new Set(rows.map((row) => row.image.imagePath))] });
     for (const row of rows) {
       const issue = { code: 'suspect_duplicate_image', componentId: row.id, message: `Mesmos bytes usados por IDs distintos: ${componentIds.join(', ')}. Exige revisão de modelo/variante.` };
@@ -202,9 +227,9 @@ export function auditComponentImages({ components = listComponentRecords({ inclu
     summary: { active: active.length, inactiveExcluded: components.length - active.length, verified, blocked: active.length - verified,
       fallbackCount: active.length - verified, coveragePercent: active.length ? Number((100 * verified / active.length).toFixed(2)) : 0,
       orphanFiles: orphanFiles.length, suspectDuplicateGroups: duplicateFiles.length, issueCount: issues.length, categories },
-    validationLimits: { ...limits, allowedFormats: [...new Set(extensions.values())], decoder: 'Pillow (verify + full load)' },
+    validationLimits: { ...limits, reviewedOriginalException: { sha256: reviewedCompositeOriginal.sha256, maxBytes: Object.hasOwn(overrides, 'maxBytes') ? limits.maxBytes : reviewedOriginalMaxBytes }, allowedFormats: [...new Set(extensions.values())], decoder: 'Pillow (verify + full load)' },
     verificationScope: 'Validação estrutural e decodificação local. status verified é uma declaração de revisão humana registrada, não uma prova produzida por este script. O script não confirma identidade visual/modelo/variante, titularidade, permissão jurídica, disponibilidade remota ou o conteúdo atual das fontes. Revalidar as evidências e a licença antes de publicar.',
-    components: reportRows, issues, orphanFiles, duplicateFiles
+    components: reportRows, issues, orphanFiles, duplicateFiles, reviewedSharedOriginals
   };
 }
 

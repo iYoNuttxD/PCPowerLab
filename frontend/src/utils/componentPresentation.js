@@ -13,6 +13,7 @@ export const componentSpecFields = {
 };
 
 const units = {
+  dataRateMTs: 'MT/s', maxFanThicknessMm: 'mm',
   baseClockGhz: 'GHz', boostClockGhz: 'GHz', tdpWatts: 'W', recommendedPsuWatts: 'W',
   heightMm: 'mm', radiatorSizeMm: 'mm', diameterMm: 'mm', thicknessMm: 'mm', maxCoolerHeightMm: 'mm', powerWatts: 'W', lengthMm: 'mm', maxGpuLengthMm: 'mm', speedMhz: 'MT/s', capacityGb: 'GB', vramGb: 'GB',
   readSpeedMbS: 'MB/s', writeSpeedMbS: 'MB/s', watts: 'W'
@@ -37,10 +38,13 @@ export function formatSpecValue(key, value) {
 }
 
 export function specKeys(components) {
-  return [...new Set([
+  const keys = [...new Set([
     ...(componentSpecFields[components[0]?.category] || []),
     ...components.flatMap(component => Object.keys(component.specs || {}))
   ])];
+  // The legacy speedMhz key stores MT/s; avoid printing its exact alias twice.
+  const sameRate = keys.includes('speedMhz') && components.every(component => component.specs?.dataRateMTs == null || component.specs?.dataRateMTs === component.specs?.speedMhz);
+  return sameRate ? keys.filter(key => key !== 'dataRateMTs') : keys;
 }
 
 export const catalogFilterFields = {

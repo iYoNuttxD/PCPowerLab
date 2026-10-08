@@ -376,3 +376,56 @@ test('untrusted snapshot category keys cannot modify the category accumulator pr
   assert.equal(Object.prototype.active, undefined);
   assert.equal(Object.getPrototypeOf(report.summary.categories), null);
 });
+
+test('reviewed Ryzen windows share only the pinned intact original; ordinary duplicates remain blocked', () => {
+  const report = auditComponentImages({ now });
+  for (const id of ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600']) {
+    const row = report.components.find(component => component.id === id);
+    assert.equal(row.status, 'verified', JSON.stringify(row.issues));
+    assert.equal(row.file.bytes, 2293406);
+    assert.equal(row.file.width, 2560);
+    assert.equal(row.file.height, 1440);
+    assert.equal(row.file.sha256, '5bb56eec1d860765ba6aada606e9257d6eba6279844c074f6cc5a5dbd9c99b28');
+  }
+  assert.equal(report.reviewedSharedOriginals.length, 1);
+  assert.equal(report.summary.suspectDuplicateGroups, 0);
+  assert.equal(report.validationLimits.maxBytes, 2 * 1024 * 1024);
+});
+
+test('crop size exception cannot override an explicit stricter image limit', () => {
+  const report = auditComponentImages({ now, limits: { maxBytes: 2 * 1024 * 1024 } });
+  for (const id of ['cpu-ryzen-5-5500', 'cpu-ryzen-5-5600']) {
+    assert.equal(report.components.find(row => row.id === id).status, 'blocked');
+    assert.ok(codes(report, id).includes('file_too_large'));
+  }
+});
+
+test('wrong model, overlapping or out-of-bounds crop and forged original digest never authorize source reuse', () => {
+  const original = repositoryComponents.find(row => row.id === 'cpu-ryzen-5-5500');
+  const other = repositoryComponents.find(row => row.id === 'cpu-ryzen-5-5600');
+  for (const change of [
+    { crop: null }, { crop: [] }, { crop: {} }, { crop: { ...original.image.crop, points: [[-1, 0], [100, 0], [100, 100], [0, 100]] } },
+    { crop: { ...original.image.crop, points: [[0, 0], [2561, 0], [2561, 100], [0, 100]] } },
+    { crop: other.image.crop }, { sha256: 'a'.repeat(64) }, { crop: { ...original.image.crop, sourceWidth: 2561 } }
+  ]) {
+    const edited = { ...original, image: { ...original.image, ...change } };
+    const report = auditComponentImages({ components: [edited, other], now });
+    assert.equal(report.components[0].status, 'blocked');
+    assert.ok(codes(report, original.id).includes('unapproved_image_crop'));
+    assert.equal(report.reviewedSharedOriginals.length, 0);
+  }
+  const moved = { ...original, id: 'cpu-another-model', image: { ...original.image, componentId: 'cpu-another-model' } };
+  const report = auditComponentImages({ components: [moved, other], now });
+  assert.ok(codes(report, moved.id).includes('unapproved_image_crop'));
+  assert.equal(report.reviewedSharedOriginals.length, 0);
+});
+
+test('decoded dimensions and actual hash must match the reviewed composite metadata', (t) => {
+  const { makeImage, run } = setup(t);
+  makeImage('amd-ryzen-5500-5600-original.png', { width: 256, height: 144 });
+  const original = repositoryComponents.find(row => row.id === 'cpu-ryzen-5-5500');
+  const report = run([original]);
+  assert.ok(codes(report, original.id).includes('reviewed_sha256_mismatch'));
+  assert.ok(codes(report, original.id).includes('crop_source_dimensions_mismatch'));
+  assert.equal(report.summary.verified, 0);
+});

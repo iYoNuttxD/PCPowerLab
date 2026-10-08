@@ -15,7 +15,7 @@ const temporary = await mkdtemp(join(tmpdir(), 'pcpowerlab-simulation-states-'))
 const output = join(temporary, 'simulation-states.mjs');
 const realReact = require.resolve('react');
 const realRouter = require.resolve('react-router-dom');
-const serviceNames = ['performanceService', 'gameComparisonService', 'professionalSoftwareService', 'recommendationService', 'purchaseLinksService', 'buildExportService', 'buildReportService', 'buildScoreService', 'compatibilityFixService', 'savedBuildsService', 'sharingService'];
+const serviceNames = ['performanceService', 'gameComparisonService', 'professionalSoftwareService', 'recommendationService', 'purchaseLinksService', 'buildExportService', 'buildReportService', 'buildScoreService', 'compatibilityFixService', 'savedBuildsService', 'sharingService', 'buildComparisonService', 'budgetService', 'compatibilityService'];
 let checks = 0;
 let assertions = 0;
 const verify = (condition, message) => { assertions += 1; assert(condition, message); };
@@ -31,6 +31,8 @@ try {
         export { MemoryRouter } from 'react-router-dom';
         export { default as PerformanceLab } from './src/pages/PerformanceLab.jsx';
         export { default as BuildSummary } from './src/pages/BuildSummary.jsx';
+        export { default as BuildWizard } from './src/pages/BuildWizard.jsx';
+        export { default as CompareBuilds } from './src/pages/CompareBuilds.jsx';
         export { useSimulationRequest } from './src/hooks/useSimulationRequest.js';
       `
     },
@@ -54,7 +56,7 @@ try {
       });
     }}]
   });
-  const { React, renderToStaticMarkup, MemoryRouter, PerformanceLab, BuildSummary, useSimulationRequest } = await import(pathToFileURL(output).href);
+  const { React, renderToStaticMarkup, MemoryRouter, PerformanceLab, BuildSummary, BuildWizard, CompareBuilds, useSimulationRequest } = await import(pathToFileURL(output).href);
   const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
   const catalog = Array.from({ length: 12 }, (_, index) => ({ id: `game-${index + 1}`, name: `Jogo ${index + 1}`, category: 'Ação', targetResolution: '1080p' }));
   const softwareCatalog = [1, 2].map(index => ({ id: `software-${index}`, name: `Programa ${index}`, category: 'Criação', description: `Descrição ${index}` }));
@@ -344,7 +346,7 @@ try {
   equal(select(tree, 'Resolução').props.value, fixtures.build.game.targetResolution);
   equal(select(tree, 'Qualidade gráfica').props.value, fixtures.build.game.qualityPreset);
   page.close();
-  pass('explicit limitation verified: a fresh PerformanceLab mount restores build.game defaults, not prior page-local edits');
+  pass('storage-unavailable fallback: a fresh PerformanceLab mount restores build.game defaults');
 
   for (const change of ['software', 'revision', 'payload']) {
     reset(); pending = deferred(); fixtures.services.professionalSoftwareService.simulate = () => pending.promise;
@@ -468,9 +470,85 @@ try {
   await button(tree, 'Simular desempenho').props.onClick(); equal(fixtures.calls.length, 0); page.close();
   pass('BuildSummary catalog cleanup blocks post-unmount writes; incomplete build guards the simulation handler');
 
-  console.log(`SUMMARY: ${checks} scenario groups, ${assertions} assertions passed against actual PerformanceLab/BuildSummary/useSimulationRequest source`);
+  // New feedback regressions exercise real page functions and handlers.
+  reset(); summaryActions(); fixtures.build.gamePerformance = gameResult('Valorant');
+  page = await loadedPage(BuildSummary); tree = page.render();
+  verify(summaryHint(tree).includes('Estimativa atualizada'));
+  verify(!summaryHint(tree).includes('Execute a simulação'));
+  const retainedGameResult = fixtures.build.gamePerformance;
+  page.close(); page = await loadedPage(BuildSummary); tree = page.render();
+  equal(named(tree, 'GameSimulationResult')[0].props.result, retainedGameResult, 'SPA page remount retains provider-owned summary result');
+  equal(fixtures.calls.filter(call => call.name === 'summary').length, 0, 'Returning to summary does not require another analysis');
+  verify(childrenText(tree).includes('Recarregar o site ou mudar dados do catálogo exige uma nova análise'));
+  fixtures.build.gamePerformance = { status: 'unavailable', available: false, message: 'Dados ausentes' };
+  tree = page.render(); verify(summaryHint(tree).includes('Simulação indisponível'));
+  fixtures.build.gamePerformance = null; tree = page.render(); verify(summaryHint(tree).includes('Execute a simulação'));
+  page.close(); pass('summary hint distinguishes complete estimate, unavailable and invalidated result in actual page render');
+
+  reset();
+  const savedComponents = structuredClone(fixtures.build.selectedComponents);
+  const saved = [{ id: 'saved-a', name: 'Mesmo nome', components: savedComponents }, { id: 'saved-b', name: 'Mesmo nome', components: savedComponents }];
+  fixtures.services.savedBuildsService = { list: async () => saved };
+  const comparedResult = { builds: [0, 1].map(comparisonIndex => ({ comparisonIndex, name: 'Mesmo nome', compatible: comparisonIndex === 0, compatibilityStatus: comparisonIndex === 0 ? 'compatible' : 'incompatible', performanceScore: 70, costBenefitScore: 45, totalEstimatedPrice: 4000, components: savedComponents, alertSummary: { total: comparisonIndex }, bottleneckSummary: { total: 0 }, bottleneckStatus: comparisonIndex === 0 ? 'analyzed' : 'unavailable' })), recommendedBuild: { comparisonIndex: 0, name: 'Mesmo nome', reason: 'Critérios do modelo' } };
+  fixtures.services.buildComparisonService = { compare: async payload => { fixtures.calls.push({ name: 'buildComparison', payload }); return comparedResult; } };
+  page = await loadedPage(CompareBuilds); tree = page.render();
+  verify(button(tree, 'Comparar selecionadas').props.disabled, 'Only one current configuration is insufficient');
+  named(tree, 'Button').find(node => childrenText(node) === 'Selecionar').props.onClick(); tree = page.render();
+  verify(!button(tree, 'Comparar selecionadas').props.disabled);
+  const preservedBuild = JSON.stringify({ ...fixtures.build, actions: undefined });
+  await button(tree, 'Comparar selecionadas').props.onClick(); tree = page.render();
+  equal(fixtures.calls.at(-1).payload.builds.map(build => build.name), ['Montagem atual', 'Mesmo nome']);
+  const comparisonHtml = markup(tree);
+  for (const label of ['Índice de custo-benefício', 'Alertas e gargalos', 'sem conclusão para esta configuração', '45 / 100']) verify(comparisonHtml.includes(label), label);
+  verify(comparisonHtml.includes('alert-success'), 'Duplicate name must not make incompatible row the recommendation');
+  all(tree, node => node.type === 'input' && node.props.type === 'checkbox')[0].props.onChange({ target: { checked: false } }); tree = page.render();
+  verify(button(tree, 'Comparar selecionadas').props.disabled);
+  verify(!childrenText(tree).includes('Critérios do modelo'), 'Selection changes clear old result');
+  const priorCalls = fixtures.calls.length;
+  await button(tree, 'Comparar selecionadas').props.onClick(); equal(fixtures.calls.length, priorCalls, 'Direct handler enforces minimum');
+  named(tree, 'Button').find(node => childrenText(node) === 'Selecionar').props.onClick(); tree = page.render();
+  pending = deferred(); fixtures.services.buildComparisonService.compare = async payload => { fixtures.calls.push({ name: 'buildComparison', payload }); return pending.promise; };
+  const lateComparison = button(tree, 'Comparar selecionadas').props.onClick(); page.render();
+  equal(fixtures.calls.at(-1).payload.builds.map(build => build.name), ['Mesmo nome', 'Mesmo nome']);
+  all(page.render(), node => node.type === 'input' && node.props.type === 'checkbox')[0].props.onChange({ target: { checked: true } }); page.render();
+  pending.resolve(comparedResult); await lateComparison; tree = page.render();
+  verify(!childrenText(tree).includes('Critérios do modelo'), 'Late comparison response cannot label newer selections');
+  equal(JSON.stringify({ ...fixtures.build, actions: undefined }), preservedBuild, 'Comparing does not change chosen components, accessories or budget');
+  page.close(); pass('explicit current/saved comparison selection, duplicate names, useful trade-offs, minimum guards and late-result invalidation');
+
+  reset();
+  globalThis.document = { querySelector: () => null };
+  globalThis.ResizeObserver = class { observe() {} disconnect() {} };
+  globalThis.requestAnimationFrame = callback => { callback(); return 1; };
+  globalThis.cancelAnimationFrame = () => {};
+  globalThis.window = { matchMedia: () => ({ matches: true }) };
+  fixtures.build.wizardStep = 'motherboard';
+  fixtures.build.selectedComponents.cpu = { id: 'cpu-5600', name: 'Ryzen 5600', specs: { socket: 'AM4' } };
+  fixtures.build.selectedComponents.motherboard = { id: 'board-b650', name: 'B650', specs: { socket: 'AM5' } };
+  const compatibleBoard = { id: 'board-b550', name: 'B550', category: 'motherboard', specs: { socket: 'AM4' } };
+  fixtures.catalog.byType.motherboard = [compatibleBoard];
+  fixtures.build.actions = {
+    selectComponent(type, component) { fixtures.build = { ...fixtures.build, revision: fixtures.build.revision + 1, selectedComponents: { ...fixtures.build.selectedComponents, [type]: component } }; },
+    setWizardStep(step) { fixtures.build = { ...fixtures.build, wizardStep: step }; },
+    setResult() {}
+  };
+  page = runtime(BuildWizard); tree = page.render();
+  verify(!named(tree, 'WizardNavigation')[0].props.canAdvance);
+  verify(childrenText(tree).includes('AM4') && childrenText(tree).includes('AM5'));
+  verify(childrenText(tree).includes('Conflito entre as peças escolhidas') || named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
+  const others = JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard')));
+  named(tree, 'ComponentCard')[0].props.onSelect(compatibleBoard); tree = page.render();
+  verify(named(tree, 'WizardNavigation')[0].props.canAdvance);
+  equal(JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard'))), others);
+  verify(!named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
+  page.close();
+  delete globalThis.document; delete globalThis.window; delete globalThis.ResizeObserver;
+  delete globalThis.requestAnimationFrame; delete globalThis.cancelAnimationFrame;
+  pass('wizard detects actual AM4/AM5 selection immediately, prevents next, resolves replacement and preserves every other component');
+
+  console.log(`SUMMARY: ${checks} scenario groups, ${assertions} assertions passed against actual PerformanceLab/BuildSummary/CompareBuilds/BuildWizard/useSimulationRequest source`);
   console.log('LIMITATION: SSR and isolated handlers/hooks only; service responses are fixtures. No browser, DOM events, layout, focus, chart geometry, real network or cross-navigation persistence was tested.');
-  console.log('NOTE: edited simulation settings are page-local; the page initializes a new mount from build.game rather than saving edits there.');
+  console.log('NOTE: this harness omits sessionStorage; session-backed remount restoration is checked separately.');
 } finally {
   delete globalThis.__simulationHooks;
   delete globalThis.__simulationFixtures;

@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-recommendation-feedback-access.mjs --baseline-ready
+Exit: 1 (expected negative control)
+Observed regression: Budget form must precede the long ready-build catalog.
+The corresponding current-source checks passed; detailed traces are not published.

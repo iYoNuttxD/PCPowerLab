@@ -62,7 +62,7 @@ try {
       const found = ui.filterComponents(catalog, { search: 'ryzen 5', category: 'cpu' }); assert.ok(found.length > 0);
       let photos = 0;
       for (const part of catalog) { const media = ui.verifiedComponentImage(part); if (!media) continue; const response = await fetch(origin + media.imagePath); assert.equal(response.status, 200); assert.match(response.headers.get('content-type'), /image\//); assert.ok((await response.arrayBuffer()).byteLength > 100); photos++; }
-      assert.equal(photos, 9);
+      assert.equal(photos, 11);
       return { found: found.map(part => part.id), photos, missing: catalog.length - photos, imagePixelsInspected: false };
     });
     let selection;

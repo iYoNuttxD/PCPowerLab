@@ -135,3 +135,16 @@ Fonte auditada inicialmente: `5de7d88c906b2b66c63a4bc69e115045e012bf0d`; correç
 | R22 | PARCIAL | Feedback.jsx; recommendationFeedbackService.js; roteiro de pesquisa | recommendationFeedback.test.js; RA2-CICLO2-REVISAO-E-VALIDACAO.md | Coortes, retenção observada, receita, disposição a pagar e aceitação real NÃO IMPLEMENTADOS/medidos |
 
 Resumo: 21 PARCIAIS, 1 BLOQUEADO, 0 VALIDADO, 0 REGRESSÃO aberta demonstrada nesta matriz. “0 REGRESSÃO aberta demonstrada” não garante ausência de bugs nem aprova os 188 casos não executados. Subitens não implementados: adapter comercial real; persistência durável/isolamento de usuários; motor declarativo governado pelo CRUD; medição de retenção/monetização. **Veredito: NÃO HOMOLOGADA.**
+
+## Complemento técnico de escopo — V2.10, 08/10/2026
+
+Os registros históricos acima são preservados. O [mapa público R01–R22](RA2-V2-FEEDBACK-PROVENIENCIA.md) contém somente requisitos técnicos, decisões, critérios e limites, sem divulgar material privado de pesquisa.
+
+- R06 abrange rolagem/foco entre páginas e retorno à montagem, além das etapas do assistente
+- R16 abrange comparação de configurações completas, critérios de orçamento, identidade de resultados e apresentação dos alertas
+- R10 mantém o critério de fotografia exata para todos os itens ativos; 11/98 está incompleto e não autoriza remoção artificial do restante
+- R18 distingue 42 referências manuais datadas, 56 estimativas e zero cotações ao vivo; não há garantia de estoque atual
+- R20/R21 incluem os contratos de salvamento, navegação, revalidação, resultado atual e linguagem acessível documentados na V2.10
+- R22 não possui validação empírica nesta execução; hipóteses não são apresentadas como resultados
+
+O [relatório V2.10](RA2-V2.10-CONTINUIDADE.md) e seus resumos de execução descrevem as melhorias e as pendências. Os testes técnicos não promovem, sozinhos, requisitos completos a VALIDADO. A revisão visual do SHA publicado permanece necessária.
