@@ -382,10 +382,11 @@ export default function ReadyBuilds() {
             />
             <Select
               label="Perfil personalizado"
+              revealSelectedValue
               value={selectedUsageProfileId}
               onChange={(event) => applyUsageProfile(event.target.value)}
               options={[
-                { value: '', label: 'Nenhum perfil personalizado' },
+                { value: '', label: 'Sem perfil' },
                 ...usageProfiles.map((profile) => ({ value: profile.id, label: profile.name }))
               ]}
             />
