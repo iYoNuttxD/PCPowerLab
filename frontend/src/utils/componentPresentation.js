@@ -40,6 +40,11 @@ export function formatSpecValue(key, value) {
     const names = { length: 'Comprimento', width: 'Largura', height: 'Altura', thickness: 'Espessura' };
     return Object.entries(value).map(([dimension, size]) => `${names[dimension] || dimension}: ${size == null ? 'não informado' : `${Number(size).toLocaleString('pt-BR')} mm`}`).join(' · ');
   }
+  if (key === 'speedProfile' && value === 'JEDEC DDR4-3200; no XMP needed for rated JEDEC profile') return 'JEDEC DDR4-3200; dispensa XMP para a taxa declarada';
+  if (key === 'formFactor') {
+    if (value === 'M.2 2280 single-sided') return 'M.2 2280, componentes em uma face';
+    if (value === '2.5-inch 7mm') return '2,5 polegadas, 7 mm';
+  }
   if (key === 'color') return { White: 'Branco', Black: 'Preto', white: 'Branco', black: 'Preto' }[value] || String(value);
   if (Array.isArray(value)) return value.map(item => typeof item === 'object' ? JSON.stringify(item) : item).join(', ');
   if (typeof value === 'object') return JSON.stringify(value);

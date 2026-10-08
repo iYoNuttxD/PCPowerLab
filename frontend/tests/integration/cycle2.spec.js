@@ -99,7 +99,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
   let saved;
   try {
     saved = await action(page, '/saved-builds', () => page.getByRole('button', { name: 'Salvar build', exact: true }).click());
-    expect(saved.components).toEqual(Object.fromEntries(types.map(type => [type, selected[type].id])));
+    expect(saved.components).toEqual({ ...Object.fromEntries(types.map(type => [type, selected[type].id])), fans: [] });
     expect(saved.totalEstimatedPrice).toBe(expectedTotal);
     await expect(page.getByText('Build salva com sucesso.', { exact: true })).toBeVisible();
     await navigation(page, 'builds', '/saved-builds');
@@ -155,7 +155,7 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   await page.getByRole('button', { name: `Selecionar: ${intel.name}`, exact: true }).click();
   await step(page, 'Revisão');
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
-  await expect(page.getByText(/Há peças incompatíveis/)).toBeVisible();
+  await expect(page.getByText('A compatibilidade não foi confirmada. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.', { exact: true })).toBeVisible();
   const incompatible = await state(page);
   expect(incompatible.compatibility.compatible).toBe(false);
   expect(incompatible.bottlenecks.reason).toBe('incompatible_build');
@@ -230,8 +230,11 @@ test('catálogo, imagens, comparação de peças e navegação pública', async 
   expect(expected.length).toBeGreaterThanOrEqual(2);
   const photoPart = expected.find(part => part.id === 'ssd-kingston-kc3000-512gb');
   expect(photoPart?.image.status).toBe('verified');
-  const photo = page.getByRole('img', { name: photoPart.image.alt, exact: true });
-  await photo.scrollIntoViewIfNeeded();
+  const photoCard = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: photoPart.name, exact: true }) });
+  // Scroll the visible card so its hidden native lazy image can start loading.
+  await photoCard.scrollIntoViewIfNeeded();
+  const photo = photoCard.getByRole('img', { name: photoPart.image.alt, exact: true });
+  await expect(photo).toBeVisible();
   await expect.poll(() => photo.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   await capture(page, testInfo, 'catalog-photo', photo);
   for (const part of expected.slice(0, 2)) await page.getByRole('button', { name: `Comparar: ${part.name}`, exact: true }).click();

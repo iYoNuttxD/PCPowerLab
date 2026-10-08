@@ -48,8 +48,20 @@ export default function AppLayout({ children }) {
 
   useEffect(() => {
     const compactNavigation = window.matchMedia('(max-width: 1040px)');
+    let previousCompact = compactNavigation.matches;
+    let headerFocus = headerRef.current?.contains(document.activeElement) ? document.activeElement : null;
+    function rememberFocus(event) {
+      headerFocus = headerRef.current?.contains(event.target) ? event.target : null;
+    }
+    function forgetFocus(event) {
+      // CSS can hide the focused control and blur it to body before the media
+      // change callback runs. Preserve its origin only across that transition;
+      // ordinary blurs and intentional focus moves must not be restored later.
+      if (event.relatedTarget || compactNavigation.matches === previousCompact) headerFocus = null;
+    }
     function resetNavigation(event) {
-      const focused = document.activeElement;
+      const focused = document.activeElement === document.body ? headerFocus : document.activeElement;
+      previousCompact = event.matches;
       const navigation = headerRef.current?.querySelector('#main-navigation');
       if (event.matches && navigation?.contains(focused)) {
         menuButtonRef.current?.focus();
@@ -60,8 +72,14 @@ export default function AppLayout({ children }) {
       }
       closeMenu();
     }
+    document.addEventListener('focusin', rememberFocus);
+    document.addEventListener('focusout', forgetFocus);
     compactNavigation.addEventListener('change', resetNavigation);
-    return () => compactNavigation.removeEventListener('change', resetNavigation);
+    return () => {
+      document.removeEventListener('focusin', rememberFocus);
+      document.removeEventListener('focusout', forgetFocus);
+      compactNavigation.removeEventListener('change', resetNavigation);
+    };
   }, []);
 
   useEffect(() => {

@@ -31,3 +31,12 @@ test('pending compatibility and legacy alert wording are clear Portuguese withou
   assert.equal(readableMessage('Confirme o layout e os fans incluídos.'), 'Confirme o layout e as ventoinhas incluídas.');
   assert.equal(readableMessage(null), null);
 });
+
+test('replacement memory and storage descriptions are readable without changing stored technical values', () => {
+  const profile = 'JEDEC DDR4-3200; no XMP needed for rated JEDEC profile';
+  assert.equal(formatSpecValue('speedProfile', profile), 'JEDEC DDR4-3200; dispensa XMP para a taxa declarada');
+  assert.equal(formatSpecValue('formFactor', 'M.2 2280 single-sided'), 'M.2 2280, componentes em uma face');
+  assert.equal(formatSpecValue('formFactor', '2.5-inch 7mm'), '2,5 polegadas, 7 mm');
+  assert.equal(formatSpecValue('speedProfile', 'Intel XMP 2.0'), 'Intel XMP 2.0');
+  assert.equal(profile, 'JEDEC DDR4-3200; no XMP needed for rated JEDEC profile');
+});

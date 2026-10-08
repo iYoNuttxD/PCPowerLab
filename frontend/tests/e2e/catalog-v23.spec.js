@@ -41,7 +41,9 @@ async function compare(page, entries) {
   return page.getByRole('dialog', { name: 'Comparar componentes', exact: true });
 }
 
-const comparisonRow = (dialog, label) => dialog.getByRole('row').filter({ has: dialog.getByRole('rowheader', { name: new RegExp(`^${label}`) }) });
+const comparisonRow = (dialog, label) => dialog.getByRole('rowheader', {
+  name: new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s*Diferença)?$`)
+}).locator('..');
 
 test.beforeEach(async ({ page }) => {
   const captured = [];
@@ -61,12 +63,12 @@ test('v2.3 combina CPU AMD AM4 até R$ 1000 e limpa filtros técnicos ao trocar 
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
   await select(page, 'Marca', 'AMD');
-  await select(page, 'Socket', 'AM4');
+  await select(page, 'Encaixe (socket)', 'AM4');
   await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('1000');
   await expectCards(page, activeComponents.filter(component => component.category === 'cpu' && component.brand === 'AMD' && component.specs.socket === 'AM4' && component.price <= 1000));
   await select(page, 'Marca', 'all');
   await select(page, 'Categoria', 'ram');
-  await expect(page.getByRole('combobox', { name: 'Socket', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: 'Encaixe (socket)', exact: true })).toHaveCount(0);
   await expectCards(page, activeComponents.filter(component => component.category === 'ram' && component.price <= 1000));
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
   await expectCards(page, activeComponents);
@@ -104,7 +106,7 @@ test('v2.3 ordena preço, desempenho e custo-benefício depois dos filtros, mant
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, fixtures));
   await page.goto('/components');
   await select(page, 'Categoria', 'cpu');
-  await select(page, 'Socket', 'AM4');
+  await select(page, 'Encaixe (socket)', 'AM4');
   await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill('1000');
   for (const [order, indices] of [
     ['price-asc', [1, 3, 0, 2]], ['price-desc', [2, 0, 3, 1]],
@@ -138,7 +140,7 @@ test('v2.3 destaca diferenças sem transformar dados desconhecidos em zero e blo
   await expect(coreRow).toContainText('Diferença');
   await expect(coreRow.getByRole('cell', { name: 'Não informado', exact: true })).toHaveCount(1);
   await expect(coreRow.getByRole('cell', { name: '0', exact: true })).toHaveCount(0);
-  await expect(comparisonRow(dialog, 'Socket')).not.toHaveClass(/comparison-difference/);
+  await expect(comparisonRow(dialog, 'Encaixe (socket)')).not.toHaveClass(/comparison-difference/);
   await expect(comparisonRow(dialog, 'Preço de referência')).toContainText('Preço indisponível');
   await dialog.getByRole('button', { name: `Remover ${cpus[1].name} da comparação`, exact: true }).click();
   await expect(dialog).toHaveCount(0);
@@ -209,7 +211,7 @@ test('v2.3 compatibilidade usa a montagem atual e diferencia compatível, confli
   await expectCards(page, candidates);
   expect(requestCount).toBe(0);
   for (let index = 0; index < statuses.length; index++) {
-    await select(page, 'Compatibilidade com a montagem', statuses[index]);
+    await select(page, 'Compatibilidade', statuses[index]);
     await expectCards(page, [candidates[index]]);
   }
   expect(requestBody.components).toEqual({
@@ -217,7 +219,7 @@ test('v2.3 compatibilidade usa a montagem atual e diferencia compatível, confli
     coolerId: original.cooler.id,
     fans: [{ fanId: original.fans[0].id, quantity: 2 }]
   });
-  await select(page, 'Compatibilidade com a montagem', 'all');
+  await select(page, 'Compatibilidade', 'all');
   await expectCards(page, candidates);
 });
 
@@ -278,17 +280,17 @@ test('v2.3 falha de compatibilidade permite tentar novamente e resposta antiga n
   });
   await page.goto('/components');
   await select(page, 'Categoria', 'ram');
-  await select(page, 'Compatibilidade com a montagem', 'compatible');
+  await select(page, 'Compatibilidade', 'compatible');
   await expect(page.getByRole('alert')).toContainText('Verificação temporariamente indisponível.');
   await expect(page.locator('.component-card')).toHaveCount(0);
   await page.getByRole('button', { name: 'Tentar novamente', exact: true }).click();
   await expect.poll(() => Boolean(releaseOld)).toBe(true);
   await expect(page.getByText('Verificando candidatos com a montagem atual...', { exact: true })).toBeVisible();
   // Leave the in-flight filter, change the persisted build, and request fresh results.
-  await select(page, 'Compatibilidade com a montagem', 'all');
+  await select(page, 'Compatibilidade', 'all');
   const replacement = candidates.find(component => component.id !== original.ram.id);
   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
-  await select(page, 'Compatibilidade com a montagem', 'compatible');
+  await select(page, 'Compatibilidade', 'compatible');
   await expectCards(page, [candidates[0]]);
   releaseOld();
   await expect.poll(() => oldReplyFinished).toBe(true);
@@ -296,4 +298,45 @@ test('v2.3 falha de compatibilidade permite tentar novamente e resposta antiga n
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   await expectCards(page, [candidates[0]]);
   expect((await getState(page)).selectedComponents.ram.id).toBe(replacement.id);
+});
+
+test('filtros mantêm controles alinhados com rótulos e erros em todas as larguras', async ({ page }) => {
+  await seed(page);
+  await page.goto('/components');
+  await select(page, 'Categoria', 'cpu');
+  const grid = page.locator('.catalog-filter-grid');
+  async function geometry() {
+    return grid.locator(':scope > .field').evaluateAll(fields => {
+      const rows = new Map();
+      const heights = [];
+      let contained = true;
+      for (const field of fields) {
+        const control = field.querySelector('input, select');
+        if (!control) continue;
+        const box = field.getBoundingClientRect();
+        const input = control.getBoundingClientRect();
+        const key = Math.round(box.top);
+        if (!rows.has(key)) rows.set(key, []);
+        rows.get(key).push(input.top);
+        heights.push(input.height);
+        contained &&= input.left >= box.left - 1 && input.right <= box.right + 1;
+      }
+      return {
+        peersAligned: [...rows.values()].every(tops => Math.max(...tops) - Math.min(...tops) <= 1),
+        equalHeights: heights.length > 1 && Math.max(...heights) - Math.min(...heights) <= 1,
+        usableHeight: heights.every(height => height >= 44),
+        contained,
+        noPageOverflow: document.documentElement.scrollWidth <= innerWidth
+      };
+    });
+  }
+  for (const width of [1440, 1024, 768, 390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const invalid of [false, true]) {
+      await page.getByRole('spinbutton', { name: 'Preço mínimo estimado (R$)', exact: true }).fill(invalid ? '1000' : '');
+      await page.getByRole('spinbutton', { name: 'Preço máximo estimado (R$)', exact: true }).fill(invalid ? '100' : '');
+      if (invalid) await expect(grid.locator('.field-error')).toBeVisible();
+      await expect.poll(geometry).toEqual({ peersAligned: true, equalHeights: true, usableHeight: true, contained: true, noPageOverflow: true });
+    }
+  }
 });

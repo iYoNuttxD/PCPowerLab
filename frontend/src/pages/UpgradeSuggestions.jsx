@@ -24,7 +24,7 @@ import { componentLabels, componentTypes, priorityLabels, usageLabels, usageType
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
 import { consumeSelectedUsageProfile, inferUsageSettingsFromProfile } from '../utils/usageProfileHelpers.js';
-import { validateBudgetAmount } from '../utils/validation.js';
+import { validateBudgetAmount, validateUpgradeStepCount } from '../utils/validation.js';
 import { analysisIdentity, isOptionalNumber, isOptionalText, isRecord, isSessionId, readAnalysisSession, writeAnalysisSession } from '../utils/analysisSession.js';
 
 export default function UpgradeSuggestions() {
@@ -58,6 +58,7 @@ export default function UpgradeSuggestions() {
   const [priority, setPriority] = useState(initialInputs.priority);
   const [roadmapBudget, setRoadmapBudget] = useState(initialInputs.roadmapBudget);
   const [maxSteps, setMaxSteps] = useState(initialInputs.maxSteps);
+  const maxStepsError = validateUpgradeStepCount(maxSteps);
   const [suggestionValidation, setSuggestionValidation] = useState(null);
   const [roadmapValidation, setRoadmapValidation] = useState(null);
   const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -238,11 +239,8 @@ export default function UpgradeSuggestions() {
       return;
     }
 
+    if (maxStepsError) return;
     const normalizedMaxSteps = Number(maxSteps);
-    if (!Number.isInteger(normalizedMaxSteps) || normalizedMaxSteps <= 0) {
-      setRoadmapValidation({ key: roadmapKey, message: 'Informe uma quantidade inteira de etapas maior que zero.' });
-      return;
-    }
 
     const selectedBuild = resolveBuildPayload();
     if (!selectedBuild) {
@@ -287,7 +285,7 @@ export default function UpgradeSuggestions() {
         {savedBuildsError && <ErrorState message={`Não foi possível carregar as builds salvas. ${savedBuildsError}`} onRetry={reloadSavedBuilds} />}
         {hasRequestedBuild && !savedBuildsLoading && !savedBuildsError && !selectedSavedBuild && <ErrorState message={sourceError} onRetry={reloadSavedBuilds} />}
         {sourceError && hasCompleteBuild(build.selectedComponents) && <Button variant="secondary" onClick={() => selectBuild('')}>Usar build atual</Button>}
-        <div className="form-grid">
+        <div className="form-grid field-row-grid">
           <Select
             label="Build salva"
             value={buildId}
@@ -377,7 +375,7 @@ export default function UpgradeSuggestions() {
 
         {roadmapError && <Alert type="error">{roadmapError}</Alert>}
 
-        <div className="form-grid">
+        <div className="form-grid field-row-grid">
           <Input
             label="Orçamento total"
             type="number"
@@ -392,6 +390,7 @@ export default function UpgradeSuggestions() {
             min="1"
             max="5"
             value={maxSteps}
+            error={maxStepsError}
             onChange={(event) => setMaxSteps(event.target.value)}
           />
           <Select

@@ -1,0 +1,111 @@
+{
+  "observedAt": "2026-10-08",
+  "basis": "Valores literais das fichas oficiais consultadas; não são derivados do catálogo durante o teste. Velocidades e potências declaradas não são benchmarks medidos.",
+  "facts": {
+    "mb-gigabyte-b650m-d3hp": {
+      "partNumber": "B650M D3HP",
+      "sources": ["https://www.gigabyte.com/Motherboard/B650M-D3HP-rev-1x/sp"],
+      "specs": {"socket":"AM5","memoryType":"DDR5","formFactor":"mATX","memorySlots":4,"maxMemoryGb":256,"m2Slots":2,"m2SupportedLengthsMm":[80,110]},
+      "caveat": "Suporte de BIOS/QVL e revisão da unidade precisam ser conferidos; tamanhos M.2 são a união dos slots declarados."
+    },
+    "case-cooler-master-elite-502-white": {
+      "partNumber":"E502-WGNN-S00",
+      "sources":["https://www.coolermaster.com/en-us/products/elite-502.html"],
+      "specs":{"maxCoolerHeightMm":170,"maxGpuLengthMm":360,"maxGpuLengthWithoutFrontRadiatorMm":410,"frontRadiatorMaxThicknessMm":27,"includedFanCount":3,"includedFanDiameterMm":120,"radiatorSizesMm":[120,140,240,280,360,420]},
+      "caveat":"360 mm é a escolha conservadora do modelo; 410 mm requer a condição sem radiador frontal declarada pelo fabricante."
+    },
+    "ram-kvr32n22d8-32": {
+      "partNumber":"KVR32N22D8/32",
+      "sources":["https://www.kingston.com/dataSheets/KVR32N22D8_32.pdf"],
+      "specs":{"memoryType":"DDR4","capacityGb":32,"modulesPerKit":1,"capacityPerModuleGb":32,"speedMhz":3200,"casLatency":22,"voltageV":1.2,"speedProfile":"JEDEC DDR4-3200; no XMP needed for rated JEDEC profile","dimensionsMm":{"height":31.25}}
+    },
+    "ram-kf432c16bb12ak2-32": {
+      "partNumber":"KF432C16BB12AK2/32",
+      "sources":["https://www.kingston.com/datasheets/KF432C16BB12AK2_32.pdf"],
+      "specs":{"memoryType":"DDR4","capacityGb":32,"modulesPerKit":2,"capacityPerModuleGb":16,"speedMhz":3200,"casLatency":16,"voltageV":1.35,"speedProfile":"Intel XMP 2.0","dimensionsMm":{"height":43}}
+    },
+    "ram-kf432c16bb2ak2-64": {
+      "partNumber":"KF432C16BB2AK2/64",
+      "sources":["https://www.kingston.com/datasheets/KF432C16BB2AK2_64.pdf"],
+      "specs":{"memoryType":"DDR4","capacityGb":64,"modulesPerKit":2,"capacityPerModuleGb":32,"speedMhz":3200,"casLatency":16,"voltageV":1.35,"speedProfile":"Intel XMP 2.0","dimensionsMm":{"height":43}}
+    },
+    "ram-cmh32gx4m2z3600c18": {
+      "partNumber":"CMH32GX4M2Z3600C18",
+      "sources":["https://www.corsair.com/br/pt/p/memory/cmh32gx4m2z3600c18/vengeance-rgb-pro-sl-32gb-2x16gb-ddr4-dram-3600mhz-c18-memory-kit-a-black-cmh32gx4m2z3600c18","https://help.corsair.com/hc/en-us/articles/34381966388881-RAM-Memory-Module-Dimensions"],
+      "specs":{"memoryType":"DDR4","capacityGb":32,"modulesPerKit":2,"capacityPerModuleGb":16,"speedMhz":3600,"casLatency":18,"voltageV":1.35,"speedProfile":"Intel XMP 2.0","dimensionsMm":{"height":44.8}}
+    },
+    "ram-cmh64gx5m2b6000z30w": {
+      "partNumber":"CMH64GX5M2B6000Z30W",
+      "sources":["https://www.corsair.com/ww/en/p/memory/cmh64gx5m2b6000z30w/vengeance-rgb-64gb-2x32gb-ddr5-dram-6000mts-cl30-amd-expo-intel-xmp-memory-kit-white-cmh64gx5m2b6000z30w","https://help.corsair.com/hc/en-us/articles/34381966388881-RAM-Memory-Module-Dimensions"],
+      "specs":{"memoryType":"DDR5","capacityGb":64,"modulesPerKit":2,"capacityPerModuleGb":32,"speedMhz":6000,"casLatency":30,"voltageV":1.4,"speedProfile":"AMD EXPO & Intel XMP","dimensionsMm":{"height":44}}
+    },
+    "ssd-kingston-nv3-500gb": {
+      "partNumber":"SNV3S/500G",
+      "sources":["https://www.kingston.com/en/ssd/nv3-nvme-pcie-ssd"],
+      "specs":{"interface":"M.2 NVMe","capacityGb":500,"readSpeedMbS":5000,"writeSpeedMbS":3000,"m2LengthMm":80,"enduranceTBW":160}
+    },
+    "ssd-xpg-gammix-s70-blade-1tb": {
+      "partNumber":"AGAMMIXS70B-1T-CS",
+      "sources":["https://webapi3.adata.com/storage/downloadfile/datasheet_xpg_gammix_s70_blade_pcie_gen4_x4_m2_ssd_20250630.pdf"],
+      "specs":{"interface":"M.2 NVMe","capacityGb":1024,"readSpeedMbS":7400,"writeSpeedMbS":5500,"m2LengthMm":80,"enduranceTBW":740},
+      "caveat":"Classe comercial 1 TB; tabela da ficha usa 1024 GB. Taxas da linha de 1 TB, não as de outra capacidade."
+    },
+    "ssd-kingston-nv3-2tb": {
+      "partNumber":"SNV3S/2000G",
+      "sources":["https://www.kingston.com/en/ssd/nv3-nvme-pcie-ssd"],
+      "specs":{"interface":"M.2 NVMe","capacityGb":2000,"readSpeedMbS":6000,"writeSpeedMbS":5000,"m2LengthMm":80,"enduranceTBW":640}
+    },
+    "ssd-sandisk-520-2tb": {
+      "partNumber":"SDSS51200TAB-000G0",
+      "sources":["https://www.sandisk.com/products/ssd/internal-ssd/sandisk-520-sata-ssd"],
+      "specs":{"interface":"SATA","capacityGb":2000,"readSpeedMbS":560,"writeSpeedMbS":520,"formFactor":"2.5-inch 7mm","enduranceTBW":700}
+    },
+    "ssd-kingston-nv3-4tb": {
+      "partNumber":"SNV3S/4000G",
+      "sources":["https://www.kingston.com/en/ssd/nv3-nvme-pcie-ssd"],
+      "specs":{"interface":"M.2 NVMe","capacityGb":4000,"readSpeedMbS":6000,"writeSpeedMbS":5000,"m2LengthMm":80,"enduranceTBW":1280}
+    },
+    "cooler-bequiet-pure-rock-3-black": {
+      "partNumber":"BK039",
+      "sources":["https://www.bequiet.com/en/cpucooler/5591"],
+      "specs":{"coolingType":"air","heightMm":154,"includedFanCount":1,"powerWatts":3.6,"supportedSockets":["AM4","AM5","LGA1851","LGA1700","LGA1200","LGA1150","LGA1151","LGA1155"]},
+      "caveat":"3,6 W é potência elétrica declarada, não o TDP térmico de marketing."
+    },
+    "cooler-noctua-nh-l9a-am4-chromax-black": {
+      "partNumber":"NH-L9A-AM4-CH.BK",
+      "sources":["https://cdn.noctua.at/media/noctua_nh_l9a_am4_chromax_black_infosheet_en_web.pdf?download=true"],
+      "specs":{"coolingType":"air","heightMm":37,"includedFanCount":1,"powerWatts":2.52,"supportedSockets":["AM4"]},
+      "caveat":"Potência máxima da ficha; não substituir pelo consumo típico da página. Socket inclui apenas o kit fornecido."
+    },
+    "cooler-arctic-liquid-freezer-iii-pro-240-argb-white": {
+      "partNumber":"ACFRE00186A",
+      "sources":["https://www.arctic.de/en/Liquid-Freezer-III-Pro-240-A-RGB-White/ACFRE00186A","https://support.arctic.de/products/liquid-freezer-iii-pro-240-argb/techdocs/LF3%20Pro%20240%20ARGB%202D%20Drawing.pdf"],
+      "specs":{"coolingType":"aio","radiatorSizeMm":240,"radiatorThicknessMm":38,"radiatorDimensionsMm":{"length":277,"width":120,"height":38},"fanThicknessMm":25,"totalEnvelopeThicknessMm":66,"includedFanCount":2,"powerWatts":18.72,"supportedSockets":["AM4","AM5","LGA1700","LGA1851"]},
+      "derivation":"12×(0,35+0,05+2×0,33)+5×(0,4+2×0,4)=18,72 W nominais. Desenho informa envelope de 66 mm; não reduzir automaticamente a 38+25."
+    },
+    "cooler-arctic-liquid-freezer-iii-pro-360": {
+      "partNumber":"ACFRE00180A",
+      "sources":["https://www.arctic.de/Liquid-Freezer-III-Pro-360","https://www.arctic.de/media/e6/06/4a/1741780098/Spec_Sheet_Liquid_Freezer_III_Pro_360_DE.pdf"],
+      "specs":{"coolingType":"aio","radiatorSizeMm":360,"radiatorThicknessMm":38,"radiatorDimensionsMm":{"length":398,"width":120,"height":38},"fanThicknessMm":25,"totalEnvelopeThicknessMm":66,"includedFanCount":3,"powerWatts":16.68,"supportedSockets":["AM4","AM5","LGA1700","LGA1851"]},
+      "derivation":"12×(0,35+0,05+3×0,33)=16,68 W nominais; este modelo não tem a parcela de LEDs da variante A-RGB."
+    },
+    "fan-arctic-p12-pro": {
+      "partNumber":"ACFAN00305A",
+      "sources":["https://www.arctic.de/en/P12-Pro/ACFAN00305A"],
+      "specs":{"diameterMm":120,"thicknessMm":25,"unitsPerPack":1,"powerWatts":3.96,"connector":"4-pin PWM"},
+      "derivation":"12 V×0,33 A=3,96 W por fan nominal; não é medição."
+    },
+    "fan-arctic-p12-pro-pst-white": {
+      "partNumber":"ACFAN00308A",
+      "sources":["https://www.arctic.de/en/P12-Pro-PST-White/ACFAN00308A"],
+      "specs":{"diameterMm":120,"thicknessMm":25,"unitsPerPack":1,"powerWatts":3.96,"connector":"4-pin PWM plug + 4-pin socket (PST)"},
+      "derivation":"12 V×0,33 A=3,96 W por fan nominal; corrente de vários fans deve ser somada."
+    },
+    "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack": {
+      "partNumber":"MFX-B2DW-253P2-R2",
+      "sources":["https://www.coolermaster.com/en-in/products/sickleflow-edge-120-argb-3-pack-white-edition.html"],
+      "specs":{"diameterMm":120,"thicknessMm":25,"unitsPerPack":3,"powerWatts":3.45,"auxiliaryPowerUnknown":true},
+      "derivation":"Por fan: motor 2,4 W+LEDs 5 V×0,21 A=3,45 W; pacote contém três, total 10,35 W. Consumo próprio da controladora permanece não especificado."
+    }
+  }
+}

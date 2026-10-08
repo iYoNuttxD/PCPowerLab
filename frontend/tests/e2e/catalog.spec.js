@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { mockWizardAnalysis } from './helpers/analysis.js';
 import { listComponents } from '../../../src/services/component.service.js';
 import { readyBuilds } from '../../../src/data/readyBuilds.js';
 
@@ -96,8 +97,8 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
   await page.getByRole('button', { name: 'Comparar peças (2)', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Comparar componentes' });
   await expect(dialog.getByRole('columnheader', { name: ram16.name, exact: true })).toBeVisible();
-  await expect(dialog.getByRole('row').filter({ hasText: 'Capacidade' })).toContainText('16 GB');
-  await expect(dialog.getByRole('row').filter({ hasText: 'Capacidade' })).toContainText('32 GB');
+  const capacityRow = dialog.getByRole('rowheader', { name: /^Capacidade(?:\s*Diferença)?$/ }).locator('..');
+  await expect(capacityRow.getByRole('cell')).toHaveText(['16 GB', '32 GB']);
   await expect(dialog.getByRole('row').filter({ hasText: 'Taxa de transferência' })).toContainText('3.600 MT/s');
   await expect(dialog.getByRole('row').filter({ hasText: 'Modelo / código' })).toContainText(ram32.partNumber);
   await page.keyboard.press('Escape');
@@ -122,6 +123,8 @@ test('fotografia com origem registrada, ausência e falha de imagem mantêm fall
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, fixtures));
   await page.goto('/components');
   const photoCard = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: photo.name, exact: true }) });
+  // The native lazy image stays hidden until it loads; scroll its visible card first.
+  await photoCard.scrollIntoViewIfNeeded();
   const image = photoCard.getByRole('img', { name: photo.image.alt });
   await expect(image).toBeVisible();
   await expect.poll(() => image.evaluate(element => element.complete && element.naturalWidth > 0)).toBe(true);
@@ -214,6 +217,15 @@ test('substitui uma peça recomendada no resumo após verificar e preserva a mon
   expect((await getState(page)).selectedComponents).toEqual(state.selectedComponents);
   await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
+  // Startup keeps the chosen pieces but discards untrusted cached analyses.
+  await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
+  const restored = await getState(page);
+  expect(restored.compatibility).toBeNull();
+  expect(restored.bottlenecks).toBeNull();
+  expect(restored.selectedComponents).toEqual(state.selectedComponents);
+  expect(restored.budget).toEqual(state.budget);
+  await mockWizardAnalysis(page);
+  await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
 });
 

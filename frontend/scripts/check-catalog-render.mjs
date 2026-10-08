@@ -43,7 +43,7 @@ try {
             components, filters: { ...emptyCatalogFilters, category }, onChange: () => {}, hasBuild: true
           }));
           for (const key of catalogFilterFields[category]) assert(html.includes(specLabel(key)), category + ': missing label ' + key);
-          assert(html.includes('Compatibilidade com a montagem'), category + ': missing compatibility filter');
+          assert(html.includes('Compatibilidade'), category + ': missing compatibility filter');
           assert(html.includes('Ordenar por'), category + ': missing sort selector');
         }
         console.log('PASS: server rendering includes technical fields, compatibility and sorting for all 9 categories');

@@ -95,7 +95,7 @@ export default function CompareBuilds() {
 
       <Card>
         <h2>Critérios</h2>
-        <div className="form-grid">
+        <div className="form-grid field-row-grid">
           <Input label="Orçamento de referência" type="number" min="1" value={budget} onChange={(event) => setBudget(event.target.value)} error={validateBudgetAmount(budget)} />
           <Select label="Tipo de uso" value={usageType} onChange={(event) => setUsageType(event.target.value)} options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))} />
           <Select label="Critério" value={criteria} onChange={(event) => setCriteria(event.target.value)} options={['cost-benefit', 'performance', 'budget', 'balanced'].map((value) => ({ value, label: priorityLabels[value] || value }))} />

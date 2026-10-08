@@ -3,7 +3,7 @@
 // Run from any directory: node frontend/scripts/check-simulation-states.mjs
 import { build } from 'esbuild';
 import assert from 'node:assert/strict';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
@@ -40,6 +40,15 @@ try {
     define: { 'import.meta.env.VITE_API_BASE_URL': JSON.stringify('/api/v1') },
     banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },
     plugins: [{ name: 'isolated-simulation-fixtures', setup(builder) {
+      // Mutation controls must fail the request-ownership assertions below.
+      const dropUnmount = process.argv.includes('--drop-wizard-unmount-guard');
+      const dropRevision = process.argv.includes('--drop-wizard-revision-guard');
+      if (dropUnmount || dropRevision) builder.onLoad({ filter: /pages\/BuildWizard\.jsx$/ }, async ({ path }) => {
+        let contents = await readFile(path, 'utf8');
+        if (dropUnmount) contents = contents.replace('activeRequest.current += 1;', '/* mutation: unmount ownership disabled */');
+        if (dropRevision) contents = contents.replace(' && latestConfiguration.current === configurationKey', '');
+        return { contents, loader: 'jsx' };
+      });
       builder.onResolve({ filter: /^react$/ }, () => ({ path: 'react-proxy', namespace: 'fixture' }));
       builder.onResolve({ filter: /^react-router-dom$/ }, () => ({ path: 'router-proxy', namespace: 'fixture' }));
       builder.onResolve({ filter: /\/hooks\/useBuildState\.jsx$/ }, () => ({ path: 'build-fixture', namespace: 'fixture' }));
@@ -542,9 +551,64 @@ try {
   equal(JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard'))), others);
   verify(!named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
   page.close();
+  pass('wizard detects actual AM4/AM5 selection immediately, prevents next, resolves replacement and preserves every other component');
+
+  // Exercise the actual wizard callback and cleanup with responses held at
+  // each service boundary. This tests request ownership, not DOM navigation.
+  for (const boundary of ['compatibility', 'alerts', 'budget', 'bottlenecks']) {
+    for (const invalidation of ['departure', 'revision']) {
+      reset();
+      fixtures.build.wizardStep = 'review';
+      fixtures.build.bottlenecks = null;
+      const delayed = deferred();
+      const writes = [];
+      fixtures.build.actions = {
+        setResult(key, value) { writes.push([key, value]); fixtures.build = { ...fixtures.build, [key]: value }; },
+        setBudget(budget) { writes.push(['budget', budget]); fixtures.build = { ...fixtures.build, budget }; }
+      };
+      fixtures.services.compatibilityService = {
+        check: () => boundary === 'compatibility' ? delayed.promise : Promise.resolve({ compatible: true }),
+        alerts: () => boundary === 'alerts' ? delayed.promise : Promise.resolve({ compatible: true, alerts: [] })
+      };
+      fixtures.services.budgetService = { validate: () => boundary === 'budget' ? delayed.promise : Promise.resolve(fixtures.build.budget) };
+      fixtures.services.performanceService.analyzeBottlenecks = () => boundary === 'bottlenecks' ? delayed.promise : Promise.resolve({ bottlenecks: [] });
+      page = runtime(BuildWizard); tree = page.render();
+      const oldRequest = button(tree, 'Analisar build').props.onClick();
+      await tick(); page.render();
+      if (invalidation === 'departure') {
+        page.close();
+        equal(fixtures.build.bottlenecks, null, 'Leaving a pending analysis clears its loading state');
+      } else {
+        fixtures.build = { ...fixtures.build, revision: fixtures.build.revision + 1, bottlenecks: { status: 'success', data: { owner: 'new-build' } } };
+        page.render();
+      }
+      const beforeLate = JSON.stringify({ build: fixtures.build, writes });
+      delayed.resolve(boundary === 'budget' ? fixtures.build.budget : { compatible: true, bottlenecks: [] });
+      await oldRequest;
+      equal(JSON.stringify({ build: fixtures.build, writes }), beforeLate, `Late ${boundary} response must not write after ${invalidation}`);
+      if (invalidation === 'departure') equal(page.writesAfterClose, 0, 'No late wizard feedback or request-state writes');
+      else page.close();
+    }
+  }
+  reset();
+  fixtures.build.wizardStep = 'review';
+  fixtures.build.actions = {
+    setResult(key, value) { fixtures.build = { ...fixtures.build, [key]: value }; },
+    setBudget(budget) { fixtures.build = { ...fixtures.build, budget }; }
+  };
+  fixtures.services.compatibilityService = { check: async () => ({ compatible: true }), alerts: async () => ({ compatible: true, alerts: [] }) };
+  fixtures.services.budgetService = { validate: async () => fixtures.build.budget };
+  fixtures.services.performanceService.analyzeBottlenecks = async () => ({ bottlenecks: [], owner: 'completed-build' });
+  page = runtime(BuildWizard); tree = page.render();
+  await button(tree, 'Analisar build').props.onClick(); page.render();
+  equal(fixtures.build.bottlenecks.status, 'success');
+  const completed = JSON.stringify(fixtures.build);
+  page.close();
+  equal(JSON.stringify(fixtures.build), completed, 'Leaving after completion must preserve matching successful build analyses');
+  pass('wizard rejects old results at all four service boundaries after departure or a newer build revision');
+
   delete globalThis.document; delete globalThis.window; delete globalThis.ResizeObserver;
   delete globalThis.requestAnimationFrame; delete globalThis.cancelAnimationFrame;
-  pass('wizard detects actual AM4/AM5 selection immediately, prevents next, resolves replacement and preserves every other component');
 
   console.log(`SUMMARY: ${checks} scenario groups, ${assertions} assertions passed against actual PerformanceLab/BuildSummary/CompareBuilds/BuildWizard/useSimulationRequest source`);
   console.log('LIMITATION: SSR and isolated handlers/hooks only; service responses are fixtures. No browser, DOM events, layout, focus, chart geometry, real network or cross-navigation persistence was tested.');

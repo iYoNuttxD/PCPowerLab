@@ -750,6 +750,13 @@ p:last-child {
   background: var(--bg);
 }
 
+/* Normalize native single-line metrics without constraining labels or messages. */
+.field input,
+.field select {
+  min-width: 0;
+  min-height: calc(1.5em + var(--space-3) + var(--space-3) + 2px);
+}
+
 .field textarea {
   resize: vertical;
   line-height: 1.5;
@@ -1581,8 +1588,9 @@ p:last-child {
 
 .weight-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
   gap: var(--space-3);
+  align-items: end;
 }
 
 .cost-benefit-grid {
@@ -2385,7 +2393,14 @@ input[aria-invalid="true"] { border-color: var(--red); }
   .build-parts-list li > .component-identity { grid-column: 1 / -1; }
   .upgrade-pair .component-identity { flex-wrap: wrap; }
 }
-.catalog-filter-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); align-items: start; }
+.catalog-filter-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); align-items: end; }
+.field-row-grid { align-items: end; }
+@supports (grid-template-rows: subgrid) {
+  /* Each visual row shares label/control/message tracks. Long labels and errors
+     wrap freely; they cannot shift only one of the neighboring controls. */
+  .catalog-filter-grid, .field-row-grid { row-gap: var(--space-2); align-items: stretch; }
+  .catalog-filter-grid > .field, .field-row-grid > .field { grid-row: span 3; grid-template-rows: subgrid; row-gap: var(--space-2); }
+}
 .catalog-filters { display: grid; gap: var(--space-3); }
 .catalog-filters > .btn { justify-self: start; }
 .catalog-compare-bar p { margin-top: 0; }

@@ -127,3 +127,12 @@ test('twenty historical unverified prices remain absent after retirement', () =>
     assert.equal(getDatedReference(component), null);
   }
 });
+
+test('new replacement payment conditions use Portuguese and keep their verified numerical facts', () => {
+  for (const model of replacementCatalog) {
+    const component = findComponentById(model.id);
+    assert.doesNotMatch(`${component.pricing.paymentCondition} ${component.pricing.installments}`, /discount|interest-free|or boleto|terms not inspected/);
+    assert.equal(component.price, component.pricing.price);
+    assert.equal(component.partNumber, component.pricing.model);
+  }
+});

@@ -197,20 +197,27 @@ try {
   reset();
   const validationPage = runtime(UpgradeSuggestions);
   validationPage.render(); await tick(); tree = validationPage.render();
-  for (const value of ['0.5', '1.5', '3.2', '5.5']) {
+  for (const value of ['', '0', '-1', '0.5', '1.5', '3.2', '5.5', '6']) {
     all(tree, node => node.props?.label === 'Número máximo de etapas')[0].props.onChange({ target: { value } });
     tree = validationPage.render();
     await button(tree, 'Gerar plano de upgrades').props.onClick();
     tree = validationPage.render();
-    assert.deepEqual(fixture.calls, [], `Fractional maxSteps=${value} must not reach the API`);
-    assert(render(tree).includes('quantidade inteira de etapas'));
+    assert.deepEqual(fixture.calls, [], `Invalid maxSteps=${value} must not reach the API`);
+    const field = all(tree, node => node.props?.label === 'Número máximo de etapas')[0];
+    assert(field.props.error, 'Invalid step count must be attached to its field');
+    const fieldHtml = render(field);
+    assert(fieldHtml.includes('aria-invalid="true"'));
+    assert(fieldHtml.includes('aria-describedby='));
+    assert(fieldHtml.includes('class="field-error"'));
+    assert(fieldHtml.includes('quantidade inteira de etapas'));
   }
   all(tree, node => node.props?.label === 'Número máximo de etapas')[0].props.onChange({ target: { value: '3' } });
   tree = validationPage.render();
+  assert.equal(all(tree, node => node.props?.label === 'Número máximo de etapas')[0].props.error, '');
   await button(tree, 'Gerar plano de upgrades').props.onClick();
   assert.equal(fixture.calls[0].args[0].maxSteps, 3);
   validationPage.close();
-  console.log('PASS: fractional roadmap step counts are rejected by the real frontend handler; an integer retries successfully');
+  console.log('PASS: invalid roadmap step counts have accessible local errors and never reach the API; a valid integer retries successfully');
   console.log('LIMITATION: source handlers and real router SSR; no browser events, live router history, layout, or HTTP transport in this focused regression');
 } finally {
   delete globalThis.__savedUpgradeHooks;

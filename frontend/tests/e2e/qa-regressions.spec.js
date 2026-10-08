@@ -191,3 +191,65 @@ test('erro ao carregar peças salvas impede abrir com preços zerados e permite 
   await open.click();
   expect((await stored(page)).selectedComponents).toEqual(selection);
 });
+
+async function alignedFormControls(page) {
+  return page.locator('.field-row-grid').evaluateAll(grids => grids.length > 0 && grids.every(grid => {
+    const rows = new Map();
+    const heights = [];
+    for (const field of grid.querySelectorAll(':scope > .field')) {
+      const control = field.querySelector('input, select');
+      if (!control) continue;
+      const fieldBox = field.getBoundingClientRect();
+      const box = control.getBoundingClientRect();
+      if (box.width <= 0 || box.left < fieldBox.left - 1 || box.right > fieldBox.right + 1) return false;
+      const key = Math.round(fieldBox.top);
+      if (!rows.has(key)) rows.set(key, []);
+      rows.get(key).push(box.top);
+      heights.push(box.height);
+    }
+    return heights.length > 0 && Math.max(...heights) - Math.min(...heights) <= 1
+      && [...rows.values()].every(tops => Math.max(...tops) - Math.min(...tops) <= 1);
+  }));
+}
+
+test('erros de orçamento e etapas preservam o alinhamento e descrevem o campo inválido', async ({ page }) => {
+  await seed(page);
+  await page.goto('/upgrades');
+  await page.getByRole('spinbutton', { name: 'Orçamento para upgrade', exact: true }).fill('0');
+  await page.getByRole('spinbutton', { name: 'Orçamento total', exact: true }).fill('0');
+  const steps = page.getByRole('spinbutton', { name: 'Número máximo de etapas', exact: true });
+  await steps.fill('0');
+  await expect(steps).toHaveAttribute('aria-invalid', 'true');
+  await expect(steps).toHaveAccessibleDescription('Informe uma quantidade inteira de etapas entre 1 e 5.');
+  for (const width of [1440, 1024, 768, 390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(() => alignedFormControls(page)).toBe(true);
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+  await steps.fill('3');
+  await expect(steps).toHaveAttribute('aria-invalid', 'false');
+  await expect(steps).not.toHaveAttribute('aria-describedby');
+  await page.goto('/compare');
+  await page.getByRole('spinbutton', { name: 'Orçamento de referência', exact: true }).fill('0');
+  for (const width of [1440, 1024, 768, 390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(() => alignedFormControls(page)).toBe(true);
+  }
+});
+
+test('pesos do perfil mantêm armazenamento legível e controles iguais em telas estreitas', async ({ page }) => {
+  await page.goto('/ready-builds');
+  const storage = page.locator('.weight-grid').getByRole('spinbutton', { name: 'Armazenamento', exact: true });
+  await expect(storage).toBeVisible();
+  for (const width of [1440, 1024, 768, 390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect.poll(() => alignedFormControls(page)).toBe(true);
+    await expect.poll(() => storage.evaluate(input => {
+      const label = input.closest('.field').querySelector('label');
+      const range = document.createRange();
+      range.selectNodeContents(label);
+      return range.getClientRects().length;
+    })).toBe(1);
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});

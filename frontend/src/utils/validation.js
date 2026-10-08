@@ -17,3 +17,9 @@ export function getMissingBuildSlots(selectedComponents) {
 export function isNonEmptyText(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
+
+export function validateUpgradeStepCount(value) {
+  const steps = Number(value);
+  return Number.isInteger(steps) && steps >= 1 && steps <= 5
+    ? '' : 'Informe uma quantidade inteira de etapas entre 1 e 5.';
+}

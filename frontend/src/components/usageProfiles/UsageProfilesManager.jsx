@@ -210,7 +210,7 @@ export default function UsageProfilesManager({ appliedProfileId = '', onApplyPro
               />
             </label>
 
-            <div className="weight-grid">
+            <div className="weight-grid field-row-grid">
               {weightFields.map(([key, label]) => (
                 <Input
                   key={key}

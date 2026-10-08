@@ -45,9 +45,9 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
             { value: 'value-desc', label: 'Maior índice por real' }, { value: 'value-asc', label: 'Menor índice por real' }
           ] : [])
         ]} />
-        {hasBuild && <Select label="Compatibilidade com a montagem" value={filters.compatibility || 'all'} onChange={event => update('compatibility', event.target.value)} options={[
-          { value: 'all', label: 'Todas (sem filtrar)' }, { value: 'compatible', label: 'Compatível nas regras verificadas' },
-          { value: 'incompatible', label: 'Conflito encontrado' }, { value: 'unverified', label: 'Verificação incompleta' }
+        {hasBuild && <Select label="Compatibilidade" value={filters.compatibility || 'all'} onChange={event => update('compatibility', event.target.value)} options={[
+          { value: 'all', label: 'Todas' }, { value: 'compatible', label: 'Sem conflitos' },
+          { value: 'incompatible', label: 'Com conflito' }, { value: 'unverified', label: 'Dados incompletos' }
         ]} />}
       </div>
       <Button variant="ghost" onClick={() => onChange({ ...emptyCatalogFilters, specs: {}, category: fixedCategory || 'all' })}>Limpar filtros</Button>

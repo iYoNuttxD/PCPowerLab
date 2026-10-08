@@ -42,25 +42,56 @@ test('Escape, clique externo e foco fora do cabeçalho fecham os grupos', async 
   await expect(page.locator('#nav-toggle-analyze')).toBeFocused();
   await expect(page.locator('#nav-analyze')).toBeHidden();
   await page.locator('#nav-toggle-analyze').click();
-  await page.locator('h1').click();
+  // The compact dropdown can cover h1; use an actual outside non-link target.
+  await page.locator('footer > span').click();
   await expect(page.locator('#nav-analyze')).toBeHidden();
   await openGroup(page, 'builds');
-  await page.locator('footer a').focus();
+  const about = page.locator('footer').getByRole('link', { name: 'Sobre o projeto', exact: true });
+  await about.focus();
   await expect(page.locator('#nav-builds')).toBeHidden();
-  await expect(page.locator('footer a')).toBeFocused();
+  await expect(about).toBeFocused();
 });
 
 test('mudança entre desktop e menu compacto nunca deixa foco num controle oculto', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
+  for (const [desktopWidth, compactWidth] of [[1440, 390], [1041, 1040], [1440, 390]]) {
+    await page.setViewportSize({ width: desktopWidth, height: 900 });
+    await openGroup(page, 'explore');
+    const link = page.locator('#nav-explore a').first();
+    await link.focus();
+    await expect(link).toBeFocused();
+    await page.setViewportSize({ width: compactWidth, height: 844 });
+    await expect(page.getByRole('button', { name: 'Abrir menu', exact: true })).toBeFocused();
+    await expect(page.locator('#main-navigation')).toBeHidden();
+    await page.setViewportSize({ width: desktopWidth, height: 900 });
+    await expect(page.locator('.brand')).toBeFocused();
+    await expect(page.locator('#nav-explore')).toBeHidden();
+  }
+});
+
+test('mudança de breakpoint não recupera foco antigo após sair do cabeçalho', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
   await openGroup(page, 'explore');
   await page.locator('#nav-explore a').first().focus();
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.getByRole('button', { name: 'Abrir menu', exact: true })).toBeFocused();
-  await expect(page.locator('#main-navigation')).toBeHidden();
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(page.locator('.brand')).toBeFocused();
+  const about = page.locator('footer').getByRole('link', { name: 'Sobre o projeto', exact: true });
+  await about.focus();
   await expect(page.locator('#nav-explore')).toBeHidden();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(about).toBeFocused();
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(about).toBeFocused();
+
+  await openGroup(page, 'explore');
+  const link = page.locator('#nav-explore a').first();
+  await link.focus();
+  await expect(link).toBeFocused();
+  await link.evaluate(element => element.blur());
+  await expect(page.locator('#nav-explore')).toBeHidden();
+  await expect(page.locator('body')).toBeFocused();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('body')).toBeFocused();
 });
 
 test('admin fica fora da navegação pública mas mantém a rota de autenticação', async ({ page }) => {

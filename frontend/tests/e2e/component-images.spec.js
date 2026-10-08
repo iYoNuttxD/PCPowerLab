@@ -37,9 +37,12 @@ async function setup(page, catalog = components, storage = photo) {
 }
 
 async function verifyPhoto(page, locator = page.locator(`.component-media[data-component-id="${photo.id}"]`).first(), component = photo) {
-  await locator.scrollIntoViewIfNeeded();
+  // Catalog hydration replaces the provisional frame. Wait for its approved
+  // source before scrolling the stable figure, while the lazy image may be hidden.
   await expect(locator.locator('img')).toHaveAttribute('src', component.image.imagePath);
+  await locator.scrollIntoViewIfNeeded();
   await expect(locator.locator('img')).toBeVisible();
+  await expect.poll(() => locator.locator('img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   await expect(locator).toHaveAttribute('data-image-state', 'verified');
   await expect(locator.locator('img')).toHaveCSS('object-fit', 'contain');
   await expect(locator.locator('details')).toHaveCount(0);
@@ -79,9 +82,10 @@ test('ready build details and build comparison selections render ID-resolved med
   await verifyPhoto(page, page.getByRole('dialog').locator(`.component-media[data-component-id="${photo.id}"]`));
   await page.keyboard.press('Escape');
   await page.goto('/compare');
-  await page.getByText('Ver componentes', { exact: true }).first().click();
-  await verifyPhoto(page);
-  await page.getByRole('button', { name: 'Selecionar', exact: true }).click();
+  const savedCard = page.getByRole('article').filter({ has: page.getByRole('heading', { name: saved.name, exact: true }) });
+  await savedCard.getByText('Ver componentes', { exact: true }).click();
+  await verifyPhoto(page, savedCard.locator(`.component-media[data-component-id="${photo.id}"]`));
+  await savedCard.getByRole('button', { name: 'Selecionar', exact: true }).click();
   await page.getByRole('button', { name: 'Comparar selecionadas', exact: true }).click();
   const comparison = page.getByRole('region', { name: /Comparação de configurações/ });
   await comparison.getByText('Ver componentes', { exact: true }).first().click();

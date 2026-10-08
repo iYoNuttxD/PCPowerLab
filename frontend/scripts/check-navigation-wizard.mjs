@@ -1,7 +1,7 @@
 // Source-level React rendering and isolated handlers. No browser or server.
 // Run: node frontend/scripts/check-navigation-wizard.mjs
 import { build } from 'esbuild';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -30,6 +30,10 @@ try {
     define: { 'import.meta.env.VITE_API_BASE_URL': JSON.stringify('/api/v1') },
     banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },
     plugins: [{ name: 'isolated-navigation-fixtures', setup(builder) {
+      if (process.argv.includes('--drop-resize-focus-memory')) builder.onLoad({ filter: /layout\/AppLayout\.jsx$/ }, async ({ path }) => ({
+        contents: (await readFile(path, 'utf8')).replace('document.activeElement === document.body ? headerFocus : document.activeElement', 'document.activeElement'),
+        loader: 'jsx'
+      }));
       builder.onResolve({ filter: /^react$/ }, () => ({ path: 'react', namespace: 'fixture' }));
       builder.onResolve({ filter: /^react-router-dom$/ }, () => ({ path: 'router', namespace: 'fixture' }));
       builder.onResolve({ filter: /\/services\/sharingService\.js$/ }, () => ({ path: 'sharing', namespace: 'fixture' }));
@@ -74,15 +78,31 @@ try {
   console.log('PASS: rendered navigation preserves grouped destinations, skip link and hidden administrative entry');
 
   const focusCalls = []; const listeners = new Map(); let mediaChange;
-  const focused = name => ({ name, focus() { focusCalls.push(name); globalThis.document.activeElement = this; } });
+  const body = { name: 'body' };
+  function moveFocus(target) {
+    const previous = globalThis.document.activeElement;
+    globalThis.document.activeElement = target;
+    if (previous !== body) listeners.get('focusout')?.({ target: previous, relatedTarget: target === body ? null : target });
+    if (target !== body) listeners.get('focusin')?.({ target });
+  }
+  const focused = name => ({ name, focus() { focusCalls.push(name); moveFocus(this); } });
   const heading = { ...focused('heading'), setAttribute(name, value) { assert.equal(name, 'tabindex'); assert.equal(value, '-1'); } };
   const menu = focused('menu'); const brand = focused('brand'); const toggle = focused('toggle');
   const link = { ...focused('link'), closest: () => ({ querySelector: () => toggle }) };
   const navigation = { contains: target => [link, toggle].includes(target) };
   const header = { contains: target => [link, toggle, menu, brand].includes(target), querySelector: selector => selector === '#main-navigation' ? navigation : selector === '.brand' ? brand : toggle };
   let scrollCalls = 0;
-  globalThis.document = { activeElement: null, addEventListener: (name, handler) => listeners.set(name, handler), removeEventListener: name => listeners.delete(name) };
-  globalThis.window = { scrollTo: () => { scrollCalls += 1; }, matchMedia: () => ({ addEventListener: (_, handler) => { mediaChange = handler; }, removeEventListener: () => { mediaChange = null; } }) };
+  globalThis.document = { body, activeElement: body, addEventListener: (name, handler) => listeners.set(name, handler), removeEventListener: name => listeners.delete(name) };
+  const media = { matches: false, addEventListener: (_, handler) => { mediaChange = handler; }, removeEventListener: () => { mediaChange = null; } };
+  globalThis.window = { scrollTo: () => { scrollCalls += 1; }, matchMedia: () => media };
+  function resize(compact, { loseFocusFirst = false, emitBlur = true } = {}) {
+    media.matches = compact;
+    if (loseFocusFirst) {
+      if (emitBlur) moveFocus(body);
+      else globalThis.document.activeElement = body;
+    }
+    mediaChange({ matches: compact });
+  }
   const nav = runtime(AppLayout, () => ({ children: 'page' }), tree => {
     find(tree, node => node.type === 'header').props.ref.current = header;
     find(tree, node => node.props?.className === 'mobile-menu-button').props.ref.current = menu;
@@ -98,14 +118,33 @@ try {
   find(tree, node => node.type === 'header').props.onKeyDown({ key: 'Escape' }); tree = nav.render();
   assert.equal(button(tree, 'Analisar').props['aria-expanded'], false); assert.equal(focusCalls.at(-1), 'toggle');
   button(tree, 'Explorar').props.onClick(); tree = nav.render();
-  globalThis.document.activeElement = link; mediaChange({ matches: true }); tree = nav.render();
+  moveFocus(link); resize(true); tree = nav.render();
   assert.equal(focusCalls.at(-1), 'menu'); assert.equal(button(tree, 'Explorar').props['aria-expanded'], false);
-  mediaChange({ matches: false }); assert.equal(focusCalls.at(-1), 'brand');
+  resize(false); assert.equal(focusCalls.at(-1), 'brand');
+  for (const emitBlur of [true, false]) {
+    button(tree, 'Explorar').props.onClick(); tree = nav.render();
+    moveFocus(link); resize(true, { loseFocusFirst: true, emitBlur }); tree = nav.render();
+    assert.equal(globalThis.document.activeElement, menu, 'CSS-hidden navigation must restore focus even when the browser resets activeElement before matchMedia change');
+    assert.equal(button(tree, 'Explorar').props['aria-expanded'], false);
+    resize(false, { loseFocusFirst: true, emitBlur }); tree = nav.render();
+    assert.equal(globalThis.document.activeElement, brand, 'CSS-hidden compact menu must restore focus when desktop returns');
+  }
+  // An ordinary blur or an intentional move outside the header is not a resize
+  // casualty. Keeping the last header target indefinitely would steal focus.
+  moveFocus(link); moveFocus(body); resize(true); tree = nav.render();
+  assert.equal(globalThis.document.activeElement, body, 'a blur before the breakpoint changes must not restore stale header focus');
+  resize(false); moveFocus(link); moveFocus(heading); resize(true); tree = nav.render();
+  assert.equal(globalThis.document.activeElement, heading, 'resize must leave a focused page heading alone');
+  resize(false); moveFocus(link); moveFocus(heading); moveFocus(body); resize(true); tree = nav.render();
+  assert.equal(globalThis.document.activeElement, body, 'a completed focus move outside the header must clear the remembered navigation target');
+  // A compact dropdown stays visible until the handler closes it on desktop.
+  moveFocus(link); resize(false); tree = nav.render();
+  assert.equal(globalThis.document.activeElement, toggle);
   button(tree, 'Minhas builds').props.onClick(); nav.render();
   listeners.get('pointerdown')({ target: {} }); tree = nav.render();
   assert.equal(button(tree, 'Minhas builds').props['aria-expanded'], false);
   nav.close(); assert.equal(mediaChange, null); assert.equal(listeners.size, 0);
-  console.log('PASS: isolated navigation handlers restore focus target on same-route entries and breakpoints; Escape/outside dismissal and listener cleanup work');
+  console.log('PASS: isolated navigation handles both resize/blur orders without stealing outside focus; same-route, Escape/outside dismissal and listener cleanup work');
 
   let changedStep; let summaryCalled = false; let summaryFocused = false;
   tree = WizardNavigation({ currentStep: 'cpu', completedSteps: [], canAdvance: false, guidance: 'Selecione uma peça', onStepChange: step => { changedStep = step; }, onSummary: () => { summaryCalled = true; } });

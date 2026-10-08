@@ -218,11 +218,13 @@ test('catálogo apresenta carregamento, falha, recuperação e ausência de peç
 test('incompatibilidade continua bloqueando gargalos e não aparece como sucesso', async ({ page }) => {
   let bottlenecks = 0;
   await seed(page, { wizardStep: 'review', selectedComponents: selection });
-  await page.route('**/compatibility/alerts', route => respond(route, { compatible: true, alerts: [{ severity: 'high', title: 'Socket incompatível', message: 'Troque o processador ou a placa-mãe.' }] }));
+  const incompatible = { compatible: false, alerts: [{ severity: 'high', title: 'Socket incompatível', message: 'Troque o processador ou a placa-mãe.' }] };
+  await page.route('**/compatibility/check', route => respond(route, incompatible));
+  await page.route('**/compatibility/alerts', route => respond(route, incompatible));
   await page.route('**/bottlenecks/analyze', route => { bottlenecks += 1; return respond(route, {}); });
   await page.goto('/build');
   await analyze(page);
-  await expect(page.locator('.alert-warning').filter({ hasText: 'Há peças incompatíveis.' })).toBeVisible();
+  await expect(page.locator('.alert-warning').filter({ hasText: 'A compatibilidade não foi confirmada.' })).toBeVisible();
   await expect(page.locator('.alert-success')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Análise de gargalos indisponível' })).toBeVisible();
   expect(bottlenecks).toBe(0);
@@ -326,6 +328,9 @@ test('sair durante análise não mantém carregamento permanente nem aplica resp
   await analyze(page);
   await expect.poll(() => Boolean(release)).toBe(true);
   await menuLink(page, 'explore', '/components');
+  await expect(page).toHaveURL(/\/components$/);
+  await expect(page.getByRole('heading', { name: 'Catálogo de componentes', exact: true })).toBeVisible();
+  await expect(page.locator('#wizard-step-heading')).toHaveCount(0);
   release();
   await menuLink(page, null, '/build');
   await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
@@ -340,7 +345,7 @@ test('aplica recomendação, permite reanalisar e salva as peças substituídas'
   await page.route('**/recommendations/budget', route => respond(route, { components: recommended, totalEstimatedPrice: 4500, summary: 'Configuração sugerida para o teste.' }));
   await page.goto('/build');
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
-  await page.getByRole('button', { name: 'Usar esta recomendação', exact: true }).click();
+  await page.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
   expect((await stored(page)).selectedComponents).toEqual(recommended);
   await expect(page.getByRole('heading', { name: 'Compatibilidade ainda não verificada' })).toBeVisible();
   await analyze(page);

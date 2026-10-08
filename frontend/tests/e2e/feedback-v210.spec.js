@@ -37,7 +37,12 @@ test('summary success hint and horizontal energy labels stay coherent at narrow 
   const chart=page.getByRole('group',{name:'Gráfico de consumo energético da build',exact:true});
   await chart.scrollIntoViewIfNeeded();
   await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  const labels=await chart.locator('.recharts-yAxis text').evaluateAll(nodes=>nodes.map(node=>{const box=node.getBoundingClientRect();return {top:box.top,bottom:box.bottom};}));
+  const labels=[];
+  for(const label of ['Consumo','Referência','Fonte']){
+   const tick=chart.getByText(label,{exact:true});
+   await expect(tick).toBeVisible();
+   labels.push(await tick.evaluate(node=>{const box=node.getBoundingClientRect();return {top:box.top,bottom:box.bottom};}));
+  }
   expect(labels).toHaveLength(3);
   for(let index=1;index<labels.length;index++)expect(labels[index].top).toBeGreaterThanOrEqual(labels[index-1].bottom);
  }
