@@ -1,0 +1,11 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: npm run audit:images:report
+Exit: 1 (coverage remains incomplete)
+Verified product identities: 11 of 98 (11.22%)
+Unresolved products: 87
+Image files: 10
+Orphan files: 0
+Suspect duplicate groups: 0
+Reports: docs/RA2-COBERTURA-IMAGENS.md and docs/RA2-COBERTURA-IMAGENS.json

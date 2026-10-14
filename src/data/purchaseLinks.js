@@ -1,6 +1,6 @@
 import { components } from './components.mock.js';
 
-const lastUpdated = '2026-05-22';
+const lastUpdated = null;
 
 const stores = [
   {
@@ -25,7 +25,9 @@ const stores = [
   }
 ];
 
-export const purchaseLinks = components.flatMap((component) => {
+export const purchaseLinks = components.flatMap(createComponentPurchaseLinks);
+
+export function createComponentPurchaseLinks(component) {
   const searchTerm = buildSearchTerm(component);
   const terms = {
     hyphenTerm: toHyphenTerm(searchTerm),
@@ -34,6 +36,15 @@ export const purchaseLinks = components.flatMap((component) => {
 
   return stores.map((store) => ({
     componentId: component.id,
+    productId: component.id,
+    storeId: toHyphenTerm(store.storeName),
+    kind: 'research',
+    priceType: 'estimate',
+    productUrl: null,
+    queriedAt: null,
+    validUntil: null,
+    source: { kind: 'catalog_reference', name: 'Catálogo demonstrativo' },
+    updateStatus: 'not_queried',
     storeName: store.storeName,
     url: store.buildUrl(terms),
     price: Number.isFinite(component.price) ? component.price : null,
@@ -42,7 +53,7 @@ export const purchaseLinks = components.flatMap((component) => {
     isAffiliate: false,
     availabilityStatus: 'unknown'
   }));
-});
+}
 
 function buildSearchTerm(component) {
   const name = component.name || component.id;

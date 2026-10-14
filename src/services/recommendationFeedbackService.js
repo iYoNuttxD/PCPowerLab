@@ -1,3 +1,4 @@
+import { checkBuildCompatibility } from './compatibility.service.js';
 import { recommendationFeedback } from '../data/recommendationFeedback.js';
 
 export const validRecommendationTypes = [
@@ -53,6 +54,7 @@ export function createRecommendationFeedback(feedbackInput) {
   const performanceLevel = normalizeOptionalLimitedText(feedbackInput.performanceLevel, 'performanceLevel', 80);
   const buildSnapshot = normalizeBuildSnapshot(feedbackInput.buildSnapshot);
   const buildDetails = normalizeBuildDetails(feedbackInput.buildDetails);
+  const coolingAssessment = assessSnapshotCooling(buildSnapshot);
 
   const feedback = {
     id: generateRecommendationFeedbackId(),
@@ -67,7 +69,7 @@ export function createRecommendationFeedback(feedbackInput) {
     ...(totalEstimatedPrice !== null && { totalEstimatedPrice }),
     ...(compatibilityStatus && { compatibilityStatus }),
     ...(performanceLevel && { performanceLevel }),
-    ...(buildSnapshot && { buildSnapshot }),
+    ...(buildSnapshot && { buildSnapshot, coolingAssessment }),
     ...(buildDetails && { buildDetails }),
     createdAt: new Date().toISOString()
   };
@@ -260,7 +262,7 @@ function normalizeBuildSnapshot(value) {
     throw error;
   }
 
-  const allowedKeys = ['cpuId', 'gpuId', 'motherboardId', 'ramId', 'storageId', 'psuId', 'caseId'];
+  const allowedKeys = ['cpuId', 'gpuId', 'motherboardId', 'ramId', 'storageId', 'psuId', 'caseId', 'coolerId'];
   const snapshot = allowedKeys.reduce((normalizedSnapshot, key) => {
     const componentId = normalizeOptionalText(value[key]);
 
@@ -269,6 +271,7 @@ function normalizeBuildSnapshot(value) {
       : normalizedSnapshot;
   }, {});
 
+  if (value.fans !== undefined) snapshot.fans = normalizeFeedbackFans(value.fans);
   return Object.keys(snapshot).length > 0 ? { ...snapshot } : null;
 }
 
@@ -284,7 +287,7 @@ function normalizeBuildDetails(value) {
     throw error;
   }
 
-  const allowedTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
+  const allowedTypes = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case', 'cooler'];
   const details = allowedTypes.reduce((normalizedDetails, type) => {
     const component = value[type];
 
@@ -305,7 +308,25 @@ function normalizeBuildDetails(value) {
       : normalizedDetails;
   }, {});
 
+  if (value.fans !== undefined) details.fans = normalizeFeedbackFans(value.fans, true);
   return Object.keys(details).length > 0 ? { ...details } : null;
+}
+
+function normalizeFeedbackFans(value, details = false) {
+  if (!Array.isArray(value) || value.length > 20 || value.some((entry) =>
+    !entry || !normalizeOptionalText(entry.fanId ?? entry.id) || !Number.isInteger(entry.quantity)
+    || entry.quantity < 1 || entry.quantity > 20)) {
+    const error = new Error('Fans do feedback invalidos.');
+    error.statusCode = 400;
+    throw error;
+  }
+  return value.map((entry) => details ? {
+    id: entry.id ?? entry.fanId,
+    name: normalizeOptionalText(entry.name),
+    category: 'fan',
+    quantity: entry.quantity,
+    ...(Number.isFinite(entry.price) && { price: entry.price })
+  } : { fanId: entry.fanId ?? entry.id, quantity: entry.quantity });
 }
 
 function generateRecommendationFeedbackId() {
@@ -340,4 +361,17 @@ function normalizeOptionalText(value) {
 
 function isFilledText(value) {
   return typeof value === 'string' && value.trim().length > 0;
+}
+
+// Derive from catalog identities rather than accepting a client claim of fit.
+function assessSnapshotCooling(snapshot) {
+  if (!snapshot) return null;
+  try {
+    return checkBuildCompatibility(snapshot).coolingAssessment;
+  } catch (error) {
+    if (!error.statusCode || error.statusCode >= 500) throw error;
+    return { status: 'unverified', scope: 'cooling_not_assessed', alerts: [],
+      unverifiedChecks: [{ code: 'COOLING_SNAPSHOT_UNVERIFIED', severity: 'medium', verification: 'unverified',
+        message: 'O snapshot não contém dados válidos suficientes para verificar a refrigeração.' }] };
+  }
 }

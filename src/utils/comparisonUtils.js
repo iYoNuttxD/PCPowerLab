@@ -1,3 +1,4 @@
+import { requiredBuildSlots, calculateBuildPrice } from '../services/build.service.js';
 import { calculateCostBenefitScore } from './costBenefitUtils.js';
 import { usageSlotWeights } from './usageTypeWeights.js';
 
@@ -9,23 +10,31 @@ export const supportedComparisonCriteria = [
 ];
 
 export function calculateBuildCostBenefitScore({ components, performanceByComponentId, usageType }) {
-  const componentEntries = Object.entries(components);
+  const componentEntries = requiredBuildSlots
+    .filter((slot) => components[slot])
+    .map((slot) => [slot, components[slot]]);
 
   if (componentEntries.length === 0) {
     return 0;
   }
 
-  const totalScore = componentEntries.reduce((total, [slot, component]) => {
+  const scores = componentEntries.map(([slot, component]) => {
     const performanceParameter = performanceByComponentId.get(component.id);
     const slotWeight = usageSlotWeights[usageType]?.[slot] ?? 1;
 
-    return total + calculateCostBenefitScore(component, performanceParameter, {
+    return calculateCostBenefitScore(component, performanceParameter, {
       usageType,
       slotWeight
     });
-  }, 0);
+  });
+  if (scores.some((score) => score === null)) return null;
+  const totalScore = scores.reduce((total, score) => total + score, 0);
 
-  return Number(Math.min(totalScore * 100, 100).toFixed(2));
+  const mainPrice = calculateBuildPrice(Object.fromEntries(componentEntries));
+  const totalPrice = calculateBuildPrice(components);
+  const coolingCostFactor = totalPrice > 0 ? mainPrice / totalPrice : 1;
+
+  return Number((Math.min(totalScore * 100, 100) * coolingCostFactor).toFixed(2));
 }
 
 export function summarizeAlerts(alerts = []) {
@@ -63,6 +72,7 @@ export function normalizeBudgetStatus(budgetStatus) {
 }
 
 export function calculateComparisonScore({ build, criteria }) {
+  if (!Number.isFinite(build.performanceScore) || !Number.isFinite(build.costBenefitScore) && criteria !== 'performance') return null;
   const compatibilityScore = build.compatible ? 15 : -35;
   const alertPenalty = (build.alertSummary.high * 12) + (build.alertSummary.medium * 6) + (build.alertSummary.low * 2);
   const bottleneckPenalty = (build.bottleneckSummary.high * 10)
@@ -97,20 +107,20 @@ export function calculateComparisonScore({ build, criteria }) {
 
 export function buildRecommendationReason({ criteria, selectedBuild }) {
   if (criteria === 'performance') {
-    return 'Maior pontuacao de desempenho considerando compatibilidade e gargalos.';
+    return 'Melhor pontuação final no critério Desempenho: considera o desempenho estimado, a compatibilidade, o orçamento e as penalidades por alertas e gargalos. Uma configuração com desempenho bruto maior pode ficar atrás se ultrapassar o orçamento.';
   }
 
   if (criteria === 'budget') {
     return selectedBuild.budgetStatus === 'within_budget'
-      ? 'Melhor aderencia ao orcamento informado com menor custo relativo.'
-      : 'Menor impacto financeiro entre as opcoes comparadas.';
+      ? 'Melhor aderência ao orçamento informado com menor custo estimado relativo entre as builds enviadas.'
+      : 'Menor custo de referencia estimado ponderado pelo orçamento entre as opções comparadas.';
   }
 
   if (criteria === 'balanced') {
-    return 'Melhor equilibrio entre desempenho, compatibilidade, orcamento e gargalos.';
+    return 'Melhor equilíbrio calculado entre desempenho simulado, compatibilidade, custo estimado e gargalos nas builds enviadas.';
   }
 
-  return 'Melhor relacao entre desempenho, preco e orcamento informado.';
+  return 'Melhor relação calculada entre desempenho simulado, preço estimado e orçamento informado nas builds enviadas.';
 }
 
 function getBudgetScore(budgetStatus) {

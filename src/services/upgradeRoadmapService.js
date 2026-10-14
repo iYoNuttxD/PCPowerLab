@@ -1,4 +1,5 @@
-import { selectBuildComponents } from './build.service.js';
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { selectBuildComponents, serializeBuildSelection, calculateBuildPrice } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -42,7 +43,8 @@ export function generateUpgradeRoadmap(input) {
         currency: 'BRL',
         priority: normalizeRecommendationPriority(priority)
       },
-      usageType
+      usageType,
+      components: initialBuildIds
     }),
     null
   );
@@ -66,6 +68,7 @@ export function generateUpgradeRoadmap(input) {
   const totalEstimatedCost = calculateTotalEstimatedCost(steps);
 
   return {
+    ...performanceMetadata(currentBuild),
     totalBudget,
     maxSteps,
     totalEstimatedCost,
@@ -143,6 +146,8 @@ function formatRoadmapStep({
   const { suggestion, stepPriority } = candidate;
 
   return removeNullishFields({
+    performanceBasis: suggestion.performanceBasis,
+    performanceMethodology: suggestion.performanceMethodology,
     step: stepNumber,
     orderRecommended: stepNumber,
     componentType: suggestion.componentType,
@@ -238,8 +243,12 @@ function formatCompatibility(compatibility) {
 
   return {
     compatible: compatibility.compatible,
+    status: compatibility.status,
+    coolingAssessment: compatibility.coolingAssessment,
+    unverifiedChecks: compatibility.unverifiedChecks ?? [],
     alerts: compatibility.alerts ?? [],
-    estimatedPrice: Number((compatibility.estimatedPrice ?? 0).toFixed(2))
+    estimatedPrice: compatibility.estimatedPrice,
+    pricing: compatibility.pricing
   };
 }
 
@@ -290,26 +299,18 @@ function normalizeMaxSteps(maxStepsInput) {
 
   const maxSteps = Number(maxStepsInput);
 
-  if (!Number.isFinite(maxSteps) || maxSteps <= 0) {
+  if (!Number.isInteger(maxSteps) || maxSteps <= 0) {
     const error = new Error('Quantidade de etapas invalida.');
     error.statusCode = 400;
-    error.errors = ['maxSteps deve ser um numero maior que zero.'];
+    error.errors = ['maxSteps deve ser um numero inteiro maior que zero.'];
     throw error;
   }
 
-  return Math.min(Math.floor(maxSteps), maxAllowedSteps);
+  return Math.min(maxSteps, maxAllowedSteps);
 }
 
 function normalizeBuildInput(buildInput) {
-  return {
-    cpuId: buildInput.cpuId ?? buildInput.cpu,
-    motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
-    gpuId: buildInput.gpuId ?? buildInput.gpu,
-    ramId: buildInput.ramId ?? buildInput.ram,
-    storageId: buildInput.storageId ?? buildInput.storage,
-    psuId: buildInput.psuId ?? buildInput.psu,
-    caseId: buildInput.caseId ?? buildInput.case
-  };
+  return serializeBuildSelection(selectBuildComponents(buildInput));
 }
 
 function normalizeRecommendationPriority(priority) {
@@ -333,7 +334,7 @@ function getMainBottleneck(bottleneckAnalysis) {
 }
 
 function calculateTotalPrice(build) {
-  return Object.values(build).reduce((total, component) => total + (component.price || 0), 0);
+  return calculateBuildPrice(build);
 }
 
 function calculateTotalEstimatedCost(steps) {
@@ -341,9 +342,7 @@ function calculateTotalEstimatedCost(steps) {
 }
 
 function mapBuildToIds(build) {
-  return Object.fromEntries(
-    Object.entries(build).map(([slot, component]) => [slot, component.id])
-  );
+  return serializeBuildSelection(build);
 }
 
 function runOptionalAnalysis(callback, fallbackValue) {

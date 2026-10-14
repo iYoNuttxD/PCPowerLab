@@ -1,3 +1,6 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { bottleneckVerdict } from '../utils/performanceAvailability.js';
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { createBudget } from './budgetService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
@@ -43,6 +46,8 @@ export function compareBuilds(input) {
   const recommendedBuild = selectRecommendedBuild({ builds, comparisonCriteria });
 
   return removeEmptyFields({
+    ...performanceMetadata(builds.flatMap(build => Object.values(build.components)), performanceByComponentId),
+    methodology: buildDecisionMethodology({ usageType, scope: 'submitted_builds_only', ranking: 'Compara somente as builds enviadas; combina desempenho simulado, custo de referencia, compatibilidade, orçamento e penalidades de alertas/gargalos conforme o critério.' }),
     comparisonCriteria,
     usageType,
     budget: budget
@@ -68,8 +73,8 @@ function analyzeBuildForComparison({
   performanceByComponentId,
   comparisonCriteria
 }) {
-  const name = trimOptionalText(buildInput.name) || `Build ${index + 1}`;
   const componentsInput = normalizeBuildComponentsInput(buildInput);
+  const name = trimOptionalText(buildInput.name) || `Build ${index + 1}`;
   const summary = generateBuildSummary({
     build: componentsInput,
     budget,
@@ -83,7 +88,7 @@ function analyzeBuildForComparison({
     performanceByComponentId,
     usageType
   });
-  const costBenefitScore = calculateBuildCostBenefitScore({
+  const costBenefitScore = summary.totalEstimatedPrice === null ? null : calculateBuildCostBenefitScore({
     components: summary.components,
     performanceByComponentId,
     usageType
@@ -92,20 +97,31 @@ function analyzeBuildForComparison({
   const alertSummary = summarizeAlerts(summary.compatibility.alerts);
   const bottleneckSummary = summarizeBottlenecks(summary.bottlenecks);
   const build = {
+    comparisonIndex: index,
     name,
     totalEstimatedPrice: summary.totalEstimatedPrice,
+    pricing: summary.pricing,
+    priceBasis: 'catalog_reference_estimate',
+    ...performanceMetadata(summary.components, performanceByComponentId),
+    performanceAvailable: performanceScore !== null,
     compatible: summary.compatibility.compatible,
+    compatibilityStatus: summary.compatibility.status,
+    coolingAssessment: summary.compatibility.coolingAssessment,
+    unverifiedChecks: summary.compatibility.unverifiedChecks,
+    components: summary.components,
     alertSummary,
     performanceScore,
     costBenefitScore,
-    hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
+    hasBottleneck: bottleneckVerdict(summary.bottlenecks),
     bottleneckSummary,
+    bottleneckStatus: summary.compatibility.compatible === true && summary.compatibility.status !== 'unverified' && typeof summary.bottlenecks?.hasBottleneck === 'boolean' && summary.bottlenecks?.available !== false ? 'analyzed' : 'unavailable',
     budgetStatus,
     gamePerformance: summary.gamePerformance,
     summary: buildComparisonSummary({
       compatible: summary.compatibility.compatible,
+      coolingAssessment: summary.compatibility.coolingAssessment,
       budgetStatus,
-      hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
+      hasBottleneck: bottleneckVerdict(summary.bottlenecks),
       gamePerformance: summary.gamePerformance,
       usageType
     }),
@@ -114,7 +130,9 @@ function analyzeBuildForComparison({
 
   return {
     ...build,
-    comparisonScore: Number(calculateComparisonScore({ build, criteria: comparisonCriteria }).toFixed(2))
+    comparisonScore: performanceScore === null || (comparisonCriteria !== 'performance' && (summary.totalEstimatedPrice === null || costBenefitScore === null))
+      ? null
+      : Number(calculateComparisonScore({ build, criteria: comparisonCriteria }).toFixed(2))
   };
 }
 
@@ -127,7 +145,11 @@ function calculatePerformanceScore({ summary, performanceByComponentId, usageTyp
 }
 
 function selectRecommendedBuild({ builds, comparisonCriteria }) {
-  const selectedBuild = builds.reduce((bestBuild, currentBuild) => {
+  const eligibleBuilds = builds.filter(build => Number.isFinite(build.comparisonScore));
+  if (eligibleBuilds.length === 0) {
+    return { available: false, reason: 'Comparação indisponível: faltam estimativas de desempenho ou preço de referência.' };
+  }
+  const selectedBuild = eligibleBuilds.reduce((bestBuild, currentBuild) => {
     if (!bestBuild || currentBuild.comparisonScore > bestBuild.comparisonScore) {
       return currentBuild;
     }
@@ -136,14 +158,19 @@ function selectRecommendedBuild({ builds, comparisonCriteria }) {
   }, null);
 
   return {
+    performanceBasis: selectedBuild.performanceBasis,
+    performanceMethodology: selectedBuild.performanceMethodology,
+    comparisonIndex: selectedBuild.comparisonIndex,
     name: selectedBuild.name,
-    reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild }),
+    reason: buildRecommendationReason({ criteria: comparisonCriteria, selectedBuild })
+      + (eligibleBuilds.length < builds.length ? ' Configurações sem estimativas necessárias foram excluídas desta classificação.' : ''),
     comparisonScore: selectedBuild.comparisonScore
   };
 }
 
 function buildComparisonSummary({
   compatible,
+  coolingAssessment,
   budgetStatus,
   hasBottleneck,
   gamePerformance,
@@ -152,15 +179,19 @@ function buildComparisonSummary({
   const parts = [];
 
   parts.push(compatible
-    ? `Configuracao compativel para ${usageType}.`
-    : 'Configuracao possui incompatibilidades que reduzem sua recomendacao.');
+    ? coolingAssessment?.status === 'unverified'
+      ? `Verificações principais compatíveis para ${usageType}; refrigeração não verificada.`
+      : `Configuração compatível segundo as regras do catálogo para ${usageType}.`
+    : 'Configuração tem incompatibilidades ou verificacoes pendentes que reduzem sua recomendação.');
 
-  if (budgetStatus === 'within_budget') {
-    parts.push('Esta dentro do orcamento informado.');
+  if (budgetStatus === 'unavailable') {
+    parts.push('Orçamento não verificado porque há componentes sem preço de referência.');
+  } else if (budgetStatus === 'within_budget') {
+    parts.push('O custo de referencia estimado está dentro do orçamento informado.');
   } else if (budgetStatus === 'near_budget') {
-    parts.push('Fica proxima do orcamento, mas ultrapassa um pouco o valor informado.');
+    parts.push('O custo de referencia estimado fica próximo do orçamento, mas ultrapassa um pouco o valor informado.');
   } else if (budgetStatus === 'above_budget') {
-    parts.push('Esta acima do orcamento informado.');
+    parts.push('O custo de referencia estimado está acima do orçamento informado.');
   }
 
   if (hasBottleneck) {
@@ -168,7 +199,7 @@ function buildComparisonSummary({
   }
 
   if (gamePerformance?.estimatedFps) {
-    parts.push(`Estimativa de ${gamePerformance.estimatedFps} FPS no jogo informado.`);
+    parts.push(`Simulação estimada de ${gamePerformance.estimatedFps} FPS no jogo informado.`);
   }
 
   return parts.join(' ');
@@ -176,15 +207,15 @@ function buildComparisonSummary({
 
 function validateComparisonPayload(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
-    const error = new Error('Informe os dados para comparar configuracoes.');
+    const error = new Error('Informe os dados para comparar configurações.');
     error.statusCode = 400;
     throw error;
   }
 
   if (!Array.isArray(input.builds) || input.builds.length < 2) {
-    const error = new Error('Informe pelo menos duas builds para comparacao.');
+    const error = new Error('Informe pelo menos duas builds para comparação.');
     error.statusCode = 400;
-    error.errors = ['builds deve conter pelo menos duas configuracoes.'];
+    error.errors = ['builds deve conter pelo menos duas configurações.'];
     throw error;
   }
 }
@@ -198,14 +229,14 @@ function validateGameWhenInformed(gameId) {
     return;
   }
 
-  const error = new Error('Jogo nao encontrado.');
+  const error = new Error('Jogo não encontrado.');
   error.statusCode = 404;
   throw error;
 }
 
 function normalizeBuildComponentsInput(buildInput) {
   if (!buildInput || typeof buildInput !== 'object' || Array.isArray(buildInput)) {
-    const error = new Error('Build invalida para comparacao.');
+    const error = new Error('Build inválida para comparação.');
     error.statusCode = 400;
     throw error;
   }
@@ -213,7 +244,7 @@ function normalizeBuildComponentsInput(buildInput) {
   const components = buildInput.components ?? buildInput.build ?? buildInput;
 
   if (!components || typeof components !== 'object' || Array.isArray(components)) {
-    const error = new Error('Componentes da build invalidos para comparacao.');
+    const error = new Error('Componentes da build inválidos para comparação.');
     error.statusCode = 400;
     throw error;
   }
@@ -228,9 +259,9 @@ function normalizeComparisonCriteria(criteriaInput) {
     return criteria;
   }
 
-  const error = new Error('Criterio de comparacao invalido.');
+  const error = new Error('Critério de comparação inválido.');
   error.statusCode = 400;
-  error.errors = [`Criterios aceitos: ${supportedComparisonCriteria.join(', ')}.`];
+  error.errors = [`Critérios aceitos: ${supportedComparisonCriteria.join(', ')}.`];
   throw error;
 }
 

@@ -1,0 +1,21 @@
+{
+  "baselineCommit": "d433bf930d7373eec073921427e146bc8c173f26",
+  "scope": "Probes locais em processo isolado; nenhuma alteração persistente em código ou dados.",
+  "disabledRules": {
+    "allRulesInactive": true,
+    "beforeAlertCodes": [
+      "CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE"
+    ],
+    "afterAlertCodes": [
+      "CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE"
+    ]
+  },
+  "missingStorageInterfaces": {
+    "createAccepted": true,
+    "error": "TypeError",
+    "message": "Cannot read properties of undefined (reading 'includes')",
+    "statusCode": null
+  },
+  "assertions": "passed",
+  "inMemoryStateRestored": true
+}

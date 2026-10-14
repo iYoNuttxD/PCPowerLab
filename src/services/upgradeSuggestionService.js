@@ -1,5 +1,9 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { bottleneckVerdict } from '../utils/performanceAvailability.js';
+import { summarizeBuildPricing } from './marketPriceService.js';
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { getSavedBuildById } from './savedBuildsService.js';
-import { selectBuildComponents } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
@@ -7,7 +11,7 @@ import { generateExplanation } from './explanationService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { listComponents } from './component.service.js';
 import { recommendBuildByBudget } from './recommendationService.js';
-import { calculateCostBenefitScore, getPerformanceScore } from '../utils/costBenefitUtils.js';
+import { calculateCostBenefitScore, getPerformanceScore, getEstimatedPrice } from '../utils/costBenefitUtils.js';
 import {
   buildUpgradeReason,
   getUpgradeImpact,
@@ -27,15 +31,17 @@ export function suggestUpgrades(input) {
   const buildInput = normalizeBuildInput(resolveBuildInput(input));
   const currentBuild = selectBuildComponents(buildInput);
   const currentBuildIds = mapBuildToIds(currentBuild);
+  const pricing = summarizeBuildPricing(currentBuild);
   const bottleneckAnalysis = runOptionalAnalysis(() => analyzeBuildBottlenecks(buildInput), null);
-  const recommendationReference = runOptionalAnalysis(
+  const recommendationReference = pricing.estimatedTotal === null ? null : runOptionalAnalysis(
     () => recommendBuildByBudget({
       budget: {
-        amount: calculateTotalPrice(currentBuild) + (budget?.amount ?? 0),
+        amount: pricing.estimatedTotal + (budget?.amount ?? 0),
         currency: budget?.currency ?? 'BRL',
         priority: priority === 'balanced' || priority === 'upgrade-ready' ? 'cost-benefit' : priority
       },
-      usageType
+      usageType,
+      components: currentBuildIds
     }),
     null
   );
@@ -50,10 +56,13 @@ export function suggestUpgrades(input) {
   });
 
   return {
+    ...performanceMetadata(currentBuild),
+    methodology: buildDecisionMethodology({ usageType, ranking: 'Ganho de indice simulado, custo estimado integral da peca, prioridade, capacidade preservada e compatibilidade pelas regras do catalogo. Nao desconta revenda da peca antiga.' }),
     currentBuildSummary: {
-      totalEstimatedPrice: Number(calculateTotalPrice(currentBuild).toFixed(2)),
+      totalEstimatedPrice: pricing.estimatedTotal,
+      pricing,
       mainBottleneck: getMainBottleneck(bottleneckAnalysis),
-      hasBottleneck: bottleneckAnalysis?.hasBottleneck === true
+      hasBottleneck: bottleneckVerdict(bottleneckAnalysis)
     },
     suggestions,
     summary: buildUpgradeSummary(suggestions, bottleneckAnalysis)
@@ -85,7 +94,7 @@ function buildUpgradeSuggestions({
       usageType,
       priority,
       budget,
-      hasBottleneck: bottleneckAnalysis?.bottlenecks?.some((bottleneck) => bottleneck.component === slot) === true
+      hasBottleneck: bottleneckVerdict(bottleneckAnalysis) === null ? null : bottleneckAnalysis.bottlenecks?.some((bottleneck) => bottleneck.component === slot) === true
     });
 
     if (suggestion) {
@@ -112,9 +121,11 @@ function findBestSuggestionForSlot({
   const currentComponent = currentBuild[slot];
   const currentPerformance = performanceByComponentId.get(currentComponent.id);
   const currentScore = getPerformanceScore(currentComponent, currentPerformance, usageType);
+  if (!Number.isFinite(currentScore)) return null;
   const recommendedComponentId = recommendationReference?.components?.[slot]?.id;
   const candidates = listComponents({ type: slot })
     .filter((candidate) => candidate.id !== currentComponent.id)
+    .filter((candidate) => preservesCapacity(slot, currentComponent, candidate))
     .map((candidate) => buildCandidateSuggestion({
       candidate,
       slot,
@@ -149,13 +160,16 @@ function buildCandidateSuggestion({
 }) {
   const candidatePerformance = performanceByComponentId.get(candidate.id);
   const candidateScore = getPerformanceScore(candidate, candidatePerformance, usageType);
+  if (!Number.isFinite(candidateScore)) return null;
   const scoreGain = Number((candidateScore - currentScore).toFixed(2));
 
   if (scoreGain <= 0) {
     return null;
   }
 
-  const estimatedUpgradeCost = Number((candidate.price || 0).toFixed(2));
+  const referencePrice = getEstimatedPrice(candidate);
+  if (referencePrice === null) return null;
+  const estimatedUpgradeCost = Number(referencePrice.toFixed(2));
 
   if (budget && estimatedUpgradeCost > budget.amount) {
     return null;
@@ -190,6 +204,9 @@ function buildCandidateSuggestion({
     currentComponent,
     suggestedComponent: candidate,
     estimatedUpgradeCost,
+    estimatedCostBasis: 'full_replacement_reference_price',
+    ...performanceMetadata({ currentComponent, candidate }, performanceByComponentId),
+    performanceCalculation: 'simulated_score_difference',
     expectedImpact,
     scoreGain,
     reason: buildUpgradeReason({
@@ -200,6 +217,7 @@ function buildCandidateSuggestion({
     }),
     explanation,
     compatibilityStatus: 'compatible',
+    coolingAssessment: compatibility.coolingAssessment,
     score: calculateSuggestionScore({
       scoreGain,
       costBenefitScore,
@@ -253,15 +271,7 @@ function resolveBuildInput(input) {
 }
 
 function normalizeBuildInput(buildInput) {
-  return {
-    cpuId: buildInput.cpuId ?? buildInput.cpu,
-    motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
-    gpuId: buildInput.gpuId ?? buildInput.gpu,
-    ramId: buildInput.ramId ?? buildInput.ram,
-    storageId: buildInput.storageId ?? buildInput.storage,
-    psuId: buildInput.psuId ?? buildInput.psu,
-    caseId: buildInput.caseId ?? buildInput.case
-  };
+  return serializeBuildSelection(selectBuildComponents(buildInput));
 }
 
 function validateUpgradePayload(input) {
@@ -282,26 +292,20 @@ function getMainBottleneck(bottleneckAnalysis) {
 
 function buildUpgradeSummary(suggestions, bottleneckAnalysis) {
   if (suggestions.length === 0) {
-    return 'Nao foram encontrados upgrades compativeis dentro das restricoes informadas.';
+    return 'Nao foram encontrados upgrades compativeis no catalogo dentro das restricoes e custos estimados informados.';
   }
 
   const firstSuggestion = suggestions[0];
 
   if (bottleneckAnalysis?.hasBottleneck) {
-    return `O upgrade mais recomendado e trocar ${firstSuggestion.componentType}, pois esse ponto limita o desempenho da configuracao.`;
+    return `Entre os candidatos do catalogo, o upgrade sugerido e trocar ${firstSuggestion.componentType}, pois esse ponto aparece como limitador na simulacao.`;
   }
 
-  return `O upgrade mais recomendado e trocar ${firstSuggestion.componentType}, pois oferece o melhor ganho encontrado para o perfil informado.`;
+  return `Entre os candidatos do catalogo, o upgrade sugerido e trocar ${firstSuggestion.componentType}, pois oferece o melhor ganho simulado encontrado para o perfil informado, com custo de referencia estimado.`;
 }
 
 function mapBuildToIds(build) {
-  return Object.fromEntries(
-    Object.entries(build).map(([slot, component]) => [slot, component.id])
-  );
-}
-
-function calculateTotalPrice(build) {
-  return Object.values(build).reduce((total, component) => total + (component.price || 0), 0);
+  return serializeBuildSelection(build);
 }
 
 function stripInternalScore(suggestion) {
@@ -329,4 +333,11 @@ function normalizeText(value) {
   }
 
   return value.trim().toLowerCase();
+}
+
+function preservesCapacity(slot, currentComponent, candidate) {
+  const field = { storage: 'capacityGb', ram: 'capacityGb', gpu: 'vramGb' }[slot];
+  if (!field || !Number.isFinite(currentComponent.specs?.[field])) return true;
+  const candidateCapacity = candidate.specs?.[field];
+  return Number.isFinite(candidateCapacity) && candidateCapacity >= currentComponent.specs[field];
 }

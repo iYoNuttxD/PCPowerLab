@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { URL } from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -24,17 +26,30 @@ test('deve manter dados mockados principais consistentes', () => {
     assert.equal(componentIds.has(component.id), false);
     assert.equal(componentCategories.includes(component.category), true);
     assert.equal(typeof component.name, 'string');
-    assert.equal(Number.isFinite(component.price), true);
-    assert.equal(component.price > 0, true);
+    if (component.priceKind === 'unavailable') {
+      assert.equal(component.price, null, component.id);
+    } else {
+      assert.equal(component.priceKind, 'dated-reference-snapshot', component.id);
+      assert.equal(Number.isFinite(component.price), true, component.id);
+      assert.equal(component.price > 0, true, component.id);
+    }
 
     componentIds.add(component.id);
   }
+  assert.equal(components.filter(component => component.price === null).length, 79);
+  const currentFacts = JSON.parse(readFileSync(new URL('./fixtures/current-market-source-facts.json', import.meta.url), 'utf8'));
+  assert.deepEqual(components.filter(component => Number.isFinite(component.price)).map(component => component.id).sort(), Object.keys(currentFacts).sort());
 
   for (const parameter of performanceParameters) {
     assert.equal(componentIds.has(parameter.componentId), true);
     assert.equal(componentCategories.includes(parameter.type), true);
-    assert.equal(Number.isFinite(parameter.performanceScore), true);
-    assert.equal(parameter.performanceScore >= 0 && parameter.performanceScore <= 100, true);
+    if (parameter.type === 'psu' && parameter.scoreKind === 'capacity-only') {
+      assert.equal(parameter.performanceScore, undefined);
+      assert.equal(Number.isFinite(parameter.wattage), true);
+    } else {
+      assert.equal(Number.isFinite(parameter.performanceScore), true);
+      assert.equal(parameter.performanceScore >= 0 && parameter.performanceScore <= 100, true);
+    }
   }
 
   for (const link of purchaseLinks) {

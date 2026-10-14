@@ -1,0 +1,11 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-recommendation-feedback-access.mjs
+Exit: 0
+PASS 1: Budget form precedes 20 retained cards and profile manager; all category filters remain
+PASS 2: Real section and profile handlers request focus/scroll, header clearance, reduced motion, and retain modified links
+PASS 3: Moved budget form still submits selected criteria and renders accepted recommendations
+PASS 4: General and orphaned feedback render project language and submit rating/comment without fabricated recommendation intent/context
+PASS 5: Contextual feedback retains recommendation question/actions and submits linked build plus explicit follow intent
+LIMITATION: SSR/isolated handlers do not establish visual position, real DOM focus/scroll, browser history, or keyboard behavior

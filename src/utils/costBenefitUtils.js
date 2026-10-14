@@ -1,3 +1,6 @@
+import { corePerformanceCategories, isUsableScoreParameter } from './performanceAvailability.js';
+import { requiredBuildSlots } from '../services/build.service.js';
+
 const defaultPerformanceScore = 50;
 
 export function getEstimatedPrice(component) {
@@ -11,9 +14,15 @@ export function getEstimatedPrice(component) {
 }
 
 export function getPerformanceScore(component, performanceParameter, usageType = 'general') {
-  if (!component) {
-    return defaultPerformanceScore;
+  if (!component || (component.performanceModelStatus === 'unavailable' && !isUsableScoreParameter(component, performanceParameter))) {
+    return null;
   }
+
+  if (['cooler', 'fan'].includes(component.category)) {
+    return 0;
+  }
+
+  if (corePerformanceCategories.includes(component.category) && !isUsableScoreParameter(component, performanceParameter)) return null;
 
   const usageScoreField = getUsageScoreField(usageType);
   const usageScore = performanceParameter?.[usageScoreField];
@@ -27,10 +36,12 @@ export function getPerformanceScore(component, performanceParameter, usageType =
     return baseScore;
   }
 
-  return defaultPerformanceScore;
+  return ['cpu', 'gpu', 'ram', 'storage'].includes(component.category) ? null : defaultPerformanceScore;
 }
 
 export function calculateCostBenefitScore(component, performanceParameter, options = {}) {
+  const performanceScore = getPerformanceScore(component, performanceParameter, options.usageType || 'general');
+  if (performanceScore === null) return null;
   const price = getEstimatedPrice(component);
 
   if (!price) {
@@ -39,18 +50,20 @@ export function calculateCostBenefitScore(component, performanceParameter, optio
 
   const usageType = options.usageType || 'general';
   const slotWeight = options.slotWeight || 1;
-  const performanceScore = getPerformanceScore(component, performanceParameter, usageType);
   const usageFitBonus = hasRecommendedUse(performanceParameter, usageType) ? 1.08 : 1;
 
   return (performanceScore * slotWeight * usageFitBonus) / price;
 }
 
 export function calculateBuildPerformanceScore(components, performanceByComponentId, usageType) {
-  const entries = Object.values(components);
+  const entries = requiredBuildSlots.map((slot) => components[slot]).filter(Boolean);
 
   if (entries.length === 0) {
     return 0;
   }
+
+  const scores = entries.map((component) => getPerformanceScore(component, performanceByComponentId.get(component.id), usageType));
+  if (scores.some((score) => score === null)) return null;
 
   const totalScore = entries.reduce((total, component) => {
     const performanceParameter = performanceByComponentId.get(component.id);
@@ -105,6 +118,7 @@ function getUsageTypeAlias(usageType) {
 
 
 export function classifyCostBenefitScore(score) {
+  if (!Number.isFinite(score)) return 'Indisponível';
   if (score >= 85) {
     return 'Excelente';
   }
@@ -125,24 +139,25 @@ export function classifyCostBenefitScore(score) {
 }
 
 export function buildCostBenefitSummary(component, score) {
+  if (!Number.isFinite(score)) return 'Estimativa de desempenho indisponível.';
   const categoryLabel = getCategoryLabel(component?.category);
   if (score >= 85) {
-    return `Excelente relação entre preço e desempenho para ${categoryLabel}.`;
+    return `Excelente relação entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;
   }
 
   if (score >= 70) {
-    return `Boa relação entre preço e desempenho para ${categoryLabel}.`;
+    return `Boa relação entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;
   }
 
   if (score >= 55) {
-    return `Relação equilibrada entre preço e desempenho para ${categoryLabel}.`;
+    return `Relação equilibrada entre preço estimado e desempenho simulado no catalogo para ${categoryLabel}.`;
   }
 
   if (score >= 40) {
-    return `Custo-benefício regular para ${categoryLabel}; compare com alternativas da mesma categoria.`;
+    return `Custo-benefício regular no catalogo para ${categoryLabel}; compare com alternativas da mesma categoria.`;
   }
 
-  return `Baixo custo-benefício para ${categoryLabel}, considerando preço e desempenho informados.`;
+  return `Baixo custo-benefício no catalogo para ${categoryLabel}, considerando preço estimado e desempenho simulado informados.`;
 }
 
 function getCategoryLabel(category) {

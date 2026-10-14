@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node scripts/check-quality-production.mjs
+Exit: 0
+Passed: production page routing, bundle delivery, structured error handling, and delivery of photography for 11 product identities from 10 image files.
+No browser hydration, focus, geometry, or user research was performed.

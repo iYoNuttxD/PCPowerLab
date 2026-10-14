@@ -1,0 +1,11 @@
+
+> pcpowerlab@0.1.0 lint
+> eslint src tests
+
+
+> pcpowerlab-frontend@0.1.0 lint
+> eslint src tests scripts playwright.config.js playwright.integration.config.js
+
+
+> pcpowerlab-frontend@0.1.0 lint
+> eslint src tests scripts playwright.config.js playwright.integration.config.js

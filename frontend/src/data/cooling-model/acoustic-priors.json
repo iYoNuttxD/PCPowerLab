@@ -1,0 +1,850 @@
+{
+  "modelVersion": "pcpl-acoustic-scenario-v1-proposed",
+  "reviewedAt": "2026-10-08",
+  "approvalStatus": "proposed-for-parent-review; no app implementation",
+  "convention": {
+    "id": "pcpl-1m-aweighted-equivalent-broadband-v1",
+    "quantity": "A-weighted sound pressure level",
+    "referencePressurePa": 2e-05,
+    "distanceM": 1,
+    "field": "idealized free-field equivalent; no enclosure attenuation or room reflections",
+    "listener": "one fixed hypothetical listener 1 m from common source reference; component locations collapsed to that reference",
+    "directivity": "Each admitted model profile is assumed to represent this listener. No measured directivity conversion is claimed; transfers carry explicit assumption bands. Bare fan reference is intake-facing; cooler/pump effective orientation is an assumption.",
+    "background": "excluded; modeled source-only energy. Source floors are not added once per source.",
+    "distanceCorrectionEnabled": false,
+    "independence": "incoherent broadband source-energy approximation; no phase/coherence, beating or tonal model"
+  },
+  "aggregation": {
+    "formula": "10*log10(sum(n_i*10^(L_i/10)))",
+    "fanCount": "packQuantity*unitsPerPack, integer physical units; use installedCount if selection explicitly distinguishes purchased and installed",
+    "coolerCount": "one selected complete assembly, with all internal rotating sources included once",
+    "bands": "sum all low energies, all central energies, all high energies separately; systematic assumptions do not average away with fan count",
+    "interpolation": "merge rpmNodes + additionalRpmNodes, sort by physical RPM, interpolate energy separately for each bound; 50-100% rated RPM only in v1",
+    "zero": "zero units or explicitly stopped source contributes zero energy, never0dBA; AIO pump/VRM do not stop with radiator fan",
+    "unknown": "subtotal may be returned only as partial, naming each selected omitted source; no hidden fallback"
+  },
+  "disclosure": "Ruído simulado do cooler e das ventoinhas selecionadas, a1m. Perfis aproximados; não inclui GPU, fonte, armazenamento, ventoinhas do gabinete não selecionadas nem ruído ambiente.",
+  "sources": {
+    "bq_method": {
+      "url": "https://www.bequiet.com/en/nonoise",
+      "supports": "Published cooler/fan SPL uses 1 m; exact microphone direction and background correction not specified."
+    },
+    "bq_039": {
+      "url": "https://www.bequiet.com/en/cpucooler/5591",
+      "supports": "BK039, one 120 mm fan, 2000 rpm; overall cooler manufacturer SPL at 50/75/100% RPM: 12.4/24.4/31.2 dBA."
+    },
+    "bq_042": {
+      "url": "https://www.bequiet.com/en/cpucooler/5600",
+      "supports": "BK042, two 120 mm fans, 2000 rpm; overall cooler manufacturer SPL at 50/75/100% RPM: 14.0/26.5/34.8 dBA."
+    },
+    "noctua_l9": {
+      "url": "https://www.noctua.at/en/products/nh-l9a-am4-chromax-black/specifications",
+      "supports": "Exact cooler has one NF-A9x14 HS-PWM chromax.black, 92x92x14 mm, rated 2500 rpm. Published fan acoustical rating excluded from model: measurement convention not established."
+    },
+    "noctua_a14": {
+      "url": "https://www.noctua.at/en/products/nf-a14-pwm/specifications",
+      "supports": "Exact NF-A14 PWM is 140 mm and 1500 rpm. Published acoustical rating excluded from model: measurement convention not established."
+    },
+    "arctic_p12": {
+      "url": "https://www.arctic.de/en/P12-Pro/ACFAN00305A",
+      "supports": "Exact ACFAN00305A, 120 mm, 600-3000 rpm."
+    },
+    "arctic_pst": {
+      "url": "https://www.arctic.de/media/2c/de/c6/1750758983/Spec_Sheet_P12_Pro_PST_EN.pdf",
+      "supports": "Exact ACFAN00308A white PST, one fan in package; P12 Pro PST family nominal 600-3000 rpm."
+    },
+    "arctic_240": {
+      "url": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-240-A-RGB-White/ACFRE00186A",
+      "supports": "Two 120 mm P12 Pro A-RGB 600-3000 rpm, pump 800-2800 rpm, VRM fan 400-2500 rpm; separate controls possible."
+    },
+    "arctic_360": {
+      "url": "https://www.arctic.de/en/Liquid-Freezer-III-Pro-360/ACFRE00180A",
+      "supports": "Three 120 mm P12 Pro 600-3000 rpm, pump 800-2800 rpm, VRM fan 400-2500 rpm; separate controls possible."
+    },
+    "cm_kit": {
+      "url": "https://www.coolermaster.com/en-in/products/sickleflow-edge-120-argb-3-pack-white-edition.html",
+      "supports": "Exact MFX-B2DW-253P2-R2 kit: three 120 mm fans, 690-2500 rpm. Published acoustical rating excluded: distance, direction and whether per fan or kit not established."
+    },
+    "cyb_p12": {
+      "url": "https://www.cybenetics.com/evaluations/fans/175/",
+      "supports": "Report 25FN175A, tested 2025-04-16: P12 Pro 39.70 dBA at measured max 3022 rpm; public noise-speed chart gives 25 dBA at 1775 rpm. Sparse calibration facts only; not a copied report or dataset."
+    },
+    "cyb_protocol": {
+      "url": "https://www.cybenetics.com/data/Cybenetics%20Fan%20Test%20Protocol_en.pdf",
+      "supports": "Hemi-anechoic chamber around 6 dBA floor; one metre vertical distance, mic axis 30-45 degrees to horizontal; airflow directed away from microphone. Not identical to a full-free-field common-listener assembly."
+    }
+  },
+  "profiles": [
+    {
+      "componentId": "cooler-bequiet-pure-rock-3-black",
+      "name": "be quiet! Pure Rock 3 Black",
+      "partNumber": "BK039",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "assembly",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one complete stock cooler assembly",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 2000,
+      "includes": [
+        {
+          "part": "stock 120 mm fan mounted on heatsink",
+          "count": 1
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "manufacturer-informed-assumed",
+      "genericFallback": false,
+      "sourceIds": [
+        "bq_039",
+        "bq_method"
+      ],
+      "transferAssumptions": "Central adopts published 1m whole-assembly nodes. Wider bounds are author-selected common-listener/direction, unreported floor, unit and mounting transfer assumptions, not manufacturer error bars. No fan added separately.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1000.0,
+          "low": 6,
+          "central": 12.4,
+          "high": 19,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 1500.0,
+          "low": 19,
+          "central": 24.4,
+          "high": 30,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 2000,
+          "low": 26,
+          "central": 31.2,
+          "high": 37,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ]
+    },
+    {
+      "componentId": "cooler-bequiet-pure-rock-pro3-black",
+      "name": "be quiet! Pure Rock Pro 3 Black",
+      "partNumber": "BK042",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "assembly",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one complete stock cooler assembly",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 2000,
+      "includes": [
+        {
+          "part": "stock 120 mm fans mounted on heatsink",
+          "count": 2
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "manufacturer-informed-assumed",
+      "genericFallback": false,
+      "sourceIds": [
+        "bq_042",
+        "bq_method"
+      ],
+      "transferAssumptions": "Central adopts published 1m whole-assembly nodes including both fans. Author-selected common-listener/direction and unreported-floor transfer bands; do not multiply by two or add bare fans.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1000.0,
+          "low": 8,
+          "central": 14,
+          "high": 21,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 1500.0,
+          "low": 21,
+          "central": 26.5,
+          "high": 33,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 2000,
+          "low": 29,
+          "central": 34.8,
+          "high": 41,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ]
+    },
+    {
+      "componentId": "cooler-noctua-nh-l9a-am4-chromax-black",
+      "name": "Noctua NH-L9a-AM4 chromax.black",
+      "partNumber": "NH-L9A-AM4-CH.BK",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "assembly",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one complete stock cooler assembly",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 2500,
+      "includes": [
+        {
+          "part": "stock 92 mm NF-A9x14 HS-PWM chromax.black mounted on heatsink",
+          "count": 1
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "generic-assumed",
+      "genericFallback": true,
+      "sourceIds": [
+        "noctua_l9"
+      ],
+      "transferAssumptions": "Author-selected compact 92 mm thin-fan/heatsink broadband scenario: rising 16/22/28 dBA central, roughly +/-8 dB. Source supplies identity, count and RPM only, not normalized acoustic numbers. No conversion or adoption of unqualified manufacturer dBA. No LNA installed; 2700rpm review sample is not rated max.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1250.0,
+          "low": 9,
+          "central": 16,
+          "high": 24,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 1875.0,
+          "low": 14,
+          "central": 22,
+          "high": 30,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 2500,
+          "low": 20,
+          "central": 28,
+          "high": 36,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ]
+    },
+    {
+      "componentId": "fan-noctua-nf-a14-pwm",
+      "name": "Noctua NF-A14 PWM",
+      "partNumber": "NF-A14 PWM",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "fan",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one physical fan",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 1500,
+      "includes": [
+        {
+          "part": "one 140 mm fan",
+          "count": 1
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "generic-assumed",
+      "genericFallback": true,
+      "sourceIds": [
+        "noctua_a14"
+      ],
+      "transferAssumptions": "Author-selected lower-speed 140 mm fan broadband scenario, with +/-8-9 dB structural uncertainty. Geometry and nominal RPM choose the class; no brand bonus and no conversion/adoption of unqualified manufacturer dBA.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 750.0,
+          "low": 8,
+          "central": 15,
+          "high": 23,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 1125.0,
+          "low": 13,
+          "central": 21,
+          "high": 29,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 1500,
+          "low": 18,
+          "central": 27,
+          "high": 35,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ]
+    },
+    {
+      "componentId": "fan-arctic-p12-pro",
+      "name": "ARCTIC P12 Pro",
+      "partNumber": "ACFAN00305A",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "fan",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one physical fan",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 3000,
+      "includes": [
+        {
+          "part": "one 120 mm P12 Pro fan",
+          "count": 1
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "lab-informed-assumed",
+      "genericFallback": false,
+      "sourceIds": [
+        "arctic_p12",
+        "cyb_p12",
+        "cyb_protocol"
+      ],
+      "transferAssumptions": "Rounded author-selected 20/32/40 dBA nodes informed by sparse P12 Pro lab observations. Full node rounds 39.70dBA/3022rpm to 40dBA/nominal3000rpm; this is an assumption, not a measured3000rpm row. +/-5dB includes listener/field/control transfer and coarse curve shape, not lab uncertainty. Extra 1775rpm anchor prevents coarse energy interpolation from missing the public25dBA anchor.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1500.0,
+          "low": 15,
+          "central": 20,
+          "high": 25,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 2250.0,
+          "low": 27,
+          "central": 32,
+          "high": 37,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 3000,
+          "low": 35,
+          "central": 40,
+          "high": 45,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ],
+      "additionalRpmNodes": [
+        {
+          "speedRpmFraction": 0.5916666666666667,
+          "fanRpm": 1775,
+          "low": 20,
+          "central": 25,
+          "high": 30,
+          "valueType": "assumed-dBA-SPL",
+          "basis": "public 25dBA observation plus assumed +/-5dB convention transfer"
+        }
+      ]
+    },
+    {
+      "componentId": "fan-arctic-p12-pro-pst-white",
+      "name": "ARCTIC P12 Pro PST White",
+      "partNumber": "ACFAN00308A",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "fan",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one physical fan",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 3000,
+      "includes": [
+        {
+          "part": "one 120 mm white P12 Pro PST fan",
+          "count": 1
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "family-transfer-assumed",
+      "genericFallback": false,
+      "sourceIds": [
+        "arctic_pst",
+        "cyb_p12",
+        "cyb_protocol"
+      ],
+      "transferAssumptions": "P12 Pro central curve transferred to white PST variant; additional +/-2dB beyond P12 bands for unmeasured variant. Shared specs do not prove acoustical equivalence. Not separately measured.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1500.0,
+          "low": 13,
+          "central": 20,
+          "high": 27,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 2250.0,
+          "low": 25,
+          "central": 32,
+          "high": 39,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 3000,
+          "low": 33,
+          "central": 40,
+          "high": 47,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ],
+      "additionalRpmNodes": [
+        {
+          "speedRpmFraction": 0.5916666666666667,
+          "fanRpm": 1775,
+          "low": 18,
+          "central": 25,
+          "high": 32,
+          "valueType": "assumed-dBA-SPL",
+          "basis": "family-transfer assumption from P12 public anchor"
+        }
+      ]
+    },
+    {
+      "componentId": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+      "name": "Cooler Master SickleFlow Edge 120 A-RGB White 3-pack",
+      "partNumber": "MFX-B2DW-253P2-R2",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "fan",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one physical fan",
+      "unitsPerPack": 3,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 2500,
+      "includes": [
+        {
+          "part": "one 120 mm fan; multiply by physical fan count",
+          "count": 1
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "generic-assumed",
+      "genericFallback": true,
+      "sourceIds": [
+        "cm_kit"
+      ],
+      "transferAssumptions": "Author-selected120mm2500rpm generic broadband prior19/28/35dBA, +/-7-8dB. Manufacturer provides exact kit identity/count/RPM only. Published32.8dBA is not ingested or multiplied because conditions and quantity basis are not established. LEDs/controller have no modeled rotating source; electrical/coil noise outside scope.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1250.0,
+          "low": 12,
+          "central": 19,
+          "high": 27,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 1875.0,
+          "low": 20,
+          "central": 28,
+          "high": 36,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 2500,
+          "low": 27,
+          "central": 35,
+          "high": 43,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ]
+    },
+    {
+      "componentId": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+      "name": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+      "partNumber": "ACFRE00186A",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "assembly",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one complete stock cooler assembly",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 3000,
+      "includes": [
+        {
+          "part": "stock P12 Pro A-RGB radiator fans",
+          "count": 2
+        },
+        {
+          "part": "pump",
+          "count": 1,
+          "fixedRpm": 2800
+        },
+        {
+          "part": "VRM fan",
+          "count": 1,
+          "fixedRpm": 2500
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "constructed-assembly-assumed",
+      "genericFallback": false,
+      "sourceIds": [
+        "arctic_240",
+        "cyb_p12",
+        "cyb_protocol"
+      ],
+      "transferAssumptions": "Entire stock assembly constructed from explicit source-only component priors. Radiator-fan base uses rounded P12 central curve; bare-fan bands +/-5dB, mounting transfer[-2,+2,+5]dB, plus ARGB variant transfer[-2,0,+2]dB for240 only. Pump/VRM levels wholly assumed; fan-speed presets keep pump2800 and VRM2500rpm. Sum assembly once; internal breakdown is diagnostic, never added again.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1500.0,
+          "low": 20.1755,
+          "central": 29.112,
+          "high": 38.0021,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 2250.0,
+          "low": 26.7943,
+          "central": 37.4209,
+          "high": 47.2738,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 3000,
+          "low": 34.1444,
+          "central": 45.078,
+          "high": 55.0531,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ],
+      "fixedControls": {
+        "pumpRpm": 2800,
+        "vrmFanRpm": 2500,
+        "mode": "independent controls; full pump and VRM at all radiator presets"
+      },
+      "diagnosticInternalSources": [
+        {
+          "part": "radiator fan",
+          "count": 2,
+          "quantityBasis": "one mounted radiator fan",
+          "rpmNodes": [
+            {
+              "speedRpmFraction": 0.5,
+              "fanRpm": 1500.0,
+              "low": 11,
+              "central": 22,
+              "high": 32
+            },
+            {
+              "speedRpmFraction": 0.75,
+              "fanRpm": 2250.0,
+              "low": 23,
+              "central": 34,
+              "high": 44
+            },
+            {
+              "speedRpmFraction": 1,
+              "fanRpm": 3000,
+              "low": 31,
+              "central": 42,
+              "high": 52
+            }
+          ]
+        },
+        {
+          "part": "pump",
+          "count": 1,
+          "fixedRpm": 2800,
+          "low": 18,
+          "central": 26,
+          "high": 34,
+          "basis": "generic-assumed; +/-8dB structural band; not measured pump output"
+        },
+        {
+          "part": "VRM fan",
+          "count": 1,
+          "fixedRpm": 2500,
+          "low": 12,
+          "central": 20,
+          "high": 28,
+          "basis": "generic-assumed; +/-8dB structural band; not measured VRM output"
+        }
+      ],
+      "additionalRpmNodes": [
+        {
+          "speedRpmFraction": 0.5916666666666667,
+          "fanRpm": 1775,
+          "low": 22.0021,
+          "central": 31.7623,
+          "high": 41.1947,
+          "valueType": "assumed-dBA-SPL",
+          "basis": "constructed assembly at sparse P12-family anchor; fixed pump/VRM"
+        }
+      ]
+    },
+    {
+      "componentId": "cooler-arctic-liquid-freezer-iii-pro-360",
+      "name": "ARCTIC Liquid Freezer III Pro 360 Black",
+      "partNumber": "ACFRE00180A",
+      "profileRevision": "acoustic-prior-2026-10-08.1",
+      "status": "proposed-for-review",
+      "sourceScope": "assembly",
+      "aggregationRole": "top-level",
+      "quantityBasis": "one complete stock cooler assembly",
+      "unitsPerPack": 1,
+      "conventionId": "pcpl-1m-aweighted-equivalent-broadband-v1",
+      "ratedFanRpm": 3000,
+      "includes": [
+        {
+          "part": "stock P12 Pro radiator fans",
+          "count": 3
+        },
+        {
+          "part": "pump",
+          "count": 1,
+          "fixedRpm": 2800
+        },
+        {
+          "part": "VRM fan",
+          "count": 1,
+          "fixedRpm": 2500
+        }
+      ],
+      "excludedFromScope": [
+        "GPU",
+        "PSU",
+        "storage",
+        "case-supplied fans not explicitly selected",
+        "coil whine",
+        "ambient background"
+      ],
+      "basis": "constructed-assembly-assumed",
+      "genericFallback": false,
+      "sourceIds": [
+        "arctic_360",
+        "cyb_p12",
+        "cyb_protocol"
+      ],
+      "transferAssumptions": "Entire stock assembly constructed from explicit source-only component priors. Radiator-fan base uses rounded P12 central curve; bare-fan bands +/-5dB, mounting transfer[-2,+2,+5]dB, plus ARGB variant transfer[-2,0,+2]dB for240 only. Pump/VRM levels wholly assumed; fan-speed presets keep pump2800 and VRM2500rpm. Sum assembly once; internal breakdown is diagnostic, never added again.",
+      "measurementConditions": {
+        "operatingPoint": "relative physical RPM, never PWM duty",
+        "backgroundCorrection": "No publisher background energy subtracted; assumed normalized source profiles plus bands instead",
+        "noiseFloorHandling": "Numbers below a verified measurement floor are assumption-only; background remains a separate optional source"
+      },
+      "rpmNodes": [
+        {
+          "speedRpmFraction": 0.5,
+          "fanRpm": 1500.0,
+          "low": 21.424,
+          "central": 29.8837,
+          "high": 37.8837,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 0.75,
+          "fanRpm": 2250.0,
+          "low": 30.1184,
+          "central": 39.0492,
+          "high": 47.0492,
+          "valueType": "assumed-dBA-SPL"
+        },
+        {
+          "speedRpmFraction": 1,
+          "fanRpm": 3000,
+          "low": 37.8281,
+          "central": 46.8165,
+          "high": 54.8165,
+          "valueType": "assumed-dBA-SPL"
+        }
+      ],
+      "fixedControls": {
+        "pumpRpm": 2800,
+        "vrmFanRpm": 2500,
+        "mode": "independent controls; full pump and VRM at all radiator presets"
+      },
+      "diagnosticInternalSources": [
+        {
+          "part": "radiator fan",
+          "count": 3,
+          "quantityBasis": "one mounted radiator fan",
+          "rpmNodes": [
+            {
+              "speedRpmFraction": 0.5,
+              "fanRpm": 1500.0,
+              "low": 13,
+              "central": 22,
+              "high": 30
+            },
+            {
+              "speedRpmFraction": 0.75,
+              "fanRpm": 2250.0,
+              "low": 25,
+              "central": 34,
+              "high": 42
+            },
+            {
+              "speedRpmFraction": 1,
+              "fanRpm": 3000,
+              "low": 33,
+              "central": 42,
+              "high": 50
+            }
+          ]
+        },
+        {
+          "part": "pump",
+          "count": 1,
+          "fixedRpm": 2800,
+          "low": 18,
+          "central": 26,
+          "high": 34,
+          "basis": "generic-assumed; +/-8dB structural band; not measured pump output"
+        },
+        {
+          "part": "VRM fan",
+          "count": 1,
+          "fixedRpm": 2500,
+          "low": 12,
+          "central": 20,
+          "high": 28,
+          "basis": "generic-assumed; +/-8dB structural band; not measured VRM output"
+        }
+      ],
+      "additionalRpmNodes": [
+        {
+          "speedRpmFraction": 0.5916666666666667,
+          "fanRpm": 1775,
+          "low": 24.2851,
+          "central": 33.0139,
+          "high": 41.0139,
+          "valueType": "assumed-dBA-SPL",
+          "basis": "constructed assembly at sparse P12-family anchor; fixed pump/VRM"
+        }
+      ]
+    }
+  ],
+  "coverageContract": {
+    "coverageMeaning": "complete applies only to explicitly selected cooling sources, never whole-PC noise",
+    "noSelectedCpuCoolerLabel": "Somente ventoinhas selecionadas",
+    "noSelectedCpuCoolerWarning": "Cooler do processador não selecionado; não modelado",
+    "neverInferStockCooler": true,
+    "wholePcNoiseAvailable": false,
+    "alwaysDiscloseOmissions": [
+      "GPU",
+      "PSU",
+      "storage",
+      "unselected case-included fans",
+      "coil whine",
+      "ambient background"
+    ]
+  }
+}

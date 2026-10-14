@@ -1,7 +1,10 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
+import { isNonEmptyTextArray } from '../models/component.model.js';
 import { listComponents } from './component.service.js';
-import { checkBuildCompatibility } from './compatibility.service.js';
+import { evaluateResolvedBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
-import { requiredBuildSlots } from './build.service.js';
+import { requiredBuildSlots, selectOptionalBuildComponents, calculateBuildPrice } from './build.service.js';
 import {
   calculateBuildPerformanceScore,
   calculateCostBenefitScore,
@@ -22,6 +25,8 @@ const rangeRecommendationLimit = 3;
 
 export function recommendBuildsByBudgetRange(input) {
   validateRecommendationPayload(input);
+  const optionalComponents = selectOptionalBuildComponents(input);
+  validateOptionalPrices(optionalComponents);
 
   const budgetRange = normalizeBudgetRange(input.budgetRange);
   const usageType = normalizeUsageType(input.usageType);
@@ -40,6 +45,7 @@ export function recommendBuildsByBudgetRange(input) {
   validateCandidateAvailability(candidatesBySlot);
 
   const recommendations = findCompatibleBuildsByBudgetRange({
+    optionalComponents,
     candidatesBySlot,
     budgetRange,
     usageType,
@@ -60,6 +66,8 @@ export function recommendBuildsByBudgetRange(input) {
 
 export function recommendBuildByBudget(input) {
   validateRecommendationPayload(input);
+  const optionalComponents = selectOptionalBuildComponents(input);
+  validateOptionalPrices(optionalComponents);
 
   const budget = normalizeBudget(input.budget);
   const usageType = normalizeUsageType(input.usageType);
@@ -78,6 +86,7 @@ export function recommendBuildByBudget(input) {
   validateCandidateAvailability(candidatesBySlot);
 
   const recommendation = findBestCompatibleBuild({
+    optionalComponents,
     candidatesBySlot,
     budgetAmount: budget.amount,
     usageType,
@@ -105,7 +114,7 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }
         slot
       }))
       .filter((candidate) => candidate.estimatedPrice !== null)
-      .filter((candidate) => candidate.performanceScore >= 40)
+      .filter((candidate) => Number.isFinite(candidate.performanceScore) && candidate.performanceScore >= 40)
       .sort(compareCandidates(priority));
 
     const balancedCandidates = selectBalancedCandidatePool(components, priority);
@@ -145,7 +154,7 @@ function enrichCandidate(component, { usageType, priority, performanceByComponen
     estimatedPrice,
     recommendationMeta: {
       performanceScore,
-      costBenefitScore: Number(costBenefitScore.toFixed(4)),
+      costBenefitScore: costBenefitScore === null ? null : Number(costBenefitScore.toFixed(4)),
       priority
     },
     performanceScore,
@@ -155,6 +164,7 @@ function enrichCandidate(component, { usageType, priority, performanceByComponen
 
 
 function findCompatibleBuildsByBudgetRange({
+  optionalComponents,
   candidatesBySlot,
   budgetRange,
   usageType,
@@ -167,7 +177,7 @@ function findCompatibleBuildsByBudgetRange({
   visitBuildCombinations({
     candidatesBySlot,
     slotIndex: 0,
-    selectedComponents: {},
+    selectedComponents: optionalComponents,
     maxBudget: budgetRange.max,
     onCombination: (components) => {
       const totalEstimatedPrice = calculateTotalEstimatedPrice(components);
@@ -176,7 +186,7 @@ function findCompatibleBuildsByBudgetRange({
         return;
       }
 
-      const compatibilityResult = checkBuildCompatibility(mapComponentsToIds(components));
+      const compatibilityResult = evaluateResolvedBuildCompatibility(components);
 
       if (!compatibilityResult.compatible) {
         return;
@@ -214,6 +224,7 @@ function findCompatibleBuildsByBudgetRange({
 }
 
 function findBestCompatibleBuild({
+  optionalComponents,
   candidatesBySlot,
   budgetAmount,
   usageType,
@@ -225,7 +236,7 @@ function findBestCompatibleBuild({
   visitBuildCombinations({
     candidatesBySlot,
     slotIndex: 0,
-    selectedComponents: {},
+    selectedComponents: optionalComponents,
     maxBudget: budgetAmount,
     onCombination: (components) => {
       const totalEstimatedPrice = calculateTotalEstimatedPrice(components);
@@ -234,7 +245,7 @@ function findBestCompatibleBuild({
         return;
       }
 
-      const compatibilityResult = checkBuildCompatibility(mapComponentsToIds(components));
+      const compatibilityResult = evaluateResolvedBuildCompatibility(components);
 
       if (!compatibilityResult.compatible) {
         return;
@@ -321,7 +332,8 @@ function isPartialSelectionViable(components) {
     return false;
   }
 
-  if (components.storage && components.motherboard && !components.motherboard.specs.storageInterfaces.includes(components.storage.specs.interface)) {
+  if (components.storage && components.motherboard && (!isNonEmptyTextArray(components.motherboard.specs.storageInterfaces)
+    || !components.motherboard.specs.storageInterfaces.includes(components.storage.specs.interface))) {
     return false;
   }
 
@@ -336,7 +348,8 @@ function isPartialSelectionViable(components) {
     }
   }
 
-  if (components.case && components.motherboard && !components.case.specs.supportedFormFactors.includes(components.motherboard.specs.formFactor)) {
+  if (components.case && components.motherboard && (!isNonEmptyTextArray(components.case.specs.supportedFormFactors)
+    || !components.case.specs.supportedFormFactors.includes(components.motherboard.specs.formFactor))) {
     return false;
   }
 
@@ -367,10 +380,11 @@ function calculateRecommendationScore({
   performanceByComponentId
 }) {
   const performanceScore = calculateBuildPerformanceScore(components, performanceByComponentId, usageType);
-  const costBenefitScore = Object.values(components).reduce(
-    (total, component) => total + component.costBenefitScore,
+  const mainPrice = calculateBuildPrice(Object.fromEntries(requiredBuildSlots.map((slot) => [slot, components[slot]])));
+  const costBenefitScore = requiredBuildSlots.reduce(
+    (total, slot) => total + (components[slot]?.costBenefitScore ?? 0),
     0
-  );
+  ) * (totalEstimatedPrice > 0 ? mainPrice / totalEstimatedPrice : 1);
   const cpuScore = components.cpu.performanceScore;
   const gpuScore = components.gpu.performanceScore;
   const balancePenalty = Math.abs(cpuScore - gpuScore) > 25 ? 8 : 0;
@@ -405,10 +419,13 @@ function formatBudgetRangeRecommendation({
   );
 
   return {
+    ...performanceMetadata(recommendation.components, performanceByComponentId),
+    methodology: recommendationMethodology(usageType, priority),
     name: buildRecommendationName(usageType, priority, position),
     usageType,
     priority,
     components,
+    coolingAssessment: recommendation.compatibilityResult.coolingAssessment,
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
     budgetStatus: getBudgetStatus(recommendation.totalEstimatedPrice, budgetRange),
     compatibilityStatus: recommendation.compatibilityResult.compatible ? 'compatible' : 'incompatible',
@@ -432,11 +449,14 @@ function formatRecommendation({
 
   return {
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
+    ...performanceMetadata(recommendation.components, performanceByComponentId),
+    methodology: recommendationMethodology(usageType, priority),
     remainingBudget: Number((budgetAmount - recommendation.totalEstimatedPrice).toFixed(2)),
     usageType,
     priority,
     strategy: buildStrategy(usageType),
     components,
+    coolingAssessment: recommendation.compatibilityResult.coolingAssessment,
     summary: buildSummary(usageType, priority),
     warnings,
     performanceScore: calculateBuildPerformanceScore(
@@ -465,7 +485,7 @@ function buildRecommendationName(usageType, priority, position) {
   const priorityLabels = {
     'cost-benefit': 'Custo-beneficio',
     performance: 'Desempenho',
-    'lowest-price': 'Menor preco',
+    'lowest-price': 'Menor custo estimado no catalogo',
     balanced: 'Equilibrada'
   };
 
@@ -505,10 +525,12 @@ function getEstimatedPerformanceLevel(performanceScore) {
 function buildBudgetRangeSummary(usageType, priority, performanceScore, warnings) {
   const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
   const bottleneckSummary = warnings.length > 0
-    ? ' Ha possiveis gargalos basicos indicados nos avisos.'
-    : ' Nao foram identificados gargalos basicos relevantes.';
+    ? ' Há possíveis gargalos indicados nos avisos.'
+    : ' Não foram identificados gargalos relevantes.';
 
-  return `${baseSummary} Foco em ${translatePriority(priority)} com nivel estimado ${getEstimatedPerformanceLevel(performanceScore)}.${bottleneckSummary}`;
+  const performanceLabels = { excellent: 'excelente', good: 'bom', basic: 'básico', entry: 'de entrada' };
+  const performanceLevel = performanceLabels[getEstimatedPerformanceLevel(performanceScore)];
+  return `${baseSummary} Foco em ${translatePriority(priority)}, com desempenho estimado ${performanceLevel}.${bottleneckSummary}`;
 }
 
 function buildStrategy(usageType) {
@@ -518,6 +540,9 @@ function buildStrategy(usageType) {
 function stripInternalCandidateFields(components) {
   return Object.fromEntries(
     Object.entries(components).map(([slot, component]) => {
+      if (Array.isArray(component)) {
+        return [slot, component.map((entry) => ({ ...entry }))];
+      }
       const publicComponent = { ...component };
       delete publicComponent.costBenefitScore;
       delete publicComponent.performanceScore;
@@ -533,7 +558,7 @@ function buildWarnings(components, compatibilityAlerts) {
   const gpuScore = components.gpu.performanceScore;
 
   if (Math.abs(cpuScore - gpuScore) > 25) {
-    warnings.push('A diferenca de desempenho entre CPU e GPU pode indicar gargalo em alguns cenarios.');
+    warnings.push('A diferença de desempenho entre processador e placa de vídeo pode indicar gargalo em alguns cenários.');
   }
 
   return warnings;
@@ -542,14 +567,15 @@ function buildWarnings(components, compatibilityAlerts) {
 function buildSummary(usageType, priority) {
   const baseSummary = usageTypeSummaries[usageType] || usageTypeSummaries.general;
 
-  return `${baseSummary} Foco em ${translatePriority(priority)}.`;
+  return `${baseSummary} Foco em ${translatePriority(priority)} entre as opções do catálogo.`;
 }
 
 function translatePriority(priority) {
   const translations = {
-    'cost-benefit': 'custo-beneficio',
+    'cost-benefit': 'custo-benefício',
     performance: 'desempenho',
-    'lowest-price': 'menor preco'
+    balanced: 'equilíbrio',
+    'lowest-price': 'menor custo estimado'
   };
 
   return translations[priority] || translations['cost-benefit'];
@@ -573,16 +599,7 @@ function compareCandidates(priority) {
 }
 
 function calculateTotalEstimatedPrice(components) {
-  return Object.values(components).reduce(
-    (total, component) => total + component.estimatedPrice,
-    0
-  );
-}
-
-function mapComponentsToIds(components) {
-  return Object.fromEntries(
-    Object.entries(components).map(([slot, component]) => [slot, component.id])
-  );
+  return calculateBuildPrice(components);
 }
 
 function validateCandidateAvailability(candidatesBySlot) {
@@ -594,7 +611,7 @@ function validateCandidateAvailability(candidatesBySlot) {
 
   const error = new Error('Nao ha componentes suficientes para gerar uma recomendacao.');
   error.statusCode = 422;
-  error.errors = missingSlots.map((slot) => `Nenhum componente valido encontrado para ${slot}.`);
+  error.errors = missingSlots.map((slot) => `Nenhum componente com preço de referência válido encontrado para ${slot}.`);
   throw error;
 }
 
@@ -705,4 +722,21 @@ function normalizeText(value) {
   }
 
   return value.trim().toLowerCase();
+}
+
+function validateOptionalPrices(components) {
+  const accessories = [components.cooler, ...(components.fans ?? [])].filter(Boolean);
+  if (accessories.some((component) => getEstimatedPrice(component) === null)) {
+    const error = new Error('Preco indisponivel para um acessorio de refrigeracao selecionado.');
+    error.statusCode = 422;
+    throw error;
+  }
+}
+
+function recommendationMethodology(usageType, priority) {
+  return buildDecisionMethodology({
+    usageType,
+    scope: 'shortlisted_catalog_candidates',
+    ranking: `Prioridade ${priority}; combina indice simulado, custo de referencia, pesos por perfil, uso do orcamento e penalidade de desequilibrio CPU/GPU. Busca em subconjunto de candidatos, sem garantia de otimo global. costBenefitScore de faixa e o score composto dividido por 100, nao uma porcentagem.`
+  });
 }

@@ -1,7 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import CoolingSimulationPanel from '../components/build/CoolingSimulationPanel.jsx';
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { performanceScoreLabel } from '../utils/performanceMethodology.js';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3, BriefcaseBusiness, Gamepad2 } from 'lucide-react';
-import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
+import GameComparisonResult from '../components/build/GameComparisonResult.jsx';
+import GameSimulationResult from '../components/build/GameSimulationResult.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -10,537 +15,258 @@ import EmptyState from '../components/ui/EmptyState.jsx';
 import ErrorState from '../components/ui/ErrorState.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
+import TaskTabs, { TaskPanel } from '../components/ui/TaskTabs.jsx';
 import { useBuildState } from '../hooks/useBuildState.jsx';
+import { useSessionSimulationRequest } from '../hooks/useSessionSimulationRequest.js';
 import { gameComparisonService } from '../services/gameComparisonService.js';
 import { performanceService } from '../services/performanceService.js';
 import { professionalSoftwareService } from '../services/professionalSoftwareService.js';
 import { buildToApiPayload, hasCompleteBuild } from '../utils/buildHelpers.js';
-import { translateMetricLabel, translateValue } from '../utils/translations.js';
-
-const defaultSoftwareId = 'software-adobe-premiere-pro';
-const defaultGameIds = ['game-counter-strike-2', 'game-cyberpunk-2077'];
+import { componentLabels } from '../utils/componentLabels.js';
+import { getMissingBuildSlots } from '../utils/validation.js';
+import { formatPerformanceNumber, formatRequirement, getPerformanceErrorMessage, numericValue } from '../utils/performancePresentation.js';
+import { translateValue } from '../utils/translations.js';
+import { analysisIdentity, isOptionalNumber, isOptionalText, isRecord, isSessionId, readAnalysisSession, writeAnalysisSession } from '../utils/analysisSession.js';
 
 export default function PerformanceLab() {
   const build = useBuildState();
-  const [softwareList, setSoftwareList] = useState([]);
-  const [games, setGames] = useState([]);
-  const [selectedSoftwareId, setSelectedSoftwareId] = useState(defaultSoftwareId);
-  const [selectedGameIds, setSelectedGameIds] = useState(defaultGameIds);
-  const [targetResolution, setTargetResolution] = useState('1080p');
-  const [qualityPreset, setQualityPreset] = useState('high');
-  const [softwareResult, setSoftwareResult] = useState(null);
-  const [gameComparison, setGameComparison] = useState(null);
-  const [loading, setLoading] = useState({ initial: true, software: false, games: false });
-  const [error, setError] = useState('');
-  const [actionError, setActionError] = useState('');
-
+  const games = useOptions(performanceService.listGames);
+  const software = useOptions(professionalSoftwareService.list);
+  const identity = analysisIdentity([build.revision, build.selectedComponents, build.game]);
+  const [initialInputs] = useState(() => readAnalysisSession('performance-inputs', identity, validPerformanceInputs) || {
+    mode: 'single', gameId: build.game.gameId,
+    selectedGameIds: ['game-counter-strike-2', 'game-cyberpunk-2077'],
+    targetResolution: build.game.targetResolution, qualityPreset: build.game.qualityPreset,
+    softwareId: 'software-adobe-premiere-pro'
+  });
+  const [mode, setMode] = useState(initialInputs.mode);
+  const [task, setTask] = useState(initialInputs.task || initialInputs.mode);
+  const [gameId, setGameId] = useState(initialInputs.gameId);
+  const [selectedGameIds, setSelectedGameIds] = useState(initialInputs.selectedGameIds);
+  const [targetResolution, setTargetResolution] = useState(initialInputs.targetResolution);
+  const [qualityPreset, setQualityPreset] = useState(initialInputs.qualityPreset);
+  const [softwareId, setSoftwareId] = useState(initialInputs.softwareId);
   const buildComplete = hasCompleteBuild(build.selectedComponents);
-  const selectedSoftware = useMemo(() => (
-    softwareList.find((software) => software.id === selectedSoftwareId)
-  ), [softwareList, selectedSoftwareId]);
+  const buildPayload = buildToApiPayload(build.selectedComponents);
+  const selectedSoftware = software.items.find(item => item.id === softwareId);
 
   useEffect(() => {
-    let active = true;
+    writeAnalysisSession('performance-inputs', identity,
+      { mode, task, gameId, selectedGameIds, targetResolution, qualityPreset, softwareId }, validPerformanceInputs);
+  }, [identity, mode, task, gameId, selectedGameIds, targetResolution, qualityPreset, softwareId]);
 
-    async function loadOptions() {
-      setLoading((current) => ({ ...current, initial: true }));
-      setError('');
+  useEffect(() => {
+    if (!games.items.length) return;
+    const available = new Set(games.items.map(game => game.id));
+    setGameId(current => available.has(current) ? current : games.items[0].id);
+    setSelectedGameIds(current => {
+      const kept = current.filter(id => available.has(id));
+      return kept.length ? kept : games.items.slice(0, 2).map(game => game.id);
+    });
+  }, [games.items]);
 
-      try {
-        const [softwareData, gameData] = await Promise.all([
-          professionalSoftwareService.list(),
-          performanceService.listGames()
-        ]);
+  useEffect(() => {
+    if (software.items.length) setSoftwareId(current => software.items.some(item => item.id === current) ? current : software.items[0].id);
+  }, [software.items]);
 
-        if (!active) {
-          return;
-        }
-
-        const normalizedSoftware = Array.isArray(softwareData) ? softwareData : [];
-        const normalizedGames = Array.isArray(gameData) ? gameData : [];
-
-        setSoftwareList(normalizedSoftware);
-        setGames(normalizedGames);
-        setSelectedSoftwareId((current) => (
-          normalizedSoftware.some((software) => software.id === current)
-            ? current
-            : normalizedSoftware[0]?.id || defaultSoftwareId
-        ));
-        setSelectedGameIds((current) => {
-          const availableIds = new Set(normalizedGames.map((game) => game.id));
-          const stillAvailable = current.filter((gameId) => availableIds.has(gameId));
-
-          if (stillAvailable.length >= 2) {
-            return stillAvailable;
-          }
-
-          return normalizedGames.slice(0, 2).map((game) => game.id);
-        });
-      } catch (loadError) {
-        if (active) {
-          setError(loadError.message || 'Não foi possível carregar opções de desempenho.');
-          setSoftwareList([]);
-          setGames([]);
-        }
-      } finally {
-        if (active) {
-          setLoading((current) => ({ ...current, initial: false }));
-        }
-      }
-    }
-
-    loadOptions();
-
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  async function simulateSoftware() {
-    if (!buildComplete) {
-      setActionError('Monte uma configuração antes de simular desempenho.');
-      return;
-    }
-
-    setActionError('');
-    setSoftwareResult(null);
-    setLoading((current) => ({ ...current, software: true }));
-
-    try {
-      const result = await professionalSoftwareService.simulate({
-        softwareId: selectedSoftwareId,
-        build: buildToApiPayload(build.selectedComponents)
-      });
-      setSoftwareResult(result);
-    } catch (simulationError) {
-      setActionError(getPerformanceErrorMessage(simulationError, 'Não foi possível simular o software com os dados atuais.'));
-    } finally {
-      setLoading((current) => ({ ...current, software: false }));
-    }
+  const singleValid = games.items.some(game => game.id === gameId);
+  const comparisonValid = selectedGameIds.length >= 2 && selectedGameIds.length <= 10 && selectedGameIds.every(id => games.items.some(game => game.id === id));
+  const singleRequest = useSessionSimulationRequest('performance-game-single',
+    analysisIdentity([identity, gameId, targetResolution, qualityPreset]), validGameResult,
+    { ready: buildComplete && !games.loading && !games.error && singleValid, invalid: !games.loading && (!buildComplete || Boolean(games.error) || !singleValid) });
+  const comparisonRequest = useSessionSimulationRequest('performance-game-comparison',
+    analysisIdentity([identity, selectedGameIds, targetResolution, qualityPreset]), validComparisonResult,
+    { ready: buildComplete && !games.loading && !games.error && comparisonValid, invalid: !games.loading && (!buildComplete || Boolean(games.error) || !comparisonValid) });
+  const softwareRequest = useSessionSimulationRequest('performance-software', analysisIdentity([identity, softwareId]), validSoftwareResult,
+    { ready: buildComplete && !software.loading && !software.error && Boolean(selectedSoftware), invalid: !software.loading && (!buildComplete || Boolean(software.error) || !selectedSoftware) });
+  function gameReason(gameMode) {
+    return !buildComplete ? 'Complete a montagem para simular. As peças que faltam estão indicadas acima.'
+      : games.loading ? 'Aguarde o carregamento dos jogos.'
+        : games.error ? 'Não foi possível carregar os jogos. Use Tentar novamente.'
+          : !games.items.length ? 'Não há jogos disponíveis para simular.'
+            : gameMode === 'single' && !singleValid ? 'Selecione um jogo para simular.'
+              : gameMode === 'compare' && !comparisonValid ? 'Selecione de 2 a 10 jogos para comparar.' : '';
+  }
+  function changeTask(next) {
+    setTask(next);
+    if (next === 'single' || next === 'compare') setMode(next);
+  }
+  async function runGames(gameMode) {
+    if (gameReason(gameMode)) return;
+    const settings = { targetResolution, qualityPreset, build: buildPayload };
+    const activeRequest = gameMode === 'single' ? singleRequest : comparisonRequest;
+    await activeRequest.run(() => gameMode === 'single'
+      ? performanceService.simulateGame({ ...settings, gameId })
+      : gameComparisonService.compare({ ...settings, gameIds: selectedGameIds }));
   }
 
-  async function compareGames() {
-    if (!buildComplete) {
-      setActionError('Monte uma configuração antes de simular desempenho.');
-      return;
-    }
-
-    if (selectedGameIds.length < 2) {
-      setActionError('Selecione pelo menos dois jogos para comparar.');
-      return;
-    }
-
-    setActionError('');
-    setGameComparison(null);
-    setLoading((current) => ({ ...current, games: true }));
-
-    try {
-      const result = await gameComparisonService.compare({
-        gameIds: selectedGameIds,
-        targetResolution,
-        qualityPreset,
-        build: buildToApiPayload(build.selectedComponents)
-      });
-      setGameComparison(result);
-    } catch (comparisonError) {
-      setActionError(getPerformanceErrorMessage(comparisonError, 'Não foi possível comparar jogos com os dados atuais.'));
-    } finally {
-      setLoading((current) => ({ ...current, games: false }));
-    }
+  async function runSoftware() {
+    if (!buildComplete || !selectedSoftware) return;
+    await softwareRequest.run(() => professionalSoftwareService.simulate({ softwareId, build: buildPayload }));
   }
 
-  function toggleGame(gameId) {
-    setSelectedGameIds((current) => (
-      current.includes(gameId)
-        ? current.filter((selectedId) => selectedId !== gameId)
-        : [...current, gameId]
-    ));
+  function toggleGame(id) {
+    setSelectedGameIds(current => current.includes(id) ? current.filter(value => value !== id) : [...current, id]);
+  }
+
+  function renderGameTask(gameMode, activeRequest) {
+    const taskBlockReason = gameReason(gameMode);
+    return (
+        <Card className="performance-lab-card">
+          <div className="section-heading compact"><div><span className="eyebrow">Jogos</span><h2><Gamepad2 size={22} aria-hidden="true" /> Desempenho em jogos</h2></div><Badge tone="cyan">Estimativas</Badge></div>
+          {games.loading ? <LoadingSpinner label="Carregando jogos..." /> : games.error ? <ErrorState message={getPerformanceErrorMessage(games.error)} onRetry={games.reload} />
+            : games.items.length === 0 ? <EmptyState title="Nenhum jogo encontrado" message="O catálogo ainda não tem jogos disponíveis para simulação."><Button variant="secondary" onClick={games.reload}>Atualizar jogos</Button></EmptyState> : <>
+              <div className="form-grid compact-form-grid">
+                {gameMode === 'single' && <Select label="Jogo" value={gameId} onChange={event => setGameId(event.target.value)} options={games.items.map(game => ({ value: game.id, label: game.name }))} />}
+                <Select label="Resolução" value={targetResolution} onChange={event => setTargetResolution(event.target.value)} options={['1080p', '1440p', '4k'].map(value => ({ value, label: value === '4k' ? '4K' : value }))} />
+                <Select label="Qualidade gráfica" value={qualityPreset} onChange={event => setQualityPreset(event.target.value)} options={['low', 'medium', 'high', 'ultra'].map(value => ({ value, label: translateValue(value) }))} />
+              </div>
+              {gameMode === 'compare' && <>
+                <div className="game-checkbox-grid" role="group" aria-label="Jogos para comparação">
+                  {games.items.map(game => <label key={game.id} className="game-checkbox-card">
+                    <input type="checkbox" checked={selectedGameIds.includes(game.id)} onChange={() => toggleGame(game.id)} />
+                    <span><strong>{game.name}</strong><small>{game.category} · Referência do cadastro: {game.targetResolution}</small></span>
+                  </label>)}
+                </div>
+                <p className="hint-text">{selectedGameIds.length} jogo(s) selecionado(s). A resolução escolhida acima será usada para todos.</p>
+              </>}
+            </>}
+          <p id={gameMode === 'single' ? 'game-action-hint' : 'comparison-action-hint'} className="hint-text" role="status">{activeRequest.status === 'loading' ? 'Calculando estimativas para a sua configuração...'
+            : taskBlockReason || (activeRequest.status === 'success' ? 'Simulação concluída. Confira os resultados abaixo.'
+              : activeRequest.status === 'error' ? 'A simulação não foi concluída. Confira o erro abaixo e tente novamente.'
+                : 'Tudo pronto. Execute a simulação para ver os resultados destas escolhas.')}</p>
+          <div className="button-row"><Button disabled={Boolean(taskBlockReason)} loading={activeRequest.status === 'loading'} aria-describedby={gameMode === 'single' ? 'game-action-hint' : 'comparison-action-hint'} onClick={() => runGames(gameMode)}>
+            {gameMode === 'single' ? <Gamepad2 size={18} aria-hidden="true" /> : <BarChart3 size={18} aria-hidden="true" />}{gameMode === 'single' ? 'Simular jogo' : 'Comparar jogos'}
+          </Button></div>
+          <RequestError error={activeRequest.error} onRetry={() => runGames(gameMode)} />
+          <div aria-busy={activeRequest.status === 'loading'}>
+            {activeRequest.status === 'success' && (gameMode === 'single' ? <GameSimulationResult result={activeRequest.result} /> : <GameComparisonResult result={activeRequest.result} />)}
+          </div>
+        </Card>
+    );
   }
 
   return (
     <div className="page-stack">
       <section className="page-hero compact-hero">
         <span className="eyebrow">Performance Lab</span>
-        <h1>Simulações avançadas de desempenho</h1>
-        <p>Analise sua build em softwares profissionais e compare o desempenho esperado em vários jogos.</p>
+        <h1>Simule o desempenho do seu PC</h1>
+        <p>Estime o desempenho em um jogo, compare vários jogos ou confira os requisitos dos seus programas.</p>
       </section>
-
-      {!buildComplete && (
-        <Alert type="warning" title="Build incompleta">
-          <p>Monte uma configuração antes de simular desempenho.</p>
-          <Link className="btn btn-secondary btn-md" to="/build">Ir para Montar PC</Link>
-        </Alert>
-      )}
-
-      {loading.initial && <LoadingSpinner />}
-      {error && <ErrorState message={error} />}
-      {actionError && <Alert type="error">{actionError}</Alert>}
-
-      <div className="performance-lab-grid">
+      {!buildComplete && <Alert type="warning" title="Build incompleta">
+        <p>Faltam peças: {getMissingBuildSlots(build.selectedComponents).map(type => componentLabels[type]).join(', ')}. Complete a montagem antes de simular.</p>
+        <Link className="btn btn-secondary btn-md" to="/build">Ir para Montar PC</Link>
+      </Alert>}
+      <TaskTabs id="performance-tasks" label="Tipo de simulação" value={task} onChange={changeTask}
+        tabs={[{ id: 'single', label: 'Um jogo' }, { id: 'compare', label: 'Comparar jogos' }, { id: 'software', label: 'Software' }, { id: 'cooling', label: 'Temperatura e ruído' }]} />
+      {/* Request/input state stays mounted above the views; inactive chart DOM is omitted. */}
+      <TaskPanel id="performance-tasks" value="single" active={task === 'single'}>{task === 'single' && renderGameTask('single', singleRequest)}</TaskPanel>
+      <TaskPanel id="performance-tasks" value="compare" active={task === 'compare'}>{task === 'compare' && renderGameTask('compare', comparisonRequest)}</TaskPanel>
+      <TaskPanel id="performance-tasks" value="software" active={task === 'software'}>{task === 'software' && (
         <Card className="performance-lab-card">
-          <div className="section-heading compact">
-            <div>
-              <span className="eyebrow">Softwares profissionais</span>
-              <h2><BriefcaseBusiness size={22} aria-hidden="true" /> Simulação profissional</h2>
-              <p>Confira se a configuração atende o perfil de trabalho escolhido.</p>
-            </div>
-            <Badge tone="cyan">Produtividade</Badge>
-          </div>
-
-          {softwareList.length === 0 && !loading.initial ? (
-            <EmptyState
-              title="Nenhum software encontrado"
-              message="Não foi possível listar softwares profissionais no momento."
-            />
-          ) : (
-            <>
-              <Select
-                label="Software"
-                value={selectedSoftwareId}
-                onChange={(event) => setSelectedSoftwareId(event.target.value)}
-                options={softwareList.map((software) => ({
-                  value: software.id,
-                  label: software.name
-                }))}
-              />
-
-              {selectedSoftware && (
-                <div className="info-block">
-                  <Badge tone="purple">{selectedSoftware.category}</Badge>
-                  <p>{selectedSoftware.description}</p>
-                </div>
-              )}
-
-              <div className="button-row">
-                <Button
-                  disabled={!buildComplete || loading.software}
-                  loading={loading.software}
-                  onClick={simulateSoftware}
-                >
-                  Simular software
-                </Button>
-              </div>
-
-              <SoftwareResult result={softwareResult} />
-            </>
-          )}
+          <div className="section-heading compact"><div><span className="eyebrow">Softwares profissionais</span><h2><BriefcaseBusiness size={22} aria-hidden="true" /> Simulação profissional</h2><p>Confira se a configuração atende o perfil de trabalho escolhido.</p></div><Badge tone="cyan">Produtividade</Badge></div>
+          {software.loading ? <LoadingSpinner label="Carregando softwares..." /> : software.error ? <ErrorState message={getPerformanceErrorMessage(software.error)} onRetry={software.reload} />
+            : !software.items.length ? <EmptyState title="Nenhum software encontrado" message="O catálogo ainda não tem softwares disponíveis." /> : <>
+              <Select label="Software" value={softwareId} onChange={event => setSoftwareId(event.target.value)} options={software.items.map(item => ({ value: item.id, label: item.name }))} />
+              {selectedSoftware && <div className="info-block"><Badge tone="purple">{selectedSoftware.category}</Badge><p>{selectedSoftware.description}</p></div>}
+              {!buildComplete && <p className="hint-text">Complete a montagem para liberar a simulação profissional.</p>}
+              <div className="button-row"><Button disabled={!buildComplete || !selectedSoftware} loading={softwareRequest.status === 'loading'} onClick={runSoftware}>Simular software</Button></div>
+            </>}
+          {softwareRequest.status === 'loading' && <LoadingSpinner label="Analisando requisitos do software..." />}
+          <RequestError error={softwareRequest.error} onRetry={runSoftware} />
+          <SoftwareResult result={softwareRequest.result} />
         </Card>
-
-        <Card className="performance-lab-card">
-          <div className="section-heading compact">
-            <div>
-              <span className="eyebrow">Comparação entre jogos</span>
-              <h2><Gamepad2 size={22} aria-hidden="true" /> Jogos selecionados</h2>
-              <p>Compare FPS estimado e requisitos recomendados em múltiplos jogos.</p>
-            </div>
-            <Badge tone="green">Gaming</Badge>
-          </div>
-
-          {games.length === 0 && !loading.initial ? (
-            <EmptyState
-              title="Nenhum jogo encontrado"
-              message="Não foi possível listar jogos para comparação no momento."
-            />
-          ) : (
-            <>
-              <div className="form-grid compact-form-grid">
-                <Select
-                  label="Resolução"
-                  value={targetResolution}
-                  onChange={(event) => setTargetResolution(event.target.value)}
-                  options={['1080p', '1440p', '4k'].map((value) => ({ value, label: value }))}
-                />
-                <Select
-                  label="Qualidade"
-                  value={qualityPreset}
-                  onChange={(event) => setQualityPreset(event.target.value)}
-                  options={['low', 'medium', 'high', 'ultra'].map((value) => ({
-                    value,
-                    label: translateValue(value)
-                  }))}
-                />
-              </div>
-
-              <div className="game-checkbox-grid" aria-label="Jogos para comparação">
-                {games.map((game) => (
-                  <label key={game.id} className="game-checkbox-card">
-                    <input
-                      type="checkbox"
-                      checked={selectedGameIds.includes(game.id)}
-                      onChange={() => toggleGame(game.id)}
-                    />
-                    <span>
-                      <strong>{game.name}</strong>
-                      <small>{game.category} • {game.targetResolution}</small>
-                    </span>
-                  </label>
-                ))}
-              </div>
-
-              <div className="button-row">
-                <Button
-                  disabled={!buildComplete || loading.games || selectedGameIds.length < 2}
-                  loading={loading.games}
-                  onClick={compareGames}
-                >
-                  <BarChart3 size={18} aria-hidden="true" /> Comparar jogos
-                </Button>
-              </div>
-
-              <GameComparisonResult result={gameComparison} />
-            </>
-          )}
-        </Card>
-      </div>
+      )}</TaskPanel>
+      <TaskPanel id="performance-tasks" value="cooling" active={task === 'cooling'}>{task === 'cooling' && (
+        <CoolingSimulationPanel cpu={build.selectedComponents.cpu} cooler={build.selectedComponents.cooler}
+          fans={build.selectedComponents.fans || []} caseComponent={build.selectedComponents.case}
+          conditions={build.coolingConditions} onConditionsChange={build.actions.setCoolingConditions} />
+      )}</TaskPanel>
     </div>
   );
 }
 
-function SoftwareResult({ result }) {
-  if (!result) {
-    return null;
-  }
+function validPerformanceInputs(value) {
+  return isRecord(value) && (value.task === undefined || ['single', 'compare', 'software', 'cooling'].includes(value.task)) && ['single', 'compare'].includes(value.mode) && isSessionId(value.gameId)
+    && Array.isArray(value.selectedGameIds) && value.selectedGameIds.length <= 100 && value.selectedGameIds.every(isSessionId)
+    && new Set(value.selectedGameIds).size === value.selectedGameIds.length
+    && ['1080p', '1440p', '4k'].includes(value.targetResolution)
+    && ['low', 'medium', 'high', 'ultra'].includes(value.qualityPreset) && isSessionId(value.softwareId);
+}
 
-  const details = result.details || {};
+export function validGameResult(value) {
+  return isRecord(value) && typeof value.game === 'string' && validGameFields(value);
+}
 
-  return (
-    <div className="performance-result-panel">
-      <div className="section-heading compact">
-        <div>
-          <h3>{result.software}</h3>
-          <p>{result.category}</p>
-        </div>
-        <Badge tone={result.meetsMinimumRequirements ? 'green' : 'red'}>
-          {result.performanceLevel || 'Não informado'}
-        </Badge>
-      </div>
-      <div className="metric-grid">
-        <div>
-          <span>{translateMetricLabel('performanceScore')}</span>
-          <strong>{formatNumber(result.performanceScore)}</strong>
-        </div>
-        <div>
-          <span>Atende requisitos mínimos</span>
-          <strong>{formatBoolean(result.meetsMinimumRequirements)}</strong>
-        </div>
-        <div>
-          <span>Atende requisitos recomendados</span>
-          <strong>{formatBoolean(result.meetsRecommendedRequirements)}</strong>
-        </div>
-      </div>
-      <div className="requirement-grid">
-        {[
-          ['cpuStatus', 'CPU'],
-          ['gpuStatus', 'GPU'],
-          ['ramStatus', 'RAM'],
-          ['storageStatus', 'Storage']
-        ].map(([key, label]) => (
-          <div key={key}>
-            <span>{translateValue(label.toLowerCase(), label)}</span>
-            <strong>{translateValue(details[key])}</strong>
-          </div>
-        ))}
-      </div>
-      <p>{result.summary}</p>
+function validGameFields(value) {
+  return validAvailability(value) && ['game', 'gameName', 'name', 'targetResolution', 'qualityPreset', 'performanceLevel', 'summary'].every(key => isOptionalText(value[key]))
+    && isOptionalNumber(value.estimatedFps)
+    && (value.warnings === undefined || Array.isArray(value.warnings) && value.warnings.every(item => typeof item === 'string'))
+    && (value.technicalDetails?.bottlenecks === undefined || Array.isArray(value.technicalDetails.bottlenecks)
+      && value.technicalDetails.bottlenecks.every(item => isRecord(item) && isOptionalText(item.message)));
+}
+
+export function validComparisonResult(value) {
+  const games = value?.results ?? value?.games;
+  return isRecord(value) && ['targetResolution', 'qualityPreset', 'summary'].every(key => isOptionalText(value[key]))
+    && Array.isArray(games) && games.length <= 10 && games.every(game => isRecord(game)
+      && typeof (game.gameName ?? game.name ?? game.game) === 'string' && validGameFields(game));
+}
+
+export function validSoftwareResult(value) {
+  return isRecord(value) && validAvailability(value) && typeof value.software === 'string' && isOptionalNumber(value.performanceScore)
+    && ['category', 'summary', 'performanceLevel'].every(key => isOptionalText(value[key]));
+}
+
+function validAvailability(value) {
+  return (value.available === undefined || typeof value.available === 'boolean')
+    && isOptionalText(value.reason);
+}
+
+function RequestError({ error, onRetry }) {
+  if (!error) return null;
+  return <div className="page-stack"><ErrorState message={getPerformanceErrorMessage(error)} onRetry={onRetry} />
+    {Array.isArray(error.errors) && error.errors.length > 0 && <details className="analysis-help"><summary>Ver detalhes do erro</summary><ul>{error.errors.map((message, index) => <li key={index}>{message}</li>)}</ul></details>}
+  </div>;
+}
+
+export function SoftwareResult({ result }) {
+  if (!result) return null;
+  if (result.available === false) return <section className="performance-result-panel" aria-label="Resultado da simulação profissional">
+    <div className="section-heading compact"><div><h3>{result.software}</h3><p>{result.category}</p></div><Badge tone="yellow">Sem estimativa</Badge></div>
+    <CoolingAssessmentNotice result={result} />
+    <Alert type="warning">{translateValue('performance_model_unavailable')}</Alert>
+  </section>;
+  return <section className="performance-result-panel" aria-label="Resultado da simulação profissional">
+    <div className="section-heading compact"><div><h3>{result.software}</h3><p>{result.category}</p></div><Badge tone={result.meetsMinimumRequirements === false ? 'red' : 'cyan'}>{translateValue(result.performanceLevel)}</Badge></div>
+    <CoolingAssessmentNotice result={result} />
+    <p className="analysis-note">Avaliação estimada a partir dos requisitos cadastrados, em uma escala normalizada de 0 a 100 pontos. Pontos não são FPS nem porcentagem de velocidade. Nenhum teste foi executado no seu computador.</p>
+    <div className="metric-grid">
+      <div><span>{numericValue(result.performanceScore) === null ? 'Pontuação estimada' : performanceScoreLabel(result)} (0–100 pontos)</span><strong>{formatPerformanceNumber(result.performanceScore)}</strong></div>
+      <div><span>Atende requisitos mínimos</span><strong>{formatRequirement(result.meetsMinimumRequirements)}</strong></div>
+      <div><span>Atende requisitos recomendados</span><strong>{formatRequirement(result.meetsRecommendedRequirements)}</strong></div>
     </div>
-  );
+    <p>{result.summary}</p>
+    <AnalysisHelp topics={['score']} />
+    <details className="analysis-help"><summary>Ver requisitos por componente</summary><dl className="technical-details">
+      {Object.entries(result.details || {}).map(([key, value]) => <div key={key}><dt>{({ cpuStatus: 'Processador', gpuStatus: 'Placa de vídeo', ramStatus: 'Memória RAM', storageStatus: 'Armazenamento' })[key] || key}</dt><dd>{translateValue(value)}</dd></div>)}
+    </dl></details>
+  </section>;
 }
 
-function GameComparisonResult({ result }) {
-  if (!result) {
-    return null;
-  }
-
-  const games = Array.isArray(result.results)
-    ? result.results
-    : Array.isArray(result.games)
-      ? result.games
-      : [];
-
-  return (
-    <div className="performance-result-panel">
-      <div className="section-heading compact">
-        <div>
-          <h3>Resultado da comparação</h3>
-          <p>{getComparisonSummary(result, games)}</p>
-        </div>
-        <Badge tone="cyan">{result.targetResolution} • {translateValue(result.qualityPreset)}</Badge>
-      </div>
-      {games.length === 0 ? (
-        <p>Nenhum resultado retornado para os jogos selecionados.</p>
-      ) : (
-        <>
-          <div className="game-comparison-chart" aria-label="Gráfico comparativo de FPS estimado por jogo">
-            <ResponsiveContainer width="100%" height={380}>
-              <BarChart data={games.map(formatGameChartEntry)} margin={{ top: 16, right: 24, bottom: 78, left: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#234" />
-                <XAxis
-                  dataKey="name"
-                  interval={0}
-                  angle={-24}
-                  textAnchor="end"
-                  height={92}
-                  stroke="#b9f8ff"
-                  tick={{ fontSize: 12 }}
-                />
-                <YAxis stroke="#b9f8ff" tick={{ fontSize: 12 }} />
-                <Tooltip content={<GameComparisonTooltip />} />
-                <ReferenceLine y={60} stroke="#ffd166" strokeDasharray="4 4" label={{ value: '60 FPS', fill: '#ffd166', position: 'insideTopRight' }} />
-                <Bar dataKey="estimatedFps" fill="#36f2ff" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="metric-grid compact-metric-grid">
-            <div>
-              <span>Média estimada</span>
-              <strong>{calculateAverageFps(games)} FPS</strong>
-            </div>
-            <div>
-              <span>Jogos comparados</span>
-              <strong>{games.length}</strong>
-            </div>
-            <div>
-              <span>Abaixo de 60 FPS</span>
-              <strong>{countGamesBelowRecommended(games)}</strong>
-            </div>
-            <div>
-              <span>Resolução</span>
-              <strong>{result.targetResolution || 'N/D'}</strong>
-            </div>
-            <div>
-              <span>Qualidade</span>
-              <strong>{translateValue(result.qualityPreset)}</strong>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-function GameComparisonTooltip({ active, payload }) {
-  if (!active || !Array.isArray(payload) || payload.length === 0) {
-    return null;
-  }
-
-  const game = payload[0]?.payload || {};
-
-  return (
-    <div className="chart-tooltip">
-      <strong>{game.name}</strong>
-      <div className="chart-tooltip__row">
-        <span>FPS estimado</span>
-        <strong>{formatNumber(game.estimatedFps)} FPS</strong>
-      </div>
-      <div className="chart-tooltip__row">
-        <span>Nível</span>
-        <strong>{getPerformanceLevelFromFps(game.estimatedFps) || translateValue(game.performanceLevel)}</strong>
-      </div>
-      <div className="chart-tooltip__row">
-        <span>Atende recomendado</span>
-        <strong>{formatRecommendedStatus(game.estimatedFps)}</strong>
-      </div>
-    </div>
-  );
-}
-
-function formatGameChartEntry(game) {
-  const estimatedFps = parseEstimatedFps(game.estimatedFps);
-
-  return {
-    name: game.gameName || game.name || game.game || 'Jogo',
-    estimatedFps,
-    performanceLevel: getPerformanceLevelFromFps(estimatedFps) || game.performanceLevel
-  };
-}
-
-function calculateAverageFps(games) {
-  const validValues = games.map((game) => parseEstimatedFps(game.estimatedFps)).filter(Number.isFinite);
-
-  if (validValues.length === 0) {
-    return 'N/D';
-  }
-
-  return Math.round(validValues.reduce((total, fps) => total + fps, 0) / validValues.length);
-}
-
-function countGamesBelowRecommended(games) {
-  return games
-    .map((game) => parseEstimatedFps(game.estimatedFps))
-    .filter((fps) => Number.isFinite(fps) && fps < 60)
-    .length;
-}
-
-function getComparisonSummary(result, games) {
-  const averageFps = calculateAverageFps(games);
-  const belowRecommended = countGamesBelowRecommended(games);
-
-  if (averageFps === 'N/D') {
-    return result.summary || 'Comparação concluída, mas o FPS estimado não está disponível para os jogos selecionados.';
-  }
-
-  if (belowRecommended > 0) {
-    return `A configuração apresenta média estimada de ${averageFps} FPS, com ${belowRecommended} jogo(s) abaixo da referência visual de 60 FPS.`;
-  }
-
-  return `A configuração apresenta média estimada de ${averageFps} FPS e todos os jogos comparados ficam na referência recomendada de 60 FPS ou acima.`;
-}
-
-function parseEstimatedFps(value) {
-  const fps = Number(value);
-
-  return Number.isFinite(fps) ? fps : null;
-}
-
-function formatRecommendedStatus(estimatedFps) {
-  const fps = parseEstimatedFps(estimatedFps);
-
-  if (!Number.isFinite(fps)) {
-    return 'Indisponível';
-  }
-
-  return fps >= 60 ? 'Sim' : 'Não';
-}
-
-function getPerformanceLevelFromFps(estimatedFps) {
-  const fps = parseEstimatedFps(estimatedFps);
-
-  if (!Number.isFinite(fps)) {
-    return 'Indisponível';
-  }
-
-  if (fps >= 120) return 'Excelente';
-  if (fps >= 60) return 'Bom';
-  if (fps >= 30) return 'Regular';
-  return 'Baixo';
-}
-
-function getPerformanceErrorMessage(error, fallback) {
-  if (error?.status === 400) {
-    return error.message || 'Dados insuficientes para simular desempenho com a build atual.';
-  }
-
-  if (error?.status === 0) {
-    return error.message || 'Não foi possível conectar ao backend do PCPowerLab.';
-  }
-
-  return error?.message || fallback;
-}
-
-function formatBoolean(value) {
-  if (value === true) {
-    return 'Sim';
-  }
-
-  if (value === false) {
-    return 'Não';
-  }
-
-  return 'Não informado';
-}
-
-function formatNumber(value) {
-  const number = Number(value);
-
-  return Number.isFinite(number) ? Math.round(number) : 'N/D';
+function useOptions(fetchOptions) {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [reloadKey, setReloadKey] = useState(0);
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError(null);
+    fetchOptions().then(data => { if (active) setItems(Array.isArray(data) ? data : []); })
+      .catch(error => { if (active) { setError(error); setItems([]); } })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [fetchOptions, reloadKey]);
+  return { items, loading, error, reload: () => setReloadKey(key => key + 1) };
 }

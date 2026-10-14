@@ -126,15 +126,10 @@ function validateNumericFields(parameter) {
 }
 
 function validatePerformanceScoreRange(parameter) {
-  if (parameter.performanceScore === undefined || !Number.isFinite(parameter.performanceScore)) {
-    return [];
-  }
-
-  if (parameter.performanceScore >= 0 && parameter.performanceScore <= 100) {
-    return [];
-  }
-
-  return ['performanceScore deve estar na escala de 0 a 100.'];
+  return ['performanceScore', 'gamingScore', 'productivityScore', 'airflowScore']
+    .filter((field) => parameter[field] !== undefined && parameter[field] !== null
+      && Number.isFinite(parameter[field]) && (parameter[field] < 0 || parameter[field] > 100))
+    .map((field) => `${field} deve estar na escala de 0 a 100.`);
 }
 
 function validateComponentExistsAndType(componentId, type) {

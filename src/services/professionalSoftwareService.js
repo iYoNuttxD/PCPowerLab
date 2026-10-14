@@ -1,3 +1,7 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { unavailablePerformance } from '../utils/performanceAvailability.js';
+import { normalizeSelectedComponentIds } from './build.service.js';
+import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { professionalSoftware } from '../data/professionalSoftware.js';
 import { findComponentById } from './component.service.js';
 import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
@@ -31,8 +35,11 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
     throw error;
   }
 
-  const buildInput = normalizeBuildInput(simulationInput.build);
+  const compatibility = validateSimulationCompatibility(simulationInput.build);
+  const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);
+  const unavailable = unavailablePerformance(components);
+  if (unavailable) return { ...performanceMetadata(components), ...unavailable, software: software.name, softwareId: software.id, category: software.category, performanceScore: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
   const performanceParameters = mapPerformanceParameters(components);
   const details = buildRequirementDetails({ software, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
@@ -45,6 +52,7 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
   });
 
   return {
+    ...performanceMetadata(components),
     software: software.name,
     softwareId: software.id,
     category: software.category,
@@ -60,6 +68,7 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
       meetsMinimumRequirements
     }),
     technicalDetails: {
+      compatibility,
       weights: {
         cpuWeight: software.cpuWeight,
         gpuWeight: software.gpuWeight,
@@ -84,12 +93,6 @@ function validateSimulationPayload(simulationInput) {
   }
 }
 
-function normalizeBuildInput(buildInput) {
-  return requiredSoftwareSimulationSlots.reduce((normalizedBuild, slot) => ({
-    ...normalizedBuild,
-    [`${slot}Id`]: buildInput[`${slot}Id`] ?? buildInput[slot]
-  }), {});
-}
 
 function mapSimulationComponents(buildInput) {
   return requiredSoftwareSimulationSlots.reduce((componentsBySlot, slot) => {

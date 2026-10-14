@@ -6,8 +6,8 @@ export default function NotFound() {
     <div className="not-found">
       <Card>
         <span className="eyebrow">404</span>
-        <h1>Fase não encontrada</h1>
-        <p>A rota acessada não existe no painel do PCPowerLab.</p>
+        <h1>Página não encontrada</h1>
+        <p>Confira o endereço ou volte ao início para continuar.</p>
         <Link className="btn btn-primary btn-md" to="/">Voltar ao início</Link>
       </Card>
     </div>

@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node --test tests/comparison-identity.test.js (base source)
+Exit: 1 (expected negative control)
+Observed regression: Expected comparison indexes [0,1]; base returned [undefined,undefined] for duplicate names.
+The corresponding current-source checks passed; detailed traces are not published.

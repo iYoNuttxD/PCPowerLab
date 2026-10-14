@@ -1,0 +1,22 @@
+{
+  "active": 98,
+  "byCategory": {
+    "cpu": 12,
+    "motherboard": 9,
+    "gpu": 11,
+    "ram": 21,
+    "storage": 21,
+    "psu": 8,
+    "case": 7,
+    "cooler": 5,
+    "fan": 4
+  },
+  "air": 3,
+  "aio": 2,
+  "performanceParameters": 89,
+  "purchaseSearchLinks": 490,
+  "liveQuotes": 0,
+  "legacyIdsPreserved": 69,
+  "photoCoverage": 9.18,
+  "result": "technical-integrity-passed; mandatory-photo-coverage-incomplete"
+}

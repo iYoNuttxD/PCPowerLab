@@ -1,0 +1,11 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-saved-build-interactions.mjs
+Exit: 0
+PASS: same-render duplicate submit and post-success repeat save once, retain the native editor, and never navigate
+PASS: changed fields permit another save; errors remain visible in the editor, retry works, explicit close stays on saved builds
+PASS: close/reopen rejects stale edit completion; loading saved configuration and encoded Upgrade destination remain intact
+PASS: readable historical names, missing-piece fallback, cooler/fan quantities, budget/use settings, and closed raw-data details preserve the exact snapshot
+PASS: saved cards opt into narrowly scoped component-row layout; viewport rendering remains unverified
+LIMITATION: hook/handler and SSR contracts only; pointer retargeting, native dialog focus, 390/768/1440 layouts, and browser navigation history require actual UI QA

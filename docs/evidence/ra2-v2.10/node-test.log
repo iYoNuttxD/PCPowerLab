@@ -1,0 +1,13 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node --test
+Exit: 0
+Tests: 511
+Passed: 511
+Failed: 0
+Cancelled: 0
+Skipped: 0
+Todo: 0
+Coverage categories: component catalog, pricing and budgets, compatibility and cooling, performance simulations, saved configurations and versions, recommendations, comparisons, image provenance, UI helpers and persistence.
+Detailed diagnostic output is retained locally and is not published.

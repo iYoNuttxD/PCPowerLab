@@ -1,0 +1,10 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-catalog-render.mjs
+Exit: 0
+PASS: malformed object display fields are rejected before real card rendering; missing names/prices retain unavailable labels; actual catalog satisfies boundary
+PASS: server rendering includes technical fields, compatibility and sorting for all 9 categories
+PASS: comparison server rendering includes unknown values, differences and focusable named table region
+PASS: mixed-category comparison renders its rejection message
+LIMITATION: SSR does not execute effects or verify browser interactions, image loading, responsive geometry, scrolling or focus behavior

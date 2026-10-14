@@ -1,0 +1,101 @@
+{
+  "method": "WCAG relative sRGB luminance: (Lmax + 0.05) / (Lmin + 0.05). Solid theme tokens; conservative body bound composes maximum alpha of both radials and both grid lines over #101b2d. Does not certify all rendered text/SVG/gradients.",
+  "sources": [
+    "frontend/src/styles/theme.css",
+    "frontend/src/styles/global.css"
+  ],
+  "pairs": [
+    {
+      "foreground": "text",
+      "foregroundHex": "#edf3fc",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 13.12,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "muted",
+      "foregroundHex": "#b7c5d8",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 8.36,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "cyan",
+      "foregroundHex": "#73dfeb",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 9.4,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "green",
+      "foregroundHex": "#7ae5ae",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 9.51,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "magenta",
+      "foregroundHex": "#e9a1df",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 7.41,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "yellow",
+      "foregroundHex": "#f4ce7a",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 9.73,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "red",
+      "foregroundHex": "#ff98ad",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 7.21,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "blue",
+      "foregroundHex": "#a3bfff",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 7.98,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "border-strong",
+      "foregroundHex": "#6f88a5",
+      "background": "panel-strong",
+      "backgroundHex": "#192941",
+      "ratio": 4.0,
+      "threshold": 3
+    },
+    {
+      "foreground": "placeholder",
+      "foregroundHex": "#96a9c1",
+      "backgroundHex": "#192941",
+      "ratio": 6.09,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "primary button text",
+      "foregroundHex": "#080e1b",
+      "backgroundHex": "#73dfeb",
+      "ratio": 12.38,
+      "threshold": 4.5
+    },
+    {
+      "foreground": "muted",
+      "background": "conservative simultaneous body gradients and grid maxima",
+      "ratio": 7.66,
+      "threshold": 4.5
+    }
+  ]
+}

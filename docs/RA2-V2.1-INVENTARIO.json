@@ -1,0 +1,1790 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-08T01:43:04.723Z",
+  "stage": "v2.1",
+  "source": "Current catalog imports; run npm run inventory after catalog edits. Admin runtime changes require GET /api/v1/components.",
+  "counts": {
+    "cpu": 12,
+    "motherboard": 9,
+    "gpu": 11,
+    "ram": 21,
+    "storage": 21,
+    "psu": 8,
+    "case": 7,
+    "cooler": 5,
+    "fan": 4
+  },
+  "total": 98,
+  "performanceParameters": 89,
+  "purchaseSearchLinks": 490,
+  "limitations": [
+    "Reference prices are not live offers",
+    "Cooling does not receive performance or FPS scores",
+    "Unknown cooling data does not verify physical compatibility"
+  ],
+  "components": [
+    {
+      "id": "cpu-ryzen-5-5500",
+      "name": "AMD Ryzen 5 5500",
+      "category": "cpu",
+      "brand": "AMD",
+      "price": 589.9,
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4.2,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-ryzen-5-5600",
+      "name": "AMD Ryzen 5 5600",
+      "category": "cpu",
+      "brand": "AMD",
+      "price": 799.9,
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.5,
+        "boostClockGhz": 4.4,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-ryzen-7-5700x",
+      "name": "AMD Ryzen 7 5700X",
+      "category": "cpu",
+      "brand": "AMD",
+      "price": 1199.9,
+      "specs": {
+        "socket": "AM4",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 4.6,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-ryzen-7-5800x3d",
+      "name": "AMD Ryzen 7 5800X3D",
+      "category": "cpu",
+      "brand": "AMD",
+      "price": 1899.9,
+      "specs": {
+        "socket": "AM4",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 4.5,
+        "tdpWatts": 105
+      }
+    },
+    {
+      "id": "cpu-ryzen-5-7600",
+      "name": "AMD Ryzen 5 7600",
+      "category": "cpu",
+      "brand": "AMD",
+      "price": 1399.9,
+      "specs": {
+        "socket": "AM5",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.8,
+        "boostClockGhz": 5.1,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-ryzen-7-7700",
+      "name": "AMD Ryzen 7 7700",
+      "category": "cpu",
+      "brand": "AMD",
+      "price": 1999.9,
+      "specs": {
+        "socket": "AM5",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.8,
+        "boostClockGhz": 5.3,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-intel-i3-12100f",
+      "name": "Intel Core i3-12100F",
+      "category": "cpu",
+      "brand": "Intel",
+      "price": 549.9,
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 4,
+        "threads": 8,
+        "baseClockGhz": 3.3,
+        "boostClockGhz": 4.3,
+        "tdpWatts": 58
+      }
+    },
+    {
+      "id": "cpu-intel-i5-12400f",
+      "name": "Intel Core i5-12400F",
+      "category": "cpu",
+      "brand": "Intel",
+      "price": 849.9,
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.4,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-intel-i5-13400f",
+      "name": "Intel Core i5-13400F",
+      "category": "cpu",
+      "brand": "Intel",
+      "price": 1199.9,
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 10,
+        "threads": 16,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.6,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "cpu-intel-i5-13600k",
+      "name": "Intel Core i5-13600K",
+      "category": "cpu",
+      "brand": "Intel",
+      "price": 1899.9,
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 14,
+        "threads": 20,
+        "baseClockGhz": 3.5,
+        "boostClockGhz": 5.1,
+        "tdpWatts": 125
+      }
+    },
+    {
+      "id": "cpu-intel-i7-13700k",
+      "name": "Intel Core i7-13700K",
+      "category": "cpu",
+      "brand": "Intel",
+      "price": 2699.9,
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 16,
+        "threads": 24,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 5.4,
+        "tdpWatts": 125
+      }
+    },
+    {
+      "id": "cpu-intel-i5-14400f",
+      "name": "Intel Core i5-14400F",
+      "category": "cpu",
+      "brand": "Intel",
+      "price": 1299.9,
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 10,
+        "threads": 16,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.7,
+        "tdpWatts": 65
+      }
+    },
+    {
+      "id": "mb-b550m-aorus-elite",
+      "name": "Gigabyte B550M Aorus Elite",
+      "category": "motherboard",
+      "brand": "Gigabyte",
+      "price": 699.9,
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-asus-tuf-b550m-plus",
+      "name": "ASUS TUF Gaming B550M-Plus",
+      "category": "motherboard",
+      "brand": "ASUS",
+      "price": 899.9,
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-msi-b550-tomahawk",
+      "name": "MSI B550 Tomahawk",
+      "category": "motherboard",
+      "brand": "MSI",
+      "price": 1099.9,
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "ATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-asus-prime-b650m-a",
+      "name": "ASUS Prime B650M-A",
+      "category": "motherboard",
+      "brand": "ASUS",
+      "price": 1199.9,
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "mATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-gigabyte-b650-gaming-x-ax",
+      "name": "Gigabyte B650 Gaming X AX",
+      "category": "motherboard",
+      "brand": "Gigabyte",
+      "price": 1499.9,
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "ATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-h610m-ddr4",
+      "name": "ASUS Prime H610M DDR4",
+      "category": "motherboard",
+      "brand": "ASUS",
+      "price": 589.9,
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "H610",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-msi-pro-b660m-a-ddr4",
+      "name": "MSI PRO B660M-A DDR4",
+      "category": "motherboard",
+      "brand": "MSI",
+      "price": 799.9,
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B660",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-gigabyte-b760m-ds3h-ddr4",
+      "name": "Gigabyte B760M DS3H DDR4",
+      "category": "motherboard",
+      "brand": "Gigabyte",
+      "price": 949.9,
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B760",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "mb-asus-tuf-z790-plus-ddr5",
+      "name": "ASUS TUF Gaming Z790-Plus DDR5",
+      "category": "motherboard",
+      "brand": "ASUS",
+      "price": 2199.9,
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR5",
+        "formFactor": "ATX",
+        "chipset": "Z790",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      }
+    },
+    {
+      "id": "gpu-gtx-1650",
+      "name": "NVIDIA GeForce GTX 1650 4GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 799.9,
+      "specs": {
+        "vramGb": 4,
+        "tdpWatts": 75,
+        "recommendedPsuWatts": 350,
+        "lengthMm": 170
+      }
+    },
+    {
+      "id": "gpu-rtx-3050",
+      "name": "NVIDIA GeForce RTX 3050 8GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 1299.9,
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 130,
+        "recommendedPsuWatts": 450,
+        "lengthMm": 230
+      }
+    },
+    {
+      "id": "gpu-rtx-3060",
+      "name": "NVIDIA GeForce RTX 3060 12GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 1599.9,
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 170,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 242
+      }
+    },
+    {
+      "id": "gpu-rtx-4060",
+      "name": "NVIDIA GeForce RTX 4060 8GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 1899.9,
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 115,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 240
+      }
+    },
+    {
+      "id": "gpu-rtx-4060-ti",
+      "name": "NVIDIA GeForce RTX 4060 Ti 8GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 2499.9,
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 160,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 245
+      }
+    },
+    {
+      "id": "gpu-rtx-4070",
+      "name": "NVIDIA GeForce RTX 4070 12GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 3899.9,
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 200,
+        "recommendedPsuWatts": 650,
+        "lengthMm": 270
+      }
+    },
+    {
+      "id": "gpu-rtx-4070-super",
+      "name": "NVIDIA GeForce RTX 4070 Super 12GB",
+      "category": "gpu",
+      "brand": "NVIDIA",
+      "price": 4499.9,
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 220,
+        "recommendedPsuWatts": 700,
+        "lengthMm": 300
+      }
+    },
+    {
+      "id": "gpu-rx-6600",
+      "name": "AMD Radeon RX 6600 8GB",
+      "category": "gpu",
+      "brand": "AMD",
+      "price": 1199.9,
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 132,
+        "recommendedPsuWatts": 450,
+        "lengthMm": 200
+      }
+    },
+    {
+      "id": "gpu-rx-7600",
+      "name": "AMD Radeon RX 7600 8GB",
+      "category": "gpu",
+      "brand": "AMD",
+      "price": 1699.9,
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 165,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 235
+      }
+    },
+    {
+      "id": "gpu-rx-7700-xt",
+      "name": "AMD Radeon RX 7700 XT 12GB",
+      "category": "gpu",
+      "brand": "AMD",
+      "price": 3299.9,
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 245,
+        "recommendedPsuWatts": 700,
+        "lengthMm": 280
+      }
+    },
+    {
+      "id": "gpu-rx-7800-xt",
+      "name": "AMD Radeon RX 7800 XT 16GB",
+      "category": "gpu",
+      "brand": "AMD",
+      "price": 3999.9,
+      "specs": {
+        "vramGb": 16,
+        "tdpWatts": 263,
+        "recommendedPsuWatts": 750,
+        "lengthMm": 305
+      }
+    },
+    {
+      "id": "ram-kingston-fury-8gb-ddr4",
+      "name": "Kingston Fury Beast 8GB DDR4",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 149.9,
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 8,
+        "speedMhz": 3200
+      }
+    },
+    {
+      "id": "ram-kingston-fury-16gb-ddr4",
+      "name": "Kingston Fury Beast 16GB DDR4",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 249.9,
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3200
+      }
+    },
+    {
+      "id": "ram-kingston-fury-32gb-ddr4",
+      "name": "Kingston Fury Beast 32GB DDR4",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 499.9,
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200
+      }
+    },
+    {
+      "id": "ram-corsair-vengeance-16gb-ddr4-3600",
+      "name": "Corsair Vengeance 16GB DDR4",
+      "category": "ram",
+      "brand": "Corsair",
+      "price": 289.9,
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3600
+      }
+    },
+    {
+      "id": "ram-corsair-vengeance-16gb-ddr5",
+      "name": "Corsair Vengeance 16GB DDR5",
+      "category": "ram",
+      "brand": "Corsair",
+      "price": 399.9,
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "speedMhz": 5200
+      }
+    },
+    {
+      "id": "ram-corsair-vengeance-32gb-ddr5-5600",
+      "name": "Corsair Vengeance 32GB DDR5",
+      "category": "ram",
+      "brand": "Corsair",
+      "price": 749.9,
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 5600
+      }
+    },
+    {
+      "id": "ram-kingston-fury-16gb-ddr5-6000",
+      "name": "Kingston Fury Beast 16GB DDR5",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 449.9,
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "speedMhz": 6000
+      }
+    },
+    {
+      "id": "ram-gskill-trident-z5-32gb-ddr5-6000",
+      "name": "G.Skill Trident Z5 32GB DDR5",
+      "category": "ram",
+      "brand": "G.Skill",
+      "price": 899.9,
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 6000
+      }
+    },
+    {
+      "id": "ssd-kingston-a400-480gb",
+      "name": "Kingston A400 480GB SATA SSD",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 189.9,
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450
+      }
+    },
+    {
+      "id": "ssd-kingston-nv2-500gb",
+      "name": "Kingston NV2 500GB NVMe",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 239.9,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2100
+      }
+    },
+    {
+      "id": "ssd-kingston-nv2-1tb",
+      "name": "Kingston NV2 1TB NVMe",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 349.9,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2100
+      }
+    },
+    {
+      "id": "ssd-wd-blue-sn570-1tb",
+      "name": "WD Blue SN570 1TB NVMe",
+      "category": "storage",
+      "brand": "Western Digital",
+      "price": 399.9,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 3000
+      }
+    },
+    {
+      "id": "ssd-wd-black-sn770-1tb",
+      "name": "WD Black SN770 1TB NVMe",
+      "category": "storage",
+      "brand": "Western Digital",
+      "price": 549.9,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 5150,
+        "writeSpeedMbS": 4900
+      }
+    },
+    {
+      "id": "ssd-samsung-970-evo-plus-1tb",
+      "name": "Samsung 970 EVO Plus 1TB NVMe",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 599.9,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 3300
+      }
+    },
+    {
+      "id": "ssd-samsung-980-pro-2tb",
+      "name": "Samsung 980 Pro 2TB NVMe",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 1199.9,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 5100
+      }
+    },
+    {
+      "id": "hdd-seagate-barracuda-2tb",
+      "name": "Seagate Barracuda 2TB HDD",
+      "category": "storage",
+      "brand": "Seagate",
+      "price": 299.9,
+      "specs": {
+        "interface": "SATA",
+        "storageType": "HDD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 190,
+        "writeSpeedMbS": 180
+      }
+    },
+    {
+      "id": "psu-generic-400w",
+      "name": "Fonte Genérica 400W",
+      "category": "psu",
+      "brand": "Generic",
+      "price": 129.9,
+      "specs": {
+        "watts": 400,
+        "efficiency": "Não informado"
+      }
+    },
+    {
+      "id": "psu-corsair-cv550",
+      "name": "Corsair CV550 550W",
+      "category": "psu",
+      "brand": "Corsair",
+      "price": 329.9,
+      "specs": {
+        "watts": 550,
+        "efficiency": "80 Plus Bronze"
+      }
+    },
+    {
+      "id": "psu-corsair-650w",
+      "name": "Corsair CV650 650W",
+      "category": "psu",
+      "brand": "Corsair",
+      "price": 399.9,
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Bronze"
+      }
+    },
+    {
+      "id": "psu-cooler-master-mwe-650w",
+      "name": "Cooler Master MWE 650W Bronze",
+      "category": "psu",
+      "brand": "Cooler Master",
+      "price": 449.9,
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Bronze"
+      }
+    },
+    {
+      "id": "psu-xpg-pylon-650w",
+      "name": "XPG Pylon 650W",
+      "category": "psu",
+      "brand": "XPG",
+      "price": 429.9,
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Bronze"
+      }
+    },
+    {
+      "id": "psu-corsair-rm750e",
+      "name": "Corsair RM750e 750W Gold",
+      "category": "psu",
+      "brand": "Corsair",
+      "price": 699.9,
+      "specs": {
+        "watts": 750,
+        "efficiency": "80 Plus Gold"
+      }
+    },
+    {
+      "id": "psu-xpg-core-reactor-850w",
+      "name": "XPG Core Reactor 850W Gold",
+      "category": "psu",
+      "brand": "XPG",
+      "price": 799.9,
+      "specs": {
+        "watts": 850,
+        "efficiency": "80 Plus Gold"
+      }
+    },
+    {
+      "id": "psu-corsair-rm850x",
+      "name": "Corsair RM850x 850W Gold",
+      "category": "psu",
+      "brand": "Corsair",
+      "price": 899.9,
+      "specs": {
+        "watts": 850,
+        "efficiency": "80 Plus Gold"
+      }
+    },
+    {
+      "id": "case-mid-tower-airflow",
+      "name": "Gabinete Mid Tower Airflow",
+      "category": "case",
+      "brand": "PCPowerLab",
+      "price": 299.9,
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 320,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+      }
+    },
+    {
+      "id": "case-cooler-master-q300l",
+      "name": "Cooler Master MasterBox Q300L",
+      "category": "case",
+      "brand": "Cooler Master",
+      "price": 349.9,
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 159,
+        "radiatorSizesMm": [
+          120,
+          240
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 2
+          }
+        ],
+        "includedFanCount": 1,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "120/240 mm na frente, 120 mm atrás. Fans: frente 2×120/140; topo 2×120; traseira 1×120; base 1×120. Layouts alternativos; conferir interferências no manual."
+      },
+      "coolingSpecSourceUrl": "https://www.coolermaster.com/en-global/products/masterbox-q300l.html",
+      "coolingSpecVerifiedAt": "2026-10-08",
+      "partNumber": "MCB-Q300L-KANN-S00"
+    },
+    {
+      "id": "case-nzxt-h5-flow",
+      "name": "NZXT H5 Flow",
+      "category": "case",
+      "brand": "NZXT",
+      "price": 649.9,
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 365,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Revisão/ano do H5 Flow não identificado no cadastro legado; suporte de refrigeração não verificado."
+      }
+    },
+    {
+      "id": "case-corsair-4000d-airflow",
+      "name": "Corsair 4000D Airflow",
+      "category": "case",
+      "brand": "Corsair",
+      "price": 699.9,
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 170,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 4
+          }
+        ],
+        "includedFanCount": 2,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "360 mm na frente; 280 mm no topo depende da altura da RAM. AIO frontal reduz folga de GPU. Capacidades de fans por diâmetro são layouts alternativos."
+      },
+      "coolingSpecSourceUrl": "https://www.corsair.com/ww/en/p/pc-cases/cc-9011200-ww/4000d-airflow-temper",
+      "coolingSpecVerifiedAt": "2026-10-08",
+      "partNumber": "CC-9011200-WW"
+    },
+    {
+      "id": "case-montech-air-903-base",
+      "name": "Montech Air 903 Base",
+      "category": "case",
+      "brand": "Montech",
+      "price": 399.9,
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 400,
+        "maxCoolerHeightMm": 180,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 9
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 6
+          }
+        ],
+        "includedFanCount": 3,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Radiadores no topo/frente. Fans: topo 3×120/2×140; frente 3×120/3×140; PSU shroud 2×120; traseira 1×120/1×140. Não somar layouts alternativos."
+      },
+      "coolingSpecSourceUrl": "https://www.montechpc.com/air-903-base",
+      "coolingSpecVerifiedAt": "2026-10-08"
+    },
+    {
+      "id": "case-compact-matx",
+      "name": "Gabinete Compact mATX",
+      "category": "case",
+      "brand": "PCPowerLab",
+      "price": 219.9,
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 220,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+      }
+    },
+    {
+      "id": "case-gamer-atx-rgb",
+      "name": "Gabinete Gamer ATX RGB",
+      "category": "case",
+      "brand": "PCPowerLab",
+      "price": 459.9,
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 330,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+      }
+    },
+    {
+      "id": "ram-kingston-fury-16gb-ddr4-3600",
+      "name": "Kingston Fury Beast 16GB DDR4-3600",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 299.9,
+      "partNumber": "KF436C18BB/16",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF436C18BB_16.pdf",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3600
+      }
+    },
+    {
+      "id": "ram-crucial-32gb-ddr4-3200",
+      "name": "Crucial 32GB DDR4-3200 UDIMM",
+      "category": "ram",
+      "brand": "Crucial",
+      "price": 529.9,
+      "partNumber": "CT32G4DFD832A",
+      "specSourceUrl": "https://eu.crucial.com/memory/ddr4/ct32g4dfd832a/ct26139276",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200
+      }
+    },
+    {
+      "id": "ram-kingston-fury-16gb-ddr5-5200",
+      "name": "Kingston Fury Beast 16GB DDR5-5200",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 419.9,
+      "partNumber": "KF552C40BB-16",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF552C40BB-16.pdf",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "speedMhz": 5200
+      }
+    },
+    {
+      "id": "ssd-kingston-a400-960gb",
+      "name": "Kingston A400 960GB SATA SSD",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 329.9,
+      "partNumber": "SA400S37/960G",
+      "specSourceUrl": "https://www.kingston.com/en/ssd/a400-solid-state-drive",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 960,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450
+      }
+    },
+    {
+      "id": "ssd-samsung-970-evo-plus-250gb",
+      "name": "Samsung 970 EVO Plus 250GB NVMe",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 249.9,
+      "partNumber": "MZ-V7S250",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_NVMe_SSD_970_EVO_Plus_Data_Sheet_Rev.3.0_10129514071343.pdf",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 250,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2300
+      },
+      "image": {
+        "url": "/images/components/samsung-970-evo-plus-250gb.jpg",
+        "alt": "Samsung 970 EVO Plus com identificação de 250GB na etiqueta",
+        "author": "Jacek Halicki",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:2023_Nap%C4%99d_Samsung_970_EVO_Plus_250GB_(1).jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    },
+    {
+      "id": "ssd-samsung-980-pro-1tb",
+      "name": "Samsung 980 PRO 1TB NVMe",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 699.9,
+      "partNumber": "MZ-V8P1T0",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung-NVMe-SSD-980-PRO-Data-Sheet_Rev.2.1_230509_10129500052824.pdf",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 5000
+      },
+      "image": {
+        "url": "/images/components/samsung-980-pro-1tb.jpg",
+        "alt": "Samsung 980 PRO com identificação de 1TB na etiqueta",
+        "author": "D-Kuru/Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    },
+    {
+      "id": "ram-kf432c16bbk2-16",
+      "name": "Kingston FURY Beast 16GB (2×8GB) DDR4-3200",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 299.9,
+      "partNumber": "KF432C16BBK2/16",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF432C16BBK2_16.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-kf432c16bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR4-3200",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 519.9,
+      "partNumber": "KF432C16BBK2/32",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF432C16BBK2_32.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-kf432c16bbk2-64",
+      "name": "Kingston FURY Beast 64GB (2×32GB) DDR4-3200",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 999.9,
+      "partNumber": "KF432C16BBK2/64",
+      "specSourceUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=KF432C16BBK2%2F64",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 64,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-kf436c18bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR4-3600",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 569.9,
+      "partNumber": "KF436C18BBK2/32",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF436C18BBK2_32.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-kf552c40bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR5-5200",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 699.9,
+      "partNumber": "KF552C40BBK2-32",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF552C40BBK2-32.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 5200,
+        "dataRateMTs": 5200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-kf556c40bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR5-5600",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 749.9,
+      "partNumber": "KF556C40BBK2-32",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF556C40BBK2-32.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 5600,
+        "dataRateMTs": 5600,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-kf560c40bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR5-6000",
+      "category": "ram",
+      "brand": "Kingston",
+      "price": 799.9,
+      "partNumber": "KF560C40BBK2-32",
+      "specSourceUrl": "https://www.kingston.com/dataSheets/KF560C40BBK2-32.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-cmk32gx4m2e3200c16",
+      "name": "Corsair Vengeance LPX 32GB (2×16GB) DDR4-3200",
+      "category": "ram",
+      "brand": "Corsair",
+      "price": 549.9,
+      "partNumber": "CMK32GX4M2E3200C16",
+      "specSourceUrl": "https://www.corsair.com/ww/en/p/memory/cmk32gx4m2e3200c16/vengeance-lpx-32gb-2-x-16gb-ddr4-dram-3200mhz-c16-memory-kit-black-cmk32gx4m2e3200c16",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-cmk32gx5m2b6000c36",
+      "name": "Corsair Vengeance 32GB (2×16GB) DDR5-6000",
+      "category": "ram",
+      "brand": "Corsair",
+      "price": 849.9,
+      "partNumber": "CMK32GX5M2B6000C36",
+      "specSourceUrl": "https://www.corsair.com/ww/en/p/memory/cmk32gx5m2b6000c36/vengeance-32gb-2x16gb-ddr5-dram-6000mhz-c36-memory-kit-black-cmk32gx5m2b6000c36",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ram-cmk64gx5m2b6000c40",
+      "name": "Corsair Vengeance 64GB (2×32GB) DDR5-6000",
+      "category": "ram",
+      "brand": "Corsair",
+      "price": 1499.9,
+      "partNumber": "CMK64GX5M2B6000C40",
+      "specSourceUrl": "https://www.corsair.com/ww/en/p/memory/cmk64gx5m2b6000c40/vengeance-64gb-2x32gb-ddr5-dram-6000mhz-c40-memory-kit-black-cmk64gx5m2b6000c40",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 64,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      }
+    },
+    {
+      "id": "ssd-samsung-870-evo-250gb",
+      "name": "Samsung 870 EVO 250GB SATA",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 249.9,
+      "partNumber": "MZ-77E250",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 250,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      }
+    },
+    {
+      "id": "ssd-samsung-870-evo-500gb",
+      "name": "Samsung 870 EVO 500GB SATA",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 379.9,
+      "partNumber": "MZ-77E500",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      }
+    },
+    {
+      "id": "ssd-samsung-870-evo-1000gb",
+      "name": "Samsung 870 EVO 1000GB SATA",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 599.9,
+      "partNumber": "MZ-77E1T0",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      }
+    },
+    {
+      "id": "ssd-samsung-870-evo-2000gb",
+      "name": "Samsung 870 EVO 2000GB SATA",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 999.9,
+      "partNumber": "MZ-77E2T0",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      }
+    },
+    {
+      "id": "ssd-samsung-870-evo-4000gb",
+      "name": "Samsung 870 EVO 4000GB SATA",
+      "category": "storage",
+      "brand": "Samsung",
+      "price": 1899.9,
+      "partNumber": "MZ-77E4T0",
+      "specSourceUrl": "https://download.semiconductor.samsung.com/resources/data-sheet/Samsung_SSD_870_EVO_Data_Sheet_Rev1.1_230509_10129500053000.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 4000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      }
+    },
+    {
+      "id": "ssd-kingston-kc3000-512gb",
+      "name": "Kingston KC3000 512GB NVMe",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 399.9,
+      "partNumber": "SKC3000S/512G",
+      "specSourceUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 512,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 3900,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      }
+    },
+    {
+      "id": "ssd-kingston-kc3000-1024gb",
+      "name": "Kingston KC3000 1024GB NVMe",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 649.9,
+      "partNumber": "SKC3000S/1024G",
+      "specSourceUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1024,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 6000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      }
+    },
+    {
+      "id": "ssd-kingston-kc3000-2048gb",
+      "name": "Kingston KC3000 2048GB NVMe",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 1099.9,
+      "partNumber": "SKC3000D/2048G",
+      "specSourceUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2048,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 7000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      }
+    },
+    {
+      "id": "ssd-kingston-kc3000-4096gb",
+      "name": "Kingston KC3000 4096GB NVMe",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 2299.9,
+      "partNumber": "SKC3000D/4096G",
+      "specSourceUrl": "https://www.kingston.com/datasheets/KC3000_es.pdf",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 4096,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 7000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      }
+    },
+    {
+      "id": "ssd-kingston-a400-240gb",
+      "name": "Kingston A400 240GB SATA SSD",
+      "category": "storage",
+      "brand": "Kingston",
+      "price": 139.9,
+      "partNumber": "SA400S37/240G",
+      "specSourceUrl": "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 240,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 350,
+        "speedBasis": "Máximo sequencial anunciado"
+      }
+    },
+    {
+      "id": "cooler-noctua-nh-u12s-redux",
+      "name": "Noctua NH-U12S redux",
+      "category": "cooler",
+      "brand": "Noctua",
+      "price": 499.9,
+      "partNumber": "NH-U12S redux",
+      "specSourceUrl": "https://www.noctua.at/en/products/nh-u12s-redux/specifications",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155",
+          "LGA1156",
+          "LGA1200",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": 158,
+        "powerWatts": 1.08,
+        "powerBasis": "Potência máxima do único fan NF-P12 redux-1700 PWM",
+        "includedFanCount": 1,
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 71,
+          "width": 125,
+          "height": 158
+        }
+      },
+      "additionalSpecSourceUrls": [
+        "https://cdn.noctua.at/media/noctua_nh_u12s_redux_infosheet_en_web.pdf?download=true"
+      ]
+    },
+    {
+      "id": "cooler-noctua-nh-l9a-am4",
+      "name": "Noctua NH-L9a-AM4",
+      "category": "cooler",
+      "brand": "Noctua",
+      "price": 429.9,
+      "partNumber": "NH-L9a-AM4",
+      "specSourceUrl": "https://www.noctua.at/en/products/nh-l9a-am4/specifications",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4"
+        ],
+        "heightMm": 37,
+        "powerWatts": null,
+        "includedFanCount": 1,
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 92,
+          "width": 114,
+          "height": 37
+        },
+        "compatibilityNotes": "Modelo AM4; não indicado pelo fabricante para CPUs com alta carga térmica. Conferir lista oficial de CPU."
+      }
+    },
+    {
+      "id": "cooler-deepcool-ak620",
+      "name": "DeepCool AK620 (R-AK620-BKNNMT-G)",
+      "category": "cooler",
+      "brand": "DeepCool",
+      "price": 429.9,
+      "partNumber": "R-AK620-BKNNMT-G",
+      "specSourceUrl": "https://www.deepcool.com/products/Cooling/cpuaircoolers/AK620-High-Performance-CPU-Cooler-1851-1700-AM5/2024/13067.shtml",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155",
+          "LGA1200",
+          "LGA1700",
+          "LGA1851",
+          "LGA2011",
+          "LGA2011-v3",
+          "LGA2066"
+        ],
+        "heightMm": 160,
+        "powerWatts": null,
+        "includedFanCount": 2,
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 129,
+          "width": 138,
+          "height": 160
+        }
+      }
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-240",
+      "name": "ARCTIC Liquid Freezer III 240 Black",
+      "category": "cooler",
+      "brand": "ARCTIC",
+      "price": 699.9,
+      "partNumber": "ACFRE00134A",
+      "specSourceUrl": "https://www.arctic.de/en/Liquid-Freezer-III-240/ACFRE00134A",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "radiatorSizeMm": 240,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 277,
+          "width": 120,
+          "height": 38
+        },
+        "powerWatts": null,
+        "includedFanCount": 2,
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "connector": "4-pin PWM",
+        "compatibilityNotes": "Conferir interferência com M.2/VRM, espessura total e kit da revisão adquirida. Outros sockets requerem kit separado."
+      }
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-360",
+      "name": "ARCTIC Liquid Freezer III 360 Black",
+      "category": "cooler",
+      "brand": "ARCTIC",
+      "price": 899.9,
+      "partNumber": "ACFRE00136A",
+      "specSourceUrl": "https://www.arctic.de/en/Liquid-Freezer-III-360/ACFRE00136A",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "radiatorSizeMm": 360,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 398,
+          "width": 120,
+          "height": 38
+        },
+        "powerWatts": null,
+        "includedFanCount": 3,
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "connector": "4-pin PWM",
+        "compatibilityNotes": "Conferir interferência com M.2/VRM, espessura total e kit da revisão adquirida. Outros sockets requerem kit separado."
+      }
+    },
+    {
+      "id": "fan-noctua-nf-p12-redux-1700-pwm",
+      "name": "Noctua NF-P12 redux-1700 PWM",
+      "category": "fan",
+      "brand": "Noctua",
+      "price": 99.9,
+      "partNumber": "NF-P12 redux-1700 PWM",
+      "specSourceUrl": "https://www.noctua.at/en/products/nf-p12-redux-1700-pwm/specifications",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "connector": "4-pin PWM",
+        "powerWatts": 1.08,
+        "unitsPerPack": 1,
+        "powerBasis": "Máximo por fan publicado pelo fabricante"
+      }
+    },
+    {
+      "id": "fan-noctua-nf-a14-pwm",
+      "name": "Noctua NF-A14 PWM",
+      "category": "fan",
+      "brand": "Noctua",
+      "price": 179.9,
+      "partNumber": "NF-A14 PWM",
+      "specSourceUrl": "https://www.noctua.at/en/products/nf-a14-pwm/specifications",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "diameterMm": 140,
+        "thicknessMm": 27,
+        "connector": "4-pin PWM",
+        "powerWatts": 1.56,
+        "unitsPerPack": 1,
+        "powerBasis": "Máximo por fan; espessura com pads antivibração"
+      }
+    },
+    {
+      "id": "fan-arctic-p12-pwm-pst",
+      "name": "ARCTIC P12 PWM PST (1 fan)",
+      "category": "fan",
+      "brand": "ARCTIC",
+      "price": 59.9,
+      "partNumber": "ACFAN00120A",
+      "specSourceUrl": "https://www.arctic.de/en/P12-PWM-PST/ACFAN00120A",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "connector": "4-pin PWM PST",
+        "powerWatts": 1.2,
+        "unitsPerPack": 1,
+        "powerBasis": "Por fan, calculado de corrente nominal 0,1 A × 12 V"
+      }
+    },
+    {
+      "id": "fan-arctic-p12-pwm-pst-5-pack",
+      "name": "ARCTIC P12 PWM PST (kit 5 fans)",
+      "category": "fan",
+      "brand": "ARCTIC",
+      "price": 249.9,
+      "partNumber": "ACFAN00137A",
+      "specSourceUrl": "https://www.arctic.de/P12-PWM-PST/ACFAN00137A",
+      "specVerifiedAt": "2026-10-08",
+      "priceKind": "estimated-reference",
+      "priceCurrency": "BRL",
+      "priceLabel": "Preço estimado de referência (BRL), sem cotação ou disponibilidade verificada",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "connector": "4-pin PWM PST",
+        "powerWatts": 1.2,
+        "unitsPerPack": 5,
+        "powerBasis": "Por fan, calculado de corrente nominal 0,1 A × 12 V"
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-analysis-navigation.mjs --drop-session
+Exit: 1 (expected negative control)
+Observed regression: Expected restored selection true; got false when session persistence was removed.
+The corresponding current-source checks passed; detailed traces are not published.

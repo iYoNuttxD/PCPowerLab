@@ -1,3 +1,6 @@
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
+import { compatibilityDisplayLabel } from '../utils/coolingAssessment.js';
+import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, Save, Send, Trash2, Upload } from 'lucide-react';
@@ -13,7 +16,7 @@ import { useBuildState } from '../hooks/useBuildState.jsx';
 import { useComponents } from '../hooks/useComponents.js';
 import { recommendationFeedbackService } from '../services/recommendationFeedbackService.js';
 import { savedBuildsService } from '../services/savedBuildsService.js';
-import { buildToApiPayload, hasCompleteBuild, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
+import { buildToApiPayload, calculateBuildPrice, hasCompleteBuild, hydrateBuildComponents, normalizeSavedBuildPayload } from '../utils/buildHelpers.js';
 import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
@@ -42,7 +45,7 @@ export default function Feedback() {
   const [searchParams] = useSearchParams();
   const isNewFeedbackRoute = location.pathname === '/feedback/new';
   const buildState = useBuildState();
-  const { components } = useComponents();
+  const { componentMap } = useComponents();
   const context = location.state || {};
   const initialType = context.recommendationType || searchParams.get('type') || 'general';
   const recommendationId = context.recommendationId || searchParams.get('recommendationId') || '';
@@ -75,14 +78,12 @@ export default function Feedback() {
   const [removingFeedbackId, setRemovingFeedbackId] = useState('');
   const [appliedFeedbackBuildId, setAppliedFeedbackBuildId] = useState('');
 
-  const componentMap = useMemo(() => (
-    Object.fromEntries((components || []).map((component) => [component.id, component]))
-  ), [components]);
-
   const contextBuildSnapshot = useMemo(() => normalizeFeedbackBuildSnapshot(context), [context]);
 
   const selectedComponents = useMemo(() => (
-    normalizeContextComponents(context.buildDetails || contextBuildSnapshot || context.build || context.components || context.recommendation?.components, componentMap)
+    normalizeContextComponents(context.buildDetails
+      ? { ...contextBuildSnapshot, ...context.buildDetails }
+      : contextBuildSnapshot || context.build || context.components || context.recommendation?.components, componentMap)
   ), [componentMap, context.buildDetails, contextBuildSnapshot, context.build, context.components, context.recommendation]);
 
   const hasRecommendationBuild = hasCompleteBuild(selectedComponents);
@@ -124,7 +125,7 @@ export default function Feedback() {
     const rating = Number(form.rating);
 
     if (!form.recommendationType) {
-      setError('Informe o tipo de recomendação.');
+      setError('Informe o tipo de avaliação.');
       return;
     }
 
@@ -133,7 +134,7 @@ export default function Feedback() {
       return;
     }
 
-    if (requiresBuildSnapshot(context) && !feedbackBuildSnapshot) {
+    if (isContextual && requiresBuildSnapshot(context) && !feedbackBuildSnapshot) {
       setError('Esta recomendação não possui uma build completa para vincular ao feedback.');
       return;
     }
@@ -144,11 +145,11 @@ export default function Feedback() {
     try {
       const totalEstimatedPrice = getContextPrice(context, selectedComponents);
       const payload = {
-        recommendationType: form.recommendationType,
-        ...(recommendationId && { recommendationId }),
+        recommendationType: isContextual ? form.recommendationType : 'general',
+        ...(isContextual && recommendationId && { recommendationId }),
         rating,
         ...(form.comment.trim() && { comment: form.comment.trim().slice(0, 500) }),
-        wouldFollowRecommendation: form.wouldFollowRecommendation === 'true',
+        ...(isContextual && { wouldFollowRecommendation: form.wouldFollowRecommendation === 'true' }),
         ...(isContextual && context.source && { source: context.source }),
         ...(isContextual && getContextTitle(context) && { recommendationTitle: getContextTitle(context).slice(0, 120) }),
         ...(isContextual && getContextSummary(context) && { recommendationSummary: getContextSummary(context).slice(0, 500) }),
@@ -181,10 +182,7 @@ export default function Feedback() {
       return;
     }
 
-    componentTypes.forEach((type) => {
-      buildState.actions.selectComponent(type, feedbackComponents[type]);
-    });
-    buildState.actions.setResult('recommendation', feedbackRecord);
+    buildState.actions.applyRecommendation({ ...feedbackRecord, components: feedbackComponents }, { replaceCooling: true });
     setAppliedFeedbackBuildId(feedbackRecord.id || '');
     setFeedback('Build do feedback aplicada como configuração atual.');
 
@@ -214,10 +212,7 @@ export default function Feedback() {
       return;
     }
 
-    componentTypes.forEach((type) => {
-      buildState.actions.selectComponent(type, selectedComponents[type]);
-    });
-    buildState.actions.setResult('recommendation', context.recommendation || context);
+    buildState.actions.applyRecommendation({ ...(context.recommendation || context), components: selectedComponents }, { replaceCooling: true });
     setFeedback('Build aplicada como configuração atual.');
 
     if (destination) {
@@ -259,7 +254,7 @@ export default function Feedback() {
           {isNewFeedbackRoute
             ? (isContextual
               ? 'Avalie se esta recomendação fez sentido para sua necessidade.'
-              : 'Registre uma avaliação geral sobre as recomendações do PCPowerLab.')
+              : 'Conte como foi sua experiência com o PCPowerLab: clareza das telas, facilidade de uso e informações do projeto.')
             : 'Acompanhe avaliações registradas, reutilize builds avaliadas e filtre o histórico.'}
         </p>
       </section>
@@ -269,12 +264,12 @@ export default function Feedback() {
 
       {isNewFeedbackRoute ? (
         <>
-          <div className="feedback-layout">
-            <RecommendationSummary
+          <div className="page-stack">
+            {isContextual && <RecommendationSummary
               context={context}
               selectedComponents={selectedComponents}
               hasRecommendationBuild={hasRecommendationBuild}
-            />
+            />}
 
             <FeedbackForm
               form={form}
@@ -288,28 +283,31 @@ export default function Feedback() {
           <Card className="feedback-actions-card">
             <div className="section-heading compact">
               <div>
-                <h2>Continuar com esta recomendação</h2>
-                <p>Use a mesma build avaliada ou volte para o fluxo de recomendações.</p>
+                <h2>{isContextual ? 'Continuar com esta recomendação' : 'Continuar explorando o PCPowerLab'}</h2>
+                <p>{isContextual
+                  ? 'Usar aplica a configuração inteira avaliada, incluindo refrigeração. Para alterar só uma peça, abra o resumo da sua montagem atual.'
+                  : 'Volte ao histórico de avaliações ou explore configurações para montar seu PC.'}</p>
               </div>
             </div>
             <div className="button-row">
-              {hasRecommendationBuild && (
+              {isContextual && hasRecommendationBuild && (
                 <>
-                  <Button variant="secondary" onClick={() => useRecommendationBuild()}>
-                    <Upload size={18} /> Usar esta build
-                  </Button>
                   <Button onClick={() => useRecommendationBuild('/summary')}>
-                    <CheckCircle2 size={18} /> Ir para resumo
+                    <CheckCircle2 size={18} /> Usar build inteira e ir para resumo
+                  </Button>
+                  <details className="task-disclosure"><summary>Outras ações</summary><div className="button-row">
+                  <Button variant="secondary" onClick={() => useRecommendationBuild()}>
+                    <Upload size={18} /> Usar esta build inteira
                   </Button>
                   <Button variant="ghost" loading={savingBuild} disabled={savingBuild} onClick={saveRecommendationBuild}>
                     <Save size={18} /> Salvar build
                   </Button>
+                  </div></details>
                 </>
               )}
-              <Link className="btn btn-secondary btn-md" to={returnLink.to}>{returnLink.label}</Link>
-              {!hasRecommendationBuild && isContextual && (
-                <Link className="btn btn-ghost btn-md" to={returnLink.to}>{getFallbackActionLabel(context)}</Link>
-              )}
+              <Link className="btn btn-secondary btn-md" to={returnLink.to}>{!hasRecommendationBuild && isContextual ? getFallbackActionLabel(context) : returnLink.label}</Link>
+              {!isContextual && <Link className="btn btn-ghost btn-md" to="/ready-builds">Explorar builds prontas</Link>}
+
             </div>
           </Card>
         </>
@@ -337,12 +335,12 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
         <div>
           <span className="eyebrow">Sua avaliação</span>
           <h2>{contextual ? 'Avaliar recomendação' : 'Feedback geral'}</h2>
-          <p>{contextual ? 'O tipo de recomendação foi preenchido com o contexto enviado.' : 'Registre uma avaliação geral sobre as recomendações recebidas.'}</p>
+          <p>{contextual ? 'O tipo de recomendação foi preenchido com o contexto enviado.' : 'Avalie sua experiência com o projeto e conte o que podemos melhorar.'}</p>
         </div>
       </div>
 
       <form className="profile-form" onSubmit={onSubmit}>
-        <Select
+        {contextual && <Select
           label="Tipo de recomendação"
           value={form.recommendationType}
           onChange={(event) => onChange((current) => ({ ...current, recommendationType: event.target.value }))}
@@ -350,7 +348,7 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
             value: type,
             label: recommendationTypeLabels[type] || translateValue(type)
           }))}
-        />
+        />}
         <Input
           label="Nota"
           type="number"
@@ -360,7 +358,7 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
           onChange={(event) => onChange((current) => ({ ...current, rating: event.target.value }))}
           required
         />
-        <Select
+        {contextual && <Select
           label="Você seguiria esta recomendação?"
           value={form.wouldFollowRecommendation}
           onChange={(event) => onChange((current) => ({ ...current, wouldFollowRecommendation: event.target.value }))}
@@ -368,7 +366,7 @@ function FeedbackForm({ form, loading, contextual = false, onChange, onSubmit })
             { value: 'true', label: 'Sim' },
             { value: 'false', label: 'Não' }
           ]}
-        />
+        />}
         <label className="field">
           <span>Comentário opcional</span>
           <textarea
@@ -403,19 +401,14 @@ function CentralFeedback({
 
   return (
     <>
-      <div className="metric-grid">
-        <div><span>Total de avaliações</span><strong>{stats.total}</strong></div>
-        <div><span>Nota média</span><strong>{stats.averageRating}</strong></div>
-        <div><span>Seguiriam</span><strong>{stats.wouldFollow}</strong></div>
-        <div><span>Não seguiriam / N/D</span><strong>{stats.wouldNotFollow}</strong></div>
-      </div>
+
 
       <Card>
         <div className="section-heading compact">
           <div>
             <span className="eyebrow">Avaliações registradas</span>
             <h2>Histórico de feedbacks</h2>
-            <p>As avaliações aparecerão aqui quando você avaliar builds recomendadas, upgrades ou correções.</p>
+
           </div>
           <div className="feedback-toolbar">
             <div className="feedback-filter">
@@ -439,14 +432,14 @@ function CentralFeedback({
         ) : feedbacks.length === 0 ? (
           <EmptyState
             title="Nenhuma avaliação registrada ainda"
-            message="As avaliações aparecerão aqui quando você avaliar builds recomendadas, upgrades ou correções."
+            message="As avaliações aparecerão aqui quando você compartilhar sua experiência com o projeto ou avaliar builds, upgrades e correções."
           />
         ) : (
           <div className="feedback-list">
             {feedbacks.map((item) => {
               const feedbackSnapshot = normalizeFeedbackBuildSnapshot(item);
               const feedbackComponents = normalizeContextComponents(feedbackSnapshot, componentMap);
-              const feedbackDisplayComponents = normalizeContextComponents(item.buildDetails || feedbackSnapshot, componentMap);
+              const feedbackDisplayComponents = normalizeContextComponents({ ...feedbackSnapshot, ...item.buildDetails }, componentMap);
               const canUseFeedbackBuild = hasCompleteBuild(feedbackComponents);
               const hasLinkedBuild = Boolean(feedbackSnapshot || item.buildDetails);
               const isApplied = appliedFeedbackBuildId === item.id;
@@ -459,12 +452,15 @@ function CentralFeedback({
                       <h3>Nota {item.rating || 'N/D'}/5</h3>
                       <p>{item.comment || item.recommendationSummary || 'Sem comentário.'}</p>
                       <small>
-                        Seguiria: {item.wouldFollowRecommendation === true ? 'Sim' : item.wouldFollowRecommendation === false ? 'Não' : 'Não informado'}
+                        {item.recommendationType === 'general'
+                          ? 'Experiência com o projeto'
+                          : `Seguiria: ${item.wouldFollowRecommendation === true ? 'Sim' : item.wouldFollowRecommendation === false ? 'Não' : 'Não informado'}`}
                         {item.recommendationId ? ` • Ref.: ${item.recommendationId}` : ''}
                         {item.createdAt ? ` • ${new Date(item.createdAt).toLocaleString('pt-BR')}` : ''}
                       </small>
                     </div>
 
+                    <CoolingAssessmentNotice result={item} />
                     {hasLinkedBuild ? (
                       <FeedbackBuildSnapshot
                         selectedComponents={feedbackDisplayComponents}
@@ -483,13 +479,13 @@ function CentralFeedback({
                           disabled={!canUseFeedbackBuild}
                           onClick={() => onUseBuild(item)}
                         >
-                          <Upload size={18} /> Usar build do feedback
+                          <Upload size={18} /> Usar build inteira do feedback
                         </Button>
                         <Button
                           disabled={!canUseFeedbackBuild}
                           onClick={() => onUseBuild(item, '/summary')}
                         >
-                          <CheckCircle2 size={18} /> Usar e ir para resumo
+                          <CheckCircle2 size={18} /> Usar build inteira e ir para resumo
                         </Button>
                         {isApplied && <Link className="btn btn-ghost btn-md" to="/summary">Ir para resumo</Link>}
                       </>
@@ -506,6 +502,14 @@ function CentralFeedback({
           </div>
         )}
       </Card>
+      <details className="task-disclosure"><summary>Resumo das avaliações</summary>
+      <div className="metric-grid">
+        <div><span>Total de avaliações</span><strong>{stats.total}</strong></div>
+        <div><span>Nota média</span><strong>{stats.averageRating}</strong></div>
+        <div><span>Seguiriam</span><strong>{stats.wouldFollow}</strong></div>
+        <div><span>Não seguiriam / N/D</span><strong>{stats.wouldNotFollow}</strong></div>
+      </div>
+      </details>
     </>
   );
 }
@@ -519,17 +523,20 @@ function FeedbackBuildSnapshot({ selectedComponents, totalEstimatedPrice }) {
           <h4>Configuração vinculada ao feedback</h4>
         </div>
         {Number.isFinite(Number(totalEstimatedPrice)) && Number(totalEstimatedPrice) > 0 && (
-          <strong className="price">{formatCurrency(totalEstimatedPrice)}</strong>
+          <strong className="price"><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(totalEstimatedPrice)}</strong>
         )}
       </div>
+      <details className="task-disclosure"><summary>Ver peças vinculadas</summary>
       <ul className="build-parts-list compact-build-list">
         {componentTypes.map((type) => (
           <li key={type}>
             <span>{componentLabels[type]}</span>
-            <strong>{selectedComponents[type]?.name || selectedComponents[type]?.id || 'Componente não encontrado'}</strong>
+            <ComponentIdentity component={selectedComponents[type]} category={type} fallback="Componente não encontrado" />
           </li>
         ))}
+        <CoolingParts components={selectedComponents} />
       </ul>
+      </details>
     </div>
   );
 }
@@ -549,6 +556,7 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
         <Badge tone="cyan">{recommendationTypeLabels[context.recommendationType] || 'Geral'}</Badge>
       </div>
 
+      <CoolingAssessmentNotice result={context} />
       {isUpgrade && <UpgradeSummary context={context} />}
       {isFix && <CompatibilityFixSummary context={context} />}
 
@@ -569,17 +577,20 @@ function RecommendationSummary({ context, selectedComponents, hasRecommendationB
             </div>
             <div>
               <span>Compatibilidade</span>
-              <strong>{translateValue(context.compatibilityStatus || (context.compatible === false ? 'incompatible' : 'compatible'))}</strong>
+              <strong>{compatibilityDisplayLabel(context.compatibilityStatus || (context.unverifiedChecks?.length ? 'unverified' : context.compatible === true ? 'compatible' : context.compatible === false ? 'incompatible' : 'unverified'), context)}</strong>
             </div>
           </div>
+          <details className="task-disclosure"><summary>Ver peças da recomendação</summary>
           <ul className="build-parts-list">
             {componentTypes.map((type) => (
               <li key={type}>
                 <span>{componentLabels[type]}</span>
-                <strong>{selectedComponents[type]?.name || selectedComponents[type]?.id || 'Não informado'}</strong>
+                <ComponentIdentity component={selectedComponents[type]} category={type} />
               </li>
             ))}
+            <CoolingParts components={selectedComponents} />
           </ul>
+          </details>
         </>
       )}
     </Card>
@@ -591,11 +602,11 @@ function UpgradeSummary({ context }) {
     <div className="upgrade-pair">
       <div className="upgrade-pair__item">
         <span className="upgrade-pair__label">Atual</span>
-        <strong className="upgrade-pair__value">{context.currentComponent?.name || 'Não informado'}</strong>
+        <ComponentIdentity component={context.currentComponent} />
       </div>
       <div className="upgrade-pair__item">
         <span className="upgrade-pair__label">Sugerido</span>
-        <strong className="upgrade-pair__value">{context.suggestedComponent?.name || 'Não informado'}</strong>
+        <ComponentIdentity component={context.suggestedComponent} />
       </div>
     </div>
   );
@@ -610,7 +621,7 @@ function CompatibilityFixSummary({ context }) {
       </div>
       <div className="upgrade-pair__item">
         <span className="upgrade-pair__label">Alternativa</span>
-        <strong className="upgrade-pair__value">{context.suggestedComponent?.name || 'Alternativa sugerida'}</strong>
+        <ComponentIdentity component={context.suggestedComponent} fallback="Alternativa sugerida" />
       </div>
     </div>
   );
@@ -672,25 +683,7 @@ function requiresBuildSnapshot(context = {}) {
 function normalizeContextComponents(input = {}, componentMap = {}) {
   const componentsInput = input?.components || input?.build?.components || input?.build || input;
 
-  return componentTypes.reduce((selection, type) => {
-    const component = componentsInput?.[type] || componentsInput?.[`${type}Id`];
-
-    if (!component) {
-      return selection;
-    }
-
-    if (typeof component === 'string') {
-      return {
-        ...selection,
-        [type]: componentMap[component] || { id: component }
-      };
-    }
-
-    return {
-      ...selection,
-      [type]: component?.id && componentMap[component.id] ? { ...componentMap[component.id], ...component } : component
-    };
-  }, {});
+  return hydrateBuildComponents(componentsInput || {}, componentMap);
 }
 
 function normalizeFeedbackBuildSnapshot(context = {}) {
@@ -715,49 +708,54 @@ function normalizeFeedbackBuildSnapshot(context = {}) {
 }
 
 function normalizeBuildDetails(selectedComponents = {}) {
-  return componentTypes.reduce((details, type) => {
-    const component = selectedComponents[type];
+  const details = Object.fromEntries([...componentTypes, 'cooler']
+    .filter((type) => selectedComponents[type])
+    .map((type) => [type, normalizeComponentDetails(selectedComponents[type])]));
+  if (selectedComponents.fans?.length) {
+    details.fans = selectedComponents.fans.map((fan) => ({ ...normalizeComponentDetails(fan), quantity: fan.quantity ?? 1 }));
+  }
+  return details;
+}
 
-    if (!component) {
-      return details;
-    }
-
-    const normalizedComponent = {
-      ...(component.id && { id: component.id }),
-      ...(component.name && { name: component.name }),
-      ...(component.category && { category: component.category }),
-      ...(component.brand && { brand: component.brand }),
-      ...(Number.isFinite(Number(component.price)) && { price: Number(component.price) })
-    };
-
-    return Object.keys(normalizedComponent).length
-      ? { ...details, [type]: normalizedComponent }
-      : details;
-  }, {});
+function normalizeComponentDetails(component) {
+  return {
+    ...(component.id && { id: component.id }),
+    ...(component.name && { name: component.name }),
+    ...(component.category && { category: component.category }),
+    ...(component.brand && { brand: component.brand }),
+    ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
+  };
 }
 
 function normalizeBuildSnapshot(snapshot = {}) {
-  const normalized = componentTypes.reduce((selection, type) => {
-    const componentId = snapshot?.[`${type}Id`] || snapshot?.[type]?.id || snapshot?.[type];
-
-    if (!componentId) {
-      return selection;
-    }
-
-    return {
-      ...selection,
-      [`${type}Id`]: String(componentId)
-    };
-  }, {});
-
-  return Object.keys(normalized).length ? normalized : null;
+  const normalized = buildToApiPayload(snapshot);
+  return componentTypes.some((type) => normalized[`${type}Id`]) ? normalized : null;
 }
 
 function getContextPrice(context, selectedComponents) {
   return context.totalEstimatedPrice
     ?? context.estimatedTotalPrice
     ?? context.totalPrice
-    ?? Object.values(selectedComponents || {}).reduce((total, component) => total + (Number(component?.price) || 0), 0);
+    ?? calculateBuildPrice(selectedComponents);
+}
+
+function CoolingParts({ components }) {
+  return (
+    <>
+      {components.cooler && (
+        <li>
+          <span>{componentLabels.cooler}</span>
+          <ComponentIdentity component={components.cooler} category="cooler" />
+        </li>
+      )}
+      {(components.fans || []).map((fan) => (
+        <li key={fan.id}>
+          <span>{componentLabels.fan} · {fan.quantity ?? 1} pack(s)</span>
+          <ComponentIdentity component={fan} category="fan" />
+        </li>
+      ))}
+    </>
+  );
 }
 
 function calculateFeedbackStats(feedbacks) {

@@ -1,0 +1,135 @@
+{
+  "mb-gigabyte-b650m-d3hp": {
+    "price": 799.99,
+    "model": "B650M D3HP",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  },
+  "case-cooler-master-elite-502-white": {
+    "price": 589.99,
+    "model": "E502-WGNN-S00",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  },
+  "ram-kvr32n22d8-32": {
+    "price": 3213.22,
+    "model": "KVR32N22D8/32",
+    "seller": "TH INFORMATICA",
+    "store": "KaBuM!",
+    "availability": "available"
+  },
+  "ram-kf432c16bb12ak2-32": {
+    "price": 3489.99,
+    "model": "KF432C16BB12AK2/32",
+    "seller": "KaBuM!",
+    "store": "KaBuM!",
+    "availability": "available"
+  },
+  "ram-kf432c16bb2ak2-64": {
+    "price": 4949.99,
+    "model": "KF432C16BB2AK2/64",
+    "seller": "KaBuM!",
+    "store": "KaBuM!",
+    "availability": "available"
+  },
+  "ram-cmh32gx4m2z3600c18": {
+    "price": 2999.99,
+    "model": "CMH32GX4M2Z3600C18",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available"
+  },
+  "ram-cmh64gx5m2b6000z30w": {
+    "price": 10799.99,
+    "model": "CMH64GX5M2B6000Z30W",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available"
+  },
+  "cooler-bequiet-pure-rock-3-black": {
+    "price": 159.99,
+    "model": "BK039",
+    "seller": "TerabyteShop",
+    "store": "TerabyteShop",
+    "availability": "available"
+  },
+  "cooler-noctua-nh-l9a-am4-chromax-black": {
+    "price": 469.99,
+    "model": "NH-L9A-AM4-CH.BK",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available"
+  },
+  "cooler-arctic-liquid-freezer-iii-pro-240-argb-white": {
+    "price": 679.99,
+    "model": "ACFRE00186A",
+    "seller": "TerabyteShop",
+    "store": "TerabyteShop",
+    "availability": "available"
+  },
+  "cooler-arctic-liquid-freezer-iii-pro-360": {
+    "price": 739.99,
+    "model": "ACFRE00180A",
+    "seller": "TerabyteShop",
+    "store": "TerabyteShop",
+    "availability": "available"
+  },
+  "fan-arctic-p12-pro": {
+    "price": 59.99,
+    "model": "ACFAN00305A",
+    "seller": "TerabyteShop",
+    "store": "TerabyteShop",
+    "availability": "available"
+  },
+  "fan-arctic-p12-pro-pst-white": {
+    "price": 59.99,
+    "model": "ACFAN00308A",
+    "seller": "TerabyteShop",
+    "store": "TerabyteShop",
+    "availability": "available"
+  },
+  "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack": {
+    "price": 259.99,
+    "model": "MFX-B2DW-253P2-R2",
+    "seller": "TerabyteShop",
+    "store": "TerabyteShop",
+    "availability": "available"
+  },
+  "ssd-kingston-nv3-500gb": {
+    "price": 729.9,
+    "model": "SNV3S/500G",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  },
+  "ssd-xpg-gammix-s70-blade-1tb": {
+    "price": 1499.99,
+    "model": "AGAMMIXS70B-1T-CS",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  },
+  "ssd-kingston-nv3-2tb": {
+    "price": 2199.9,
+    "model": "SNV3S/2000G",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  },
+  "ssd-sandisk-520-2tb": {
+    "price": 3249.9,
+    "model": "SDSS51200TAB-000G0",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  },
+  "ssd-kingston-nv3-4tb": {
+    "price": 3899.9,
+    "model": "SNV3S/4000G",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available"
+  }
+}

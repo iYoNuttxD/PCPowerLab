@@ -1,0 +1,22 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-analysis-navigation.mjs
+Exit: 0
+PASS 1: Performance Lab → Upgrades → Performance Lab restores compare mode, 1080p, quality, software and both exact results after catalog checks
+PASS 2: A→B→A settings discard obsolete success; game and software scopes invalidate independently across remounts
+PASS 3: Changed build revision, component, fan count or price rejects both stored inputs and results on remount
+PASS 4: Interrupted retries synchronously discard old success; late responses, loading and errors never resurrect for games or software
+PASS 5: Removed catalog options replace obsolete selection and reject the old result
+PASS 6: Saved upgrade source, independent budgets/settings and both results restore after saved-source validation; roadmap BRL sentences and metric labels render correctly
+PASS 7: Explicit current URL and changed saved URLs override session state; simulated Back/Forward source transitions cannot resurrect old results
+PASS 8: Saved component/revision changes, current catalog prices and global build revision invalidate cached upgrade inputs and both results
+PASS 9: Upgrade budget and roadmap settings invalidate only their own result; shared priority changes clear both without A→B→A resurrection
+PASS 10: Upgrade and roadmap retries discard former success before navigation; late responses and errors never survive remount
+PASS 11: Missing/failed saved-source resolution stays selected and blocked; later recovery cannot revive discarded results
+PASS 12: Catalog loading delays restoration and explains disabled actions; catalog failure clears saved results and offers retry
+PASS 13: Result schema validation rejects malformed display fields and collection/component shapes before rendering
+PASS 14: Corrupt JSON, schema, identity, shape, age, future timestamps and oversized session records fall back safely
+PASS 15: Denied storage never blocks analysis; remount gracefully falls back to default inputs without cached state
+SUMMARY: 15 navigation/session scenario groups passed against actual pages and hook source
+LIMITATION: hook/SSR and controlled route-state transitions; no browser history events, live HTTP, DOM, layout or real Chrome verification

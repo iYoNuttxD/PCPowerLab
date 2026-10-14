@@ -1,0 +1,46 @@
+✔ deve cadastrar um novo componente administrativo (2.86667ms)
+✔ deve editar componente existente (0.37902ms)
+✔ deve listar componentes administrativos incluindo inativos (0.977566ms)
+✔ deve desativar componente existente sem exclusao definitiva (0.366823ms)
+✔ deve validar nome e tipo obrigatorios (0.567309ms)
+✔ deve validar tipo conhecido (0.255928ms)
+✔ deve validar campos tecnicos obrigatorios por tipo (0.310369ms)
+✔ deve retornar erro controlado ao editar ID inexistente (0.217502ms)
+✔ catalog exposes only recorded meaningful scores with explicit internal methodology (1.120787ms)
+✔ candidate endpoint is registered and controller returns envelope (1.101408ms)
+✔ complete candidate previews are exactly equivalent to existing full compatibility checks (15.887029ms)
+✔ partial build finds real socket conflicts but never claims complete verification (0.363438ms)
+✔ fan previews preserve existing pack quantity and reuse cooling clearances (0.438168ms)
+✔ invalid selection and category are rejected without silently dropping chosen components (0.573579ms)
+✔ deve retornar configuração compatível quando as peças forem adequadas (2.494359ms)
+✔ deve aceitar payload plano com campos de ID na compatibilidade (0.268477ms)
+✔ deve aceitar payload aninhado em components na compatibilidade (0.346663ms)
+✔ deve alertar incompatibilidade entre processador e placa-mãe (0.259234ms)
+✔ deve alertar fonte abaixo do recomendado (0.222519ms)
+✔ deve sugerir placa-mae compativel para incompatibilidade de socket (3.606033ms)
+✔ deve sugerir fonte com potencia suficiente (0.98739ms)
+✔ deve retornar sugestoes vazias quando a build ja for compativel (1.019628ms)
+✔ admin rejects malformed storageInterfaces atomically (3.574296ms)
+✔ admin rejects malformed supportedFormFactors atomically (0.878809ms)
+✔ missing optional storage interfaces stay unverified; missing required case formats are rejected (1.849945ms)
+✔ legacy missing or malformed storageInterfaces cannot approve compatibility or crash recommendations (22.911523ms)
+✔ legacy missing or malformed supportedFormFactors cannot approve compatibility or crash recommendations (254.030817ms)
+✔ a malformed legacy candidate is skipped while healthy recommendations and fixes remain usable (641.796024ms)
+✔ deve gerar recomendacao completa dentro do orcamento informado (1185.83538ms)
+✔ deve evitar componentes incompativeis na recomendacao (466.649116ms)
+✔ deve retornar erro controlado quando orcamento nao for informado (0.582402ms)
+✔ deve retornar erro controlado quando nao couber no orcamento (0.580088ms)
+✔ deve recomendar build completa por faixa de orcamento (1769.264072ms)
+✔ deve manter compatibilidade entre componentes recomendados na faixa (825.751885ms)
+✔ deve aplicar fallback de prioridade invalida para recomendacao por faixa (1591.262286ms)
+✔ deve retornar erro controlado para faixa de orcamento ausente (0.588971ms)
+✔ deve retornar erro controlado para min maior ou igual ao max (0.186426ms)
+✔ deve retornar erro controlado quando nao houver build completa dentro da faixa (0.766544ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4342.227034

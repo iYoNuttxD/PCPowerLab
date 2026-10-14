@@ -1,0 +1,6 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-storage-regressions.mjs
+Exit: 0
+PASS: actual BuildProvider storage loader survives null settings, merges partial legacy fields and tolerates denied storage

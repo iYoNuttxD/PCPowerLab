@@ -1,3 +1,5 @@
+import { savedBuildVersions } from '../data/savedBuildVersions.js';
+import { notifications } from '../data/notifications.js';
 import { savedBuilds } from '../data/savedBuilds.js';
 import {
   hasRequiredSavedBuildComponents,
@@ -5,7 +7,8 @@ import {
   normalizeText,
   savedBuildRequiredComponentSlots
 } from '../models/savedBuildModel.js';
-import { findComponentById } from './component.service.js';
+import { selectBuildComponents } from './build.service.js';
+import { summarizeBuildPricing } from './marketPriceService.js';
 
 let nextSavedBuildNumber = 1;
 
@@ -50,7 +53,7 @@ export function saveBuild(buildInput) {
     components,
     ...(buildInput.budget !== undefined && { budget: buildInput.budget }),
     ...(normalizeText(buildInput.usageType) && { usageType: normalizeText(buildInput.usageType) }),
-    totalEstimatedPrice: buildInput.totalEstimatedPrice ?? calculateTotalEstimatedPrice(components),
+    ...buildPricingFields(components),
     ...(buildInput.compatibilityStatus !== undefined && {
       compatibilityStatus: buildInput.compatibilityStatus
     }),
@@ -123,7 +126,6 @@ export function updateSavedBuild(savedBuildId, buildInput) {
     validateExistingComponents(components);
 
     updatedFields.components = components;
-    updatedFields.totalEstimatedPrice = calculateTotalEstimatedPrice(components);
 
     if (!Object.prototype.hasOwnProperty.call(buildInput, 'summary')) {
       updatedFields.summary = savedBuild.summary ?? 'Configuração atualizada. A build pode ser reavaliada para gerar novo resumo.';
@@ -144,9 +146,8 @@ export function updateSavedBuild(savedBuildId, buildInput) {
     }
   }
 
-  if (Object.prototype.hasOwnProperty.call(buildInput, 'totalEstimatedPrice')) {
-    updatedFields.totalEstimatedPrice = buildInput.totalEstimatedPrice;
-  }
+  // Prices are always derived from the current catalog, never trusted from a client.
+  Object.assign(updatedFields, buildPricingFields(updatedFields.components ?? savedBuild.components));
 
   if (Object.prototype.hasOwnProperty.call(buildInput, 'compatibilityStatus')) {
     updatedFields.compatibilityStatus = buildInput.compatibilityStatus;
@@ -184,6 +185,12 @@ export function deleteSavedBuild(savedBuildId) {
   }
 
   const [removedSavedBuild] = savedBuilds.splice(savedBuildIndex, 1);
+  // These records belong to the saved build. Independent share snapshots remain valid.
+  for (const records of [savedBuildVersions, notifications]) {
+    for (let index = records.length - 1; index >= 0; index -= 1) {
+      if (records[index].buildId === savedBuildId) records.splice(index, 1);
+    }
+  }
 
   return removedSavedBuild;
 }
@@ -214,32 +221,17 @@ function validateRequiredComponents(components) {
 }
 
 function validateExistingComponents(components) {
-  const invalidComponents = savedBuildRequiredComponentSlots
-    .map((slot) => ({
-      slot,
-      componentId: components[slot],
-      component: findComponentById(components[slot])
-    }))
-    .filter((selection) => !selection.component);
-
-  if (invalidComponents.length === 0) {
-    return;
+  try {
+    selectBuildComponents({ components });
+  } catch (error) {
+    if (error.statusCode === 404) error.message = 'Um ou mais componentes informados não existem.';
+    throw error;
   }
-
-  const error = new Error('Um ou mais componentes informados não existem.');
-  error.statusCode = 404;
-  error.errors = invalidComponents.map(
-    (selection) => `Componente não encontrado para ${selection.slot}: ${selection.componentId}.`
-  );
-  throw error;
 }
 
-function calculateTotalEstimatedPrice(components) {
-  return savedBuildRequiredComponentSlots.reduce((total, slot) => {
-    const component = findComponentById(components[slot]);
-
-    return total + (Number(component?.price) || 0);
-  }, 0);
+function buildPricingFields(components) {
+  const pricing = summarizeBuildPricing(selectBuildComponents({ components }));
+  return { totalEstimatedPrice: pricing.estimatedTotal, pricing };
 }
 
 function generateSavedBuildId() {

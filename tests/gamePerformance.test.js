@@ -143,6 +143,7 @@ test('deve aplicar penalidade de gargalo quando build completa estiver disponive
   });
 
   createPerformanceParameters({
+    simulationSupported: true, simulationProfileVersion: 'test-fixture-simulator-v1',
     componentId: 'cpu-test-game-low-score',
     type: 'cpu',
     performanceScore: 50,
@@ -197,7 +198,7 @@ test('deve retornar erro controlado quando build estiver incompleta', () => {
   );
 });
 
-test('deve retornar erro controlado quando parametros de desempenho nao existirem', () => {
+test('deve retornar indisponibilidade estruturada quando parametros de desempenho nao existirem', () => {
   createAdminComponent({
     id: 'cpu-test-game-no-score',
     name: 'CPU Test Game Sem Score',
@@ -211,19 +212,15 @@ test('deve retornar erro controlado quando parametros de desempenho nao existire
     tdp: 65
   });
 
-  assert.throws(
-    () => simulateGamePerformance({
+  const result = simulateGamePerformance({
       ...baseSimulationInput,
       build: {
         ...baseSimulationInput.build,
         cpuId: 'cpu-test-game-no-score'
       }
-    }),
-    (error) => {
-      assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Parametros de desempenho insuficientes para simulacao de jogos.');
-      assert.equal(error.errors.some((message) => message.includes('cpu')), true);
-      return true;
-    }
-  );
+    });
+  assert.equal(result.available, false);
+  assert.equal(result.reason, 'performance_model_unavailable');
+  assert.deepEqual(result.componentsWithoutPerformanceModel, ['cpu-test-game-no-score']);
+  assert.equal(result.estimatedFps, null);
 });

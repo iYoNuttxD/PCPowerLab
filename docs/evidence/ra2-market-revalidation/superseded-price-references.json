@@ -1,0 +1,4866 @@
+[
+  {
+    "productId": "case-compact-matx",
+    "model": "DP-MATX-MATREXX30",
+    "sourceVariantName": "DeepCool Matrexx 30",
+    "referenceScope": "benchmark",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-deepcool-matrexx-30-vidro-temp-preto-dp-matx-matrexx30",
+    "price": 239.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 282.34,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "illustrative_benchmark",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "3 weeks ago",
+    "expectedCatalogIdentity": {
+      "id": "case-compact-matx",
+      "name": "Gabinete Compact mATX",
+      "brand": "PCPowerLab",
+      "category": "case",
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 220,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 219.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço de um exemplo comercial; o item genérico do catálogo não é o modelo da fonte."
+    ]
+  },
+  {
+    "productId": "case-cooler-master-q300l",
+    "model": "MCB-Q300L-KANN-S00",
+    "sourceVariantName": "MCB-Q300L-KANN-S00",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-cooler-master-masterbox-q300l-preto-mcb-q300l-kann-s00-1",
+    "price": 309.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 364.69,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "6 days ago",
+    "expectedCatalogIdentity": {
+      "id": "case-cooler-master-q300l",
+      "name": "Cooler Master MasterBox Q300L",
+      "brand": "Cooler Master",
+      "category": "case",
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 159,
+        "radiatorSizesMm": [
+          120,
+          240
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 2
+          }
+        ],
+        "includedFanCount": 1,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "120/240 mm na frente, 120 mm atrás. Fans: frente 2×120/140; topo 2×120; traseira 1×120; base 1×120. Layouts alternativos; conferir interferências no manual."
+      },
+      "partNumber": "MCB-Q300L-KANN-S00"
+    },
+    "demonstrativePrice": 349.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "case-corsair-4000d-airflow",
+    "model": "CC-9011200-WW",
+    "sourceVariantName": "CC-9011200-WW",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-corsair-4000d-airflow-mid-tower-lateral-de-vidro-com-2-fans-preto-cc-9011200-ww",
+    "price": 609.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 717.64,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "case-corsair-4000d-airflow",
+      "name": "Corsair 4000D Airflow",
+      "brand": "Corsair",
+      "category": "case",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 170,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 4
+          }
+        ],
+        "includedFanCount": 2,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "360 mm na frente; 280 mm no topo depende da altura da RAM. AIO frontal reduz folga de GPU. Capacidades de fans por diâmetro são layouts alternativos."
+      },
+      "partNumber": "CC-9011200-WW"
+    },
+    "demonstrativePrice": 699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "case-gamer-atx-rgb",
+    "model": "Cylon-Preto-RGB",
+    "sourceVariantName": "AeroCool Cylon RGB preto",
+    "referenceScope": "benchmark",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-aerocool-cylon-preto-rgb",
+    "price": 209.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 247.05,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "illustrative_benchmark",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "5 days ago",
+    "expectedCatalogIdentity": {
+      "id": "case-gamer-atx-rgb",
+      "name": "Gabinete Gamer ATX RGB",
+      "brand": "PCPowerLab",
+      "category": "case",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 330,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 459.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço de um exemplo comercial; o item genérico do catálogo não é o modelo da fonte."
+    ]
+  },
+  {
+    "productId": "case-mid-tower-airflow",
+    "model": "CC-9011251-WW",
+    "sourceVariantName": "Corsair 3000D Airflow preto",
+    "referenceScope": "benchmark",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-gamer-corsair-3000d-airflow-mid-tower-lateral-de-vidro-com-2-fans-preto-cc-9011251-ww",
+    "price": 439.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 517.64,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "illustrative_benchmark",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 days ago",
+    "expectedCatalogIdentity": {
+      "id": "case-mid-tower-airflow",
+      "name": "Gabinete Mid Tower Airflow",
+      "brand": "PCPowerLab",
+      "category": "case",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 320,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Gabinete demonstrativo sem modelo oficial verificável; suporte de refrigeração desconhecido."
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço de um exemplo comercial; o item genérico do catálogo não é o modelo da fonte."
+    ]
+  },
+  {
+    "productId": "case-nzxt-h5-flow",
+    "model": "CC-H51FB-01",
+    "sourceVariantName": "NZXT H5 Flow 2022 preto",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-gamer-nzxt-h5-flow-mid-tower-lateral-de-vidro-com-2-ventoinhas-preto-cc-h51fb-01",
+    "price": 829.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 976.46,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "3 days ago",
+    "expectedCatalogIdentity": {
+      "id": "case-nzxt-h5-flow",
+      "name": "NZXT H5 Flow",
+      "brand": "NZXT",
+      "category": "case",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 365,
+        "maxCoolerHeightMm": null,
+        "radiatorSizesMm": null,
+        "fanMounts": null,
+        "includedFanCount": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Revisão/ano do H5 Flow não identificado no cadastro legado; suporte de refrigeração não verificado."
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 649.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "cooler-deepcool-ak620",
+    "model": "R-AK620-BKNNMT-G",
+    "sourceVariantName": "R-AK620-BKNNMT-G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/cooler-para-processador-deepcool-ak620-120mm-preto-e-prata-r-ak620-bknnmt-g",
+    "price": 449.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 529.4,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "cooler-deepcool-ak620",
+      "name": "DeepCool AK620 (R-AK620-BKNNMT-G)",
+      "brand": "DeepCool",
+      "category": "cooler",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155",
+          "LGA1200",
+          "LGA1700",
+          "LGA1851",
+          "LGA2011",
+          "LGA2011-v3",
+          "LGA2066"
+        ],
+        "heightMm": 160,
+        "powerWatts": null,
+        "includedFanCount": 2,
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 129,
+          "width": 138,
+          "height": 160
+        }
+      },
+      "partNumber": "R-AK620-BKNNMT-G"
+    },
+    "demonstrativePrice": 429.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i3-12100f",
+    "model": "BX8071512100F-BR",
+    "sourceVariantName": "BX8071512100F-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-intel-core-i3-12100f-4-core-8-threads-3-3ghz-4-3ghz-turbo-cache-12mb-lga1700-bx8071512100f-br",
+    "price": 629.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 741.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "5 days ago",
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i3-12100f",
+      "name": "Intel Core i3-12100F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 4,
+        "threads": 8,
+        "baseClockGhz": 3.3,
+        "boostClockGhz": 4.3,
+        "tdpWatts": 58
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 549.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i5-12400f",
+    "model": "BX8071512400F",
+    "sourceVariantName": "BX8071512400F",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-intel-core-i5-12400f-6-core-12-threads-2-5ghz-4-4ghz-turbo-cache-18mb-lga1700-bx8071512400f",
+    "price": 789.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 929.4,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-12400f",
+      "name": "Intel Core i5-12400F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.4,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 849.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i5-13400f",
+    "model": "BX8071513400F",
+    "sourceVariantName": "BX8071513400F",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-intel-core-i5-13400f-10-core-16-threads-2-5ghz-4-6ghz-turbo-cache-20mb-lga1700-bx8071513400f",
+    "price": 949.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1117.63,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "3 days ago",
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-13400f",
+      "name": "Intel Core i5-13400F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 10,
+        "threads": 16,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.6,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1199.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i5-13600k",
+    "model": "BX8071513600K",
+    "sourceVariantName": "BX8071513600K",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-intel-core-i5-13600k-14-core-20-threads-3-5ghz-5-1ghz-turbo-cache-24mb-lga1700-bx8071513600k",
+    "price": 1399.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1647.05,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 weeks ago",
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-13600k",
+      "name": "Intel Core i5-13600K",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 14,
+        "threads": 20,
+        "baseClockGhz": 3.5,
+        "boostClockGhz": 5.1,
+        "tdpWatts": 125
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i5-14400f",
+    "model": "BX8071514400F-BR",
+    "sourceVariantName": "BX8071514400F-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-intel-core-i5-14400f-10-core-16-threads-3-5ghz-4-7ghz-turbo-cache-20mb-lga1700-bx8071514400f-br",
+    "price": 949.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1117.63,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-14400f",
+      "name": "Intel Core i5-14400F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 10,
+        "threads": 16,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.7,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i7-13700k",
+    "model": "BX8071513700K",
+    "sourceVariantName": "BX8071513700K",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-intel-core-i7-13700k-16-core-24-threads-3-4ghz-5-4ghz-turbo-cache-30mb-lga1700-bx8071513700k",
+    "price": 2299.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2705.87,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 weeks ago",
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i7-13700k",
+      "name": "Intel Core i7-13700K",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 16,
+        "threads": 24,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 5.4,
+        "tdpWatts": 125
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 2699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-ryzen-5-5500",
+    "model": "100-100000457BOX-BR",
+    "sourceVariantName": "100-100000457BOX-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-5-5500-6-core-12-threads-3-6ghz-4-2ghz-turbo-cache-19mb-am4-100-100000457box-br",
+    "price": 999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1176.46,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-5500",
+      "name": "AMD Ryzen 5 5500",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4.2,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 589.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-ryzen-5-5600",
+    "model": "100-100000927BOX-BR",
+    "sourceVariantName": "100-100000927BOX-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-5-5600-6-core-12-threads-3-5ghz-4-4ghz-turbo-cache-35mb-am4-100-100000927box-br",
+    "price": 899.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1058.81,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-5600",
+      "name": "AMD Ryzen 5 5600",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.5,
+        "boostClockGhz": 4.4,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 799.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-ryzen-5-7600",
+    "model": "100-100001015BOX-BR",
+    "sourceVariantName": "100-100001015BOX-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-5-7600-6-core-12-threads-3-8ghz-5-1ghz-turbo-cache-38mb-am5-100-100001015box-br",
+    "price": 999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1176.46,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-7600",
+      "name": "AMD Ryzen 5 7600",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM5",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.8,
+        "boostClockGhz": 5.1,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1399.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-ryzen-7-5700x",
+    "model": "100-100000926WOF-BR",
+    "sourceVariantName": "100-100000926WOF-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-7-5700x-8-core-16-threads-3-4ghz-4-6ghz-turbo-cache-36mb-am4-100-100000926wof-br",
+    "price": 1199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1411.75,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-5700x",
+      "name": "AMD Ryzen 7 5700X",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 4.6,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1199.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-ryzen-7-5800x3d",
+    "model": "100-100000651WOF",
+    "sourceVariantName": "100-100000651WOF",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-7-5800x3d-8-core-16-threads-3-4ghz-4-5ghz-turbo-cache-100mb-am4-100-100000651wof",
+    "price": 2499.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2941.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-5800x3d",
+      "name": "AMD Ryzen 7 5800X3D",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 4.5,
+        "tdpWatts": 105
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "cpu-ryzen-7-7700",
+    "model": "100-100000592SBX",
+    "sourceVariantName": "100-100000592SBX",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/processador-amd-ryzen-7-7700-8-core-16-threads-3-8ghz-5-3ghz-turbo-cache-40mb-am5-100-100000592sbx",
+    "price": 1649.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1941.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-7700",
+      "name": "AMD Ryzen 7 7700",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM5",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.8,
+        "boostClockGhz": 5.3,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1999.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "fan-noctua-nf-a14-pwm",
+    "model": "NF-A14 PWM",
+    "sourceVariantName": "NF-A14 PWM",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ventoinha-noctua-140mm-marrom-nf-a14-pwm",
+    "price": 194.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 229.4,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Página anuncia frete grátis Sul e Sudeste; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "4 days ago",
+    "expectedCatalogIdentity": {
+      "id": "fan-noctua-nf-a14-pwm",
+      "name": "Noctua NF-A14 PWM",
+      "brand": "Noctua",
+      "category": "fan",
+      "specs": {
+        "diameterMm": 140,
+        "thicknessMm": 27,
+        "connector": "4-pin PWM",
+        "powerWatts": 1.56,
+        "unitsPerPack": 1,
+        "powerBasis": "Máximo por fan; espessura com pads antivibração"
+      },
+      "partNumber": "NF-A14 PWM"
+    },
+    "demonstrativePrice": 179.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "gpu-gtx-1650",
+    "model": "65SQL8DS93E1",
+    "sourceVariantName": "Galax GeForce GTX 1650 EX Plus 1-Click OC 4GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-galax-geforce-gtx-1650-ex-plus-4gb-gddr6-1-click-oc-128-bit-65sql8ds93e1",
+    "price": 879.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1035.28,
+    "installments": "até 12x de R$ 86.27 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 days ago",
+    "expectedCatalogIdentity": {
+      "id": "gpu-gtx-1650",
+      "name": "NVIDIA GeForce GTX 1650 4GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 4,
+        "tdpWatts": 75,
+        "recommendedPsuWatts": 350,
+        "lengthMm": 170
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 799.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rtx-3050",
+    "model": "912-V809-4266",
+    "sourceVariantName": "MSI GeForce RTX 3050 Ventus 2X XS OC 8GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-msi-geforce-rtx-3050-ventus-2x-xs-oc-8gb-gddr6-128-bit-912-v809-4266",
+    "price": 1822.57,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2144.2,
+    "installments": "até 12x de R$ 178.68 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "last week",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rtx-3050",
+      "name": "NVIDIA GeForce RTX 3050 8GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 130,
+        "recommendedPsuWatts": 450,
+        "lengthMm": 230
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rtx-3060",
+    "model": "PVRTX3060BL2F",
+    "sourceVariantName": "PCYES GeForce RTX 3060 Projeto Edge 12GB GDDR6",
+    "referenceScope": "family",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/43581/placa-de-video-pcyes-nvidia-geforce-rtx-3060-projeto-edge-12gb-gddr6-dlss-ray-tracing-pvrtx3060bl2f",
+    "price": 2599.99,
+    "currency": "BRL",
+    "paymentCondition": "À vista no boleto ou PIX, 15% desconto",
+    "cardTotal": 3058.81,
+    "cardSinglePayment": 2752.93,
+    "installments": "até 12x de R$ 254,90 sem juros; 13–18x com juros; 1x R$ 2.752,93 com desconto de 10%",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Página anuncia frete grátis RS, PR, SC, SP, MG, RJ e ES; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rtx-3060",
+      "name": "NVIDIA GeForce RTX 3060 12GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 170,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 242
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1599.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rtx-4060",
+    "model": "ZT-D40600G-10L",
+    "sourceVariantName": "Zotac GeForce RTX 4060 SOLO 8GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-zotac-geforce-rtx-4060-solo-8gb-gddr6-128-bit-zt-d40600g-10l",
+    "price": 2199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2588.22,
+    "installments": "até 12x de R$ 215.69 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "last week",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rtx-4060",
+      "name": "NVIDIA GeForce RTX 4060 8GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 115,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 240
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rtx-4060-ti",
+    "model": "NE6406T019P1-1060D",
+    "sourceVariantName": "Palit GeForce RTX 4060 Ti Dual 8GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-palit-geforce-rtx-4060-ti-dual-8gb-gddr6-128-bit-ne6406t019p1-1060d",
+    "price": 3537.77,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 4162.08,
+    "installments": "até 12x de R$ 346.84 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "last month",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rtx-4060-ti",
+      "name": "NVIDIA GeForce RTX 4060 Ti 8GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 160,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 245
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 2499.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rtx-4070",
+    "model": "ZT-D40700H-10M",
+    "sourceVariantName": "Zotac GeForce RTX 4070 Twin Edge OC 12GB GDDR6X",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-zotac-geforce-rtx-4070-twin-edge-oc-12gb-gddr6x-192-bit-zt-d40700h-10m",
+    "price": 5965.28,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 7017.98,
+    "installments": "até 12x de R$ 584.83 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "5 days ago",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rtx-4070",
+      "name": "NVIDIA GeForce RTX 4070 12GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 200,
+        "recommendedPsuWatts": 650,
+        "lengthMm": 270
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 3899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rtx-4070-super",
+    "model": "912-V513-641",
+    "sourceVariantName": "MSI GeForce RTX 4070 Super Ventus 2X OC 12GB GDDR6X",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-msi-geforce-rtx-4070-super-ventus-2x-oc-12gb-gddr6x-192-bit-912-v513-641",
+    "price": 4499.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 5294.11,
+    "installments": "até 12x de R$ 441.18 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rtx-4070-super",
+      "name": "NVIDIA GeForce RTX 4070 Super 12GB",
+      "brand": "NVIDIA",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 220,
+        "recommendedPsuWatts": 700,
+        "lengthMm": 300
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 4499.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rx-6600",
+    "model": "DUAL-RX6600-8G-V3",
+    "sourceVariantName": "Asus Radeon RX 6600 Dual V3 8GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asus-radeon-rx-6600-dual-v3-8gb-gddr6-128-bit-dual-rx6600-8g-v3",
+    "price": 1538.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1810.58,
+    "installments": "até 12x de R$ 150.88 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rx-6600",
+      "name": "AMD Radeon RX 6600 8GB",
+      "brand": "AMD",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 132,
+        "recommendedPsuWatts": 450,
+        "lengthMm": 200
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1199.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rx-7600",
+    "model": "GV-R76GAMING-OC-8GD",
+    "sourceVariantName": "Gigabyte Radeon RX 7600 Gaming OC 8GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-gigabyte-radeon-rx-7600-gaming-oc-8gb-gddr6-128-bit-gv-r76gaming-oc-8gd",
+    "price": 2099.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2470.58,
+    "installments": "até 12x de R$ 205.88 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Página anuncia frete grátis Sul e Sudeste; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rx-7600",
+      "name": "AMD Radeon RX 7600 8GB",
+      "brand": "AMD",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 8,
+        "tdpWatts": 165,
+        "recommendedPsuWatts": 550,
+        "lengthMm": 235
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rx-7700-xt",
+    "model": "90-GA4QZZ-00UANF",
+    "sourceVariantName": "ASRock Radeon RX 7700 XT Challenger OC 12GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asrock-radeon-rx-7700-xt-challenger-oc-12gb-gddr6-192-bit-90-ga4qzz-00uanf",
+    "price": 2999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 3529.4,
+    "installments": "até 12x de R$ 294.12 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rx-7700-xt",
+      "name": "AMD Radeon RX 7700 XT 12GB",
+      "brand": "AMD",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 12,
+        "tdpWatts": 245,
+        "recommendedPsuWatts": 700,
+        "lengthMm": 280
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 3299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "gpu-rx-7800-xt",
+    "model": "DUAL-RX7800XT-O16G",
+    "sourceVariantName": "Asus Radeon RX 7800 XT Dual OC Edition 16GB GDDR6",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asus-radeon-rx-7800-xt-dual-oc-edition-16gb-gddr6-256-bit-dual-rx7800xt-o16g",
+    "price": 4499.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 5294.11,
+    "installments": "até 12x de R$ 441.18 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "3 weeks ago",
+    "expectedCatalogIdentity": {
+      "id": "gpu-rx-7800-xt",
+      "name": "AMD Radeon RX 7800 XT 16GB",
+      "brand": "AMD",
+      "category": "gpu",
+      "specs": {
+        "vramGb": 16,
+        "tdpWatts": 263,
+        "recommendedPsuWatts": 750,
+        "lengthMm": 305
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 3999.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "hdd-seagate-barracuda-2tb",
+    "model": "ST2000DM008",
+    "sourceVariantName": "Seagate BarraCuda 2TB ST2000DM008",
+    "referenceScope": "exact",
+    "store": "KaBuM!",
+    "seller": "MOCK VAREJO",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/196410/hd-seagate-2tb-barracuda-3-5-sata-st2000dm008",
+    "price": 1116,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 10% desconto",
+    "cardTotal": null,
+    "installments": "10x R$124,00 sem juros (total aritmético R$1.240,00; não mostrado separado)",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "hdd-seagate-barracuda-2tb",
+      "name": "Seagate Barracuda 2TB HDD",
+      "brand": "Seagate",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "HDD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 190,
+        "writeSpeedMbS": 180
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "mb-asus-tuf-b550m-plus",
+    "model": "TUF-GAMING-B550M-PLUS",
+    "sourceVariantName": "TUF-GAMING-B550M-PLUS",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-asus-tuf-gaming-b550m-plus-ddr4-socket-am4-chipset-amd-b550-tuf-gaming-b550m-plus",
+    "price": 799.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 941.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Página anuncia frete grátis Sul e Sudeste; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "mb-asus-tuf-b550m-plus",
+      "name": "ASUS TUF Gaming B550M-Plus",
+      "brand": "ASUS",
+      "category": "motherboard",
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "mb-asus-tuf-z790-plus-ddr5",
+    "model": "TUF-GAMING-Z790-PLUS-WIFI",
+    "sourceVariantName": "ASUS TUF Gaming Z790-Plus WiFi DDR5",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-asus-tuf-gaming-z790-plus-wifi-ddr5-socket-lga-1700-atx-chipset-intel-z790-tuf-gaming-z790-plus-wifi",
+    "price": 2156.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2537.64,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "mb-asus-tuf-z790-plus-ddr5",
+      "name": "ASUS TUF Gaming Z790-Plus DDR5",
+      "brand": "ASUS",
+      "category": "motherboard",
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR5",
+        "formFactor": "ATX",
+        "chipset": "Z790",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 2199.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "mb-b550m-aorus-elite",
+    "model": "B550M-AORUS-ELITE",
+    "sourceVariantName": "B550M-AORUS-ELITE",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-gigabyte-b550m-aorus-elite-ddr4-socket-amd-am4-m-atx-chipset-amd-b550-b550m-aorus-elite",
+    "price": 699.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 823.52,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "mb-b550m-aorus-elite",
+      "name": "Gigabyte B550M Aorus Elite",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "mb-gigabyte-b650-gaming-x-ax",
+    "model": "B650-GAMING-X-AX",
+    "sourceVariantName": "B650-GAMING-X-AX",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-gigabyte-b650-gaming-x-ax-wifi-ddr5-socket-am5-chipset-amd-b650-b650-gaming-x-ax",
+    "price": 1499.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1764.69,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b650-gaming-x-ax",
+      "name": "Gigabyte B650 Gaming X AX",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "ATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "m2Slots": 3,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 1499.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "mb-gigabyte-b760m-ds3h-ddr4",
+    "model": "B760M-DS3H-DDR4",
+    "sourceVariantName": "B760M-DS3H-DDR4",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-gigabyte-b760m-ds3h-ddr4-socket-lga-1700-m-atx-chipset-intel-b760-b760m-ds3h-ddr4",
+    "price": 993.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1169.4,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b760m-ds3h-ddr4",
+      "name": "Gigabyte B760M DS3H DDR4",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B760",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          80
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 949.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "mb-h610m-ddr4",
+    "model": "PRIME-H610M-D-D4",
+    "sourceVariantName": "ASUS Prime H610M-D D4",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-asus-prime-h610m-d-d4-ddr4-socket-lga1700-m-atx-chipste-inte-h610-prime-h610m-d-d4",
+    "price": 859.56,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1011.25,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 days ago",
+    "expectedCatalogIdentity": {
+      "id": "mb-h610m-ddr4",
+      "name": "ASUS Prime H610M DDR4",
+      "brand": "ASUS",
+      "category": "motherboard",
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "H610",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 589.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "mb-msi-b550-tomahawk",
+    "model": "MAG-B550-TOMAHAWK",
+    "sourceVariantName": "MAG-B550-TOMAHAWK",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-msi-mag-b550-tomahawk-ddr4-socket-am4-atx-chipset-amd-b550-mag-b550-tomahawk",
+    "price": 1289.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1517.63,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "mb-msi-b550-tomahawk",
+      "name": "MSI B550 Tomahawk",
+      "brand": "MSI",
+      "category": "motherboard",
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "ATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 1099.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "mb-msi-pro-b660m-a-ddr4",
+    "model": "PRO-B660M-A DDR4",
+    "sourceVariantName": "PRO-B660M-A DDR4",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-msi-pro-b660m-a-ddr4-socket-lga-1700-m-atx-chipset-intel-b660-pro-b660m-a",
+    "price": 1545.36,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1818.07,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "mb-msi-pro-b660m-a-ddr4",
+      "name": "MSI PRO B660M-A DDR4",
+      "brand": "MSI",
+      "category": "motherboard",
+      "specs": {
+        "socket": "LGA1700",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B660",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 799.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "psu-cooler-master-mwe-650w",
+    "model": "MPE-6501-ACAAW-BBR",
+    "sourceVariantName": "Cooler Master MWE 650 Bronze V2 Full Range",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-cooler-master-mwe-650-bronze-v2-650w-80-plus-bronze-preto-mpe-6501-acaaw-bbr",
+    "price": 429.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 505.87,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "psu-cooler-master-mwe-650w",
+      "name": "Cooler Master MWE 650W Bronze",
+      "brand": "Cooler Master",
+      "category": "psu",
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Bronze"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 449.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "psu-corsair-650w",
+    "model": "CP-9020211-BR",
+    "sourceVariantName": "CP-9020211-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-corsair-cv-series-cv650-80-plus-bronze-650w-cp-9020211-br",
+    "price": 443.7,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 522,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "6 days ago",
+    "expectedCatalogIdentity": {
+      "id": "psu-corsair-650w",
+      "name": "Corsair CV650 650W",
+      "brand": "Corsair",
+      "category": "psu",
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Bronze"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 399.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "psu-corsair-cv550",
+    "model": "CP-9020210-BR",
+    "sourceVariantName": "CP-9020210-BR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-corsair-cv-series-cv550-80-plus-bronze-550w-cp-9020210-br",
+    "price": 469.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 552.93,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "model_match_packaging_or_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "psu-corsair-cv550",
+      "name": "Corsair CV550 550W",
+      "brand": "Corsair",
+      "category": "psu",
+      "specs": {
+        "watts": 550,
+        "efficiency": "80 Plus Bronze"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 329.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "psu-corsair-rm750e",
+    "model": "CP-9020262-BR",
+    "sourceVariantName": "Corsair RM750e CP-9020262-BR",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-corsair-rm750e-750w-full-modular-80-plus-gold-preto-cp-9020262-br",
+    "price": 799.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 941.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "psu-corsair-rm750e",
+      "name": "Corsair RM750e 750W Gold",
+      "brand": "Corsair",
+      "category": "psu",
+      "specs": {
+        "watts": 750,
+        "efficiency": "80 Plus Gold"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "psu-corsair-rm850x",
+    "model": "CP-9020180-WW",
+    "sourceVariantName": "Corsair RM850x CP-9020180-WW",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-corsair-rmx-series-modular-rm850x-850w-80-plus-gold-cp-9020180-ww",
+    "price": 999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1176.46,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "6 days ago",
+    "expectedCatalogIdentity": {
+      "id": "psu-corsair-rm850x",
+      "name": "Corsair RM850x 850W Gold",
+      "brand": "Corsair",
+      "category": "psu",
+      "specs": {
+        "watts": 850,
+        "efficiency": "80 Plus Gold"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "psu-generic-400w",
+    "model": "ONEPOWER-400W",
+    "sourceVariantName": "OnePower 400W",
+    "referenceScope": "benchmark",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-onepower-400w-preto-onepower-400w",
+    "price": 139.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 164.69,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "identityMatch": "illustrative_benchmark",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "psu-generic-400w",
+      "name": "Fonte Genérica 400W",
+      "brand": "Generic",
+      "category": "psu",
+      "specs": {
+        "watts": 400,
+        "efficiency": "Não informado"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 129.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço de um exemplo comercial; o item genérico do catálogo não é o modelo da fonte."
+    ]
+  },
+  {
+    "productId": "psu-xpg-core-reactor-850w",
+    "model": "COREREACTOR850G-BKCBR",
+    "sourceVariantName": "COREREACTOR850G-BKCBR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-xpg-core-reactor-850w-80-plus-gold-full-modular-preto-corereactor850g-bkcbr",
+    "price": 699.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 823.52,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "psu-xpg-core-reactor-850w",
+      "name": "XPG Core Reactor 850W Gold",
+      "brand": "XPG",
+      "category": "psu",
+      "specs": {
+        "watts": 850,
+        "efficiency": "80 Plus Gold"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 799.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "psu-xpg-pylon-650w",
+    "model": "PYLON650B-BKCBR",
+    "sourceVariantName": "PYLON650B-BKCBR",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-xpg-pylon-650w-80-plus-bronze-preto-pylon650b-bkcbr",
+    "price": 399.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 470.58,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 days ago",
+    "expectedCatalogIdentity": {
+      "id": "psu-xpg-pylon-650w",
+      "name": "XPG Pylon 650W",
+      "brand": "XPG",
+      "category": "psu",
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Bronze"
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 429.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-cmk32gx4m2e3200c16",
+    "model": "CMK32GX4M2E3200C16",
+    "sourceVariantName": "CMK32GX4M2E3200C16",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-lpx-32gb-2x16-ddr4-3200mhz-c16-preta-cmk32gx4m2e3200c16",
+    "price": 549.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 647.05,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-cmk32gx4m2e3200c16",
+      "name": "Corsair Vengeance LPX 32GB (2×16GB) DDR4-3200",
+      "brand": "Corsair",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "CMK32GX4M2E3200C16"
+    },
+    "demonstrativePrice": 549.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-cmk32gx5m2b6000c36",
+    "model": "CMK32GX5M2B6000C36",
+    "sourceVariantName": "CMK32GX5M2B6000C36",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-32gb-2x16gb-ddr5-6000mhz-c36-preto-cmk32gx5m2b6000c36",
+    "price": 2099.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2470.58,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "ram-cmk32gx5m2b6000c36",
+      "name": "Corsair Vengeance 32GB (2×16GB) DDR5-6000",
+      "brand": "Corsair",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "CMK32GX5M2B6000C36"
+    },
+    "demonstrativePrice": 849.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-corsair-vengeance-16gb-ddr4-3600",
+    "model": "CMK16GX4M2D3600C18",
+    "sourceVariantName": "Corsair Vengeance 16GB DDR4 3600MHz (2x8GB) CL18 — CMK16GX4M2D3600C18",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-lpx-16gb-2x8-ddr4-3600mhz-c18-preta-cmk16gx4m2d3600c18",
+    "price": 389.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 458.81,
+    "installments": "até 12x de R$ 38,23 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "last week",
+    "expectedCatalogIdentity": {
+      "id": "ram-corsair-vengeance-16gb-ddr4-3600",
+      "name": "Corsair Vengeance 16GB DDR4",
+      "brand": "Corsair",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3600
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 289.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-corsair-vengeance-16gb-ddr5",
+    "model": "CMK16GX5M1B5200C40",
+    "sourceVariantName": "Corsair Vengeance 16GB DDR5 5200MHz (1x16GB) CL40 — CMK16GX5M1B5200C40",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-16gb-1x16gb-ddr5-5200mhz-c40-preto-cmk16gx5m1b5200c40",
+    "price": 1999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2352.93,
+    "installments": "até 12x de R$ 196,08 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "ram-corsair-vengeance-16gb-ddr5",
+      "name": "Corsair Vengeance 16GB DDR5",
+      "brand": "Corsair",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "speedMhz": 5200
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 399.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-corsair-vengeance-32gb-ddr5-5600",
+    "model": "CMK32GX5M2B5600C40",
+    "sourceVariantName": "Corsair Vengeance 32GB DDR5 5600MHz (2x16GB) CL40 — CMK32GX5M2B5600C40",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-veagence-32gb-2x16gb-ddr5-5600mhz-c40-preto-cmk32gx5m2b5600c40",
+    "price": 3549.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 4176.46,
+    "installments": "até 12x de R$ 348,04 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-corsair-vengeance-32gb-ddr5-5600",
+      "name": "Corsair Vengeance 32GB DDR5",
+      "brand": "Corsair",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 5600
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 749.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-gskill-trident-z5-32gb-ddr5-6000",
+    "model": "F5-6000J3636F16GX2-TZ5K",
+    "sourceVariantName": "G.Skill Trident Z5 32GB DDR5 6000MHz (2x16GB) CL36 — F5-6000J3636F16GX2-TZ5K",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-g-skill-trident-z5-32gb-2x16gb-ddr5-6000mhz-c36-preta-f5-6000j3636f16gx2-tz5k",
+    "price": 4200.05,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 4941.23,
+    "installments": "até 12x de R$ 411,77 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 days ago",
+    "expectedCatalogIdentity": {
+      "id": "ram-gskill-trident-z5-32gb-ddr5-6000",
+      "name": "G.Skill Trident Z5 32GB DDR5",
+      "brand": "G.Skill",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 6000
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-kf432c16bbk2-16",
+    "model": "KF432C16BBK2/16",
+    "sourceVariantName": "KF432C16BBK2/16",
+    "referenceScope": "exact",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/19317/memoria-kingston-fury-beast-16gb-2x8gb-3200mhz-ddr4-black-kf432c16bbk216",
+    "price": 1699.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista com15%desconto",
+    "cardTotal": 1999.88,
+    "installments": "12xR$166.66 sem juros; até18x com juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete grátis anunciado RS,PR,SC,SP,MG,RJ,ES; destino não verificado",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact-part-number-and-capacity",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bbk2-16",
+      "name": "Kingston FURY Beast 16GB (2×8GB) DDR4-3200",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "KF432C16BBK2/16"
+    },
+    "demonstrativePrice": 299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-kf552c40bbk2-32",
+    "model": "KF552C40BBK2-32",
+    "sourceVariantName": "KF552C40BBK2-32",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-32gb-2x16gb-ddr5-5200mhz-c40-preta-kf552c40bbk2-32",
+    "price": 2249.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 15% discount",
+    "cardTotal": 2647.05,
+    "installments": "12x R$220.59 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": {
+      "amount": null,
+      "status": "not verified; no destination-specific quote"
+    },
+    "taxes": {
+      "amount": null,
+      "status": "not separately stated in extracted page"
+    },
+    "identityMatch": "exact-part-number-and-capacity",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kf552c40bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR5-5200",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 5200,
+        "dataRateMTs": 5200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "KF552C40BBK2-32"
+    },
+    "demonstrativePrice": 699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-kf556c40bbk2-32",
+    "model": "KF556C40BBK2-32",
+    "sourceVariantName": "KF556C40BBK2-32",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-32gb-2x16gb-ddr5-5600mhz-c40-preta-kf556c40bbk2-32",
+    "price": 2339.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 15% discount",
+    "cardTotal": 2752.93,
+    "installments": "12x R$229.41 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": {
+      "amount": null,
+      "status": "not verified; no destination-specific quote"
+    },
+    "taxes": {
+      "amount": null,
+      "status": "not separately stated in extracted page"
+    },
+    "identityMatch": "exact-part-number-and-capacity",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kf556c40bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR5-5600",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 5600,
+        "dataRateMTs": 5600,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "KF556C40BBK2-32"
+    },
+    "demonstrativePrice": 749.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-kf560c40bbk2-32",
+    "model": "KF560C40BBK2-32",
+    "sourceVariantName": "KF560C40BBK2-32",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-32gb-2x16gb-ddr5-6000mhz-c40-preta-kf560c40bbk2-32",
+    "price": 1299.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 15% discount",
+    "cardTotal": 1529.4,
+    "installments": "12x R$127.45 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": {
+      "amount": null,
+      "status": "not verified; no destination-specific quote"
+    },
+    "taxes": {
+      "amount": null,
+      "status": "not separately stated in extracted page"
+    },
+    "identityMatch": "exact-part-number-and-capacity",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "ram-kf560c40bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR5-6000",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "KF560C40BBK2-32"
+    },
+    "demonstrativePrice": 799.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-kingston-fury-16gb-ddr4",
+    "model": "KF432C16BB/16",
+    "sourceVariantName": "Kingston Fury Beast 16GB DDR4 3200MHz (1x16GB) CL16 — KF432C16BB/16",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-16gb-1x16gb-ddr4-3200mhz-c16-preto-kf432c16bb-16",
+    "price": 1799.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2117.64,
+    "installments": "até 12x de R$ 176,47 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kingston-fury-16gb-ddr4",
+      "name": "Kingston Fury Beast 16GB DDR4",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3200
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 249.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-kingston-fury-16gb-ddr4-3600",
+    "model": "KF436C18BB/16",
+    "sourceVariantName": "KF436C18BB/16",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-16gb-1x16gb-ddr4-3600mhz-c18-preto-kf436c18bb-16",
+    "price": 306.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 361.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kingston-fury-16gb-ddr4-3600",
+      "name": "Kingston Fury Beast 16GB DDR4-3600",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3600
+      },
+      "partNumber": "KF436C18BB/16"
+    },
+    "demonstrativePrice": 299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-kingston-fury-16gb-ddr5-5200",
+    "model": "KF552C40BB-16",
+    "sourceVariantName": "KF552C40BB-16",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-16gb-1x16gb-ddr5-5200mhz-c40-preta-kf552c40bb-16",
+    "price": 1999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2352.93,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "6 days ago",
+    "expectedCatalogIdentity": {
+      "id": "ram-kingston-fury-16gb-ddr5-5200",
+      "name": "Kingston Fury Beast 16GB DDR5-5200",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "speedMhz": 5200
+      },
+      "partNumber": "KF552C40BB-16"
+    },
+    "demonstrativePrice": 419.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ram-kingston-fury-16gb-ddr5-6000",
+    "model": "KF560C40BB-16",
+    "sourceVariantName": "Kingston Fury Beast 16GB DDR5 6000MHz (1x16GB) CL40 — KF560C40BB-16",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-16gb-1x16gb-ddr5-6000mhz-c40-preta-kf560c40bb-16",
+    "price": 599.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 705.87,
+    "installments": "até 12x de R$ 58,82 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kingston-fury-16gb-ddr5-6000",
+      "name": "Kingston Fury Beast 16GB DDR5",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "speedMhz": 6000
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 449.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-kingston-fury-32gb-ddr4",
+    "model": "KF432C16BB/32",
+    "sourceVariantName": "Kingston Fury Beast 32GB DDR4 3200MHz (1x32GB) CL16 — KF432C16BB/32",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-32gb-1x32gb-ddr4-3200mhz-c16-preto-kf432c16bb-32",
+    "price": 2499.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2941.16,
+    "installments": "até 12x de R$ 245,10 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kingston-fury-32gb-ddr4",
+      "name": "Kingston Fury Beast 32GB DDR4",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 499.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ram-kingston-fury-8gb-ddr4",
+    "model": "KF432C16BB/8",
+    "sourceVariantName": "Kingston Fury Beast 8GB DDR4 3200MHz (1x8GB) CL16 — KF432C16BB/8",
+    "referenceScope": "family",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-kingston-fury-beast-8gb-1x8gb-ddr4-3200mhz-c16-preta-kf432c16bb-8",
+    "price": 899.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1058.81,
+    "installments": "até 12x de R$ 88,23 sem juros no cartão",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado para destino; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "family_representative_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ram-kingston-fury-8gb-ddr4",
+      "name": "Kingston Fury Beast 8GB DDR4",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 8,
+        "speedMhz": 3200
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 149.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual.",
+      "Preço da variante comercial identificada; suas especificações não substituem o cadastro da família."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-a400-240gb",
+    "model": "SA400S37/240G",
+    "sourceVariantName": "SA400S37/240G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-a400-240gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-350mb-s-sa400s37-240g",
+    "price": 479.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 564.69,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Página anuncia frete grátis Sul e Sudeste; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-a400-240gb",
+      "name": "Kingston A400 240GB SATA SSD",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 240,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 350,
+        "speedBasis": "Máximo sequencial anunciado"
+      },
+      "partNumber": "SA400S37/240G"
+    },
+    "demonstrativePrice": 139.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-a400-480gb",
+    "model": "SA400S37/480G",
+    "sourceVariantName": "SA400S37/480G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-a400-480gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-450mb-s-sa400s37-480g",
+    "price": 569.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 670.58,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-a400-480gb",
+      "name": "Kingston A400 480GB SATA SSD",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 189.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-a400-960gb",
+    "model": "SA400S37/960G",
+    "sourceVariantName": "SA400S37/960G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-a400-960gb-2-5-pol-sata-iii-6gb-s-leitura-500mb-s-gravacao-450mb-s-sa400s37-960g",
+    "price": 949.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 1117.64,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Página anuncia frete grátis Sul e Sudeste; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-a400-960gb",
+      "name": "Kingston A400 960GB SATA SSD",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 960,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450
+      },
+      "partNumber": "SA400S37/960G"
+    },
+    "demonstrativePrice": 329.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-kc3000-1024gb",
+    "model": "SKC3000S/1024G",
+    "sourceVariantName": "SKC3000S/1024G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-kc3000-1024gb-m-2-2280-pcie-nvme-leitura-7000-mb-s-gravacao-6000-mb-s-skc3000s-1024g",
+    "price": 1969.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 2317.64,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-kc3000-1024gb",
+      "name": "Kingston KC3000 1024GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1024,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 6000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      },
+      "partNumber": "SKC3000S/1024G"
+    },
+    "demonstrativePrice": 649.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-kc3000-2048gb",
+    "model": "SKC3000D/2048G",
+    "sourceVariantName": "SKC3000D/2048G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-kc3000-2tb-m-2-2280-pcie-nvme-leitura-7000mb-s-gravacao-7000mb-s-skc3000d-2048g",
+    "price": 3669.74,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 4317.34,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Página anuncia frete grátis Sul e Sudeste; destino não informado, elegibilidade não validada",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-kc3000-2048gb",
+      "name": "Kingston KC3000 2048GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2048,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 7000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      },
+      "partNumber": "SKC3000D/2048G"
+    },
+    "demonstrativePrice": 1099.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-kc3000-4096gb",
+    "model": "SKC3000D/4096G",
+    "sourceVariantName": "SKC3000D/4096G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-kc3000-4tb-m-2-2280-pcie-nvme-leitura-7000mb-s-gravacao-7000mb-s-skc3000d-4096g",
+    "price": 5669.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 15% discount",
+    "cardTotal": 6670.58,
+    "installments": "12x R$555.88 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": {
+      "amount": null,
+      "status": "not verified; no destination-specific quote"
+    },
+    "taxes": {
+      "amount": null,
+      "status": "not separately stated in extracted page"
+    },
+    "identityMatch": "exact-part-number-and-capacity",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-kc3000-4096gb",
+      "name": "Kingston KC3000 4096GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 4096,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 7000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      },
+      "partNumber": "SKC3000D/4096G"
+    },
+    "demonstrativePrice": 2299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-kc3000-512gb",
+    "model": "SKC3000S/512G",
+    "sourceVariantName": "SKC3000S/512G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-kc3000-512gb-m-2-2280-pcie-nvme-leitura-7000-mb-s-gravacao-3900-mb-s-skc3000s-512g",
+    "price": 689.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 811.75,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-kc3000-512gb",
+      "name": "Kingston KC3000 512GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 512,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 3900,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      },
+      "partNumber": "SKC3000S/512G"
+    },
+    "demonstrativePrice": 399.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-nv2-1tb",
+    "model": "SNV2S/1000G",
+    "sourceVariantName": "SNV2S/1000G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-nv2-1tb-m-2-2280-pcie-nvme-leitura-3500mb-s-gravacao-2100mb-s-snv2s-1000g",
+    "price": 499.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 588.22,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv2-1tb",
+      "name": "Kingston NV2 1TB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2100
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 349.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-kingston-nv2-500gb",
+    "model": "SNV2S/500G",
+    "sourceVariantName": "SNV2S/500G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-nv2-500gb-m-2-2280-pcie-nvme-leitura-3500-mb-s-gravacao-2100-mb-s-snv2s-500g",
+    "price": 345.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 407.05,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv2-500gb",
+      "name": "Kingston NV2 500GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2100
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 239.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-samsung-870-evo-1000gb",
+    "model": "MZ-77E1T0B/AM",
+    "sourceVariantName": "Samsung 870 EVO 1000GB SATA | MZ-77E1T0B/AM",
+    "referenceScope": "exact",
+    "store": "KaBuM!",
+    "seller": "DAXFY",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/351998/ssd-samsung-870-evo-1tb-sata-mz-77e1t0b-am",
+    "price": 1631.25,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 10% desconto",
+    "cardTotal": null,
+    "installments": "10x R$181,25 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_and_capacity_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "2 days ago",
+    "expectedCatalogIdentity": {
+      "id": "ssd-samsung-870-evo-1000gb",
+      "name": "Samsung 870 EVO 1000GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "partNumber": "MZ-77E1T0"
+    },
+    "demonstrativePrice": 599.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-samsung-870-evo-250gb",
+    "model": "MZ-77E250B/AM",
+    "sourceVariantName": "Samsung 870 EVO 250GB SATA | MZ-77E250B/AM",
+    "referenceScope": "exact",
+    "store": "KaBuM!",
+    "seller": "DAXFY",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/450155/ssd-samsung-870-evo-250gb-sata-iii-2-5-polegadas-mz-77e250b-am",
+    "price": 663.1,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 5% desconto",
+    "cardTotal": null,
+    "installments": "10x R$69,80 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_and_capacity_regional_suffix_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "5 days ago",
+    "expectedCatalogIdentity": {
+      "id": "ssd-samsung-870-evo-250gb",
+      "name": "Samsung 870 EVO 250GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 250,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "partNumber": "MZ-77E250"
+    },
+    "demonstrativePrice": 249.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-samsung-870-evo-500gb",
+    "model": "MZ-77E500B/EU",
+    "sourceVariantName": "MZ-77E500B/EU",
+    "referenceScope": "exact",
+    "store": "KaBuM!",
+    "seller": "DAXFY",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.kabum.com.br/produto/647831/ssd-500gb-2-5-sata-3-870-evo-560mb-s-leit-530mb-s-grav-mz-77e500b-eu-samsung",
+    "price": 862.83,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 10% discount",
+    "cardTotal": null,
+    "installments": "10x R$95.87 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": {
+      "amount": null,
+      "status": "not verified; no destination-specific quote"
+    },
+    "taxes": {
+      "amount": null,
+      "status": "not separately stated in extracted page"
+    },
+    "identityMatch": "base-model-and-capacity; catalog omits retail B/EU suffix",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "5 days ago",
+    "expectedCatalogIdentity": {
+      "id": "ssd-samsung-870-evo-500gb",
+      "name": "Samsung 870 EVO 500GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "partNumber": "MZ-77E500"
+    },
+    "demonstrativePrice": 379.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-wd-black-sn770-1tb",
+    "model": "WDS100T3X0E",
+    "sourceVariantName": "WDS100T3X0E",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-wd-black-sn770-1tb-m-2-2280-pcie-nvme-leitura-5150-mb-s-gravacao-4900-mb-s-wds100t3x0e",
+    "price": 639.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 752.93,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "today",
+    "expectedCatalogIdentity": {
+      "id": "ssd-wd-black-sn770-1tb",
+      "name": "WD Black SN770 1TB NVMe",
+      "brand": "Western Digital",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 5150,
+        "writeSpeedMbS": 4900
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 549.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "productId": "ssd-wd-blue-sn570-1tb",
+    "model": "WDS100T3B0C",
+    "sourceVariantName": "WDS100T3B0C",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-wd-blue-sn570-1tb-m-2-2280-pcie-nvme-leitura-3500-mb-s-gravacao-3000-mb-s-wds100t3b0c",
+    "price": 599.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista, 15% desconto",
+    "cardTotal": 705.77,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "unknown",
+    "shipping": "Não verificado; excluído do valor",
+    "taxes": "Não discriminados; preço exibido, não total de checkout",
+    "identityMatch": "exact_model_retailer_sku_recorded",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": "yesterday",
+    "expectedCatalogIdentity": {
+      "id": "ssd-wd-blue-sn570-1tb",
+      "name": "WD Blue SN570 1TB NVMe",
+      "brand": "Western Digital",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 3000
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 399.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada, sem garantia de preço ou estoque atual."
+    ]
+  },
+  {
+    "price": 799.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/28919/placa-mae-gigabyte-b650m-d3hp-chipset-b650-amd-am5-matx-ddr5",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, 15% desconto",
+    "cardTotal": 941.16,
+    "installments": "12x R$78,43 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Página direta: Pronta entrega; Restam 6; Comprar agora",
+    "retrievalCrawlLabel": "3 days ago",
+    "productId": "mb-gigabyte-b650m-d3hp",
+    "model": "B650M D3HP",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Gigabyte B650M D3HP",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b650m-d3hp",
+      "name": "Gigabyte B650M D3HP",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "partNumber": "B650M D3HP",
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "mATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "sataPorts": 4,
+        "m2Slots": 2,
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2,
+        "pcieGeneration": 4,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "memorySupportNotes": "Velocidade XMP/EXPO e capacidade por módulo dependem de CPU, BIOS e QVL."
+      }
+    }
+  },
+  {
+    "price": 589.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/43174/gabinete-gamer-cooler-master-elite-502-argb-vidro-temperado-mid-tower-atx-com-3-fans-branco-e502-wgnn-s00",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, 15% desconto",
+    "cardTotal": 694.11,
+    "installments": "12x R$57,84 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Página direta: Pronta entrega; Restam 2; Comprar agora",
+    "retrievalCrawlLabel": "3 weeks ago",
+    "productId": "case-cooler-master-elite-502-white",
+    "model": "E502-WGNN-S00",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Cooler Master Elite 502 White",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "case-cooler-master-elite-502-white",
+      "name": "Cooler Master Elite 502 White",
+      "brand": "Cooler Master",
+      "category": "case",
+      "partNumber": "E502-WGNN-S00",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX",
+          "E-ATX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 170,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360,
+          420
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 7
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 5
+          }
+        ],
+        "includedFanCount": 3,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Frente 3x120/140; topo 3x120 ou2x140; traseira1x120. Três120ARGB incluídos na frente. Frente até420mm limitado457x140x27mm; topo até360mm. GPU410mm somente sem radiador frontal; 360mm com montagem HDD indicada. E-ATX até305x277mm. Confirmar layout/folgas no manual.",
+        "frontRadiatorMaxThicknessMm": 27,
+        "maxGpuLengthWithHddBracketMm": 360,
+        "includedFanDiameterMm": 120,
+        "color": "White",
+        "maxGpuLengthWithoutFrontRadiatorMm": 410
+      }
+    }
+  },
+  {
+    "price": 3213.22,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/1055759/memoria-ram-kingston-ddr4-32gb-3200mhz-kvr32n22d8-32",
+    "store": "KaBuM!",
+    "seller": "TH INFORMATICA",
+    "paymentCondition": "à vista no PIX",
+    "cardTotal": null,
+    "installments": "10 x R$321,32 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Enabled Comprar agora and Adicionar ao carrinho, adjacent to exact product heading and seller TH INFORMATICA",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kvr32n22d8-32",
+    "model": "KVR32N22D8/32",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston ValueRAM 32GB (1x32GB) DDR4-3200 CL22",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kvr32n22d8-32",
+      "name": "Kingston ValueRAM 32GB (1x32GB) DDR4-3200 CL22",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KVR32N22D8/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 32,
+        "casLatency": 22,
+        "voltageV": 1.2,
+        "speedProfile": "JEDEC DDR4-3200; no XMP needed for rated JEDEC profile",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 31.25,
+          "thickness": null
+        },
+        "rgb": false
+      }
+    }
+  },
+  {
+    "price": 3489.99,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/480530/memoria-ram-kingston-fury-beast-rgb-32gb-2x16gb-3200mhz-ddr4-cl16-preto-kf432c16bb12ak2-32",
+    "store": "KaBuM!",
+    "seller": "KaBuM!",
+    "paymentCondition": "à vista no PIX, com 15% de desconto informado",
+    "cardTotal": null,
+    "installments": "10 x R$410,58 sem juros; anúncio também informa até 36x NuPay; condições não verificadas",
+    "availability": "available",
+    "availabilityEvidence": "Enabled Comprar agora and Adicionar ao carrinho next to exact 32GB (2x16GB) heading, PIX price and seller KaBuM!",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kf432c16bb12ak2-32",
+    "model": "KF432C16BB12AK2/32",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston FURY Beast RGB 32GB (2x16GB) DDR4-3200 CL16",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb12ak2-32",
+      "name": "Kingston FURY Beast RGB 32GB (2x16GB) DDR4-3200 CL16",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BB12AK2/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 4949.99,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/480536/memoria-ram-kingston-fury-beast-rgb-64gb-2x32gb-3200mhz-ddr4-cl16-preto-kf432c16bb2ak2-64",
+    "store": "KaBuM!",
+    "seller": "KaBuM!",
+    "paymentCondition": "à vista no PIX, com 15% de desconto informado",
+    "cardTotal": null,
+    "installments": "10 x R$582,35 sem juros; anúncio também informa até 36x NuPay; condições não verificadas",
+    "availability": "available",
+    "availabilityEvidence": "Exact 64GB variant selected; enabled Comprar agora and Adicionar ao carrinho; seller KaBuM!; R$4.949,99 current PIX container distinct from struck-through R$7.058,81 and installment R$582,35",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kf432c16bb2ak2-64",
+    "model": "KF432C16BB2AK2/64",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston FURY Beast RGB 64GB (2x32GB) DDR4-3200 CL16",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb2ak2-64",
+      "name": "Kingston FURY Beast RGB 64GB (2x32GB) DDR4-3200 CL16",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BB2AK2/64",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 64,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 32,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 2999.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-pro-sl-rgb-32gb-2x16gb-ddr4-3600mhz-cl18-preto-cmh32gx4m2z3600c18",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "à vista no PIX, com 15% de desconto",
+    "cardTotal": 3529.4,
+    "installments": "12 x R$294,12 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "PRODUTO DISPONÍVEL and enabled COMPRAR COLOCAR NO CARRINHO after hydration",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-cmh32gx4m2z3600c18",
+    "model": "CMH32GX4M2Z3600C18",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Corsair Vengeance RGB PRO SL 32GB (2x16GB) DDR4-3600 CL18 Black",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmh32gx4m2z3600c18",
+      "name": "Corsair Vengeance RGB PRO SL 32GB (2x16GB) DDR4-3600 CL18 Black",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMH32GX4M2Z3600C18",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "casLatency": 18,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 138.3,
+          "height": 44.8,
+          "thickness": 7.5
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 10799.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-rgb-64gb-2x32gb-ddr5-6000mhz-c30-branco-cmh64gx5m2b6000z30w",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "à vista no PIX, com 15% de desconto",
+    "cardTotal": 12705.87,
+    "installments": "12 x R$1.058,82 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "PRODUTO DISPONÍVEL with enabled COMPRAR COLOCAR NO CARRINHO after hydration; screenshot confirms exact SKU, two modules, price and payment basis",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-cmh64gx5m2b6000z30w",
+    "model": "CMH64GX5M2B6000Z30W",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Corsair Vengeance RGB 64GB (2x32GB) DDR5-6000 CL30 White",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmh64gx5m2b6000z30w",
+      "name": "Corsair Vengeance RGB 64GB (2x32GB) DDR5-6000 CL30 White",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMH64GX5M2B6000Z30W",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 64,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 32,
+        "casLatency": 30,
+        "voltageV": 1.4,
+        "speedProfile": "AMD EXPO & Intel XMP",
+        "dimensionsMm": {
+          "length": 135,
+          "height": 44,
+          "thickness": 8
+        },
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 159.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/38349/cooler-para-processador-be-quiet-pure-rock-3-120mm-intelamd-preto-bk039",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, com 15% de desconto",
+    "cardTotal": 188.22,
+    "installments": "9x R$20,91 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 21; Comprar agora; Novo",
+    "retrievalCrawlLabel": "yesterday",
+    "productId": "cooler-bequiet-pure-rock-3-black",
+    "model": "BK039",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "be quiet! Pure Rock 3 Black",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-bequiet-pure-rock-3-black",
+      "name": "be quiet! Pure Rock 3 Black",
+      "brand": "be quiet!",
+      "category": "cooler",
+      "partNumber": "BK039",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1851",
+          "LGA1700",
+          "LGA1200",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155"
+        ],
+        "heightMm": 154,
+        "includedFanCount": 1,
+        "powerWatts": 3.6,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 71,
+          "width": 124,
+          "height": 154
+        }
+      }
+    }
+  },
+  {
+    "price": 469.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/cooler-para-processador-noctua-nh-l9a-am4-chromax-92mm-preta-nh-l9a-am4-ch-bk",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "PIX à vista, com 15% de desconto",
+    "cardTotal": 552.93,
+    "installments": "12x R$46,08 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Cloud browser: PRODUTO DISPONÍVEL plus enabled COMPRAR COLOCAR NO CARRINHO button; exact SKU and listed prices verified",
+    "retrievalCrawlLabel": "4 days ago",
+    "productId": "cooler-noctua-nh-l9a-am4-chromax-black",
+    "model": "NH-L9A-AM4-CH.BK",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Noctua NH-L9a-AM4 chromax.black",
+    "condition": "unknown",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-noctua-nh-l9a-am4-chromax-black",
+      "name": "Noctua NH-L9a-AM4 chromax.black",
+      "brand": "Noctua",
+      "category": "cooler",
+      "partNumber": "NH-L9A-AM4-CH.BK",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4"
+        ],
+        "heightMm": 37,
+        "includedFanCount": 1,
+        "powerWatts": 2.52,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "height": 37,
+          "width": 114,
+          "length": 92
+        }
+      }
+    }
+  },
+  {
+    "price": 679.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39904/water-cooler-arctic-liquid-freezer-iii-pro-240-argb-240mm-intel-amd-branco-acfre00186a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, com 15% de desconto",
+    "cardTotal": 799.99,
+    "installments": "12x R$66,67 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 2; Comprar agora; Novo",
+    "retrievalCrawlLabel": "last week",
+    "productId": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+    "model": "ACFRE00186A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+      "name": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00186A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "includedFanCount": 2,
+        "powerWatts": 18.72,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "radiatorSizeMm": 240,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 277,
+          "width": 120,
+          "height": 38
+        },
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "totalEnvelopeThicknessMm": 66,
+        "compatibilityNotes": "Conferir revisão, kit incluso, dissipadores M.2/VRM, RAM e folgas. Envelope conservador do conjunto: 66 mm; não apenas a espessura nominal do radiador."
+      }
+    }
+  },
+  {
+    "price": 739.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/36013/water-cooler-arctic-liquid-freezer-iii-pro-360-360mm-intel-amd-preto-acfre00180a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, com 15% de desconto",
+    "cardTotal": 870.58,
+    "installments": "12x R$72,55 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 11; Novo",
+    "retrievalCrawlLabel": "today",
+    "productId": "cooler-arctic-liquid-freezer-iii-pro-360",
+    "model": "ACFRE00180A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC Liquid Freezer III Pro 360 Black",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-360",
+      "name": "ARCTIC Liquid Freezer III Pro 360 Black",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00180A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "includedFanCount": 3,
+        "powerWatts": 16.68,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "radiatorSizeMm": 360,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 398,
+          "width": 120,
+          "height": 38
+        },
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "totalEnvelopeThicknessMm": 66,
+        "compatibilityNotes": "Conferir revisão, kit incluso, dissipadores M.2/VRM, RAM e folgas. Envelope conservador do conjunto: 66 mm; não apenas a espessura nominal do radiador."
+      }
+    }
+  },
+  {
+    "price": 59.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39644/cooler-para-gabinete-arctic-p12-pro-120mm-preto-acfan00305a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, com 15% de desconto",
+    "cardTotal": 70.58,
+    "installments": "3x R$23,53 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 307; Comprar agora; Novo",
+    "retrievalCrawlLabel": "today",
+    "productId": "fan-arctic-p12-pro",
+    "model": "ACFAN00305A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC P12 Pro (1 fan)",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-arctic-p12-pro",
+      "name": "ARCTIC P12 Pro (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00305A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 1,
+        "connector": "4-pin PWM",
+        "powerWatts": 3.96,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": false,
+        "auxiliaryPowerNotes": null,
+        "rgb": false
+      }
+    }
+  },
+  {
+    "price": 59.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39882/cooler-para-gabinete-arctic-p12-pro-pst-120mm-pwm-branco-acfan00308a",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, com 15% de desconto",
+    "cardTotal": 70.58,
+    "installments": "3x R$23,53 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Novo, Pronta entrega, Restam 12, Comprar agora on directly opened product page",
+    "retrievalCrawlLabel": "today",
+    "productId": "fan-arctic-p12-pro-pst-white",
+    "model": "ACFAN00308A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ARCTIC P12 Pro PST White (1 fan)",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-arctic-p12-pro-pst-white",
+      "name": "ARCTIC P12 Pro PST White (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00308A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 1,
+        "connector": "4-pin PWM plug + 4-pin socket (PST)",
+        "powerWatts": 3.96,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": false,
+        "auxiliaryPowerNotes": null,
+        "rgb": false
+      }
+    }
+  },
+  {
+    "price": 259.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/35779/kit-fan-com-3-unidades-cooler-master-sickleflow-edge-white-edition-argb-120mm-com-controladora-branco-mfx-b2dw-253p2-r2",
+    "store": "TerabyteShop",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX ou boleto à vista, com 15% de desconto",
+    "cardTotal": 305.87,
+    "installments": "12x R$25,49 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Novo; Pronta entrega; Restam8; Comprar agora on directly opened page",
+    "retrievalCrawlLabel": "today",
+    "productId": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+    "model": "MFX-B2DW-253P2-R2",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Cooler Master SickleFlow Edge 120 A-RGB White (kit 3 fans)",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+      "name": "Cooler Master SickleFlow Edge 120 A-RGB White (kit 3 fans)",
+      "brand": "Cooler Master",
+      "category": "fan",
+      "partNumber": "MFX-B2DW-253P2-R2",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 3,
+        "connector": "4-pin PWM",
+        "powerWatts": 3.45,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": true,
+        "auxiliaryPowerNotes": "Consumo próprio da controladora não especificado; não incluído.",
+        "rgb": true
+      }
+    }
+  },
+  {
+    "price": 729.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/31563/ssd-kingston-nv3-500gb-m2-nvme-2280-pcie-40-leitura-5000mbs-e-gravacao-3000mbs-snv3s500g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 858.71,
+    "installments": "12x R$71,56 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 17",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-kingston-nv3-500gb",
+    "model": "SNV3S/500G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston NV3 500GB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-500gb",
+      "name": "Kingston NV3 500GB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/500G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 5000,
+        "writeSpeedMbS": 3000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 160,
+        "m2LengthMm": 80
+      }
+    }
+  },
+  {
+    "price": 1499.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/25625/ssd-xpg-gammmix-s70-blade-1tb-m2-2280-nvme-leitura-7400mbs-e-gravacao-5500mbs-agammixs70b-1t-cs",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 1764.69,
+    "installments": "12x R$147,06 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 2",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-xpg-gammix-s70-blade-1tb",
+    "model": "AGAMMIXS70B-1T-CS",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "XPG GAMMIX S70 BLADE 1TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-xpg-gammix-s70-blade-1tb",
+      "name": "XPG GAMMIX S70 BLADE 1TB",
+      "brand": "XPG",
+      "category": "storage",
+      "partNumber": "AGAMMIXS70B-1T-CS",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1024,
+        "readSpeedMbS": 7400,
+        "writeSpeedMbS": 5500,
+        "formFactor": "M.2 2280",
+        "enduranceTBW": 740,
+        "m2LengthMm": 80
+      }
+    }
+  },
+  {
+    "price": 2199.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/31565/ssd-kingston-nv3-2tb-m2-nvme-2280-pcie-40-leitura-6000mbs-e-gravacao-5000mbs-snv3s2000g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 2588.12,
+    "installments": "12x R$215,68 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 8",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-kingston-nv3-2tb",
+    "model": "SNV3S/2000G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston NV3 2TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-2tb",
+      "name": "Kingston NV3 2TB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/2000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 5000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 640,
+        "m2LengthMm": 80
+      }
+    }
+  },
+  {
+    "price": 3249.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/42987/ssd-sandisk-520-2tb-sata-iii-leitura-560mbs-e-gravacao-520mbs-sdss51200tab-000g0",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 3823.41,
+    "installments": "12x R$318,62 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 1",
+    "retrievalCrawlLabel": "last week",
+    "productId": "ssd-sandisk-520-2tb",
+    "model": "SDSS51200TAB-000G0",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "SanDisk 520 SATA SSD 2TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-sandisk-520-2tb",
+      "name": "SanDisk 520 SATA SSD 2TB",
+      "brand": "SanDisk",
+      "category": "storage",
+      "partNumber": "SDSS51200TAB-000G0",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 520,
+        "formFactor": "2.5-inch 7mm",
+        "enduranceTBW": 700
+      }
+    }
+  },
+  {
+    "price": 3899.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/32888/ssd-kingston-nv3-4tb-m2-nvme-2280-pcie-40-leitura-6000mbs-e-gravacao-5000mbs-snv3s4000g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "À vista no boleto ou PIX, com 15% de desconto",
+    "cardTotal": 4588.12,
+    "installments": "12x R$382,34 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; Restam 3",
+    "retrievalCrawlLabel": "today",
+    "productId": "ssd-kingston-nv3-4tb",
+    "model": "SNV3S/4000G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "Kingston NV3 4TB",
+    "condition": "new",
+    "shipping": "Não verificado; excluído",
+    "taxes": "Não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Referência datada; disponibilidade observada na fonte, sem garantia de estoque ao vivo.",
+      "Frete não incluído; confirmar condições, revisão e estoque antes da compra."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-4tb",
+      "name": "Kingston NV3 4TB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/4000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 4000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 5000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 1280,
+        "m2LengthMm": 80
+      }
+    }
+  }
+]

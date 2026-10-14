@@ -1,4 +1,5 @@
-import { requiredBuildSlots, selectBuildComponents } from './build.service.js';
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { requiredBuildSlots, selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { getSavedBuildById } from './savedBuildsService.js';
 
@@ -49,6 +50,7 @@ function buildExportPayload({
   totalEstimatedPrice
 }) {
   const exportPayload = {
+    ...exportPerformanceMetadata(components),
     exportVersion,
     exportedAt: new Date().toISOString(),
     source: exportSource,
@@ -80,6 +82,15 @@ function buildExportPayload({
   return exportPayload;
 }
 
+// Exporting historical IDs must stay possible when live resolution is unavailable.
+function exportPerformanceMetadata(components) {
+  try { return performanceMetadata(selectBuildComponents(components)); }
+  catch (error) {
+    if (!error.statusCode || error.statusCode >= 500) throw error;
+    return performanceMetadata();
+  }
+}
+
 function validateExportPayload(exportInput) {
   if (!exportInput || typeof exportInput !== 'object' || Array.isArray(exportInput)) {
     const error = new Error('Informe os dados para exportar a configuracao.');
@@ -104,19 +115,16 @@ function normalizeDirectBuildComponents(buildInput) {
     throw error;
   }
 
-  selectBuildComponents(buildInput);
-
-  return requiredBuildSlots.reduce((components, slot) => ({
-    ...components,
-    [`${slot}Id`]: normalizeOptionalText(buildInput[`${slot}Id`] ?? buildInput[slot] ?? buildInput.components?.[slot])
-  }), {});
+  return mapSavedBuildComponentsToExport(serializeBuildSelection(selectBuildComponents(buildInput)));
 }
 
 function mapSavedBuildComponentsToExport(componentsInput) {
-  return requiredBuildSlots.reduce((components, slot) => ({
-    ...components,
-    [`${slot}Id`]: componentsInput[slot]
+  const components = requiredBuildSlots.reduce((result, slot) => ({
+    ...result, [`${slot}Id`]: componentsInput[slot]
   }), {});
+  if (componentsInput.cooler) components.coolerId = componentsInput.cooler;
+  if (componentsInput.fans?.length) components.fans = JSON.parse(JSON.stringify(componentsInput.fans));
+  return components;
 }
 
 function buildSummaryForExport({
@@ -135,8 +143,12 @@ function buildSummaryForExport({
 
     return {
       summary: {
+        performanceBasis: generatedSummary.performanceBasis,
+        performanceMethodology: generatedSummary.performanceMethodology,
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
-        compatibilityStatus: generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible'
+        pricing: generatedSummary.pricing,
+        coolingAssessment: generatedSummary.compatibility.coolingAssessment,
+        compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')
       }
     };
   } catch (error) {

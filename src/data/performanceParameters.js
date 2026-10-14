@@ -1,3 +1,8 @@
+import { createSyntheticPerformanceParameter } from './synthetic-performance-profiles.js';
+import { replacementCatalog } from './catalogReplacements.js';
+import { marketRevalidationCatalog } from './market-revalidation-catalog.js';
+import { catalogV21 } from './catalog.v21.js';
+
 export const performanceParameters = [
   {
     componentId: 'cpu-ryzen-5-5500',
@@ -703,5 +708,156 @@ export const performanceParameters = [
     maxGpuLength: 330,
     airflowScore: 76,
     performanceScore: 74
+  },
+  {
+    componentId: 'ram-kingston-fury-16gb-ddr4-3600',
+    type: 'ram',
+    capacity: 16,
+    speed: 3600,
+    memoryType: 'DDR4',
+    performanceScore: 64,
+    gamingScore: 66,
+    productivityScore: 62,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ram-crucial-32gb-ddr4-3200',
+    type: 'ram',
+    capacity: 32,
+    speed: 3200,
+    memoryType: 'DDR4',
+    performanceScore: 72,
+    gamingScore: 70,
+    productivityScore: 78,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ram-kingston-fury-16gb-ddr5-5200',
+    type: 'ram',
+    capacity: 16,
+    speed: 5200,
+    memoryType: 'DDR5',
+    performanceScore: 70,
+    gamingScore: 72,
+    productivityScore: 70,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ssd-kingston-a400-960gb',
+    type: 'storage',
+    capacity: 960,
+    interface: 'SATA',
+    readSpeed: 500,
+    writeSpeed: 450,
+    performanceScore: 45,
+    gamingScore: 45,
+    productivityScore: 42,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ssd-samsung-970-evo-plus-250gb',
+    type: 'storage',
+    capacity: 250,
+    interface: 'M.2 NVMe',
+    readSpeed: 3500,
+    writeSpeed: 2300,
+    performanceScore: 68,
+    gamingScore: 66,
+    productivityScore: 68,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
+  },
+  {
+    componentId: 'ssd-samsung-980-pro-1tb',
+    type: 'storage',
+    capacity: 1000,
+    interface: 'M.2 NVMe',
+    readSpeed: 7000,
+    writeSpeed: 5000,
+    performanceScore: 88,
+    gamingScore: 86,
+    productivityScore: 90,
+    recommendedUse: [
+      'gaming',
+      'general',
+      'programming'
+    ]
   }
 ];
+
+// Internal illustrative scores only. No physical benchmark or FPS measurement.
+// Cooling accessories intentionally have no performance parameters.
+performanceParameters.push(...[...catalogV21, ...replacementCatalog, ...marketRevalidationCatalog].filter(c => ['ram', 'storage'].includes(c.category) && c.performanceModelStatus !== 'unavailable').map(component => {
+  const { specs } = component;
+  const score = component.category === 'ram'
+    ? Math.min(92, 50 + specs.capacityGb / 2 + (specs.speedMhz - 3200) / 200)
+    : Math.min(92, 50 + specs.readSpeedMbS / 200);
+  return {
+    componentId: component.id,
+    type: component.category,
+    capacity: specs.capacityGb,
+    ...(component.category === 'ram'
+      ? { speed: specs.speedMhz, memoryType: specs.memoryType }
+      : { interface: specs.interface, readSpeed: specs.readSpeedMbS, writeSpeed: specs.writeSpeedMbS }),
+    performanceScore: score,
+    gamingScore: score,
+    productivityScore: score,
+    scoreKind: 'internal-demonstrative',
+    scoreInputs: component.category === 'ram'
+      ? { capacityGb: specs.capacityGb, speedMhz: specs.speedMhz } : { readSpeedMbS: specs.readSpeedMbS },
+    scoreFormula: component.category === 'ram'
+      ? 'min(92, 50 + capacityGb / 2 + (speedMhz - 3200) / 200)' : 'min(92, 50 + readSpeedMbS / 200)',
+    scoreLimitations: 'Modelo interno simplificado: não mede latência, controlador, durabilidade, temperatura ou desempenho sustentado. Taxas declaradas pelo fabricante não são medições.',
+    scoreDisclaimer: 'Índice interno demonstrativo; não é benchmark, medição de FPS ou ganho garantido',
+    recommendedUse: ['general', 'study', 'gaming', 'programming']
+  };
+}));
+
+// Exact boards may use the already-defined internal chip-family model. This
+// does not measure the board, apply a factory-OC uplift, or verify board draw.
+performanceParameters.push(...marketRevalidationCatalog.filter(c => c.performanceFamilyId).map(component => {
+  const family = performanceParameters.find(parameter => parameter.componentId === component.performanceFamilyId);
+  return { ...family, componentId: component.id,
+    vram: component.specs.vramGb, memoryType: component.specs.memoryType,
+    tdp: component.id === 'gpu-msi-rtx-4060-ventus-2x-black-8g-oc' ? 120 : component.powerReference?.watts,
+    tdpBasis: component.id === 'gpu-msi-rtx-4060-ventus-2x-black-8g-oc'
+      ? 'Limite conservador de planejamento: MSI informa 115 W ou 120 W; revisão não diferenciada.'
+      : 'Referência declarada para a família do chip; não é consumo medido ou máximo verificado desta placa.',
+    scoreKind: 'internal-family-estimate', performanceFamilyId: component.performanceFamilyId,
+    scoreDisclaimer: 'Modelo interno da família do chip; sem benchmark desta placa e sem ganho presumido por overclock.' };
+}));
+
+// Existing simulator calibration is explicitly identified; a newly supplied score
+// (including a measured score) does not inherit this simulation permission.
+for (const parameter of performanceParameters) {
+  if (['cpu', 'gpu', 'ram', 'storage'].includes(parameter.type)) {
+    parameter.simulationSupported = true;
+    parameter.simulationProfileVersion = 'catalog-simulator-v1';
+  }
+}
+
+// Explicit score-only fallback profiles; existing calibrated parameters take precedence.
+for (const component of marketRevalidationCatalog) {
+  if (performanceParameters.some(parameter => parameter.componentId === component.id)) continue;
+  const provisional = createSyntheticPerformanceParameter(component);
+  if (provisional) performanceParameters.push(provisional);
+}

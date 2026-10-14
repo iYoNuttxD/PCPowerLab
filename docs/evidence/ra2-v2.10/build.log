@@ -1,0 +1,6 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: npm run build --prefix frontend
+Exit: 0
+Production build completed. The existing bundle-size advisory above 500 kB remains; it was not suppressed.

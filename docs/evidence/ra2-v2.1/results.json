@@ -1,0 +1,42 @@
+{
+  "stage": "v2.1",
+  "dateUtc": "2026-10-08",
+  "baseCommit": "341691e5c7d3b7d1e59c7783df67c340c51b7f1e",
+  "node": {
+    "total": 307,
+    "passed": 307,
+    "failed": 0,
+    "skipped": 0,
+    "backend": 300,
+    "frontendHelpersIncluded": 7
+  },
+  "backendLint": "passed",
+  "frontendLint": "passed",
+  "frontendBuild": "passed",
+  "bundleJsKb": 809.47,
+  "bundleGzipKb": 243.22,
+  "browser": {
+    "e2eDiscovered": 94,
+    "integrationDiscovered": 15,
+    "executed": 0,
+    "status": "not-run: prior Chromium socket Operation not permitted; no restriction bypass attempted"
+  },
+  "inventory": {
+    "total": 98,
+    "ram": 21,
+    "storage": 21,
+    "cooler": 5,
+    "fan": 4,
+    "performanceParameters": 89,
+    "searchLinks": 490
+  },
+  "logSha256": {
+    "backend-lint.log": "00a1410729738001691fd099113ef497f70d3d45850189a1f0d6443da5a77861",
+    "e2e-discovery.log": "e967b0c8f739fe3e41b2b44b56a6e429a5182504a38af38d6f9a3b1de79c3c1c",
+    "frontend-build.log": "dfe0f2182c3deac4e872c237ae2f7b00825bffe6870dc941f6acb79fd534d66e",
+    "frontend-helpers.log": "d3f8e6bc2d329e76b5581cc4c18c2cd797bffea2bce0e370ab096a6098924de5",
+    "frontend-lint.log": "6f0565483d6b3ff4aae74314c9cbbef1e8f11a6deea596661a209515247232cb",
+    "integration-discovery.log": "abe668775f9294395a4d6504c5ee60840809bd3cb1bbda8064c3095d57bb5eef",
+    "node-tests.log": "73431fa315dfb9a9d3884f73450716728230314479549f569b80060a3046497b"
+  }
+}

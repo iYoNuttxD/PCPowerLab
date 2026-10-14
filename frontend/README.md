@@ -1,5 +1,7 @@
 # PCPowerLab Frontend
 
+> [Consolidação técnica atual](../docs/RA2-CONSOLIDACAO-FINAL.md): **NÃO HOMOLOGADA**. Suíte real em ef7f: 267 E2E aprovados, 1 skip e 18 integrações aprovadas. Delta ac27 conferido em cinco larguras; consolidação visual/cores/zoom pendente. Registros V2.5–V2.12 abaixo são históricos; SSR/handlers não substituem navegador.
+
 Interface web do PCPowerLab, criada com Vite + React para consumir a API REST local do projeto.
 
 ## Tecnologias
@@ -14,7 +16,7 @@ Interface web do PCPowerLab, criada com Vite + React para consumir a API REST lo
 
 ## Pré-requisitos
 
-- Node.js 18 ou superior
+- Node.js 22.12 ou superior
 - Backend do PCPowerLab rodando em `http://localhost:3000/api/v1`
 
 ## Instalação
@@ -49,6 +51,51 @@ http://localhost:5173
 npm run build
 npm run preview
 ```
+
+## Testes de interface
+
+Os testes E2E usam Playwright em desktop e celular. As respostas da API são controladas pelos testes, sem depender do backend nem gravar dados nele. O servidor Vite de teste inicia automaticamente na porta 4173, que deve estar livre.
+
+```bash
+cd frontend # a partir da raiz do repositório
+npm ci
+npx playwright install chromium
+npm test
+npm run lint
+```
+
+Para usar uma instalação local do Google Chrome: `PLAYWRIGHT_CHANNEL=chrome npm test` (PowerShell: `$env:PLAYWRIGHT_CHANNEL='chrome'; npm test`). Falhas geram screenshot e trace em `test-results/`, ignorado pelo Git. Não há retries automáticos.
+
+A suíte cobre avanço e retorno, bloqueios e validação, substituição sem perda de peças, persistência da etapa, navegação entre páginas, foco e rolagem com movimento reduzido, falhas de API, respostas tardias e aplicação/salvamento de recomendações. Os testes de regras técnicas do backend continuam na raiz: `npm test`.
+
+Também inclui `tests/e2e/performance-lab.spec.js`: simulação de um jogo, comparação de 2 a 10 jogos, contratos das APIs, classificações e requisitos, carregamento, parâmetros ausentes, recuperação de erros, respostas tardias, navegação por teclado e explicações dos painéis técnicos. Veja as decisões e evidências em [RA2 — Análises e simulação de jogos](../docs/RA2-CICLO2-ANALISES.md).
+
+`tests/e2e/catalog.spec.js` cobre filtros combinados, comparação de peças, imagens e fallbacks, preços estimados e substituição no resumo com prévia da API, incompatibilidade, orçamento excedido, falhas, respostas tardias e preservação da montagem. O mesmo comando executa todas as suítes em desktop e celular. Diagnóstico, fontes dos dados, implementação e limites estão em [RA2 — Catálogo e substituição de peças](../docs/RA2-CICLO2-CATALOGO.md).
+
+## Validação integrada do Ciclo 2
+
+`tests/e2e/qa-regressions.spec.js` acrescenta cenários de respostas atrasadas, invalidação de estimativas, recuperação de builds após carregar o catálogo, falhas sem rejeições não tratadas, comparação coerente e nova tentativa de recomendação sem alterar o orçamento.
+
+A suíte abaixo usa o **frontend compilado e a API Express real**, sem interceptar os endpoints, nas resoluções 1440×900, 768×1024 e 390×844:
+
+```bash
+# A partir da raiz; dependências da raiz e do frontend devem estar instaladas.
+PLAYWRIGHT_CHANNEL=chrome npm run test:integration --prefix frontend
+```
+
+Sem Chrome local, remova `PLAYWRIGHT_CHANNEL=chrome` e instale o Chromium do Playwright. A porta 3187 deve estar livre: o teste recusa reutilizar um servidor existente. O backend de teste mantém seus próprios dados em memória, usa senha administrativa aleatória temporária e encerra ao terminar. Não utiliza a senha administrativa do desenvolvedor. Traces ficam desativados nesta suíte para não registrar credenciais; capturas e anexos ficam em `frontend/integration-test-results/`, ignorado pelo Git. Não há retries.
+
+Os cinco cenários percorrem montagem manual, orçamento, compatibilidade, salvamento/recuperação, comparação, lojas, recomendações, substituição, simulações de jogos/software, upgrades, catálogo, navegação e autenticação/administração. As asserções verificam resultados e invariantes, incluindo a preservação das outras seis peças e a diferença de FPS estimado ao aumentar a resolução.
+
+Auditoria visual e axe opcional, após compilar o frontend, com uma cópia local de `axe-core` (validada com 4.14.0):
+
+```bash
+PCPOWERLAB_AXE_PATH=/caminho/axe-core/axe.min.js PLAYWRIGHT_CHANNEL=chrome node frontend/scripts/qa-visual.mjs
+```
+
+O script inicia outro backend isolado em porta temporária, verifica 48 estados/resoluções e grava capturas e `visual-a11y.json` em `frontend/audit-test-results/`. `PCPOWERLAB_QA_OUTPUT` permite escolher outra pasta, relativa à raiz. Itens de contraste `incomplete` precisam de inspeção complementar; ausência de violações automáticas não certifica acessibilidade.
+
+Parecer, achados corrigidos, evidências e roteiro com participantes: [Revisão e validação do Ciclo 2](../docs/RA2-CICLO2-REVISAO-E-VALIDACAO.md).
 
 ## Estrutura
 
@@ -99,10 +146,10 @@ As telas atuais já consomem visualmente os endpoints das Sprints 4, 5 e 6 para 
 ## Telas implementadas
 
 - `/` Home retro-arcade com CTAs.
-- `/components` catálogo de componentes com busca, filtros e links de compra.
+- `/components` catálogo com busca, filtros por categoria/marca/preço estimado, imagens opcionais, comparação de peças e links de busca em lojas.
 - `/build` wizard completo de montagem.
-- `/summary` resumo final com compatibilidade, gargalos, simulação, orçamento, nota geral, relatório técnico, exportação JSON, sugestões de correção, salvamento e compartilhamento.
-- `/performance-lab` simulação em softwares profissionais e comparação de desempenho entre jogos.
+- `/summary` resumo final com substituição de peças verificada pela API, compatibilidade, gargalos, simulação, orçamento, nota geral, relatório técnico, exportação JSON, sugestões de correção, salvamento e compartilhamento.
+- `/performance-lab` simulação de um jogo, comparação entre jogos e simulação em softwares profissionais.
 - `/compare` comparação de builds.
 - `/insights` ranking de custo-benefício e CRUD de perfis personalizados de uso.
 - `/ready-builds` consulta de builds prontas e recomendação de builds completas por faixa de orçamento.
@@ -167,7 +214,7 @@ A análise principal segue esta ordem:
 3. `POST /budget`
 4. `POST /bottlenecks/analyze`, somente quando a build estiver compatível e sem alertas críticos.
 
-Quando a build é incompatível, o painel de gargalos fica indisponível e orienta o usuário a corrigir a compatibilidade antes de analisar desempenho. Quando `/bottlenecks/analyze` retorna `400` por parâmetros insuficientes, a UI trata como estado controlado, mostra a mensagem do backend e direciona para `/admin` para cadastro dos parâmetros de desempenho.
+Quando a build é incompatível, o painel de gargalos fica indisponível e orienta o usuário a corrigir a compatibilidade antes de analisar desempenho. Quando `/bottlenecks/analyze` retorna `400` por parâmetros insuficientes, a UI trata como estado controlado e mostra a mensagem do backend. O cadastro de parâmetros continua disponível ao administrador pelo acesso direto a `/admin`, protegido no backend.
 
 Para testar rapidamente:
 
@@ -197,4 +244,36 @@ Limitações atuais:
 
 - Melhorar code splitting conforme o app crescer.
 - Evoluir gráficos e comparação visual.
-- Adicionar testes automatizados de interface.
+- Ampliar a cobertura automatizada conforme novos fluxos forem implementados.
+
+## Auditoria v2.5 sem navegador
+
+A auditoria e as limitações estão em [RA2 V2.5](../docs/RA2-V2.5-AUDITORIA-UX.md). Além de `npm test` na raiz, estes checks executam React SSR e handlers isolados, sem provar layout, foco ou interação de browser:
+
+```bash
+node frontend/scripts/check-page-audit.mjs
+node frontend/scripts/check-chart-render.mjs
+node frontend/scripts/check-navigation-wizard.mjs
+node frontend/scripts/check-simulation-states.mjs
+```
+
+Os caminhos acima são relativos à raiz. `scripts/qa-visual.mjs` prepara captura de todas as telas em 1440, 1024, 768, 390 e 320 px; exige build, Chromium autorizado e `PCPOWERLAB_AXE_PATH`. Não foi executado nesta etapa por bloqueios do ambiente. Casos Playwright coletados não contam como casos executados.
+
+## Estado final v2.9 e limites de validação
+
+`npm test` na raiz inclui os testes Node frontend, inclusive o total em centavos e renderização SSR do orçamento exato. `npm test` dentro de frontend usa Playwright: na auditoria final houve somente coleta, não execução. O caso de foto inválida agora usa registros com IDs válidos; snapshot sem ID tem cenário separado.
+
+As telas compartilham catálogo/identidade/mídia, troca individual e estado da montagem. Mudanças invalidam análises, e respostas antigas são descartadas. Upgrade aberto de uma build salva transporta `buildId`; erro/ausência não muda silenciosamente para a montagem global.
+
+Os 14 scripts `scripts/check-*.mjs` exercitam SSR/handlers e condições assíncronas controladas. A API real é coberta na raiz por `scripts/check-profile-journeys.mjs` e `scripts/check-quality-production.mjs`; nenhum desses executa React DOM. Na etapa v2.9, larguras 1440/1024/768/390/320, teclado/foco/rolagem reais, axe e screenshots permaneceram pendentes. Evidências posteriores não são retroativas e o reteste da união final continua separado.
+
+Cobertura atual de fotos: 81/81 ativos, sendo 71 de modelo exato e 10 de família visual. Créditos, escopo visual e variantes ficam em detalhes opcionais; veja [v2.11](../docs/RA2-V2.11-FOTOS-E-UI.md). Referências de preço não são cotações; simulações não são benchmarks. Leituras/regravações de estado feitas por helpers não provam reload real, múltiplas abas ou persistência após reinício do backend.
+
+
+## Continuação v2.12
+
+Cards compactos, créditos em `/image-credits`, referências comerciais com link direto e identificação de variante/exemplo. Preços ausentes deixam o orçamento pendente com subtotal conhecido, preservando análise técnica e salvamento. [Escopo e limites](../docs/RA2-V2.12-SIMPLICIDADE-PRECOS.md). O reteste visual deve corresponder ao SHA publicado desta continuação.
+
+## Proveniência das pontuações
+
+Catálogo, comparação, ranking e resultados mostram “Pontuação simulada” quando a base é um modelo interno ou provisório. Perfis provisórios são score-only: FPS/software indisponíveis permanecem vazios, inclusive em comparações com respostas antigas. [Contrato](../docs/RA2-SYNTHETIC-PERFORMANCE.md).

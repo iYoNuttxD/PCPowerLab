@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-page-audit.mjs
+Exit: 0
+
+Additional internal checks passed; diagnostic details are not published.

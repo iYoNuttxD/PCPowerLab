@@ -30,18 +30,20 @@ function revalidateSavedBuildRecord(savedBuild) {
       return {
         buildId: savedBuild.id,
         status: 'compatible',
+        coolingAssessment: compatibilityResult.coolingAssessment,
         notificationsCreated: 0,
         notifications: []
       };
     }
 
-    return buildIncompatibleResult(savedBuild, compatibilityResult.alerts);
+    return { ...buildIncompatibleResult(savedBuild, compatibilityResult.alerts, compatibilityResult.status),
+      coolingAssessment: compatibilityResult.coolingAssessment };
   } catch (error) {
     return buildIncompatibleResult(savedBuild, [buildCompatibilityErrorAlert(error)]);
   }
 }
 
-function buildIncompatibleResult(savedBuild, alerts) {
+function buildIncompatibleResult(savedBuild, alerts, status = 'incompatible') {
   const notificationResults = alerts.map((alert) => createNotification({
     buildId: savedBuild.id,
     type: compatibilityChangedType,
@@ -52,7 +54,7 @@ function buildIncompatibleResult(savedBuild, alerts) {
 
   return {
     buildId: savedBuild.id,
-    status: 'incompatible',
+    status,
     notificationsCreated: notificationResults.filter((result) => result.created).length,
     notifications: notificationResults.map((result) => result.notification)
   };
@@ -67,5 +69,5 @@ function buildCompatibilityErrorAlert(error) {
 }
 
 function buildNotificationMessage(alert) {
-  return `A configuração salva passou a apresentar incompatibilidade: ${alert.message}`;
+  return `A configuração salva tem um ponto de compatibilidade para revisão: ${alert.message}`;
 }

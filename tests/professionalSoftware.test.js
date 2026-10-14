@@ -100,7 +100,7 @@ test('deve retornar erro controlado quando build estiver incompleta', () => {
   );
 });
 
-test('deve retornar erro controlado quando faltarem parametros de desempenho', () => {
+test('deve retornar indisponibilidade estruturada quando faltarem parametros de desempenho', () => {
   createAdminComponent({
     id: 'cpu-test-software-no-score',
     name: 'CPU Test Software Sem Score',
@@ -114,19 +114,15 @@ test('deve retornar erro controlado quando faltarem parametros de desempenho', (
     tdp: 65
   });
 
-  assert.throws(
-    () => simulateProfessionalSoftwarePerformance({
+  const result = simulateProfessionalSoftwarePerformance({
       softwareId: 'software-adobe-premiere-pro',
       build: {
         ...professionalBuild,
         cpuId: 'cpu-test-software-no-score'
       }
-    }),
-    (error) => {
-      assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Parametros de desempenho insuficientes para simulacao em software profissional.');
-      assert.equal(error.errors.some((message) => message.includes('cpu')), true);
-      return true;
-    }
-  );
+    });
+  assert.equal(result.available, false);
+  assert.equal(result.reason, 'performance_model_unavailable');
+  assert.deepEqual(result.componentsWithoutPerformanceModel, ['cpu-test-software-no-score']);
+  assert.equal(result.performanceScore, null);
 });

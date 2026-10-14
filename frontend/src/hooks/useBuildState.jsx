@@ -1,33 +1,23 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { buildToApiPayload, calculateBuildPrice } from '../utils/buildHelpers.js';
+import { isSelectableComponent } from '../utils/catalogAvailability.js';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, recommendationSelection } from '../utils/buildHelpers.js';
+import { normalizeWizardStep } from '../utils/wizardSteps.js';
 
-const storageKey = 'pcpowerlab-build-state';
+import { useComponents } from './useComponents.js';
+import { reconcileBuildCatalog, emptyResults, changeSelection, replaceBuildComponent, undoBuildReplacement, analyzedResults } from '../utils/buildTransitions.js';
 
-const initialState = {
-  selectedComponents: {},
-  budget: {
-    amount: '',
-    currency: 'BRL',
-    priority: 'cost-benefit'
-  },
-  usageType: 'gaming',
-  game: {
-    gameId: 'game-cyberpunk-2077',
-    targetResolution: '1080p',
-    qualityPreset: 'high'
-  },
-  compatibility: null,
-  alerts: null,
-  bottlenecks: null,
-  recommendation: null,
-  gamePerformance: null,
-  summary: null
-};
+import { buildStorageKey as storageKey, initialBuildState as initialState, readPersistedBuild } from '../utils/buildPersistence.js';
 
 const BuildContext = createContext(null);
 
 export function BuildProvider({ children }) {
   const [state, setState] = useState(() => loadInitialState());
+  const catalog = useComponents();
+  const currentCatalog = useRef(null);
+  if (!catalog.loading && !catalog.error) currentCatalog.current = catalog.componentMap;
+  useEffect(() => {
+    if (!catalog.loading && !catalog.error) setState(current => reconcileBuildCatalog(current, catalog.componentMap));
+  }, [catalog.componentMap, catalog.loading, catalog.error]);
 
   useEffect(() => {
     try {
@@ -38,49 +28,63 @@ export function BuildProvider({ children }) {
   }, [state]);
 
   const actions = useMemo(() => ({
+    setWizardStep(step) {
+      setState((current) => ({ ...current, wizardStep: normalizeWizardStep(step) }));
+    },
+    setCoolingConditions(conditions) {
+      // Local what-if inputs do not change the purchased build or its API analyses.
+      // The pure thermal/acoustic model recomputes directly from these inputs.
+      setState(current => ({ ...current, coolingConditions: { ...current.coolingConditions, ...conditions } }));
+    },
     selectComponent(type, component) {
-      setState((current) => ({
-        ...current,
-        selectedComponents: {
-          ...current.selectedComponents,
-          [type]: component
-        }
-      }));
+      component = currentCatalog.current?.[component?.id] || component;
+      if (!isSelectableComponent(component)) return;
+      setState(current => current.selectedComponents[type]?.id === component?.id ? current
+        : changeSelection(current, { ...current.selectedComponents, [type]: component }));
+    },
+    replaceComponent(type, component, summary, expectedRevision) {
+      setState(current => replaceBuildComponent(current, type, component, summary, expectedRevision));
+    },
+    undoReplacement() {
+      setState(undoBuildReplacement);
+    },
+    setAnalyzedSummary(summary, expectedRevision) {
+      setState(current => current.revision === expectedRevision ? { ...current, ...analyzedResults(summary) } : current);
+    },
+    setFans(fans) {
+      const currentFans = hydrateBuildComponents({ fans }, currentCatalog.current || {}, { preferCatalog: true }).fans;
+      setState(current => changeSelection(current, { ...current.selectedComponents, fans: currentFans }));
     },
     removeComponent(type) {
-      setState((current) => {
+      setState(current => {
+        if (!current.selectedComponents[type]) return current;
         const nextComponents = { ...current.selectedComponents };
         delete nextComponents[type];
-
-        return {
-          ...current,
-          selectedComponents: nextComponents
-        };
+        return changeSelection(current, nextComponents);
       });
     },
     setBudget(budget) {
-      setState((current) => ({
-        ...current,
-        budget: {
-          ...current.budget,
-          ...budget
-        }
-      }));
+      setState((current) => {
+        const nextBudget = { ...current.budget, ...budget };
+        const changed = Number(nextBudget.amount) !== Number(current.budget.amount)
+          || nextBudget.currency !== current.budget.currency
+          || nextBudget.priority !== current.budget.priority;
+        return { ...current, ...(changed ? { ...emptyResults, revision: current.revision + 1 } : {}), budget: nextBudget };
+      });
     },
     setUsageType(usageType) {
       setState((current) => ({
         ...current,
+        ...(current.usageType !== usageType ? { ...emptyResults, revision: current.revision + 1 } : {}),
         usageType
       }));
     },
     setGame(game) {
-      setState((current) => ({
-        ...current,
-        game: {
-          ...current.game,
-          ...game
-        }
-      }));
+      setState((current) => {
+        const nextGame = { ...current.game, ...game };
+        const changed = Object.keys(nextGame).some(key => nextGame[key] !== current.game[key]);
+        return { ...current, game: nextGame, ...(changed ? { gamePerformance: null, summary: null, revision: current.revision + 1 } : {}) };
+      });
     },
     setResult(key, value) {
       setState((current) => ({
@@ -89,7 +93,7 @@ export function BuildProvider({ children }) {
       }));
     },
     clearBuild() {
-      setState(initialState);
+      setState(current => ({ ...initialState, revision: current.revision + 1 }));
       try {
         localStorage.removeItem(storageKey);
       } catch (_error) {
@@ -98,32 +102,28 @@ export function BuildProvider({ children }) {
     },
     loadSavedBuild(savedBuild, componentMap = {}) {
       const components = savedBuild?.components || {};
-      const selectedComponents = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'].reduce((selection, type) => {
-        const id = components[type] || components[`${type}Id`];
-
-        return id
-          ? { ...selection, [type]: componentMap[id] || { id } }
-          : selection;
-      }, {});
+      const hydrated = hydrateBuildComponents(components, currentCatalog.current ?? componentMap, { preferCatalog: true });
+      const selectedComponents = currentCatalog.current ? reconcileBuildCatalog({ selectedComponents: hydrated, replacementHistory: [], revision: 0 }, currentCatalog.current).selectedComponents : hydrated;
 
       setState((current) => ({
-        ...current,
+        ...changeSelection(current, selectedComponents, { remember: false }),
+        wizardStep: 'cpu',
         selectedComponents,
-        budget: savedBuild?.budget || current.budget,
-        usageType: savedBuild?.usageType || current.usageType
+        budget: { ...initialState.budget, ...(savedBuild?.budget || {}) },
+        usageType: savedBuild?.usageType || current.usageType,
+        coolingConditions: { ...initialState.coolingConditions }
       }));
     },
-    applyRecommendation(recommendation) {
-      setState((current) => ({
-        ...current,
-        selectedComponents: recommendation?.components || {},
-        recommendation
-      }));
+    applyRecommendation(recommendation, { replaceCooling = false } = {}) {
+      setState(current => changeSelection(current,
+        hydrateBuildComponents(recommendationSelection(current.selectedComponents, recommendation?.components || {}, replaceCooling), currentCatalog.current || {}, { preferCatalog: true })));
+
     }
   }), []);
 
   const value = useMemo(() => ({
     ...state,
+    canUndo: Boolean(state.replacementHistory?.length),
     totalPrice: calculateBuildPrice(state.selectedComponents),
     buildPayload: buildToApiPayload(state.selectedComponents),
     actions
@@ -148,12 +148,9 @@ export function useBuildState() {
 
 function loadInitialState() {
   try {
-    const stored = JSON.parse(localStorage.getItem(storageKey));
-
-    return stored && typeof stored === 'object'
-      ? { ...initialState, ...stored }
-      : initialState;
+    return readPersistedBuild(localStorage);
   } catch (_error) {
-    return initialState;
+    // Accessing localStorage itself may throw in privacy-restricted contexts.
+    return readPersistedBuild(null);
   }
 }

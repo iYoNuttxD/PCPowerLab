@@ -82,12 +82,14 @@ app.use(`${env.apiPrefix}/notifications`, notificationsRoutes);
 if (env.nodeEnv === 'production') {
   const frontendDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../frontend/dist');
   const serveFrontend = express.static(frontendDist);
+  const isApiPath = (requestPath) => ['/api', env.apiPrefix.replace(/\/$/, '')]
+    .some(prefix => requestPath === prefix || requestPath.startsWith(`${prefix}/`));
   app.use((req, res, next) => {
-    if (req.path === '/api' || req.path.startsWith('/api/')) return next();
+    if (isApiPath(req.path)) return next();
     return serveFrontend(req, res, next);
   });
   app.get('*', (req, res, next) => {
-    if (req.path === '/api' || req.path.startsWith('/api/')) return next();
+    if (isApiPath(req.path)) return next();
     return res.sendFile(path.join(frontendDist, 'index.html'), (error) => {
       if (error) next(error);
     });

@@ -1,3 +1,5 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { calculateBuildPerformanceScore } from '../utils/costBenefitUtils.js';
@@ -25,6 +27,8 @@ export function calculateBuildScore(input) {
     listPerformanceParameters().map((parameter) => [parameter.componentId, parameter])
   );
   const warnings = [];
+  const priceAvailable = summary.totalEstimatedPrice !== null;
+  if (!priceAvailable) warnings.push('Nota geral e custo-benefício indisponíveis: há componentes sem preço de referência. Os critérios técnicos continuam disponíveis.');
   const criteria = {
     compatibilityScore: calculateCompatibilityScore(summary.compatibility),
     performanceScore: calculatePerformanceCriterion({
@@ -35,17 +39,20 @@ export function calculateBuildScore(input) {
     }),
     balanceScore: calculateBalanceScore(summary.bottlenecks, warnings),
     budgetScore: calculateBudgetScore(summary.budgetStatus, warnings),
-    costBenefitScore: calculateCostBenefitCriterion({
+    costBenefitScore: priceAvailable ? calculateCostBenefitCriterion({
       components: summary.components,
       performanceByComponentId,
       usageType
-    })
+    }) : null
   };
-  const overallScore = calculateWeightedOverallScore(criteria);
+  const available = priceAvailable && Object.values(criteria).every(Number.isFinite);
+  const overallScore = available ? calculateWeightedOverallScore(criteria) : null;
 
   return removeEmptyFields({
+    ...performanceMetadata(summary.components, performanceByComponentId),
     overallScore,
-    classification: classifyBuildScore(overallScore),
+    classification: available ? classifyBuildScore(overallScore) : 'Indisponível',
+    available,
     criteria,
     summary: buildScoreSummary({
       compatibility: summary.compatibility,
@@ -56,8 +63,10 @@ export function calculateBuildScore(input) {
     warnings,
     source: {
       totalEstimatedPrice: summary.totalEstimatedPrice,
+      pricing: summary.pricing,
       compatible: summary.compatibility.compatible,
-      hasBottleneck: summary.bottlenecks?.hasBottleneck === true,
+      coolingAssessment: summary.compatibility.coolingAssessment,
+      hasBottleneck: bottleneckVerdict(summary.bottlenecks),
       budgetStatus: summary.budgetStatus?.status
     }
   });
@@ -97,14 +106,19 @@ function calculatePerformanceCriterion({
     warnings.push(`Parâmetros de desempenho ausentes para: ${missingSlots.join(', ')}.`);
   }
 
-  return clampScore(calculateBuildPerformanceScore(components, performanceByComponentId, usageType));
+  const score = calculateBuildPerformanceScore(components, performanceByComponentId, usageType);
+  if (score === null) {
+    warnings.push('Estimativa de desempenho indisponível.');
+    return null;
+  }
+  return clampScore(score);
 }
 
 function calculateBalanceScore(bottlenecks, warnings) {
   if (bottlenecks?.available === false) {
     warnings.push('Análise de gargalos indisponível para os dados informados.');
 
-    return 50;
+    return null;
   }
 
   const bottleneckSummary = summarizeBottlenecks(bottlenecks);
@@ -114,6 +128,10 @@ function calculateBalanceScore(bottlenecks, warnings) {
 }
 
 function calculateBudgetScore(budgetStatus, warnings) {
+  if (budgetStatus?.status === 'unavailable') {
+    warnings.push('Critério de orçamento indisponível: o subtotal conhecido não representa o total.');
+    return null;
+  }
   if (!budgetStatus) {
     warnings.push('Orçamento não informado; critério de orçamento calculado com nota neutra.');
 
@@ -137,11 +155,8 @@ function calculateBudgetScore(budgetStatus, warnings) {
 }
 
 function calculateCostBenefitCriterion({ components, performanceByComponentId, usageType }) {
-  return clampScore(Math.min(calculateBuildCostBenefitScore({
-    components,
-    performanceByComponentId,
-    usageType
-  }), 80));
+  const score = calculateBuildCostBenefitScore({ components, performanceByComponentId, usageType });
+  return score === null ? null : clampScore(Math.min(score, 80));
 }
 
 function normalizeOptionalText(value) {

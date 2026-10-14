@@ -2,8 +2,13 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Layers3 } from 'lucide-react';
 import { featureHighlights } from '../App.jsx';
 import Card from '../components/ui/Card.jsx';
+import { useBuildState } from '../hooks/useBuildState.jsx';
 
 export default function Home() {
+  const { selectedComponents, wizardStep, budget } = useBuildState();
+  const hasProgress = Object.values(selectedComponents).some(component => Array.isArray(component) ? component.length > 0 : Boolean(component))
+    || wizardStep !== 'cpu' || Number(budget.amount) > 0;
+
   return (
     <div className="home-page">
       <section className="hero">
@@ -15,15 +20,17 @@ export default function Home() {
             e receba recomendações claras antes de investir nas peças.
           </p>
           <div className="button-row">
-            <Link className="btn btn-primary btn-md" to="/build">Montar meu PC <ArrowRight size={18} /></Link>
+            <Link className="btn btn-primary btn-md" to="/build">{hasProgress ? 'Continuar montagem' : 'Montar meu PC'} <ArrowRight size={18} aria-hidden="true" /></Link>
             <Link className="btn btn-secondary btn-md" to="/components">Ver componentes</Link>
+            <Link className="btn btn-ghost btn-md" to="/ready-builds">Explorar builds prontas</Link>
           </div>
         </div>
         <div className="hero-console" aria-hidden="true">
           <Layers3 size={64} />
           <div className="console-screen">
-            <span>CPU + GPU SYNC</span>
-            <strong>98%</strong>
+            <span>CPU + GPU</span>
+            <strong>PC</strong>
+            <span>Exemplo ilustrativo</span>
           </div>
           <div className="scan-lines" />
         </div>

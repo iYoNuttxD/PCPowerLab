@@ -1,3 +1,7 @@
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
+import { isNonEmptyTextArray } from '../models/component.model.js';
+import { serializeBuildSelection } from './build.service.js';
+import { getCoolingPower } from './cooling.service.js';
 import { checkBuildCompatibility } from './compatibility.service.js';
 import { listComponents } from './component.service.js';
 
@@ -24,7 +28,11 @@ export function suggestCompatibilityFixes(selectedComponents) {
   const originalAlertCodes = new Set(compatibilityResult.alerts.map((alert) => alert.code));
 
   return {
+    methodology: buildDecisionMethodology({ performanceUsed: false, fallbackScore: null, ranking: 'Ate tres alternativas do catalogo por problema; remove o alerta alvo sem adicionar codigos de alerta e rejeita verificacoes pendentes. Nao ordena por menor preco nem garante resolver outros alertas existentes.' }),
     compatible: compatibilityResult.compatible,
+    status: compatibilityResult.status,
+    coolingAssessment: compatibilityResult.coolingAssessment,
+    unverifiedChecks: compatibilityResult.unverifiedChecks ?? [],
     issues: compatibilityResult.alerts.map(formatIssue),
     suggestions: compatibilityResult.alerts.flatMap((alert) => (
       buildSuggestionsForAlert(alert, compatibilityResult.selectedComponents, originalAlertCodes)
@@ -59,7 +67,8 @@ function buildSuggestionsForAlert(alert, build, originalAlertCodes) {
         .slice(0, remainingSuggestions)
         .map((candidate) => ({
           component: candidate,
-          reason: option.buildReason(candidate)
+          reason: `${option.buildReason(candidate)} Avaliacao pelas especificacoes e regras do catalogo.`,
+          priceBasis: 'catalog_reference_estimate'
         }));
 
       remainingSuggestions -= suggestedComponents.length;
@@ -141,7 +150,8 @@ function buildCaseFormFactorOptions(build) {
     {
       replaceComponent: 'case',
       candidates: listComponents({ category: 'case' })
-        .filter((computerCase) => computerCase.specs.supportedFormFactors.includes(build.motherboard.specs.formFactor)),
+        .filter((computerCase) => isNonEmptyTextArray(computerCase.specs.supportedFormFactors)
+          && computerCase.specs.supportedFormFactors.includes(build.motherboard.specs.formFactor)),
       buildReason: () => (
         `Este gabinete suporta placa-mae no formato ${build.motherboard.specs.formFactor}.`
       )
@@ -186,7 +196,8 @@ function isValidFixCandidate({
   const candidateResult = checkBuildCompatibility(mapBuildToIds(candidateBuild));
   const candidateAlertCodes = candidateResult.alerts.map((candidateAlert) => candidateAlert.code);
 
-  return !candidateAlertCodes.includes(alertCode)
+  return !(candidateResult.unverifiedChecks?.length)
+    && !candidateAlertCodes.includes(alertCode)
     && candidateAlertCodes.every((candidateAlertCode) => originalAlertCodes.has(candidateAlertCode));
 }
 
@@ -198,14 +209,12 @@ function formatIssue(alert) {
 }
 
 function mapBuildToIds(build) {
-  return Object.fromEntries(
-    Object.entries(build).map(([slot, component]) => [slot, component.id])
-  );
+  return serializeBuildSelection(build);
 }
 
 function calculateMinimumRecommendedWatts(build) {
   const cpuTdp = build.cpu.specs.tdpWatts || 0;
   const gpuRecommendedPsu = build.gpu.specs.recommendedPsuWatts || 0;
 
-  return Math.max(gpuRecommendedPsu, cpuTdp + 350);
+  return Math.max(gpuRecommendedPsu, cpuTdp + 350) + getCoolingPower(build).knownWatts;
 }

@@ -1,0 +1,416 @@
+{
+  "sourceCommit": "75cd9836dcdb6bf7074ffe591c82614cc439ccf2",
+  "components": [
+    {
+      "id": "mb-asus-prime-b650m-a",
+      "name": "ASUS Prime B650M-A",
+      "brand": "ASUS",
+      "category": "motherboard",
+      "partNumber": null,
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "mATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ]
+      },
+      "price": null,
+      "performanceScore": 82
+    },
+    {
+      "id": "ssd-samsung-970-evo-plus-1tb",
+      "name": "Samsung 970 EVO Plus 1TB NVMe",
+      "brand": "Samsung",
+      "category": "storage",
+      "partNumber": null,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 3300
+      },
+      "price": null,
+      "performanceScore": 76
+    },
+    {
+      "id": "ssd-samsung-980-pro-2tb",
+      "name": "Samsung 980 Pro 2TB NVMe",
+      "brand": "Samsung",
+      "category": "storage",
+      "partNumber": null,
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 5100
+      },
+      "price": null,
+      "performanceScore": 90
+    },
+    {
+      "id": "case-montech-air-903-base",
+      "name": "Montech Air 903 Base",
+      "brand": "Montech",
+      "category": "case",
+      "partNumber": null,
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "maxGpuLengthMm": 400,
+        "maxCoolerHeightMm": 180,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 9
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 6
+          }
+        ],
+        "includedFanCount": 3,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Radiadores no topo/frente. Fans: topo 3×120/2×140; frente 3×120/3×140; PSU shroud 2×120; traseira 1×120/1×140. Não somar layouts alternativos."
+      },
+      "price": null,
+      "performanceScore": 82
+    },
+    {
+      "id": "ram-crucial-32gb-ddr4-3200",
+      "name": "Crucial 32GB DDR4-3200 UDIMM",
+      "brand": "Crucial",
+      "category": "ram",
+      "partNumber": "CT32G4DFD832A",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200
+      },
+      "price": null,
+      "performanceScore": 72
+    },
+    {
+      "id": "ssd-samsung-970-evo-plus-250gb",
+      "name": "Samsung 970 EVO Plus 250GB NVMe",
+      "brand": "Samsung",
+      "category": "storage",
+      "partNumber": "MZ-V7S250",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 250,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2300
+      },
+      "price": null,
+      "performanceScore": 68
+    },
+    {
+      "id": "ssd-samsung-980-pro-1tb",
+      "name": "Samsung 980 PRO 1TB NVMe",
+      "brand": "Samsung",
+      "category": "storage",
+      "partNumber": "MZ-V8P1T0",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 5000
+      },
+      "price": null,
+      "performanceScore": 88
+    },
+    {
+      "id": "ram-kf432c16bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR4-3200",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BBK2/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "price": null,
+      "performanceScore": 66
+    },
+    {
+      "id": "ram-kf432c16bbk2-64",
+      "name": "Kingston FURY Beast 64GB (2×32GB) DDR4-3200",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BBK2/64",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 64,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "price": null,
+      "performanceScore": 82
+    },
+    {
+      "id": "ram-kf436c18bbk2-32",
+      "name": "Kingston FURY Beast 32GB (2×16GB) DDR4-3600",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF436C18BBK2/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "price": null,
+      "performanceScore": 68
+    },
+    {
+      "id": "ram-cmk64gx5m2b6000c40",
+      "name": "Corsair Vengeance 64GB (2×32GB) DDR5-6000",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMK64GX5M2B6000C40",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 64,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "price": null,
+      "performanceScore": 92
+    },
+    {
+      "id": "ssd-samsung-870-evo-2000gb",
+      "name": "Samsung 870 EVO 2000GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "partNumber": "MZ-77E2T0",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "price": null,
+      "performanceScore": 52.8
+    },
+    {
+      "id": "ssd-samsung-870-evo-4000gb",
+      "name": "Samsung 870 EVO 4000GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "partNumber": "MZ-77E4T0",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 4000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "price": null,
+      "performanceScore": 52.8
+    },
+    {
+      "id": "cooler-noctua-nh-u12s-redux",
+      "name": "Noctua NH-U12S redux",
+      "brand": "Noctua",
+      "category": "cooler",
+      "partNumber": "NH-U12S redux",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155",
+          "LGA1156",
+          "LGA1200",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": 158,
+        "powerWatts": 1.08,
+        "powerBasis": "Potência máxima do único fan NF-P12 redux-1700 PWM",
+        "includedFanCount": 1,
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 71,
+          "width": 125,
+          "height": 158
+        }
+      },
+      "price": null,
+      "performanceScore": null
+    },
+    {
+      "id": "cooler-noctua-nh-l9a-am4",
+      "name": "Noctua NH-L9a-AM4",
+      "brand": "Noctua",
+      "category": "cooler",
+      "partNumber": "NH-L9a-AM4",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4"
+        ],
+        "heightMm": 37,
+        "powerWatts": null,
+        "includedFanCount": 1,
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 92,
+          "width": 114,
+          "height": 37
+        },
+        "compatibilityNotes": "Modelo AM4; não indicado pelo fabricante para CPUs com alta carga térmica. Conferir lista oficial de CPU."
+      },
+      "price": null,
+      "performanceScore": null
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-240",
+      "name": "ARCTIC Liquid Freezer III 240 Black",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00134A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "radiatorSizeMm": 240,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 277,
+          "width": 120,
+          "height": 38
+        },
+        "powerWatts": null,
+        "includedFanCount": 2,
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "connector": "4-pin PWM",
+        "compatibilityNotes": "Conferir interferência com M.2/VRM, espessura total e kit da revisão adquirida. Outros sockets requerem kit separado."
+      },
+      "price": null,
+      "performanceScore": null
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-360",
+      "name": "ARCTIC Liquid Freezer III 360 Black",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00136A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "radiatorSizeMm": 360,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 398,
+          "width": 120,
+          "height": 38
+        },
+        "powerWatts": null,
+        "includedFanCount": 3,
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "connector": "4-pin PWM",
+        "compatibilityNotes": "Conferir interferência com M.2/VRM, espessura total e kit da revisão adquirida. Outros sockets requerem kit separado."
+      },
+      "price": null,
+      "performanceScore": null
+    },
+    {
+      "id": "fan-noctua-nf-p12-redux-1700-pwm",
+      "name": "Noctua NF-P12 redux-1700 PWM",
+      "brand": "Noctua",
+      "category": "fan",
+      "partNumber": "NF-P12 redux-1700 PWM",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "connector": "4-pin PWM",
+        "powerWatts": 1.08,
+        "unitsPerPack": 1,
+        "powerBasis": "Máximo por fan publicado pelo fabricante"
+      },
+      "price": null,
+      "performanceScore": null
+    },
+    {
+      "id": "fan-arctic-p12-pwm-pst",
+      "name": "ARCTIC P12 PWM PST (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00120A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "connector": "4-pin PWM PST",
+        "powerWatts": 1.2,
+        "unitsPerPack": 1,
+        "powerBasis": "Por fan, calculado de corrente nominal 0,1 A × 12 V"
+      },
+      "price": null,
+      "performanceScore": null
+    },
+    {
+      "id": "fan-arctic-p12-pwm-pst-5-pack",
+      "name": "ARCTIC P12 PWM PST (kit 5 fans)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00137A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "connector": "4-pin PWM PST",
+        "powerWatts": 1.2,
+        "unitsPerPack": 5,
+        "powerBasis": "Por fan, calculado de corrente nominal 0,1 A × 12 V"
+      },
+      "price": null,
+      "performanceScore": null
+    }
+  ]
+}

@@ -1,10 +1,13 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { listComponents } from './component.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { componentCategories } from '../models/component.model.js';
 import {
   buildCostBenefitSummary,
   classifyCostBenefitScore,
-  getEstimatedPrice
+  getEstimatedPrice,
+  getPerformanceScore
 } from '../utils/costBenefitUtils.js';
 
 export function listComponentsByCostBenefit(filters = {}) {
@@ -12,6 +15,7 @@ export function listComponentsByCostBenefit(filters = {}) {
   const limit = normalizeLimit(filters.limit);
 
   const components = listComponents({ category });
+  if (['cooler', 'fan'].includes(category)) return [];
   const performanceByComponentId = new Map(
     listPerformanceParameters({ type: category }).map((parameter) => [parameter.componentId, parameter])
   );
@@ -53,8 +57,12 @@ function rankCategoryComponents(components, performanceByComponentId) {
 }
 
 function buildCostBenefitEntry(component, performanceParameter) {
+  if (['cooler', 'fan'].includes(component.category)) {
+    return null;
+  }
+
   const price = getEstimatedPrice(component);
-  const performanceScore = performanceParameter?.performanceScore;
+  const performanceScore = performanceParameter ? getPerformanceScore(component, performanceParameter) : null;
 
   if (!price || !Number.isFinite(performanceScore) || performanceScore <= 0) {
     return null;
@@ -71,12 +79,18 @@ function formatCostBenefitEntry(entry, maxRawScore) {
   const costBenefitScore = normalizeCostBenefitScore(entry.rawCostBenefitScore, maxRawScore);
 
   return {
+    ...performanceMetadata({ component: entry.component }),
     component: {
+      performanceMethodology: entry.component.performanceMethodology,
       id: entry.component.id,
       name: entry.component.name,
       category: entry.component.category,
-      price: entry.component.price
+      price: entry.component.price,
+      estimatedPrice: getEstimatedPrice(entry.component),
+      specs: entry.component.specs,
+      priceBasis: 'catalog_reference_estimate'
     },
+    methodology: buildDecisionMethodology({ scope: 'same_category_catalog_entries', fallbackScore: null, ranking: 'Indice simulado de desempenho dividido pelo preco estimado, normalizado pelo maior resultado da mesma categoria para 0–100. As posicoes sao relativas a categoria, nao ao mercado.' }),
     performanceScore: entry.performanceScore,
     costBenefitScore,
     classification: classifyCostBenefitScore(costBenefitScore),
@@ -111,7 +125,7 @@ function compareRankedComponents(componentA, componentB) {
     return componentB.performanceScore - componentA.performanceScore;
   }
 
-  return componentA.component.price - componentB.component.price;
+  return componentA.component.estimatedPrice - componentB.component.estimatedPrice;
 }
 
 function normalizeCategory(category) {

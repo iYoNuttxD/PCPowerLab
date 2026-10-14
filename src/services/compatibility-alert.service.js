@@ -69,15 +69,20 @@ export function checkBuildCompatibilityAlerts(selectedComponents) {
 
   return {
     compatible: compatibilityResult.compatible,
+    status: compatibilityResult.status,
+    unverifiedChecks: compatibilityResult.unverifiedChecks ?? [],
+    coolingPower: compatibilityResult.coolingPower,
+    coolingAssessment: compatibilityResult.coolingAssessment,
     alerts: generateCompatibilityAlerts(compatibilityResult),
     issues: compatibilityResult.alerts,
     selectedComponents: compatibilityResult.selectedComponents,
-    estimatedPrice: compatibilityResult.estimatedPrice
+    estimatedPrice: compatibilityResult.estimatedPrice,
+    pricing: compatibilityResult.pricing
   };
 }
 
 export function generateCompatibilityAlerts(compatibilityResult) {
-  const issues = compatibilityResult.alerts ?? compatibilityResult.issues ?? [];
+  const issues = [...(compatibilityResult.alerts ?? compatibilityResult.issues ?? []), ...(compatibilityResult.unverifiedChecks ?? [])];
 
   return issues.map((issue) => formatCompatibilityAlert(issue, compatibilityResult.selectedComponents));
 }

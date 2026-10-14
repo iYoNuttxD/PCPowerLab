@@ -1,0 +1,8 @@
+PASS: each actual saved-build card renders an encoded Upgrade URL identifying that build
+PASS: saved B remains the source through loading; both upgrade handlers target B and preserve global A
+PASS: changed route source rejects a late result; current A is used only after explicit selection
+PASS: unknown and empty requested IDs remain blocked until the user explicitly chooses another source
+PASS: failed saved-source loading shows a recoverable error; retry retains the requested ID
+PASS: malformed saved-list response cannot become a successful empty list or current-build fallback
+PASS: fractional roadmap step counts are rejected by the real frontend handler; an integer retries successfully
+LIMITATION: source handlers and real router SSR; no browser events, live router history, layout, or HTTP transport in this focused regression

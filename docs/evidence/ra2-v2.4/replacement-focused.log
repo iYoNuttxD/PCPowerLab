@@ -1,0 +1,17 @@
+✔ v2.4 RTX 4060 → RX 7600 changes exactly GPU, preserving optional cooling and budget (0.989182ms)
+✔ v2.4 recalculates cost, budget, power, performance and compatibility for only new selection (1609.257621ms)
+✔ v2.4 invalidates all analyses after a direct change and undo; successive undo restores only inputs (0.291931ms)
+✔ v2.4 stale response cannot commit even after A → B → A; wrong category/no-op are rejected (784.508298ms)
+✔ v2.4 incompatible CPU identifies affected socket without silently fixing motherboard (0.976675ms)
+✔ v2.4 save and reload replacement preserve all accessories; original and version remain unchanged (2.428385ms)
+✔ v2.4 direct optional changes invalidate results and retain bounded undo history (0.188529ms)
+✔ v2.4 verified commit rejects mismatched summaries and known incompatibility (1379.768575ms)
+✔ v2.4 higher-price replacement keeps the budget and exposes the exact overage (746.380387ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4637.60716

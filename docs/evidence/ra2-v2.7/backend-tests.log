@@ -1,0 +1,607 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> pcpowerlab@0.1.0 test
+> node --test
+
+✔ null, primitive, array and corrupt storage restore usable defaults (2.578594ms)
+✔ partial legacy settings merge defaults and null nested settings cannot crash UI (0.45315ms)
+✔ malformed entries no longer discard the entire otherwise valid saved selection (0.63525ms)
+✔ unverified cached analyses and injected state fields are not restored (0.218634ms)
+✔ ready-build cost-benefit and high-performance profiles survive reload (0.373282ms)
+✔ search normalizes accents and includes exact part number while composing category brand and price (9.553142ms)
+✔ price/performance ranges reject invalid or inverted input, include boundaries and exclude unknown (0.423807ms)
+✔ every dynamic spec field supports exact selection and missing values fail closed (1.072646ms)
+✔ sorting is deterministic, non-mutating, and always places missing numeric fields last (0.47983ms)
+✔ scores never fabricate unsupported category or missing price values (0.197643ms)
+✔ compatibility uses backend statuses and never turns absent results into compatible (0.145134ms)
+✔ actual catalog satisfies the AMD AM4 ceiling example and preserves distinct variants (9.140811ms)
+✔ empty catalog and valid current categories retain their transport meaning (1.679274ms)
+✔ invalid catalog shapes and entries surface errors instead of crash or false empty state (0.612146ms)
+✔ catalog display fields reject object children and malformed specs without coercing unknown numbers (0.39217ms)
+✔ catalog selects a category using shared actions and preserves every unrelated selection (1.123602ms)
+✔ catalog adds exactly one fan pack and repeated selection preserves quantity (1.524755ms)
+✔ cooler reuses the existing slot and repeated selection calls no actions (0.204873ms)
+✔ missing or invalid scores never masquerade as zero (12.665996ms)
+✔ only exact verified photographic metadata reaches a local raster image (2.004525ms)
+✔ external URLs, SVG, traversal, query strings and encoded paths fail closed (0.514501ms)
+✔ missing provenance, rights, verification or partial licensed attribution is rejected (0.350949ms)
+✔ legacy image.url and sourceUrl fields never authorize a photograph (0.181188ms)
+✔ cooling is optional and does not create wizard steps (2.907561ms)
+✔ payload carries cooler and fan packs; totals charge packs, not physical units (0.694127ms)
+✔ saved, shared and local-storage representations hydrate and round-trip (0.771611ms)
+✔ historical objects preserve their prices and removal drops cooling payloads (0.323418ms)
+✔ catalog filters and specification comparison include cooling without scores (17.339269ms)
+✔ recommendations preserve absent cooling, explicit changes win, and full restores clear legacy cooling (0.50028ms)
+✔ missing selected cooling prices make totals unavailable instead of free (0.20937ms)
+✔ missing and malformed chart values never become numeric zero (0.742609ms)
+✔ genuine zero, finite numbers and numeric API strings remain available (12.586729ms)
+✔ unknown requirements stay distinct from a failed requirement (0.27756ms)
+✔ compares returned whole-build price, power and same-setting game estimates (2.686904ms)
+✔ shows decreases and genuine zero changes without converting missing metrics into zero (0.318581ms)
+✔ accepts numeric API strings but rejects absent, non-finite, negative and coerced values (0.54047ms)
+✔ missing baseline leaves candidate metrics available without fabricated differences (0.209349ms)
+✔ requires all selected game settings and all returned settings before showing FPS (0.271211ms)
+✔ never compares FPS from a different game, resolution or quality or from old request settings (0.213095ms)
+✔ unavailable analyses cannot leak leftover numeric FPS or power values (0.225013ms)
+✔ partial cooling consumption remains explicitly partial and suppresses the power delta (0.350959ms)
+✔ unverified optional cooling permits an explicit apply but never implies verified FPS (0.286103ms)
+✔ known incompatibilities block apply and suppress performance comparisons even with conflicting success flags (0.417768ms)
+✔ ordinary warnings do not pretend to be critical incompatibilities (0.164924ms)
+✔ wizard preserves its nine ordered steps and explains every step (1.886811ms)
+✔ wizard requires a confirmed compatibility result before marking review complete (0.329988ms)
+✔ wizard does not let a success flag override critical issues from either endpoint (0.475413ms)
+✔ ordinary warnings and malformed optional issue collections do not become blockers (0.184623ms)
+[0mGET /api/v1/health [32m200[0m 1.586 ms - 116[0m
+[0mGET /api/v1/components [32m200[0m 1.483 ms - 117178[0m
+[0mGET /api/v1/admin/components [33m401[0m 0.464 ms - 65[0m
+[0mPOST /api/v1/admin/components [33m401[0m 0.268 ms - 65[0m
+[0mGET /api/v1/compatibility-rules [33m401[0m 0.282 ms - 65[0m
+[0mPOST /api/v1/compatibility-rules [33m401[0m 0.265 ms - 65[0m
+[0mGET /api/v1/performance-parameters [33m401[0m 0.252 ms - 65[0m
+[0mPOST /api/v1/performance-parameters [33m401[0m 0.198 ms - 65[0m
+[0mGET /api/v1/admin/session [32m200[0m 0.232 ms - 23[0m
+[0mPOST /api/v1/admin/unlock [33m401[0m 0.552 ms - 58[0m
+[0mPOST /api/v1/admin/unlock [32m200[0m 0.645 ms - 22[0m
+[0mGET /api/v1/admin/session [32m200[0m 0.243 ms - 22[0m
+[0mGET /api/v1/admin/components [32m200[0m 0.786 ms - 83248[0m
+[0mGET /api/v1/compatibility-rules [32m200[0m 0.537 ms - 1717[0m
+[0mGET /api/v1/performance-parameters [32m200[0m 0.465 ms - 22815[0m
+[0mPOST /api/v1/admin/logout [32m200[0m 0.332 ms - 23[0m
+[0mGET /api/v1/admin/components [33m401[0m 0.213 ms - 65[0m
+[0mPOST /api/v1/admin/unlock [33m401[0m 0.123 ms - 58[0m
+[0mPOST /api/v1/admin/unlock [33m401[0m 0.121 ms - 58[0m
+[0mPOST /api/v1/admin/unlock [33m401[0m 0.162 ms - 58[0m
+[0mPOST /api/v1/admin/unlock [33m401[0m 0.189 ms - 58[0m
+[0mPOST /api/v1/admin/unlock [33m401[0m 0.190 ms - 58[0m
+[0mPOST /api/v1/admin/unlock [33m429[0m 0.114 ms - 88[0m
+✔ protege APIs administrativas com sessão, logout e limite de tentativas (149.551295ms)
+✔ deve cadastrar um novo componente administrativo (6.441218ms)
+✔ deve editar componente existente (0.571255ms)
+✔ deve listar componentes administrativos incluindo inativos (1.107658ms)
+✔ deve desativar componente existente sem exclusao definitiva (0.347474ms)
+✔ deve validar nome e tipo obrigatorios (0.645235ms)
+✔ deve validar tipo conhecido (0.273745ms)
+✔ deve validar campos tecnicos obrigatorios por tipo (0.281286ms)
+✔ deve retornar erro controlado ao editar ID inexistente (0.203662ms)
+✔ deve registrar historico de analise (2.61673ms)
+✔ deve listar historico de analises (0.194227ms)
+✔ deve filtrar historico por buildId (0.206846ms)
+✔ deve consultar historico por ID (0.156191ms)
+✔ deve remover historico de analise (0.159866ms)
+✔ deve permitir registrar analise sem buildId (0.131985ms)
+✔ deve retornar erro controlado quando campos obrigatorios estiverem ausentes (1.012637ms)
+✔ deve retornar erro controlado para tipo de analise invalido (1.425299ms)
+✔ deve retornar erro controlado para ID inexistente (0.273295ms)
+✔ deve registrar rotas principais no app Express (1.499438ms)
+✔ deve expor endpoints padronizados de compatibilidade (0.227657ms)
+✔ deve expor endpoint de sugestoes de correcao de compatibilidade (0.211373ms)
+✔ deve expor manutencao completa de regras de compatibilidade (0.167037ms)
+✔ deve expor endpoint de recomendacao de builds por faixa de orcamento (0.19586ms)
+✔ deve expor endpoint de nota geral da build (0.141139ms)
+✔ deve expor endpoints de softwares profissionais (0.198113ms)
+✔ deve expor endpoint de comparacao de desempenho entre jogos (0.174408ms)
+✔ deve expor endpoints de historico de analises (0.23032ms)
+✔ deve expor endpoints de configuracoes prontas (0.289328ms)
+✔ deve expor CRUD de perfis personalizados de uso (0.181268ms)
+✔ deve expor endpoints de exportacao JSON de builds (0.149131ms)
+✔ deve expor endpoints de versoes de configuracoes salvas (0.149801ms)
+✔ deve expor endpoints de avaliacoes de recomendacoes (0.121199ms)
+✔ deve expor endpoints de notificacoes (0.110393ms)
+✔ deve manter resposta de erro sem campo data (1.539828ms)
+✔ deve identificar gargalo moderado de processador em relacao a placa de video (3.877095ms)
+✔ deve retornar build equilibrada quando scores principais estiverem proximos (0.586597ms)
+✔ deve aceitar selecao aninhada em components (0.342366ms)
+✔ deve aceitar selecao aninhada em components com campos de ID (0.503605ms)
+✔ deve retornar erro controlado quando faltar parametro de desempenho (0.757741ms)
+✔ deve estruturar um orcamento valido informado pelo usuario (2.155329ms)
+✔ deve assumir moeda e prioridade padrao quando nao forem informadas (0.240106ms)
+✔ deve aceitar prioridades preparadas para recomendacoes futuras (0.218423ms)
+✔ deve retornar aviso para orcamento baixo, sem bloquear a entrada (0.185825ms)
+✔ deve retornar erro controlado quando orcamento nao for informado (0.577745ms)
+✔ deve retornar erro controlado quando payload nao for informado (0.20313ms)
+✔ deve retornar erro controlado quando orcamento for negativo (0.227026ms)
+✔ deve retornar erro controlado quando orcamento nao for numerico (0.245122ms)
+✔ deve retornar erro controlado quando orcamento estiver acima da faixa aceitavel (0.711181ms)
+✔ deleting a saved build removes dependent versions and notifications but preserves other builds and shared snapshots (8.102355ms)
+✔ deve montar configuracao com componentes selecionados (1.531275ms)
+✔ deve aceitar selecao aninhada em components (0.31776ms)
+✔ deve retornar erro controlado quando componente obrigatorio nao for informado (1.87938ms)
+✔ deve retornar erro controlado quando componente nao existir (0.385451ms)
+✔ deve retornar erro controlado quando componente estiver na categoria incorreta (0.338731ms)
+✔ deve comparar duas builds e indicar recomendacao por custo-beneficio (4182.237144ms)
+✔ deve comparar mais de duas builds (1.172724ms)
+✔ deve marcar build acima do orcamento (329.759775ms)
+✔ deve retornar erro controlado quando houver menos de duas builds (0.779112ms)
+✔ deve retornar erro controlado para criterio invalido (0.315116ms)
+✔ deve propagar erro controlado de build invalida (0.843447ms)
+✔ deve exportar uma build direta em JSON estruturado (2.85973ms)
+✔ deve exportar uma build direta com resumo quando solicitado (2032.362251ms)
+✔ deve exportar uma build salva por ID (1.405458ms)
+✔ deve exportar por buildId informado no payload (2100.044169ms)
+✔ deve retornar exportacao com aviso quando resumo falhar por erro controlado (0.751521ms)
+✔ deve retornar erro controlado para build invalida (0.705428ms)
+✔ deve retornar erro controlado para buildId inexistente (0.339241ms)
+✔ deve gerar relatorio tecnico estruturado da configuracao (4051.524534ms)
+✔ deve gerar relatorio mesmo sem orcamento e sem jogos (1.750087ms)
+✔ deve omitir links de compra quando includePurchaseLinks for false (0.84552ms)
+✔ deve retornar simulacao indisponivel para jogo invalido sem quebrar o relatorio (0.861003ms)
+✔ deve exigir build para gerar relatorio tecnico (0.525437ms)
+✔ deve expor rota POST de relatorio tecnico (0.241717ms)
+✔ deve calcular nota geral de uma build compativel (2074.818055ms)
+✔ deve reduzir fortemente a nota quando a build for incompativel (0.998176ms)
+✔ deve retornar nota parcial com aviso quando faltarem parametros de desempenho (1728.653436ms)
+✔ deve retornar erro controlado quando build nao for informada (0.705734ms)
+✔ deve gerar resumo final estruturado para uma build completa (2238.170584ms)
+✔ deve funcionar sem orcamento e sem jogo informado (0.772532ms)
+✔ deve destacar incompatibilidades no resumo final (0.862104ms)
+✔ deve informar quando analise opcional nao tiver dados suficientes (1.377086ms)
+✔ deve retornar erro controlado quando build nao for informada (0.561681ms)
+✔ catalog exposes only recorded meaningful scores with explicit internal methodology (1.688178ms)
+✔ candidate endpoint is registered and controller returns envelope (1.628689ms)
+✔ complete candidate previews are exactly equivalent to existing full compatibility checks (27.348104ms)
+✔ partial build finds real socket conflicts but never claims complete verification (0.584094ms)
+✔ fan previews preserve existing pack quantity and reuse cooling clearances (0.719053ms)
+✔ invalid selection and category are rejected without silently dropping chosen components (0.869526ms)
+✔ catalogo ampliado: ram-kingston-fury-16gb-ddr4-3600 participa de compatibilidade, orçamento e desempenho (15.788615ms)
+✔ catalogo ampliado: ram-crucial-32gb-ddr4-3200 participa de compatibilidade, orçamento e desempenho (3.495591ms)
+✔ catalogo ampliado: ram-kingston-fury-16gb-ddr5-5200 participa de compatibilidade, orçamento e desempenho (2.521581ms)
+✔ catalogo ampliado: ssd-kingston-a400-960gb participa de compatibilidade, orçamento e desempenho (2.979873ms)
+✔ catalogo ampliado: ssd-samsung-970-evo-plus-250gb participa de compatibilidade, orçamento e desempenho (3.078033ms)
+✔ catalogo ampliado: ssd-samsung-980-pro-1tb participa de compatibilidade, orçamento e desempenho (2.035221ms)
+✔ catalogo ampliado: ram-kf432c16bbk2-16 participa de compatibilidade, orçamento e desempenho (2.368443ms)
+✔ catalogo ampliado: ram-kf432c16bbk2-32 participa de compatibilidade, orçamento e desempenho (2.360692ms)
+✔ catalogo ampliado: ram-kf432c16bbk2-64 participa de compatibilidade, orçamento e desempenho (2.878258ms)
+✔ catalogo ampliado: ram-kf436c18bbk2-32 participa de compatibilidade, orçamento e desempenho (2.67703ms)
+✔ catalogo ampliado: ram-kf552c40bbk2-32 participa de compatibilidade, orçamento e desempenho (1.80531ms)
+✔ catalogo ampliado: ram-kf556c40bbk2-32 participa de compatibilidade, orçamento e desempenho (1.662719ms)
+✔ catalogo ampliado: ram-kf560c40bbk2-32 participa de compatibilidade, orçamento e desempenho (6.477422ms)
+✔ catalogo ampliado: ram-cmk32gx4m2e3200c16 participa de compatibilidade, orçamento e desempenho (1.688248ms)
+✔ catalogo ampliado: ram-cmk32gx5m2b6000c36 participa de compatibilidade, orçamento e desempenho (2.083402ms)
+✔ catalogo ampliado: ram-cmk64gx5m2b6000c40 participa de compatibilidade, orçamento e desempenho (1.543713ms)
+✔ catalogo ampliado: ssd-samsung-870-evo-250gb participa de compatibilidade, orçamento e desempenho (1.716329ms)
+✔ catalogo ampliado: ssd-samsung-870-evo-500gb participa de compatibilidade, orçamento e desempenho (1.688918ms)
+✔ catalogo ampliado: ssd-samsung-870-evo-1000gb participa de compatibilidade, orçamento e desempenho (1.567649ms)
+✔ catalogo ampliado: ssd-samsung-870-evo-2000gb participa de compatibilidade, orçamento e desempenho (2.086106ms)
+✔ catalogo ampliado: ssd-samsung-870-evo-4000gb participa de compatibilidade, orçamento e desempenho (1.688507ms)
+✔ catalogo ampliado: ssd-kingston-kc3000-512gb participa de compatibilidade, orçamento e desempenho (1.601128ms)
+✔ catalogo ampliado: ssd-kingston-kc3000-1024gb participa de compatibilidade, orçamento e desempenho (1.461011ms)
+✔ catalogo ampliado: ssd-kingston-kc3000-2048gb participa de compatibilidade, orçamento e desempenho (4.831587ms)
+✔ catalogo ampliado: ssd-kingston-kc3000-4096gb participa de compatibilidade, orçamento e desempenho (2.138944ms)
+✔ catalogo ampliado: ssd-kingston-a400-240gb participa de compatibilidade, orçamento e desempenho (2.036242ms)
+✔ nova DDR5 continua incompatível com placa-mãe DDR4 (0.339472ms)
+✔ armazenamento novo não ignora interface incompatível cadastrada na placa-mãe (0.235398ms)
+✔ deve listar as regras de compatibilidade mockadas (1.012488ms)
+✔ deve filtrar regras por sourceType (0.160207ms)
+✔ deve cadastrar nova regra de compatibilidade (0.418168ms)
+✔ deve lançar erro controlado quando a regra estiver incompleta (0.39872ms)
+✔ deve lançar erro controlado quando severidade for inválida (0.173096ms)
+✔ deve preservar campos camelCase em regras novas (0.146467ms)
+✔ deve atualizar regra de compatibilidade existente (0.191984ms)
+✔ deve remover regra de compatibilidade existente (0.149872ms)
+✔ deve retornar configuração compatível quando as peças forem adequadas (3.153184ms)
+✔ deve aceitar payload plano com campos de ID na compatibilidade (1.108269ms)
+✔ deve aceitar payload aninhado em components na compatibilidade (0.232594ms)
+✔ deve alertar incompatibilidade entre processador e placa-mãe (0.271612ms)
+✔ deve alertar fonte abaixo do recomendado (0.235558ms)
+✔ deve sugerir placa-mae compativel para incompatibilidade de socket (4.361412ms)
+✔ deve sugerir fonte com potencia suficiente (1.232403ms)
+✔ deve retornar sugestoes vazias quando a build ja for compativel (0.780725ms)
+✔ complete audit fully decodes bytes and preserves exact dynamic inventory and evidence (243.125592ms)
+✔ a newly added active ID without an image blocks coverage without changing any allowlist (269.571331ms)
+✔ default catalog provider reads repository additions at audit time (240.243773ms)
+✔ inactive records are excluded from coverage and their retained assets are not orphans (213.460902ms)
+✔ SHA-256 reuse across different IDs blocks both exact-model assertions (180.437648ms)
+✔ same local file reused across distinct IDs is also a suspect duplicate (151.4064ms)
+✔ duplicate catalog IDs fail even if their photos differ (258.144324ms)
+✔ exact image componentId is mandatory and cannot borrow another model metadata (191.688027ms)
+✔ unsafe or remote image path is rejected: https://example.com/photo.png (0.697651ms)
+✔ unsafe or remote image path is rejected: data:image/png;base64,AAAA (0.537415ms)
+✔ unsafe or remote image path is rejected: //example.com/photo.png (0.361535ms)
+✔ unsafe or remote image path is rejected: /images/components/../../secret.png (0.301065ms)
+✔ unsafe or remote image path is rejected: /images/components/%2e%2e/secret.png (0.228989ms)
+✔ unsafe or remote image path is rejected: /images/components/a\secret.png (0.262499ms)
+✔ unsafe or remote image path is rejected: /images/components/photo.png?remote=1 (0.227286ms)
+✔ unsafe or remote image path is rejected: /images/components/photo.png#fragment (0.254206ms)
+✔ unsafe or remote image path is rejected: /images/components//secret.png (3.438394ms)
+✔ symlink escapes cannot cause audit to trust files outside the media root (101.816754ms)
+✔ symlink directory escapes are rejected before any image read (118.878286ms)
+✔ missing file and corrupt raster bytes are explicitly blocked (128.946331ms)
+✔ truncated image headers are not accepted as integrity verification (268.088933ms)
+✔ extension must agree with decoded bytes and unsupported formats do not count (383.710883ms)
+✔ WebP JPEG and AVIF are decoded when supported by Pillow (577.703497ms)
+✔ empty files, excessive byte size, dimensions and tiny placeholders fail (401.156307ms)
+✔ missing provenance and licensing metadata is listed per component (140.943629ms)
+✔ imageSource must be safe HTTPS provenance (630.522106ms)
+✔ manufacturerProductUrl must be safe HTTPS provenance (554.585833ms)
+✔ licenseUrl must be safe HTTPS provenance (512.121873ms)
+✔ verification date must be real ISO date and not in the future (644.919298ms)
+✔ blocked records require a reason and icons never count as product photos (398.83861ms)
+✔ orphan media fails strict audit while attribution documents are ignored (297.620726ms)
+✔ decoder absence fails closed rather than passing header-only checks (111.870504ms)
+✔ empty or malformed catalogs cannot produce a passing claim (0.789327ms)
+✔ CLI reads runtime API snapshots, includes admin additions, writes both reports and exits 1 on partial coverage (290.389189ms)
+✔ CLI returns 0 only for complete snapshot and 2 for invalid input (384.900892ms)
+✔ snapshot reader accepts inventory export and rejects unsupported envelopes (1.012897ms)
+✔ reviewed SHA-256 matches the exact bytes fully decoded by Pillow (136.72966ms)
+✔ replacing a reviewed photo with a different valid raster blocks verified coverage (205.531439ms)
+✔ supplied reviewed SHA-256 must be lowercase hexadecimal of exactly 64 characters (773.834748ms)
+✔ untrusted snapshot category keys cannot modify the category accumulator prototype (135.878378ms)
+✔ all active catalog products expose exact-ID image state without fabricated coverage (1.604393ms)
+✔ new admin records cannot self-attest a photo; variant edits invalidate exact-model claims (0.527401ms)
+✔ catalog source identity changes cannot reuse an old verified registry photo (0.16913ms)
+✔ v2.4 RTX 4060 → RX 7600 changes exactly GPU, preserving optional cooling and budget (12.065908ms)
+✔ v2.4 recalculates cost, budget, power, performance and compatibility for only new selection (3097.786453ms)
+✔ v2.4 invalidates all analyses after a direct change and undo; successive undo restores only inputs (0.416906ms)
+✔ v2.4 stale response cannot commit even after A → B → A; wrong category/no-op are rejected (1380.675382ms)
+✔ v2.4 incompatible CPU identifies affected socket without silently fixing motherboard (1.201807ms)
+✔ v2.4 save and reload replacement preserve all accessories; original and version remain unchanged (3.208183ms)
+✔ v2.4 direct optional changes invalidate results and retain bounded undo history (0.299262ms)
+✔ v2.4 verified commit rejects mismatched summaries and known incompatibility (2140.809148ms)
+✔ v2.4 higher-price replacement keeps the budget and exposes the exact overage (1122.181217ms)
+✔ deve listar todos os componentes disponíveis (12.556915ms)
+✔ deve filtrar componentes por type (0.552247ms)
+✔ deve aceitar type com letras maiúsculas e espaços (0.725964ms)
+✔ deve manter compatibilidade com filtro category (7.051977ms)
+✔ deve lançar erro controlado quando a categoria não existir (0.733445ms)
+✔ deve retornar componente pelo ID existente (0.323338ms)
+✔ deve retornar null para ID inexistente (0.248998ms)
+✔ optional cooling survives save, export, share, version, reload and removal (9.443599ms)
+✔ summary, comparison, report and purchase links include optional components and quantity cost (9.021875ms)
+✔ legacy exports stay seven-slot and new selections round-trip directly (0.7363ms)
+✔ feedback retains selected cooler and quantified fans without expanding data unnecessarily (1.087899ms)
+✔ saved builds reject wrong-category accessories and malformed quantities (1.133336ms)
+✔ unknown cooling price cannot approve budget as free (1.685443ms)
+✔ cooling costs include pack quantities without fabricated performance or NaN (6.688133ms)
+✔ recommendations reject uncertain selected cooling instead of dropping it (2074.18426ms)
+✔ upgrades and roadmap retain cooling in prices and reject unverified candidates (4440.013734ms)
+✔ compatibility fixes do not silently discard selected accessories (1.133686ms)
+✔ partial performance has no cooling bonus and full unverified cooling builds are blocked (2.816504ms)
+✔ known air cooler height never substitutes for unknown RAM and VRM clearance (1831.220557ms)
+✔ v2.1 legacy builds retain seven slots and compatible status (4.021676ms)
+✔ v2.1 optional selection, serialization and pack budgets roundtrip (1.227364ms)
+✔ v2.1 rejects malformed quantity, duplicate IDs and category substitutions (1.049612ms)
+✔ v2.1 cooler socket and air-height conflicts are distinguished from missing data (0.456765ms)
+✔ v2.1 radiator support is checked without claiming complete physical fit (0.495662ms)
+✔ v2.1 fan diameter, thickness, included fans and radiator consume capacity (0.613888ms)
+✔ v2.1 alternative mount layouts and unknown case data stay unverified (0.410297ms)
+✔ v2.1 physical unit power differs from pack price and never invents unknown draw (1.377076ms)
+✔ v2.1 missing storage interfaces returns unverified rather than TypeError (0.410728ms)
+✔ v2.1 admin accepts cooling records with explicit unknowns and rejects malformed fields (1.006007ms)
+✔ v2.1 missing legacy technical fields are unverified without false compatibility (7.499078ms)
+✔ v2.1 duplicate diameter rows do not inflate mount capacity (0.330529ms)
+✔ v2.1 admin rejects malformed case cooling limits (1.470795ms)
+✔ deve listar componentes classificados por custo-beneficio (3.22609ms)
+✔ deve filtrar ranking de custo-beneficio por categoria (0.403617ms)
+✔ deve limitar quantidade de resultados do ranking (0.307715ms)
+✔ deve rejeitar limit invalido (0.511255ms)
+✔ deve expor endpoint de classificacao por custo-beneficio em components (0.231212ms)
+✔ deve manter dados mockados principais consistentes (2.745519ms)
+✔ value rankings retain legacy price and disclose category-normalized simulated value (4.725957ms)
+✔ budget recommendations disclose candidate subset rather than market-wide cheapest claim (4013.735231ms)
+✔ upgrades and fixes disclose simulated costs and catalog-rule limitations (2364.525923ms)
+✔ comparison limits its recommendation to submitted builds and preserves numerical totals (2.019515ms)
+✔ unknown and invalid reference prices cannot represent a free upgrade (0.154308ms)
+✔ deve gerar explicacao simples para incompatibilidade (2.519907ms)
+✔ deve gerar explicacao simples para gargalo (0.217913ms)
+✔ deve gerar explicacao simples para recomendacao (0.329598ms)
+✔ deve gerar explicacao simples para simulacao de desempenho (0.201629ms)
+✔ deve gerar explicacao simples para orcamento dentro do limite (0.193296ms)
+✔ deve gerar explicacao simples para orcamento acima do limite (0.118596ms)
+✔ deve gerar explicacao simples para aviso geral (0.15522ms)
+✔ deve retornar erro controlado quando tipo nao for informado (1.10208ms)
+✔ deve retornar erro controlado para tipo invalido (0.239064ms)
+✔ deve retornar erro controlado para severidade invalida (0.33188ms)
+✔ deve listar jogos mockados para simulacao (0.971276ms)
+✔ deve filtrar jogos por categoria (4.176175ms)
+✔ deve simular desempenho esperado em jogo com build parcial (1.248616ms)
+✔ deve retornar desempenho otimo quando atender requisitos recomendados (0.389556ms)
+✔ deve comparar desempenho da mesma build em varios jogos preservando a ordem (4.814589ms)
+✔ deve retornar erro controlado quando comparar menos de dois jogos (0.670632ms)
+✔ deve retornar erro controlado com IDs invalidos na comparacao de jogos (0.195489ms)
+✔ deve aplicar penalidade de gargalo quando build completa estiver disponivel (3.650107ms)
+✔ deve retornar erro controlado quando jogo nao existir (0.573038ms)
+✔ deve retornar erro controlado quando build estiver incompleta (0.37202ms)
+✔ deve retornar erro controlado quando parametros de desempenho nao existirem (0.44635ms)
+✔ no provider or real offer is invented for catalog and research links (7.72325ms)
+✔ market quote stale (0.708347ms)
+✔ market quote unavailable (0.396787ms)
+✔ market quote source error (0.126116ms)
+✔ market quote mock (0.271272ms)
+✔ market quote untrusted (0.098456ms)
+✔ market quote identity unverified (0.113478ms)
+✔ market quote unauthorized host (0.090374ms)
+✔ market quote wrong product (0.081671ms)
+✔ market quote invalid price (0.188809ms)
+✔ market quote numeric text (3.555296ms)
+✔ market quote other currency (0.243511ms)
+✔ market quote missing date (0.120789ms)
+✔ market quote future date (0.133387ms)
+✔ market quote missing validity (0.112376ms)
+✔ market quote search URL (0.167417ms)
+✔ market quote unsafe URL (0.083674ms)
+✔ market quote unknown stock (0.114289ms)
+✔ missing quote and reference remain missing, never zero (0.632455ms)
+✔ single store cannot claim automatic comparison, multi store sorts by valid price (1.086526ms)
+✔ newer unavailable observation suppresses old quote from same seller (0.174418ms)
+✔ mixed market/reference totals are separate, fan packs counted, unknown stock excluded (0.331971ms)
+✔ deve revalidar todas as builds salvas e criar notificacao para build incompativel (5.69518ms)
+✔ deve revalidar uma build salva especifica (0.443295ms)
+✔ deve evitar notificacoes duplicadas para o mesmo problema na mesma build (0.487661ms)
+✔ deve listar notificacoes e filtrar por buildId (0.698563ms)
+✔ deve marcar notificacao como lida (0.375726ms)
+✔ deve remover notificacao (0.346091ms)
+✔ deve retornar erro controlado para notificacao inexistente (0.393832ms)
+✔ deve retornar erro controlado para build salva inexistente na revalidacao (0.12797ms)
+✔ deve listar todos os parametros de desempenho cadastrados (1.301825ms)
+✔ deve filtrar parametros de desempenho por type (0.333163ms)
+✔ deve consultar parametros de desempenho por componentId (0.198794ms)
+✔ deve cadastrar parametros para um componente existente (1.383295ms)
+✔ deve impedir duplicacao de parametros para o mesmo componente (0.676721ms)
+✔ deve atualizar parametros de desempenho de um componente (0.373002ms)
+✔ deve remover parametros de desempenho quando existir (0.259553ms)
+✔ deve retornar erro controlado para componente inexistente (0.237621ms)
+✔ deve validar performanceScore numerico e na escala de 0 a 100 (0.362255ms)
+✔ deve validar se o type corresponde ao tipo real do componente (0.401243ms)
+✔ deve listar softwares profissionais mockados (0.856546ms)
+✔ deve filtrar softwares profissionais por categoria (0.178224ms)
+✔ deve consultar software profissional por ID (0.118194ms)
+✔ deve simular desempenho em software profissional (1.605564ms)
+✔ deve retornar desempenho excelente quando atender requisitos recomendados (0.343998ms)
+✔ deve retornar erro controlado quando software nao existir (0.351279ms)
+✔ deve retornar erro controlado quando build estiver incompleta (0.227336ms)
+✔ deve retornar erro controlado quando faltarem parametros de desempenho (0.780133ms)
+✔ deve buscar links de compra por componentId (1.55542ms)
+✔ deve gerar buscas dinamicamente para componente cadastrado depois da inicialização (0.9402ms)
+✔ deve buscar links de compra para todos os componentes de uma build (1.354082ms)
+✔ deve aceitar build em formato plano (0.52808ms)
+✔ deve retornar erro controlado para componentId inexistente (0.606948ms)
+✔ deve retornar erro controlado quando componentId nao for informado (0.220106ms)
+✔ deve retornar erro controlado quando build estiver incompleta (0.40605ms)
+✔ game: rejects full incompatible and unknown builds instead of returning unsupported performance (8.666995ms)
+✔ game: top-level component aliases override conflicting nested IDs consistently (3.745418ms)
+✔ game: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.444487ms)
+✔ multiple games: rejects full incompatible and unknown builds instead of returning unsupported performance (1.93413ms)
+✔ multiple games: top-level component aliases override conflicting nested IDs consistently (1.595489ms)
+✔ multiple games: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.303449ms)
+✔ professional software: rejects full incompatible and unknown builds instead of returning unsupported performance (1.994709ms)
+✔ professional software: top-level component aliases override conflicting nested IDs consistently (0.820784ms)
+✔ professional software: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.437767ms)
+✔ comparison rejects malformed build entries with a controlled 400 (1.008541ms)
+✔ performance parameter updates reject out-of-scale specialized scores atomically (1.545445ms)
+✔ catalog integrity: unique parameter and rule identifiers, correct references and legacy serialization (2.68547ms)
+[0mGET /api/v1/components [32m200[0m 2.813 ms - 117178[0m
+[0mGET /api/v1/ready-builds [32m200[0m 4.435 ms - 6697[0m
+[0mGET /api/v1/components?category=cooler [32m200[0m 0.493 ms - 8936[0m
+[0mGET /api/v1/components/cooler-noctua-nh-u12s-redux [32m200[0m 0.557 ms - 2157[0m
+[0mGET /api/v1/components/cooler-noctua-nh-l9a-am4 [32m200[0m 0.346 ms - 2005[0m
+[0mGET /api/v1/components/cooler-deepcool-ak620 [32m200[0m 0.241 ms - 1535[0m
+[0mGET /api/v1/components/cooler-arctic-liquid-freezer-iii-240 [32m200[0m 0.254 ms - 1619[0m
+[0mGET /api/v1/components/cooler-arctic-liquid-freezer-iii-360 [32m200[0m 0.198 ms - 1626[0m
+[0mGET /api/v1/components?category=fan [32m200[0m 0.368 ms - 6379[0m
+[0mGET /api/v1/components/fan-noctua-nf-p12-redux-1700-pwm [32m200[0m 0.321 ms - 1978[0m
+[0mGET /api/v1/components/fan-noctua-nf-a14-pwm [32m200[0m 0.271 ms - 1868[0m
+[0mGET /api/v1/components/fan-arctic-p12-pwm-pst [32m200[0m 0.226 ms - 1248[0m
+[0mGET /api/v1/components/fan-arctic-p12-pwm-pst-5-pack [32m200[0m 0.372 ms - 1275[0m
+[0mGET /api/v1/components?category=ram [32m200[0m 0.303 ms - 25364[0m
+[0mGET /api/v1/components/ram-kingston-fury-8gb-ddr4 [32m200[0m 0.168 ms - 840[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr4 [32m200[0m 0.222 ms - 845[0m
+[0mGET /api/v1/components/ram-kingston-fury-32gb-ddr4 [32m200[0m 0.164 ms - 845[0m
+[0mGET /api/v1/components/ram-corsair-vengeance-16gb-ddr4-3600 [32m200[0m 0.219 ms - 868[0m
+[0mGET /api/v1/components/ram-corsair-vengeance-16gb-ddr5 [32m200[0m 0.258 ms - 853[0m
+[0mGET /api/v1/components/ram-corsair-vengeance-32gb-ddr5-5600 [32m200[0m 0.176 ms - 868[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr5-6000 [32m200[0m 0.239 ms - 860[0m
+[0mGET /api/v1/components/ram-gskill-trident-z5-32gb-ddr5-6000 [32m200[0m 0.231 ms - 868[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr4-3600 [32m200[0m 0.211 ms - 1009[0m
+[0mGET /api/v1/components/ram-crucial-32gb-ddr4-3200 [32m200[0m 0.163 ms - 1026[0m
+[0mGET /api/v1/components/ram-kingston-fury-16gb-ddr5-5200 [32m200[0m 4.328 ms - 1009[0m
+[0mGET /api/v1/components/ram-kf432c16bbk2-16 [32m200[0m 0.242 ms - 1276[0m
+[0mGET /api/v1/components/ram-kf432c16bbk2-32 [32m200[0m 0.902 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf432c16bbk2-64 [32m200[0m 0.275 ms - 1327[0m
+[0mGET /api/v1/components/ram-kf436c18bbk2-32 [32m200[0m 0.261 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf552c40bbk2-32 [32m200[0m 0.203 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf556c40bbk2-32 [32m200[0m 0.182 ms - 1277[0m
+[0mGET /api/v1/components/ram-kf560c40bbk2-32 [32m200[0m 0.182 ms - 1277[0m
+[0mGET /api/v1/components/ram-cmk32gx4m2e3200c16 [32m200[0m 0.177 ms - 1468[0m
+[0mGET /api/v1/components/ram-cmk32gx5m2b6000c36 [32m200[0m 0.176 ms - 1452[0m
+[0mGET /api/v1/components/ram-cmk64gx5m2b6000c40 [32m200[0m 0.150 ms - 1454[0m
+[0mGET /api/v1/components?category=storage [32m200[0m 0.288 ms - 27825[0m
+[0mGET /api/v1/components/ssd-kingston-a400-480gb [32m200[0m 0.167 ms - 955[0m
+[0mGET /api/v1/components/ssd-kingston-nv2-500gb [32m200[0m 0.130 ms - 910[0m
+[0mGET /api/v1/components/ssd-kingston-nv2-1tb [32m200[0m 0.163 ms - 904[0m
+[0mGET /api/v1/components/ssd-wd-blue-sn570-1tb [32m200[0m 0.119 ms - 1042[0m
+[0mGET /api/v1/components/ssd-wd-black-sn770-1tb [32m200[0m 0.113 ms - 976[0m
+[0mGET /api/v1/components/ssd-samsung-970-evo-plus-1tb [32m200[0m 0.117 ms - 921[0m
+[0mGET /api/v1/components/ssd-samsung-980-pro-2tb [32m200[0m 0.111 ms - 859[0m
+[0mGET /api/v1/components/hdd-seagate-barracuda-2tb [32m200[0m 0.113 ms - 1003[0m
+[0mGET /api/v1/components/ssd-kingston-a400-960gb [32m200[0m 0.190 ms - 1022[0m
+[0mGET /api/v1/components/ssd-samsung-970-evo-plus-250gb [32m200[0m 0.203 ms - 1710[0m
+[0mGET /api/v1/components/ssd-samsung-980-pro-1tb [32m200[0m 0.119 ms - 1693[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-250gb [32m200[0m 0.138 ms - 1438[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-500gb [32m200[0m 0.166 ms - 1438[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-1000gb [32m200[0m 0.104 ms - 1444[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-2000gb [32m200[0m 0.131 ms - 1444[0m
+[0mGET /api/v1/components/ssd-samsung-870-evo-4000gb [32m200[0m 0.121 ms - 1446[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-512gb [32m200[0m 0.119 ms - 1293[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-1024gb [32m200[0m 0.115 ms - 1301[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-2048gb [32m200[0m 0.097 ms - 1303[0m
+[0mGET /api/v1/components/ssd-kingston-kc3000-4096gb [32m200[0m 0.094 ms - 1303[0m
+[0mGET /api/v1/components/ssd-kingston-a400-240gb [32m200[0m 0.152 ms - 1297[0m
+[0mGET /api/v1/performance/games?category=nonexistent [32m200[0m 0.452 ms - 89[0m
+[0mGET /api/v1/components?category=not-a-category [33m400[0m 1.063 ms - 158[0m
+[0mGET /api/v1/components/no-such-part [33m404[0m 0.207 ms - 69[0m
+[0mPOST /api/v1/components/compatibility [32m200[0m 0.795 ms - 11655[0m
+▶ quality HTTP journey: catalog, analysis, budget, replacement, cooling, save/export/share/reload
+  ✔ catalog categories, price truth, empty result and invalid input (250.640359ms)
+[0mPOST /api/v1/build-summary [32m200[0m 3543.163 ms - 9474[0m
+[0mPOST /api/v1/build-summary [32m200[0m 1.234 ms - 9613[0m
+[0mPOST /api/v1/build-summary [33m400[0m 0.365 ms - 334[0m
+[0mPOST /api/v1/build-summary [33m404[0m 0.271 ms - 146[0m
+[0mPOST /api/v1/build-summary [32m200[0m 0.628 ms - 10002[0m
+[0mPOST /api/v1/build-summary [32m200[0m 3207.936 ms - 9674[0m
+  ✔ complete/incomplete/incompatible, budget changes and RAM replacement (6774.824108ms)
+[0mPOST /api/v1/build-summary [32m200[0m 0.982 ms - 15835[0m
+[0mPOST /api/v1/saved-builds [32m201[0m 0.837 ms - 596[0m
+[0mGET /api/v1/saved-builds/build-001 [32m200[0m 0.226 ms - 607[0m
+[0mGET /api/v1/saved-builds/build-001/versions [32m200[0m 0.195 ms - 778[0m
+[0mGET /api/v1/saved-builds/build-001/export/json?includeSummary=true [32m200[0m 0.790 ms - 621[0m
+[0mPOST /api/v1/build-summary [32m200[0m 0.679 ms - 15835[0m
+[0mPOST /api/v1/share/build [32m200[0m 0.761 ms - 14533[0m
+[0mGET /api/v1/share/build/share-001 [32m200[0m 0.395 ms - 14532[0m
+[0mPATCH /api/v1/saved-builds/build-001 [32m200[0m 0.468 ms - 612[0m
+[0mGET /api/v1/saved-builds/build-001/versions [32m200[0m 0.093 ms - 1478[0m
+[0mGET /api/v1/saved-builds/build-001/versions/version-001 [32m200[0m 0.234 ms - 774[0m
+[0mPATCH /api/v1/saved-builds/build-001 [32m200[0m 0.328 ms - 615[0m
+[0mPOST /api/v1/saved-builds/build-001/revalidate [32m200[0m 3.335 ms - 689[0m
+[0mGET /api/v1/notifications?buildId=build-001 [32m200[0m 0.243 ms - 558[0m
+[0mDELETE /api/v1/saved-builds/build-001 [32m200[0m 0.297 ms - 619[0m
+[0mGET /api/v1/notifications?buildId=build-001 [32m200[0m 0.086 ms - 99[0m
+[0mGET /api/v1/saved-builds/build-001 [33m404[0m 0.148 ms - 79[0m
+[0mGET /api/v1/share/build/share-001 [32m200[0m 0.282 ms - 14532[0m
+  ✔ cooling quantities, unknown compatibility, save/version/export/share and removal (52.394327ms)
+[0mPOST /api/v1/performance/simulate-game [32m200[0m 0.453 ms - 750[0m
+[0mPOST /api/v1/performance/simulate-game [32m200[0m 0.316 ms - 749[0m
+[0mPOST /api/v1/performance/compare-games [32m200[0m 0.735 ms - 700[0m
+[0mPOST /api/v1/performance/compare-games [33m400[0m 0.246 ms - 86[0m
+[0mPOST /api/v1/performance/simulate-game [33m422[0m 0.201 ms - 187[0m
+[0mPOST /api/v1/performance/compare-games [33m422[0m 0.238 ms - 187[0m
+[0mPOST /api/v1/performance/simulate-software [33m422[0m 0.459 ms - 187[0m
+[0mPOST /api/v1/performance/simulate-game [33m422[0m 0.172 ms - 265[0m
+[0mPOST /api/v1/performance/compare-games [33m422[0m 0.220 ms - 265[0m
+[0mPOST /api/v1/performance/simulate-software [33m422[0m 0.351 ms - 265[0m
+[0mPOST /api/v1/performance/simulate-software [32m200[0m 0.728 ms - 815[0m
+[0mPOST /api/v1/performance/simulate-game [33m404[0m 0.105 ms - 62[0m
+[0mPOST /api/v1/bottlenecks/analyze [32m200[0m 0.206 ms - 265[0m
+[0mPOST /api/v1/build-comparison [32m200[0m 1.899 ms - 16596[0m
+  ✔ single/multiple games, software, bottlenecks and build comparison use actual service outputs (37.424237ms)
+[0mPOST /api/v1/recommendations/budget [33m422[0m 0.760 ms - 200[0m
+[0mPOST /api/v1/recommendations/budget [32m200[0m 303.653 ms - 9873[0m
+[0mPOST /api/v1/build-summary [32m200[0m 96.197 ms - 11314[0m
+[0mPOST /api/v1/recommendations/budget [32m200[0m 1714.310 ms - 9932[0m
+[0mPOST /api/v1/build-summary [32m200[0m 1935.858 ms - 10945[0m
+[0mPOST /api/v1/upgrades/suggest [32m200[0m 2044.596 ms - 11160[0m
+[0mPOST /api/v1/build-summary [32m200[0m 3000.419 ms - 10280[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2783.588 ms - 9968[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2815.981 ms - 10049[0m
+  ✔ recommendation budget limits and upgrades preserve actual compatibility (14724.027199ms)
+[0mGET /api/v1/no-such-endpoint [33m404[0m 0.120 ms - 92[0m
+[0mPOST /api/v1/build-summary [33m400[0m 0.198 ms - 95[0m
+[0mPOST /api/v1/build-comparison [33m400[0m 0.170 ms - 73[0m
+[0mPOST /api/v1/build-summary [32m200[0m 2855.325 ms - 9474[0m
+  ✔ malformed HTTP JSON, unknown routes and retry after controlled failures (2869.619458ms)
+✔ quality HTTP journey: catalog, analysis, budget, replacement, cooling, save/export/share/reload (24782.174572ms)
+✔ deve listar todas as configuracoes prontas (5.54586ms)
+✔ deve filtrar configuracoes prontas por perfil de uso (0.410767ms)
+✔ deve consultar configuracao pronta por ID (0.294936ms)
+✔ deve usar apenas componentes existentes nas configuracoes prontas (3.127385ms)
+✔ deve manter todas as configuracoes prontas compativeis (1.076642ms)
+✔ deve retornar lista vazia para perfil valido sem configuracao cadastrada (0.786593ms)
+✔ deve retornar erro controlado para perfil invalido (0.425019ms)
+✔ deve retornar erro controlado para configuracao pronta inexistente (0.164574ms)
+✔ deve gerar recomendacao completa dentro do orcamento informado (1660.065509ms)
+✔ deve evitar componentes incompativeis na recomendacao (664.844783ms)
+✔ deve retornar erro controlado quando orcamento nao for informado (0.667046ms)
+✔ deve retornar erro controlado quando nao couber no orcamento (0.707926ms)
+✔ deve recomendar build completa por faixa de orcamento (2749.952915ms)
+✔ deve manter compatibilidade entre componentes recomendados na faixa (1155.188355ms)
+✔ deve aplicar fallback de prioridade invalida para recomendacao por faixa (2073.345367ms)
+✔ deve retornar erro controlado para faixa de orcamento ausente (0.96023ms)
+✔ deve retornar erro controlado para min maior ou igual ao max (0.345591ms)
+✔ deve retornar erro controlado quando nao houver build completa dentro da faixa (1.234746ms)
+✔ deve gerar recomendacao por uso programming respeitando o orcamento (2318.089942ms)
+✔ deve gerar recomendacao por uso work e incluir estrategia de workload (1671.442283ms)
+✔ deve gerar recomendacao por uso general (637.257915ms)
+✔ deve retornar erro controlado para usageType invalido (0.861274ms)
+✔ deve registrar avaliacao de recomendacao (2.011794ms)
+✔ deve listar avaliacoes registradas (0.262618ms)
+✔ deve filtrar avaliacoes por tipo de recomendacao (0.389786ms)
+✔ deve consultar avaliacao por ID (0.240175ms)
+✔ deve remover avaliacao de recomendacao (0.357699ms)
+✔ deve permitir registrar avaliacao sem campos opcionais (0.241798ms)
+✔ deve registrar metadados e snapshot da build avaliada (1.273663ms)
+✔ deve retornar erro controlado quando campos obrigatorios estiverem ausentes (0.559588ms)
+✔ deve retornar erro controlado para nota invalida (0.549552ms)
+✔ deve retornar erro controlado para tipo de recomendacao invalido (0.678062ms)
+✔ deve retornar erro controlado quando comentario for muito longo (0.308747ms)
+✔ deve retornar erro controlado para ID inexistente (0.230001ms)
+✔ deve registrar versao de uma configuracao salva (4.007516ms)
+✔ deve usar motivo padrao quando reason nao for informado (0.52715ms)
+✔ deve controlar versionNumber incremental por build (0.634328ms)
+✔ deve listar versoes de uma build (2.02859ms)
+✔ deve consultar versao especifica (0.463745ms)
+✔ deve remover versao de uma build (0.409025ms)
+✔ deve retornar erro controlado para build inexistente (0.565627ms)
+✔ deve exigir buildSnapshot (0.360303ms)
+✔ deve manter snapshot independente da configuracao atual (0.849396ms)
+✔ deve registrar versoes automaticamente ao criar e editar build salva pelo controller (4.283092ms)
+✔ deve salvar uma configuração montada (3.164489ms)
+✔ deve listar configurações salvas (0.563864ms)
+✔ deve consultar configuração salva por ID (0.381054ms)
+✔ deve remover configuração salva (0.531836ms)
+✔ deve retornar erro controlado quando nome não for informado (0.555051ms)
+✔ deve retornar erro controlado quando componentes principais estiverem ausentes (0.29099ms)
+✔ deve retornar erro controlado quando componente não existir (0.489293ms)
+✔ deve retornar erro controlado quando configuração salva não existir (0.247205ms)
+✔ deve editar o nome de uma configuração salva (4.298616ms)
+✔ deve editar componentes de uma configuração salva (0.858028ms)
+✔ deve editar orçamento, tipo de uso e observações (0.789657ms)
+✔ deve retornar erro controlado ao editar configuração inexistente (0.232644ms)
+✔ deve retornar erro controlado ao editar componente inexistente (0.48012ms)
+✔ deve retornar erro controlado ao editar nome vazio (0.455173ms)
+✔ deve gerar compartilhamento para build salva (1828.177495ms)
+✔ deve gerar compartilhamento para build direta (1255.884188ms)
+✔ deve consultar compartilhamento por shareId (0.66276ms)
+✔ deve retornar erro controlado quando buildId nao existir (0.425239ms)
+✔ deve retornar erro controlado quando nenhum dado for informado (0.185544ms)
+✔ deve retornar erro controlado quando shareId nao existir (0.155269ms)
+✔ deve gerar plano de upgrades em etapas respeitando orcamento e limite (5761.238137ms)
+✔ deve usar maxSteps padrao e limitar maxSteps a 5 (5558.795372ms)
+✔ deve retornar lista vazia quando nao houver upgrade possivel dentro do orcamento (2304.634259ms)
+✔ deve validar build e orcamento obrigatorios (0.440542ms)
+✔ deve expor rota POST de roadmap de upgrades (0.234287ms)
+✔ deve sugerir upgrade para build direta respeitando orcamento e compatibilidade (2374.366696ms)
+✔ deve sugerir upgrade para build salva por ID (4447.573751ms)
+✔ deve retornar mensagem clara quando nao houver upgrade dentro do orcamento (1104.97335ms)
+✔ deve retornar erro controlado quando build nao for informada (0.549272ms)
+✔ deve retornar erro controlado quando build salva nao existir (0.230161ms)
+✔ deve criar perfil de uso personalizado (2.24471ms)
+✔ deve listar e consultar perfil de uso por ID (0.367894ms)
+✔ deve normalizar pesos quando a soma for diferente de 100 (0.190662ms)
+✔ deve gerar ID unico quando nomes forem repetidos (0.272453ms)
+✔ deve atualizar perfil e mudar updatedAt (0.330479ms)
+✔ deve remover perfil de uso (0.179756ms)
+✔ deve retornar erro controlado quando nome estiver ausente (0.356587ms)
+✔ deve validar pesos invalidos (0.181388ms)
+✔ deve retornar erro controlado para perfil inexistente (0.415234ms)
+ℹ tests 453
+ℹ suites 0
+ℹ pass 453
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29822.676493
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

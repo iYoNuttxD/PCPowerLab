@@ -125,23 +125,24 @@ export function buildPerformanceSummaryMessage({
   performanceLevel,
   meetsRecommendedRequirements
 }) {
+  const qualityLabel = { low: 'baixa', medium: 'média', high: 'alta', ultra: 'ultra' }[qualityPreset] || 'não informada';
   if (performanceLevel === 'insufficient') {
-    return `A configuracao nao deve entregar desempenho minimo satisfatorio em ${gameName}.`;
+    return `A configuração não deve entregar desempenho mínimo satisfatório em ${gameName}.`;
   }
 
   if (performanceLevel === 'excellent') {
-    return `A configuracao deve rodar ${gameName} em qualidade ${qualityPreset} com desempenho otimo.`;
+    return `A configuração deve rodar ${gameName} em qualidade ${qualityLabel} com desempenho ótimo.`;
   }
 
   if (performanceLevel === 'good' && !meetsRecommendedRequirements) {
-    return `A configuracao deve rodar ${gameName} em qualidade ${qualityPreset} com bom desempenho, mas abaixo do ideal recomendado.`;
+    return `A configuração deve rodar ${gameName} em qualidade ${qualityLabel} com bom desempenho, mas abaixo do ideal recomendado.`;
   }
 
   if (performanceLevel === 'good') {
-    return `A configuracao deve rodar ${gameName} em qualidade ${qualityPreset} com bom desempenho.`;
+    return `A configuração deve rodar ${gameName} em qualidade ${qualityLabel} com bom desempenho.`;
   }
 
-  return `A configuracao deve rodar ${gameName}, mas com desempenho basico para a qualidade ${qualityPreset}.`;
+  return `A configuração deve rodar ${gameName}, mas com desempenho básico para a qualidade ${qualityLabel}.`;
 }
 
 export function getQualityPresetMultiplier(qualityPreset) {

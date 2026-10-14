@@ -1,5 +1,7 @@
+import { performanceScoreLabel } from '../utils/performanceMethodology.js';
+import DecisionMethodology from '../components/build/DecisionMethodology.jsx';
+import ComponentImage from '../components/componentsCatalog/ComponentImage.jsx';
 import { useEffect, useState } from 'react';
-import { BarChart3 } from 'lucide-react';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -8,40 +10,53 @@ import EmptyState from '../components/ui/EmptyState.jsx';
 import Input from '../components/ui/Input.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 import Select from '../components/ui/Select.jsx';
+import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import { costBenefitService } from '../services/costBenefitService.js';
-import { componentLabels } from '../utils/componentLabels.js';
+import { componentLabels, componentTypes } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
+import { numericValue } from '../utils/performancePresentation.js';
 import { translateValue } from '../utils/translations.js';
 
 const categoryOptions = [
-  { value: '', label: 'Todos' },
-  ...Object.entries(componentLabels).map(([value, label]) => ({ value, label }))
+  { value: '', label: 'Todas as categorias' },
+  // Cooling has no performance-score model; build-only labels are not API categories.
+  ...componentTypes.map((value) => ({ value, label: componentLabels[value] }))
 ];
 
 export default function Insights() {
-  const [ranking, setRanking] = useState([]);
+  const [ranking, setRanking] = useState(null);
   const [rankingFilters, setRankingFilters] = useState({ category: '', limit: 10 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [limitError, setLimitError] = useState('');
 
   useEffect(() => {
     loadRanking();
   }, []);
 
   async function loadRanking() {
-    setLoading(true);
+    const limit = Number(rankingFilters.limit);
     setError('');
+    setRanking(null);
+    if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+      setLimitError('Informe um número inteiro entre 1 e 50.');
+      return;
+    }
+
+    setLimitError('');
+    setLoading(true);
 
     try {
       const filters = {
         ...(rankingFilters.category && { category: rankingFilters.category }),
-        ...(rankingFilters.limit && { limit: Number(rankingFilters.limit) })
+        limit
       };
       const result = await costBenefitService.listComponents(filters);
-      setRanking(Array.isArray(result) ? result : []);
+      if (!Array.isArray(result)) throw new Error('Não foi possível carregar o ranking de custo-benefício.');
+      setRanking(result);
     } catch (rankingError) {
       setError(rankingError.message || 'Não foi possível carregar o ranking de custo-benefício.');
-      setRanking([]);
+      setRanking(null);
     } finally {
       setLoading(false);
     }
@@ -50,27 +65,21 @@ export default function Insights() {
   return (
     <div className="page-stack">
       <section className="page-hero compact-hero">
-        <span className="eyebrow">Insights</span>
         <h1>Custo-benefício de componentes</h1>
-        <p>Compare componentes por valor entregue e encontre peças com boa relação entre preço e desempenho.</p>
       </section>
-
       {error && <Alert type="error">{error}</Alert>}
 
       <Card>
-        <div className="section-heading compact">
-          <div>
-            <span className="eyebrow">Ranking de custo-benefício</span>
-            <h2><BarChart3 size={22} aria-hidden="true" /> Componentes com melhor relação preço/desempenho</h2>
-          </div>
-          <Badge tone="green">Ranking</Badge>
-        </div>
-
         <div className="form-grid compact-form-grid">
           <Select
             label="Categoria"
+            disabled={loading}
             value={rankingFilters.category}
-            onChange={(event) => setRankingFilters((current) => ({ ...current, category: event.target.value }))}
+            onChange={(event) => {
+              setRankingFilters((current) => ({ ...current, category: event.target.value }));
+              setRanking(null);
+              setError('');
+            }}
             options={categoryOptions}
           />
           <Input
@@ -78,8 +87,17 @@ export default function Insights() {
             type="number"
             min="1"
             max="50"
+            step="1"
+            disabled={loading}
+            hint="De 1 a 50 componentes."
+            error={limitError}
             value={rankingFilters.limit}
-            onChange={(event) => setRankingFilters((current) => ({ ...current, limit: event.target.value }))}
+            onChange={(event) => {
+              setRankingFilters((current) => ({ ...current, limit: event.target.value }));
+              setLimitError('');
+              setError('');
+              setRanking(null);
+            }}
           />
         </div>
         <div className="button-row">
@@ -88,8 +106,12 @@ export default function Insights() {
           </Button>
         </div>
 
-        {loading ? <LoadingSpinner /> : <RankingList ranking={ranking} />}
+        <p className="analysis-note">Índice relativo à categoria · preço de referência. Compare peças da mesma categoria.</p>
+        {loading ? <LoadingSpinner /> : ranking !== null && !error && !limitError && <RankingList ranking={ranking} />}
+        <p className="analysis-note">Coolers e ventoinhas não participam: não possuem índice de desempenho para este ranking.</p>
+        <AnalysisHelp topics={['costBenefit', 'score']} title="Metodologia do ranking" />
       </Card>
+      <DecisionMethodology />
     </div>
   );
 }
@@ -104,50 +126,65 @@ function RankingList({ ranking }) {
     );
   }
 
+  const groups = new Map();
+  ranking.forEach(entry => {
+    const category = entry.component?.category || 'unknown';
+    if (!groups.has(category)) groups.set(category, []);
+    groups.get(category).push(entry);
+  });
+
   return (
     <div className="cost-benefit-grid">
-      {ranking.map((entry, index) => {
-        const component = entry.component || {};
+      {[...groups].map(([category, entries]) => (
+        <section className="ranking-category" key={category} aria-labelledby={`ranking-${category}`}>
+          <h2 id={`ranking-${category}`}>{componentLabels[category] || (category === 'unknown' ? 'Categoria não informada' : translateValue(category))}</h2>
+          <div className="ranking-list">
+            {entries.map((entry, index) => {
+              const component = entry.component || {};
+              const categoryRank = Number.isInteger(entry.categoryRank) && entry.categoryRank > 0 ? entry.categoryRank : null;
 
-        return (
-          <article key={component.id || index} className="cost-benefit-card">
-            <div className="ranking-position">#{index + 1}</div>
-            <div className="cost-benefit-card__body">
-              <div className="section-heading compact">
-                <div>
-                  <span className="eyebrow">{componentLabels[component.category] || translateValue(component.category)}</span>
-                  <h3>{component.name || 'Componente sem nome'}</h3>
-                </div>
-                <Badge tone={getCostBenefitTone(entry.costBenefitScore)}>
-                  {entry.classification || classifyCostBenefit(entry.costBenefitScore)}
-                </Badge>
-              </div>
-              <div className="metric-grid compact-metric-grid">
-                <div>
-                  <span>Preço</span>
-                  <strong>{formatCurrency(component.price)}</strong>
-                </div>
-                <div>
-                  <span>Performance</span>
-                  <strong>{formatNumber(entry.performanceScore)}</strong>
-                </div>
-                <div>
-                  <span>Custo-benefício</span>
-                  <strong>{formatNumber(entry.costBenefitScore)}</strong>
-                </div>
-              </div>
-              <p>{entry.summary || 'Componente bem posicionado no ranking de custo-benefício.'}</p>
-            </div>
-          </article>
-        );
-      })}
+              return (
+                <article key={component.id || index} className="cost-benefit-card ranking-row">
+                  <div className="ranking-position" aria-label={categoryRank ? `Posição ${categoryRank} na categoria` : 'Posição na categoria não disponível'}>{categoryRank ? `#${categoryRank}` : '—'}</div>
+                  <div className="cost-benefit-card__body">
+                    <div className="ranking-identity">
+                      <ComponentImage component={component} compact />
+                      <h3>{component.name || 'Componente sem nome'}</h3>
+                      <Badge tone={getCostBenefitTone(entry.costBenefitScore)}>
+                        {numericValue(entry.costBenefitScore) === null ? 'Não disponível' : entry.classification ? translateValue(entry.classification) : classifyCostBenefit(entry.costBenefitScore)}
+                      </Badge>
+                    </div>
+                    <div className="metric-grid compact-metric-grid ranking-metrics">
+                      <div>
+                        <span>Preço de referência</span>
+                        <strong>{formatCurrency(component.price)}</strong>
+                      </div>
+                      <div>
+                        <span>{numericValue(entry.performanceScore) === null ? 'Pontuação de desempenho' : performanceScoreLabel(entry, component)}</span>
+                        <strong>{formatNumber(entry.performanceScore)}{numericValue(entry.performanceScore) !== null && ' / 100'}</strong>
+                      </div>
+                      <div>
+                        <span>Custo-benefício</span>
+                        <strong>{formatNumber(entry.costBenefitScore)}{numericValue(entry.costBenefitScore) !== null && ' / 100'}</strong>
+                      </div>
+                    </div>
+                    {numericValue(entry.costBenefitScore) === null && <p>Nota de custo-benefício indisponível para este componente.</p>}
+                    {entry.summary && <details className="analysis-help"><summary>Detalhes do índice</summary><p>{entry.summary}</p></details>}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
 
 function getCostBenefitTone(score) {
-  const value = Number(score);
+  const value = numericValue(score);
 
+  if (value === null) return 'cyan';
   if (value >= 80) return 'green';
   if (value >= 60) return 'cyan';
   if (value >= 40) return 'yellow';
@@ -155,8 +192,9 @@ function getCostBenefitTone(score) {
 }
 
 function classifyCostBenefit(score) {
-  const value = Number(score);
+  const value = numericValue(score);
 
+  if (value === null) return 'Não disponível';
   if (value >= 80) return 'Excelente';
   if (value >= 60) return 'Bom';
   if (value >= 40) return 'Regular';
@@ -164,7 +202,7 @@ function classifyCostBenefit(score) {
 }
 
 function formatNumber(value) {
-  const number = Number(value);
+  const number = numericValue(value);
 
-  return Number.isFinite(number) ? Math.round(number) : 'N/D';
+  return number === null ? 'Não disponível' : Math.round(number);
 }

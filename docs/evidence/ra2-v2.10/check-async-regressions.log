@@ -1,0 +1,9 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-async-regressions.mjs
+Exit: 0
+PASS: useApiRequest synchronously prevents duplicate mutation, reports failure, retries, and skips own post-unmount writes
+PASS: actual SavedBuilds duplicate share calls API once and disables competing mutation controls until completion
+PASS: VersionsModal keeps latest build, ignores closed-modal failure, and ignores unmounted response
+PASS: HistoryModal keeps latest build, ignores closed-modal failure, and ignores unmounted response

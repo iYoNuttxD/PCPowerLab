@@ -1,3 +1,4 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { calculateBuildScore } from './buildScoreService.js';
 import { simulateGamePerformance } from './gamePerformanceService.js';
@@ -45,17 +46,18 @@ export function generateBuildReport(input) {
     : undefined;
 
   return removeUndefinedFields({
+    ...performanceMetadata(summary.components),
     metadata: {
       generatedAt: new Date().toISOString(),
       usageType,
       currency
     },
     components: summary.components,
-    pricing: buildPricingSection({
+    pricing: { ...summary.pricing, ...buildPricingSection({
       totalEstimatedPrice: summary.totalEstimatedPrice,
       budgetStatus: summary.budgetStatus,
       budget: input.budget
-    }),
+    }) },
     compatibility: summary.compatibility,
     alerts: summary.compatibility?.alerts ?? [],
     bottlenecks: summary.bottlenecks ?? buildUnavailableSection('Analise de gargalos indisponivel para os dados informados.'),

@@ -1,0 +1,6 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: npm run lint --prefix frontend
+Exit: 0
+No lint errors.

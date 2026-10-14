@@ -38,7 +38,7 @@ test('deve gerar recomendacao por uso work e incluir estrategia de workload', ()
 test('deve gerar recomendacao por uso general', () => {
   const recommendation = recommendBuildByBudget({
     budget: {
-      amount: 4500,
+      amount: 10000,
       priority: 'cost-benefit'
     },
     usageType: 'general'
@@ -52,7 +52,7 @@ test('deve retornar erro controlado para usageType invalido', () => {
   assert.throws(
     () => recommendBuildByBudget({
       budget: {
-        amount: 5000
+        amount: 10000
       },
       usageType: 'invalid-usage'
     }),

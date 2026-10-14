@@ -21,6 +21,10 @@ export const statusLabels = {
   relevant: 'Relevante',
   compatible: 'Compatível',
   incompatible: 'Incompatível',
+  unverified: 'Não verificada',
+  unverified_compatibility: 'Compatibilidade pendente',
+  performance_model_unavailable: 'Esta configuração inclui componentes sem parâmetros de desempenho calibrados. Não é possível estimar seu desempenho.',
+  fans: 'Ventoinhas',
   excellent: 'Excelente',
   good: 'Bom',
   entry: 'Entrada',
@@ -56,13 +60,36 @@ export const bottleneckReasonLabels = {
 };
 
 export const specLabels = {
-  socket: 'Socket',
+  memorySlots: 'Slots de memória', maxMemoryGb: 'Memória máxima', capacityPerModuleGb: 'Capacidade por módulo',
+  casLatency: 'Latência CAS', voltageV: 'Tensão', rgb: 'Iluminação RGB', color: 'Cor',
+  dimensionsMm: 'Dimensões', radiatorDimensionsMm: 'Dimensões do radiador',
+  radiatorThicknessMm: 'Espessura do radiador', fanDiameterMm: 'Diâmetro das ventoinhas', fanThicknessMm: 'Espessura das ventoinhas',
+  totalEnvelopeThicknessMm: 'Espessura total conservadora', maxRadiatorThicknessMm: 'Espessura máxima de radiador',
+  powerBasis: 'Base do consumo', auxiliaryPowerUnknown: 'Consumo auxiliar não verificado', auxiliaryPowerNotes: 'Observação sobre consumo auxiliar',
+  compatibilityNotes: 'Observações de compatibilidade', coolingSupportNotes: 'Posições e limites de refrigeração',
+  memorySupportNotes: 'Condições de suporte à memória', storageSupportNotes: 'Condições dos slots de armazenamento',
+  m2LengthMm: 'Comprimento M.2', m2SupportedLengthsMm: 'Comprimentos M.2 suportados', m2Slots: 'Slots M.2', sataPorts: 'Portas SATA',
+  cpuFanHeaders: 'Conectores para cooler', systemFanHeaders: 'Conectores para ventoinhas', pcieGeneration: 'Geração PCIe',
+  enduranceTBW: 'Durabilidade declarada (TBW)', frontRadiatorMaxThicknessMm: 'Espessura máxima do radiador frontal',
+  maxGpuLengthWithHddBracketMm: 'Limite de GPU com suporte de HD', maxGpuLengthWithoutFrontRadiatorMm: 'Limite de GPU sem radiador frontal',
+  includedFanDiameterMm: 'Diâmetro das ventoinhas incluídas',
+
+  coolingType: 'Tipo de refrigeração', supportedSockets: 'Sockets suportados', heightMm: 'Altura', radiatorSizeMm: 'Tamanho do radiador', powerWatts: 'Consumo por unidade', diameterMm: 'Diâmetro', thicknessMm: 'Espessura', connector: 'Conector', unitsPerPack: 'Ventoinhas por pacote', maxCoolerHeightMm: 'Altura máxima do cooler', radiatorSizesMm: 'Radiadores suportados (mm)', fanMounts: 'Suportes para ventoinhas', coolingSupportVerified: 'Suporte de refrigeração verificado', includedFans: 'Ventoinhas incluídas', fanMountsShared: 'Suportes compartilhados', radiatorFanSlots: 'Slots ocupados pelo radiador',
+  dataRateMTs: 'Taxa de transferência',
+  modulesPerKit: 'Módulos por kit',
+  speedProfile: 'Perfil de velocidade',
+  maxFanThicknessMm: 'Espessura máxima da ventoinha',
+  includedFanCount: 'Ventoinhas incluídas',
+  chipset: 'Chipset da placa-mãe',
+  socket: 'Encaixe do processador (socket)',
   cores: 'Núcleos',
   threads: 'Threads',
   baseClockGhz: 'Frequência base',
   boostClockGhz: 'Frequência turbo',
   baseClock: 'Frequência base',
   boostClock: 'Frequência turbo',
+  maximumTurboPowerWatts: 'Potência máxima em turbo (W)',
+  includesCpuCooler: 'Cooler incluído',
   tdpWatts: 'Consumo térmico estimado',
   tdp: 'Consumo térmico estimado',
   memoryType: 'Tipo de memória',
@@ -128,8 +155,28 @@ export const issueCodeLabels = {
   STORAGE_INTERFACE_INCOMPATIBLE: 'Interface de armazenamento incompatível',
   PSU_POWER_BELOW_RECOMMENDED: 'Fonte abaixo do recomendado',
   CASE_MOTHERBOARD_FORM_FACTOR_INCOMPATIBLE: 'Gabinete incompatível com placa-mãe',
+  GPU_POWER_CONNECTORS_UNVERIFIED: 'Conectores de energia da placa de vídeo a confirmar',
+  CASE_GPU_LENGTH_UNVERIFIED: 'Espaço da placa de vídeo não verificado',
   CASE_GPU_LENGTH_INCOMPATIBLE: 'Placa de vídeo grande para o gabinete',
-  REQUIRED_COMPONENT_MISSING: 'Componente obrigatório ausente'
+  REQUIRED_COMPONENT_MISSING: 'Componente obrigatório ausente',
+  COOLER_SOCKET_UNVERIFIED: 'Encaixe do cooler a confirmar',
+  AIR_COOLER_CLEARANCE_UNVERIFIED: 'Espaço ao redor do cooler a confirmar',
+  COOLER_HEIGHT_UNVERIFIED: 'Altura disponível a confirmar',
+  RADIATOR_SIZE_UNVERIFIED: 'Tamanho do radiador a confirmar',
+  RADIATOR_CLEARANCE_UNVERIFIED: 'Posição e espaço do radiador a confirmar',
+  COOLER_TYPE_UNVERIFIED: 'Tipo de refrigeração não informado',
+  FAN_DIAMETER_UNVERIFIED: 'Diâmetro das ventoinhas a confirmar',
+  FAN_THICKNESS_UNVERIFIED: 'Espessura das ventoinhas a confirmar',
+  FAN_CAPACITY_UNVERIFIED: 'Quantidade de ventoinhas a confirmar',
+  FAN_LAYOUT_UNVERIFIED: 'Posições das ventoinhas a confirmar',
+  FAN_CONNECTORS_UNVERIFIED: 'Conexões elétricas das ventoinhas a confirmar',
+  COOLING_POWER_UNVERIFIED: 'Consumo da refrigeração não informado',
+  COOLER_CPU_SOCKET_INCOMPATIBLE: 'Cooler incompatível com o processador',
+  CASE_COOLER_HEIGHT_INCOMPATIBLE: 'Cooler alto demais para o gabinete',
+  CASE_RADIATOR_SIZE_INCOMPATIBLE: 'Radiador incompatível com o gabinete',
+  CASE_FAN_DIAMETER_INCOMPATIBLE: 'Ventoinha incompatível com o suporte',
+  CASE_FAN_THICKNESS_INCOMPATIBLE: 'Ventoinha espessa demais para o gabinete',
+  CASE_FAN_CAPACITY_EXCEEDED: 'Ventoinhas excedem os espaços disponíveis'
 };
 
 export function translateValue(value, fallback = 'Não informado') {
@@ -175,4 +222,15 @@ function humanizeTechnicalKey(value) {
     .replace(/[_-]+/g, ' ')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+// Presentation-only cleanup of known legacy Portuguese messages; keep IDs and API values intact.
+export function readableMessage(value) {
+  if (typeof value !== 'string') return value;
+  const words = { atencao: 'atenção', configuracao: 'configuração', configuracoes: 'configurações', fans: 'ventoinhas', nao: 'não', verificacoes: 'verificações', analise: 'análise' };
+  return value.replace(/\bos fans incluídos\b/gi, phrase => phrase[0] === 'O' ? 'As ventoinhas incluídas' : 'as ventoinhas incluídas')
+    .replace(/\b(atencao|configuracao|configuracoes|fans|nao|verificacoes|analise)\b/gi, word => {
+    const replacement = words[word.toLowerCase()];
+    return word[0] === word[0].toUpperCase() ? replacement[0].toUpperCase() + replacement.slice(1) : replacement;
+  });
 }

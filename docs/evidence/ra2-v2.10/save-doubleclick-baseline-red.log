@@ -1,0 +1,7 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-saved-build-interactions.mjs --baseline=64bf1c248fab4c42e833709917834b1703f967a4
+Exit: 1 (expected negative control)
+Observed regression: The base editor disappeared on save instead of retaining a stable confirmation surface.
+The corresponding current-source checks passed; detailed traces are not published.

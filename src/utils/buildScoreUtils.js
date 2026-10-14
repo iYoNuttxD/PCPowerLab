@@ -15,6 +15,7 @@ export function clampScore(value) {
 }
 
 export function calculateWeightedOverallScore(criteria) {
+  if (Object.keys(buildScoreWeights).some((key) => criteria[key] === null)) return null;
   const total = Object.entries(buildScoreWeights).reduce((score, [criterion, weight]) => (
     score + (clampScore(criteria[criterion]) * weight)
   ), 0);
@@ -23,6 +24,7 @@ export function calculateWeightedOverallScore(criteria) {
 }
 
 export function classifyBuildScore(score) {
+  if (!Number.isFinite(score)) return 'Indisponível';
   if (score >= 90) {
     return 'Excelente';
   }

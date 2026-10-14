@@ -1,3 +1,6 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { unavailablePerformance } from '../utils/performanceAvailability.js';
+import { getCoolingPower } from './cooling.service.js';
 import { selectBuildComponents } from './build.service.js';
 import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
 import {
@@ -13,7 +16,10 @@ const componentsWithRequiredPerformanceScore = ['cpu', 'gpu', 'ram', 'storage'];
 
 export function analyzeBuildBottlenecks(selectionInput) {
   const build = selectBuildComponents(selectionInput);
+  const unavailable = unavailablePerformance(build);
+  if (unavailable) return { ...performanceMetadata(build), ...unavailable, hasBottleneck: null, overallBalance: 'unavailable', bottlenecks: [], performanceSummary: null };
   const performanceParameters = mapPerformanceParameters(build);
+  const coolingPower = getCoolingPower(build);
 
   validatePerformanceParameters(performanceParameters);
 
@@ -21,21 +27,24 @@ export function analyzeBuildBottlenecks(selectionInput) {
     analyzeCpuGpuBalance(performanceParameters),
     analyzeRamLimitations(performanceParameters),
     analyzeStorageLimitations(performanceParameters),
-    analyzePsuHeadroom(performanceParameters)
+    analyzePsuHeadroom(performanceParameters, coolingPower)
   ].flat().filter(Boolean);
 
   return {
+    ...performanceMetadata(build),
     hasBottleneck: bottlenecks.length > 0,
     overallBalance: getOverallBalance(bottlenecks),
     bottlenecks,
-    performanceSummary: buildPerformanceSummary(performanceParameters)
+    performanceSummary: buildPerformanceSummary(performanceParameters, coolingPower, Boolean(build.cooler || build.fans?.length))
   };
 }
 
 function mapPerformanceParameters(build) {
   return requiredPerformanceParameterSlots.reduce((parametersBySlot, slot) => ({
     ...parametersBySlot,
-    [slot]: findPerformanceParametersByComponentId(build[slot].id)
+    [slot]: slot === 'psu' && build[slot].catalogRevision === '2026-10-08-market-revalidation'
+      ? { type: 'psu', wattage: build[slot].specs.watts, capacityOnly: true }
+      : findPerformanceParametersByComponentId(build[slot].id)
   }), {});
 }
 
@@ -140,8 +149,8 @@ function analyzeStorageLimitations(performanceParameters) {
   };
 }
 
-function analyzePsuHeadroom(performanceParameters) {
-  const estimatedConsumptionWatts = calculateEstimatedConsumptionWatts(performanceParameters);
+function analyzePsuHeadroom(performanceParameters, coolingPower) {
+  const estimatedConsumptionWatts = calculateEstimatedConsumptionWatts(performanceParameters) + coolingPower.knownWatts;
   const psuWatts = performanceParameters.psu.wattage;
   const headroomWatts = psuWatts - estimatedConsumptionWatts;
   const headroomPercent = Math.round((headroomWatts / estimatedConsumptionWatts) * 100);
@@ -220,13 +229,16 @@ function validatePerformanceParameterTypes(performanceParameters) {
     .map((slot) => `Parametros de desempenho de ${slot} estao cadastrados com tipo ${performanceParameters[slot].type}.`);
 }
 
-function buildPerformanceSummary(performanceParameters) {
+function buildPerformanceSummary(performanceParameters, coolingPower, hasCooling) {
   return {
     cpuScore: performanceParameters.cpu.performanceScore,
     gpuScore: performanceParameters.gpu.performanceScore,
     ramScore: performanceParameters.ram.performanceScore,
     storageScore: performanceParameters.storage.performanceScore,
-    estimatedConsumptionWatts: calculateEstimatedConsumptionWatts(performanceParameters),
+    estimatedConsumptionWatts: calculateEstimatedConsumptionWatts(performanceParameters) + coolingPower.knownWatts,
+    ...(performanceParameters.gpu.tdpBasis ? { gpuPowerEstimateBasis: performanceParameters.gpu.tdpBasis,
+      gpuBoardPowerVerified: false } : {}),
+    ...(hasCooling ? { coolingPowerWatts: coolingPower.knownWatts, powerEstimateComplete: coolingPower.complete, unknownPowerComponents: coolingPower.unknownComponents } : {}),
     psuWatts: performanceParameters.psu.wattage
   };
 }

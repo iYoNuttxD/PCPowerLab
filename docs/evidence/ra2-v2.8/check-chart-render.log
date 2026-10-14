@@ -1,0 +1,7 @@
+PASS: score/power titles, scales, sources, text equivalents and unchanged 35% reference
+PASS: incomplete cooling power is labeled and suppresses reference/headroom
+PASS: missing chart values stay explicit and genuine zero is retained
+PASS: FPS table retains complete labels, requirements, unknown/zero data and settings; mean excludes unknown
+PASS: summary score missing values are neither zero nor a negative classification; valid scores unchanged
+PASS: ranking and weight bars preserve missing/zero distinctions and textual units
+LIMITATION: SSR and data checks do not render Recharts SVG geometry, execute effects, or validate mobile layout, hover, keyboard focus, scrolling, assistive technology or user comprehension

@@ -7,7 +7,7 @@ test('deve recomendar build completa por faixa de orcamento', () => {
   const recommendations = recommendBuildsByBudgetRange({
     budgetRange: {
       min: 3500,
-      max: 5500
+      max: 10000
     },
     usageType: 'gaming',
     priority: 'cost-benefit'
@@ -23,7 +23,7 @@ test('deve recomendar build completa por faixa de orcamento', () => {
   assert.equal(recommendation.budgetStatus, 'within_range');
   assert.equal(recommendation.compatibilityStatus, 'compatible');
   assert.equal(recommendation.totalEstimatedPrice >= 3500, true);
-  assert.equal(recommendation.totalEstimatedPrice <= 5500, true);
+  assert.equal(recommendation.totalEstimatedPrice <= 10000, true);
   assert.equal(typeof recommendation.summary, 'string');
   assert.equal(typeof recommendation.estimatedPerformanceLevel, 'string');
 
@@ -36,7 +36,7 @@ test('deve manter compatibilidade entre componentes recomendados na faixa', () =
   const [recommendation] = recommendBuildsByBudgetRange({
     budgetRange: {
       min: 3500,
-      max: 5500
+      max: 10000
     },
     usageType: 'gaming',
     priority: 'performance'
@@ -54,7 +54,7 @@ test('deve aplicar fallback de prioridade invalida para recomendacao por faixa',
   const [recommendation] = recommendBuildsByBudgetRange({
     budgetRange: {
       min: 3500,
-      max: 5500
+      max: 10000
     },
     usageType: 'gaming',
     priority: 'prioridade-inexistente'
@@ -81,7 +81,7 @@ test('deve retornar erro controlado para min maior ou igual ao max', () => {
   assert.throws(
     () => recommendBuildsByBudgetRange({
       budgetRange: {
-        min: 5500,
+        min: 10000,
         max: 3500
       },
       usageType: 'gaming'

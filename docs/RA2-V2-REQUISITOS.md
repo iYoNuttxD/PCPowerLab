@@ -1,0 +1,209 @@
+# RA2 V2 — estado atual dos requisitos
+
+## Matriz atual — ef7f / ac27, 08/10/2026 UTC
+
+**Implementação técnica substancial entregue; atendimento integral de todos os pedidos: não.** O código atual é `2707f1747c53e77ac7666845a50a80faae4a3ff0` (parent ac27). O delta 2707 corrige somente a pintura do marcador térmico e adiciona regressão; não muda dados ou geometria do gráfico. Node: 935 aprovados; lint/build aprovados; reteste focal de navegador aprovado em 2707. A suíte completa de navegador foi executada no parent ef7f: **267 E2E aprovados, 1 skip e 18 integrações aprovadas**. O delta de perfil ac27 passou por revisão focal em cinco larguras, incluindo nome longo. Consolidação visual, foco visual integral, todos os estados disabled e zoom real de 200% ainda não verificados; reteste focal do marcador aprovado.
+
+A coluna de estado abaixo avalia o requisito completo: PARCIAL não significa função ausente, mas entrega/evidência útil com limite de aceitação ainda aberto. Os subcontratos técnicos efetivamente exercitados estão discriminados. Não se converte contagem de testes em aprovação humana ou física. Critérios e resultados antigos são preservados na seção histórica abaixo.
+
+| ID | Requisito | Estado atual | Implementação / evidência atual | Limite de aceitação |
+| --- | --- | --- | --- | --- |
+| R01 | Identidade visual, cores e contraste | PARCIAL | Tokens e estilos compartilhados; capturas recentes; checagens de página | 14 estados: 478 amostras enabled confiáveis, mínimo 7,08:1; 50 inconclusivas. Marcador corrigido em 2707 e retestado: 7,28:1 / 8,36:1; foco/disabled/zoom real não verificados |
+| R02 | Consistência de cards e layout | PARCIAL | Cards de catálogo/cooler/fans, quantities e detalhes; E2E e percursos manuais; cinco larguras | Revisão visual integral de todas as telas/estados pendente |
+| R03 | Navegação agrupada | PARCIAL | Tarefas e grupos, destinos preservados; suítes reais e jornadas técnicas | Consolidação visual/teclado final; compreensão por usuários não medida |
+| R04 | Administração sem entrada pública e protegida | PARCIAL | Proteção de API/sessão e navegação pública; testes Node/integração reais aprovados | Resultado limitado aos contratos testados; revisão final e auditoria completa de produção não concluídas |
+| R05 | Avanço claro e preservação | PARCIAL | Avanço explícito, seleção preservada, etapas opcionais corrigidas; E2E e jornadas | Descoberta do avanço sem ajuda não medida com participantes |
+| R06 | Foco e rolagem entre etapas | PARCIAL | Fluxos reais de navegação/revisão exercitados; estado preservado | Zoom/estados finais pendentes; aparelhos físicos não certificados |
+| R07 | Linguagem acessível e detalhe progressivo | PARCIAL | Explicações, rótulos corrigidos e nome completo opcional; inspeção focal ac27 | Compreensão por iniciantes reais não medida |
+| R08 | Títulos, legendas, unidades e gráficos | PARCIAL | Checks de gráficos e simulações; análise no Resumo e tarefa dedicada | Revisão final de legibilidade; compreensão/leitor de tela completos não comprovados |
+| R09 | Simular um jogo e comparar jogos | PARCIAL | Percursos reais de jogo/software e suítes aprovados; resultados indisponíveis explícitos | Revisão final transversal pendente; nenhum FPS real certificado |
+| R10 | Fotografias correspondentes e com origem | PARCIAL | 81/81 estruturalmente válidas: 71 exatas + 10 de família; 43 novas exatas | 100% de modelo/SKU exato não atendido; direitos limitados à proveniência registrada |
+| R11 | Diversidade RAM/armazenamento | PARCIAL | 22 RAM e 21 armazenamentos; integridade e 117 identidades anteriores preservadas | Não certifica externamente cada fato legado/BIOS/QVL ou disponibilidade futura |
+| R12 | Air coolers opcionais | PARCIAL | Cards, custo/socket/altura, salvar/remover/desfazer; regras e percursos exercitados | RAM/VRM/folgas e desempenho térmico não medidos; desconhecido continua não verificado |
+| R13 | AIO/radiador/posições | PARCIAL | Socket, capacidade posicional e dimensões conhecidas; testes físicos de catálogo | Espessura/folgas ou conexões ausentes não aprovadas; sem montagem física |
+| R14 | Fans/packs/ocupação/conectores | PARCIAL | Quantidades, custo, ruído estimado, potência conhecida e fit; percursos aprovados | Headers/corrente/hubs desconhecidos explícitos; fans extras não alteram temperatura |
+| R15 | Filtros por fabricante e combinados | PARCIAL | Filtros, busca e comparação exercitados em E2E/jornadas | Consolidação de todos os estados visuais pendente |
+| R16 | Comparação de componentes | PARCIAL | Comparação e preservação exercitadas; unidades/ausentes tratados | Revisão visual/zoom final pendente; skip documentado de caso mobile no projeto desktop |
+| R17 | Troca individual e desfazer | PARCIAL | Troca, undo, orçamento/acessórios e revisão preservados nos testes e percursos | Consolidação final de estados visuais pendente; sem alegar todos os dispositivos |
+| R18 | Preços reais com origem | PARCIAL | 81 observações manuais datadas elegíveis, SKU/loja/pagamento registrados | Sem API ao vivo; não garante estoque futuro, frete ou total do checkout |
+| R19 | Alternativas de mercado | PARCIAL | 38 registros mantidos, 59 sucessores explícitos; alternativas/upgrades testados | Universo limitado ao catálogo; não é busca completa nem melhor preço de todo mercado |
+| R20 | Defeitos e regressões | PARCIAL | 933 Node em ef7f; 16 checks; reteste real 267 E2E + 18 integração; histórico de falhas preservado | Revisão visual final pendente; não promete ausência de bugs ou qualificação de produção |
+| R21 | Significado da simulação final | PARCIAL | Resumo distingue estados e simulações; cards/gráficos integrados; percursos técnicos | Interpretação/compreensão por participantes não medida; cenário não é medição |
+| R22 | Retenção, valor e monetização | PARCIAL | Instrumentação/roteiro e feedback técnico disponíveis | Pesquisa real do Ciclo 2, retenção observada, satisfação e receita NÃO REALIZADAS |
+
+[Consolidação e três grupos de UI/UX](RA2-CONSOLIDACAO-FINAL.md) · [Registro de testes por fonte](RA2-V2-REGISTRO-TESTES.md). Três jornadas técnicas não são três usuários. Os 110 screenshots recentes estão parcialmente revisados, não 110 aprovações independentes.
+
+## Histórico preservado — linha de base v2.0 e auditorias até v2.9
+
+**As tabelas abaixo são históricas, não o estado atual.** Expressões como “cooler NÃO INICIADO”, 2/69 ou 9/98 fotos e navegador não executado descrevem suas datas/fontes originais. Não são reapresentadas como situação atual nem reescritas retroativamente como sucesso.
+
+### Registro original — requisitos rastreáveis (v2.0)
+
+> [Consolidação técnica atual](RA2-CONSOLIDACAO-FINAL.md). Os resultados abaixo pertencem às etapas e fontes identificadas; não representam automaticamente a união posterior. Resultados reais posteriores estão na consolidação: ef7f com 267 E2E aprovados/1 skip e 18 integrações aprovadas; delta ac27 conferido em cinco larguras. Revisão visual/cores/zoom ainda pendente; **NÃO HOMOLOGADA integralmente**.
+
+Base inspecionada: `d433bf930d7373eec073921427e146bc8c173f26`, branch `codex/pcpowerlab-ra2-ciclo2`, em 08/10/2026 (UTC).
+
+## Origem e interpretação
+
+Os IDs R01–R22 seguem o escopo solicitado para V2. A origem é o relato qualitativo fornecido na solicitação e, quando indicado, a documentação anterior do Ciclo 2. Não recebemos dados individuais do Ciclo 1; não há atribuição a participante, frequência, citação literal ou resultado de pesquisa inventados. R19 e R22 são requisitos explícitos do escopo V2, sem evidência individual adicional. A evidência histórica é datada de 07/10/2026 e não se confunde com uma reexecução em 08/10.
+
+Estados permitidos: **NÃO INICIADO**, **PARCIALMENTE IMPLEMENTADO**, **IMPLEMENTADO NÃO VALIDADO**, **VALIDADO**, **BLOQUEADO**. Nesta linha de base, implementação e testes automatizados não comprovam aceitação humana, preço de mercado, FPS real ou retenção. Nenhum requisito recebe aprovação integral apenas pela existência de código. Os critérios abaixo orientam as etapas seguintes; não são resultados já alcançados. Falha de ambiente é descrita no baseline, não atribuída automaticamente ao aplicativo.
+
+Caminhos são relativos à raiz; `{a,b}` abrevia arquivos irmãos.
+
+| ID | Origem do feedback | Problema | Funcionalidade/correção | Arquivos | Estado atual | Evidência de implementação | Testes necessários | Critério de aceitação | Status de validação |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| R01 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Contraste e cores | Reduzir brilho, padronizar tokens e validar legibilidade | frontend/src/styles/{theme,global,arcade}.css | IMPLEMENTADO NÃO VALIDADO | Paleta e foco existentes; evidências históricas em RA2-CICLO2-UI.md | Contraste de todos os estados, teclado, zoom e inspeção visual | Texto normal ≥4,5:1; grande/controles ≥3:1; foco perceptível; validação visual documentada | Evidência histórica parcial; contraste composto inconclusivo; sem nova homologação visual |
+| R02 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Cards inconsistentes | Uniformizar mídia, título, especificações, preço e ações | frontend/src/components/componentsCatalog/ComponentCard.jsx; frontend/src/styles/global.css | IMPLEMENTADO NÃO VALIDADO | Componente compartilhado, cinco specs e modal completo existentes | catalog.spec.js; nomes longos; imagem ausente; 320–1440 px | Áreas alinhadas por linha, sem truncamento irrecuperável ou overflow da página | Automação existente; reexecução atual no baseline; apreciação humana pendente |
+| R03 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Navegação excessiva | Manter cinco entradas principais e grupos acessíveis | frontend/src/components/layout/AppLayout.jsx; frontend/src/App.jsx | IMPLEMENTADO NÃO VALIDADO | Montar PC, três grupos e Feedback; rotas preservadas | Teclado/Escape, clique externo, mobile e mudança de rota | Destinos existentes alcançáveis; menu fecha e foco segue corretamente | Implementação e testes históricos; compreensão com usuários pendente |
+| R04 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Admin na navegação pública | Ocultar entrada e manter autenticação real na API | frontend/src/components/layout/AppLayout.jsx; src/app.js; src/middlewares/admin-auth.middleware.js | IMPLEMENTADO NÃO VALIDADO | Sem link Admin; requireAdmin protege componentes/regras/parâmetros | tests/admin-auth.test.js; integration/cycle2.spec.js; login, logout, sessão e 401 | Visitante não vê atalho e não executa CRUD administrativo sem sessão válida | Proteção coberta por testes; não equivale a auditoria de segurança de produção |
+| R05 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Avanço entre etapas difícil | Preservar barra de ações, progresso e motivos do bloqueio | frontend/src/pages/BuildWizard.jsx; frontend/src/components/build/WizardNavigation.jsx | IMPLEMENTADO NÃO VALIDADO | Nove etapas; Avançar explícito; escolha não avança automaticamente | build-wizard.spec.js; etapas incompletas, orçamento inválido, retorno | Avanço encontrável sem percorrer todo catálogo; nenhuma escolha perdida | Validação técnica existente; descoberta sem ajuda ainda não medida |
+| R06 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Rolagem entre etapas | Focar título e compensar cabeçalho/barra | frontend/src/pages/BuildWizard.jsx; frontend/src/styles/global.css | IMPLEMENTADO NÃO VALIDADO | requestAnimationFrame, ResizeObserver, scroll offset e reduced-motion | Rolagem no fim da lista, mudança e repetição de etapa, mobile | Título fica visível abaixo das barras com foco correto; movimento reduzido respeitado | E2E existente; aparelhos físicos pendentes |
+| R07 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Linguagem técnica | Explicações contextuais progressivas e traduções | frontend/src/components/build/AnalysisHelp.jsx; frontend/src/utils/{translations,wizardSteps}.js | PARCIALMENTE IMPLEMENTADO | Glossário contextual existente; alguns termos como build/Performance/Insights permanecem | Leitura com iniciantes; requisitos, gargalo, FPS e pontuação | Pessoa diferencia compatibilidade, desempenho e estimativa; termos essenciais explicados | Sem dados de compreensão de participantes |
+| R08 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Gráficos difíceis | Legendas textuais, unidades e tabela sem depender de cor/hover | frontend/src/components/build/{BottleneckPanel,GameComparisonResult,GameSimulationResult}.jsx | IMPLEMENTADO NÃO VALIDADO | Barras horizontais, tabela e legendas existentes | performance-lab.spec.js; teclado; valores ausentes; contraste; leitor de tela | Dados equivalentes no gráfico e tabela; escala/unidade explícita; ausência não vira zero | Técnica histórica disponível; compreensão e acessibilidade completa pendentes |
+| R09 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Simular um só jogo | Manter modos individual/comparação com contrato da API | frontend/src/pages/PerformanceLab.jsx; frontend/src/services/{performanceService,gameComparisonService}.js | IMPLEMENTADO NÃO VALIDADO | Modo single padrão; comparação 2–10; respostas antigas descartadas | performance-lab.spec.js; gamePerformance.test.js; atrasos, erro e nova tentativa | Um jogo funciona sem selecionar segundo; parâmetros/resultados corretos; build intacta | Código e testes presentes; não valida FPS real |
+| R10 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Imagens dos componentes | Ampliar mídia exata licenciada com fallback | src/data/components.mock.js; frontend/src/components/componentsCatalog/ComponentImage.jsx; frontend/public/images/components/ATTRIBUTION.md | PARCIALMENTE IMPLEMENTADO | Duas fotos locais; outras 67 peças com ícone explícito | Arquivos/licenças/modelo/capacidade; erro de imagem; alt; alinhamento | Toda foto corresponde ao SKU e tem origem/licença; faltas identificadas; cobertura declarada | 2/69 arquivos presentes; catálogo completo não ilustrado |
+| R11 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Pouca RAM/armazenamento | Ampliar opções com especificações rastreáveis e regressão de domínio | src/data/{components.mock,performanceParameters}.js; tests/catalog-expansion.test.js | PARCIALMENTE IMPLEMENTADO | 11 RAM e 11 armazenamentos; seis adições documentadas, não preços reais | Integridade IDs, parâmetros, orçamento, compatibilidade, recomendações/upgrades | Novas opções coerentes, sem IDs antigos quebrados; capacidades e interfaces conferidas | Expansão anterior presente; escopo adicional depende de dados técnicos |
+| R12 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Air coolers ausentes | Introduzir acessórios opcionais e regras de socket/altura/interferência | src/models/component.model.js; src/services/{build,compatibility}.service.js; frontend/src/utils/componentLabels.js | NÃO INICIADO | Nenhuma categoria/slot de cooler; só proposta em RA2-CICLO2-CATALOGO.md | Migração, kit/socket, altura, RAM/VRM e dados insuficientes | Cooler selecionável, preço incluído, restrições físicas explícitas; desconhecido nunca aprovado | Sem implementação nem validação |
+| R13 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | AIO ausente | Modelar radiador, bomba, posições e conflitos | src/models/component.model.js; src/services/{build,compatibility}.service.js; src/data/components.mock.js | NÃO INICIADO | Sem AIO; esquema de sete slots | Socket, espessura, comprimento, posições, GPU/RAM, energia e migração | AIO correto para gabinete/socket; conflitos bloqueados; ausência de dados sinalizada | Sem implementação nem validação |
+| R14 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Fans ausentes | Modelar quantidade/posição/fans incluídos e conectores | src/models/component.model.js; src/services/{build,compatibility}.service.js; src/data/components.mock.js | NÃO INICIADO | Sem fans ou quantidades; categoria case não representa fan | Ocupação, duplicidade, corrente/tensão/hub, custo e persistência | Sem duplicar fans incluídos; quantidade/custo/conectores coerentes; dados desconhecidos sinalizados | Sem implementação nem validação |
+| R15 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Filtro por fabricante | Preservar combinação marca/categoria/preço/busca | frontend/src/components/componentsCatalog/ComponentFilters.jsx; frontend/src/utils/componentPresentation.js | IMPLEMENTADO NÃO VALIDADO | Filtros combinados no catálogo e substituição | catalog.spec.js; caixa/acentos, faixa inválida, vazio e limpar | Contagem e resultados correspondem aos filtros; seleção de comparação mantida | Evidência técnica existente; nova validação humana pendente |
+| R16 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Comparar componentes | Comparação 2–4 da mesma categoria com specs completas | frontend/src/components/componentsCatalog/ComponentComparison.jsx; frontend/src/pages/ComponentsCatalog.jsx | IMPLEMENTADO NÃO VALIDADO | Tabela, união de specs, campos ausentes e remoção individual | catalog.spec.js; limites, categoria, teclado, tabela mobile | Sem misturar categorias; unidades coerentes; nenhum ranking técnico inventado | Testes existentes; não é verificação de compatibilidade |
+| R17 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Troca individual após recomendação | Prévia e revalidação antes de aplicar preservando restante | frontend/src/components/build/ComponentReplacement.jsx; frontend/src/pages/BuildSummary.jsx; frontend/src/hooks/useBuildState.jsx | IMPLEMENTADO NÃO VALIDADO | POST /build-summary; candidata explícita; invalidação derivada | catalog.spec.js; cancelamento, atraso, incompatibilidade, teto excedido, reload | Outras seis peças e orçamento preservados; incompatível não aplica; respostas antigas ignoradas | Fluxo implementado; cobertura técnica separada de aceitação por usuário |
+| R18 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Preços pouco confiáveis | Separar referência mockada de oferta autorizada com validade | src/data/{components.mock,purchaseLinks}.js; frontend/src/components/build/PurchaseLinksList.jsx | PARCIALMENTE IMPLEMENTADO | Preço estimado rotulado; lojas são buscas; sem fonte de preço atual | Origem/SKU/moeda/data/validade; oferta ausente/vencida; falha de provedor | Nenhuma busca apresentada como cotação; oferta real só com fonte e data verificáveis | Integração de mercado não iniciada; rótulos existentes não validam valor |
+| R19 | Solicitação V2; hipótese/requisito sem dados individuais adicionais | Alternativas de mercado | Comparar alternativas pertinentes e explicar limites de cobertura | src/services/{recommendationService,upgradeSuggestionService,compatibilityFixService}.js; frontend/src/pages/{ComponentsCatalog,UpgradeSuggestions}.jsx | PARCIALMENTE IMPLEMENTADO | Alternativas apenas entre 69 mocks e links de busca; sem inventário externo | Mesmo uso/socket/orçamento, ausência de opção, dados/ofertas desatualizados | Alternativas tecnicamente justificadas; origem e cobertura declaradas; sem alegar todo mercado | Cobertura local conhecida; disponibilidade externa não verificada |
+| R20 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Bugs gerais | Preservar regressões anteriores e registrar novas falhas sem correção silenciosa | frontend/tests/e2e/qa-regressions.spec.js; frontend/tests/integration/cycle2.spec.js; tests/ | PARCIALMENTE IMPLEMENTADO | QA-01 a QA-10 históricos documentados; baseline executa checks | Backend/lint/build/E2E/integração; erros, atrasos, persistência e centavos | Defeito reproduzível tem evidência, causa, teste e reteste; bloqueios de ambiente separados | Nenhuma garantia de ausência total de bugs; resultados atuais no baseline |
+| R21 | Solicitação V2; relato qualitativo do Ciclo 1, sem atribuição individual | Simulação final ambígua | Distinguir pendente, compatibilidade, estimativa, gargalo e nota | frontend/src/pages/BuildSummary.jsx; frontend/src/components/build/{GameSimulationResult,AnalysisHelp}.jsx | PARCIALMENTE IMPLEMENTADO | Compatibilidade pendente; resumo reutiliza resultado; aviso de estimativa | qa-regressions.spec.js; mudança de jogo/peça; dados ausentes; tarefa de interpretação | Não mostrar sucesso antes da análise; resultado corresponde à seleção e usuário entende limites | Clareza técnica melhorada; interpretação por participantes pendente |
+| R22 | Solicitação V2; hipótese/requisito sem dados individuais adicionais | Retenção e monetização sem validação | Preparar pesquisa e medir valor/retorno/disposição a pagar sem inventar resultados | docs/RA2-CICLO2-REVISAO-E-VALIDACAO.md; frontend/src/pages/Feedback.jsx; src/services/recommendationFeedbackService.js | PARCIALMENTE IMPLEMENTADO | Roteiro exploratório e feedback 1–5 existem; sem coortes/receita/pagamento | Consentimento, instrumentos, denominadores, seguimento e hipóteses comerciais | Resultados reais separados de hipótese; intenção não equivale a retenção nem receita | Nenhuma coleta/receita comprovada; decisão comercial não validada |
+
+## Dependências e ordem segura
+
+- R01–R09 e R15–R17 já têm implementação relevante. Evoluir a base existente, sem reconstruir navegação, assistente ou simulações do zero
+- R10 depende de mídia do modelo/variante corretos e direitos de uso; fallback é obrigatório
+- R11–R14 dependem de catálogo, schema, normalização, seleção, persistência/versões, exportação, preço, compatibilidade, recomendações e upgrades. Refrigeração exige estado de dados insuficientes e não pode criar bônus fictício de FPS
+- R18–R19 exigem distinguir cadastro demonstrativo de ofertas e especificações reais. Não inferir estoque ou preço por link de busca
+- R20 é transversal. R21 precisa preservar o contrato e a invalidação das análises. R22 exige coleta real e separação entre intenção declarada e comportamento observado
+
+Resultados desta execução e inventário completo: [baseline](RA2-V2-BASELINE.md) e [inventário por componente](RA2-V2-INVENTARIO.json).
+
+## Atualização v2.1 — 08/10/2026
+
+A tabela acima permanece como registro da linha de base. Para R11–R14, R17, R19–R21, considere esta atualização e o [relatório da v2.1](RA2-V2.1-INTEGRACAO.md):
+
+| ID | Estado após v2.1 | Evidência / limite |
+| --- | --- | --- |
+| R11 | IMPLEMENTADO NÃO VALIDADO | +10 RAM e +10 armazenamentos, fontes oficiais por SKU, parâmetros demonstrativos e testes de integração de domínio; preços reais/aceitação humana não validados |
+| R12 | PARCIALMENTE IMPLEMENTADO | 3 air coolers selecionáveis com custo/energia/serialização e regras socket/altura; interferência RAM/VRM e adequação térmica não verificadas |
+| R13 | PARCIALMENTE IMPLEMENTADO | 2 AIOs selecionáveis e regras de radiador/socket; espessura/posição/consumo completo desconhecidos, sem aprovação automática |
+| R14 | PARCIALMENTE IMPLEMENTADO | 4 produtos de fans, packs/quantidades/custo/energia, dimensões e capacidade nominal; headers/corrente/layout misto/folgas não verificados |
+| R17 | IMPLEMENTADO NÃO VALIDADO | Troca/remoção complementar no resumo preserva principais; análises invalidadas; validação em navegador bloqueada |
+| R19 | PARCIALMENTE IMPLEMENTADO | Catálogo maior; recomendações/upgrades preservam opcionais e orçamento, recusam afirmar compatibilidade pendente; upgrades não reduzem capacidade |
+| R20 | PARCIALMENTE IMPLEMENTADO | Corrigidos storageInterfaces ausente, contratos de arrays, downgrade de capacidade e preço desconhecido; testes registrados, sem garantia de ausência total de bugs |
+| R21 | PARCIALMENTE IMPLEMENTADO | Estado não verificado explícito no resultado/compare; sem bônus FPS por refrigeração; validação de entendimento com pessoas não feita |
+
+Nenhum requisito recebe VALIDADO com base somente em código, testes de serviços ou build. As demais linhas não mudaram nesta etapa. Sem nova evidência para preço de mercado, pesquisa, retenção, monetização ou imagens.
+
+## Atualização v2.2 — 08/10/2026
+
+R10 continua **PARCIALMENTE IMPLEMENTADO**: 9/98 fotografias exatas licenciadas (9,18%), 89 bloqueios individuais. Mídia reutilizável integrada aos contextos, registro de procedência e auditoria dinâmica; cobertura integral e inspeção de telas continuam pendentes. [Relatório e limites](RA2-V2.2-INTEGRACAO.md), [cobertura real](RA2-COBERTURA-IMAGENS.md). Nenhum requisito recebe VALIDADO por lint, build ou testes sem navegador.
+
+## Atualização v2.3 — 08/10/2026
+
+R15 e R16: **IMPLEMENTADO NÃO VALIDADO**. Catálogo agora combina filtros técnicos por categoria, ordenação, prévia de compatibilidade do motor compartilhado, comparação com diferenças e índices demonstrativos explicados, além de seleção integrada à montagem existente. Testes de domínio/helpers e regressões passam; E2E, screenshots, responsividade visual e entendimento por participantes continuam pendentes. R10 preserva 9/98 fotos, 89 bloqueios. R17 não recebe nova validação de troca individual nesta etapa. [Relatório v2.3](RA2-V2.3-INTEGRACAO.md).
+
+## Atualização v2.4 — 08/10/2026
+
+- R17: **IMPLEMENTADO NÃO VALIDADO**. Troca individual atômica com preservação de peças/acessórios/orçamento, prévia antes/depois, desfazer persistente e revisão contra respostas antigas; entradas no resumo, assistente, builds prontas, recomendações, salvas e upgrades. Conhecida incompatibilidade bloqueia aplicar; dados insuficientes exigem ação explícita com avisos preservados. Testes de serviços/estado e renderização disponíveis; E2E e screenshots não executados.
+- R19: **PARCIALMENTE IMPLEMENTADO**. Alternativas sugeridas podem ser aplicadas individualmente após análise da montagem atual. Continuidade do catálogo demonstrativo; nenhum novo inventário de mercado/preço ao vivo.
+- R20/R21: **PARCIALMENTE IMPLEMENTADO**. Corrigidas restauração de análise antiga, falta de desfazer e exposição de FPS pelo resumo para configuração incompatível/não verificada. Novas estimativas têm escopo e limitações explícitos; validação visual/humana permanece pendente.
+
+[Relatório v2.4](RA2-V2.4-INTEGRACAO.md) e [evidências reproduzíveis](evidence/ra2-v2.4/README.md). Demais requisitos inalterados; etapa 5 ainda não executada.
+
+## Atualização v2.5 — 08/10/2026
+
+- R01/R02: **IMPLEMENTADO NÃO VALIDADO**. Auditoria de tokens/componentes e estrutura estática de todas as páginas. 32 pares opacos de texto/fundo passam 4,5:1; não é validação de composição real, cards, estados ou responsividade. Cinco larguras preparadas, nenhuma executada visualmente
+- R03/R04: **IMPLEMENTADO NÃO VALIDADO**. Corrigido foco ao navegar à mesma rota/mudar breakpoint e ciclo da página compartilhada. Admin continua fora do menu público, acessível por rota direta protegida. Testes de contrato/handler não comprovam teclado no navegador
+- R05/R06: **IMPLEMENTADO NÃO VALIDADO**. Nove etapas, preservação e rolagem existentes mantidas. Bloqueios cobrem critical/blocking/incompatible/unverified e edição de refrigeração limpa mensagem antiga de análise. Interação visual continua pendente
+- R07: **PARCIALMENTE IMPLEMENTADO**. Escala de software explícita, consumo parcial/potência nominal e preço de referência diferenciados; glossário mantido. Sem nova evidência de compreensão com iniciantes
+- R08/R09: **IMPLEMENTADO NÃO VALIDADO**. Títulos, dados ausentes, legendas textuais/tabelas, consumo parcial e estados de simulação auditados/corrigidos. Testes executáveis sem browser cobrem modos, limites, falhas/retry e respostas antigas. Nenhum benchmark físico ou validação assistiva completa
+- R17: **IMPLEMENTADO NÃO VALIDADO**, preservando troca/desfazer/reanálise da v2.4; R20/R21 continuam **PARCIALMENTE IMPLEMENTADO**. Resumo consolidado existente satisfaz a interpretação técnica descrita em [auditoria v2.5](RA2-V2.5-AUDITORIA-UX.md), mas o significado de “simulação final” permanece a validar com participantes
+
+[Auditoria, antes/depois e pendências](RA2-V2.5-AUDITORIA-UX.md) · [comandos e evidências](evidence/ra2-v2.5/README.md). Nenhuma linha recebe VALIDADO por SSR, handlers, testes Node, lint ou build. Inspeção visual em 1440/1024/768/390/320 px e screenshots **não executados**. Fotos continuam 9/98; preços atuais, pesquisa humana e etapa 6 não realizados.
+
+## Atualização v2.6 — 08/10/2026
+
+R18/R19 permanecem **PARCIALMENTE IMPLEMENTADOS**. Referências, pesquisa externa e modelo de ofertas separados; datas fictícias removidas; orçamento não mistura cotações com referências; recomendações/comparações/rankings explicam custo, desempenho simulado, especificações, compatibilidade e escopo do catálogo. Contrato e estados de ofertas testados com fixtures, sem provedor conectado ou preço real verificado. 425 testes Node + 40 utilitários frontend, sete scripts SSR/handlers, lints/build aprovados; navegador e aceitação humana pendentes. [Relatório](RA2-V2.6-INTEGRACAO.md) e [fontes oficiais/restrições](RA2-V2.6-MARKET-SOURCES.md). R20 mantém validação parcial. Nenhum requisito promovido a VALIDADO.
+
+## Atualização v2.7 — 08/10/2026
+
+R20/R21 permanecem **PARCIALMENTE IMPLEMENTADOS**: auditoria transversal com defeitos reproduzidos, correções, regressões, revisão de valor dos testes e percursos HTTP reais. Simulações diretas passam a respeitar compatibilidade completa; persistência, concorrência, compartilhamento e respostas inválidas receberam correções. Evidências e limitações em [RA2-V2-QUALIDADE](RA2-V2-QUALIDADE.md). R01–R06/R08/R09/R17 continuam **IMPLEMENTADO NÃO VALIDADO** no que depende de navegador/aceitação humana; 9/98 fotos e 89 pendências, nenhum provedor de preço. Nenhum requisito promovido a VALIDADO por contagem de testes, SSR ou build.
+
+## Atualização v2.8 — 08/10/2026
+
+Três jornadas técnicas separadas (iniciante, intermediário, experiente) percorreram adaptadores/utilitários frontend e API HTTP real, com escolha, orçamento, catálogo/fotos, filtros, compatibilidade, estimativas, troca/desfazer, roadmap e salvar/reler. Relatórios e rastreabilidade em [RA2-V2.8-JORNADAS](RA2-V2.8-JORNADAS.md). Corrigidos encaminhamento da build salva para upgrades e aceitação de etapas fracionárias, com regressões específicas.
+
+R20/R21 continuam **PARCIALMENTE IMPLEMENTADOS**; R01–R06/R08/R09/R17 mantêm os estados anteriores no que depende de browser e aceitação. R10–R16 mantêm limites individuais de fotos; R18/R19 sem preço real conectado. R22 (retenção/monetização) permanece pendente de validação com usuários reais. Nenhum requisito foi promovido a VALIDADO por jornadas técnicas. Não houve participante, satisfação/compreensão medida, screenshots ou execução responsiva/browser. Etapa 9 não executada neste registro.
+
+## Auditoria final v2.9 — 08/10/2026 UTC
+
+A tabela v2.0 e suas atualizações acima são **históricas**; seus estados não foram reescritos. A coluna abaixo é a decisão final sobre o requisito completo, com o vocabulário obrigatório **VALIDADO / PARCIAL / NÃO IMPLEMENTADO / BLOQUEADO / REGRESSÃO**. VALIDADO exige execução verificável e atendimento integral ao critério; não basta existir código. PARCIAL significa implementação/evidência útil com ao menos uma condição ainda incompleta; BLOQUEADO identifica validação impedida. REGRESSÃO exige falha demonstrada ainda presente na árvore final. Nenhum requisito completo recebe VALIDADO nesta entrega; subcontratos técnicos aprovados estão discriminados, sem ampliar sua conclusão para UX/mercado/hardware.
+
+Fonte auditada inicialmente: `5de7d88c906b2b66c63a4bc69e115045e012bf0d`; correções/retestes da árvore final em [relatório final](RA2-V2-RELATORIO-FINAL.md) e [registro de testes](RA2-V2-REGISTRO-TESTES.md). Os testes citados abaixo foram reexecutados salvo indicação explícita de somente coleta.
+
+| ID | Estado final v2.9 | Implementação localizada | Execução/evidência verificável | Condição incompleta / conclusão |
+| --- | --- | --- | --- | --- |
+| R01 | BLOQUEADO | Tokens em theme.css/global.css/arcade.css | check-page-audit.mjs: 32 pares opacos ≥4,5:1 | Contraste composto, disabled/hover/foco/fotos, zoom e inspeção visual sem execução |
+| R02 | PARCIAL | ComponentCard.jsx, ComponentImage.jsx e global.css | check-catalog-render.mjs; testes de apresentação/mídia | Alinhamento/nomes longos/overflow real 320–1440 px e screenshots bloqueados |
+| R03 | PARCIAL | AppLayout.jsx e App.jsx | check-navigation-wizard.mjs: destinos, Escape, descarte e foco-alvo de handlers | Foco DOM, teclado, breakpoint e histórico reais não executados |
+| R04 | PARCIAL | AppLayout.jsx; admin-auth.middleware.js | tests/admin-auth.test.js: HTTP 401/sessão/logout/429; check-navigation-wizard.mjs: sem link Admin | Contrato técnico validado; sessão interativa no navegador e segurança de produção não homologadas |
+| R05 | PARCIAL | BuildWizard.jsx; WizardNavigation.jsx | check-navigation-wizard.mjs; testes de wizardSteps e buildTransitions | Descoberta do avanço e preservação em interação DOM/participantes pendentes |
+| R06 | PARCIAL | BuildWizard.jsx; CSS de barras e reduced-motion | check-navigation-wizard.mjs; casos build-wizard.spec.js apenas coletados | Rolagem/foco abaixo das barras e aparelhos não executados |
+| R07 | PARCIAL | AnalysisHelp.jsx; translations.js; wizardSteps.js | check-chart-render.mjs e check-simulation-states.mjs: explicações/rótulos | Compreensão por pessoas reais não medida; termos técnicos ainda existem |
+| R08 | PARCIAL | BottleneckPanel.jsx; GameComparisonResult.jsx; GameSimulationResult.jsx | check-chart-render.mjs: unidades/textos/ausentes/zero e escala | Geometria, contraste composto e leitor de tela não executados |
+| R09 | PARCIAL | PerformanceLab.jsx; useSimulationRequest.js; gamePerformanceService.js | tests/gamePerformance.test.js; quality-http.test.js; check-simulation-states.mjs: limites/erros/atrasos | Contrato individual/múltiplo validado tecnicamente; E2E e precisão física não comprovados |
+| R10 | PARCIAL | component-verified-images.json; ComponentImage.jsx; auditor de imagens | image-audit.log; component-image-audit.test.js; inventário individual atualizado | 9/98 exatas (9,18%); 89 sem foto; 100% obrigatório não atendido; telas sem screenshots |
+| R11 | PARCIAL | catalog.v21.js; performanceParameters.js; labels/filtros | catalog-expansion.test.js; catalog-discovery.test.js; integrity.log: 21 RAM/21 storage, 69 IDs antigos preservados | Fontes por SKU documentadas; catálogo legado inteiro não certificado externamente; UI/humano pendentes |
+| R12 | PARCIAL | cooling.service.js; CoolingPanel.jsx; três air coolers | cooling-v21.test.js; cooling-persistence.test.js; jornadas HTTP | Seleção/preço/socket/altura implementados; RAM/VRM/térmica desconhecidos; sem aprovação física |
+| R13 | PARCIAL | cooling.service.js; dois AIOs; mesmo slot cooler | cooling-v21.test.js: socket/radiador/consumo; cooling-persistence.test.js | Posição/espessura/folgas/GPU/RAM e alimentação completa não verificadas |
+| R14 | PARCIAL | cooling.service.js; quatro produtos de fan; packs/quantity | cooling-v21.test.js; cooling-persistence.test.js; quality-http.test.js: packs/custo/remover | Headers/corrente/hubs/layout completo pendentes; desconhecido não vira compatível |
+| R15 | PARCIAL | ComponentFilters.jsx; componentPresentation.js; ComponentsCatalog.jsx | testes frontend de apresentação/filtros; catalog-discovery.test.js; jornada intermediate | AND/SKU/acentos/specs/ordenação exercitados; controles DOM e uso em telefone pendentes |
+| R16 | PARCIAL | ComponentComparison.jsx; ComponentsCatalog.jsx | check-catalog-render.mjs: rejeição mista/ausentes/diferenças; testes de comparação | Tabela 2–4 mesma categoria implementada; teclado/rolagem/alinhamento reais pendentes |
+| R17 | PARCIAL | ComponentReplacement.jsx; buildTransitions.js; useBuildState.jsx | component-replacement-v24.test.js; check-recommendation-entrypoints.mjs; upgrade-selection-normalization.test.js; jornadas HTTP | Um slot/undo/budget/acessórios/revisão validados tecnicamente; gestos/reload DOM pendentes |
+| R18 | PARCIAL | marketPriceService.js; PurchaseLinksList.jsx; BudgetPanel.jsx | market-prices.test.js; check-commercial-disclosures.mjs; integrity.log: zero live quotes | Nenhum adapter/provedor real conectado; fixtures não são cotação; 98 referências demonstrativas |
+| R19 | PARCIAL | recommendationService.js; upgradeSuggestionService.js; compatibilityFixService.js | recommendation*.test.js; upgradeSuggestion.test.js; decisionMethodology.test.js; jornadas | Alternativas do catálogo local; estoque/cobertura de mercado/melhor compra não comprovados |
+| R20 | PARCIAL | Suítes Node/HTTP/SSR, regressões e registros de defeitos | node-test.log; ssr-handlers.log; production-http.log; controles vermelho/verde finais | Bugs adicionais encontrados e corrigidos na v2.9; browser/carga/segurança completos pendentes; não promete zero bugs |
+| R21 | PARCIAL | BuildSummary.jsx; buildSummaryService.js; painéis de análise | buildSummary.test.js; quality-domain.test.js; regressões finais; check-simulation-states.mjs | Clareza técnica auditada; frase contraditória corrigida; interpretação de simulação final requer participantes |
+| R22 | PARCIAL | Feedback.jsx; recommendationFeedbackService.js; roteiro de pesquisa | recommendationFeedback.test.js; RA2-CICLO2-REVISAO-E-VALIDACAO.md | Coortes, retenção observada, receita, disposição a pagar e aceitação real NÃO IMPLEMENTADOS/medidos |
+
+Resumo: 21 PARCIAIS, 1 BLOQUEADO, 0 VALIDADO, 0 REGRESSÃO aberta demonstrada nesta matriz. “0 REGRESSÃO aberta demonstrada” não garante ausência de bugs nem aprova os 188 casos não executados. Subitens não implementados: adapter comercial real; persistência durável/isolamento de usuários; motor declarativo governado pelo CRUD; medição de retenção/monetização. **Veredito: NÃO HOMOLOGADA.**
+
+## Complemento técnico de escopo — V2.10, 08/10/2026
+
+Os registros históricos acima são preservados. O [mapa público R01–R22](RA2-V2-FEEDBACK-PROVENIENCIA.md) contém somente requisitos técnicos, decisões, critérios e limites, sem divulgar material privado de pesquisa.
+
+- R06 abrange rolagem/foco entre páginas e retorno à montagem, além das etapas do assistente
+- R16 abrange comparação de configurações completas, critérios de orçamento, identidade de resultados e apresentação dos alertas
+- R10 mantém o critério de fotografia exata para todos os itens ativos; 11/98 está incompleto e não autoriza remoção artificial do restante
+- R18 distingue 42 referências manuais datadas, 56 estimativas e zero cotações ao vivo; não há garantia de estoque atual
+- R20/R21 incluem os contratos de salvamento, navegação, revalidação, resultado atual e linguagem acessível documentados na V2.10
+- R22 não possui validação empírica nesta execução; hipóteses não são apresentadas como resultados
+
+O [relatório V2.10](RA2-V2.10-CONTINUIDADE.md) e seus resumos de execução descrevem as melhorias e as pendências. Os testes técnicos não promovem, sozinhos, requisitos completos a VALIDADO. A revisão visual do SHA publicado permanece necessária.
+
+## Política adicional — pontuação inventada autorizada
+
+Atendido em patch de revisão: oito perfis provisórios, prioridade para evidência real revisada, proveniência na API/UI e em exportações. Não exige inventar especificações, FPS ou temperatura. Validação: [metodologia e testes](RA2-SYNTHETIC-PERFORMANCE.md).
+
+
+## Continuidade atual — evidência por fonte
+
+Os critérios R01–R22 acima permanecem intactos. As autorizações posteriores para índices sintéticos e cenários térmicos/acústicos aproximados ampliam o produto, sem transformar estimativa em medição física ou aprovação de UX. A matriz final da união será anexada após o reteste identificado por fonte.
+
+R10: 81 fotos estruturalmente válidas, 71 de modelo exato e 10 de família. O requisito original de correspondência exata não é declarado integralmente satisfeito pela cobertura estrutural. R18/R19: 81 observações manuais datadas, sem cotação API ao vivo nem garantia de estoque/preço futuro. R22: pesquisa real do Ciclo 2, retenção e monetização não realizadas. Nenhum requisito recebe VALIDADO apenas por implementação, SSR, contagem de testes ou autorização de estimativa.
+
+
+## Fechamento técnico posterior — ef7f / ac27, 08/10/2026
+
+A [consolidação atual](RA2-CONSOLIDACAO-FINAL.md) separa a execução completa ef7f (267 E2E aprovados, 1 skip, zero falhas; 18 integrações aprovadas) da revisão focal ac27 (rótulo de perfil, nome longo e cinco larguras). São também 15 casos preparados e três jornadas técnicas, não participantes reais. A revisão visual final, estados de cor/contraste e zoom 200% permanecem pendentes.
+
+Os três grupos de UI/UX solicitados estão mapeados a evidência e limites na consolidação. Critérios históricos não foram reescritos. Dez fotografias são de família, preços são observações manuais datadas, e pesquisa real/retenção/monetização não foram realizadas. Fans extras não alteram temperatura no modelo atual. Nenhum resultado implica atendimento integral de 100% dos pedidos originais.

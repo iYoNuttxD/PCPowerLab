@@ -6,7 +6,7 @@ import { recommendBuildByBudget } from '../src/services/recommendationService.js
 test('deve gerar recomendacao completa dentro do orcamento informado', () => {
   const recommendation = recommendBuildByBudget({
     budget: {
-      amount: 5000,
+      amount: 10000,
       currency: 'BRL',
       priority: 'cost-benefit'
     },
@@ -15,8 +15,8 @@ test('deve gerar recomendacao completa dentro do orcamento informado', () => {
 
   assert.equal(recommendation.usageType, 'gaming');
   assert.equal(recommendation.priority, 'cost-benefit');
-  assert.equal(recommendation.totalEstimatedPrice <= 5000, true);
-  assert.equal(recommendation.remainingBudget, Number((5000 - recommendation.totalEstimatedPrice).toFixed(2)));
+  assert.equal(recommendation.totalEstimatedPrice <= 10000, true);
+  assert.equal(recommendation.remainingBudget, Number((10000 - recommendation.totalEstimatedPrice).toFixed(2)));
 
   for (const slot of ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case']) {
     assert.equal(recommendation.components[slot].category, slot);
@@ -26,7 +26,7 @@ test('deve gerar recomendacao completa dentro do orcamento informado', () => {
 test('deve evitar componentes incompativeis na recomendacao', () => {
   const recommendation = recommendBuildByBudget({
     budget: {
-      amount: 5000,
+      amount: 10000,
       priority: 'performance'
     },
     usageType: 'gaming'

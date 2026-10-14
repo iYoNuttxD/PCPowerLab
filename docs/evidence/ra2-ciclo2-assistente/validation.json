@@ -1,0 +1,384 @@
+{
+  "browser": "154.0.8037.98",
+  "viewportChecks": [
+    {
+      "width": 1440,
+      "wizardStep": "cpu",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "gpu",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "motherboard",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "ram",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "storage",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "psu",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "case",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "budget",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1440,
+      "wizardStep": "review",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "actions": 482.03125
+    },
+    {
+      "width": 1024,
+      "wizardStep": "cpu",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "gpu",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "motherboard",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "ram",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "storage",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "psu",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "case",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "budget",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 1024,
+      "wizardStep": "review",
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "actions": 468.90625
+    },
+    {
+      "width": 768,
+      "wizardStep": "cpu",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "gpu",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "motherboard",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "ram",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "storage",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "psu",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "case",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "budget",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 768,
+      "wizardStep": "review",
+      "viewport": 768,
+      "scrollWidth": 768,
+      "actions": 462.15625
+    },
+    {
+      "width": 390,
+      "wizardStep": "cpu",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 509.703125
+    },
+    {
+      "width": 390,
+      "wizardStep": "gpu",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 509.703125
+    },
+    {
+      "width": 390,
+      "wizardStep": "motherboard",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 509.703125
+    },
+    {
+      "width": 390,
+      "wizardStep": "ram",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 509.703125
+    },
+    {
+      "width": 390,
+      "wizardStep": "storage",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 530.578125
+    },
+    {
+      "width": 390,
+      "wizardStep": "psu",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 509.703125
+    },
+    {
+      "width": 390,
+      "wizardStep": "case",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 509.703125
+    },
+    {
+      "width": 390,
+      "wizardStep": "budget",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 530.578125
+    },
+    {
+      "width": 390,
+      "wizardStep": "review",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "actions": 530.578125
+    },
+    {
+      "width": 320,
+      "wizardStep": "cpu",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "gpu",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "motherboard",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "ram",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "storage",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "psu",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "case",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 556.96875
+    },
+    {
+      "width": 320,
+      "wizardStep": "budget",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 577.84375
+    },
+    {
+      "width": 320,
+      "wizardStep": "review",
+      "viewport": 320,
+      "scrollWidth": 320,
+      "actions": 577.84375
+    }
+  ],
+  "accessibility": [
+    {
+      "width": 1440,
+      "wizardStep": "cpu",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "width": 1440,
+      "wizardStep": "budget",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "width": 1440,
+      "wizardStep": "review",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "width": 390,
+      "wizardStep": "cpu",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "width": 390,
+      "wizardStep": "budget",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "width": 390,
+      "wizardStep": "review",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  ],
+  "errors": [],
+  "realApiAnalysis": {
+    "compatible": true,
+    "bottlenecks": "success",
+    "selectedIds": {
+      "cpu": "cpu-ryzen-5-5600",
+      "gpu": "gpu-rtx-4060",
+      "motherboard": "mb-b550m-aorus-elite",
+      "ram": "ram-kingston-fury-16gb-ddr4",
+      "storage": "ssd-kingston-nv2-1tb",
+      "psu": "psu-corsair-650w",
+      "case": "case-mid-tower-airflow"
+    }
+  }
+}

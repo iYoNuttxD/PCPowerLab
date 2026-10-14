@@ -1,0 +1,5147 @@
+[
+  {
+    "productId": "cpu-ryzen-5-5500",
+    "model": "100-100000457BOX",
+    "sourceVariantName": "100-100000457BOX",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/320799/processador-amd-ryzen-5-5500-3-6ghz-4-2ghz-max-turbo-cache-19mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000457box",
+    "price": 559.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$65,88 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-5500",
+      "name": "AMD Ryzen 5 5500",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4.2,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 589.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:23:09.500Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-ryzen-5-5500",
+      "catalogName": "AMD Ryzen 5 5500",
+      "catalogPartNumber": null,
+      "offerModel": "100-100000457BOX",
+      "evidenceUrl": "https://www.kabum.com.br/produto/320799/processador-amd-ryzen-5-5500-3-6ghz-4-2ghz-max-turbo-cache-19mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000457box",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-ryzen-7-5700x",
+    "model": "100-100000926WOF",
+    "sourceVariantName": "100-100000926WOF",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/20813/processador-amd-ryzen-7-5700x-34ghz-46ghz-turbo-8-cores-16-threads-am4-sem-cooler-100-100000926wof",
+    "price": 1199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista ou boleto",
+    "cardTotal": 1411.75,
+    "installments": "Até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-5700x",
+      "name": "AMD Ryzen 7 5700X",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 4.6,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1199.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:30:12.424Z",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-ryzen-7-5700x",
+      "catalogName": "AMD Ryzen 7 5700X",
+      "catalogPartNumber": null,
+      "offerModel": "100-100000926WOF",
+      "evidenceUrl": "https://www.terabyteshop.com.br/produto/20813/processador-amd-ryzen-7-5700x-34ghz-46ghz-turbo-8-cores-16-threads-am4-sem-cooler-100-100000926wof",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-ryzen-7-5800x3d",
+    "model": "100-100000651POF",
+    "sourceVariantName": "100-100000651POF",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/1053828/processador-amd-ryzen-7-5800x3d-3-4ghz-8-core-cache-100mb-am4-100-100000651pof",
+    "price": 2139.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$251,76 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-5800x3d",
+      "name": "AMD Ryzen 7 5800X3D",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM4",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 4.5,
+        "tdpWatts": 105
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Embalagem Anniversary 100-100000651POF confirmada pela AMD; inclui Carbice Ice Pad e não inclui cooler."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:08.020Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "identitySourceUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x3d.html",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-ryzen-7-5800x3d",
+      "catalogName": "AMD Ryzen 7 5800X3D",
+      "catalogPartNumber": null,
+      "offerModel": "100-100000651POF",
+      "evidenceUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x3d.html",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-ryzen-5-7600",
+    "model": "100-100001015BOX",
+    "sourceVariantName": "100-100001015BOX",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/405799/processador-amd-ryzen-5-7600-3-8ghz-5-1ghz-max-turbo-cache-38mb-6-nucleos-12-threads-am5-com-video-integrado-100-100001015box",
+    "price": 999.98,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$117,64 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-7600",
+      "name": "AMD Ryzen 5 7600",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM5",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.8,
+        "boostClockGhz": 5.1,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1399.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:24:13.408Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-ryzen-5-7600",
+      "catalogName": "AMD Ryzen 5 7600",
+      "catalogPartNumber": null,
+      "offerModel": "100-100001015BOX",
+      "evidenceUrl": "https://www.kabum.com.br/produto/405799/processador-amd-ryzen-5-7600-3-8ghz-5-1ghz-max-turbo-cache-38mb-6-nucleos-12-threads-am5-com-video-integrado-100-100001015box",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-ryzen-7-7700",
+    "model": "100-100000592SBX",
+    "sourceVariantName": "100-100000592SBX",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/40585/processador-amd-ryzen-7-7700-38ghz-53ghz-turbo-8-cores-16-threads-am5-com-cooler-amd-wraith-stealth-100-100000592sbx",
+    "price": 1649.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista ou boleto",
+    "cardTotal": 1941.16,
+    "installments": "Até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-7700",
+      "name": "AMD Ryzen 7 7700",
+      "brand": "AMD",
+      "category": "cpu",
+      "specs": {
+        "socket": "AM5",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 3.8,
+        "boostClockGhz": 5.3,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1999.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:30:11.005Z",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-ryzen-7-7700",
+      "catalogName": "AMD Ryzen 7 7700",
+      "catalogPartNumber": null,
+      "offerModel": "100-100000592SBX",
+      "evidenceUrl": "https://www.terabyteshop.com.br/produto/40585/processador-amd-ryzen-7-7700-38ghz-53ghz-turbo-8-cores-16-threads-am5-com-cooler-amd-wraith-stealth-100-100000592sbx",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-intel-i3-12100f",
+    "model": "BX8071512100F",
+    "sourceVariantName": "BX8071512100F",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/283719/processador-intel-core-i3-12100f-3-3ghz-4-3ghz-max-turbo-cache-12mb-4-nucleos-8-threads-lga-1700-sem-video-integrado-bx8071512100f",
+    "price": 599.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$70,58 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i3-12100f",
+      "name": "Intel Core i3-12100F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 4,
+        "threads": 8,
+        "baseClockGhz": 3.3,
+        "boostClockGhz": 4.3,
+        "tdpWatts": 58
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 549.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:23:11.959Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-intel-i3-12100f",
+      "catalogName": "Intel Core i3-12100F",
+      "catalogPartNumber": null,
+      "offerModel": "BX8071512100F",
+      "evidenceUrl": "https://www.kabum.com.br/produto/283719/processador-intel-core-i3-12100f-3-3ghz-4-3ghz-max-turbo-cache-12mb-4-nucleos-8-threads-lga-1700-sem-video-integrado-bx8071512100f",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-intel-i5-12400f",
+    "model": "BX8071512400F",
+    "sourceVariantName": "BX8071512400F",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/20072/processador-intel-core-i5-12400f-25ghz-44ghz-turbo-12-geracao-6-cores-12-threads-lga-1700-bx8071512400f",
+    "price": 829.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista ou boleto",
+    "cardTotal": 976.46,
+    "installments": "Até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-12400f",
+      "name": "Intel Core i5-12400F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.4,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 849.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:30:03.048Z",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-intel-i5-12400f",
+      "catalogName": "Intel Core i5-12400F",
+      "catalogPartNumber": null,
+      "offerModel": "BX8071512400F",
+      "evidenceUrl": "https://www.terabyteshop.com.br/produto/20072/processador-intel-core-i5-12400f-25ghz-44ghz-turbo-12-geracao-6-cores-12-threads-lga-1700-bx8071512400f",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-intel-i7-13700k",
+    "model": "BX8071513700K",
+    "sourceVariantName": "BX8071513700K",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "BEST MICRO",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/400720/processador-intel-core-i7-13700k-lga-1700-3-4ghz-5-4ghz-max-turbo-cache-30mb-16-nucleos-24-threads-bx8071513700k",
+    "price": 3851.23,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$385,12 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i7-13700k",
+      "name": "Intel Core i7-13700K",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 16,
+        "threads": 24,
+        "baseClockGhz": 3.4,
+        "boostClockGhz": 5.4,
+        "tdpWatts": 125
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 2699.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:04.569Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-intel-i7-13700k",
+      "catalogName": "Intel Core i7-13700K",
+      "catalogPartNumber": null,
+      "offerModel": "BX8071513700K",
+      "evidenceUrl": "https://www.kabum.com.br/produto/400720/processador-intel-core-i7-13700k-lga-1700-3-4ghz-5-4ghz-max-turbo-cache-30mb-16-nucleos-24-threads-bx8071513700k",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "cpu-intel-i5-14400f",
+    "model": "BX8071514400F",
+    "sourceVariantName": "BX8071514400F",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/27612/processador-intel-core-i5-14400f-35-ghz-47ghz-turbo-14-geracao-10-cores-16-threads-lga-1700-bx8071514400f",
+    "price": 999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista ou boleto",
+    "cardTotal": 1176.46,
+    "installments": "Até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-14400f",
+      "name": "Intel Core i5-14400F",
+      "brand": "Intel",
+      "category": "cpu",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 10,
+        "threads": 16,
+        "baseClockGhz": 2.5,
+        "boostClockGhz": 4.7,
+        "tdpWatts": 65
+      },
+      "partNumber": null
+    },
+    "demonstrativePrice": 1299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:30:07.832Z",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "reviewedSkuMatch": {
+      "catalogProductId": "cpu-intel-i5-14400f",
+      "catalogName": "Intel Core i5-14400F",
+      "catalogPartNumber": null,
+      "offerModel": "BX8071514400F",
+      "evidenceUrl": "https://www.terabyteshop.com.br/produto/27612/processador-intel-core-i5-14400f-35-ghz-47ghz-turbo-14-geracao-10-cores-16-threads-lga-1700-bx8071514400f",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "mb-asus-tuf-b550m-plus",
+    "model": "TUF-GAMING-B550M-PLUS",
+    "sourceVariantName": "TUF-GAMING-B550M-PLUS",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-mae-asus-tuf-gaming-b550m-plus-ddr4-socket-am4-chipset-amd-b550-tuf-gaming-b550m-plus",
+    "price": 799.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista 15% desconto",
+    "cardTotal": 941.16,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-asus-tuf-b550m-plus",
+      "name": "ASUS TUF Gaming B550M-Plus",
+      "brand": "ASUS",
+      "category": "motherboard",
+      "specs": {
+        "socket": "AM4",
+        "memoryType": "DDR4",
+        "formFactor": "mATX",
+        "chipset": "B550",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+        "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+      }
+    },
+    "demonstrativePrice": 899.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "reviewedSkuMatch": {
+      "catalogProductId": "mb-asus-tuf-b550m-plus",
+      "catalogName": "ASUS TUF Gaming B550M-Plus",
+      "catalogPartNumber": null,
+      "offerModel": "TUF-GAMING-B550M-PLUS",
+      "evidenceUrl": "https://www.pichau.com.br/placa-mae-asus-tuf-gaming-b550m-plus-ddr4-socket-am4-chipset-amd-b550-tuf-gaming-b550m-plus",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "fan-noctua-nf-a14-pwm",
+    "model": "NF-A14-PWM",
+    "sourceVariantName": "NF-A14-PWM",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ventoinha-noctua-140mm-marrom-nf-a14-pwm",
+    "price": 194.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista 15% desconto",
+    "cardTotal": 229.4,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-noctua-nf-a14-pwm",
+      "name": "Noctua NF-A14 PWM",
+      "brand": "Noctua",
+      "category": "fan",
+      "specs": {
+        "diameterMm": 140,
+        "thicknessMm": 27,
+        "connector": "4-pin PWM",
+        "powerWatts": 1.56,
+        "unitsPerPack": 1,
+        "powerBasis": "Máximo por fan; espessura com pads antivibração"
+      },
+      "partNumber": "NF-A14 PWM"
+    },
+    "demonstrativePrice": 179.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "reviewedSkuMatch": {
+      "catalogProductId": "fan-noctua-nf-a14-pwm",
+      "catalogName": "Noctua NF-A14 PWM",
+      "catalogPartNumber": "NF-A14 PWM",
+      "offerModel": "NF-A14-PWM",
+      "evidenceUrl": "https://www.pichau.com.br/ventoinha-noctua-140mm-marrom-nf-a14-pwm",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "price": 799.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/28919/placa-mae-gigabyte-b650m-d3hp-chipset-b650-amd-am5-matx-ddr5",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 941.16,
+    "installments": "12x R$78,43 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "mb-gigabyte-b650m-d3hp",
+    "model": "B650M D3HP",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "B650M D3HP",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b650m-d3hp",
+      "name": "Gigabyte B650M D3HP",
+      "brand": "Gigabyte",
+      "category": "motherboard",
+      "partNumber": "B650M D3HP",
+      "specs": {
+        "socket": "AM5",
+        "memoryType": "DDR5",
+        "formFactor": "mATX",
+        "chipset": "B650",
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "sataPorts": 4,
+        "m2Slots": 2,
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2,
+        "pcieGeneration": 4,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "memorySupportNotes": "Velocidade XMP/EXPO e capacidade por módulo dependem de CPU, BIOS e QVL."
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 589.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/43174/gabinete-gamer-cooler-master-elite-502-argb-vidro-temperado-mid-tower-atx-com-3-fans-branco-e502-wgnn-s00",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 694.11,
+    "installments": "12x R$57,84 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "case-cooler-master-elite-502-white",
+    "model": "E502-WGNN-S00",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "E502-WGNN-S00",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "case-cooler-master-elite-502-white",
+      "name": "Cooler Master Elite 502 White",
+      "brand": "Cooler Master",
+      "category": "case",
+      "partNumber": "E502-WGNN-S00",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX",
+          "E-ATX"
+        ],
+        "maxGpuLengthMm": 360,
+        "maxCoolerHeightMm": 170,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280,
+          360,
+          420
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 7
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 5
+          }
+        ],
+        "includedFanCount": 3,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "coolingSupportNotes": "Frente 3x120/140; topo 3x120 ou2x140; traseira1x120. Três120ARGB incluídos na frente. Frente até420mm limitado457x140x27mm; topo até360mm. GPU410mm somente sem radiador frontal; 360mm com montagem HDD indicada. E-ATX até305x277mm. Confirmar layout/folgas no manual.",
+        "frontRadiatorMaxThicknessMm": 27,
+        "radiatorLayouts": {
+          "front": [
+            120,
+            140,
+            240,
+            280,
+            360,
+            420
+          ],
+          "top": [
+            120,
+            140,
+            240,
+            280,
+            360
+          ],
+          "rear": [
+            120
+          ]
+        },
+        "radiatorLimitsMm": {
+          "front": {
+            "length": 457,
+            "width": 140,
+            "thickness": 27
+          }
+        },
+        "fanLayouts": {
+          "front": [
+            "3x120",
+            "3x140"
+          ],
+          "top": [
+            "3x120",
+            "2x140"
+          ],
+          "rear": [
+            "1x120"
+          ]
+        },
+        "includedFansPosition": "front",
+        "maxGpuLengthWithHddBracketMm": 360,
+        "includedFanDiameterMm": 120,
+        "color": "White",
+        "maxGpuLengthWithoutFrontRadiatorMm": 410
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 159.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/38349/cooler-para-processador-be-quiet-pure-rock-3-120mm-intelamd-preto-bk039",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 188.22,
+    "installments": "9x R$20,91 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "cooler-bequiet-pure-rock-3-black",
+    "model": "BK039",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "BK039",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-bequiet-pure-rock-3-black",
+      "name": "be quiet! Pure Rock 3 Black",
+      "brand": "be quiet!",
+      "category": "cooler",
+      "partNumber": "BK039",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1851",
+          "LGA1700",
+          "LGA1200",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155"
+        ],
+        "heightMm": 154,
+        "includedFanCount": 1,
+        "powerWatts": 3.6,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "length": 71,
+          "width": 124,
+          "height": 154
+        }
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 469.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/cooler-para-processador-noctua-nh-l9a-am4-chromax-92mm-preta-nh-l9a-am4-ch-bk",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "PIX à vista 15% desconto",
+    "cardTotal": 552.93,
+    "installments": "12x R$46,08 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "cooler-noctua-nh-l9a-am4-chromax-black",
+    "model": "NH-L9A-AM4-CH.BK",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "NH-L9A-AM4-CH.BK",
+    "condition": "unknown",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-noctua-nh-l9a-am4-chromax-black",
+      "name": "Noctua NH-L9a-AM4 chromax.black",
+      "brand": "Noctua",
+      "category": "cooler",
+      "partNumber": "NH-L9A-AM4-CH.BK",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4"
+        ],
+        "heightMm": 37,
+        "includedFanCount": 1,
+        "powerWatts": 2.52,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "dimensionsMm": {
+          "height": 37,
+          "width": 114,
+          "length": 92
+        }
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 679.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39904/water-cooler-arctic-liquid-freezer-iii-pro-240-argb-240mm-intel-amd-branco-acfre00186a",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 799.99,
+    "installments": "12x R$66,67 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+    "model": "ACFRE00186A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ACFRE00186A",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+      "name": "ARCTIC Liquid Freezer III Pro 240 A-RGB White",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00186A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "includedFanCount": 2,
+        "powerWatts": 18.72,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "radiatorSizeMm": 240,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 277,
+          "width": 120,
+          "height": 38
+        },
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "totalEnvelopeThicknessMm": 66,
+        "compatibilityNotes": "Conferir revisão, kit incluso, dissipadores M.2/VRM, RAM e folgas. Envelope conservador do conjunto: 66 mm; não apenas a espessura nominal do radiador."
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 739.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/36013/water-cooler-arctic-liquid-freezer-iii-pro-360-360mm-intel-amd-preto-acfre00180a",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 870.58,
+    "installments": "12x R$72,55 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "cooler-arctic-liquid-freezer-iii-pro-360",
+    "model": "ACFRE00180A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ACFRE00180A",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-360",
+      "name": "ARCTIC Liquid Freezer III Pro 360 Black",
+      "brand": "ARCTIC",
+      "category": "cooler",
+      "partNumber": "ACFRE00180A",
+      "specs": {
+        "coolingType": "aio",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1700",
+          "LGA1851"
+        ],
+        "heightMm": null,
+        "includedFanCount": 3,
+        "powerWatts": 16.68,
+        "powerBasis": "Potência nominal informada ou derivada da ficha oficial; não é medição nem TDP térmico.",
+        "connector": "4-pin PWM",
+        "radiatorSizeMm": 360,
+        "radiatorThicknessMm": 38,
+        "radiatorDimensionsMm": {
+          "length": 398,
+          "width": 120,
+          "height": 38
+        },
+        "fanDiameterMm": 120,
+        "fanThicknessMm": 25,
+        "totalEnvelopeThicknessMm": 66,
+        "compatibilityNotes": "Conferir revisão, kit incluso, dissipadores M.2/VRM, RAM e folgas. Envelope conservador do conjunto: 66 mm; não apenas a espessura nominal do radiador."
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 59.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39644/cooler-para-gabinete-arctic-p12-pro-120mm-preto-acfan00305a",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 70.58,
+    "installments": "3x R$23,53 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "fan-arctic-p12-pro",
+    "model": "ACFAN00305A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ACFAN00305A",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-arctic-p12-pro",
+      "name": "ARCTIC P12 Pro (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00305A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 1,
+        "connector": "4-pin PWM",
+        "powerWatts": 3.96,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": false,
+        "auxiliaryPowerNotes": null,
+        "rgb": false
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 59.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39882/cooler-para-gabinete-arctic-p12-pro-pst-120mm-pwm-branco-acfan00308a",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 70.58,
+    "installments": "3x R$23,53 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "fan-arctic-p12-pro-pst-white",
+    "model": "ACFAN00308A",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "ACFAN00308A",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-arctic-p12-pro-pst-white",
+      "name": "ARCTIC P12 Pro PST White (1 fan)",
+      "brand": "ARCTIC",
+      "category": "fan",
+      "partNumber": "ACFAN00308A",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 1,
+        "connector": "4-pin PWM plug + 4-pin socket (PST)",
+        "powerWatts": 3.96,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": false,
+        "auxiliaryPowerNotes": null,
+        "rgb": false
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "price": 259.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/35779/kit-fan-com-3-unidades-cooler-master-sickleflow-edge-white-edition-argb-120mm-com-controladora-branco-mfx-b2dw-253p2-r2",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 305.87,
+    "installments": "12x R$25,49 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+    "model": "MFX-B2DW-253P2-R2",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "MFX-B2DW-253P2-R2",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+      "name": "Cooler Master SickleFlow Edge 120 A-RGB White (kit 3 fans)",
+      "brand": "Cooler Master",
+      "category": "fan",
+      "partNumber": "MFX-B2DW-253P2-R2",
+      "specs": {
+        "diameterMm": 120,
+        "thicknessMm": 25,
+        "unitsPerPack": 3,
+        "connector": "4-pin PWM",
+        "powerWatts": 3.45,
+        "powerBasis": "Potência nominal por unidade, incluindo LEDs quando especificados; derivada dos dados oficiais, não é medição.",
+        "auxiliaryPowerUnknown": true,
+        "auxiliaryPowerNotes": "Consumo próprio da controladora não especificado; não incluído.",
+        "rgb": true
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:11.631802+00:00"
+  },
+  {
+    "productId": "ssd-kingston-a400-960gb",
+    "model": "SA400S37/960G",
+    "sourceVariantName": "SA400S37/960G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-a400-960gb-2-5-pol-sata-iii-6gb-s-leitura-500mb-s-gravacao-450mb-s-sa400s37-960g",
+    "price": 949.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX",
+    "cardTotal": 1117.64,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-a400-960gb",
+      "name": "Kingston A400 960GB SATA SSD",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 960,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450
+      },
+      "partNumber": "SA400S37/960G"
+    },
+    "demonstrativePrice": 329.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:23:05.226Z",
+    "availabilityEvidence": "Produto disponível; compra habilitada"
+  },
+  {
+    "productId": "ram-kf432c16bbk2-16",
+    "model": "KF432C16BBK2/16",
+    "sourceVariantName": "KF432C16BBK2/16",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/19317/memoria-kingston-fury-beast-16gb-2x8gb-3200mhz-ddr4-black-kf432c16bbk216",
+    "price": 1699.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "12xR$166.66 sem juros; até18x com juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bbk2-16",
+      "name": "Kingston FURY Beast 16GB (2×8GB) DDR4-3200",
+      "brand": "Kingston",
+      "category": "ram",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "speedProfile": "XMP; requer configuração e plataforma compatível"
+      },
+      "partNumber": "KF432C16BBK2/16"
+    },
+    "demonstrativePrice": 299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:27:48.868Z",
+    "availabilityEvidence": "Pronta entrega; compra habilitada"
+  },
+  {
+    "productId": "ssd-samsung-870-evo-250gb",
+    "model": "MZ-77E250B/AM",
+    "sourceVariantName": "MZ-77E250B/AM",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "DAXFY",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/450155/ssd-samsung-870-evo-250gb-sata-iii-2-5-polegadas-mz-77e250b-am",
+    "price": 663.1,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 698.0,
+    "installments": "10x R$69,80 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-samsung-870-evo-250gb",
+      "name": "Samsung 870 EVO 250GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 250,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "partNumber": "MZ-77E250"
+    },
+    "demonstrativePrice": 249.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:13.067Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "ssd-samsung-870-evo-250gb",
+      "catalogName": "Samsung 870 EVO 250GB SATA",
+      "catalogPartNumber": "MZ-77E250",
+      "offerModel": "MZ-77E250B/AM",
+      "evidenceUrl": "https://www.kabum.com.br/produto/450155/ssd-samsung-870-evo-250gb-sata-iii-2-5-polegadas-mz-77e250b-am",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "ssd-samsung-870-evo-500gb",
+    "model": "MZ-77E500B/EU",
+    "sourceVariantName": "MZ-77E500B/EU",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "Orion Space Store",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.kabum.com.br/produto/647831/ssd-500gb-2-5-sata-3-870-evo-560mb-s-leit-530mb-s-grav-mz-77e500b-eu-samsung",
+    "price": 862.83,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 958.7,
+    "installments": "10x R$95.87 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-samsung-870-evo-500gb",
+      "name": "Samsung 870 EVO 500GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "partNumber": "MZ-77E500"
+    },
+    "demonstrativePrice": 379.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:18.649Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "ssd-samsung-870-evo-500gb",
+      "catalogName": "Samsung 870 EVO 500GB SATA",
+      "catalogPartNumber": "MZ-77E500",
+      "offerModel": "MZ-77E500B/EU",
+      "evidenceUrl": "https://www.kabum.com.br/produto/647831/ssd-500gb-2-5-sata-3-870-evo-560mb-s-leit-530mb-s-grav-mz-77e500b-eu-samsung",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "ssd-samsung-870-evo-1000gb",
+    "model": "MZ-77E1T0B/AM",
+    "sourceVariantName": "MZ-77E1T0B/AM",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "Orion Space Store",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/351998/ssd-samsung-870-evo-1tb-sata-mz-77e1t0b-am",
+    "price": 1685.25,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 1872.5,
+    "installments": "10x R$181,25 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-samsung-870-evo-1000gb",
+      "name": "Samsung 870 EVO 1000GB SATA",
+      "brand": "Samsung",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 530,
+        "speedBasis": "Máximo sequencial anunciado; cache TurboWrite e condições do fabricante"
+      },
+      "partNumber": "MZ-77E1T0"
+    },
+    "demonstrativePrice": 599.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:20.931Z",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "reviewedSkuMatch": {
+      "catalogProductId": "ssd-samsung-870-evo-1000gb",
+      "catalogName": "Samsung 870 EVO 1000GB SATA",
+      "catalogPartNumber": "MZ-77E1T0",
+      "offerModel": "MZ-77E1T0B/AM",
+      "evidenceUrl": "https://www.kabum.com.br/produto/351998/ssd-samsung-870-evo-1tb-sata-mz-77e1t0b-am",
+      "reason": "Correspondência revisada de modelo e especificações; SKU de embalagem/região ou grafia comercial explicitado, sem mudar capacidade, kit ou variante técnica."
+    }
+  },
+  {
+    "productId": "ssd-kingston-kc3000-2048gb",
+    "model": "SKC3000D/2048G",
+    "sourceVariantName": "SKC3000D/2048G",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "TH INFORMATICA",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/1055950/ssd-kingston-m-2-2tb-kc3000-nvme-skc3000d-2048g",
+    "price": 5696.74,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 5696.7,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-kc3000-2048gb",
+      "name": "Kingston KC3000 2048GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2048,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 7000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      },
+      "partNumber": "SKC3000D/2048G"
+    },
+    "demonstrativePrice": 1099.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:25.777Z",
+    "availabilityEvidence": "Compra habilitada na página do produto"
+  },
+  {
+    "productId": "ssd-kingston-kc3000-4096gb",
+    "model": "SKC3000D/4096G",
+    "sourceVariantName": "SKC3000D/4096G",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "not explicitly stated",
+    "productUrl": "https://www.kabum.com.br/produto/272354/ssd-kingston-kc3000-4tb-m-2-2280-pcie-4-0-x4-nvme-leitura-7000-mb-s-gravacao-7000-mb-s-preto-skc3000d-4096g",
+    "price": 6899.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 8117.6,
+    "installments": "12x R$555.88 sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-kc3000-4096gb",
+      "name": "Kingston KC3000 4096GB NVMe",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 4096,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 7000,
+        "speedBasis": "Máximo sequencial anunciado; varia com sistema e condições de teste"
+      },
+      "partNumber": "SKC3000D/4096G"
+    },
+    "demonstrativePrice": 2299.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:28.347Z",
+    "availabilityEvidence": "Compra habilitada na página do produto"
+  },
+  {
+    "productId": "ssd-kingston-a400-240gb",
+    "model": "SA400S37/240G",
+    "sourceVariantName": "SA400S37/240G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-kingston-a400-240gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-350mb-s-sa400s37-240g",
+    "price": 479.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX",
+    "cardTotal": 564.69,
+    "installments": "até 12x sem juros",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-a400-240gb",
+      "name": "Kingston A400 240GB SATA SSD",
+      "brand": "Kingston",
+      "category": "storage",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 240,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 350,
+        "speedBasis": "Máximo sequencial anunciado"
+      },
+      "partNumber": "SA400S37/240G"
+    },
+    "demonstrativePrice": 139.9,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:22:47.107Z",
+    "availabilityEvidence": "Produto disponível; compra habilitada"
+  },
+  {
+    "price": 3213.22,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/1055759/memoria-ram-kingston-ddr4-32gb-3200mhz-kvr32n22d8-32",
+    "store": "KaBuM",
+    "seller": "TH INFORMATICA",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 3213.2,
+    "installments": "10 x R$321,32 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kvr32n22d8-32",
+    "model": "KVR32N22D8/32",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "KVR32N22D8/32",
+    "condition": "unknown",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kvr32n22d8-32",
+      "name": "Kingston ValueRAM 32GB (1x32GB) DDR4-3200 CL22",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KVR32N22D8/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 32,
+        "casLatency": 22,
+        "voltageV": 1.2,
+        "speedProfile": "JEDEC DDR4-3200; no XMP needed for rated JEDEC profile",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 31.25,
+          "thickness": null
+        },
+        "rgb": false
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:31.021Z"
+  },
+  {
+    "price": 3489.99,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/480530/memoria-ram-kingston-fury-beast-rgb-32gb-2x16gb-3200mhz-ddr4-cl16-preto-kf432c16bb12ak2-32",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 4105.8,
+    "installments": "10 x R$410,58 sem juros; anúncio também informa até 36x NuPay; condições não verificadas",
+    "availability": "available",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kf432c16bb12ak2-32",
+    "model": "KF432C16BB12AK2/32",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "KF432C16BB12AK2/32",
+    "condition": "unknown",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb12ak2-32",
+      "name": "Kingston FURY Beast RGB 32GB (2x16GB) DDR4-3200 CL16",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BB12AK2/32",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        },
+        "rgb": true
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:34.954Z"
+  },
+  {
+    "price": 2999.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-pro-sl-rgb-32gb-2x16gb-ddr4-3600mhz-cl18-preto-cmh32gx4m2z3600c18",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "PIX",
+    "cardTotal": 3529.4,
+    "installments": "12 x R$294,12 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-cmh32gx4m2z3600c18",
+    "model": "CMH32GX4M2Z3600C18",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "CMH32GX4M2Z3600C18",
+    "condition": "unknown",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmh32gx4m2z3600c18",
+      "name": "Corsair Vengeance RGB PRO SL 32GB (2x16GB) DDR4-3600 CL18 Black",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMH32GX4M2Z3600C18",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 32,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "casLatency": 18,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 138.3,
+          "height": 44.8,
+          "thickness": 7.5
+        },
+        "rgb": true
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:25:48.325Z"
+  },
+  {
+    "price": 10799.99,
+    "currency": "BRL",
+    "productUrl": "https://www.pichau.com.br/memoria-corsair-vengeance-rgb-64gb-2x32gb-ddr5-6000mhz-c30-branco-cmh64gx5m2b6000z30w",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "paymentCondition": "PIX",
+    "cardTotal": 12705.87,
+    "installments": "12 x R$1.058,82 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-cmh64gx5m2b6000z30w",
+    "model": "CMH64GX5M2B6000Z30W",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "CMH64GX5M2B6000Z30W",
+    "condition": "unknown",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmh64gx5m2b6000z30w",
+      "name": "Corsair Vengeance RGB 64GB (2x32GB) DDR5-6000 CL30 White",
+      "brand": "Corsair",
+      "category": "ram",
+      "partNumber": "CMH64GX5M2B6000Z30W",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 64,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 32,
+        "casLatency": 30,
+        "voltageV": 1.4,
+        "speedProfile": "AMD EXPO & Intel XMP",
+        "dimensionsMm": {
+          "length": 135,
+          "height": 44,
+          "thickness": 8
+        },
+        "rgb": true
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:25:50.952Z"
+  },
+  {
+    "price": 729.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/31563/ssd-kingston-nv3-500gb-m2-nvme-2280-pcie-40-leitura-5000mbs-e-gravacao-3000mbs-snv3s500g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "12x R$71,56 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "ssd-kingston-nv3-500gb",
+    "model": "SNV3S/500G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "SNV3S/500G",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-500gb",
+      "name": "Kingston NV3 500GB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/500G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 5000,
+        "writeSpeedMbS": 3000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 160,
+        "m2LengthMm": 80
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:48.076Z"
+  },
+  {
+    "price": 1499.99,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/25625/ssd-xpg-gammmix-s70-blade-1tb-m2-2280-nvme-leitura-7400mbs-e-gravacao-5500mbs-agammixs70b-1t-cs",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "12x R$147,06 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "ssd-xpg-gammix-s70-blade-1tb",
+    "model": "AGAMMIXS70B-1T-CS",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "AGAMMIXS70B-1T-CS",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-xpg-gammix-s70-blade-1tb",
+      "name": "XPG GAMMIX S70 BLADE 1TB",
+      "brand": "XPG",
+      "category": "storage",
+      "partNumber": "AGAMMIXS70B-1T-CS",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1024,
+        "readSpeedMbS": 7400,
+        "writeSpeedMbS": 5500,
+        "formFactor": "M.2 2280",
+        "enduranceTBW": 740,
+        "m2LengthMm": 80
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:49.521Z"
+  },
+  {
+    "price": 2121.74,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/632569/ssd-2tb-kingston-m-2-nvme-pcie-4-leitura-6000mb-s-gravacao-5000mb-s-nv3-snv3s-2000g",
+    "store": "KaBuM",
+    "seller": "SEVENTEK COMERCIO DE INFORMATICA EIRELI",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 2357.4,
+    "installments": "12x R$215,68 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "retrievalCrawlLabel": null,
+    "productId": "ssd-kingston-nv3-2tb",
+    "model": "SNV3S/2000G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "SNV3S/2000G",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-2tb",
+      "name": "Kingston NV3 2TB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/2000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 5000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 640,
+        "m2LengthMm": 80
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:56.822Z"
+  },
+  {
+    "price": 3249.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/42987/ssd-sandisk-520-2tb-sata-iii-leitura-560mbs-e-gravacao-520mbs-sdss51200tab-000g0",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "12x R$318,62 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "ssd-sandisk-520-2tb",
+    "model": "SDSS51200TAB-000G0",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "SDSS51200TAB-000G0",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-sandisk-520-2tb",
+      "name": "SanDisk 520 SATA SSD 2TB",
+      "brand": "SanDisk",
+      "category": "storage",
+      "partNumber": "SDSS51200TAB-000G0",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 560,
+        "writeSpeedMbS": 520,
+        "formFactor": "2.5-inch 7mm",
+        "enduranceTBW": 700
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:28:58.511Z"
+  },
+  {
+    "price": 3899.9,
+    "currency": "BRL",
+    "productUrl": "https://www.terabyteshop.com.br/produto/32888/ssd-kingston-nv3-4tb-m2-nvme-2280-pcie-40-leitura-6000mbs-e-gravacao-5000mbs-snv3s4000g",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "12x R$382,34 sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "retrievalCrawlLabel": null,
+    "productId": "ssd-kingston-nv3-4tb",
+    "model": "SNV3S/4000G",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "SNV3S/4000G",
+    "condition": "new",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-kingston-nv3-4tb",
+      "name": "Kingston NV3 4TB",
+      "brand": "Kingston",
+      "category": "storage",
+      "partNumber": "SNV3S/4000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 4000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 5000,
+        "formFactor": "M.2 2280 single-sided",
+        "enduranceTBW": 1280,
+        "m2LengthMm": 80
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:29:00.307Z"
+  },
+  {
+    "price": 4949.99,
+    "currency": "BRL",
+    "productUrl": "https://www.kabum.com.br/produto/480536/memoria-ram-kingston-fury-beast-rgb-64gb-2x32gb-3200mhz-ddr4-cl16-preto-kf432c16bb2ak2-64",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 5823.5,
+    "installments": "10x sem juros",
+    "availability": "available",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "retrievalCrawlLabel": null,
+    "productId": "ram-kf432c16bb2ak2-64",
+    "model": "KF432C16BB2AK2/64",
+    "queriedAt": "2026-10-08",
+    "validUntil": null,
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "referenceScope": "exact",
+    "sourceVariantName": "KF432C16BB2AK2/64",
+    "condition": "unknown",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "demonstrativePrice": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb2ak2-64",
+      "name": "Kingston FURY Beast RGB 64GB (2x32GB) DDR4-3200 CL16",
+      "brand": "Kingston",
+      "category": "ram",
+      "partNumber": "KF432C16BB2AK2/64",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 64,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 32,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        },
+        "rgb": true
+      }
+    },
+    "identityMatch": "exact_variant",
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-08T14:32:38.048Z"
+  },
+  {
+    "productId": "ram-kf436c17bbk2-16",
+    "model": "KF436C17BBK2/16",
+    "sourceVariantName": "Kingston FURY Beast 16GB (2x8GB) DDR4-3600 CL17",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/19156/memoria-kingston-fury-beast-16gb-3600mhz-ddr4-cl17-preto-kf436c17bbk216",
+    "price": 1759.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista com 15% desconto",
+    "cardTotal": 2070.47,
+    "installments": "12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:32:46.643Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf436c17bbk2-16",
+      "name": "Kingston FURY Beast 16GB (2x8GB) DDR4-3600 CL17",
+      "category": "ram",
+      "brand": "Kingston",
+      "partNumber": "KF436C17BBK2/16",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "casLatency": 17,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34,
+          "thickness": 7.2
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-kf436c18bb2a-16",
+    "model": "KF436C18BB2A/16",
+    "sourceVariantName": "Kingston FURY Beast RGB 16GB (1x16GB) DDR4-3600 CL18",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/26052/memoria-ddr4-kingston-fury-beast-rgb-16gb-3600mhz-black-kf436c18bb2a16",
+    "price": 1999.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista com 15% desconto",
+    "cardTotal": 2352.82,
+    "installments": "12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:32:48.627Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf436c18bb2a-16",
+      "name": "Kingston FURY Beast RGB 16GB (1x16GB) DDR4-3600 CL18",
+      "category": "ram",
+      "brand": "Kingston",
+      "partNumber": "KF436C18BB2A/16",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3600,
+        "dataRateMTs": 3600,
+        "casLatency": 18,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 43,
+          "thickness": 8.2
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-ax5u6000c4816g-slabrbk",
+    "model": "AX5U6000C4816G-SLABRBK",
+    "sourceVariantName": "XPG LANCER BLADE RGB 16GB (1x16GB) DDR5-6000 CL48 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/677473/memoria-ram-xpg-lancer-blade-16gb-rgb-ddr5-6000mhz-single-tray-cl48-preto-ax5u6000c4816g-slabrbk",
+    "price": 2049.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:32:13.661Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-ax5u6000c4816g-slabrbk",
+      "name": "XPG LANCER BLADE RGB 16GB (1x16GB) DDR5-6000 CL48 Black",
+      "category": "ram",
+      "brand": "XPG",
+      "partNumber": "AX5U6000C4816G-SLABRBK",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "casLatency": 48,
+        "voltageV": 1.25,
+        "speedProfile": "Intel XMP 3.0 / AMD EXPO",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 40,
+          "thickness": 7.86
+        },
+        "nominalCasLatencyNs": 16
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "Total não explicitado; não somado a partir de parcelas arredondadas."
+  },
+  {
+    "productId": "ram-kf432c16bb-8",
+    "model": "KF432C16BB/8",
+    "sourceVariantName": "Kingston Fury Beast 8GB DDR4 — KF432C16BB/8",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/19314/memoria-kingston-fury-beast-8gb-3200mhz-ddr4-black-kf432c16bb8",
+    "price": 699.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "Up to 12 installments without interest; longer plans may charge interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:26:59.677Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb-8",
+      "name": "Kingston Fury Beast 8GB DDR4 — KF432C16BB/8",
+      "category": "ram",
+      "brand": "Kingston",
+      "partNumber": "KF432C16BB/8",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 8,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34,
+          "thickness": 7.2
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "Retailer displayed full card total"
+  },
+  {
+    "productId": "ram-kf432c16bb-16",
+    "model": "KF432C16BB/16",
+    "sourceVariantName": "Kingston Fury Beast 16GB DDR4 — KF432C16BB/16",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/1029658/memoria-ram-kingston-fury-beast-16gb-3200mt-s-ddr4-cl16-dimm-preto-kf432c16bb-16",
+    "price": 1279.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:27:07.358Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf432c16bb-16",
+      "name": "Kingston Fury Beast 16GB DDR4 — KF432C16BB/16",
+      "category": "ram",
+      "brand": "Kingston",
+      "partNumber": "KF432C16BB/16",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34,
+          "thickness": 7.2
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "Total não explicitado; não somado a partir de parcelas arredondadas."
+  },
+  {
+    "productId": "ram-cmk16gx5m1b5200c40",
+    "model": "CMK16GX5M1B5200C40",
+    "sourceVariantName": "Corsair Vengeance 16GB DDR5 — CMK16GX5M1B5200C40",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/22368/memoria-ddr5-corsair-vengeance-16gb-5200mhz-black-cmk16gx5m1b5200c40",
+    "price": 2199.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "Up to 12 installments without interest; longer plans may charge interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:27:14.397Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmk16gx5m1b5200c40",
+      "name": "Corsair Vengeance 16GB DDR5 — CMK16GX5M1B5200C40",
+      "category": "ram",
+      "brand": "Corsair",
+      "partNumber": "CMK16GX5M1B5200C40",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 5200,
+        "dataRateMTs": 5200,
+        "casLatency": 40,
+        "voltageV": 1.25,
+        "speedProfile": "Intel XMP 3.0",
+        "rgb": false
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "Retailer displayed full card total"
+  },
+  {
+    "productId": "ssd-sa400s37-480g",
+    "model": "SA400S37/480G",
+    "sourceVariantName": "Kingston A400 480GB SATA SSD — SA400S37/480G",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/19382/ssd-kingston-a400-480gb-sata-iii-leitura-500mbs-gravacao-450mbs-sa400s37480g-imp",
+    "price": 569.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista, 15% desconto",
+    "cardTotal": null,
+    "installments": "Up to 12 installments without interest; longer plans may charge interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:27:32.191Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-sa400s37-480g",
+      "name": "Kingston A400 480GB SATA SSD — SA400S37/480G",
+      "category": "storage",
+      "brand": "Kingston",
+      "partNumber": "SA400S37/480G",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 500,
+        "writeSpeedMbS": 450,
+        "formFactor": "2.5-inch 7mm"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "Retailer displayed full card total"
+  },
+  {
+    "productId": "hdd-st2000dm008",
+    "model": "ST2000DM008",
+    "sourceVariantName": "Seagate Barracuda 2TB HDD — ST2000DM008",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "MOCK VAREJO",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/196410/hd-seagate-2tb-barracuda-3-5-sata-st2000dm008",
+    "price": 1116.0,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:27:39.774Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "hdd-st2000dm008",
+      "name": "Seagate Barracuda 2TB HDD — ST2000DM008",
+      "category": "storage",
+      "brand": "Seagate",
+      "partNumber": "ST2000DM008",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "HDD",
+        "capacityGb": 2000,
+        "readSpeedMbS": 220,
+        "writeSpeedMbS": null,
+        "formFactor": "3.5-inch",
+        "rpm": 7200,
+        "cacheMb": 256,
+        "recordingTechnology": "SMR"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "Total não explicitado; não somado a partir de parcelas arredondadas."
+  },
+  {
+    "productId": "gpu-msi-rtx-3050-lp-6g-oc",
+    "model": "G3050LP6C",
+    "sourceVariantName": "MSI GeForce RTX 3050 LP 6G OC",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "regular_retail_not_marked_used_or_open_box",
+    "productUrl": "https://www.kabum.com.br/produto/1012613/placa-de-video-msi-rtx-3050-lp-oc-nvidia-geforce-6gb-gddr6-96-bit-low-profile-g3050lp6c",
+    "price": 1399.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX or boleto, 15% desconto",
+    "cardTotal": 1647.05,
+    "installments": "10x R$164.70 sem juros; 11–12x with interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:26:49.460Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-msi-rtx-3050-lp-6g-oc",
+      "name": "MSI GeForce RTX 3050 LP 6G OC",
+      "category": "gpu",
+      "brand": "MSI",
+      "partNumber": "G3050LP6C",
+      "specs": {
+        "vramGb": 6,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 96,
+        "boostClockMhz": 1492,
+        "memorySpeedGbps": 14,
+        "lengthMm": 174,
+        "widthMm": 69,
+        "heightMm": 42,
+        "recommendedPsuWatts": 300,
+        "powerConnectors": null,
+        "pciExpress": "4.0 x16 physical, x8 electrical",
+        "tdpWatts": 70,
+        "cudaCores": 2304,
+        "powerConnectorsNote": "No supplementary connector field on manufacturer spec page; slot-powered behavior requires explicit verification rather than guessing from 70W.",
+        "powerConnectorNotes": null
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2",
+    "model": "GV-N3060WF2OC-12GD REV2.0",
+    "sourceVariantName": "Gigabyte GeForce RTX 3060 WINDFORCE OC 12G rev.2.0",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "regular_retail_not_marked_used_or_open_box",
+    "productUrl": "https://www.kabum.com.br/produto/475651/placa-de-video-rtx-3060-windforce-oc-12g-rev-2-0-gigabyte-nvidia-geforce-12gb-gddr6-192bits-ray-tracing-gv-n3060wf2oc-12gd",
+    "price": 2399.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX or boleto, 15% desconto",
+    "cardTotal": 2823.52,
+    "installments": "10x R$282.35 sem juros; 11–12x with interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:27:46.012Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2",
+      "name": "Gigabyte GeForce RTX 3060 WINDFORCE OC 12G rev.2.0",
+      "category": "gpu",
+      "brand": "Gigabyte",
+      "partNumber": "GV-N3060WF2OC-12GD REV2.0",
+      "specs": {
+        "vramGb": 12,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 192,
+        "boostClockMhz": 1792,
+        "memorySpeedGbps": 15,
+        "lengthMm": 198,
+        "widthMm": 121,
+        "heightMm": 39,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "4.0 x16",
+        "tdpWatts": null,
+        "cudaCores": 3584,
+        "powerConnectorNotes": "1x8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "gpu-msi-rtx-4060-ventus-2x-black-8g-oc",
+    "model": "912-V516-012",
+    "sourceVariantName": "MSI GeForce RTX 4060 VENTUS 2X BLACK 8G OC",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Amazon Brasil",
+    "seller": "JC TECH STORE",
+    "condition": "unknown",
+    "productUrl": "https://www.amazon.com.br/Placa-128Bits-Ventus-MSI-912-V516-012/dp/B0C7W8GZMJ",
+    "price": 3324.05,
+    "currency": "BRL",
+    "paymentCondition": "PIX or NuPay",
+    "cardTotal": 3499.0,
+    "installments": "12x R$291.62 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:38:13Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Somente 1 em estoque; compra habilitada",
+    "validUntil": null,
+    "shipping": "Enviado pela Amazon; prazo e custo para o destino não calculados.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false,
+      "access": "rendered_user_mac_chrome"
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-msi-rtx-4060-ventus-2x-black-8g-oc",
+      "name": "MSI GeForce RTX 4060 VENTUS 2X BLACK 8G OC",
+      "category": "gpu",
+      "brand": "MSI",
+      "partNumber": "912-V516-012",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 128,
+        "memorySpeedGbps": 17,
+        "cudaCores": 3072,
+        "boostClockMhz": 2490,
+        "extremePerformanceClockMhz": 2505,
+        "extremePerformanceCondition": "MSI Center mode",
+        "lengthMm": 199,
+        "widthMm": 120,
+        "heightMm": 41,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "4.0 x8",
+        "tdpWatts": null,
+        "powerConsumptionOptionsWatts": [
+          115,
+          120
+        ],
+        "powerConsumptionRaw": "115 W or 120 W",
+        "powerConnectorNotes": "1x8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "gpu-gigabyte-rtx-5060-ti-eagle-oc-ice-8g",
+    "model": "GV-N506TEAGLEOC ICE-8GD",
+    "sourceVariantName": "Gigabyte GeForce RTX 5060 Ti EAGLE OC ICE 8G",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "regular_retail_not_marked_used_or_open_box",
+    "productUrl": "https://www.kabum.com.br/produto/802427/placa-de-video-rtx-5060-ti-eagleoc-ice-8g-gigabyte-nvidia-geforce-8gb-gddr7-128bits-dlss-ray-tracing-gv-n506teagleoc-ice-8gd",
+    "price": 3199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX or boleto, 15% desconto",
+    "cardTotal": 3764.69,
+    "installments": "10x R$376.46 sem juros; 11–12x with interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:25:21.466Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-gigabyte-rtx-5060-ti-eagle-oc-ice-8g",
+      "name": "Gigabyte GeForce RTX 5060 Ti EAGLE OC ICE 8G",
+      "category": "gpu",
+      "brand": "Gigabyte",
+      "partNumber": "GV-N506TEAGLEOC ICE-8GD",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 128,
+        "boostClockMhz": 2617,
+        "memorySpeedGbps": 28,
+        "lengthMm": 215,
+        "widthMm": 122,
+        "heightMm": 40,
+        "recommendedPsuWatts": 650,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0",
+        "tdpWatts": null,
+        "cudaCores": 4608,
+        "powerConnectorNotes": "1x8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g",
+    "model": "GV-N5070WF3OC-12GD",
+    "sourceVariantName": "Gigabyte GeForce RTX 5070 WINDFORCE OC SFF 12G",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "regular_retail_not_marked_used_or_open_box",
+    "productUrl": "https://www.kabum.com.br/produto/714574/placa-de-video-gigabyte-rtx-5070-windforce-oc-sff-12g-nvidia-geforce-12gb-gddr7-192bits-dlss-ray-tracing-9vn5070wo-00-g10",
+    "price": 5199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX or boleto, 15% desconto",
+    "cardTotal": 6117.64,
+    "installments": "10x R$611.76 sem juros; 11–12x with interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:26:18.841Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g",
+      "name": "Gigabyte GeForce RTX 5070 WINDFORCE OC SFF 12G",
+      "category": "gpu",
+      "brand": "Gigabyte",
+      "partNumber": "GV-N5070WF3OC-12GD",
+      "specs": {
+        "vramGb": 12,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 192,
+        "boostClockMhz": 2542,
+        "memorySpeedGbps": 28,
+        "lengthMm": 282,
+        "widthMm": 110,
+        "heightMm": 50,
+        "recommendedPsuWatts": 750,
+        "powerConnectors": [
+          {
+            "type": "12v-2x6",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0",
+        "tdpWatts": null,
+        "cudaCores": 6144,
+        "powerConnectorNotes": "1x16-pin (12V-2x6); supplied adapter to 2xPCIe8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "gpu-gigabyte-rx-7600-gaming-oc-8g",
+    "model": "GV-R76GAMING OC-8GD",
+    "sourceVariantName": "Gigabyte Radeon RX 7600 GAMING OC 8G",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau (direct retail; no marketplace seller shown)",
+    "condition": "not explicitly stated; not labeled open-box",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-gigabyte-radeon-rx-7600-gaming-oc-8gb-gddr6-128-bit-gv-r76gaming-oc-8gd",
+    "price": 2099.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 15% desconto",
+    "cardTotal": 2470.58,
+    "installments": "12x R$205.88 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:20:05.269Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-gigabyte-rx-7600-gaming-oc-8g",
+      "name": "Gigabyte Radeon RX 7600 GAMING OC 8G",
+      "category": "gpu",
+      "brand": "Gigabyte",
+      "partNumber": "GV-R76GAMING OC-8GD",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR6",
+        "memorySpeedGbps": 18,
+        "memoryBusBits": 128,
+        "streamProcessors": 2048,
+        "boostClockMhz": 2755,
+        "gameClockMhz": 2355,
+        "lengthMm": 282,
+        "widthMm": 115,
+        "heightMm": 50,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "tdpWatts": null,
+        "pciExpress": "4.0",
+        "powerConnectorNotes": "1x8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "gpu-asrock-rx-9060-xt-challenger-16g-oc",
+    "model": "90-GA5QZZ-00UANF",
+    "sourceVariantName": "ASRock Radeon RX 9060 XT Challenger 16GB OC",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "regular_retail_not_marked_used_or_open_box",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asrock-radeon-rx-9060-xt-challenger-oc-16gb-gddr6-128-bit-90-ga5qzz-00uanf",
+    "price": 3799.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX, 15% desconto",
+    "cardTotal": 4470.58,
+    "installments": "12x R$372.55 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:27:13.716Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-asrock-rx-9060-xt-challenger-16g-oc",
+      "name": "ASRock Radeon RX 9060 XT Challenger 16GB OC",
+      "category": "gpu",
+      "brand": "ASRock",
+      "partNumber": "90-GA5QZZ-00UANF",
+      "specs": {
+        "vramGb": 16,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 128,
+        "boostClockMhz": 3290,
+        "memorySpeedGbps": 20,
+        "lengthMm": 249,
+        "widthMm": 132,
+        "heightMm": 41,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0 x16",
+        "tdpWatts": null,
+        "streamProcessors": 2048,
+        "gameClockMhz": 2700,
+        "powerConnectorNotes": "1x8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "gpu-xfx-rx-9070-xt-swift-white-16g",
+    "model": "RX-97TSWF3W9",
+    "sourceVariantName": "XFX Swift Radeon RX 9070 XT White Triple Fan Gaming Edition16GB",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "regular_retail_not_marked_used_or_open_box",
+    "productUrl": "https://www.kabum.com.br/produto/725948/placa-de-video-xfx-swift-rx-9070-xt-white-triple-fan-gaming-edition-with-amd-radeon-16gb-gddr6-hdmi-3xdp-rdna-4-rx-97tswf3w9",
+    "price": 5199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX or boleto, 15% desconto",
+    "cardTotal": 6117.64,
+    "installments": "10x R$611.76 sem juros; 11–12x with interest",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:28:47.763Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-xfx-rx-9070-xt-swift-white-16g",
+      "name": "XFX Swift Radeon RX 9070 XT White Triple Fan Gaming Edition16GB",
+      "category": "gpu",
+      "brand": "XFX",
+      "partNumber": "RX-97TSWF3W9",
+      "specs": {
+        "vramGb": 16,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 256,
+        "boostClockMhz": 2970,
+        "memorySpeedGbps": 20,
+        "lengthMm": 325,
+        "widthMm": 150,
+        "heightMm": 65,
+        "recommendedPsuWatts": 800,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 2
+          }
+        ],
+        "pciExpress": "5.0",
+        "tdpWatts": null,
+        "streamProcessors": 4096,
+        "gameClockMhz": 2400,
+        "baseClockMhz": 1660,
+        "slotWidth": 3.5,
+        "powerConnectorNotes": "2x8-pin"
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ],
+    "conditionCaveat": "Condição novo/usado não explicitada na oferta observada."
+  },
+  {
+    "productId": "psu-coolermaster-mwe-gold650-v3",
+    "model": "MPE-6502-ACAAG-3BBR",
+    "sourceVariantName": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/38210/fonte-cooler-master-mwe-gold-650-v3-650w-80-plus-gold-atx-31-pfc-ativo-mpe-6502-acaag-3bbr",
+    "price": 349.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX/boleto 15% desconto",
+    "cardTotal": 411.75,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:35:39.156805+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "psu-coolermaster-mwe-gold650-v3",
+      "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+      "category": "psu",
+      "brand": "Cooler Master",
+      "partNumber": "MPE-6502-ACAAG-3BBR",
+      "specs": {
+        "watts": 650,
+        "efficiency": "80 Plus Gold",
+        "atxVersion": "3.1",
+        "formFactor": "ATX",
+        "dimensionsMm": {
+          "length": 140,
+          "width": 150,
+          "height": 86
+        },
+        "modular": false,
+        "inputVoltage": "100-240V",
+        "connectors": {
+          "atx24": 1,
+          "eps8Or4plus4": 2,
+          "pcie6plus2": 4,
+          "sata": 6,
+          "peripheral4": 3,
+          "native12v2x6": 0
+        },
+        "pcie8PinConnectors": 4,
+        "native12v2x6Connectors": 0
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "psu-corsair-rm750e-2025",
+    "model": "CP-9020295-BR",
+    "sourceVariantName": "Corsair RM750e (2025)",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-corsair-rm750e-750w-full-modular-atx-3-1-pcie-5-1-cybenetics-gold-preto-cp-9020295-br",
+    "price": 599.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX 15% desconto",
+    "cardTotal": 705.87,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:35:39.160053+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "psu-corsair-rm750e-2025",
+      "name": "Corsair RM750e (2025)",
+      "category": "psu",
+      "brand": "Corsair",
+      "partNumber": "CP-9020295-BR",
+      "specs": {
+        "watts": 750,
+        "efficiency": "Cybenetics Gold",
+        "atxVersion": "3.1",
+        "pcieVersion": "5.1",
+        "formFactor": "ATX",
+        "dimensionsMm": {
+          "length": 140,
+          "width": 150,
+          "height": 86
+        },
+        "modular": true,
+        "cableType": "Corsair Type4",
+        "connectors": {
+          "atx24": 1,
+          "eps4plus4": 2,
+          "native12v2x6": 1,
+          "pcie6plus2Via12v2x6Cable": 2,
+          "dedicatedPcie6plus2": 1,
+          "sata": 6,
+          "pata": 2
+        },
+        "pcie8PinConnectors": 1,
+        "native12v2x6Connectors": 1
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "psu-msi-mag-a850gl-pcie5-white",
+    "model": "MAG-A850GL-PCIE5-WH",
+    "sourceVariantName": "MSI MAG A850GL PCIE5 WHITE",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/fonte-msi-mag-a850gl-850w-full-modular-80-plus-gold-branco-mag-a850gl-pcie5-wh",
+    "price": 829.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista 15% desconto",
+    "cardTotal": 976.46,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:42:38.471925+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "psu-msi-mag-a850gl-pcie5-white",
+      "name": "MSI MAG A850GL PCIE5 WHITE",
+      "category": "psu",
+      "brand": "MSI",
+      "partNumber": "MAG-A850GL-PCIE5-WH",
+      "specs": {
+        "watts": 850,
+        "efficiency": "80 Plus Gold",
+        "formFactor": "ATX",
+        "dimensionsMm": {
+          "length": 140,
+          "width": 150,
+          "height": 86
+        },
+        "color": "White",
+        "modular": true,
+        "inputVoltage": "100-240V",
+        "atxVersion": null,
+        "nativeGpuConnector": "16-pin PCIe, revision unverified",
+        "connectors": {
+          "atx24": 1,
+          "eps4plus4": 2,
+          "pcie6plus2": 4,
+          "native16pin": 1,
+          "native16pinRatedWatts": 600,
+          "sata": 8,
+          "molex4": 4,
+          "fdd4": 1
+        },
+        "cableTopology": {
+          "epsCables": 2,
+          "pcie6plus2Cables": 2,
+          "pcie6plus2ConnectorsPerCable": 2,
+          "native16pinCable": 1,
+          "cpuPciePsuSockets": 5,
+          "native16pinPsuSocketSeparate": true
+        },
+        "pcie8PinConnectors": 4,
+        "native12v2x6Connectors": null,
+        "native16PinConnectors": 1
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "cooler-bequiet-pure-rock-pro3-black",
+    "model": "BK042",
+    "sourceVariantName": "be quiet! Pure Rock Pro 3 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/38357/cooler-para-processador-be-quiet-pure-rock-pro-3-black-120mm-intelamd-preto-bk042",
+    "price": 279.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX/boleto 15% desconto",
+    "cardTotal": 329.4,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:35:39.158281+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cooler-bequiet-pure-rock-pro3-black",
+      "name": "be quiet! Pure Rock Pro 3 Black",
+      "category": "cooler",
+      "brand": "be quiet!",
+      "partNumber": "BK042",
+      "specs": {
+        "coolingType": "air",
+        "supportedSockets": [
+          "AM4",
+          "AM5",
+          "LGA1851",
+          "LGA1700",
+          "LGA1200",
+          "LGA1150",
+          "LGA1151",
+          "LGA1155"
+        ],
+        "heightMm": 155,
+        "dimensionsMm": {
+          "length": 139,
+          "width": 124,
+          "height": 155
+        },
+        "includedFanCount": 2,
+        "fanDiameterMm": 120,
+        "connector": "4-pin PWM",
+        "powerWatts": null,
+        "rgb": false
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "mb-gigabyte-b650-gaming-x-ax-v2",
+    "model": "B650 GAMING X AX V2",
+    "sourceVariantName": "Gigabyte B650 GAMING X AX V2",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/28492/placa-mae-gigabyte-b650-gaming-x-ax-v2-chipset-b650-wifi-amd-am5-atx-ddr5",
+    "price": 1299.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX/boleto 15% desconto",
+    "cardTotal": 1529.4,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:35:39.158782+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b650-gaming-x-ax-v2",
+      "name": "Gigabyte B650 GAMING X AX V2",
+      "category": "motherboard",
+      "brand": "Gigabyte",
+      "partNumber": "B650 GAMING X AX V2",
+      "specs": {
+        "socket": "AM5",
+        "chipset": "B650",
+        "memoryType": "DDR5",
+        "memorySlots": 4,
+        "maxMemoryGb": 256,
+        "formFactor": "ATX",
+        "dimensionsMm": [
+          305,
+          244
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 3,
+        "m2SupportedLengthsMm": [
+          80,
+          110
+        ],
+        "sataPorts": 4,
+        "gpuPcieGeneration": 4,
+        "cpuFamilies": [
+          "Ryzen7000",
+          "Ryzen8000",
+          "Ryzen9000"
+        ],
+        "powerConnectors": [
+          "24pinATX",
+          "8pinEPS",
+          "4pinEPS"
+        ],
+        "fanHeaders": {
+          "cpu": 1,
+          "cpuPump": 1,
+          "system": 2,
+          "systemPump": 1
+        },
+        "frontUsbCHeader": true,
+        "minimumBiosByCpu": {},
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+    "model": "B760M DS3H WF6E D4 G5",
+    "sourceVariantName": "Gigabyte B760M DS3H WIFI6E DDR4 GEN5",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/38489/placa-mae-gigabyte-b760m-ds3h-wifie-ddr4-gen5-chipset-b760-intel-lga-1700-m-atx-ddr4",
+    "price": 1149.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX/boleto 15% desconto",
+    "cardTotal": 1352.93,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:35:39.159463+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+      "name": "Gigabyte B760M DS3H WIFI6E DDR4 GEN5",
+      "category": "motherboard",
+      "brand": "Gigabyte",
+      "partNumber": "B760M DS3H WF6E D4 G5",
+      "specs": {
+        "socket": "LGA1700",
+        "chipset": "B760",
+        "memoryType": "DDR4",
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "maxMemoryPerDimmGb": 32,
+        "formFactor": "mATX",
+        "dimensionsMm": [
+          244,
+          244
+        ],
+        "cpuGenerations": [
+          12,
+          13,
+          14
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 2,
+        "m2SupportedLengthsMm": [
+          80
+        ],
+        "m2PcieGeneration": 4,
+        "sataPorts": 4,
+        "gpuPcieGeneration": 5,
+        "powerConnectors": [
+          "24pinATX",
+          "8pinEPS"
+        ],
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 3,
+        "frontUsbCHeader": false,
+        "wifiModule": "Intel AX210 Wi-Fi 6E",
+        "bluetoothVersion": "5.3",
+        "argbHeaders": 2,
+        "rgbHeaders": 1,
+        "qFlashPlus": true,
+        "minimumBiosByCpu": {}
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "mb-msi-pro-h610m-s-ddr4",
+    "model": "PRO H610M-S DDR4",
+    "sourceVariantName": "MSI PRO H610M-S DDR4",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/31521/placa-mae-msi-pro-h610m-s-chipset-h610-intel-lga-1700-matx-ddr4",
+    "price": 489.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX/boleto 15% desconto",
+    "cardTotal": 576.46,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:36:14.247292+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-msi-pro-h610m-s-ddr4",
+      "name": "MSI PRO H610M-S DDR4",
+      "category": "motherboard",
+      "brand": "MSI",
+      "partNumber": "PRO H610M-S DDR4",
+      "specs": {
+        "socket": "LGA1700",
+        "chipset": "H610",
+        "cpuGenerations": [
+          12,
+          13,
+          14
+        ],
+        "memoryType": "DDR4",
+        "memorySlots": 2,
+        "maxMemoryGb": 64,
+        "maximumRatedMemoryDataRateMTs": 3200,
+        "formFactor": "mATX",
+        "dimensionsMm": [
+          200,
+          236
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 1,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80
+        ],
+        "m2PcieGeneration": 3,
+        "m2Lanes": 4,
+        "sataPorts": 2,
+        "gpuPcieGeneration": 4,
+        "powerConnectors": [
+          "24-pin ATX",
+          "8-pin EPS"
+        ],
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 1,
+        "cpuFanHeaderMaxAmps": 2,
+        "systemFanHeaderMaxAmps": 1,
+        "frontUsbCHeader": false,
+        "wifi": false,
+        "lightingHeadersListedInExactManual": false,
+        "minimumBiosByCpu": {}
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "case-coolermaster-elite301-white",
+    "model": "E301-WGNN-S00",
+    "sourceVariantName": "Cooler Master Elite 301 White",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/36697/gabinete-gamer-cooler-master-elite-301-branco-argb-vidro-temperado-mid-tower-matx-com-3-fans-e301-wgnn-s00",
+    "price": 349.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX/boleto à vista 15% desconto",
+    "cardTotal": 411.75,
+    "installments": null,
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:43:36.645798+00:00",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "case-coolermaster-elite301-white",
+      "name": "Cooler Master Elite 301 White",
+      "category": "case",
+      "brand": "Cooler Master",
+      "partNumber": "E301-WGNN-S00",
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "color": "White",
+        "dimensionsMm": {
+          "length": 390,
+          "width": 203.5,
+          "height": 430
+        },
+        "maxCoolerHeightMm": 163.5,
+        "maxGpuLengthMm": null,
+        "maxGpuLengthWithoutFrontFansAndRadiatorMm": 365,
+        "maxPsuLengthMm": 160,
+        "psuFormFactor": "ATX",
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          280
+        ],
+        "radiatorLayouts": {
+          "front": [
+            120,
+            240
+          ],
+          "top": [
+            120,
+            140,
+            240,
+            280
+          ],
+          "rear": [
+            120
+          ]
+        },
+        "maxRadiatorThicknessMm": null,
+        "maxFanThicknessMm": null,
+        "includedFanCount": 3,
+        "includedFanDiameterMm": 120,
+        "includedFanModel": "CF120 ARGB",
+        "includedFansPosition": "front",
+        "includedFanPowerWatts": null,
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 6
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 2
+          }
+        ],
+        "fanLayouts": {
+          "front": [
+            "3x120"
+          ],
+          "top": [
+            "2x120",
+            "2x140"
+          ],
+          "rear": [
+            "1x120"
+          ]
+        },
+        "storageBays": {
+          "hdd3_5": 1,
+          "ssd2_5": 1,
+          "ssd2_5Maximum": 2
+        },
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "coolingSupportNotes": "Agora branco, mATX/ITX e três fans frontais. O limite de GPU de 365 mm só vale sem fans/radiador frontal; folga na montagem padrão não confirmada."
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "cpu-intel-i5-14600k-box",
+    "model": "BX8071514600K",
+    "sourceVariantName": "Intel Core i5-14600K Box",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/497578/processador-intel-core-i5-14600k-3-5ghz-5-3-ghz-max-turbo-cache-24mb-14-nucleos-20-threads-lga-1700-com-video-integrado-bx8071514600k",
+    "price": 1699.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista,15% desconto",
+    "cardTotal": null,
+    "installments": "10x de R$199,99 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:44:35.779Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-intel-i5-14600k-box",
+      "name": "Intel Core i5-14600K Box",
+      "category": "cpu",
+      "brand": "Intel",
+      "partNumber": "BX8071514600K",
+      "specs": {
+        "socket": "LGA1700",
+        "cores": 14,
+        "threads": 20,
+        "baseClockGhz": 3.5,
+        "boostClockGhz": 5.3,
+        "tdpWatts": 125,
+        "maximumTurboPowerWatts": 181,
+        "performanceCores": 6,
+        "efficientCores": 8,
+        "memoryTypes": [
+          "DDR4",
+          "DDR5"
+        ],
+        "maxMemoryGb": 192,
+        "integratedGraphics": "Intel UHD770",
+        "includesCpuCooler": false
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-kf556c36bweak2-32",
+    "model": "KF556C36BWEAK2-32",
+    "sourceVariantName": "Kingston FURY Beast RGB 32GB (2x16GB) DDR5-5600 CL36 White",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/448302/memoria-ram-kingston-fury-beast-rgb-32gb-2x16gb-5600mhz-ddr5-cl36-branco-kf556c36bweak2-32",
+    "price": 4199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x R$494.11 sem juros; up to36xNuPay has separate conditions",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:48:24.995Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf556c36bweak2-32",
+      "name": "Kingston FURY Beast RGB 32GB (2x16GB) DDR5-5600 CL36 White",
+      "category": "ram",
+      "brand": "Kingston",
+      "partNumber": "KF556C36BWEAK2-32",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 5600,
+        "dataRateMTs": 5600,
+        "casLatency": 36,
+        "voltageV": 1.25,
+        "speedProfile": "AMD EXPO v1.0 / Intel XMP 3.0",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 42.23,
+          "thickness": 7.11
+        },
+        "jedecSpeedMTs": 4800,
+        "jedecCasLatency": 40,
+        "jedecVoltageV": 1.1
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura.",
+      "Total de cartão não explicitado; soma de parcelas pode ter arredondamento."
+    ],
+    "cardTotalBasis": "10 displayed installments of494.11; derived total may differ by rounding"
+  },
+  {
+    "productId": "mb-asus-tuf-z790-plus-wifi-ddr5",
+    "model": "90MB1D80-M1EAY0",
+    "sourceVariantName": "ASUS TUF GAMING Z790-PLUS WIFI (DDR5)",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/427131/placa-mae-asus-tuf-gaming-z790-plus-intel-atx-ddr5-rgb-wi-fi-bluetooth-preto-90mb1d80-m1eay0",
+    "price": 1998.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista,10% desconto",
+    "cardTotal": null,
+    "installments": "10x de R$222,11 sem juros; total não explicitado",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:50:26.832Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "mb-asus-tuf-z790-plus-wifi-ddr5",
+      "name": "ASUS TUF GAMING Z790-PLUS WIFI (DDR5)",
+      "category": "motherboard",
+      "brand": "ASUS",
+      "partNumber": "90MB1D80-M1EAY0",
+      "specs": {
+        "socket": "LGA1700",
+        "chipset": "Z790",
+        "cpuGenerations": [
+          12,
+          13,
+          14
+        ],
+        "memoryType": "DDR5",
+        "memorySlots": 4,
+        "maxMemoryGb": 128,
+        "maxMemoryGbBasis": "Conservative lower value because official page contains both 128 and 192 GB; validate BIOS/QVL before allowing higher capacity.",
+        "manufacturerPublishedMaxMemoryGbValues": [
+          128,
+          192
+        ],
+        "memoryProfile": "Intel XMP; up to 7200 MT/s overclocked, conditional on CPU and DIMM population",
+        "formFactor": "ATX",
+        "dimensionsMm": [
+          305,
+          244
+        ],
+        "storageInterfaces": [
+          "M.2 NVMe",
+          "SATA"
+        ],
+        "m2Slots": 4,
+        "m2SupportedLengthsMm": [
+          42,
+          60,
+          80,
+          110
+        ],
+        "m2SlotDetails": [
+          {
+            "slot": 1,
+            "lengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4
+          },
+          {
+            "slot": 2,
+            "lengthsMm": [
+              42,
+              60,
+              80
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4
+          },
+          {
+            "slot": 3,
+            "lengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4
+          },
+          {
+            "slot": 4,
+            "lengthsMm": [
+              42,
+              60,
+              80
+            ],
+            "pcieGeneration": 4,
+            "lanes": 4,
+            "sataMode": true
+          }
+        ],
+        "sataPorts": 4,
+        "gpuPcieGeneration": 5,
+        "powerConnectors": [
+          "24-pin ATX",
+          "2x8-pin EPS"
+        ],
+        "cpuFanHeaders": 1,
+        "cpuOptFanHeaders": 1,
+        "aioPumpHeaders": 1,
+        "systemFanHeaders": 4,
+        "argbHeaders": 3,
+        "rgbHeaders": 1,
+        "frontUsbCHeader": true,
+        "frontUsbCGeneration": "USB3.2 Gen2",
+        "wifi": "Wi-Fi 6E",
+        "bluetooth": "5.3, module-dependent",
+        "minimumBiosByCpu": {}
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-apacer-nox-rgb-8gb-3200",
+    "model": "AH4U08G32C28YNBAA-1",
+    "sourceVariantName": "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/42825/memoria-ddr4-apacer-nox-rgb-8gb-3200mhz-preto-ah4u08g32c28ynbaa-1",
+    "price": 529.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista com15% desconto",
+    "cardTotal": 623.41,
+    "installments": "Até12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:57:07.114Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-apacer-nox-rgb-8gb-3200",
+      "name": "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black",
+      "category": "ram",
+      "brand": "Apacer",
+      "partNumber": "AH4U08G32C28YNBAA-1",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 8,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "timings": "16-20-20-38",
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": true,
+        "heightMm": null,
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-cmg16gx4m2e3200c16",
+    "model": "CMG16GX4M2E3200C16",
+    "sourceVariantName": "Corsair Vengeance RGB RS 16GB (2x8GB) DDR4-3200 CL16 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/37624/memoria-ddr4-corsair-vengeance-rgb-rs-16gb-2x8gb-3200mhz-preto-cmg16gx4m2e3200c16",
+    "price": 1399.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista com15% desconto",
+    "cardTotal": 1646.94,
+    "installments": "Até12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:57:26.961Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmg16gx4m2e3200c16",
+      "name": "Corsair Vengeance RGB RS 16GB (2x8GB) DDR4-3200 CL16 Black",
+      "category": "ram",
+      "brand": "Corsair",
+      "partNumber": "CMG16GX4M2E3200C16",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "timings": "16-20-20-38",
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 2.0",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 135,
+          "height": 45,
+          "thickness": 7
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-mancer-vant-s-16gb-3200",
+    "model": "MCR-VNT3200-16GB",
+    "sourceVariantName": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb",
+    "price": 619.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com15% desconto",
+    "cardTotal": 729.4,
+    "installments": "Até12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:57:47.419Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-mancer-vant-s-16gb-3200",
+      "name": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+      "category": "ram",
+      "brand": "Mancer",
+      "partNumber": "MCR-VNT3200-16GB",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 19,
+        "timings": "19-19-19-43",
+        "voltageV": 1.35,
+        "speedProfile": null,
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 136,
+          "height": 30,
+          "thickness": 7
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-apacer-nox-16gb-3200",
+    "model": "AH4U16G32C28YMBAA-1",
+    "sourceVariantName": "Apacer NOX 16GB (1x16GB) DDR4-3200 CL16 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/42829/memoria-ddr4-apacer-nox-16gb-3200mhz-preto-ah4u16g32c28ymbaa-1",
+    "price": 919.9,
+    "currency": "BRL",
+    "paymentCondition": "Boleto ou PIX à vista com15% desconto",
+    "cardTotal": 1082.24,
+    "installments": "Até12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T14:57:48.275Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-apacer-nox-16gb-3200",
+      "name": "Apacer NOX 16GB (1x16GB) DDR4-3200 CL16 Black",
+      "category": "ram",
+      "brand": "Apacer",
+      "partNumber": "AH4U16G32C28YMBAA-1",
+      "specs": {
+        "memoryType": "DDR4",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 3200,
+        "dataRateMTs": 3200,
+        "casLatency": 16,
+        "timings": "16-20-20-38",
+        "voltageV": null,
+        "speedProfile": null,
+        "rgb": false,
+        "heightMm": null,
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-pvv516g56c36",
+    "model": "PVV516G56C36",
+    "sourceVariantName": "Patriot Viper Venom 16GB (1x16GB) DDR5-5600 CL36",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/41560/memoria-ddr5-patriot-viper-venom-16gb-5600mhz-pvv516g56c36",
+    "price": 2119.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista / boleto, 15% desconto",
+    "cardTotal": 2494,
+    "installments": "12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:05:05.975Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-pvv516g56c36",
+      "name": "Patriot Viper Venom 16GB (1x16GB) DDR5-5600 CL36",
+      "category": "ram",
+      "brand": "Patriot",
+      "partNumber": "PVV516G56C36",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 5600,
+        "dataRateMTs": 5600,
+        "casLatency": 36,
+        "voltageV": 1.25,
+        "speedProfile": "Intel XMP 3.0 / AMD EXPO",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 137,
+          "height": 43,
+          "thickness": 7
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-cmk16gx5m2b5200z40",
+    "model": "CMK16GX5M2B5200Z40",
+    "sourceVariantName": "Corsair Vengeance 16GB (2x8GB) DDR5-5200 CL40 Gray",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/988586/memoria-ram-corsair-vengeance-16gb-2x8gb-5200mhz-ddr5-cl40-intel-xmp-amd-expo-cinza-cmk16gx5m2b5200z40",
+    "price": 2239.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 10% desconto",
+    "cardTotal": 2488.7,
+    "installments": "10x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:08:01.494Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmk16gx5m2b5200z40",
+      "name": "Corsair Vengeance 16GB (2x8GB) DDR5-5200 CL40 Gray",
+      "category": "ram",
+      "brand": "Corsair",
+      "partNumber": "CMK16GX5M2B5200Z40",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 8,
+        "speedMhz": 5200,
+        "dataRateMTs": 5200,
+        "casLatency": 40,
+        "voltageV": 1.25,
+        "speedProfile": "AMD EXPO / Intel XMP 3.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 135,
+          "height": 35,
+          "thickness": 7
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-kf564c32bbe-16",
+    "model": "KF564C32BBE-16",
+    "sourceVariantName": "Kingston FURY Beast 16GB (1x16GB) DDR5-6400 CL32 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "unknown",
+    "productUrl": "https://www.terabyteshop.com.br/produto/40562/memoria-ddr5-kingston-fury-beast-16gb-6400mhz-preto-kf564c32bbe-16",
+    "price": 2699.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista / boleto, 15% desconto",
+    "cardTotal": 3176.35,
+    "installments": "12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:08:12.336Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Pronta entrega; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-kf564c32bbe-16",
+      "name": "Kingston FURY Beast 16GB (1x16GB) DDR5-6400 CL32 Black",
+      "category": "ram",
+      "brand": "Kingston",
+      "partNumber": "KF564C32BBE-16",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 16,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 6400,
+        "dataRateMTs": 6400,
+        "casLatency": 32,
+        "voltageV": 1.4,
+        "speedProfile": "AMD EXPO v1.1 / Intel XMP 3.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 133.35,
+          "height": 34.9,
+          "thickness": 6.62
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-ff7d532g6000hc38j01",
+    "model": "FF7D532G6000HC38J01",
+    "sourceVariantName": "TeamGroup T-Force Delta Alpha RGB 32GB (1x32GB) DDR5-6000 CL38 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/memoria-team-group-delta-a-rgb-32gb-1x32gb-ddr5-6000mhz-cl38-preto-ff7d532g6000hc38j01",
+    "price": 5799.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 15% desconto",
+    "cardTotal": 6823.52,
+    "installments": "12x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:03:51.307Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-ff7d532g6000hc38j01",
+      "name": "TeamGroup T-Force Delta Alpha RGB 32GB (1x32GB) DDR5-6000 CL38 Black",
+      "category": "ram",
+      "brand": "TeamGroup",
+      "partNumber": "FF7D532G6000HC38J01",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "modulesPerKit": 1,
+        "capacityPerModuleGb": 32,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "casLatency": 38,
+        "voltageV": 1.35,
+        "speedProfile": "AMD EXPO",
+        "rgb": true,
+        "dimensionsMm": {
+          "length": 144.2,
+          "height": 46.1,
+          "thickness": 7
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ram-cmk32gx5m2b6000c38",
+    "model": "CMK32GX5M2B6000C38",
+    "sourceVariantName": "Corsair Vengeance 32GB (2x16GB) DDR5-6000 CL38 Black",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/988585/memoria-ram-corsair-vengeance-32gb-2x16gb-6000mhz-ddr5-cl38-intel-xmp-preto-cmk32gx5m2b6000c38-",
+    "price": 5239.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 10% desconto",
+    "cardTotal": 5822.1,
+    "installments": "10x sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:05:47.154Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ram-cmk32gx5m2b6000c38",
+      "name": "Corsair Vengeance 32GB (2x16GB) DDR5-6000 CL38 Black",
+      "category": "ram",
+      "brand": "Corsair",
+      "partNumber": "CMK32GX5M2B6000C38",
+      "specs": {
+        "memoryType": "DDR5",
+        "capacityGb": 32,
+        "modulesPerKit": 2,
+        "capacityPerModuleGb": 16,
+        "speedMhz": 6000,
+        "dataRateMTs": 6000,
+        "casLatency": 38,
+        "voltageV": 1.35,
+        "speedProfile": "Intel XMP 3.0",
+        "rgb": false,
+        "dimensionsMm": {
+          "length": 135,
+          "height": 35,
+          "thickness": 7
+        },
+        "pins": 288
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-snv3s-1000g",
+    "model": "SNV3S/1000G",
+    "sourceVariantName": "Kingston NV3 1TB",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/621162/ssd-kingston-nv3-1-tb-m-2-2280-pcie-4-0-x4-nvme-leitura-6000-mb-s-gravacao-4000-mb-s-azul-snv3s-1000g",
+    "price": 1199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 15% desconto",
+    "cardTotal": null,
+    "installments": "10x R$141,17 sem juros; até 36x NuPay",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:02:20Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-snv3s-1000g",
+      "name": "Kingston NV3 1TB",
+      "category": "storage",
+      "brand": "Kingston",
+      "partNumber": "SNV3S/1000G",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 6000,
+        "writeSpeedMbS": 4000,
+        "formFactor": "M.2 2280",
+        "tbw": 320,
+        "pcieGeneration": 4,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.3
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-lnm610p500g-rnnng",
+    "model": "LNM610P500G-RNNNG",
+    "sourceVariantName": "Lexar NM610 PRO 500GB",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "MG INFORMATICA",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/1029699/ssd-500gb-m-2-lexar-nm610-pro-lnm610p500g",
+    "price": 679.03,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x R$67,90 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:02:43Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-lnm610p500g-rnnng",
+      "name": "Lexar NM610 PRO 500GB",
+      "category": "storage",
+      "brand": "Lexar",
+      "partNumber": "LNM610P500G-RNNNG",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 500,
+        "readSpeedMbS": 3000,
+        "writeSpeedMbS": 1700,
+        "formFactor": "M.2 2280",
+        "tbw": 120,
+        "pcieGeneration": 3,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.45
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-lnm620x512g-rnnng",
+    "model": "LNM620X512G-RNNNG",
+    "sourceVariantName": "Lexar NM620 512GB",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "Victory",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/387742/ssd-lexar-nm620-m-2-pcie-512gb-lnm620x512g-rnnng",
+    "price": 899.91,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 10% desconto",
+    "cardTotal": null,
+    "installments": "10x R$99,99 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:01:45Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-lnm620x512g-rnnng",
+      "name": "Lexar NM620 512GB",
+      "category": "storage",
+      "brand": "Lexar",
+      "partNumber": "LNM620X512G-RNNNG",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 512,
+        "readSpeedMbS": 3500,
+        "writeSpeedMbS": 2400,
+        "formFactor": "M.2 2280",
+        "tbw": 250,
+        "pcieGeneration": 3,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.25
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-asu650ss-480gt-r",
+    "model": "ASU650SS-480GT-R",
+    "sourceVariantName": "ADATA Ultimate SU650 480GB SATA",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "REVOLUTIONS NET",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/920740/ssd-adata-su650-480gb-sata-iii-2-5-leitura-520mb-s-gravacao-450mb-s-preto-asu650ss-480gt-r",
+    "price": 649.5,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x R$64,95 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:02:59Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-asu650ss-480gt-r",
+      "name": "ADATA Ultimate SU650 480GB SATA",
+      "category": "storage",
+      "brand": "ADATA",
+      "partNumber": "ASU650SS-480GT-R",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 520,
+        "writeSpeedMbS": 450,
+        "formFactor": "2.5-inch 7mm",
+        "tbw": 280,
+        "dimensionsMm": {
+          "length": 100.45,
+          "width": 69.85,
+          "height": 7
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-lnq790x001t-rnnng",
+    "model": "LNQ790X001T-RNNNG",
+    "sourceVariantName": "Lexar NQ790 1TB",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/ssd-lexar-nq790-1tb-m-2-2280-pcie-nvme-leitura-7000mb-s-gravacao-6000mb-s-lnq790x001t-rnnng",
+    "price": 1149.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 15% desconto",
+    "cardTotal": 1352.93,
+    "installments": "12x R$112,74 sem juros; total exibido R$1.352,93",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:03:20Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Produto disponível; compra habilitada",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-lnq790x001t-rnnng",
+      "name": "Lexar NQ790 1TB",
+      "category": "storage",
+      "brand": "Lexar",
+      "partNumber": "LNQ790X001T-RNNNG",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7000,
+        "writeSpeedMbS": 6000,
+        "formFactor": "M.2 2280",
+        "tbw": 600,
+        "pcieGeneration": 4,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dimensionsMm": {
+          "length": 80,
+          "width": 22,
+          "height": 2.45
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-mz-v9p1t0b-am",
+    "model": "MZ-V9P1T0B/AM",
+    "sourceVariantName": "Samsung 990 PRO 1TB",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/999227/ssd-samsung-990-pro-1tb-m-2-nvme-pcie-gen-4-0-leitura-7450mb-s-gravacao-6900mb-s-mz-v9p1t0b-am",
+    "price": 2399.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista com 15% desconto",
+    "cardTotal": null,
+    "installments": "10x R$282,35 sem juros; até 36x NuPay",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:03:38Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-mz-v9p1t0b-am",
+      "name": "Samsung 990 PRO 1TB",
+      "category": "storage",
+      "brand": "Samsung",
+      "partNumber": "MZ-V9P1T0B/AM",
+      "specs": {
+        "interface": "M.2 NVMe",
+        "storageType": "SSD",
+        "capacityGb": 1000,
+        "readSpeedMbS": 7450,
+        "writeSpeedMbS": 6900,
+        "formFactor": "M.2 2280",
+        "tbw": 600,
+        "pcieGeneration": 4,
+        "pcieLanes": 4,
+        "m2LengthMm": 80,
+        "dramMb": 1024
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  },
+  {
+    "productId": "ssd-lnq100x480g-rnnnu",
+    "model": "LNQ100X480G-RNNNU",
+    "sourceVariantName": "Lexar NQ100 480GB SATA",
+    "referenceScope": "exact",
+    "identityMatch": "exact_variant",
+    "store": "KaBuM",
+    "seller": "NEXDATE",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/461458/ssd-lexar-nq100-480gb-sata-iii-2-5-polegadas-lnq100x480g-rnnnu",
+    "price": 665.5,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x R$66,55 sem juros",
+    "queriedAt": "2026-10-08",
+    "observedAt": "2026-10-08T15:05:10Z",
+    "availability": "available",
+    "verificationMethod": "rendered_product_page",
+    "availabilityEvidence": "Compra habilitada na página do produto",
+    "validUntil": null,
+    "shipping": "Frete e prazo não calculados; destino/CEP não informado; excluídos do preço.",
+    "taxes": "Tributos adicionais não discriminados",
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "ssd-lnq100x480g-rnnnu",
+      "name": "Lexar NQ100 480GB SATA",
+      "category": "storage",
+      "brand": "Lexar",
+      "partNumber": "LNQ100X480G-RNNNU",
+      "specs": {
+        "interface": "SATA",
+        "storageType": "SSD",
+        "capacityGb": 480,
+        "readSpeedMbS": 550,
+        "writeSpeedMbS": null,
+        "formFactor": "2.5-inch 7mm",
+        "tbw": 168,
+        "dimensionsMm": {
+          "length": 100.2,
+          "width": 69.85,
+          "height": 7
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "limitations": [
+      "Preço e estoque observados manualmente; confirmar condições na loja.",
+      "Não é cotação de API nem garantia de disponibilidade futura."
+    ]
+  }
+]

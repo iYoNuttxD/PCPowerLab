@@ -1,6 +1,10 @@
 # PCPowerLab
 
-PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links mockados de compra.
+> [Consolidação técnica atual](docs/RA2-CONSOLIDACAO-FINAL.md): catálogo, pontuações, refrigeração, revisão de interface e evidências por fonte. Navegador ef7f: 267 E2E aprovados, 1 skip e 18 integrações aprovadas; revisão focal ac27 em cinco larguras aprovada. Consolidação visual/cores/zoom pendente; **NÃO HOMOLOGADA integralmente**.
+
+> Revisão do catálogo: [substituições, compatibilidade e preservação de configurações](docs/RA2-CATALOG-REPLACEMENTS.md). 81 componentes ativos com referência datada e fotografia; 117 identidades do catálogo anterior preservadas. Disponibilidade observada não é estoque ao vivo.
+
+PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
 O repositório também possui um frontend React em `frontend/`, com tema retro-arcade/tech gamer e integração com a API local.
 
@@ -490,16 +494,16 @@ A aplicação atual é uma API backend com dados em memória. Os mocks ficam em 
 
 Base mockada atual:
 
-- 63 componentes: 12 CPUs, 9 placas-mãe, 11 GPUs, 8 memórias RAM, 8 armazenamentos, 8 fontes e 7 gabinetes.
-- 63 registros de parâmetros de desempenho, cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
+- Catálogo ativo: 97 componentes (12 CPUs, 9 placas-mãe, 11 GPUs, 21 RAM, 20 armazenamentos, 8 fontes, 7 gabinetes, 5 coolers e 4 produtos de fans), além de 20 identidades anteriores preservadas. Recalcule pelo comando `npm run inventory`; a API lista o estado atual, inclusive alterações administrativas.
+- 133 registros de parâmetros de desempenho (incluindo oito perfis provisórios apenas de score), cobrindo os componentes principais usados em gargalos, simulações, recomendações e comparação.
 - 20 jogos reais para simulação estimada, incluindo competitivos, battle royale, RPGs, mundo aberto, corrida, simuladores e jogos AAA pesados.
-- 315 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
+- 490 links de busca em lojas externas: Kabum, Pichau, Terabyte, Amazon Brasil e Mercado Livre.
 
 Os jogos da simulação usam requisitos simplificados e scores estimados para fins acadêmicos. Eles não representam requisitos oficiais nem garantem FPS real; o desempenho pode variar conforme drivers, sistema operacional, configurações gráficas, resolução, temperatura e otimização de cada jogo.
 
-Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. Os preços retornados continuam sendo estimativas baseadas no mock de componentes, e a disponibilidade fica como `unknown`; o usuário deve confirmar valor e estoque diretamente na loja.
+Os links de compra são URLs reais de busca em lojas brasileiras, geradas a partir do nome dos componentes. Eles não apontam para produto específico, não são afiliados e não usam scraping/API externa. O catálogo ativo contém 97 referências comerciais datadas; 21 registraram disponibilidade na observação e 76 não confirmam estoque. A disponibilidade atual fica como `unknown`. Os 20 preços ausentes pertencem aos modelos anteriores, fora da seleção nova. O usuário deve confirmar valor e estoque diretamente na loja. Variantes e exemplos comerciais são identificados sem modificar as especificações do catálogo.
 
-Os dados são reiniciados a cada execução do processo. Não há banco de dados real, autenticação ou integração com lojas reais nesta versão. O frontend em `frontend/` consome esses dados mockados pela API local.
+Os dados são reiniciados a cada execução do processo. Não há banco de dados real, contas por usuário ou integração com ofertas reais nesta versão. Há sessão administrativa para proteger o CRUD. O frontend em `frontend/` consome esses dados mockados pela API local.
 
 ## Contribuição
 
@@ -532,3 +536,45 @@ chore: manutenção de configuração
 ```
 
 Mais detalhes em [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## Refrigeração complementar — v2.1
+
+O assistente mantém sete peças principais. Cooler (air/AIO) e fans são opcionais, selecionáveis no gabinete/revisão e alteráveis no resumo. Fans usam quantidade de pacotes; custo usa preço/pacote, consumo e ocupação usam unidades físicas. Acessórios acompanham orçamento, comparação, salvos, versões, exportação e compartilhamento. Não geram bônus de FPS.
+
+As verificações retornam `compatible`, `incompatible` ou `unverified`; dados insuficientes não aprovam uma montagem. Os registros editáveis de regras são administrativos; o motor de compatibilidade é codificado e independente deles.
+
+- [Implementação, testes e limites v2.1](docs/RA2-V2.1-INTEGRACAO.md)
+- [Modelos e fontes oficiais](docs/RA2-V2.1-CATALOG-SOURCES.md)
+- [Inventário gerado](docs/RA2-V2.1-INVENTARIO.json)
+
+## Fotografias do catálogo — v2.11
+
+Fotografias locais de produtos e embalagens: 81/81 componentes ativos, sendo 71 de modelo exato e 10 de família visual; as imagens dos registros anteriores também são preservadas. Escopos visuais, fontes, direitos conhecidos e pendências são registrados por ID. Créditos completos ficam em uma página própria, acessível pelo rodapé. Para recalcular: `npm run audit:images:report` (Python 3 + Pillow; saída 1 indica pendências). Alterações administrativas em memória exigem snapshot completo da API via `--catalog`.
+
+- [Implementação e verificação](docs/RA2-V2.11-FOTOS-E-UI.md)
+- [Cobertura e inventário dinâmico](docs/RA2-COBERTURA-IMAGENS.md)
+- [Atribuições e fontes por produto](frontend/public/images/components/ATTRIBUTION.md)
+
+### Transparência comercial v2.6
+
+Esta seção registra a etapa v2.6. O estado atual contém 81 observações manuais datadas de SKU exato; não são cotações ao vivo. As lojas também oferecem links de pesquisa; nenhuma API de preços está conectada. O modelo de ofertas validáveis e totais separados foi implementado e testado com fixtures, sem inventar estoque ou preço atual. Veja [relatório v2.6](docs/RA2-V2.6-INTEGRACAO.md), [fontes autorizadas e bloqueios](docs/RA2-V2.6-MARKET-SOURCES.md).
+
+### Auditoria de qualidade v2.7
+
+[Defeitos reproduzidos, correções, testes e pendências](docs/RA2-V2-QUALIDADE.md). Inclui percursos HTTP reais e regressões de estado; a execução em navegador estava pendente na etapa v2.7. Resultados posteriores e reteste da união estão separados na consolidação atual. Testes automáticos aprovados não significam ausência total de bugs nem homologação de produção.
+
+## Auditoria final v2.9
+
+A sequência v2.0–v2.9 foi revisada com diagnóstico, regressões e verificações locais. O estado atual está na [consolidação técnica](docs/RA2-CONSOLIDACAO-FINAL.md); documentos de etapas anteriores são históricos. [Inventário histórico v2.9 dos então 98 ativos](docs/RA2-V2.9-INVENTARIO.json), incluindo 3 air coolers, 2 AIOs e 4 produtos fan. Os 69 IDs da base foram preservados.
+
+- As três jornadas são percursos técnicos com adaptadores frontend e HTTP real; não testes com participantes
+- A suíte Node da raiz inclui os testes frontend em `frontend/tests/*.test.js`; não somar uma reexecução isolada
+- Na rodada histórica v2.9, suítes Playwright foram somente coletadas; nenhum screenshot atual ou aprovação de responsividade
+- A v2.9 registrava fotos e preços faltantes; a cobertura atual distingue fotos exatas/de família e referências datadas. Dados físicos insuficientes continuam desconhecidos; fallback não é foto
+- A auditoria corrigiu orientação final contraditória, fração de centavo no total local, validação de listas técnicas e fixture fotográfica; ver regressões e demais achados no relatório
+- Servidor mantém dados globais em memória. Não há persistência durável, isolamento de contas ou qualificação de produção
+- Nenhum merge/deploy/autoaprovação faz parte desta entrega. Revisão do responsável necessária
+
+## Pontuação provisória explícita
+
+O catálogo aceita oito perfis de pontuação inventada quando não há dados reais verificados, identificados como “Pontuação simulada”. A escala é versionada e separada das especificações. Esses perfis não habilitam FPS, requisitos de software ou gargalos sem modelo próprio. Consulte [metodologia e limites](docs/RA2-SYNTHETIC-PERFORMANCE.md).

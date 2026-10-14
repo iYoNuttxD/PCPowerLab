@@ -1,4 +1,5 @@
-import { purchaseLinks } from '../data/purchaseLinks.js';
+import { getProductMarket } from './marketPriceService.js';
+import { createComponentPurchaseLinks } from '../data/purchaseLinks.js';
 import { requiredBuildSlots, selectBuildComponents } from './build.service.js';
 import { findComponentById } from './component.service.js';
 
@@ -13,22 +14,30 @@ export function getPurchaseLinksByComponentId(componentIdInput) {
     throw error;
   }
 
-  return purchaseLinks
-    .filter((purchaseLink) => purchaseLink.componentId === component.id)
-    .map(formatPurchaseLink);
+  const market = getProductMarket(component.id);
+  const offers = market.offers.map(offer => ({ ...offer, componentId: component.id, kind: 'offer',
+    priceType: 'market_quote', url: offer.productUrl, lastUpdated: offer.queriedAt,
+    availabilityStatus: offer.availability, isAffiliate: false }));
+  return [...offers, ...createComponentPurchaseLinks(component)].map(link => ({ ...formatPurchaseLink(link),
+    referencePricing: component.pricing, comparisonAvailable: market.comparisonAvailable, marketStatus: market.status, marketMessage: market.message }));
 }
 
 export function getPurchaseLinksByBuild(buildInput) {
   const build = selectBuildComponents(buildInput);
 
-  return requiredBuildSlots.reduce((linksBySlot, slot) => ({
+  const links = requiredBuildSlots.reduce((linksBySlot, slot) => ({
     ...linksBySlot,
     [slot]: getPurchaseLinksByComponentId(build[slot].id)
   }), {});
+  if (build.cooler) links.cooler = getPurchaseLinksByComponentId(build.cooler.id);
+  if (build.fans?.length) links.fans = build.fans.flatMap((fan) =>
+    getPurchaseLinksByComponentId(fan.id).map((link) => ({ ...link, quantity: fan.quantity })));
+  return links;
 }
 
 function formatPurchaseLink(purchaseLink) {
   return {
+    ...purchaseLink,
     componentId: purchaseLink.componentId,
     storeName: purchaseLink.storeName,
     url: purchaseLink.url,

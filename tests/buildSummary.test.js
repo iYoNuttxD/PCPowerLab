@@ -1,24 +1,17 @@
+import { currentBuild, currentBuildTotal } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { createAdminComponent } from '../src/services/admin-component.service.js';
 import { generateBuildSummary } from '../src/services/buildSummaryService.js';
 
-const validBuild = {
-  cpuId: 'cpu-ryzen-5-5600',
-  motherboardId: 'mb-b550m-aorus-elite',
-  gpuId: 'gpu-rtx-4060',
-  ramId: 'ram-kingston-fury-16gb-ddr4',
-  storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w',
-  caseId: 'case-mid-tower-airflow'
-};
+const validBuild = { ...currentBuild };
 
 test('deve gerar resumo final estruturado para uma build completa', () => {
   const summary = generateBuildSummary({
     build: validBuild,
     budget: {
-      amount: 5000,
+      amount: Number((currentBuildTotal() + 300.7).toFixed(2)),
       currency: 'BRL',
       priority: 'cost-benefit'
     },
@@ -30,17 +23,18 @@ test('deve gerar resumo final estruturado para uma build completa', () => {
 
   assert.equal(summary.components.cpu.id, validBuild.cpuId);
   assert.equal(summary.components.gpu.id, validBuild.gpuId);
-  assert.equal(summary.totalEstimatedPrice, 4699.3);
+  assert.equal(summary.totalEstimatedPrice, currentBuildTotal());
   assert.equal(summary.compatibility.compatible, true);
   assert.deepEqual(summary.compatibility.alerts, []);
   assert.equal(summary.bottlenecks.hasBottleneck, false);
-  assert.equal(summary.budgetStatus.amount, 5000);
+  assert.equal(summary.budgetStatus.amount, Number((currentBuildTotal() + 300.7).toFixed(2)));
   assert.equal(summary.budgetStatus.remaining, 300.7);
   assert.equal(summary.budgetStatus.status, 'within_budget');
   assert.equal(summary.gamePerformance.gameId, 'game-cyberpunk-2077');
   assert.equal(Number.isInteger(summary.gamePerformance.estimatedFps), true);
-  assert.equal(summary.summary.includes('configuracao esta compativel'), true);
-  assert.equal(summary.finalRecommendation, 'Configuracao recomendada para o perfil informado.');
+  assert.equal(summary.summary.includes('verificações principais estão compatíveis'), true);
+  assert.equal(summary.summary.includes('refrigeração não verificada'), true);
+  assert.equal(summary.finalRecommendation, 'Configuração recomendada para o perfil informado.');
 });
 
 test('deve funcionar sem orcamento e sem jogo informado', () => {
@@ -49,7 +43,7 @@ test('deve funcionar sem orcamento e sem jogo informado', () => {
   });
 
   assert.equal(summary.components.motherboard.id, validBuild.motherboardId);
-  assert.equal(summary.totalEstimatedPrice, 4699.3);
+  assert.equal(summary.totalEstimatedPrice, currentBuildTotal());
   assert.equal(summary.compatibility.compatible, true);
   assert.equal(summary.budgetStatus, undefined);
   assert.equal(summary.gamePerformance, undefined);
@@ -77,6 +71,7 @@ test('deve destacar incompatibilidades no resumo final', () => {
 test('deve informar quando analise opcional nao tiver dados suficientes', () => {
   createAdminComponent({
     id: 'cpu-build-summary-no-performance-score',
+    price: 500, // Isolate missing performance data; price is independently required for totals.
     name: 'CPU Build Summary Sem Score',
     type: 'cpu',
     brand: 'Test',
@@ -97,7 +92,9 @@ test('deve informar quando analise opcional nao tiver dados suficientes', () => 
 
   assert.equal(summary.compatibility.compatible, true);
   assert.equal(summary.bottlenecks.available, false);
-  assert.equal(summary.bottlenecks.errors.some((message) => message.includes('cpu')), true);
+  assert.equal(summary.bottlenecks.reason, 'performance_model_unavailable');
+  assert.deepEqual(summary.bottlenecks.componentsWithoutPerformanceModel, ['cpu-build-summary-no-performance-score']);
+  assert.equal(summary.bottlenecks.performanceSummary, null);
 });
 
 test('deve retornar erro controlado quando build nao for informada', () => {
@@ -105,8 +102,32 @@ test('deve retornar erro controlado quando build nao for informada', () => {
     () => generateBuildSummary({}),
     (error) => {
       assert.equal(error.statusCode, 400);
-      assert.equal(error.message, 'Informe a build para gerar o resumo da configuracao.');
+      assert.equal(error.message, 'Informe a build para gerar o resumo da configuração.');
       return true;
     }
   );
+});
+
+
+test('current exact models have dated totals and evidence-backed fit while unknown BIOS stays pending', () => {
+  const summary = generateBuildSummary({ build: currentBuild, budget: { amount: currentBuildTotal() },
+    gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' });
+  assert.equal(summary.totalEstimatedPrice, currentBuildTotal());
+  assert.equal(summary.pricing.referenceTotalComplete, true);
+  assert.equal(summary.pricing.datedReferenceUnits, 7);
+  assert.equal(summary.budgetStatus.remaining, 0);
+  assert.equal(summary.budgetStatus.status, 'within_budget');
+  assert.equal(summary.compatibility.compatible, true);
+  assert.equal(summary.compatibility.status, 'compatible');
+  assert.deepEqual(summary.compatibility.unverifiedChecks, []);
+  assert.ok(summary.gamePerformance.estimatedFps > 0);
+  const biosPending = generateBuildSummary({ build: { ...currentBuild,
+    cpuId: 'cpu-intel-i5-12400f', motherboardId: 'mb-msi-pro-h610m-s-ddr4' }, gameId: 'game-valorant' });
+  assert.equal(biosPending.compatibility.compatible, false);
+  assert.equal(biosPending.compatibility.status, 'unverified');
+  assert.deepEqual(biosPending.compatibility.unverifiedChecks.map(check => check.code), ['CPU_BIOS_UNVERIFIED']);
+  assert.equal(biosPending.gamePerformance.available, false);
+  assert.equal(biosPending.gamePerformance.reason, 'unverified_build');
+  assert.equal('estimatedFps' in biosPending.gamePerformance, false);
+  for (const [field, id] of Object.entries(currentBuild)) assert.equal(summary.components[field.slice(0, -2)].id, id);
 });

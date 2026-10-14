@@ -1,0 +1,33 @@
+✔ deleting a saved build removes dependent versions and notifications but preserves other builds and shared snapshots (9.488613ms)
+✔ cooling costs include pack quantities without fabricated performance or NaN (5.559602ms)
+✔ recommendations reject uncertain selected cooling instead of dropping it (2049.704156ms)
+✔ upgrades and roadmap retain cooling in prices and reject unverified candidates (3695.934076ms)
+✔ compatibility fixes do not silently discard selected accessories (1.92684ms)
+✔ partial performance has no cooling bonus and full unverified cooling builds are blocked (1.931737ms)
+✔ known air cooler height never substitutes for unknown RAM and VRM clearance (1520.611795ms)
+✔ game: rejects full incompatible and unknown builds instead of returning unsupported performance (8.297642ms)
+✔ game: top-level component aliases override conflicting nested IDs consistently (3.717327ms)
+✔ game: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.447051ms)
+✔ multiple games: rejects full incompatible and unknown builds instead of returning unsupported performance (2.12352ms)
+✔ multiple games: top-level component aliases override conflicting nested IDs consistently (1.148949ms)
+✔ multiple games: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.343018ms)
+✔ professional software: rejects full incompatible and unknown builds instead of returning unsupported performance (1.73778ms)
+✔ professional software: top-level component aliases override conflicting nested IDs consistently (0.58166ms)
+✔ professional software: preserves legacy partial simulation but explicitly leaves compatibility unverified (0.341074ms)
+✔ comparison rejects malformed build entries with a controlled 400 (1.171552ms)
+✔ performance parameter updates reject out-of-scale specialized scores atomically (1.522531ms)
+✔ catalog integrity: unique parameter and rule identifiers, correct references and legacy serialization (2.088739ms)
+✔ deve gerar compartilhamento para build salva (1867.888755ms)
+✔ deve gerar compartilhamento para build direta (1712.72891ms)
+✔ deve consultar compartilhamento por shareId (0.882325ms)
+✔ deve retornar erro controlado quando buildId nao existir (0.632035ms)
+✔ deve retornar erro controlado quando nenhum dado for informado (0.218574ms)
+✔ deve retornar erro controlado quando shareId nao existir (0.170132ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7430.047565

@@ -1,0 +1,989 @@
+{
+  "baseline": "407d771",
+  "date": "2026-10-07",
+  "viewportChecks": [
+    {
+      "route": "/",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/components",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/build",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/summary",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/performance-lab",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/compare",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/insights",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/ready-builds",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/saved-builds",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/upgrades",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/feedback",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/about",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/admin",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/feedback/new",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/shared/not-found",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/not-found",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "errors": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/components",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/build",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/summary",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/performance-lab",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/compare",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/insights",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/ready-builds",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/saved-builds",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/upgrades",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/feedback",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/about",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/admin",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/feedback/new",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/shared/not-found",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/not-found",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "errors": []
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/components",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/build",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/summary",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/performance-lab",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/compare",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/insights",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/ready-builds",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/saved-builds",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/upgrades",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/feedback",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/about",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/admin",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/feedback/new",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/shared/not-found",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/not-found",
+      "width": 768,
+      "scrollWidth": 768,
+      "errors": []
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/components",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/build",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/summary",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/performance-lab",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/compare",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/insights",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/ready-builds",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/saved-builds",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/upgrades",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/feedback",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/about",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/admin",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/feedback/new",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/shared/not-found",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/not-found",
+      "width": 390,
+      "scrollWidth": 390,
+      "errors": []
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/components",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/build",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/summary",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/performance-lab",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/compare",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/insights",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/ready-builds",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/saved-builds",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/upgrades",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/feedback",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/about",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/admin",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/feedback/new",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/shared/not-found",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    },
+    {
+      "route": "/not-found",
+      "width": 320,
+      "scrollWidth": 320,
+      "errors": []
+    }
+  ],
+  "interactions": {
+    "checks": [
+      "desktop navigation, keyboard, Escape, outside click, active route and skip link",
+      "catalog filter selection, search, empty state and reset",
+      "component details: focus containment, Escape, return focus and backdrop",
+      "purchase links: loading, failure, retry and close without stale reopen",
+      "catalog API loading, error and retry",
+      "long names/specs and different categories keep card geometry; full content accessible",
+      "mobile menu keyboard, scrolling, all groups, navigation and dismissal",
+      "wizard selection, deselection through summary, step advance and storage",
+      "ready build, summary generation, saving, export and sharing",
+      "comparison selection, result and responsive table",
+      "admin direct access and backend protection"
+    ],
+    "errors": []
+  },
+  "axe": [
+    {
+      "width": 1440,
+      "route": "/",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/components",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/build",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/summary",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/performance-lab",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/compare",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/insights",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/ready-builds",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/saved-builds",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/upgrades",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/feedback",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/feedback/new",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/about",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/admin",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/shared/not-found",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "route": "/not-found",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/components",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/build",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/summary",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/performance-lab",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/compare",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/insights",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/ready-builds",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/saved-builds",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/upgrades",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/feedback",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/feedback/new",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/about",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/admin",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/shared/not-found",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "route": "/not-found",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "contrast": {
+    "text": 13.12,
+    "muted": 8.36,
+    "cyan": 9.4,
+    "green": 9.51,
+    "yellow": 9.73,
+    "red": 7.21,
+    "border": 4.0,
+    "placeholder": 6.09,
+    "primary-text": 12.38,
+    "muted-on-gradient-bound": 7.66
+  },
+  "populatedStates": {
+    "results": [
+      {
+        "label": "summary",
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      {
+        "label": "summary",
+        "width": 1024,
+        "scrollWidth": 1024
+      },
+      {
+        "label": "summary",
+        "width": 768,
+        "scrollWidth": 768
+      },
+      {
+        "label": "summary",
+        "width": 390,
+        "scrollWidth": 390
+      },
+      {
+        "label": "summary",
+        "width": 320,
+        "scrollWidth": 320
+      },
+      {
+        "label": "performance",
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      {
+        "label": "performance",
+        "width": 1024,
+        "scrollWidth": 1024
+      },
+      {
+        "label": "performance",
+        "width": 768,
+        "scrollWidth": 768
+      },
+      {
+        "label": "performance",
+        "width": 390,
+        "scrollWidth": 390
+      },
+      {
+        "label": "performance",
+        "width": 320,
+        "scrollWidth": 320
+      },
+      {
+        "label": "upgrades",
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      {
+        "label": "upgrades",
+        "width": 1024,
+        "scrollWidth": 1024
+      },
+      {
+        "label": "upgrades",
+        "width": 768,
+        "scrollWidth": 768
+      },
+      {
+        "label": "upgrades",
+        "width": 390,
+        "scrollWidth": 390
+      },
+      {
+        "label": "upgrades",
+        "width": 320,
+        "scrollWidth": 320
+      },
+      {
+        "label": "wizard-selected",
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      {
+        "label": "wizard-selected",
+        "width": 1024,
+        "scrollWidth": 1024
+      },
+      {
+        "label": "wizard-selected",
+        "width": 768,
+        "scrollWidth": 768
+      },
+      {
+        "label": "wizard-selected",
+        "width": 390,
+        "scrollWidth": 390
+      },
+      {
+        "label": "wizard-selected",
+        "width": 320,
+        "scrollWidth": 320
+      }
+    ],
+    "modalAxe": [],
+    "errors": [],
+    "reducedMotion": "1e-05s"
+  },
+  "tools": {
+    "node": "26.9.0",
+    "playwright": "1.62.1",
+    "axeCore": "4.14.0",
+    "browser": "Google Chrome 154.0.8037.98, headless"
+  },
+  "existingChecks": {
+    "tests": 247,
+    "passed": 247,
+    "backendLint": "PASS",
+    "frontendLint": "PASS",
+    "build": "PASS",
+    "diffCheck": "PASS"
+  }
+}

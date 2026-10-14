@@ -1,0 +1,70 @@
+frontend/src/pages/ReadyBuilds.jsx:2:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/ReadyBuilds.jsx:550:            <ComponentIdentity component={readyBuild.components?.[type] || readyBuild.components?.[`${type}Id`]} category={type} />
+frontend/src/pages/ReadyBuilds.jsx:608:            <ComponentIdentity component={components[type]} category={type} />
+frontend/src/pages/ReadyBuilds.jsx:632:          <ComponentIdentity component={componentsInput?.[type] || componentsInput?.[`${type}Id`]} category={type} />
+frontend/src/pages/ReadyBuilds.jsx:713:          <ComponentIdentity component={components.cooler} category="cooler" />
+frontend/src/pages/ReadyBuilds.jsx:719:          <ComponentIdentity component={fan} category="fan" />
+frontend/src/pages/Insights.jsx:2:import ComponentImage from '../components/componentsCatalog/ComponentImage.jsx';
+frontend/src/pages/Insights.jsx:123:              <ComponentImage component={component} compact />
+frontend/src/pages/Admin.jsx:1:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/Admin.jsx:261:                <ComponentIdentity component={parameter.componentId} category={parameter.type}><small>{parameter.componentId}</small></ComponentIdentity>
+frontend/src/pages/CompareBuilds.jsx:2:import BuildComponentsPreview from '../components/build/BuildComponentsPreview.jsx';
+frontend/src/pages/CompareBuilds.jsx:124:              <details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={savedBuild.components} /></details>
+frontend/src/pages/CompareBuilds.jsx:152:                    <th scope="row">{item.name}<details className="build-image-details"><summary>Ver componentes</summary><BuildComponentsPreview components={item.components} /></details></th>
+frontend/src/pages/SavedBuilds.jsx:1:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/SavedBuilds.jsx:281:                  <ComponentIdentity component={savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`]} category={type} />
+frontend/src/pages/SavedBuilds.jsx:287:                  <ComponentIdentity component={savedBuild.components?.cooler || savedBuild.components?.coolerId} category="cooler" />
+frontend/src/pages/SavedBuilds.jsx:293:                  <ComponentIdentity component={fan} category="fan" />
+frontend/src/pages/SharedBuild.jsx:1:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/SharedBuild.jsx:60:              <ComponentIdentity component={components[type] || components[`${type}Id`]} category={type} />
+frontend/src/pages/SharedBuild.jsx:66:              <ComponentIdentity component={components.cooler || components.coolerId} category="cooler" />
+frontend/src/pages/SharedBuild.jsx:72:              <ComponentIdentity component={fan} category="fan" />
+frontend/src/pages/UpgradeSuggestions.jsx:2:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/UpgradeSuggestions.jsx:285:                    <ComponentIdentity component={suggestion.currentComponent} category={suggestion.componentType} />
+frontend/src/pages/UpgradeSuggestions.jsx:289:                    <ComponentIdentity component={suggestion.suggestedComponent} category={suggestion.componentType} />
+frontend/src/pages/UpgradeSuggestions.jsx:459:                    <ComponentIdentity component={step.currentComponent} category={step.componentType} />
+frontend/src/pages/UpgradeSuggestions.jsx:463:                    <ComponentIdentity component={step.suggestedComponent} category={step.componentType} />
+frontend/src/pages/ComponentsCatalog.jsx:1:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/ComponentsCatalog.jsx:116:          <ul>{comparedComponents.map(component => <li key={component.id}><ComponentIdentity component={component} /><Button variant="ghost" size="sm" onClick={() => removeCompared(component.id)} aria-label={`Retirar ${component.name} da seleção`}>Retirar</Button></li>)}</ul>
+frontend/src/pages/ComponentsCatalog.jsx:140:        {linksComponent && <ComponentIdentity component={linksComponent} />}
+frontend/src/components/componentsCatalog/ComponentImage.jsx:4:import { verifiedComponentImage } from '../../utils/componentImage.js';
+frontend/src/components/componentsCatalog/ComponentImage.jsx:8:export default function ComponentImage({ component, category, compact = false }) {
+frontend/src/components/componentsCatalog/ComponentImage.jsx:10:  const media = verifiedComponentImage(current);
+frontend/src/components/componentsCatalog/ComponentImage.jsx:14:  return <ComponentImageFrame key={imageKey} component={current || component} category={category}
+frontend/src/components/componentsCatalog/ComponentImage.jsx:18:function ComponentImageFrame({ component, category, name, media, catalogLoading, compact }) {
+frontend/src/components/componentsCatalog/ComponentCard.jsx:11:import ComponentImage from './ComponentImage.jsx';
+frontend/src/components/componentsCatalog/ComponentCard.jsx:25:        <ComponentImage component={component} />
+frontend/src/components/componentsCatalog/ComponentCard.jsx:67:        <ComponentImage component={component} />
+frontend/src/pages/Feedback.jsx:1:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/Feedback.jsx:526:            <ComponentIdentity component={selectedComponents[type]} category={type} fallback="Componente não encontrado" />
+frontend/src/pages/Feedback.jsx:577:                <ComponentIdentity component={selectedComponents[type]} category={type} />
+frontend/src/pages/Feedback.jsx:593:        <ComponentIdentity component={context.currentComponent} />
+frontend/src/pages/Feedback.jsx:597:        <ComponentIdentity component={context.suggestedComponent} />
+frontend/src/pages/Feedback.jsx:612:        <ComponentIdentity component={context.suggestedComponent} fallback="Alternativa sugerida" />
+frontend/src/pages/Feedback.jsx:736:          <ComponentIdentity component={components.cooler} category="cooler" />
+frontend/src/pages/Feedback.jsx:742:          <ComponentIdentity component={fan} category="fan" />
+frontend/src/components/recommendations/RecommendationCard.jsx:3:import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
+frontend/src/components/recommendations/RecommendationCard.jsx:40:              <ComponentIdentity component={component || recommendation.components?.[`${type}Id`]} category={type} fallback="Não sugerido" />
+frontend/src/components/recommendations/RecommendationCard.jsx:44:        {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s)</small></ComponentIdentity></li>)}
+frontend/src/pages/BuildSummary.jsx:1:import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+frontend/src/pages/BuildSummary.jsx:702:                    <ComponentIdentity component={currentComponent} category={componentType} fallback={suggestion.currentComponentName || 'Não informado'} />
+frontend/src/pages/BuildSummary.jsx:706:                    <ComponentIdentity component={suggestedComponent} category={componentType} fallback={suggestion.suggestedComponentName || 'Alternativa sugerida'} />
+frontend/src/components/componentsCatalog/ComponentComparison.jsx:1:import ComponentImage from './ComponentImage.jsx';
+frontend/src/components/componentsCatalog/ComponentComparison.jsx:31:            <tr><th scope="row">Fotografia do modelo</th>{components.map(component => <td key={component.id}><ComponentImage component={component} /></td>)}</tr>
+frontend/src/components/componentsCatalog/ComponentIdentity.jsx:1:import ComponentImage from './ComponentImage.jsx';
+frontend/src/components/componentsCatalog/ComponentIdentity.jsx:5:export default function ComponentIdentity({ component, category, children, fallback = 'Não informado' }) {
+frontend/src/components/componentsCatalog/ComponentIdentity.jsx:9:    {component && <ComponentImage component={component} category={category} compact />}
+frontend/src/components/build/PurchaseLinksList.jsx:1:import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
+frontend/src/components/build/PurchaseLinksList.jsx:46:                  <ComponentIdentity component={{ id: group.componentId, name: group.componentName }} category={group.category} />
+frontend/src/components/build/BuildSummaryCard.jsx:1:import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
+frontend/src/components/build/BuildSummaryCard.jsx:28:              <ComponentIdentity component={component} category={type} fallback="Não selecionado" />
+frontend/src/components/build/BuildSummaryCard.jsx:39:          <ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s){fan.specs?.unitsPerPack ? ` · ${fan.quantity * fan.specs.unitsPerPack} unidade(s)` : ''}</small></ComponentIdentity>
+frontend/src/components/build/ComponentReplacement.jsx:1:import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
+frontend/src/components/build/ComponentReplacement.jsx:82:        {current && <ComponentIdentity component={current} category={type} />}
+frontend/src/components/build/ComponentReplacement.jsx:92:              <ComponentIdentity component={component} category={type}><small>{component.brand} · {formatCurrency(component.price)} estimados</small></ComponentIdentity>
+frontend/src/components/build/CoolingPanel.jsx:1:import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
+frontend/src/components/build/CoolingPanel.jsx:33:    {cooler && <ComponentIdentity component={cooler} category="cooler" />}
+frontend/src/components/build/CoolingPanel.jsx:38:      <ComponentIdentity component={fan} category="fan" />
+frontend/src/components/build/BuildComponentsPreview.jsx:1:import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
+frontend/src/components/build/BuildComponentsPreview.jsx:4:export default function BuildComponentsPreview({ components = {} }) {
+frontend/src/components/build/BuildComponentsPreview.jsx:13:      <ComponentIdentity component={component} category={category} />

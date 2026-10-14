@@ -1,0 +1,59 @@
+{
+  "modelVersion": "pcpl-cooling-scenario-v1-r3",
+  "profileRevision": "r3-shared-anchor-reproducibility",
+  "reviewedAt": "2026-10-08",
+  "status": "independently-reviewed-design-priors-not-empirical-calibration",
+  "originalLedgerFiles": [
+    {
+      "file": "cpu-priors.json",
+      "sha256": "65834984352be3da3acbfdf9d4101f2d05f222586556cbfc84cd199e416ad128"
+    },
+    {
+      "file": "cooler-priors.json",
+      "sha256": "8be6fdb3bdb49b05d8061e76306fe12d9c8fdb927e767ac9bea06cf7589950f8"
+    },
+    {
+      "file": "acoustic-priors.json",
+      "sha256": "2d89f3adf1444958d5bf8d7c810dd04d77a72ac7048faa8172f0c7f577e81140"
+    },
+    {
+      "file": "active-model-scope.json",
+      "sha256": "95cc4beabb1fb238b5d3563569e6f882a2d0b343cafe5a72198a660c5e528226"
+    }
+  ],
+  "identityCorrections": [
+    {
+      "componentId": "cooler-bequiet-pure-rock-pro3-black",
+      "field": "brand",
+      "frozenValue": "Cooler Master",
+      "canonicalValue": "be quiet!",
+      "reason": "Frozen scope transcription error; canonical BK042 identity is verified in the final market catalog and exact manufacturer source. No numerical coefficient changed.",
+      "sourceUrl": "https://www.bequiet.com/en/cpucooler/5600"
+    }
+  ],
+  "methodology": [
+    {
+      "label": "Rede térmica equivalente; coeficientes dependem do sistema",
+      "url": "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+      "use": "Methodology only; supplies no desktop CPU coefficients"
+    },
+    {
+      "label": "Resposta térmica não linear e dependente do processador",
+      "url": "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+      "use": "Methodology only; NSPR is never converted into degrees"
+    },
+    {
+      "label": "Soma energética de fontes sonoras",
+      "url": "https://www.osha.gov/otm/section-3-health-hazards/chapter-5",
+      "use": "Methodology only; no acoustic safety or health claims"
+    }
+  ],
+  "claims": {
+    "basis": "assumed-design-priors",
+    "powerUncertainty": false,
+    "empiricallyCalibrated": false,
+    "confidencePercentages": false,
+    "fullPcNoise": false
+  },
+  "identityPolicy": "Exact catalog ID, name, category, brand, MPN where present, and frozen relevant spec signature. Price, image and provenance changes are excluded. Unregistered components do not receive automatic generic profiles."
+}

@@ -1,3 +1,7 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { unavailablePerformance } from '../utils/performanceAvailability.js';
+import { normalizeSelectedComponentIds } from './build.service.js';
+import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { games } from '../data/games.js';
 import { findComponentById } from './component.service.js';
 import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
@@ -17,7 +21,6 @@ import {
 } from '../utils/performanceSimulationUtils.js';
 
 const requiredSimulationSlots = ['cpu', 'gpu', 'ram', 'storage'];
-const fullBuildSlots = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case'];
 const maxGamesPerComparison = 10;
 
 export function listGames(filters = {}) {
@@ -43,13 +46,17 @@ export function simulateGamePerformance(simulationInput) {
 
   const targetResolution = normalizeTargetResolution(simulationInput.targetResolution ?? game.targetResolution);
   const qualityPreset = normalizeQualityPreset(simulationInput.qualityPreset);
-  const buildInput = normalizeBuildInput(simulationInput.build);
+  const compatibility = validateSimulationCompatibility(simulationInput.build);
+  const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);
+  const unavailable = unavailablePerformance(components);
+  if (unavailable) return { ...performanceMetadata(components), ...unavailable, game: game.name, gameId: game.id, targetResolution, qualityPreset, estimatedFps: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
   const performanceParameters = mapPerformanceParameters(components);
   const details = buildRequirementDetails({ game, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
   const meetsRecommendedRequirements = Object.values(details).every((status) => status === 'recommended');
-  const bottleneckAnalysis = analyzeBottlenecksWhenBuildIsComplete(buildInput);
+  const bottleneckAnalysis = compatibility.scope === 'full_build'
+    ? analyzeBuildBottlenecks(simulationInput.build) : null;
   const bottleneckPenalty = getBottleneckPenalty(bottleneckAnalysis);
   const weightedPerformanceIndex = calculateWeightedPerformanceIndex({
     cpuScore: getGamingScore(performanceParameters.cpu),
@@ -72,6 +79,7 @@ export function simulateGamePerformance(simulationInput) {
   });
 
   return {
+    ...performanceMetadata(components),
     game: game.name,
     gameId: game.id,
     targetResolution,
@@ -88,6 +96,7 @@ export function simulateGamePerformance(simulationInput) {
     }),
     details,
     technicalDetails: {
+      compatibility,
       weightedPerformanceIndex: Number(weightedPerformanceIndex.toFixed(2)),
       qualityMultiplier: getQualityPresetMultiplier(qualityPreset),
       resolutionMultiplier: getResolutionMultiplier(targetResolution),
@@ -118,8 +127,11 @@ export function compareGamePerformance(comparisonInput) {
   }));
 
   return {
+    performanceBasis: simulations[0].performanceBasis,
+    performanceMethodology: simulations[0].performanceMethodology,
     targetResolution: simulations[0].targetResolution,
     qualityPreset: simulations[0].qualityPreset,
+    compatibility: simulations[0].technicalDetails.compatibility,
     results: simulations.map(formatGameComparisonResult),
     summary: buildGameComparisonSummary(simulations)
   };
@@ -176,16 +188,6 @@ function buildRequirementDetails({ game, performanceParameters }) {
     ),
     storageStatus: getRequirementStatus(performanceParameters.storage.performanceScore, 40, 70)
   };
-}
-
-function analyzeBottlenecksWhenBuildIsComplete(buildInput) {
-  const hasFullBuild = fullBuildSlots.every((slot) => isFilledText(buildInput[`${slot}Id`] ?? buildInput[slot]));
-
-  if (!hasFullBuild) {
-    return null;
-  }
-
-  return analyzeBuildBottlenecks(buildInput);
 }
 
 function validatePerformanceParameters(performanceParameters) {
@@ -262,6 +264,9 @@ function validateComparisonPayload(comparisonInput) {
 
 function formatGameComparisonResult(simulation) {
   return {
+    performanceBasis: simulation.performanceBasis,
+    performanceMethodology: simulation.performanceMethodology,
+    ...(simulation.available === false ? { available: false, reason: simulation.reason } : {}),
     gameId: simulation.gameId,
     gameName: simulation.game,
     estimatedFps: simulation.estimatedFps,
@@ -272,6 +277,7 @@ function formatGameComparisonResult(simulation) {
 }
 
 function buildGameComparisonSummary(simulations) {
+  if (simulations.some((simulation) => simulation.available === false)) return 'Estimativa de desempenho indisponível para este modelo.';
   const excellentCount = simulations.filter((simulation) => simulation.performanceLevel === 'excellent').length;
   const goodCount = simulations.filter((simulation) => simulation.performanceLevel === 'good').length;
   const insufficientCount = simulations.filter((simulation) => simulation.performanceLevel === 'insufficient').length;
@@ -294,16 +300,6 @@ function buildGameComparisonSummary(simulations) {
   return `A configuracao apresenta desempenho variado nos jogos comparados, com media estimada de ${averageFps} FPS.`;
 }
 
-function normalizeBuildInput(buildInput) {
-  return requiredSimulationSlots.reduce((normalizedBuild, slot) => ({
-    ...normalizedBuild,
-    [`${slot}Id`]: buildInput[`${slot}Id`] ?? buildInput[slot]
-  }), {
-    motherboardId: buildInput.motherboardId ?? buildInput.motherboard,
-    psuId: buildInput.psuId ?? buildInput.psu,
-    caseId: buildInput.caseId ?? buildInput.case
-  });
-}
 
 function normalizeTargetResolution(targetResolutionInput) {
   const targetResolution = normalizeRequiredText(targetResolutionInput, 'targetResolution').toLowerCase();

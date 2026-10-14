@@ -17,6 +17,36 @@ const validBuild = {
 };
 
 function ensureUpgradeCandidate() {
+  // Keep the gain/cost ranking deterministic without assigning a fictitious
+  // price to the real Samsung 980 PRO, whose reference is intentionally absent.
+  try {
+    createAdminComponent({
+      id: 'storage-test-upgrade-1tb',
+      name: 'SSD Test Upgrade 1TB',
+      type: 'storage',
+      brand: 'Test',
+      estimatedPrice: 500,
+      interface: 'M.2 NVMe',
+      capacityGb: 1000,
+      storageType: 'SSD'
+    });
+  } catch (error) {
+    if (error.statusCode !== 409) throw error;
+  }
+  try {
+    createPerformanceParameters({
+      componentId: 'storage-test-upgrade-1tb',
+      type: 'storage',
+      performanceScore: 88,
+      gamingScore: 86,
+      productivityScore: 90,
+      capacity: 1000,
+      interface: 'M.2 NVMe',
+      recommendedUse: ['gaming', 'general']
+    });
+  } catch (error) {
+    if (error.statusCode !== 409) throw error;
+  }
   try {
     createAdminComponent({
       id: 'gpu-test-upgrade-4070',
@@ -65,14 +95,26 @@ test('deve sugerir upgrade para build direta respeitando orcamento e compatibili
     priority: 'cost-benefit'
   });
 
-  assert.equal(result.currentBuildSummary.totalEstimatedPrice, 4699.3);
+  assert.equal(result.currentBuildSummary.totalEstimatedPrice, null);
   assert.equal(result.suggestions.length > 0, true);
 
   const firstSuggestion = result.suggestions[0];
 
-  assert.equal(firstSuggestion.componentType, 'gpu');
-  assert.equal(firstSuggestion.currentComponent.id, 'gpu-rtx-4060');
-  assert.equal(firstSuggestion.suggestedComponent.id, 'gpu-test-upgrade-4070');
+  // The priced fixture offers +20 gaming points for R$ 500; the GPU costs
+  // R$ 1,400 for +18 points. Their exact order tests gain/cost ranking.
+  assert.equal(firstSuggestion.componentType, 'storage');
+  assert.equal(firstSuggestion.currentComponent.id, 'ssd-kingston-nv2-1tb');
+  assert.equal(firstSuggestion.suggestedComponent.id, 'storage-test-upgrade-1tb');
+  for (const suggestion of result.suggestions) {
+    assert.ok(Number.isFinite(suggestion.estimatedUpgradeCost) && suggestion.estimatedUpgradeCost > 0);
+    assert.notEqual(suggestion.suggestedComponent.id, 'ssd-samsung-980-pro-1tb');
+    const capacityField = { storage: 'capacityGb', ram: 'capacityGb', gpu: 'vramGb' }[suggestion.componentType];
+    if (capacityField) assert.ok(suggestion.suggestedComponent.specs[capacityField] >= suggestion.currentComponent.specs[capacityField]);
+  }
+  assert.equal(firstSuggestion.scoreGain, 20);
+  assert.equal(firstSuggestion.estimatedUpgradeCost, 500);
+  assert.equal(result.suggestions[1].suggestedComponent.id, 'gpu-test-upgrade-4070');
+  assert.equal(result.suggestions[1].currentComponent.id, 'gpu-rtx-4060');
   assert.equal(firstSuggestion.estimatedUpgradeCost <= 1500, true);
   assert.equal(['low', 'medium', 'high'].includes(firstSuggestion.expectedImpact), true);
   assert.equal(firstSuggestion.compatibilityStatus, 'compatible');
@@ -100,7 +142,9 @@ test('deve sugerir upgrade para build salva por ID', () => {
   });
 
   assert.equal(result.suggestions.length > 0, true);
-  assert.equal(result.suggestions[0].suggestedComponent.id, 'gpu-test-upgrade-4070');
+  assert.equal(result.suggestions[0].suggestedComponent.id, 'storage-test-upgrade-1tb');
+  const direct = suggestUpgrades({ build: validBuild, budget: { amount: 1500, currency: 'BRL' }, usageType: 'gaming' });
+  assert.deepEqual(result.suggestions, direct.suggestions);
 });
 
 test('deve retornar mensagem clara quando nao houver upgrade dentro do orcamento', () => {

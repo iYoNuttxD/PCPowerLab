@@ -27,17 +27,19 @@ test('deve buscar links de compra por componentId', () => {
   assert.equal(links[0].storeName, 'Kabum');
   assert.equal(links[0].url, 'https://www.kabum.com.br/busca/rtx-4060-8gb');
   assert.equal(links[0].currency, 'BRL');
-  assert.equal(typeof links[0].price, 'number');
+  assert.equal(links[0].price, null);
   assert.equal(typeof links[0].url, 'string');
   assert.equal(links.every((link) => link.url.startsWith('https://')), true);
   assert.equal(links.every((link) => link.isAffiliate === false), true);
   assert.equal(links.every((link) => link.availabilityStatus === 'unknown'), true);
   assert.equal(typeof links[0].isAffiliate, 'boolean');
-  assert.equal(Boolean(links[0].lastUpdated), true);
+  assert.equal(links[0].lastUpdated, null);
+  assert.equal(links[0].kind, 'research');
+  assert.equal(links[0].comparisonAvailable, false);
   assert.equal(['available', 'unavailable', 'unknown'].includes(links[0].availabilityStatus), true);
 });
 
-test('deve retornar lista vazia para componente existente sem link cadastrado', () => {
+test('deve gerar buscas dinamicamente para componente cadastrado depois da inicialização', () => {
   createAdminComponent({
     id: 'case-test-no-purchase-link',
     name: 'Gabinete Test Sem Link',
@@ -49,7 +51,9 @@ test('deve retornar lista vazia para componente existente sem link cadastrado', 
 
   const links = getPurchaseLinksByComponentId('case-test-no-purchase-link');
 
-  assert.deepEqual(links, []);
+  assert.equal(links.length, 5);
+  assert.ok(links.every(link => link.componentId === 'case-test-no-purchase-link' && link.availabilityStatus === 'unknown'));
+  assert.equal(links[0].price, null);
 });
 
 test('deve buscar links de compra para todos os componentes de uma build', () => {

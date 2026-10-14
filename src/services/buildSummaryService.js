@@ -1,10 +1,11 @@
+import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { checkBuildCompatibilityAlerts } from './compatibility-alert.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import { createBudget } from './budgetService.js';
 import { generateExplanation } from './explanationService.js';
 import { simulateGamePerformance } from './gamePerformanceService.js';
 import { recommendBuildByBudget } from './recommendationService.js';
-import { requiredBuildSlots } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 
 const defaultUsageType = 'general';
 const recommendedPriorities = ['cost-benefit', 'performance', 'lowest-price'];
@@ -14,23 +15,26 @@ export function generateBuildSummary(input) {
 
   const buildInput = normalizeBuildInput(input.build);
   const compatibility = checkBuildCompatibilityAlerts(mapBuildToCompatibilityInput(buildInput));
-  const totalEstimatedPrice = Number(compatibility.estimatedPrice.toFixed(2));
+  const pricing = compatibility.pricing;
+  const totalEstimatedPrice = pricing.estimatedTotal;
   const budgetStatus = input.budget
-    ? buildBudgetStatus(input.budget, totalEstimatedPrice)
+    ? buildBudgetStatus(input.budget, pricing)
     : null;
   const bottlenecks = runOptionalAnalysis(
     () => analyzeBuildBottlenecks(buildInput),
-    'Analise de gargalos indisponivel para os dados informados.'
+    'Análise de gargalos indisponível para os dados informados.'
   );
   const gamePerformance = input.gameId
-    ? runOptionalAnalysis(
+    ? compatibility.compatible !== true
+      ? { available: false, reason: compatibility.status === 'unverified' ? 'unverified_build' : 'incompatible_build', message: 'Simulação indisponível: a compatibilidade da configuração não foi confirmada. Revise os alertas e os dados técnicos pendentes.' }
+      : runOptionalAnalysis(
       () => simulateGamePerformance({
         gameId: input.gameId,
         targetResolution: input.targetResolution,
         qualityPreset: input.qualityPreset,
         build: buildInput
       }),
-      'Simulacao de desempenho indisponivel para os dados informados.'
+      'Simulação de desempenho indisponível para os dados informados.'
     )
     : null;
   const simpleExplanations = buildSimpleExplanations({
@@ -48,11 +52,17 @@ export function generateBuildSummary(input) {
   });
 
   return removeEmptySections({
+    ...performanceMetadata(compatibility.selectedComponents),
     components: compatibility.selectedComponents,
+    pricing,
     totalEstimatedPrice,
     budgetStatus,
     compatibility: {
       compatible: compatibility.compatible,
+      status: compatibility.status,
+      unverifiedChecks: compatibility.unverifiedChecks,
+      coolingPower: compatibility.coolingPower,
+      coolingAssessment: compatibility.coolingAssessment,
       alerts: compatibility.alerts
     },
     bottlenecks,
@@ -75,34 +85,48 @@ export function generateBuildSummary(input) {
 
 function validateSummaryPayload(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
-    const error = new Error('Informe os dados para gerar o resumo da configuracao.');
+    const error = new Error('Informe os dados para gerar o resumo da configuração.');
     error.statusCode = 400;
     throw error;
   }
 
   if (!input.build || typeof input.build !== 'object' || Array.isArray(input.build)) {
-    const error = new Error('Informe a build para gerar o resumo da configuracao.');
+    const error = new Error('Informe a build para gerar o resumo da configuração.');
     error.statusCode = 400;
     throw error;
   }
 }
 
 function normalizeBuildInput(buildInput) {
-  return requiredBuildSlots.reduce((normalizedBuild, slot) => ({
-    ...normalizedBuild,
-    [`${slot}Id`]: normalizeText(buildInput[`${slot}Id`] ?? buildInput[slot])
-  }), {});
+  return serializeBuildSelection(selectBuildComponents(buildInput));
 }
 
 function mapBuildToCompatibilityInput(buildInput) {
-  return requiredBuildSlots.reduce((selectedComponents, slot) => ({
-    ...selectedComponents,
-    [slot]: buildInput[`${slot}Id`]
-  }), {});
+  return buildInput;
 }
 
-function buildBudgetStatus(budgetInput, totalEstimatedPrice) {
+function buildBudgetStatus(budgetInput, pricing) {
   const budget = createBudget(budgetInput);
+  const totalEstimatedPrice = pricing.estimatedTotal;
+  if (totalEstimatedPrice === null) {
+    return {
+      ...budget,
+      totalEstimatedPrice: null,
+      knownReferenceSubtotal: pricing.knownReferenceSubtotal,
+      componentsWithoutReference: pricing.componentsWithoutReference,
+      remaining: null,
+      status: 'unavailable',
+      explanation: generateExplanation({
+        type: 'warning',
+        data: {
+          title: 'Orçamento não verificado',
+          message: 'Há componentes sem preço de referência. O subtotal conhecido não representa o custo total da configuração.',
+          suggestion: 'Confirme os preços pendentes antes de avaliar o orçamento.',
+          severity: 'medium'
+        }
+      })
+    };
+  }
   const remaining = Number((budget.amount - totalEstimatedPrice).toFixed(2));
   const status = getBudgetStatus({ amount: budget.amount, totalEstimatedPrice });
   const explanation = generateExplanation({
@@ -203,8 +227,8 @@ function buildSimpleExplanations({
   return [generateExplanation({
     type: 'general',
     data: {
-      title: 'Resumo da configuracao',
-      message: 'A configuracao foi consolidada com os dados disponiveis.',
+      title: 'Resumo da configuração',
+      message: 'A configuração foi consolidada com os dados disponiveis.',
       suggestion: 'Revise os componentes e os precos antes de finalizar a compra.'
     }
   })];
@@ -219,8 +243,12 @@ function buildSummaryText({
   const parts = [];
 
   parts.push(compatibility.compatible
-    ? 'A configuracao esta compativel'
-    : 'A configuracao possui incompatibilidades que precisam de revisao');
+    ? compatibility.coolingAssessment?.status === 'unverified'
+      ? 'As verificações principais estão compatíveis; refrigeração não verificada'
+      : 'A configuração está compatível'
+    : compatibility.status === 'unverified'
+      ? 'A compatibilidade não foi verificada por falta de dados técnicos'
+      : 'A configuração possui incompatibilidades que precisam de revisão');
 
   if (budgetStatus) {
     parts.push(buildBudgetSummaryText(budgetStatus));
@@ -229,26 +257,29 @@ function buildSummaryText({
   if (bottlenecks?.hasBottleneck === true) {
     parts.push('foram identificados gargalos que podem afetar o desempenho');
   } else if (bottlenecks?.hasBottleneck === false) {
-    parts.push('o conjunto apresenta bom equilibrio entre os principais componentes');
+    parts.push('o conjunto apresenta bom equilíbrio entre os principais componentes');
   }
 
   if (gamePerformance?.estimatedFps) {
-    parts.push(`a simulacao indica cerca de ${gamePerformance.estimatedFps} FPS no jogo informado`);
+    parts.push(`a simulação indica cerca de ${gamePerformance.estimatedFps} FPS no jogo informado`);
   }
 
   return `${parts.join(', ')}.`;
 }
 
 function buildBudgetSummaryText(budgetStatus) {
+  if (budgetStatus.status === 'unavailable') {
+    return 'o orçamento não foi verificado porque há componentes sem preço de referência';
+  }
   if (budgetStatus.status === 'within_budget') {
-    return 'esta dentro do orcamento informado';
+    return 'está dentro do orçamento informado';
   }
 
   if (budgetStatus.status === 'near_budget') {
-    return 'esta proxima do orcamento, mas ultrapassa um pouco o valor informado';
+    return 'está próxima do orçamento, mas ultrapassa um pouco o valor informado';
   }
 
-  return 'esta acima do orcamento informado';
+  return 'está acima do orçamento informado';
 }
 
 function buildFinalRecommendation({
@@ -257,23 +288,42 @@ function buildFinalRecommendation({
   budgetStatus,
   gamePerformance
 }) {
+  if (compatibility.status === 'unverified') {
+    return 'Confirme os dados técnicos pendentes de refrigeração e montagem antes da compra.';
+  }
   if (!compatibility.compatible) {
     return 'Revise as incompatibilidades antes de seguir com a compra.';
+  }
+
+  if (budgetStatus?.status === 'unavailable') {
+    return 'Confirme os preços pendentes antes de avaliar o custo total e concluir a compra.';
   }
 
   if (budgetStatus?.status === 'over_budget') {
     return 'Considere trocar alguns componentes para reduzir o custo total.';
   }
 
+  if (gamePerformance?.available === false) {
+    return 'Não foi possível avaliar o desempenho para o jogo informado. Revise os dados e execute a simulação novamente antes de concluir a recomendação.';
+  }
+
+  if (gamePerformance?.performanceLevel === 'insufficient' || gamePerformance?.meetsMinimumRequirements === false) {
+    return 'O jogo apresenta desempenho estimado insuficiente nas configurações selecionadas. Revise os requisitos e considere reduzir a qualidade ou resolução, ou melhorar as peças limitantes.';
+  }
+
+  if (bottlenecks?.available === false) {
+    return 'Dados de desempenho insuficientes para concluir a recomendação. A compatibilidade pelas regras do catálogo não confirma o desempenho.';
+  }
+
   if (bottlenecks?.hasBottleneck) {
-    return 'A configuracao funciona, mas vale ajustar os componentes destacados para melhorar o equilibrio.';
+    return 'Foram identificados possíveis gargalos. Considere ajustar os componentes destacados para melhorar o equilíbrio estimado.';
   }
 
-  if (gamePerformance?.performanceLevel === 'poor') {
-    return 'Considere uma GPU ou CPU mais forte para o jogo informado.';
+  if (!gamePerformance) {
+    return 'Configuração compatível pelas regras do catálogo. O desempenho para um jogo específico ainda não foi simulado.';
   }
 
-  return 'Configuracao recomendada para o perfil informado.';
+  return 'Configuração recomendada para o perfil informado.';
 }
 
 function buildRecommendationObservation({ input, compatibility, budgetStatus }) {
@@ -297,26 +347,18 @@ function buildRecommendationObservation({ input, compatibility, budgetStatus }) 
       });
 
       return {
-        message: 'Existe uma recomendacao compativel para comparar com a build atual.',
+        message: 'Existe uma recomendação compatível para comparar com a build atual.',
         totalEstimatedPrice: recommendation.totalEstimatedPrice,
         remainingBudget: recommendation.remainingBudget,
         performanceScore: recommendation.performanceScore
       };
     },
-    'Recomendacao comparativa indisponivel para os dados informados.'
+    'Recomendacao comparativa indisponível para os dados informados.'
   );
 }
 
 function removeEmptySections(summary) {
   return Object.fromEntries(
-    Object.entries(summary).filter(([, value]) => value !== null && value !== undefined)
+    Object.entries(summary).filter(([key, value]) => key === 'totalEstimatedPrice' || (value !== null && value !== undefined))
   );
-}
-
-function normalizeText(value) {
-  if (typeof value !== 'string' || value.trim().length === 0) {
-    return null;
-  }
-
-  return value.trim();
 }

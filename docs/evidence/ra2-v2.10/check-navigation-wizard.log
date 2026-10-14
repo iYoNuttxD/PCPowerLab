@@ -1,0 +1,10 @@
+Publication-safe execution summary
+Date: 2026-10-08 UTC
+Node: v24.19.0
+Command: node frontend/scripts/check-navigation-wizard.mjs
+Exit: 0
+PASS: isolated navigation handlers restore focus target on same-route entries and breakpoints; Escape/outside dismissal and listener cleanup work
+PASS: wizard controls keep a single advance/summary path, explain blockers, and close step disclosure with Escape
+PASS: each cooler/fan edit clears the old wizard message before changing the configuration
+LIMITATION: isolated handlers/SSR do not validate real DOM events, keyboard focus, history, layout, contrast, scrolling, screenshots, or browser persistence
+Additional internal checks passed; diagnostic details are not published.

@@ -1,18 +1,11 @@
+import { currentBuild, currentBuildTotal } from './helpers/current-build.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { generateBuildReport } from '../src/services/buildReportService.js';
 import { buildReportRoutes } from '../src/routes/buildReport.routes.js';
 
-const validBuild = {
-  cpuId: 'cpu-ryzen-5-5600',
-  gpuId: 'gpu-rtx-4060',
-  motherboardId: 'mb-b550m-aorus-elite',
-  ramId: 'ram-kingston-fury-16gb-ddr4',
-  storageId: 'ssd-kingston-nv2-1tb',
-  psuId: 'psu-corsair-650w',
-  caseId: 'case-mid-tower-airflow'
-};
+const validBuild = { ...currentBuild };
 
 test('deve gerar relatorio tecnico estruturado da configuracao', () => {
   const report = generateBuildReport({
@@ -29,14 +22,18 @@ test('deve gerar relatorio tecnico estruturado da configuracao', () => {
   assert.equal(typeof report.metadata.generatedAt, 'string');
   assert.equal(report.metadata.usageType, 'gaming');
   assert.equal(report.metadata.currency, 'BRL');
-  assert.equal(report.components.cpu.id, 'cpu-ryzen-5-5600');
+  assert.equal(report.components.cpu.id, validBuild.cpuId);
   assert.equal(report.pricing.budget, 5000);
-  assert.equal(typeof report.pricing.totalEstimatedPrice, 'number');
+  assert.equal(report.pricing.totalEstimatedPrice, currentBuildTotal());
   assert.equal(['within_budget', 'near_budget', 'over_budget'].includes(report.pricing.status), true);
-  assert.equal(typeof report.compatibility.compatible, 'boolean');
+  assert.equal(report.compatibility.compatible, true);
+  assert.equal(report.compatibility.status, 'compatible');
+  assert.deepEqual(report.compatibility.unverifiedChecks.map(check => check.code),
+    []);
   assert.equal(Array.isArray(report.alerts), true);
   assert.equal(typeof report.bottlenecks, 'object');
   assert.equal(report.gamePerformance.length, 2);
+  assert.ok(report.gamePerformance.every(game => game.estimatedFps > 0));
   assert.equal(typeof report.score.overallScore, 'number');
   assert.equal(Array.isArray(report.purchaseLinks.cpu), true);
   assert.equal(typeof report.summary, 'string');
@@ -68,7 +65,7 @@ test('deve omitir links de compra quando includePurchaseLinks for false', () => 
 
 test('deve retornar simulacao indisponivel para jogo invalido sem quebrar o relatorio', () => {
   const report = generateBuildReport({
-    build: validBuild,
+    build: { cpuId: 'cpu-ryzen-5-5600', motherboardId: 'mb-b550m-aorus-elite', gpuId: 'gpu-rtx-4060', ramId: 'ram-kingston-fury-16gb-ddr4', storageId: 'ssd-kingston-nv2-1tb', psuId: 'psu-corsair-650w', caseId: 'case-mid-tower-airflow' },
     gameIds: ['game-inexistente']
   });
 

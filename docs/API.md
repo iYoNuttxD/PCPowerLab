@@ -1,5 +1,7 @@
 # Documentacao da API - PCPowerLab
 
+> Contratos incrementais históricos estão identificados por etapa. Para o estado atual e os limites de validação, consulte a [consolidação técnica](RA2-CONSOLIDACAO-FINAL.md).
+
 Base padrao da API:
 
 ```http
@@ -1425,7 +1427,7 @@ Resposta:
 }
 ```
 
-Componentes existentes sem links cadastrados retornam lista vazia. Componentes inexistentes retornam `404`.
+Links de busca são gerados a partir do cadastro ativo atual, inclusive componentes recém-criados; são buscas, não ofertas. Componentes inexistentes retornam `404`.
 
 ### Buscar links por build
 
@@ -1490,3 +1492,106 @@ A API atualmente cobre:
 - explicacoes simples para resultados tecnicos;
 - compartilhamento simbolico de builds;
 - links mockados de compra por componente e por build.
+
+
+## Contrato v2.1: refrigeração opcional
+
+As sete peças principais continuam obrigatórias. No mesmo objeto da seleção, podem ser enviados:
+
+```json
+{
+  "coolerId": "cooler-noctua-nh-u12s-redux",
+  "fans": [{ "fanId": "fan-arctic-p12-pwm-pst-5-pack", "quantity": 1 }]
+}
+```
+
+Também são aceitos `components.cooler`/`components.coolerId` e `components.fans`. IDs principais aceitam chaves com ou sem sufixo `Id`. `coolerId:null` e `fans:[]` removem acessórios; omissão mantém o formato legado. Em PATCH de build salva, omissão preserva seleção anterior, enquanto remoção exige os campos explícitos.
+
+- `quantity` é um inteiro entre 1 e 20 **pacotes**, IDs de fan únicos. `unitsPerPack` define quantas ventoinhas físicas há em cada pacote. Preço de pacote × quantidade; consumo por fan × unidades por pacote × quantidade
+- `selectedComponents.cooler` é um componente; `selectedComponents.fans` é um array de componentes com `quantity`. Campos opcionais vazios podem ser omitidos
+- Salvos, versões, JSON exportado (versão compatível 1.0), compartilhamento, relatório e comparação preservam os opcionais. Importação pode enviar `export.build` à seleção; interface reidrata IDs de JSON importado
+- Compatibilidade: `status` é `compatible`, `incompatible` ou `unverified`; `compatible` só é true no primeiro caso. Conflitos ficam em `alerts`; verificações incompletas em `unverifiedChecks` com `verification:'unverified'`. O endpoint de alertas agrega as duas listas para apresentação, mantendo estado separado
+- `coolingPower` retorna `knownWatts`, `complete`, `unknownComponents`. Valores desconhecidos não viram zero verificado. Valores conhecidos são somados ao mínimo de fonte e à estimativa de consumo; as fórmulas preexistentes de finalidades distintas continuam heurísticas
+- Recomendações por orçamento/faixa aceitam os opcionais no nível raiz ou em `components`; reservam custo e testam compatibilidade. Não descartam os acessórios para caber no orçamento. Se os dados forem insuficientes, retornam 422 sem afirmar compatibilidade
+- As novas categorias são `cooler` (air/AIO) e `fan`. Parâmetros de desempenho continuam restritos às sete categorias principais; não cadastrar bônus de FPS por refrigeração
+- CRUD de regras é um registro documental separado do motor codificado. Alterá-lo não muda a execução das verificações
+
+Limites físicos e fontes: [v2.1](RA2-V2.1-INTEGRACAO.md) e [catálogo](RA2-V2.1-CATALOG-SOURCES.md).
+
+## V2.6 — Proveniência de preço (campos aditivos)
+
+`GET /components` e consulta por ID preservam `price` (referência estimada) e expõem `pricing`: `productId`, `price`, `currency`, `source`, `updateStatus`, `queriedAt`, `validUntil`, `availability`, `isMarketQuote`. Catálogo atual: `catalog_reference`, `estimate`, datas nulas e `isMarketQuote: false`.
+
+Links de compra preservam arrays/slots e campos legados. Buscas acrescentam `kind: research`, `priceType: estimate`, `productUrl: null`, datas nulas, `updateStatus: not_queried`, `marketStatus`, `marketMessage`, `comparisonAvailable: false`. `price` não é cotação da loja. Futuras ofertas autorizadas usam `kind: offer`, `priceType: market_quote`, URL exata, fonte, consulta e validade; hoje nenhuma existe.
+
+Resumo acrescenta `pricing`: total estimado, subtotal exclusivamente de cotações disponíveis (nulo sem cotação), completude, IDs sem cotação/referência e metodologia. Nunca somar subtotal de mercado ao total de referência. Recomendações, upgrades, correções, custo-benefício e comparação expõem `methodology` explicando dados simulados, catálogo limitado e critérios. Não há endpoint de ingestão de ofertas, OAuth ou provedor conectado. [Detalhes e limites](RA2-V2.6-INTEGRACAO.md).
+
+## V2.7 — Contratos reforçados pela auditoria de qualidade
+
+- Simulações diretas `/performance/simulate-game`, `/performance/compare-games` e `/performance/simulate-software` recusam com **422** uma montagem completa incompatível ou não verificada. O resultado do resumo já tinha essa restrição. Simulações legadas de quatro peças continuam possíveis, mas retornam `compatibility: { scope: 'partial_build', status: 'unverified', compatible: false }` em `technicalDetails` (ou no objeto superior de comparação); não comprovam compatibilidade da montagem. Montagens completas aprovadas recebem `scope: 'full_build'`.
+- `/build-comparison` rejeita entradas nulas, arrays ou primitivas com **400**, em vez de erro interno.
+- `shareUrl` de `/share/build` usa a rota real `/shared/:shareId`. Compartilhamentos são snapshots, mantidos mesmo após excluir a build de origem.
+- Índices `gamingScore`, `productivityScore` e `airflowScore`, assim como `performanceScore`, aceitam somente números de 0 a 100. Atualização inválida não modifica o registro.
+- Em produção, endpoints inexistentes sob o `API_PREFIX` configurado retornam JSON **404**, sem cair no HTML da SPA.
+
+Evidências, cenários, limitações e mudanças de persistência: [auditoria v2.7](RA2-V2-QUALIDADE.md). Nenhum contrato implica preço real, benchmark ou compatibilidade física integral.
+
+## V2.9 — Resultado histórico da auditoria e contratos introduzidos
+
+[Relatório final](RA2-V2-RELATORIO-FINAL.md): **NÃO HOMOLOGADA**. [Testes deduplicados](RA2-V2-REGISTRO-TESTES.md). A execução HTTP real desta rodada não certifica implantação pública, segurança completa, hardware físico ou oferta de mercado.
+
+- Catálogo versionado naquela etapa: 98 ativos, 89 parâmetros das categorias principais e 490 links de pesquisa. Admin em memória pode alterar o estado de um processo; inventário de imports não é snapshot de outro servidor
+- `POST /components/compatibility` usa `{components: <seleção>, category?: <categoria>}`; resposta por candidato inclui `componentId`, `status`, `compatible`, `alerts`, `unverifiedChecks`. Montagem parcial/ausente não é automaticamente compatível
+- `POST /upgrades/roadmap` exige `maxSteps` inteiro positivo; fração é 400. Sugestões aceitam `buildId` explícito; a interface mantém essa origem durante carregamento e falhas
+- `POST /build-summary`: `finalRecommendation` não aprova desempenho insuficiente, jogo solicitado indisponível ou falta de parâmetros. Sem jogo, a orientação explicita que desempenho específico não foi simulado. Compatibilidade/orçamento mantêm precedência; fórmulas de FPS não foram alteradas
+- Listas técnicas presentes `storageInterfaces` (placa-mãe) e `supportedFormFactors` (gabinete) exigem arrays não vazios de textos. Entradas malformadas no admin recebem 400 sem mutação. Interfaces ausentes podem continuar desconhecidas em placa-mãe; dado legado inválido é não verificado e não deve causar TypeError na recomendação
+- Sugestões de upgrade e roadmap usam a mesma precedência de aliases do seletor central: seleção do nível superior e remoção explícita `cooler:null`/`fans:[]` não são substituídas por aliases/acessórios aninhados
+- Valores monetários da apresentação são normalizados em centavos antes de comparar o teto; não cria desconto, atualização de mercado ou previsão de compra
+- Recursos salvos, versões, histórico, notificações e compartilhamentos são globais e em memória. Reinício perde alterações; sem autenticação de usuário/isolamento durável. Compartilhamento é snapshot e pode permanecer após apagar a origem
+- CRUD de regras é documental, não altera as regras codificadas do motor. Não há endpoint de ingestão de cotação nem provedor comercial conectado
+
+Documentação de schemas anteriores descreve o contrato aditivo histórico. Preço `price`, `totalEstimatedPrice` e FPS continuam referências/modelo, não evidências comerciais ou físicas.
+
+
+## V2.10 — referências manuais datadas e identidade de comparação
+
+As contagens desta seção pertencem à V2.10: 42 registros manuais datados e 56 estimativas demonstrativas. `price` continua referência para cálculos. `pricing.source=dated_public_reference`, `updateStatus=dated_snapshot`, `isMarketQuote=false` identifica pesquisa pontual. Expõe loja, vendedor, SKU, pagamento, cartão, data da consulta, idade do conteúdo, condição e `observedAvailability`; `availability` atual continua unknown e `validUntil` nulo. Nunca passa pelo gate de oferta `authorized_api`. Nenhum provedor ao vivo foi configurado.
+
+`pricing` do resumo acrescenta `datedReferenceUnits`/`estimatedReferenceUnits`; quantidades de fans contam pacotes. Totais à vista podem combinar as duas bases com metodologia explícita; cartão e subtotal de ofertas ao vivo ficam separados. Links permanecem `kind=research` com `referencePricing` adicional, sem atribuir o preço consultado às outras lojas.
+
+Comparação de builds acrescenta `comparisonIndex` por posição enviada e na recomendação, evitando ambiguidade por nome repetido; `bottleneckStatus` distingue análise de ausência de conclusão. A pontuação final pondera o critério com orçamento/compatibilidade/alertas e pode diferir da ordem de desempenho bruto. [Contrato, fontes e limites](RA2-V2.10-CONTINUIDADE.md).
+
+### Fotografias de produto — v2.11
+
+O campo `image` mantém caminhos locais e vínculo ao ID/identidade do catálogo. `identityLevel` distingue `exact-model` (associação ao modelo pela foto e fonte específica) e `model-family` (família visual, sem afirmar revisão/capacidade não comprovada). `representative-product` identifica um exemplo ilustrativo de categoria, sem alterar o produto genérico; `depictedProduct` nomeia o produto fotografado. `identityNotes` explica os limites. `rightsBasis` registra a procedência e situação conhecida; `license`/`licenseUrl` podem ser nulos quando não há permissão de reutilização estabelecida. `status: verified` não é uma certificação jurídica. Fotos de família compartilhadas têm grupo, IDs revisados e digest correspondentes. Fallback e imagem indisponível nunca contam como fotografia.
+
+
+### Preços ausentes e escopo comercial — v2.12
+
+`pricing.referenceScope` distingue `exact`, `family` e `benchmark`; `sourceVariantName` e `model` identificam o produto observado. Na etapa V2.12 havia 78 referências datadas e 20 componentes com `price: null`/`priceKind: unavailable`. Nenhum deles vira oferta ao vivo. Especificações não são copiadas da variante da fonte.
+
+Compatibilidade e análises técnicas não falham apenas pela falta de preço. Resumos/salvos/exportações preservam `totalEstimatedPrice: null`; `pricing.knownReferenceSubtotal` soma somente preços conhecidos, `componentsWithoutReference` identifica pendências e `unavailableReferenceUnits` conta suas unidades/pacotes. Orçamento usa `status: unavailable` e `remaining: null`, nunca um saldo calculado tratando ausentes como zero. A função interna estrita de custo mantém seu erro 422 quando um total completo é obrigatório.
+
+Nota geral/custo-benefício dependentes do custo usam `null` e `available: false`. Comparação por custo pode retornar `recommendedBuild: { available: false, reason }` se nenhuma alternativa tiver total completo. Critérios técnicos e comparação de desempenho continuam disponíveis.
+
+## Pontuação simulada provisória (08/10/2026)
+
+Componentes expõem `performanceScore` e `performanceMethodology` como objeto (`basis`, `kind`, `modelVersion`, `shortLabel`, `simulationSupported`, `measuredBenchmark`, `description`). `performanceModelStatus` legado permanece como dado histórico da calibração; use `performanceMethodology.simulationSupported` e a resposta da análise para disponibilidade de simulação. Agregados expõem `performanceBasis` e proveniência dos contribuintes. Perfis score-only retornam `available:false`, `scoreOnly:true` e `reason:synthetic_model_not_simulation_calibrated` em FPS/software/gargalos; isso não torna o score do componente nulo. [Metodologia](RA2-SYNTHETIC-PERFORMANCE.md).
+
+Scores novos, mesmo baseados em benchmark revisado, não habilitam simulação por ausência de campo. A elegibilidade exige `simulationSupported:true` e `simulationProfileVersion` explícito, além de parâmetro válido; os modelos internos anteriores são identificados como `catalog-simulator-v1`.
+
+A evidência de benchmark revisada precisa incluir `componentIdentity`, hash da identidade e especificações exatas correntes. Editar SKU, marca, nome, categoria ou especificações invalida a nota revisada até nova revisão. A base dos contribuintes é resolvida dos parâmetros registrados, sem confiar em metadados enviados pelo cliente.
+
+
+## Estado comercial consolidado — 08/10/2026
+
+O catálogo ativo contém 81 produtos e 81 observações manuais datadas elegíveis: 33 KaBuM, 33 Terabyte, 14 Pichau e 1 Amazon. A disponibilidade foi observada no momento registrado; não há API de preço/estoque ao vivo. SKU, vendedor, pagamento, horário e fonte acompanham a referência. Total de checkout, frete e menor preço de mercado não foram estabelecidos. As 117 identidades legadas permanecem preservadas; referências antigas não se tornam preços atuais e seleções salvas não são substituídas automaticamente.
+
+As contagens anteriores neste documento são históricas. Fotografias dos 81 ativos dividem-se em 71 de modelo exato e 10 de família visual; metadados estruturais não certificam SKU ou direito de reutilização. Os novos contratos de cenário térmico/acústico e compatibilidade posicional serão consolidados após conferência da fonte final; até lá, não interpretar pontuação sintética nem socket compatível como comprovação térmica ou de encaixe.
+
+
+## Limites térmicos e de refrigeração — fechamento ef7f / ac27
+
+`coolingAssessment` é distinto da compatibilidade principal e mantém `status`, `scope`, `alerts` e `unverifiedChecks`; desconhecido não significa aprovado. [Contrato completo](COOLING-COMPATIBILITY-SCOPE.md). Socket compatível não certifica posição/espessura/folga de gabinete nem adequação térmica.
+
+O cenário térmico/acústico é aproximado e baseado em hipóteses; não é benchmark ou medição de hardware. Fans extras participam de ruído estimado, consumo conhecido, custo e encaixe, mas **não alteram a temperatura** neste modelo. O acoplamento térmico adicional foi adiado. Scores sintéticos não habilitam automaticamente FPS/software/gargalos.
