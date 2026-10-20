@@ -1,0 +1,318 @@
+[
+  {
+    "id": "cpu-ryzen-7-7800x3d-box",
+    "name": "AMD Ryzen 7 7800X3D Box",
+    "category": "cpu",
+    "brand": "AMD",
+    "partNumber": "100-100000910WOF",
+    "specSourceUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7800x3d.html",
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "AM5 gaming com 3D V-Cache",
+    "selectionNotes": [
+      "Alternativa AM5 com 96 MB de cache L3; nenhum ganho de FPS inferido a partir do cache.",
+      "Cooler não incluído. TDP declarado é referência térmica, não consumo medido ou limite máximo.",
+      "Soquete AM5 não garante versão de BIOS compatível; conferir a lista de suporte da placa."
+    ],
+    "specs": {
+      "socket": "AM5",
+      "cores": 8,
+      "threads": 16,
+      "baseClockGhz": 4.2,
+      "boostClockGhz": 5,
+      "tdpWatts": 120,
+      "memoryTypes": [
+        "DDR5"
+      ],
+      "maxMemoryGb": 128,
+      "l3CacheMb": 96,
+      "integratedGraphics": "AMD Radeon Graphics (2 núcleos)",
+      "includesCpuCooler": false
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem calibração específica validada: pontuação, FPS e gargalo indisponíveis; especificações, encaixe e referências elétricas continuam consultáveis."
+  },
+  {
+    "id": "cpu-ryzen-9-9900x-box",
+    "name": "AMD Ryzen 9 9900X Box",
+    "category": "cpu",
+    "brand": "AMD",
+    "partNumber": "100-100000662WOF",
+    "specSourceUrl": "https://www.amd.com/en/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9900x.html",
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "AM5 produtividade 12 núcleos",
+    "selectionNotes": [
+      "12 núcleos / 24 threads como alternativa para multitarefa, sem inferir desempenho proporcional.",
+      "Cooler não incluído. Ryzen 9000 pode exigir atualização de BIOS em placas AM5; confirmar a revisão e a lista de suporte da placa antes da compra."
+    ],
+    "specs": {
+      "socket": "AM5",
+      "cores": 12,
+      "threads": 24,
+      "baseClockGhz": 4.4,
+      "boostClockGhz": 5.6,
+      "tdpWatts": 120,
+      "memoryTypes": [
+        "DDR5"
+      ],
+      "maxMemoryGb": 256,
+      "l3CacheMb": 64,
+      "integratedGraphics": "AMD Radeon Graphics (2 núcleos)",
+      "includesCpuCooler": false
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem calibração específica validada: pontuação, FPS e gargalo indisponíveis; especificações, encaixe e referências elétricas continuam consultáveis."
+  },
+  {
+    "id": "gpu-msi-rtx-5060-ti-ventus-2x-oc-plus-16g",
+    "name": "MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+    "category": "gpu",
+    "brand": "MSI",
+    "partNumber": "G506T-16V2CP",
+    "specSourceUrl": "https://us.msi.com/Graphics-Card/GeForce-RTX-5060-Ti-16G-VENTUS-2X-OC-PLUS/Specification",
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "GPU NVIDIA 16GB intermediária",
+    "selectionNotes": [
+      "16 GB de VRAM como alternativa à RTX 5060 Ti de 8 GB, sem supor ganho universal de FPS.",
+      "Página atual informa largura de 127 mm; datasheet anterior informa 126 mm. Adotados 127 mm conservadoramente. Consumo de 180 W declarado, não medido."
+    ],
+    "specs": {
+      "vramGb": 16,
+      "memoryType": "GDDR7",
+      "memoryBusBits": 128,
+      "memorySpeedGbps": 28,
+      "cudaCores": 4608,
+      "boostClockMhz": 2602,
+      "extremePerformanceClockMhz": 2617,
+      "extremePerformanceCondition": "MSI Center",
+      "lengthMm": 227,
+      "widthMm": 127,
+      "heightMm": 41,
+      "recommendedPsuWatts": 600,
+      "powerConnectors": [
+        {
+          "type": "pcie-8pin",
+          "count": 1
+        }
+      ],
+      "pciExpress": "5.0 x16 físico, x8 elétrico",
+      "tdpWatts": 180
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem calibração específica validada: pontuação, FPS e gargalo indisponíveis; especificações, encaixe e referências elétricas continuam consultáveis.",
+    "additionalSpecSourceUrls": [
+      "https://storage-asset.msi.com/datasheet/vga/global/GeForce-RTX-5060-Ti-16G-VENTUS-2X-OC-PLUS.pdf"
+    ]
+  },
+  {
+    "id": "gpu-msi-rtx-5060-ventus-2x-oc-8g",
+    "name": "MSI GeForce RTX 5060 8G VENTUS 2X OC",
+    "category": "gpu",
+    "brand": "MSI",
+    "partNumber": "G5060-8V2C",
+    "specSourceUrl": "https://www.msi.com/Graphics-Card/GeForce-RTX-5060-8G-VENTUS-2X-OC/Specification",
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "GPU NVIDIA 8GB compacta",
+    "selectionNotes": [
+      "Placa compacta de 197 mm como alternativa para gabinetes menores; não equivale à versão Ti.",
+      "Consumo de 145 W e fonte recomendada de 550 W declarados pela MSI, não medições da configuração."
+    ],
+    "specs": {
+      "vramGb": 8,
+      "memoryType": "GDDR7",
+      "memoryBusBits": 128,
+      "memorySpeedGbps": 28,
+      "cudaCores": 3840,
+      "boostClockMhz": 2527,
+      "extremePerformanceClockMhz": 2535,
+      "extremePerformanceCondition": "MSI Center",
+      "lengthMm": 197,
+      "widthMm": 120,
+      "heightMm": 41,
+      "recommendedPsuWatts": 550,
+      "powerConnectors": [
+        {
+          "type": "pcie-8pin",
+          "count": 1
+        }
+      ],
+      "pciExpress": "5.0 x16 físico, x8 elétrico",
+      "tdpWatts": 145
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem calibração específica validada: pontuação, FPS e gargalo indisponíveis; especificações, encaixe e referências elétricas continuam consultáveis."
+  },
+  {
+    "id": "case-deepcool-cc310-black",
+    "name": "DeepCool CC310 Black",
+    "category": "case",
+    "brand": "DeepCool",
+    "partNumber": "R-CC310-BKNNM0-G",
+    "specSourceUrl": "https://deepcool.com/products/Cases/CC310-Mid-Tower-Micro-ATX-Case/2026/23284.shtml",
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "mATX compacto econômico",
+    "selectionNotes": [
+      "Gabinete compacto econômico para mATX/ITX; não aceita placas ATX.",
+      "Uma ventoinha traseira incluída e sem suporte a radiadores declarado: não selecionar AIO para este gabinete."
+    ],
+    "specs": {
+      "supportedFormFactors": [
+        "mATX",
+        "ITX"
+      ],
+      "color": "Black",
+      "dimensionsMm": {
+        "length": 308,
+        "width": 185,
+        "height": 356
+      },
+      "maxGpuLengthMm": 280,
+      "maxCoolerHeightMm": 160,
+      "maxPsuLengthMm": 160,
+      "supportedPsuFormFactors": [
+        "ATX"
+      ],
+      "radiatorSizesMm": [],
+      "radiatorLayouts": {},
+      "radiatorSupportStatus": "unsupported",
+      "fanMounts": [
+        {
+          "diameterMm": 120,
+          "capacity": 2
+        }
+      ],
+      "fanLayouts": {
+        "front": [
+          "1x120"
+        ],
+        "rear": [
+          "1x120"
+        ]
+      },
+      "includedFanCount": 1,
+      "includedFanDiameterMm": 120,
+      "includedFansPosition": "rear",
+      "maxFanThicknessMm": null,
+      "maxRadiatorThicknessMm": null,
+      "frontUsbC": false,
+      "coolingSupportNotes": "Sem suporte a radiador na especificação oficial. Dois pontos de 120 mm, um frontal e um traseiro; traseiro incluído. Limites de espessura não verificados."
+    }
+  },
+  {
+    "id": "case-cougar-mx230-rgb-black",
+    "name": "COUGAR MX230 RGB Black",
+    "category": "case",
+    "brand": "COUGAR",
+    "partNumber": "382PC80.0001",
+    "specSourceUrl": "https://cougargaming.com/products/cases/mx230-rgb/",
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "ATX amplo com quatro fans ARGB",
+    "selectionNotes": [
+      "Variante preta 382PC80.0001; suporta placas até E-ATX e GPU de até 400 mm.",
+      "Quatro fans ARGB incluídos; PWM somente a partir do número de série BF05. Revisão do anúncio não confirmada."
+    ],
+    "specs": {
+      "supportedFormFactors": [
+        "ITX",
+        "mATX",
+        "ATX",
+        "E-ATX"
+      ],
+      "color": "Black",
+      "dimensionsMm": {
+        "length": 445,
+        "width": 220,
+        "height": 475
+      },
+      "maxGpuLengthMm": 400,
+      "maxCoolerHeightMm": 170,
+      "maxPsuLengthMm": 200,
+      "supportedPsuFormFactors": null,
+      "radiatorSizesMm": [
+        120,
+        240,
+        360
+      ],
+      "radiatorLayouts": {
+        "top": [
+          120,
+          240,
+          360
+        ],
+        "rear": [
+          120
+        ]
+      },
+      "fanMounts": [
+        {
+          "diameterMm": 120,
+          "capacity": 10
+        },
+        {
+          "diameterMm": 140,
+          "capacity": 4
+        }
+      ],
+      "fanLayouts": {
+        "front": [
+          "3x120",
+          "2x140"
+        ],
+        "top": [
+          "3x120",
+          "2x140"
+        ],
+        "rear": [
+          "1x120"
+        ],
+        "psuShroud": [
+          "3x120"
+        ]
+      },
+      "includedFanCount": 4,
+      "includedFanDiameterMm": 120,
+      "includedFansPosition": "3 front/1 rear",
+      "includedFanPwm": null,
+      "maxFanThicknessMm": null,
+      "maxRadiatorThicknessMm": null,
+      "frontUsbC": true,
+      "frontUsbCDataRateGbps": 10,
+      "coolingSupportNotes": "Radiadores 120/240/360 mm no topo, 120 mm atrás; não extrapolar suporte a 280 mm dos fans de 140 mm. Fans PWM somente em séries BF05 ou posteriores. Layouts alternativos, não somáveis. Formato da fonte e folgas de espessura não verificados."
+    }
+  }
+]

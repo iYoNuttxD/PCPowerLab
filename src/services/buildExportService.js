@@ -143,13 +143,23 @@ function buildSummaryForExport({
 
     return {
       summary: {
+        selectionStatus: generatedSummary.selectionStatus,
+        analysisStatus: generatedSummary.analysisStatus,
+        sections: generatedSummary.sections,
+        ...(generatedSummary.budgetStatus ? { budgetStatus: generatedSummary.budgetStatus } : {}),
         performanceBasis: generatedSummary.performanceBasis,
         performanceMethodology: generatedSummary.performanceMethodology,
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
         pricing: generatedSummary.pricing,
         coolingAssessment: generatedSummary.compatibility.coolingAssessment,
         compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')
-      }
+      },
+      ...(generatedSummary.analysisStatus === 'partial' ? { warning: {
+        message: 'Resumo parcial: consulte as análises pendentes ou indisponíveis antes de usar os dados exportados.',
+        sections: Object.entries(generatedSummary.sections).filter(([, section]) => section.status !== 'available').map(([name]) => name),
+        errors: [generatedSummary.budgetStatus, generatedSummary.compatibility, generatedSummary.bottlenecks, generatedSummary.recommendationObservation]
+          .flatMap(section => section?.errors || [])
+      } } : {})
     };
   } catch (error) {
     if (!error.statusCode || error.statusCode >= 500) {

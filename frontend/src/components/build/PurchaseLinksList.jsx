@@ -2,6 +2,9 @@ import ReferencePriceNote from './ReferencePriceNote.jsx';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { ExternalLink } from 'lucide-react';
 import Card from '../ui/Card.jsx';
+import Button from '../ui/Button.jsx';
+import LoadingSpinner from '../ui/LoadingSpinner.jsx';
+import ErrorState from '../ui/ErrorState.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { translateValue } from '../../utils/translations.js';
 import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
@@ -11,6 +14,7 @@ export default function PurchaseLinksList({
   linksBySlot,
   links,
   selectedComponents,
+  loading = false, error = '', onRetry, pending = false,
   variant = 'grouped'
 }) {
   const groups = groupPurchaseLinksByComponent({ linksBySlot, links, selectedComponents });
@@ -23,10 +27,10 @@ export default function PurchaseLinksList({
       <p className="hint-text">Confirme preço e estoque na loja.</p>
 
       {variant === 'single' && flatLinks[0]?.referencePricing && <ReferencePriceNote component={{ price: flatLinks[0].price, pricing: flatLinks[0].referencePricing }} compact />}
-      {variant === 'single' ? (
+      {loading ? <LoadingSpinner label="Carregando links das lojas..." /> : error ? <ErrorState message={error} onRetry={onRetry} /> : pending ? <p>Links ainda não consultados.</p> : variant === 'single' ? (
         <SingleLinksGrid links={flatLinks} />
       ) : !hasAnyLink ? (
-        <p>Nenhum link de compra disponível para esta configuração.</p>
+        <div><p>Nenhum link de compra disponível para esta configuração.</p>{onRetry && <Button variant="ghost" onClick={onRetry}>Atualizar links das lojas</Button>}</div>
       ) : (
         <div className="purchase-links-section">
           {groups.map((group) => (
@@ -39,7 +43,7 @@ export default function PurchaseLinksList({
                     <small>{group.quantity} pack(s) · links mostram valores por pack</small>
                   )}
                 </div>
-                {Number.isFinite(Number(group.componentPrice)) && (
+                {group.componentPrice !== null && group.componentPrice !== undefined && Number.isFinite(Number(group.componentPrice)) && (
                   <span className="price">{group.category === 'fan' ? 'Total dos pacotes' : 'Referência'}: {formatCurrency(group.componentPrice)}</span>
                 )}
               </div>

@@ -93,6 +93,9 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
   await page.goto('/build');
   const next = page.getByRole('button', { name: 'Avançar', exact: true });
   await expect(next).toBeDisabled();
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('6000');
+  await next.click();
   for (const [index, type] of types.entries()) {
     await expect(page.locator('#wizard-step-heading')).toHaveText(labels[index]);
     await page.getByRole('button', { name: `Selecionar: ${selected[type].name}`, exact: true }).click();
@@ -106,14 +109,12 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
   const continueCooling = page.getByRole('button', { name: 'Continuar', exact: true });
   await expect(continueCooling).toBeInViewport();
   await continueCooling.click();
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
   await expect(page.locator('#wizard-step-heading')).toBeFocused();
-  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('6000');
-  await next.click();
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
   expect((await state(page)).compatibility.compatible).toBe(true);
-  await page.getByRole('button', { name: 'Voltar', exact: true }).click();
+  await page.getByRole('button', { name: 'Editar orçamento', exact: true }).click();
   await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('5500');
   expect((await state(page)).compatibility).toBeNull();
   await next.click();

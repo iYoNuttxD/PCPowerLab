@@ -12,15 +12,18 @@ import { formatSpecValue, specKeys, specLabel, catalogPerformanceScore, componen
 import { performanceScoreLabel } from '../../utils/performanceMethodology.js';
 import { formatCatalogScore } from '../../utils/catalogSelection.js';
 import ComponentImage from './ComponentImage.jsx';
+import { verifiedFeatureFields, formatVerifiedFeature } from '../../utils/verifiedFeaturesPresentation.js';
 
 export default function ComponentCard({ component, onSelect, onLinks, onCompare, compared = false, compareDisabled = false, selected = false, compatibilityPreview = null, selectLabel = 'Selecionar', selectedLabel = 'Selecionado', children }) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const specs = component?.specs && typeof component.specs === 'object' ? component.specs : {};
   const keys = specKeys([component]);
   const primaryKeys = component?.category === 'fan' ? ['diameterMm', 'connector', 'unitsPerPack', 'powerWatts']
-    : component?.category === 'cpu' ? ['socket', 'cores', 'threads', 'boostClockGhz'] : keys.slice(0, 4);
+    : component?.category === 'cooler' ? keys.slice(0, 4)
+      : ({ cpu: ['socket', 'cores'], gpu: ['vramGb', 'recommendedPsuWatts'], motherboard: ['socket', 'memoryType'], ram: ['capacityGb', 'memoryType'], storage: ['capacityGb', 'interface'], psu: ['watts', 'efficiency'], case: ['supportedFormFactors', 'maxGpuLengthMm'] })[component?.category] || keys.slice(0, 2);
   const name = component?.name || 'Componente sem nome';
-  const performanceScore = catalogPerformanceScore(component);
+  const performanceUnavailable = component?.performanceModelStatus === 'unavailable';
+  const performanceScore = performanceUnavailable ? null : catalogPerformanceScore(component);
 
   return (
     <>
@@ -40,7 +43,11 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
           ))}
         </dl>
         <div className="component-card-context">
-        {performanceScore !== null && <p className="hint-text">{performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)} / 100</p>}
+        {performanceUnavailable && <p className="component-performance-unavailable">Desempenho não estimado</p>}
+        {performanceScore !== null && <details className="component-score-disclosure"><summary>Índice de desempenho</summary><p className="hint-text">{performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)} / 100</p></details>}
+        {component?.category === 'motherboard' && component?.verifiedFeatures && <p className="component-feature-summary">
+          M.2: {formatVerifiedFeature('m2Slots', component.verifiedFeatures.fields?.m2Slots)} · Wi-Fi: {formatVerifiedFeature('wifi', component.verifiedFeatures.fields?.wifi)}
+        </p>}
         {compatibilityPreview && <div className="catalog-compatibility-note">
           <p>{compatibilityPreview.status === 'compatible' ? 'Compatível nas regras verificadas' : compatibilityPreview.status === 'incompatible' ? 'Conflito na montagem resultante' : 'Verificação incompleta'}</p>
           <CoolingAssessmentNotice result={compatibilityPreview} />
@@ -65,7 +72,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
               Lojas
             </Button>
           )}
-          <Button type="button" variant="ghost" onClick={() => setDetailsOpen(true)} aria-label={`Detalhes de ${name}`}>Detalhes</Button>
+          <Button type="button" variant="ghost" onClick={() => setDetailsOpen(true)} aria-haspopup="dialog" aria-label={`Detalhes de ${name}`}>Detalhes</Button>
           {onCompare && <Button type="button" variant={compared ? 'success' : 'secondary'} disabled={compareDisabled}
             aria-pressed={compared} aria-label={`${compared ? 'Retirar da comparação' : 'Comparar'}: ${name}`} onClick={() => onCompare(component)}>
             {compared ? 'Na comparação' : 'Comparar'}
@@ -80,15 +87,34 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         <p className="price">{formatCurrency(component?.price)}</p>
         <ReferencePriceNote component={component} />
         {Array.isArray(component?.selectionNotes) && component.selectionNotes.length > 0 && <section><h3>Cuidados ao escolher</h3><ul>{component.selectionNotes.map(note => <li key={note}>{note}</li>)}</ul></section>}
-        {['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices do modelo, comparáveis apenas na mesma categoria. Sem benchmark medido.">{performanceScore === null ? 'Pontuação de desempenho' : performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)}{performanceScore !== null && ' / 100'}<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
+        <PerformanceModelNotice component={component} />
+        {!performanceUnavailable && ['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices do modelo, comparáveis apenas na mesma categoria. Sem benchmark medido.">{performanceScore === null ? 'Pontuação de desempenho' : performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)}{performanceScore !== null && ' / 100'}<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
         <dl className="spec-grid component-details">
           {keys.map((key) => (
             <div key={key}><dt>{specLabel(key)}</dt><dd>{formatSpecValue(key, specs[key])}</dd></div>
           ))}
         </dl>
+        {component?.verifiedFeatures && <section className="verified-feature-details" aria-label="Recursos verificados da placa-mãe">
+          <h3>Expansão e conectividade</h3>
+          <dl className="spec-grid component-details">
+            {Object.entries(verifiedFeatureFields).map(([key, label]) => <div key={key}><dt>{label}</dt><dd>{formatVerifiedFeature(key, component.verifiedFeatures.fields?.[key])}</dd></div>)}
+          </dl>
+          {component.verifiedFeatures.notes?.length > 0 && <ul>{component.verifiedFeatures.notes.map(note => <li key={note}>{note}</li>)}</ul>}
+          <p className="hint-text">Verificação: {component.verifiedFeatures.verifiedAt || 'data não informada'}. Recurso não confirmado não significa ausência.</p>
+          <ul>{(component.verifiedFeatures.sourceUrls || []).filter(url => typeof url === 'string' && url.startsWith('https://')).map((url, index) => <li key={url}><a href={url} target="_blank" rel="noopener noreferrer">Fonte do fabricante {index + 1}</a></li>)}</ul>
+        </section>}
         {Object.keys(specs).length === 0 && <p>Especificações não informadas para este componente.</p>}
         {component?.specSourceUrl?.startsWith('https://') && <p><a href={component.specSourceUrl} target="_blank" rel="noopener noreferrer">Consultar especificações do fabricante</a></p>}
       </Modal>
     </>
   );
+}
+
+export function PerformanceModelNotice({ component }) {
+  if (component?.performanceModelStatus !== 'unavailable') return null;
+  return <section aria-label="Limites do modelo de desempenho">
+    <h3>Desempenho não estimado</h3>
+    <p>{typeof component.performanceModelNotes === 'string' && component.performanceModelNotes.trim()
+      ? component.performanceModelNotes : 'Não há modelo de desempenho disponível para este componente.'}</p>
+  </section>;
 }

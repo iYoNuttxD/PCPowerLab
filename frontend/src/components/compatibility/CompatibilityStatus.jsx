@@ -16,6 +16,14 @@ export default function CompatibilityStatus({ result }) {
     );
   }
 
+  if (result.available === false || result.status === 'unavailable') {
+    return <Card className="status-unverified">
+      <div className="section-heading compact"><h3>Compatibilidade temporariamente indisponível</h3><Badge tone="yellow">Tentar novamente</Badge></div>
+      <p>{result.message || 'Não foi possível concluir esta verificação. Gere o resumo novamente.'}</p>
+      <p>Isso não confirma incompatibilidade nem falta de peças. As escolhas e as outras análises foram mantidas.</p>
+    </Card>;
+  }
+
   const unverified = result.status === 'unverified';
   const coolingPending = hasUnverifiedCooling(result);
   const unverifiedChecks = Array.isArray(result.unverifiedChecks) ? result.unverifiedChecks : [];
@@ -26,14 +34,14 @@ export default function CompatibilityStatus({ result }) {
     <Card className={result.compatible ? coolingPending ? 'status-unverified' : 'status-compatible' : unverified ? 'status-unverified' : 'status-incompatible'}>
       <div className="section-heading compact">
         <h3>{result.compatible ? coolingPending ? 'Peças principais compatíveis' : 'Build compatível' : unverified ? 'Compatibilidade não verificada' : 'Atenção: incompatibilidades encontradas'}</h3>
-        <Badge tone={result.compatible ? coolingPending ? 'yellow' : 'green' : unverified ? 'yellow' : 'red'}>{result.compatible ? coolingPending ? 'Parcial' : 'OK' : unverified ? 'Dados insuficientes' : `${issues.length} alerta(s)`}</Badge>
+        <Badge tone={result.compatible ? coolingPending ? 'yellow' : 'green' : unverified ? 'yellow' : 'red'}>{result.compatible ? coolingPending ? 'Parcial' : 'OK' : unverified ? 'Verificações pendentes' : `${issues.length} alerta(s)`}</Badge>
       </div>
       <CoolingAssessmentNotice result={result} />
       <p className="analysis-note">Verificação pelas especificações cadastradas. Compatibilidade indica se as peças podem funcionar juntas; não é uma garantia de FPS.</p>
       <AnalysisHelp topics={['compatibility']} title="Entenda a compatibilidade" />
       {unverifiedChecks.length > 0 && <div className="stack"><h4>Verificações pendentes</h4>{unverifiedChecks.map((check, index) => <article className="issue-card" key={check.code || index}><strong>{readableMessage(check.title) || translateValue(check.code, 'Dados técnicos insuficientes')}</strong><p>{readableMessage(typeof check === 'string' ? check : check.message || check.reason)}</p></article>)}</div>}
       {issues.length === 0 ? (
-        <p>{unverified ? 'Dados incompletos não confirmam compatibilidade. Verifique as especificações do fabricante.' : 'Nenhuma incompatibilidade crítica foi identificada nas regras verificadas.'}</p>
+        <p>{unverified ? 'As escolhas foram mantidas. Faltam informações técnicas para estas verificações, não necessariamente peças na montagem. Confirme os dados no fabricante antes de comprar.' : 'Nenhuma incompatibilidade crítica foi identificada nas regras verificadas.'}</p>
       ) : (
         <div className="stack">
           {issues.map((alert, index) => (

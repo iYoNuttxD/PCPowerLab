@@ -1,0 +1,48 @@
+/* V3 journey: budget context, quiet hierarchy, and visible filter state. */
+.wizard-budget-progress { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-2) var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border); }
+.wizard-budget-progress dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin: 0; min-width: 0; }
+.wizard-budget-progress dt { color: var(--muted); font-size: 0.75rem; line-height: 1.4; }
+.wizard-budget-progress dd { color: var(--text); margin: var(--space-1) 0 0; font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.wizard-budget-progress .is-over-budget :is(dt, dd) { color: var(--red); }
+.wizard-budget-progress .wizard-price-pending { grid-column: 1 / -1; color: var(--yellow); font-size: 0.8rem; }
+.wizard-actions .wizard-next-step { color: var(--muted); font-size: 0.8rem; }
+.wizard-budget-start > p { color: var(--muted); line-height: 1.6; max-width: 65ch; }
+.wizard-budget-start .form-grid { margin-block: var(--space-5); }
+.wizard-catalog-tools { padding: var(--space-4); border-color: var(--border); background: var(--bg-elevated); }
+.catalog-page .catalog-toolbar { background: var(--bg-elevated); }
+.catalog-toolbar > h2 { font-size: 1rem; margin: 0 0 var(--space-4); }
+.catalog-results-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border); padding-bottom: var(--space-3); }
+.catalog-results-heading :is(h2, h3, p) { margin: 0; }
+.catalog-results-heading :is(h2, h3) { font-size: 1.1rem; }
+.catalog-results-heading p { color: var(--muted); font-size: 0.875rem; }
+.active-filters { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--border); min-width: 0; }
+.active-filters > p { color: var(--muted); margin: 0; font-size: 0.8rem; }
+.active-filter-list button { min-height: 44px; text-align: left; max-width: 100%; overflow-wrap: anywhere; font: inherit; font-size: 0.85rem; }
+.active-filter-list button:hover { border-color: var(--cyan); }
+.component-feature-summary { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+.verified-feature-details { margin-block: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--border); }
+.verified-feature-details li { line-height: 1.6; }
+:is(.wizard-layout, .catalog-page, .catalog-filters) :is(button, a, input, select, summary):focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+:is(.wizard-layout, .catalog-page) .component-card .badge { background: var(--panel-strong); color: var(--muted); border-color: var(--border); }
+:is(.wizard-layout, .catalog-page) .component-card.is-selected .badge { color: var(--green); border-color: var(--green); }
+:is(.wizard-layout, .catalog-page) .component-card .component-brand { color: var(--muted); }
+
+@media (min-width: 881px) and (max-width: 1180px) {
+  .wizard-layout.journey-wizard { grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-4); }
+  .wizard-budget-progress { grid-template-columns: minmax(0, 1fr); }
+  .wizard-budget-progress > .btn { justify-self: start; }
+}
+@media (max-width: 560px) {
+  .wizard-budget-progress { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  .wizard-budget-progress > .btn { justify-self: start; min-height: 44px; padding-block: var(--space-1); }
+  .wizard-budget-progress dd { font-size: 0.86rem; }
+  .wizard-layout .wizard-actions { padding: var(--space-2) var(--space-3); }
+  .wizard-actions p { font-size: 0.8rem; }
+  .wizard-catalog-tools { padding: var(--space-3); }
+}
+
+.component-score-disclosure > summary { color: var(--muted); font-size: 0.8rem; min-height: 44px; display: flex; align-items: center; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.component-score-disclosure > p { line-height: 1.5; margin-bottom: 0; }
+
+.wizard-layout.journey-wizard.is-planning { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 960px; margin-inline: auto; }
+.component-performance-unavailable { margin: 0; color: var(--yellow); font-size: 0.85rem; line-height: 1.5; }

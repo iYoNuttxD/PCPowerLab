@@ -51,6 +51,7 @@ export function updateComponentRecord(componentId, componentData) {
 
   if (componentImageIdentity(previous) !== componentImageIdentity(components[componentIndex])) {
     components[componentIndex].image = unavailableComponentImage(components[componentIndex], 'Modelo ou variante alterado: a fotografia anterior não comprova o novo produto; revalidar identidade, fonte e licença.');
+    delete components[componentIndex].verifiedFeatures;
   }
 
   const identityChanged = priceIdentity(previous) !== priceIdentity(components[componentIndex]);

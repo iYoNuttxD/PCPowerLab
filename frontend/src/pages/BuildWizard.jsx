@@ -4,11 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Save, Wand2 } from 'lucide-react';
 import BottleneckPanel from '../components/build/BottleneckPanel.jsx';
 import CoolingPanel from '../components/build/CoolingPanel.jsx';
-import BudgetPanel from '../components/build/BudgetPanel.jsx';
 import BuildSummaryCard from '../components/build/BuildSummaryCard.jsx';
 import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import WizardNavigation from '../components/build/WizardNavigation.jsx';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
+import ComponentFilters from '../components/componentsCatalog/ComponentFilters.jsx';
+import { emptyCatalogFilters, filterComponents, priceRangeError, performanceRangeError } from '../utils/componentPresentation.js';
+import '../styles/journey.css';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import RecommendationCard from '../components/recommendations/RecommendationCard.jsx';
 import Alert from '../components/ui/Alert.jsx';
@@ -40,8 +42,12 @@ export default function BuildWizard() {
   const [feedback, setFeedback] = useState(null);
   const [replacement, setReplacement] = useState(null);
   const [coolingSection, setCoolingSection] = useState('cooler');
+  const [stepFilters, setStepFilters] = useState({});
+  const [budgetReturnStep, setBudgetReturnStep] = useState(null);
   const currentStep = build.wizardStep;
+  const initialPlanning = currentStep === 'budget' && !Object.entries(build.selectedComponents).some(([slot, value]) => slot === 'fans' ? value?.length > 0 : Boolean(value?.id));
   const stepIndex = wizardSteps.indexOf(currentStep);
+  const nextStep = currentStep === 'budget' && budgetReturnStep ? budgetReturnStep : wizardSteps[stepIndex + 1];
   const layoutRef = useRef(null);
   const controlsRef = useRef(null);
   const headingRef = useRef(null);
@@ -53,7 +59,9 @@ export default function BuildWizard() {
   latestConfiguration.current = configurationKey;
 
   const missingSlots = getMissingBuildSlots(build.selectedComponents);
-  const budgetError = validateBudgetAmount(build.budget.amount);
+  const budgetCurrency = String(build.budget.currency || 'BRL').trim().toUpperCase();
+  const budgetCurrencyError = budgetCurrency !== 'BRL' ? 'Informe um orçamento em reais (BRL). Não há conversão automática.' : '';
+  const budgetError = validateBudgetAmount(build.budget.amount) || budgetCurrencyError;
   const isComponentStep = componentTypes.includes(currentStep);
   const immediateConflicts = stepSelectionConflicts(build.selectedComponents, currentStep);
   const canAdvance = isComponentStep
@@ -63,9 +71,12 @@ export default function BuildWizard() {
       : missingSlots.length === 0;
 
   const stepComponents = useMemo(() => byType[currentStep] || [], [byType, currentStep]);
+  const filters = useMemo(() => ({ ...emptyCatalogFilters, ...stepFilters[currentStep], category: currentStep }), [stepFilters, currentStep]);
+  const filteredComponents = useMemo(() => filterComponents(stepComponents, filters), [stepComponents, filters]);
+  const filterError = priceRangeError(filters) || performanceRangeError(filters);
   // The wizard stores a request envelope; /build-summary returns the analysis
   // directly. Both represent a completed analysis of the current configuration.
-  const bottlenecksComplete = build.bottlenecks?.status === 'success'
+  const bottlenecksComplete = (build.bottlenecks?.status === 'success' && build.bottlenecks?.data?.available !== false && !build.bottlenecks?.data?.unavailable)
     || (!build.bottlenecks?.status && typeof build.bottlenecks?.hasBottleneck === 'boolean' && build.bottlenecks?.available !== false);
   const completedSteps = requiredWizardSteps.filter((step) => componentTypes.includes(step)
     ? Boolean(build.selectedComponents[step]) && stepSelectionConflicts(build.selectedComponents, step).length === 0
@@ -75,15 +86,15 @@ export default function BuildWizard() {
 
   const guidance = isComponentStep
     ? immediateConflicts.length ? 'Estas peças não funcionam juntas. Confira o alerta e troque uma das peças indicadas antes de avançar.'
-      : canAdvance ? `Peça selecionada. Avance para ${wizardLabels[wizardSteps[stepIndex + 1]]}.`
+      : canAdvance ? `Peça selecionada. Avance para ${wizardLabels[nextStep]}.`
       : loading ? 'Aguarde o catálogo carregar para escolher uma peça.'
         : error ? 'Não foi possível carregar as peças. Use Tentar novamente abaixo.'
           : !stepComponents.length ? 'Não há peças nesta categoria. Tente atualizar o catálogo abaixo.'
             : `Selecione uma peça de ${componentLabels[currentStep]} para avançar.`
-    : currentStep === 'cooling' ? 'Opcional. Continue para definir o orçamento.' : currentStep === 'budget'
-      ? budgetError || 'Orçamento definido. Avance para revisar as peças e analisar a montagem.'
+    : currentStep === 'cooling' ? 'Opcional. Continue para revisar as peças e analisar a montagem.' : currentStep === 'budget'
+      ? budgetError || `Orçamento definido. Avance para ${wizardLabels[nextStep]}.`
       : missingSlots.length ? `${missingSlots.length === 1 ? 'Falta 1 peça' : `Faltam ${missingSlots.length} peças`}. Use Ver etapas para completar antes de analisar ou salvar.`
-        : budgetError ? 'Defina um orçamento maior que zero na etapa Orçamento antes de analisar.'
+        : budgetError ? `${budgetError} Volte à etapa Orçamento antes de analisar.`
           : completedSteps.includes('review') ? 'Análises concluídas. Você pode salvar a build ou abrir o resumo.'
             : 'Use Analisar build para verificar compatibilidade, orçamento e desempenho.';
 
@@ -132,8 +143,9 @@ export default function BuildWizard() {
     request.setError('');
   }
 
-  function changeStep(step, section = 'cooler') {
+  function changeStep(step, section = coolingSection) {
     if (step === 'cooling') setCoolingSection(section);
+    if (currentStep === 'budget' && step !== 'budget') setBudgetReturnStep(null);
     clearMessages();
     if (step === currentStep) focusStepContent();
     build.actions.setWizardStep(step);
@@ -157,7 +169,7 @@ export default function BuildWizard() {
       return;
     }
 
-    const budgetError = validateBudgetAmount(build.budget.amount);
+    const budgetError = validateBudgetAmount(build.budget.amount) || budgetCurrencyError;
     if (budgetError) {
       request.setError(budgetError);
       return;
@@ -207,6 +219,12 @@ export default function BuildWizard() {
         const bottlenecks = await performanceService.analyzeBottlenecks(build.buildPayload);
         if (!isCurrent()) return;
 
+        if (bottlenecks?.available === false || bottlenecks?.unavailable) {
+          finishAnalysis({ status: 'unavailable', reason: bottlenecks.reason || 'missing_performance_parameters',
+            message: bottlenecks.message || 'A análise de desempenho está indisponível para esta configuração.', data: null });
+          setFeedback({ type: 'warning', message: 'Compatibilidade analisada. A análise de desempenho está indisponível; suas peças e seu orçamento foram mantidos.' });
+          return;
+        }
         finishAnalysis({
           status: 'success',
           data: bottlenecks
@@ -244,7 +262,7 @@ export default function BuildWizard() {
 
   async function generateRecommendation() {
     clearMessages();
-    const budgetError = validateBudgetAmount(build.budget.amount);
+    const budgetError = validateBudgetAmount(build.budget.amount) || budgetCurrencyError;
     if (budgetError) {
       request.setError(budgetError);
       return;
@@ -253,7 +271,8 @@ export default function BuildWizard() {
     await runWizardRequest(async (isCurrent) => {
       const recommendation = await recommendationService.byBudget({
         budget: normalizeRecommendationBudgetPayload(build.budget),
-        usageType: build.usageType
+        usageType: build.usageType,
+        components: build.buildPayload
       });
       if (!isCurrent()) return;
       build.actions.setResult('recommendation', recommendation);
@@ -279,7 +298,7 @@ export default function BuildWizard() {
   }
 
   return (
-    <div className="wizard-layout" ref={layoutRef}>
+    <div className={`wizard-layout journey-wizard${initialPlanning ? ' is-planning' : ''}`} ref={layoutRef}>
       <section className="wizard-main">
         {build.catalogNotice && <Alert type="info">{build.catalogNotice}</Alert>}
         <div className="page-hero compact-hero">
@@ -288,7 +307,9 @@ export default function BuildWizard() {
         </div>
 
         <WizardNavigation currentStep={currentStep} completedSteps={completedSteps}
-          canAdvance={canAdvance} guidance={guidance} onStepChange={changeStep}
+          canAdvance={canAdvance} guidance={guidance} onStepChange={changeStep} nextStep={nextStep}
+          budget={build.budget} totalPrice={build.totalPrice} selectedComponents={build.selectedComponents}
+          onEditBudget={() => { setBudgetReturnStep(currentStep); changeStep('budget'); }}
           onSummary={() => navigate('/summary')} controlsRef={controlsRef} />
 
         <section className="wizard-step-content" aria-labelledby="wizard-step-heading" aria-busy={request.loading || (isComponentStep && loading)}>
@@ -318,8 +339,17 @@ export default function BuildWizard() {
             {!loading && !error && stepComponents.length === 0 && <EmptyState title="Nenhuma peça nesta categoria">
               <Button variant="secondary" onClick={reload}>Atualizar catálogo</Button>
             </EmptyState>}
+            {!loading && !error && stepComponents.length > 0 && <section className="wizard-catalog-tools panel-card" aria-label="Buscar e filtrar peças desta etapa">
+              <ComponentFilters components={stepComponents} filters={filters} fixedCategory={currentStep}
+                onChange={value => setStepFilters(current => ({ ...current, [currentStep]: value }))} />
+            </section>}
+            {!loading && !error && stepComponents.length > 0 && <div className="catalog-results-heading">
+              <h3>Opções de {componentLabels[currentStep]}</h3>
+              <p role="status">{filterError ? 'Corrija a faixa de preço ou desempenho.' : `${filteredComponents.length} de ${stepComponents.length} peças`}</p>
+            </div>}
+            {!loading && !error && !filterError && stepComponents.length > 0 && filteredComponents.length === 0 && <EmptyState title="Nenhuma peça com estes filtros" message="Remova um filtro ou limpe a busca. Sua peça selecionada continua na montagem." />}
             {!loading && !error && <div className="cards-grid component-grid">
-              {stepComponents.map((component) => (
+              {filteredComponents.map((component) => (
                 <ComponentCard
                   key={component.id}
                   component={component}
@@ -334,16 +364,25 @@ export default function BuildWizard() {
         {currentStep === 'cooling' && <CoolingPanel initialSection={coolingSection} activeSection={coolingSection} onSectionChange={setCoolingSection} build={build} byType={byType} loading={loading} error={error} onRetry={reload} onChange={clearMessages} />}
 
         {currentStep === 'budget' && (
-          <Card>
+          <Card className="wizard-budget-start">
             <h3>Orçamento e tipo de uso</h3>
+            <p>Defina o ponto de partida. Você pode ajustar estes valores sem perder as peças escolhidas.</p>
+            {budgetCurrencyError && <Alert type="warning">
+              <p>Seu orçamento salvo usa {budgetCurrency}. Informe um novo valor em reais para comparar com o catálogo.</p>
+              <Button variant="secondary" onClick={() => {
+                clearMessages(); build.actions.setBudget({ amount: '', currency: 'BRL' });
+                requestAnimationFrame(() => document.getElementById('wizard-budget-amount')?.focus());
+              }}>Definir orçamento em reais</Button>
+            </Alert>}
             <div className="form-grid">
               <Input
+                id="wizard-budget-amount"
                 label="Orçamento"
                 type="number"
                 min="1"
                 value={build.budget.amount}
                 onChange={(event) => { clearMessages(); build.actions.setBudget({ amount: event.target.value }); }}
-                hint="Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento."
+                hint={budgetCurrencyError ? `Valor salvo em ${budgetCurrency}; escolha Definir orçamento em reais para informar um novo limite.` : "Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento."}
                 error={validateBudgetAmount(build.budget.amount)}
               />
               <Select
@@ -356,10 +395,10 @@ export default function BuildWizard() {
                 label="Tipo de uso"
                 value={build.usageType}
                 onChange={(event) => { clearMessages(); build.actions.setUsageType(event.target.value); }}
-                options={usageTypes.map((usage) => ({ value: usage, label: usageLabels[usage] }))}
+                options={[...new Set([...usageTypes, build.usageType])].map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
-            <BudgetPanel selectedComponents={build.selectedComponents} budget={build.budget} totalPrice={build.totalPrice} />
+            <p className="hint-text">Os preços são referências, sem frete e montagem. A compatibilidade será verificada na revisão.</p>
           </Card>
         )}
 
@@ -397,14 +436,14 @@ export default function BuildWizard() {
         </section>
       </section>
 
-      <aside className="wizard-sidebar">
+      {!initialPlanning && <aside className="wizard-sidebar">
         <BuildSummaryCard
           selectedComponents={build.selectedComponents}
           totalPrice={build.totalPrice}
           onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'cooling' : type, type === 'fans' ? 'fans' : 'cooler')}
           onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
-      </aside>
+      </aside>}
       {replacement && replacement.revision === build.revision && <ComponentReplacement
         key={`${replacement.revision}:${replacement.type}:${replacement.component.id}`}
         type={replacement.type} build={build} initialComponent={replacement.component}

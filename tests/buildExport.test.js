@@ -80,7 +80,7 @@ test('deve exportar por buildId informado no payload', () => {
   assert.equal(exportedBuild.summary.compatibilityStatus, 'compatible');
 });
 
-test('deve retornar exportacao com aviso quando resumo falhar por erro controlado', () => {
+test('deve preservar exportacao tecnica com aviso e orçamento indisponível quando somente o orçamento é inválido', () => {
   const exportedBuild = exportBuildToJson({
     build: validBuild,
     budget: {
@@ -90,9 +90,19 @@ test('deve retornar exportacao com aviso quando resumo falhar por erro controlad
     includeSummary: true
   });
 
-  assert.equal(exportedBuild.summary, undefined);
+  assert.equal(exportedBuild.summary.selectionStatus, 'complete');
+  assert.equal(exportedBuild.summary.analysisStatus, 'partial');
+  assert.equal(exportedBuild.summary.compatibilityStatus, 'compatible');
+  assert.equal(exportedBuild.summary.totalEstimatedPrice, currentBuildTotal());
+  assert.equal(exportedBuild.summary.budgetStatus.available, false);
+  assert.equal(exportedBuild.summary.budgetStatus.reason, 'invalid_analysis_input');
+  assert.equal(exportedBuild.summary.budgetStatus.remaining, null);
+  assert.deepEqual(exportedBuild.build.components, validBuild);
+  assert.equal(exportedBuild.build.budget.amount, 'valor-invalido');
   assert.equal(exportedBuild.warnings.length, 1);
-  assert.equal(exportedBuild.warnings[0].message, 'Resumo indisponivel para os dados exportados.');
+  assert.match(exportedBuild.warnings[0].message, /Resumo parcial/);
+  assert.deepEqual(exportedBuild.warnings[0].sections, ['budgetStatus']);
+  assert.ok(exportedBuild.warnings[0].errors.some(error => /amount/.test(error)));
 });
 
 test('deve retornar erro controlado para build invalida', () => {

@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { formatCurrency } from '../../utils/formatCurrency.js';
 import Input from '../ui/Input.jsx';
 import Select from '../ui/Select.jsx';
 import Button from '../ui/Button.jsx';
@@ -5,21 +7,36 @@ import { componentLabels, catalogComponentTypes } from '../../utils/componentLab
 import { emptyCatalogFilters, priceRangeError, performanceRangeError, catalogFilterFields, specLabel, formatSpecValue } from '../../utils/componentPresentation.js';
 
 export default function ComponentFilters({ components, filters, onChange, fixedCategory, hasBuild = false }) {
+  const filtersRef = useRef(null);
   const category = fixedCategory || filters.category;
   const categoryComponents = components.filter(component => category === 'all' || component.category === category);
   const brands = [...new Set(categoryComponents.map(component => component.brand).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
   const update = (key, value) => onChange({ ...filters, [key]: value });
   const performanceAvailable = ['cpu', 'gpu', 'ram', 'storage'].includes(category);
   const changeCategory = value => onChange({ ...filters, category: value, brand: 'all', specs: {}, minPerformance: '', maxPerformance: '', sort: 'name-asc' });
-  const applied = [
+  const advancedApplied = [
     ...(filters.brand !== 'all' ? [{ key: 'brand', text: filters.brand, clear: () => update('brand', 'all') }] : []),
     ...Object.entries(filters.specs || {}).filter(([, value]) => value !== '').map(([key, value]) => ({ key, text: `${specLabel(key)}: ${formatSpecValue(key, value)}`, clear: () => update('specs', { ...filters.specs, [key]: '' }) })),
     ...(filters.minPerformance !== '' && filters.minPerformance != null ? [{ key: 'minPerformance', text: `Desempenho ≥ ${filters.minPerformance}`, clear: () => update('minPerformance', '') }] : []),
     ...(filters.maxPerformance !== '' && filters.maxPerformance != null ? [{ key: 'maxPerformance', text: `Desempenho ≤ ${filters.maxPerformance}`, clear: () => update('maxPerformance', '') }] : []),
     ...(hasBuild && filters.compatibility && filters.compatibility !== 'all' ? [{ key: 'compatibility', text: ({ compatible: 'Sem conflitos', incompatible: 'Com conflito', unverified: 'Dados incompletos' })[filters.compatibility], clear: () => update('compatibility', 'all') }] : [])
   ];
+  const applied = [
+    ...(filters.search.trim() ? [{ key: 'search', text: `Busca: ${filters.search.trim()}`, clear: () => update('search', '') }] : []),
+    ...(!fixedCategory && filters.category !== 'all' ? [{ key: 'category', text: `Categoria: ${componentLabels[filters.category]}`, clear: () => changeCategory('all') }] : []),
+    ...(filters.minPrice !== '' ? [{ key: 'minPrice', text: `Preço mínimo: ${formatCurrency(Number(filters.minPrice))}`, clear: () => update('minPrice', '') }] : []),
+    ...(filters.maxPrice !== '' ? [{ key: 'maxPrice', text: `Preço máximo: ${formatCurrency(Number(filters.maxPrice))}`, clear: () => update('maxPrice', '') }] : []),
+    ...advancedApplied
+  ];
+  function removeFilter(event, item, index) {
+    item.clear();
+    if (event.detail === 0) requestAnimationFrame(() => {
+      const buttons = filtersRef.current?.querySelectorAll('.active-filter-list button');
+      (buttons?.[Math.min(index, buttons.length - 1)] || filtersRef.current?.querySelector('input[type="search"]'))?.focus();
+    });
+  }
   return (
-    <div className="catalog-filters">
+    <div className="catalog-filters" ref={filtersRef}>
       <div className="form-grid catalog-filter-grid">
         <Input label="Buscar componente" type="search" value={filters.search} placeholder="Nome, modelo ou marca"
           onChange={event => update('search', event.target.value.slice(0, 100))} />
@@ -37,8 +54,12 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
           ] : [])
         ]} />
       </div>
-      <details className="task-disclosure catalog-advanced-filters">
-        <summary>Mais filtros{applied.length ? ` (${applied.length})` : ''}</summary>
+      <details className="task-disclosure catalog-advanced-filters" onKeyDown={event => {
+        if (event.key === 'Escape' && event.currentTarget.open) {
+          event.preventDefault(); event.currentTarget.open = false; event.currentTarget.querySelector('summary')?.focus();
+        }
+      }}>
+        <summary>Mais filtros{advancedApplied.length ? ` (${advancedApplied.length})` : ''}</summary>
         <div className="form-grid catalog-filter-grid">
           <Select label="Marca" value={filters.brand} onChange={event => update('brand', event.target.value)}
             options={[{ value: 'all', label: 'Todas as marcas' }, ...brands.map(brand => ({ value: brand, label: brand }))]} />
@@ -61,7 +82,10 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
           ]} />}
         </div>
       </details>
-      {applied.length > 0 && <div className="active-filter-list" aria-label="Filtros aplicados">{applied.map(item => <button type="button" key={item.key} onClick={item.clear} aria-label={`Remover filtro ${item.text}`}>{item.text}<span aria-hidden="true"> ×</span></button>)}</div>}
+      {applied.length > 0 && <section className="active-filters" aria-label="Filtros aplicados">
+        <p>{applied.length} {applied.length === 1 ? 'filtro ativo' : 'filtros ativos'}</p>
+        <div className="active-filter-list">{applied.map((item, index) => <button type="button" key={item.key} onClick={event => removeFilter(event, item, index)} aria-label={`Remover filtro ${item.text}`}>{item.text}<span aria-hidden="true"> ×</span></button>)}</div>
+      </section>}
       {performanceRangeError(filters) && <p className="field-error" role="alert">{performanceRangeError(filters)}</p>}
       <Button variant="ghost" size="sm" onClick={() => onChange({ ...emptyCatalogFilters, specs: {}, category: fixedCategory || 'all' })}>Limpar filtros</Button>
     </div>

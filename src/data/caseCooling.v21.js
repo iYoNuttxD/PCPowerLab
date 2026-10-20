@@ -1,5 +1,6 @@
 import { marketRevalidationCatalog } from './market-revalidation-catalog.js';
 import { replacementCatalog } from './catalogReplacements.js';
+import { catalogV3 } from './catalog.v3.js';
 
 // Capacities for different diameters are alternative layouts, not additive.
 // Position/clearance interactions still require the case manual.
@@ -51,7 +52,7 @@ export function enrichCaseCooling(component) {
   if (component.category !== 'case') return component;
   // Bind current evidence to the exact SKU; never borrow cooling limits from a
   // same-name replacement or overwrite verified market facts with legacy nulls.
-  const current = marketRevalidationCatalog.find(record => record.category === 'case' && record.id === component.id);
+  const current = [...marketRevalidationCatalog, ...catalogV3].find(record => record.category === 'case' && record.id === component.id);
   const currentMatches = current && current.partNumber && current.partNumber === component.partNumber
     && current.specSourceUrl === component.specSourceUrl && current.specVerifiedAt;
   const verified = current
@@ -61,7 +62,7 @@ export function enrichCaseCooling(component) {
     ...component,
     ...(verified ? {
       coolingSpecSourceUrl: verified.source,
-      coolingSpecVerifiedAt: '2026-10-08',
+      coolingSpecVerifiedAt: current?.specVerifiedAt ?? '2026-10-08',
       ...(verified.partNumber ? { partNumber: verified.partNumber } : {})
     } : {}),
     specs: {

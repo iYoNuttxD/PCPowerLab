@@ -6,82 +6,105 @@ import { generateExplanation } from './explanationService.js';
 import { simulateGamePerformance } from './gamePerformanceService.js';
 import { recommendBuildByBudget } from './recommendationService.js';
 import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
+import { summarizeBuildPricing } from './marketPriceService.js';
 
 const defaultUsageType = 'general';
-const recommendedPriorities = ['cost-benefit', 'performance', 'lowest-price'];
+const recommendedPriorities = ['cost-benefit', 'performance', 'lowest-price', 'balanced'];
 
-export function generateBuildSummary(input) {
-  validateSummaryPayload(input);
+// Validate the selection once. A missing analysis is not a missing component,
+// and failures in optional sections must not erase independent verified facts.
+export function createBuildSummaryGenerator(analyses = {}) {
+  const services = {
+    compatibility: checkBuildCompatibilityAlerts,
+    bottlenecks: analyzeBuildBottlenecks,
+    gamePerformance: simulateGamePerformance,
+    recommendation: recommendBuildByBudget,
+    ...analyses
+  };
 
-  const buildInput = normalizeBuildInput(input.build);
-  const compatibility = checkBuildCompatibilityAlerts(mapBuildToCompatibilityInput(buildInput));
-  const pricing = compatibility.pricing;
-  const totalEstimatedPrice = pricing.estimatedTotal;
-  const budgetStatus = input.budget
-    ? buildBudgetStatus(input.budget, pricing)
-    : null;
-  const bottlenecks = runOptionalAnalysis(
-    () => analyzeBuildBottlenecks(buildInput),
-    'Análise de gargalos indisponível para os dados informados.'
-  );
-  const gamePerformance = input.gameId
-    ? compatibility.compatible !== true
-      ? { available: false, reason: compatibility.status === 'unverified' ? 'unverified_build' : 'incompatible_build', message: 'Simulação indisponível: a compatibilidade da configuração não foi confirmada. Revise os alertas e os dados técnicos pendentes.' }
-      : runOptionalAnalysis(
-      () => simulateGamePerformance({
-        gameId: input.gameId,
-        targetResolution: input.targetResolution,
-        qualityPreset: input.qualityPreset,
-        build: buildInput
-      }),
-      'Simulação de desempenho indisponível para os dados informados.'
-    )
-    : null;
-  const simpleExplanations = buildSimpleExplanations({
-    compatibility,
-    bottlenecks,
-    budgetStatus,
-    gamePerformance,
-    usageType: input.usageType
-  });
-  const recommendation = buildFinalRecommendation({
-    compatibility,
-    bottlenecks,
-    budgetStatus,
-    gamePerformance
-  });
+  return function generateSummary(input) {
+    validateSummaryPayload(input);
+    const components = selectBuildComponents(input.build);
+    const buildInput = serializeBuildSelection(components);
+    const pricing = summarizeBuildPricing(components);
+    const compatibility = {
+      compatible: null, alerts: [], unverifiedChecks: [],
+      ...runOptionalAnalysis(
+        () => services.compatibility(buildInput),
+        'Não foi possível verificar a compatibilidade agora. As peças foram mantidas; tente novamente.'
+      )
+    };
+    const budgetStatus = input.budget
+      ? { totalEstimatedPrice: pricing.estimatedTotal, remaining: null,
+        ...runOptionalAnalysis(() => buildBudgetStatus(input.budget, pricing),
+          'Não foi possível avaliar o orçamento informado. Revise o valor e tente novamente.') }
+      : null;
+    const bottlenecks = runOptionalAnalysis(
+      () => services.bottlenecks(buildInput),
+      'Não foi possível analisar os gargalos agora. As outras análises continuam disponíveis.'
+    );
+    const gamePerformance = input.gameId
+      ? compatibility.compatible !== true
+        ? {
+          available: false, status: 'unavailable',
+          reason: compatibility.available === false ? 'compatibility_analysis_unavailable'
+            : compatibility.status === 'unverified' ? 'unverified_build' : 'incompatible_build',
+          message: compatibility.available === false
+            ? 'Simulação pendente: tente verificar a compatibilidade novamente.'
+            : 'Simulação indisponível: a compatibilidade da configuração não foi confirmada. Revise os alertas e os dados técnicos pendentes.'
+        }
+        : runOptionalAnalysis(() => services.gamePerformance({
+          gameId: input.gameId,
+          targetResolution: input.targetResolution,
+          qualityPreset: input.qualityPreset,
+          build: buildInput
+        }), 'Não foi possível simular o jogo informado. Revise o jogo e as configurações ou tente novamente.')
+      : null;
+    const recommendationObservation = input.budget && budgetStatus?.available !== false
+      ? buildRecommendationObservation({ input, buildInput, budgetStatus, recommend: services.recommendation })
+      : null;
+    const results = { compatibility, bottlenecks, budgetStatus, gamePerformance };
+    const sections = Object.fromEntries(Object.entries({ ...results, recommendation: recommendationObservation })
+      .filter(([, result]) => result != null)
+      .map(([name, result]) => [name, {
+        status: result.available === false || result.status === 'unavailable' ? 'unavailable'
+          : result.status === 'unverified' ? 'unverified' : 'available',
+        ...(result.reason ? { reason: result.reason } : {}),
+        ...(result.retryable !== undefined ? { retryable: result.retryable } : {})
+      }]));
 
-  return removeEmptySections({
-    ...performanceMetadata(compatibility.selectedComponents),
-    components: compatibility.selectedComponents,
-    pricing,
-    totalEstimatedPrice,
-    budgetStatus,
-    compatibility: {
-      compatible: compatibility.compatible,
-      status: compatibility.status,
-      unverifiedChecks: compatibility.unverifiedChecks,
-      coolingPower: compatibility.coolingPower,
-      coolingAssessment: compatibility.coolingAssessment,
-      alerts: compatibility.alerts
-    },
-    bottlenecks,
-    gamePerformance,
-    simpleExplanations,
-    summary: buildSummaryText({
-      compatibility,
-      bottlenecks,
+    return removeEmptySections({
+      ...performanceMetadata(components),
+      selectionStatus: 'complete',
+      analysisStatus: Object.values(sections).some(section => section.status !== 'available') ? 'partial' : 'complete',
+      sections,
+      components,
+      pricing,
+      totalEstimatedPrice: pricing.estimatedTotal,
       budgetStatus,
-      gamePerformance
-    }),
-    finalRecommendation: recommendation,
-    recommendationObservation: buildRecommendationObservation({
-      input,
-      compatibility,
-      budgetStatus
-    })
-  });
+      compatibility: {
+        compatible: compatibility.compatible,
+        status: compatibility.status,
+        ...(compatibility.available === false ? {
+          available: false, reason: compatibility.reason, message: compatibility.message,
+          retryable: compatibility.retryable, errors: compatibility.errors
+        } : {}),
+        unverifiedChecks: compatibility.unverifiedChecks,
+        coolingPower: compatibility.coolingPower,
+        coolingAssessment: compatibility.coolingAssessment,
+        alerts: compatibility.alerts
+      },
+      bottlenecks,
+      gamePerformance,
+      simpleExplanations: buildSimpleExplanations({ ...results, usageType: input.usageType }),
+      summary: buildSummaryText(results),
+      finalRecommendation: buildFinalRecommendation(results),
+      recommendationObservation
+    });
+  };
 }
+
+export const generateBuildSummary = createBuildSummaryGenerator();
 
 function validateSummaryPayload(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
@@ -97,17 +120,14 @@ function validateSummaryPayload(input) {
   }
 }
 
-function normalizeBuildInput(buildInput) {
-  return serializeBuildSelection(selectBuildComponents(buildInput));
-}
-
-function mapBuildToCompatibilityInput(buildInput) {
-  return buildInput;
-}
-
 function buildBudgetStatus(budgetInput, pricing) {
   const budget = createBudget(budgetInput);
   const totalEstimatedPrice = pricing.estimatedTotal;
+  if (budget.currency !== pricing.currency) {
+    return { ...budget, available: false, status: 'unavailable', reason: 'currency_mismatch',
+      totalEstimatedPrice, remaining: null,
+      message: 'Os preços do catálogo estão em BRL. Informe o orçamento em reais para comparar; não há conversão automática.' };
+  }
   if (totalEstimatedPrice === null) {
     return {
       ...budget,
@@ -116,6 +136,7 @@ function buildBudgetStatus(budgetInput, pricing) {
       componentsWithoutReference: pricing.componentsWithoutReference,
       remaining: null,
       status: 'unavailable',
+      reason: 'missing_price_reference',
       explanation: generateExplanation({
         type: 'warning',
         data: {
@@ -166,14 +187,16 @@ function runOptionalAnalysis(callback, fallbackMessage) {
   try {
     return callback();
   } catch (error) {
-    if (!error.statusCode || error.statusCode >= 500) {
-      throw error;
-    }
-
+    const expected = Number.isInteger(error?.statusCode) && error.statusCode >= 400 && error.statusCode < 500;
     return {
       available: false,
+      status: 'unavailable',
+      reason: expected ? 'invalid_analysis_input' : 'analysis_failed',
+      retryable: !expected,
       message: fallbackMessage,
-      errors: error.errors ?? [error.message]
+      // Unexpected implementation errors are not evidence of missing user data.
+      // Do not expose internal exception details in the public response.
+      errors: expected ? error.errors ?? [error.message] : []
     };
   }
 }
@@ -206,7 +229,7 @@ function buildSimpleExplanations({
     }));
   }
 
-  if (budgetStatus) {
+  if (budgetStatus?.explanation) {
     explanations.push(budgetStatus.explanation);
   }
 
@@ -242,7 +265,9 @@ function buildSummaryText({
 }) {
   const parts = [];
 
-  parts.push(compatibility.compatible
+  parts.push(compatibility.available === false
+    ? 'As peças estão selecionadas; a verificação de compatibilidade está temporariamente indisponível'
+    : compatibility.compatible
     ? compatibility.coolingAssessment?.status === 'unverified'
       ? 'As verificações principais estão compatíveis; refrigeração não verificada'
       : 'A configuração está compatível'
@@ -268,6 +293,7 @@ function buildSummaryText({
 }
 
 function buildBudgetSummaryText(budgetStatus) {
+  if (budgetStatus.available === false) return 'o orçamento ainda não pôde ser avaliado';
   if (budgetStatus.status === 'unavailable') {
     return 'o orçamento não foi verificado porque há componentes sem preço de referência';
   }
@@ -288,11 +314,18 @@ function buildFinalRecommendation({
   budgetStatus,
   gamePerformance
 }) {
+  if (compatibility.available === false) {
+    return 'A montagem foi preservada. Tente verificar a compatibilidade novamente antes de comprar; consulte as análises que já estão disponíveis.';
+  }
   if (compatibility.status === 'unverified') {
-    return 'Confirme os dados técnicos pendentes de refrigeração e montagem antes da compra.';
+    return 'Confirme as verificações técnicas pendentes listadas em Compatibilidade antes da compra. As peças selecionadas foram mantidas.';
   }
   if (!compatibility.compatible) {
     return 'Revise as incompatibilidades antes de seguir com a compra.';
+  }
+
+  if (budgetStatus?.available === false) {
+    return 'Revise o orçamento informado antes de concluir a compra. As verificações técnicas disponíveis foram mantidas.';
   }
 
   if (budgetStatus?.status === 'unavailable') {
@@ -311,6 +344,10 @@ function buildFinalRecommendation({
     return 'O jogo apresenta desempenho estimado insuficiente nas configurações selecionadas. Revise os requisitos e considere reduzir a qualidade ou resolução, ou melhorar as peças limitantes.';
   }
 
+  if (bottlenecks?.available === false && bottlenecks.reason === 'analysis_failed') {
+    return 'A análise de gargalos está temporariamente indisponível. Consulte os resultados disponíveis e tente essa análise novamente.';
+  }
+
   if (bottlenecks?.available === false) {
     return 'Dados de desempenho insuficientes para concluir a recomendação. A compatibilidade pelas regras do catálogo não confirma o desempenho.';
   }
@@ -326,34 +363,35 @@ function buildFinalRecommendation({
   return 'Configuração recomendada para o perfil informado.';
 }
 
-function buildRecommendationObservation({ input, compatibility, budgetStatus }) {
-  if (!input.budget || !compatibility.compatible) {
-    return null;
-  }
-
+function buildRecommendationObservation({ input, buildInput, budgetStatus, recommend }) {
   const priority = recommendedPriorities.includes(budgetStatus.priority)
     ? budgetStatus.priority
     : 'cost-benefit';
 
   return runOptionalAnalysis(
     () => {
-      const recommendation = recommendBuildByBudget({
+      const recommendation = recommend({
         budget: {
           amount: budgetStatus.amount,
           currency: budgetStatus.currency,
           priority
         },
-        usageType: input.usageType || defaultUsageType
+        usageType: input.usageType || defaultUsageType,
+        // Include selected cooling and its full cost. An alternative must not
+        // silently omit accessories to fit the budget or claim compatibility.
+        components: buildInput
       });
 
       return {
-        message: 'Existe uma recomendação compatível para comparar com a build atual.',
+        ...recommendation,
+        available: true,
+        message: 'Alternativa compatível pelas regras verificadas, dentro do orçamento e para o uso informado. Compare antes de substituir peças.',
         totalEstimatedPrice: recommendation.totalEstimatedPrice,
         remainingBudget: recommendation.remainingBudget,
         performanceScore: recommendation.performanceScore
       };
     },
-    'Recomendacao comparativa indisponível para os dados informados.'
+    'Não foi possível encontrar uma alternativa verificada dentro do orçamento, para o uso e a refrigeração selecionados. A montagem atual foi mantida.'
   );
 }
 

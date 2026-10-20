@@ -5143,5 +5143,453 @@
       "Preço e estoque observados manualmente; confirmar condições na loja.",
       "Não é cotação de API nem garantia de disponibilidade futura."
     ]
+  },
+  {
+    "productId": "cpu-ryzen-7-7800x3d-box",
+    "model": "100-100000910WOF",
+    "sourceVariantName": "100-100000910WOF",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/426262/processador-amd-ryzen-7-7800x3d-4-2ghz-5-0ghz-max-turbo-cache-104mb-8-nucleos-16-threads-am5-com-video-integrado-100-100000910wof",
+    "price": 1999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 235,29 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-7800x3d-box",
+      "name": "AMD Ryzen 7 7800X3D Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "100-100000910WOF",
+      "specs": {
+        "socket": "AM5",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 4.2,
+        "boostClockGhz": 5,
+        "tdpWatts": 120,
+        "memoryTypes": [
+          "DDR5"
+        ],
+        "maxMemoryGb": 128,
+        "l3CacheMb": 96,
+        "integratedGraphics": "AMD Radeon Graphics (2 núcleos)",
+        "includesCpuCooler": false
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T21:58:00Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "cpu-ryzen-9-9900x-box",
+    "model": "100-100000662WOF",
+    "sourceVariantName": "100-100000662WOF",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/609952/processador-amd-ryzen-9-9900x-4-4-ghz-5-6-ghz-max-turbo-cache-76mb-12-nucleos-24-threads-am5-com-video-integrado-100-100000662wof",
+    "price": 2199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 258,82 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-9-9900x-box",
+      "name": "AMD Ryzen 9 9900X Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "100-100000662WOF",
+      "specs": {
+        "socket": "AM5",
+        "cores": 12,
+        "threads": 24,
+        "baseClockGhz": 4.4,
+        "boostClockGhz": 5.6,
+        "tdpWatts": 120,
+        "memoryTypes": [
+          "DDR5"
+        ],
+        "maxMemoryGb": 256,
+        "l3CacheMb": 64,
+        "integratedGraphics": "AMD Radeon Graphics (2 núcleos)",
+        "includesCpuCooler": false
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:04:00Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "gpu-msi-rtx-5060-ti-ventus-2x-oc-plus-16g",
+    "model": "G506T-16V2CP",
+    "sourceVariantName": "G506T-16V2CP",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/777167/placa-de-video-msi-rtx-5060-ti-16g-ventus-2x-oc-plus-nvidia-geforce-16gb-gddr7-2617-mhz-fp4-and-dlss-4-ray-tracing-g506t-16v2cp",
+    "price": 4999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 588,23 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-msi-rtx-5060-ti-ventus-2x-oc-plus-16g",
+      "name": "MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+      "brand": "MSI",
+      "category": "gpu",
+      "partNumber": "G506T-16V2CP",
+      "specs": {
+        "vramGb": 16,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 128,
+        "memorySpeedGbps": 28,
+        "cudaCores": 4608,
+        "boostClockMhz": 2602,
+        "extremePerformanceClockMhz": 2617,
+        "extremePerformanceCondition": "MSI Center",
+        "lengthMm": 227,
+        "widthMm": 127,
+        "heightMm": 41,
+        "recommendedPsuWatts": 600,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0 x16 físico, x8 elétrico",
+        "tdpWatts": 180
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T21:59:48Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "gpu-msi-rtx-5060-ventus-2x-oc-8g",
+    "model": "G5060-8V2C",
+    "sourceVariantName": "G5060-8V2C",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/877565/placa-de-video-msi-rtx-5060-8g-ventus-2x-oc-geforce-nvidia-8gb-gddr7-128-bits-2535-mhz-dlss-4-ray-tracing-g5060-8v2c",
+    "price": 2999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 352,94 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-msi-rtx-5060-ventus-2x-oc-8g",
+      "name": "MSI GeForce RTX 5060 8G VENTUS 2X OC",
+      "brand": "MSI",
+      "category": "gpu",
+      "partNumber": "G5060-8V2C",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 128,
+        "memorySpeedGbps": 28,
+        "cudaCores": 3840,
+        "boostClockMhz": 2527,
+        "extremePerformanceClockMhz": 2535,
+        "extremePerformanceCondition": "MSI Center",
+        "lengthMm": 197,
+        "widthMm": 120,
+        "heightMm": 41,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0 x16 físico, x8 elétrico",
+        "tdpWatts": 145
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:07:00Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "case-deepcool-cc310-black",
+    "model": "R-CC310-BKNNM0-G",
+    "sourceVariantName": "R-CC310-BKNNM0-G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-office-deepcool-cc310-mid-tower-preto-r-cc310-bknnm0-g",
+    "price": 219.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 258.81,
+    "installments": "12x de R$ 21,57 sem juros",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "case-deepcool-cc310-black",
+      "name": "DeepCool CC310 Black",
+      "brand": "DeepCool",
+      "category": "case",
+      "partNumber": "R-CC310-BKNNM0-G",
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "color": "Black",
+        "dimensionsMm": {
+          "length": 308,
+          "width": 185,
+          "height": 356
+        },
+        "maxGpuLengthMm": 280,
+        "maxCoolerHeightMm": 160,
+        "maxPsuLengthMm": 160,
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "radiatorSizesMm": [],
+        "radiatorLayouts": {},
+        "radiatorSupportStatus": "unsupported",
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 2
+          }
+        ],
+        "fanLayouts": {
+          "front": [
+            "1x120"
+          ],
+          "rear": [
+            "1x120"
+          ]
+        },
+        "includedFanCount": 1,
+        "includedFanDiameterMm": 120,
+        "includedFansPosition": "rear",
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "frontUsbC": false,
+        "coolingSupportNotes": "Sem suporte a radiador na especificação oficial. Dois pontos de 120 mm, um frontal e um traseiro; traseiro incluído. Limites de espessura não verificados."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:04:00Z",
+    "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "case-cougar-mx230-rgb-black",
+    "model": "382PC80.0001",
+    "sourceVariantName": "382PC80.0001",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-gamer-cougar-mx230-argb-mid-tower-lateral-de-vidro-com-4-fans-preto-382pc80-0001",
+    "price": 539.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 635.28,
+    "installments": "12x de R$ 52,94 sem juros",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "case-cougar-mx230-rgb-black",
+      "name": "COUGAR MX230 RGB Black",
+      "brand": "COUGAR",
+      "category": "case",
+      "partNumber": "382PC80.0001",
+      "specs": {
+        "supportedFormFactors": [
+          "ITX",
+          "mATX",
+          "ATX",
+          "E-ATX"
+        ],
+        "color": "Black",
+        "dimensionsMm": {
+          "length": 445,
+          "width": 220,
+          "height": 475
+        },
+        "maxGpuLengthMm": 400,
+        "maxCoolerHeightMm": 170,
+        "maxPsuLengthMm": 200,
+        "supportedPsuFormFactors": null,
+        "radiatorSizesMm": [
+          120,
+          240,
+          360
+        ],
+        "radiatorLayouts": {
+          "top": [
+            120,
+            240,
+            360
+          ],
+          "rear": [
+            120
+          ]
+        },
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 10
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 4
+          }
+        ],
+        "fanLayouts": {
+          "front": [
+            "3x120",
+            "2x140"
+          ],
+          "top": [
+            "3x120",
+            "2x140"
+          ],
+          "rear": [
+            "1x120"
+          ],
+          "psuShroud": [
+            "3x120"
+          ]
+        },
+        "includedFanCount": 4,
+        "includedFanDiameterMm": 120,
+        "includedFansPosition": "3 front/1 rear",
+        "includedFanPwm": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "frontUsbC": true,
+        "frontUsbCDataRateGbps": 10,
+        "coolingSupportNotes": "Radiadores 120/240/360 mm no topo, 120 mm atrás; não extrapolar suporte a 280 mm dos fans de 140 mm. Fans PWM somente em séries BF05 ou posteriores. Layouts alternativos, não somáveis. Formato da fonte e folgas de espessura não verificados."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:06:58Z",
+    "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
   }
 ]

@@ -1,6 +1,6 @@
 import { componentLabels, componentTypes } from './componentLabels.js';
 
-export const wizardSteps = [...componentTypes, 'cooling', 'budget', 'review'];
+export const wizardSteps = ['budget', ...componentTypes, 'cooling', 'review'];
 export const optionalWizardSteps = ['cooling'];
 export const requiredWizardSteps = wizardSteps.filter(step => !optionalWizardSteps.includes(step));
 
@@ -33,7 +33,7 @@ export const wizardDescriptions = {
   psu: 'Confira potência e conectores para as peças escolhidas.',
   case: 'Confira o espaço para as peças e a refrigeração.',
   cooling: 'Escolha um cooler ou continue sem adicionar agora.',
-  budget: 'Defina seu limite de gasto e o uso principal.',
+  budget: 'Comece pelo limite de gasto e pelo uso principal. Depois, escolha as peças.',
   review: 'Confira as escolhas e analise a montagem.'
 };
 

@@ -1595,3 +1595,28 @@ As contagens anteriores neste documento são históricas. Fotografias dos 81 ati
 `coolingAssessment` é distinto da compatibilidade principal e mantém `status`, `scope`, `alerts` e `unverifiedChecks`; desconhecido não significa aprovado. [Contrato completo](COOLING-COMPATIBILITY-SCOPE.md). Socket compatível não certifica posição/espessura/folga de gabinete nem adequação térmica.
 
 O cenário térmico/acústico é aproximado e baseado em hipóteses; não é benchmark ou medição de hardware. Fans extras participam de ruído estimado, consumo conhecido, custo e encaixe, mas **não alteram a temperatura** neste modelo. O acoplamento térmico adicional foi adiado. Scores sintéticos não habilitam automaticamente FPS/software/gargalos.
+
+## V3 — Resumo parcial, disponibilidade por seção e recomendações
+
+`POST /build-summary` continua exigindo uma seleção completa com IDs válidos. A seleção é validada antes das análises: peças obrigatórias ausentes ou categoria incorreta retornam **400**, IDs inexistentes retornam **404**. Uma falha de análise não é tratada como ausência de peças e não muda a seleção recebida.
+
+Campos aditivos na resposta:
+
+- `selectionStatus: "complete"`: os sete slots obrigatórios foram resolvidos. Não significa compatibilidade confirmada.
+- `analysisStatus: "complete" | "partial"`: disponibilidade das seções solicitadas, não aprovação da montagem. Uma incompatibilidade conhecida pode estar completamente analisada.
+- `sections`: estados de `compatibility`, `bottlenecks`, `budgetStatus`, `gamePerformance` e `recommendation`, quando solicitados. Cada entrada traz `status: "available" | "unverified" | "unavailable"`, e `reason`/`retryable` quando aplicáveis. Seções omitidas não foram solicitadas.
+- Uma falha inesperada em uma análise retorna naquela seção `available: false`, `status: "unavailable"`, `reason: "analysis_failed"`, `retryable: true`, mensagem pública e `errors: []`. Não expõe detalhes internos da exceção. Entradas opcionais inválidas usam `reason: "invalid_analysis_input"`, `retryable: false` e erros controlados que permitem corrigir a entrada. Campos de erro existentes por falta de modelo continuam preservados.
+- Falha no verificador de compatibilidade retorna `compatible: null`, nunca `false` como diagnóstico de incompatibilidade. Nesse caso, o FPS fica indisponível com `reason: "compatibility_analysis_unavailable"`; preços, peças, gargalos independentes e pesquisa de alternativa permanecem disponíveis.
+- Compatibilidade realmente não verificada, incluindo BIOS ou refrigeração pendente, mantém `status: "unverified"` e a lista `unverifiedChecks`; simulação de jogo continua bloqueada com `reason: "unverified_build"`. Nenhuma regra foi relaxada para produzir um número.
+
+`recommendationObservation`, quando há orçamento válido, pode conter uma alternativa com os mesmos critérios e o detalhamento de `recommendations/budget`, incluindo `components`, `usageType`, `priority`, `requestedBudget` e `compatibilityStatus`. Ela pode existir mesmo quando a montagem atual tem verificações pendentes: a alternativa é verificada independentemente. Cooler e quantidades de ventoinhas informados são preservados na consulta e entram no custo e na compatibilidade; não são omitidos para caber no orçamento. Se nenhuma alternativa verificada couber, somente essa seção fica indisponível. A resposta não aplica nenhuma substituição.
+
+`POST /recommendations/budget` e `/recommendations/by-usage` acrescentam `requestedBudget: { amount, currency: "BRL" }`, `compatibilityStatus` e `unverifiedChecks`. Recomendações por faixa acrescentam `requestedBudgetRange: { min, max, currency: "BRL" }`. A lista de prioridades inclui `balanced`. Os tipos de uso incluem `gaming`, `work`, `video-editing`, `programming`, `design`, `general`, `study`, `streaming`, `upgrade` e `productivity`.
+
+As recomendações comparam referências em reais, não fazem câmbio. Moeda diferente de BRL em `budget.currency` ou `budgetRange.currency` retorna **400**. No resumo, orçamento em outra moeda não derruba análises técnicas: `budgetStatus` retorna `available: false`, `status: "unavailable"`, `reason: "currency_mismatch"` e `remaining: null`. O cadastro genérico de orçamento continua aceitando códigos de moeda; isso não autoriza compará-los com preços em BRL.
+
+A interface consulta `/purchase-links/build` independentemente de `/build-summary`. Uma falha de resumo não elimina links já recebidos, e uma falha de lojas não elimina o resumo. Há estados distintos de carregamento, erro com nova tentativa e resultado vazio. Links continuam pesquisa de loja, não prova de preço, estoque, compatibilidade ou recomendação de compra.
+
+Exportação JSON com `includeSummary: true` também preserva o resumo técnico quando somente o orçamento/análise opcional é inválido. `summary` inclui `selectionStatus`, `analysisStatus`, `sections` e `budgetStatus`, quando informado. Uma resposta parcial acrescenta `warnings` com os nomes das seções afetadas e erros controlados, sem tratar o orçamento inválido como aprovado. O relatório técnico preserva `pricing.available: false`, o motivo e `remaining: null` para orçamento indisponível; a nota consolidada que depende desse orçamento também fica indisponível. `pricing.currency` continua BRL e `budgetCurrency` identifica separadamente a moeda do orçamento.
+
+CPUs admitidas na expansão V3 exigem evidência de BIOS também ao selecionar uma placa-mãe de catálogo anterior. Socket AM5 igual não prova suporte para 7800X3D/9900X: sem versão mínima e instalada verificáveis, retorna `CPU_BIOS_UNVERIFIED`, sem inventar incompatibilidade definitiva ou liberar simulação.

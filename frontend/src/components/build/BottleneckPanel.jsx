@@ -12,6 +12,9 @@ import { translateBottleneckType, translateComponent, translateMetricLabel, tran
 export default function BottleneckPanel({ result }) {
   const scoreDescriptionId = useId();
   const powerDescriptionId = useId();
+  // Wizard requests wrap the payload, summary requests return it directly.
+  // A successful HTTP response can still carry an unavailable analysis.
+  result = result?.status === 'success' && result.data ? result.data : result;
   if (!result) {
     return (
       <Card>
@@ -44,6 +47,8 @@ export default function BottleneckPanel({ result }) {
           <Badge tone="yellow">{translateValue(reason)}</Badge>
         </div>
         <p>{readableMessage(result.message) || defaultUnavailableMessage(reason)}</p>
+        {Array.isArray(result.errors) && result.errors.length > 0 && <ul>{result.errors.map((error, index) => <li key={index}>{readableMessage(error)}</li>)}</ul>}
+        <p>Esse resultado se limita aos gargalos. Suas peças e as outras verificações foram mantidas.</p>
         {reason === 'missing_performance_parameters' && (
           <p>Os parâmetros precisam ser atualizados pela equipe responsável pelo catálogo. Suas escolhas foram mantidas; revise as peças ou tente novamente após a atualização dos dados.</p>
         )}

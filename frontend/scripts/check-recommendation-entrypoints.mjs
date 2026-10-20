@@ -14,7 +14,7 @@ const temporary = await mkdtemp(join(tmpdir(), 'pcpowerlab-entrypoints-'));
 const output = join(temporary, 'entrypoints.mjs');
 const realReact = require.resolve('react');
 const realRouter = require.resolve('react-router-dom');
-const serviceNames = ['readyBuildsService', 'buildRecommendationService', 'upgradeService', 'upgradeRoadmapService', 'savedBuildsService', 'usageProfilesService'];
+const serviceNames = ['readyBuildsService', 'buildRecommendationService', 'upgradeService', 'upgradeRoadmapService', 'savedBuildsService', 'usageProfilesService', 'recommendationService'];
 
 try {
   await build({
@@ -67,9 +67,9 @@ try {
     const actions = Object.fromEntries(['replaceComponent', 'applyRecommendation', 'setBudget', 'setUsageType', 'setWizardStep', 'setResult'].map(name => [name, (...args) => calls.push({ name, args })]));
     fixtures = {
       calls, paths: [], navigate: (...args) => fixtures.paths.push(args),
-      build: { revision: 7, selectedComponents: selected, budget: { amount: 5000, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: {}, buildPayload: {}, wizardStep: 'review', actions, totalPrice: 1100, recommendation: { components: suggested, totalEstimatedPrice: 1000 } },
+      build: { revision: 7, selectedComponents: selected, budget: { amount: 5000, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'gaming', game: {}, buildPayload: { ...Object.fromEntries(types.map(type => [type + 'Id', selected[type].id])), coolerId: selected.cooler.id, fans: selected.fans.map(fan => ({ fanId: fan.id, quantity: fan.quantity })) }, wizardStep: 'review', actions, totalPrice: 1100, recommendation: { components: suggested, totalEstimatedPrice: 1000 } },
       catalog: { components: Object.values(selected).flat().concat(Object.values(suggested).flat()), componentMap: {}, byType: {}, loading: false, error: '', reload() {} },
-      services: { readyBuildsService: { list: async () => [readyBuild] }, buildRecommendationService: { byBudgetRange: async () => [{ components: suggested }] }, upgradeService: { suggest: async () => ({ suggestions: [{ componentType: 'gpu', suggestedComponent: suggested.gpu }] }) }, upgradeRoadmapService: { generate: async () => ({ steps: [{ componentType: 'cpu', suggestedComponent: part('cpu', 'new') }, { componentType: 'gpu', suggestedComponent: suggested.gpu }] }) }, savedBuildsService: { list: async () => [] }, usageProfilesService: { list: async () => [] } }
+      services: { recommendationService: { byBudget: async payload => { fixtures.calls.push({ name: 'requestRecommendation', args: [payload] }); return { components: suggested }; } }, readyBuildsService: { list: async () => [readyBuild] }, buildRecommendationService: { byBudgetRange: async () => [{ components: suggested }] }, upgradeService: { suggest: async () => ({ suggestions: [{ componentType: 'gpu', suggestedComponent: suggested.gpu }] }) }, upgradeRoadmapService: { generate: async () => ({ steps: [{ componentType: 'cpu', suggestedComponent: part('cpu', 'new') }, { componentType: 'gpu', suggestedComponent: suggested.gpu }] }) }, savedBuildsService: { list: async () => [] }, usageProfilesService: { list: async () => [] } }
     };
     fixtures.catalog.componentMap = Object.fromEntries(fixtures.catalog.components.map(component => [component.id, component]));
     globalThis.__entryFixtures = fixtures;
@@ -182,6 +182,70 @@ try {
   assert(!fixtures.calls.length, 'changed configuration must reject old modal handler');
   wizard.close();
   console.log('PASS: wizard rejects a checked modal callback after the build revision changes');
+
+  reset();
+  fixtures.build.wizardStep = 'budget';
+  fixtures.build.selectedComponents = { fans: [] };
+  fixtures.build.budget.amount = '';
+  fixtures.build.totalPrice = 0;
+  const initialJourney = runtime(BuildWizard);
+  tree = initialJourney.render();
+  assert(input(tree, 'Orçamento'));
+  assert(input(tree, 'Tipo de uso'));
+  assert.equal(named(tree, 'WizardNavigation')[0].props.canAdvance, false);
+  assert.equal(named(tree, 'BuildSummaryCard').length, 0, 'fresh budget step does not overwhelm the user with empty part slots');
+  initialJourney.close();
+  console.log('PASS: a fresh budget step exposes budget/use controls, blocks an empty amount and hides only the empty parts sidebar');
+
+  reset();
+  const budgetJourney = runtime(BuildWizard);
+  tree = budgetJourney.render();
+  named(tree, 'WizardNavigation')[0].props.onEditBudget();
+  assert.deepEqual(fixtures.calls.at(-1), { name: 'setWizardStep', args: ['budget'] });
+  fixtures.build.wizardStep = 'budget';
+  globalThis.requestAnimationFrame = () => 0;
+  globalThis.cancelAnimationFrame = () => {};
+  tree = budgetJourney.render();
+  assert.equal(named(tree, 'WizardNavigation')[0].props.nextStep, 'review');
+  input(tree, 'Orçamento').props.onChange({ target: { value: '6000' } });
+  assert.deepEqual(fixtures.calls.at(-1), { name: 'setBudget', args: [{ amount: '6000' }] });
+  assert.deepEqual(fixtures.build.selectedComponents, selected);
+  fixtures.build.budget.amount = '6000';
+  fixtures.build.wizardStep = 'review';
+  tree = budgetJourney.render();
+  await button(tree, 'Gerar recomendação').props.onClick();
+  const requested = fixtures.calls.find(call => call.name === 'requestRecommendation').args[0];
+  assert.deepEqual(requested.components, fixtures.build.buildPayload);
+  assert.equal(requested.components.coolerId, selected.cooler.id);
+  assert.equal(requested.components.fans[0].quantity, 3);
+  assert.equal(requested.budget.amount, 6000);
+  assert.equal(requested.usageType, 'gaming');
+  budgetJourney.close();
+  delete globalThis.requestAnimationFrame;
+  delete globalThis.cancelAnimationFrame;
+  console.log('PASS: budget editing returns to the prior step without changing pieces; recommendation request includes retained cooler/fan quantities and the edited budget');
+
+  reset();
+  fixtures.build.wizardStep = 'cpu';
+  fixtures.build.compatibility = { compatible: true };
+  fixtures.build.bottlenecks = { status: 'success', data: { hasBottleneck: false } };
+  fixtures.catalog.byType.cpu = [selected.cpu, part('cpu', 'alternative')];
+  const filterJourney = runtime(BuildWizard);
+  tree = filterJourney.render();
+  const beforeFiltering = JSON.stringify(fixtures.build);
+  named(tree, 'ComponentFilters')[0].props.onChange({ ...named(tree, 'ComponentFilters')[0].props.filters, search: 'no-match' });
+  tree = filterJourney.render();
+  assert.equal(named(tree, 'ComponentCard').length, 0);
+  assert.equal(named(tree, 'EmptyState')[0].props.title, 'Nenhuma peça com estes filtros');
+  assert.equal(named(tree, 'WizardNavigation')[0].props.canAdvance, true, 'filtering cannot unselect an already chosen part');
+  assert.equal(JSON.stringify(fixtures.build), beforeFiltering);
+  assert.deepEqual(fixtures.calls, [], 'filter-only changes cannot invalidate analyses or mutate selections');
+  named(tree, 'ComponentFilters')[0].props.onChange({ ...named(tree, 'ComponentFilters')[0].props.filters, search: '' });
+  tree = filterJourney.render();
+  assert.equal(named(tree, 'ComponentCard').length, 2);
+  assert.equal(JSON.stringify(fixtures.build), beforeFiltering);
+  filterJourney.close();
+  console.log('PASS: wizard searches change only the visible candidate list, keep the selected part advanceable, and retain existing analysis results');
 
   reset();
   const tasks = runtime(UpgradeSuggestions);

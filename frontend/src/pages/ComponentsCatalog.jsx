@@ -19,6 +19,7 @@ import { useComponents } from '../hooks/useComponents.js';
 import { purchaseLinksService } from '../services/purchaseLinksService.js';
 import { emptyCatalogFilters, filterComponents, priceRangeError, performanceRangeError } from '../utils/componentPresentation.js';
 import { componentLabels } from '../utils/componentLabels.js';
+import '../styles/journey.css';
 
 export default function ComponentsCatalog() {
   const { components, componentMap, loading, error, reload } = useComponents();
@@ -96,7 +97,7 @@ export default function ComponentsCatalog() {
   }
 
   return (
-    <div className="page-stack">
+    <div className="page-stack catalog-page">
       <section className="page-hero compact-hero">
         <span className="eyebrow">Catálogo técnico</span>
         <h1>Catálogo de componentes</h1>
@@ -104,16 +105,18 @@ export default function ComponentsCatalog() {
       </section>
 
       {legacy?.catalogStatus === 'legacy' && <section className="panel-card"><p>Alternativa para {legacy.name}. Sua montagem não foi alterada.</p>{Array.isArray(legacy.replacementNotes) && <ul>{legacy.replacementNotes.map(note => <li key={note}>{note}</li>)}</ul>}</section>}
-      <div className="catalog-toolbar panel-card">
+      <section className="catalog-toolbar panel-card" aria-labelledby="catalog-search-heading">
+        <h2 id="catalog-search-heading">Buscar e filtrar</h2>
         <ComponentFilters components={components} filters={filters} onChange={setFilters} hasBuild={hasBuild} />
         {!loading && !error && <p className="hint-text">{components.filter(datedReference).length}/{components.length} referências datadas · confirme preço e estoque na loja</p>}
-      </div>
+      </section>
 
       {selectionNotice && <p role="status">{selectionNotice}</p>}
       <div className="context-strip"><span>{hasBuild ? 'Sua montagem está em andamento' : 'Selecione peças para começar'}</span><Link to="/summary">Ver minha montagem</Link></div>
       {compatibilityLoading && <LoadingSpinner label="Verificando candidatos com a montagem atual..." />}
       {compatibilityError && <ErrorState message={compatibilityError} onRetry={() => { setCompatibility({ key: '', data: {}, error: '' }); setCompatibilityAttempt(value => value + 1); }} />}
-      {!loading && !error && !compatibilityLoading && !compatibilityError && <div className="section-heading catalog-results">
+      {!loading && !error && !compatibilityLoading && !compatibilityError && <div className="section-heading catalog-results catalog-results-heading">
+        <h2>Resultados do catálogo</h2>
         <p role="status">{filterError ? 'Corrija a faixa de preço ou desempenho para consultar os resultados.' : `${filteredComponents.length} ${filteredComponents.length === 1 ? 'componente encontrado' : 'componentes encontrados'}`}</p>
       </div>}
 

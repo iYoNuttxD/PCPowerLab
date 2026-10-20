@@ -151,6 +151,7 @@ function validateReplacementDependencies(build, alerts, unverifiedChecks) {
 
 
 const MARKET_REVALIDATION = '2026-10-08-market-revalidation';
+const V3_TARGETED_EXPANSION = '2026-10-20-v3-targeted-expansion';
 const revalidated = (component) => component.catalogRevision === MARKET_REVALIDATION;
 const hasField = (specs, field) => Object.hasOwn(specs, field);
 const positiveNumber = (value) => Number.isFinite(value) && value > 0;
@@ -204,7 +205,10 @@ function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
       conflict('CASE_PSU_LENGTH_INCOMPATIBLE', 'O comprimento da fonte excede o espaço declarado do gabinete.');
     }
   }
-  if (revalidated(build.motherboard) || hasField(board, 'minimumBiosByCpu') || hasField(board, 'installedBiosVersion')) {
+  // Newly admitted CPU generations must not inherit an old board's unchecked
+  // socket-only verdict. Their minimum/installed BIOS evidence stays pending.
+  if (revalidated(build.motherboard) || build.cpu.catalogRevision === V3_TARGETED_EXPANSION
+    || hasField(board, 'minimumBiosByCpu') || hasField(board, 'installedBiosVersion')) {
     const minimums = board.minimumBiosByCpu;
     const minimum = minimums && (minimums[build.cpu.id] ?? minimums[build.cpu.specs.family]);
     const comparison = compareBiosVersions(board.installedBiosVersion, minimum);

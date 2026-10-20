@@ -289,7 +289,7 @@ function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponent
     const currentEstimatedPrice = calculateTotalEstimatedPrice(selectedComponents);
     const minimumRemainingPrice = calculateMinimumRemainingPrice(candidatesBySlot, slotIndex);
 
-    if (currentEstimatedPrice > maxBudget || currentEstimatedPrice + minimumRemainingPrice > maxBudget) {
+    if (currentEstimatedPrice > maxBudget || Number((currentEstimatedPrice + minimumRemainingPrice).toFixed(2)) > maxBudget) {
       return;
     }
   }
@@ -428,6 +428,7 @@ function formatBudgetRangeRecommendation({
     coolingAssessment: recommendation.compatibilityResult.coolingAssessment,
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
     budgetStatus: getBudgetStatus(recommendation.totalEstimatedPrice, budgetRange),
+    requestedBudgetRange: { ...budgetRange, currency: 'BRL' },
     compatibilityStatus: recommendation.compatibilityResult.compatible ? 'compatible' : 'incompatible',
     estimatedPerformanceLevel: getEstimatedPerformanceLevel(performanceScore),
     performanceScore,
@@ -452,6 +453,9 @@ function formatRecommendation({
     ...performanceMetadata(recommendation.components, performanceByComponentId),
     methodology: recommendationMethodology(usageType, priority),
     remainingBudget: Number((budgetAmount - recommendation.totalEstimatedPrice).toFixed(2)),
+    requestedBudget: { amount: budgetAmount, currency: 'BRL' },
+    compatibilityStatus: recommendation.compatibilityResult.status,
+    unverifiedChecks: recommendation.compatibilityResult.unverifiedChecks,
     usageType,
     priority,
     strategy: buildStrategy(usageType),
@@ -649,6 +653,7 @@ function normalizeBudgetRange(budgetRangeInput) {
     throw error;
   }
 
+  validateRecommendationCurrency(budgetRangeInput.currency);
   return { min, max };
 }
 
@@ -668,9 +673,10 @@ function normalizeBudget(budgetInput) {
     throw error;
   }
 
+  validateRecommendationCurrency(budgetInput.currency);
   return {
-    amount,
-    currency: normalizeText(budgetInput.currency) || 'BRL',
+    amount: Number(amount.toFixed(2)),
+    currency: 'BRL',
     priority: budgetInput.priority
   };
 }
@@ -739,4 +745,12 @@ function recommendationMethodology(usageType, priority) {
     scope: 'shortlisted_catalog_candidates',
     ranking: `Prioridade ${priority}; combina indice simulado, custo de referencia, pesos por perfil, uso do orcamento e penalidade de desequilibrio CPU/GPU. Busca em subconjunto de candidatos, sem garantia de otimo global. costBenefitScore de faixa e o score composto dividido por 100, nao uma porcentagem.`
   });
+}
+
+function validateRecommendationCurrency(currency) {
+  if (currency !== undefined && currency !== null && normalizeText(currency) !== 'brl') {
+    const error = new Error('Recomendações usam preços em BRL. Informe um orçamento em reais; não há conversão de moeda automática.');
+    error.statusCode = 400;
+    throw error;
+  }
 }

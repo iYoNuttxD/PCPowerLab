@@ -153,7 +153,7 @@ try {
   console.log('PASS: isolated navigation handles both resize/blur orders without stealing outside focus; same-route, Escape/outside dismissal and listener cleanup work');
 
   let changedStep; let summaryCalled = false; let summaryFocused = false;
-  tree = WizardNavigation({ currentStep: 'cpu', completedSteps: [], canAdvance: false, guidance: 'Selecione uma peça', onStepChange: step => { changedStep = step; }, onSummary: () => { summaryCalled = true; } });
+  tree = WizardNavigation({ currentStep: 'budget', completedSteps: [], canAdvance: false, guidance: 'Informe o orçamento', onStepChange: step => { changedStep = step; }, onSummary: () => { summaryCalled = true; } });
   assert.equal(button(tree, 'Voltar').props.disabled, true); assert.equal(button(tree, 'Avançar').props.disabled, true);
   assert.equal(button(tree, 'Avançar').props['aria-describedby'], 'wizard-guidance');
   const details = { open: true, querySelector: () => ({ focus: () => { summaryFocused = true; } }) };
@@ -162,6 +162,13 @@ try {
   const stepButton = find(tree, node => node.type === 'button' && text(node).includes('Memória RAM'));
   details.open = true; stepButton.props.onClick({ currentTarget: { closest: () => details } });
   assert.equal(changedStep, 'ram'); assert.equal(details.open, false);
+  tree = WizardNavigation({ currentStep: 'budget', completedSteps: ['budget'], canAdvance: true, guidance: 'Orçamento definido', onStepChange: step => { changedStep = step; } });
+  button(tree, 'Avançar').props.onClick(); assert.equal(changedStep, 'cpu');
+  tree = WizardNavigation({ currentStep: 'cpu', completedSteps: ['budget'], canAdvance: false, guidance: 'Selecione uma peça', onStepChange: step => { changedStep = step; } });
+  assert.equal(button(tree, 'Voltar').props.disabled, false);
+  button(tree, 'Voltar').props.onClick(); assert.equal(changedStep, 'budget');
+  tree = WizardNavigation({ currentStep: 'budget', nextStep: 'review', completedSteps: ['budget'], canAdvance: true, guidance: 'Orçamento alterado', onStepChange: step => { changedStep = step; } });
+  button(tree, 'Avançar').props.onClick(); assert.equal(changedStep, 'review');
   tree = WizardNavigation({ currentStep: 'review', completedSteps: [], canAdvance: false, guidance: 'Faltam peças', onStepChange() {}, onSummary: () => { summaryCalled = true; } });
   button(tree, 'Ir para resumo').props.onClick(); assert(summaryCalled);
   assert.equal(all(tree, node => node.type?.name === 'Button' && text(node).includes('Avançar')).length, 0);

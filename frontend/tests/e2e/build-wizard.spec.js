@@ -78,15 +78,19 @@ test('avança pelas etapas e refrigeração opcional sem perder peças', async (
   const next = page.getByRole('button', { name: 'Avançar', exact: true });
   await expect(next).toHaveCount(1);
   await expect(next).toBeDisabled();
-  await expect(page.locator('#wizard-guidance')).toContainText('Selecione uma peça de Processador');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await expect(page.locator('#wizard-guidance')).toContainText('Informe um orçamento maior que zero.');
   await expect(page.getByRole('button', { name: 'Voltar', exact: true })).toBeDisabled();
   await expect(next).toBeInViewport();
+  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('5000');
+  await page.getByRole('combobox', { name: 'Tipo de uso', exact: true }).selectOption('work');
+  await next.click();
 
   for (let index = 0; index < types.length; index += 1) {
     await expect(page.locator('#wizard-step-heading')).toHaveText(labels[index]);
     await expect(page.locator('.wizard-step-intro > p')).not.toBeEmpty();
     await page.getByRole('button', { name: `Selecionar: ${selection[types[index]].name}`, exact: true }).click();
-    await expect(page.getByRole('progressbar')).toHaveAttribute('value', String(index + 1));
+    await expect(page.getByRole('progressbar')).toHaveAttribute('value', String(index + 2));
     await page.evaluate(() => window.scrollTo(0, document.querySelector('.component-grid').getBoundingClientRect().bottom + scrollY - innerHeight));
     await expect(next).toBeInViewport();
     await expect(next).toBeEnabled();
@@ -96,18 +100,16 @@ test('avança pelas etapas e refrigeração opcional sem perder peças', async (
   await expect(page.locator('#wizard-step-heading')).toHaveText('Refrigeração');
   await expect(page.getByRole('progressbar')).toHaveAttribute('max', '9');
   await page.getByRole('button', { name: 'Continuar', exact: true }).click();
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
-  await expect(next).toBeDisabled();
-  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('5000');
-  await next.click();
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
   await expect(page.locator('.wizard-actions')).toContainText('Etapa 9 de 9');
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
   await analyze(page);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
-  await page.getByRole('button', { name: 'Voltar', exact: true }).click();
+  await page.getByRole('button', { name: 'Editar orçamento', exact: true }).click();
   await expectPositionedHeading(page);
   await expect(page.getByRole('spinbutton', { name: 'Orçamento', exact: true })).toHaveValue('5000');
+  await expect(page.getByRole('combobox', { name: 'Tipo de uso', exact: true })).toHaveValue('work');
   expect((await stored(page)).selectedComponents).toEqual(selection);
   await page.reload();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
@@ -170,7 +172,7 @@ test('explica campos inválidos, peças faltantes e rejeição do orçamento pel
   await step(page, 'Orçamento');
   await input.fill('100001');
   await page.route('**/api/v1/budget', route => respond(route, 'Valor de orçamento fora da faixa aceitável.', 400));
-  await page.getByRole('button', { name: 'Avançar', exact: true }).click();
+  await step(page, 'Revisão');
   await analyze(page);
   await expect(page.getByRole('alert')).toContainText('Valor de orçamento fora da faixa aceitável.');
   expect(checks).toBe(1);
@@ -180,7 +182,7 @@ test('explica campos inválidos, peças faltantes e rejeição do orçamento pel
 test('mantém etapa e contexto ao visitar outra página e aceita storage anterior', async ({ page }) => {
   await seed(page, { selectedComponents: selection });
   await page.goto('/build');
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Processador');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
   await step(page, 'Memória RAM');
   await menuLink(page, 'explore', '/components');
   await expect(page).toHaveURL(/\/components$/);
@@ -191,11 +193,12 @@ test('mantém etapa e contexto ao visitar outra página e aceita storage anterio
   expect((await stored(page)).selectedComponents).toEqual(selection);
   await page.evaluate(key => { const data = JSON.parse(localStorage.getItem(key)); data.wizardStep = 'inexistente'; localStorage.setItem(key, JSON.stringify(data)); }, storageKey);
   await page.reload();
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Processador');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
   expect((await stored(page)).selectedComponents).toEqual(selection);
 });
 
 test('catálogo apresenta carregamento, falha, recuperação e ausência de peças', async ({ page }) => {
+  await seed(page, { wizardStep: 'cpu' });
   let release;
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, async route => {
     await new Promise(resolve => { release = resolve; });
@@ -298,7 +301,7 @@ test('movimento reduzido usa rolagem instantânea e posiciona foco acima das pe�
     Element.prototype.scrollIntoView = function (options) { window.wizardScrollBehaviors.push(options?.behavior); return original.call(this, options); };
   });
   await page.goto('/build');
-  await page.getByRole('button', { name: /^Selecionar:/ }).last().click();
+  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('5000');
   await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await expectPositionedHeading(page);
   expect(await page.evaluate(() => window.wizardScrollBehaviors)).toEqual(['instant']);
@@ -317,6 +320,8 @@ test('continua navegável com armazenamento local bloqueado', async ({ page }) =
     Storage.prototype.setItem = () => { throw new Error('Storage bloqueado'); };
   });
   await page.goto('/build');
+  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('5000');
+  await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await page.getByRole('button', { name: `Selecionar: ${selection.cpu.name}`, exact: true }).click();
   await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Placa de vídeo');

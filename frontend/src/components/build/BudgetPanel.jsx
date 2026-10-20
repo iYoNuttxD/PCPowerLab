@@ -11,7 +11,10 @@ export default function BudgetPanel({ budget, totalPrice, pricing, selectedCompo
   const amount = Number(budget?.amount);
   const hasBudget = budget?.amount !== '' && budget?.amount != null && Number.isFinite(amount) && amount > 0;
   const hasTotal = totalPrice !== null && totalPrice !== undefined && Number.isFinite(Number(totalPrice));
-  const remaining = hasBudget && hasTotal ? amount - totalPrice : null;
+  const currency = typeof budget?.currency === 'string' ? budget.currency.trim().toUpperCase() : 'BRL';
+  const currencyValid = /^[A-Z]{3}$/.test(currency);
+  const sameCurrency = currencyValid && currency === (pricing?.currency || 'BRL');
+  const remaining = hasBudget && hasTotal && sameCurrency ? amount - totalPrice : null;
   const status = remaining === null ? 'pending' : remaining >= 0 ? 'within' : 'over';
 
   return (
@@ -25,7 +28,7 @@ export default function BudgetPanel({ budget, totalPrice, pricing, selectedCompo
       <div className="metric-grid">
         <div>
           <span>Orçamento</span>
-          <strong>{hasBudget ? formatCurrency(amount) : 'Não informado'}</strong>
+          <strong>{hasBudget ? currencyValid ? formatCurrency(amount, currency) : 'Moeda inválida' : 'Não informado'}</strong>
         </div>
         <div>
           <span>Total estimado da build</span>
@@ -36,6 +39,7 @@ export default function BudgetPanel({ budget, totalPrice, pricing, selectedCompo
           <strong>{remaining === null ? 'Aguardando' : formatCurrency(Math.abs(remaining))}</strong>
         </div>
       </div>
+      {hasBudget && !sameCurrency && <p role="status">Os preços estão em BRL. Informe o orçamento em reais para comparar; não há conversão automática.</p>}
       {!hasTotal && <p role="status">Preço pendente em uma ou mais peças. Orçamento ainda não concluído.</p>}
       {!hasTotal && Number.isFinite(known.subtotal) && <p className="reference-price-note">Subtotal conhecido: {formatCurrency(known.subtotal)}{known.missing > 0 ? ` · ${known.missing} sem cotação` : ''}</p>}
       <p className="reference-price-note">Total de referência, sem frete e montagem{Number.isFinite(dated) && Number.isFinite(estimated) && estimated > 0 ? ` · ${estimated} ${estimated === 1 ? 'item estimado' : 'itens estimados'}` : ''}.</p>

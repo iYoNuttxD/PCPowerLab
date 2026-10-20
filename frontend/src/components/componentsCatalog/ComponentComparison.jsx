@@ -1,3 +1,4 @@
+import { verifiedFeatureFields, formatVerifiedFeature } from '../../utils/verifiedFeaturesPresentation.js';
 import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
 import ComponentImage from './ComponentImage.jsx';
 import Button from '../ui/Button.jsx';
@@ -15,6 +16,7 @@ export default function ComponentComparison({ components, onRemove, onSelect, se
     ['Modelo / código', components.map(component => component.partNumber || 'Não informado')],
     ['Preço de referência', components.map(component => formatCurrency(component.price))],
     ...specKeys(components).map(key => [specLabel(key), components.map(component => formatSpecValue(key, component.specs?.[key]))]),
+    ...(components.some(component => component.verifiedFeatures) ? Object.entries(verifiedFeatureFields).map(([key, label]) => [label, components.map(component => formatVerifiedFeature(key, component.verifiedFeatures?.fields?.[key]))]) : []),
     ['Pontuação de desempenho (0–100)', components.map(component => formatCatalogScore(catalogPerformanceScore(component)))],
     ...(components.some(component => catalogPerformanceScore(component) !== null)
       ? [['Base da pontuação', components.map(component => catalogPerformanceScore(component) === null ? 'Não informado' : performanceScoreLabel(component))]] : []),

@@ -4,8 +4,9 @@ import { useState } from 'react';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
+import Alert from '../ui/Alert.jsx';
 import Select from '../ui/Select.jsx';
-import { componentLabels, componentTypes } from '../../utils/componentLabels.js';
+import { componentLabels, componentTypes, usageLabels, priorityLabels } from '../../utils/componentLabels.js';
 import { calculateBuildPrice, recommendationSelection } from '../../utils/buildHelpers.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
@@ -30,6 +31,9 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(displayedTotal)}</strong>
       </div>
       {retainsCooling ? <p>Inclui sua refrigeração atual. Confira a compatibilidade após aplicar.</p> : <p>{recommendation.summary || recommendation.strategy}</p>}
+      <p className="hint-text">{recommendation.usageType && `Perfil: ${usageLabels[recommendation.usageType] || recommendation.usageType}. `}{recommendation.priority && `Prioridade: ${priorityLabels[recommendation.priority] || recommendation.priority}. `}{recommendation.requestedBudget && `Limite informado: ${formatCurrency(recommendation.requestedBudget.amount)}.`}</p>
+      {recommendation.compatibilityStatus === 'compatible' && <p className="hint-text">Compatibilidade verificada pelas regras do catálogo. Confirme os detalhes de montagem e os preços antes de comprar.</p>}
+      {Array.isArray(recommendation.warnings) && recommendation.warnings.length > 0 && <Alert type="warning" title="Pontos de atenção"><ul>{recommendation.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
       <CoolingAssessmentNotice result={recommendation} />
       {hasSimulatedPerformance(recommendation) && <p className="hint-text">Sugestão com pontuações simuladas</p>}
       <ul className="build-parts-list">
