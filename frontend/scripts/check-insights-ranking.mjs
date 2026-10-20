@@ -96,7 +96,7 @@ try {
     const html = markup(page);
     assert.match(html, /aria-invalid="true"/);
     assert.match(html, /aria-describedby="[^"]+-description"/);
-    assert.match(html, /class="field-error">Informe um número inteiro entre 1 e 50\./);
+    assert.match(html, /class="field-error"[^>]*>Informe um número inteiro entre 1 e 50\./);
     assert(!html.includes('Ranking vazio')); assert(!html.includes('Limit invalido'));
   }
   pass('Zero, negative, fractional, blank, nonnumeric and out-of-range limits show an associated inline error without a request or empty-state claim');

@@ -314,5 +314,56 @@
       "frontUsbCDataRateGbps": 10,
       "coolingSupportNotes": "Radiadores 120/240/360 mm no topo, 120 mm atrás; não extrapolar suporte a 280 mm dos fans de 140 mm. Fans PWM somente em séries BF05 ou posteriores. Layouts alternativos, não somáveis. Formato da fonte e folgas de espessura não verificados."
     }
+  },
+  {
+    "id": "gpu-asrock-arc-a380-challenger-itx-6g-oc",
+    "name": "ASRock Intel Arc A380 Challenger ITX 6GB OC",
+    "category": "gpu",
+    "brand": "ASRock",
+    "partNumber": "90-GA3KZZ-00UANF",
+    "specSourceUrl": "https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20A380%20Challenger%20ITX%206GB%20OC/index.asp",
+    "additionalSpecSourceUrls": [
+      "https://www.intel.com/content/www/us/en/support/articles/000091128/graphics.html"
+    ],
+    "specVerifiedAt": "2026-10-20",
+    "catalogRevision": "2026-10-20-v3-targeted-expansion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "priceLabel": "Sem cotação",
+    "budgetTier": "GPU Intel de entrada com codificação AV1",
+    "selectionNotes": [
+      "Alternativa Intel de menor preço para uso básico e recursos de mídia, incluindo codificação AV1 em hardware; isso não mede a velocidade em cada software.",
+      "Resizable BAR/Smart Access Memory deve estar habilitado para desempenho adequado. UEFI e configurações de firmware precisam ser confirmadas; não é uma recomendação automática segura com a BIOS desconhecida.",
+      "Não confundir com A380 Low Profile ou modelo sem OC. Consumo da placa ASRock exata não confirmado; não foi herdado o TDP de referência Intel."
+    ],
+    "specs": {
+      "vramGb": 6,
+      "memoryType": "GDDR6",
+      "memoryBusBits": 96,
+      "memorySpeedGbps": 15.5,
+      "baseClockMhz": 2250,
+      "xmxEngines": 128,
+      "lengthMm": 190,
+      "widthMm": 124,
+      "heightMm": 39,
+      "slotCount": 2,
+      "recommendedPsuWatts": 500,
+      "powerConnectors": [
+        {
+          "type": "pcie-8pin",
+          "count": 1
+        }
+      ],
+      "pciExpress": "4.0 x8",
+      "tdpWatts": null,
+      "requiresResizableBar": true,
+      "requiresUefiBoot": true,
+      "hardwareAv1Encode": true,
+      "maxDisplays": 4
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem calibração de benchmark para este modelo. Não recebe pontuação, FPS, gargalo ou avaliação de software inferidos das especificações. ReBAR/SAM e inicialização UEFI devem ser verificados na configuração real; a compatibilidade não é presumida."
   }
 ]

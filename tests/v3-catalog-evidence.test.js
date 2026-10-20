@@ -1,4 +1,6 @@
 import test from 'node:test';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { components } from '../src/data/components.mock.js';
 import { catalogV3 } from '../src/data/catalog.v3.js';
@@ -18,10 +20,10 @@ const byId = id => components.find(c => c.id === id);
 const newBuild = { ...currentBuild, cpuId: 'cpu-ryzen-9-9900x-box', gpuId: 'gpu-msi-rtx-5060-ventus-2x-oc-8g', motherboardId: 'mb-gigabyte-b650m-d3hp', ramId: 'ram-cmh64gx5m2b6000z30w' };
 const payload = { build: newBuild, usageType: 'gaming', budget: { amount: 20000, currency: 'BRL' }, gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' };
 
-test('V3 adds six priced photographed choices in underrepresented categories, not obsolete candidates', () => {
-  assert.equal(catalogV3.length, 6);
-  assert.deepEqual(Object.fromEntries(['cpu', 'gpu', 'case'].map(category => [category, catalogV3.filter(c => c.category === category).length])), { cpu: 2, gpu: 2, case: 2 });
-  assert.equal(components.filter(c => c.active !== false).length, 87);
+test('V3 adds seven priced photographed choices across real budget/use gaps, not obsolete candidates', () => {
+  assert.equal(catalogV3.length, 7);
+  assert.deepEqual(Object.fromEntries(['cpu', 'gpu', 'case'].map(category => [category, catalogV3.filter(c => c.category === category).length])), { cpu: 2, gpu: 3, case: 2 });
+  assert.equal(components.filter(c => c.active !== false).length, 88);
   assert.equal(components.filter(c => c.active === false).length, 79);
   for (const entry of catalogV3) {
     const c = byId(entry.id), reference = getDatedReference(c);
@@ -45,6 +47,13 @@ test('V3 manufacturer facts distinguish real use, dimensions, cooling and memory
   assert.deepEqual(['cores', 'threads', 'baseClockGhz', 'boostClockGhz'].map(k => byId('cpu-ryzen-9-9900x-box').specs[k]), [12, 24, 4.4, 5.6]);
   assert.deepEqual(['vramGb', 'lengthMm', 'tdpWatts', 'recommendedPsuWatts'].map(k => byId('gpu-msi-rtx-5060-ti-ventus-2x-oc-plus-16g').specs[k]), [16, 227, 180, 600]);
   assert.deepEqual(['vramGb', 'lengthMm', 'tdpWatts', 'recommendedPsuWatts'].map(k => byId('gpu-msi-rtx-5060-ventus-2x-oc-8g').specs[k]), [8, 197, 145, 550]);
+  const arc = byId('gpu-asrock-arc-a380-challenger-itx-6g-oc').specs;
+  assert.deepEqual([arc.vramGb, arc.memoryBusBits, arc.lengthMm, arc.recommendedPsuWatts], [6, 96, 190, 500]);
+  assert.deepEqual(arc.powerConnectors, [{ type: 'pcie-8pin', count: 1 }]);
+  assert.equal(arc.hardwareAv1Encode, true);
+  assert.equal(arc.requiresResizableBar, true);
+  assert.equal(arc.requiresUefiBoot, true);
+  assert.equal(arc.tdpWatts, null, 'Do not substitute reference-chip TDP for exact OC board evidence');
   const compact = byId('case-deepcool-cc310-black').specs, tower = byId('case-cougar-mx230-rgb-black').specs;
   assert.deepEqual(compact.supportedFormFactors, ['mATX', 'ITX']);
   assert.deepEqual(compact.radiatorSizesMm, []);
@@ -121,4 +130,75 @@ test('new cases never convert unsupported AIO or unknown PSU format into compati
   const unknown = checkBuildCompatibility({ ...currentBuild, caseId: 'case-cougar-mx230-rgb-black' });
   assert.ok(unknown.unverifiedChecks.some(check => check.code === 'CASE_PSU_FORM_FACTOR_UNVERIFIED'));
   assert.equal(unknown.compatible, false);
+});
+
+
+test('all 81 pre-V3 active identities, photographs and historical prices remain unchanged', () => {
+  const baseline = JSON.parse(readFileSync(new globalThis.URL('./fixtures/pre-v3-active-identities.json', import.meta.url), 'utf8'));
+  const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+  assert.equal(baseline.count, 81);
+  assert.equal(baseline.components.length, 81);
+  assert.equal(new Set(baseline.components.map(entry => entry.id)).size, 81);
+  for (const original of baseline.components) {
+    const component = byId(original.id);
+    assert.ok(component && component.active !== false, original.id);
+    assert.equal(componentImageIdentity(component), original.identity, `${original.id}: identity`);
+    assert.equal(component.price, original.price, `${original.id}: price`);
+    assert.equal(hash(component.image), original.imageHash, `${original.id}: image metadata`);
+    assert.equal(hash(getDatedReference(component)), original.priceObservationHash, `${original.id}: price observation`);
+  }
+});
+
+for (const usageType of ['study', 'gaming', 'work']) {
+  for (const [amount, expectedTotal, storageId] of [
+    [4500, 4339.84, 'ssd-kingston-a400-240gb'],
+    [5000, 4589.75, 'ssd-kingston-nv3-500gb']
+  ]) test(`real entry recommendation works for ${usageType} at BRL ${amount} without relaxing unknowns`, () => {
+    const result = recommendBuildByBudget({ budget: { amount, currency: 'BRL' }, usageType });
+    assert.equal(result.totalEstimatedPrice, expectedTotal);
+    assert.equal(result.components.gpu.id, 'gpu-msi-rtx-3050-lp-6g-oc');
+    assert.equal(result.components.case.id, 'case-deepcool-cc310-black');
+    assert.equal(result.components.storage.id, storageId);
+    assert.equal(result.compatibilityStatus, 'compatible');
+    assert.deepEqual(result.unverifiedChecks, []);
+    const build = Object.fromEntries(Object.entries(result.components).map(([slot, component]) => [`${slot}Id`, component.id]));
+    const compatibility = checkBuildCompatibility(build);
+    assert.equal(compatibility.compatible, true);
+    assert.deepEqual(compatibility.unverifiedChecks, []);
+    assert.ok(compatibility.verificationSources.some(source => source.componentId === result.components.gpu.id));
+    assert.equal(compatibility.coolingAssessment.status, 'unverified', 'No cooler fit or thermal outcome is fabricated by this seven-slot recommendation');
+    const gameSummary = generateBuildSummary({ build, usageType, gameId: 'game-valorant' });
+    assert.equal(gameSummary.gamePerformance.estimatedFps, null, 'Verified physical fit does not invent game calibration for the score-only 3050');
+    assert.equal(gameSummary.gamePerformance.available, false);
+    for (const component of Object.values(result.components)) {
+      assert.notEqual(component.active, false);
+      assert.ok(getDatedReference(byId(component.id)).price > 0);
+    }
+  });
+  test(`sub-entry ${usageType} budget fails honestly rather than fabricating a cheaper seven-slot build`, () => {
+    for (const amount of [3000, 4000]) assert.throws(() => recommendBuildByBudget({ budget: { amount }, usageType }), error => error.statusCode === 422);
+  });
+  test(`midrange and larger ${usageType} budgets still return complete compatible selections`, () => {
+    for (const amount of [7000, 10000, 15000]) {
+      const result = recommendBuildByBudget({ budget: { amount }, usageType });
+      assert.equal(Object.keys(result.components).length, 7);
+      assert.ok(result.totalEstimatedPrice <= amount);
+      assert.equal(result.compatibilityStatus, 'compatible');
+      assert.deepEqual(result.unverifiedChecks, []);
+      assert.equal(catalogV3.some(component => ['cpu', 'gpu'].includes(component.category) && Object.values(result.components).some(selected => selected.id === component.id)), false, 'Technical specifications alone do not invent a performance ranking');
+    }
+  });
+}
+
+
+for (const usageType of ['study', 'gaming', 'work']) test(`premium ${usageType} budget respects explicit performance versus price priority`, () => {
+  const cheapest = recommendBuildByBudget({ budget: { amount: 15000, priority: 'lowest-price' }, usageType });
+  const performance = recommendBuildByBudget({ budget: { amount: 15000, priority: 'performance' }, usageType });
+  assert.equal(cheapest.totalEstimatedPrice, 4339.84);
+  assert.ok(performance.totalEstimatedPrice > cheapest.totalEstimatedPrice);
+  assert.ok(performance.totalEstimatedPrice <= 15000);
+  assert.equal(performance.compatibilityStatus, 'compatible');
+  assert.deepEqual(performance.unverifiedChecks, []);
+  assert.equal(performance.components.ram.specs.capacityGb, 64);
+  assert.equal(performance.performanceBasis, 'simulated', 'Higher budget does not turn internal scores into measured results');
 });

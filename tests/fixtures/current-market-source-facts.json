@@ -450,7 +450,7 @@
     "queriedAt": "2026-10-08"
   },
   "hdd-st2000dm008": {
-    "price": 1116.0,
+    "price": 1116,
     "model": "ST2000DM008",
     "seller": "MOCK VAREJO",
     "store": "KaBuM",
@@ -875,6 +875,17 @@
     "sourceUrl": "https://www.pichau.com.br/gabinete-gamer-cougar-mx230-argb-mid-tower-lateral-de-vidro-com-4-fans-preto-382pc80-0001",
     "evidenceArtifact": "docs/catalog-v3-evidence.md",
     "observedAt": "2026-10-20T22:06:58Z",
+    "queriedAt": "2026-10-20"
+  },
+  "gpu-asrock-arc-a380-challenger-itx-6g-oc": {
+    "price": 1239.99,
+    "model": "90-GA3KZZ-00UANF",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "sourceUrl": "https://www.pichau.com.br/placa-de-video-asrock-intel-arc-a380-challenger-itx-oc-6gb-gddr6-96-bit-90-ga3kzz-00uanf",
+    "evidenceArtifact": "docs/catalog-v3-evidence.md",
+    "observedAt": "2026-10-20T22:52:50Z",
     "queriedAt": "2026-10-20"
   }
 }

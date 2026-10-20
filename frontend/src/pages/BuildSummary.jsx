@@ -18,6 +18,7 @@ import GameSimulationResult from '../components/build/GameSimulationResult.jsx';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
 import RecommendationCard from '../components/recommendations/RecommendationCard.jsx';
+import RecommendationExplanation from '../components/recommendations/RecommendationExplanation.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -355,7 +356,7 @@ export default function BuildSummary() {
   const simulationBlocked = gamesLoading || Boolean(gamesError) || !gameAvailable || !hasCompleteBuild(build.selectedComponents);
 
   return (
-    <div className="page-stack">
+    <div className="page-stack summary-page">
       {build.catalogNotice && <Alert type="info">{build.catalogNotice}</Alert>}
       <section className="page-hero compact-hero">
         <span className="eyebrow">Painel final</span>
@@ -532,6 +533,7 @@ export default function BuildSummary() {
             <h3>Recomendação final</h3>
             <p>{build.summary.summary}</p>
             <strong>{build.summary.finalRecommendation}</strong>
+            <RecommendationExplanation explanation={build.summary.selectionExplanation} />
             {build.summary.recommendationObservation?.available === false && <p className="hint-text">{build.summary.recommendationObservation.message}</p>}
             {build.summary.recommendationObservation?.available === true && <details className="task-disclosure">
               <summary>Comparar alternativa no orçamento</summary>

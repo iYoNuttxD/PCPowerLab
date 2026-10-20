@@ -27,8 +27,11 @@ export default function Modal({ open, title, children, onClose, className = '', 
     <dialog ref={dialogRef} className={`modal-panel ${className}`} aria-labelledby={titleId}
       onKeyDown={(event) => {
         if (event.key !== 'Tab') return;
-        const controls = [...event.currentTarget.querySelectorAll('a[href], button, input, select, textarea, [tabindex]')]
+        const controls = [...event.currentTarget.querySelectorAll('a[href], button, input, select, textarea, summary, [tabindex]')]
           .filter((element) => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length > 0);
+        if (controls.length === 0) {
+          event.preventDefault(); event.currentTarget.focus(); return;
+        }
         const first = controls[0];
         const last = controls[controls.length - 1];
         if (event.shiftKey && document.activeElement === first) {

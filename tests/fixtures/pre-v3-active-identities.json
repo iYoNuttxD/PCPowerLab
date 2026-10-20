@@ -1,0 +1,573 @@
+{
+  "capturedFromCommit": "a85d97fe07475529e31fe8962524bbc4c94072f3",
+  "count": 81,
+  "components": [
+    {
+      "id": "cpu-ryzen-5-5500",
+      "identity": "5954a940cb4abbcca1daf1fe36bc026aac9addaf729f98ee9adf7bbbc9fb6193",
+      "price": 559.99,
+      "imageHash": "b75e7ecb1d5e2f6d1d747762a4463afcca63c381ec683c6e4f596703ef60dc93",
+      "priceObservationHash": "7fb16efcf1f31cdfefea6d010717a39091ea0260b000fe1a8ba392224d351190"
+    },
+    {
+      "id": "cpu-ryzen-7-5700x",
+      "identity": "bf5b1a5f5042ed1aefc421bee8c40b55bb60642f017eb435edc39503e17a429e",
+      "price": 1199.99,
+      "imageHash": "58a9b08add0b1934a6c930105c9b3880abb1ec9786789dba04431b86a6126f4b",
+      "priceObservationHash": "60f4b603d59361ba5eabf7242974e093773382f6f1308f3ebd24d1f5b1b62511"
+    },
+    {
+      "id": "cpu-ryzen-7-5800x3d",
+      "identity": "ad0076b6f19ebb3e7259947bc53ac03b3b3c1e96356d5be525d316253645769c",
+      "price": 2139.99,
+      "imageHash": "a84c492e5341ca89e9cb06b5cc4ddf0c33b8f6752a575843128e67995794a64f",
+      "priceObservationHash": "c2d4e282d0aa43db152da80495c6eabc38c9e8b014f44623acf7fb14ec4e2543"
+    },
+    {
+      "id": "cpu-ryzen-5-7600",
+      "identity": "527af4711aa4fedbcbc85214ee7cbf8f8059f63074d09671ece6e3df785a7ebc",
+      "price": 999.98,
+      "imageHash": "2cb9c615fc7d85043bfd8a86db73772a63a6b4a43c48f8a0dde9ff1ba5b2e419",
+      "priceObservationHash": "f4bea65783721ee976e494a2d784fe474e1f496a905a0804362da308ec46b5d6"
+    },
+    {
+      "id": "cpu-ryzen-7-7700",
+      "identity": "7be054c195b094e0834d0e26e84bd704b8ea75782fa5cda5ea2071a22675d73f",
+      "price": 1649.99,
+      "imageHash": "cda7647f3909f68f567ca6141d44e314eafeb7310dfbeb25b8df750aaf6ea320",
+      "priceObservationHash": "23fdc1d8bd8aeb9cf31e760ce8c040c3c35cd1df99189b2d730ea2d5232900b2"
+    },
+    {
+      "id": "cpu-intel-i3-12100f",
+      "identity": "285e01292facfa74d7e7b964079af1212ab7edcd87e29f7f2b014c77fe81c79d",
+      "price": 599.99,
+      "imageHash": "f24db87de06eddbedb69c5b805d38800f4795bf2c9da47116856a2b5f31bf296",
+      "priceObservationHash": "1fb303e83b2419cd620bfc934ee2d6cf8847096c2b7c39f5e32c2a8b4cd7f82c"
+    },
+    {
+      "id": "cpu-intel-i5-12400f",
+      "identity": "730175a2847232fdfb8a4e9fc1268b58042f608886edb454ec348ba7d627fdbc",
+      "price": 829.99,
+      "imageHash": "b253f090c6216dc8bc8f11df826afc8f2126c100d91e5e79b567264a8e746628",
+      "priceObservationHash": "ec3e2bb3abed0c79c78b36d226acc101937b803b2d8331665dd5a27d68a87e93"
+    },
+    {
+      "id": "cpu-intel-i7-13700k",
+      "identity": "073f2e7cfd14df799afd46e440ca7a3a986fac746fda80f0944e2c4d8356db58",
+      "price": 3851.23,
+      "imageHash": "cf62c461ead3de1bf0e862c581e3f1133aa466e5927e931a4ca311893f05bbf3",
+      "priceObservationHash": "7438d080efdfa0af5ca39885b7edc71e8de96690ec2fb23948c2dea38cfe72f3"
+    },
+    {
+      "id": "cpu-intel-i5-14400f",
+      "identity": "ed6dd480134ee2184b754e5702bb5a2212799dc50b02ae1619e51c15b66e407d",
+      "price": 999.99,
+      "imageHash": "7aac5611ad9b6054e3a9780c325b00fd7933eff29500a032afff5671a0f4c84a",
+      "priceObservationHash": "a21c71ff0f4293557b928b7f8038d39d63f2134616f0d6b7a66143c029988a5b"
+    },
+    {
+      "id": "mb-asus-tuf-b550m-plus",
+      "identity": "d7b9e4ba2a8f9ad97d90cdeed59ddb37ebe8020b1a425a289d9ea0938654d424",
+      "price": 799.99,
+      "imageHash": "a6aaf42c3d52701441acf029cf10c627c13894500b85dd718fabb0b927eb639e",
+      "priceObservationHash": "fb68907407e19dc85bbe852b7f9536d1b1193d4867e339b358c25ccfa5ac2083"
+    },
+    {
+      "id": "ssd-kingston-a400-960gb",
+      "identity": "460ff15c78a0d1f55d2720c522908df7606fe9e495b98fbfaa074e6abf13b420",
+      "price": 949.99,
+      "imageHash": "9e9476e36cf6aa42a32a0e7ee22235663220f3fc06015ff080d9efab488848d3",
+      "priceObservationHash": "19f8cd09b8c834d5a34a9db34df95745cd7feff1d1395e6cc7ae1c66cc9f2152"
+    },
+    {
+      "id": "ram-kf432c16bbk2-16",
+      "identity": "469f214e77045fcb8251c3e4c086b6c282010248f0dd94fb5095bfc0b70aa77c",
+      "price": 1699.9,
+      "imageHash": "54ee364158ca0baf7de3a87eb6a3ed9f88e2dfc1b239b0bd811ee82ccd585e28",
+      "priceObservationHash": "8e6ddafa725939e2cd27fb67b069f8b610045483a3ec593a09d2385919d321c9"
+    },
+    {
+      "id": "ssd-samsung-870-evo-250gb",
+      "identity": "3da0f1d5d54f2df5f914f10059c09764078afce937b11c5edcc149779c27747c",
+      "price": 663.1,
+      "imageHash": "9b51b4eb34531381996d88e3e10be0f6600056dd8784c666e4f9caab582e1685",
+      "priceObservationHash": "4a4b075ee2c286581de11eb6f64eee540309983dc3f0fbf458a4881bcbfb8585"
+    },
+    {
+      "id": "ssd-samsung-870-evo-500gb",
+      "identity": "a6b28770a5875d94dd61b0271dfc4544de88ff52690dd6b30f4cc77b31e5c9e5",
+      "price": 862.83,
+      "imageHash": "c059e8973ff9027bde06fb11b7144677af14d4f35c6687859b2c2332fe1e421a",
+      "priceObservationHash": "97778f0a322bb80092085d7c070da0ad48fa8a0576fe9debc0bf99a0bcd225d6"
+    },
+    {
+      "id": "ssd-samsung-870-evo-1000gb",
+      "identity": "93bd9669f0a3e9f2ea61504ea73c3ad605f3e217fcfdcc4cf02eb4ff9c0ee984",
+      "price": 1685.25,
+      "imageHash": "dd19452e94138beee7bad14a6fe1578778675ef8e2d123039b32d24ded680ac8",
+      "priceObservationHash": "3361134514d32538953f93292ac888dd8d681031e88ee6e979f50c915300461d"
+    },
+    {
+      "id": "ssd-kingston-kc3000-2048gb",
+      "identity": "9d5e9a9967aeb856acf8f10d1954e2756dd50cb848c959d106c4b464ebd5a00f",
+      "price": 5696.74,
+      "imageHash": "cd46cd7a3f3aaca501eac85e7f8d51eee87eb4138b4b4d9b13bc90d5c35b7296",
+      "priceObservationHash": "5548b1a9c862c323c3b77bb3f66f145675f707b2a4677da5bc4899ea283acbc3"
+    },
+    {
+      "id": "ssd-kingston-kc3000-4096gb",
+      "identity": "0860182a5759ed5cf56e9ab4917a739d881f7de4211cfb4e81ab8595c8dd3dd3",
+      "price": 6899.99,
+      "imageHash": "f2b25ef139edc1e99eadfb6f0e72169f8fc4c291681ce6e4fc06f4128e447718",
+      "priceObservationHash": "e9bb12f6bb4ecb0ae58a67d885eeda6ed9512405342da48756672013cd641492"
+    },
+    {
+      "id": "ssd-kingston-a400-240gb",
+      "identity": "51acb59a46205e255067eda9f5bb6eb58d270270e1ea9ad3a06759cac034e6ec",
+      "price": 479.99,
+      "imageHash": "5db06aa35b3f734660e3a17b50fbc5e1763c814929ce70c6b92d61e1bee7a46f",
+      "priceObservationHash": "98e298f8a0678857cc49fa899eb3c7d1fb31b536e94a6a487f289b7506d9bc20"
+    },
+    {
+      "id": "fan-noctua-nf-a14-pwm",
+      "identity": "0d7759471c6afc902eef547621740eea384a5565d2d83e73dd1ce43b22bc0eab",
+      "price": 194.99,
+      "imageHash": "57dd81f4dccaf697b456fd5ffaf0323e74a7ddb5e7b8588b17afa6a730ea122f",
+      "priceObservationHash": "a3911972a3fa8f36612130427d4385e81766f8881df626cd80fb14a3d9dda4f7"
+    },
+    {
+      "id": "mb-gigabyte-b650m-d3hp",
+      "identity": "280cb9526344bb997a5544e16a2dd7696b3405604aa3708db3cbbe30139028fc",
+      "price": 799.99,
+      "imageHash": "de8453e08180b7131593faf278023ba5473d19c9c164089d8fadf60c0e63546a",
+      "priceObservationHash": "0a304db379e211812fe50bc103969eac1ee870ef2a4d194f912c08bf241ce5bf"
+    },
+    {
+      "id": "case-cooler-master-elite-502-white",
+      "identity": "a8fc85165ba644df370165935eb59c9f41e52abbe1a766aef5b72ef2501412b6",
+      "price": 589.99,
+      "imageHash": "0de6a85071b9c5b678df4464335ea285d232e5225bfbe944f678b48b8743a802",
+      "priceObservationHash": "7b0920424203b66bf3833bd80fdd85c5f5eef51b01b0e9f2d03630d02f605de4"
+    },
+    {
+      "id": "ram-kvr32n22d8-32",
+      "identity": "847ad017abd73fc45e728781c3a63558a7a121e57fcbcdfe053d418973546fee",
+      "price": 3213.22,
+      "imageHash": "3eefbe676bf0027f0911868eb8f621fa7e1173cffb6fa63a3f70e3212268f8f0",
+      "priceObservationHash": "ce9ce5969f1d416e27d6a0ca218c8a548386dafc8857458fc494c5bded8803c5"
+    },
+    {
+      "id": "ram-kf432c16bb12ak2-32",
+      "identity": "9adf138c3caf18555b214c08463852f1cb65b5bc1f643e98daf642d8824f7862",
+      "price": 3489.99,
+      "imageHash": "3f2daaf320737ff62a5575cb49c05eb724c5efd0754f6685cddfce79b9c089f9",
+      "priceObservationHash": "4d58e0dd217bc8537864ff28467575fa4cc1de67557ba0870048c5ad7e18621b"
+    },
+    {
+      "id": "ram-kf432c16bb2ak2-64",
+      "identity": "c96ab1d936f94605b17e7b74066ddee9062d2c9f7dc08aff0c12e6d4b1763af1",
+      "price": 4949.99,
+      "imageHash": "34972106719eec29b2e68cf76685869b4bcc9decd62945200734c4e8b79083fc",
+      "priceObservationHash": "dac4e98a5f66163bc6d49e3582743d1b98ce67a82aa0fa691a60cdc62fe103b5"
+    },
+    {
+      "id": "ram-cmh32gx4m2z3600c18",
+      "identity": "b93e107660022b877bd9a43f37660e1852b8f0914a6f6ed70757ba7b7298b7c1",
+      "price": 2999.99,
+      "imageHash": "9a86ce5a8cd795654aab1641c3b22424ff7624490d14402c697ba73ea6267a88",
+      "priceObservationHash": "cdd13360a5680b977953c34296a440467c002a00e8f713f06fd324538820ce4c"
+    },
+    {
+      "id": "ram-cmh64gx5m2b6000z30w",
+      "identity": "eea8b559f349158702469ddee336fbc678b21685e07920a337ec493f06ce42fa",
+      "price": 10799.99,
+      "imageHash": "8c5ab78e0f2b565d88f0183410625f5a8e689ed0c0ab31a18ad00b5f4cc248ad",
+      "priceObservationHash": "2df1d7e5b3700a2883b789e9d481fb551a4a5a3098aa961c9f8d5e5507f9beac"
+    },
+    {
+      "id": "cooler-bequiet-pure-rock-3-black",
+      "identity": "a47e26a68ac755903c66e14591bfc6eb003850c13acd70c5ba47ff428ae2358c",
+      "price": 159.99,
+      "imageHash": "d5c7898e4d05ea10ada4967930874e254867d8c2d0bf4974d82f2cbe17622a99",
+      "priceObservationHash": "95df82002aa0e5d929d5fd34fe8822c00d8a1960d57ed1be2b25541d71adb76e"
+    },
+    {
+      "id": "cooler-noctua-nh-l9a-am4-chromax-black",
+      "identity": "3e66f947a156ef8da02a94a67e13db35d6c8589b8ca75d36e840ba53b18ec1ed",
+      "price": 469.99,
+      "imageHash": "07c4652d1262137ed6ac6c83696a3734192188e075f255592ea3f85bf5db8d95",
+      "priceObservationHash": "b2f41bec1907c2dadcdac46e9fe6f0089beb665e43106204535e6657221602f4"
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-240-argb-white",
+      "identity": "4f718d69fd455a2a5b44c58799c001e35eaa65637a9389f038204a0e32c9fe9f",
+      "price": 679.99,
+      "imageHash": "572b568b65fd57abaf24f4abc085d7f2e0335e94e8f7249b50971c56e2740566",
+      "priceObservationHash": "b9278112c7f73d33c02615a5d3ef13d114c24ad8337053276af18e06281cb166"
+    },
+    {
+      "id": "cooler-arctic-liquid-freezer-iii-pro-360",
+      "identity": "199fc75aa59b329721e8f5140457a9bb37238a70c05daa9f1cc77cb3d3b67cda",
+      "price": 739.99,
+      "imageHash": "fe700dc13419f528f32edc6e8c09d51b3fcea26b2f1523519395973f5a675273",
+      "priceObservationHash": "e98100d8f97ad3fd2dd03b3ae79c121b2a5627492838122f60ac30d0d0c72850"
+    },
+    {
+      "id": "fan-arctic-p12-pro",
+      "identity": "6ff902f48a585e662fc141bf8e7b80a836c4c385e54fcd9aaf034a5ecd93bfce",
+      "price": 59.99,
+      "imageHash": "1a15570cde25de471e45a14ba51f1deebea39b9d2d0215557839c617c838539d",
+      "priceObservationHash": "a255c103ec1ec0bf1f5ddec5d00db84821130df696d6efe71370fbc6d20bfd8e"
+    },
+    {
+      "id": "fan-arctic-p12-pro-pst-white",
+      "identity": "63856d266f06618bdb07f45fe33280f0f886bcdffee8abd9e8b0b2aea4c5f88b",
+      "price": 59.99,
+      "imageHash": "8e7a42cdad48e8aecae8c89bc7791a190e998792ce4af72066c0958d4c0053ac",
+      "priceObservationHash": "9115f186d298962ad2a74c7a3c1dbc1e381f7a700f8c407b541c3a3afff5ebfd"
+    },
+    {
+      "id": "fan-coolermaster-sickleflow-edge-120-argb-white-3-pack",
+      "identity": "f7cf6d85c8bdf03e6538109810341e520da77d99e781d7c173937d47fed9b35e",
+      "price": 259.99,
+      "imageHash": "2adb5b3ef79f6222c4ff337630b384636eabc78392d94c5c68f561ed94844639",
+      "priceObservationHash": "e87468e848b0837da2ebb42f4b6d47946d148b90c1f411584738586bb25e20cc"
+    },
+    {
+      "id": "ssd-kingston-nv3-500gb",
+      "identity": "b80cb0127d47ecf1ea94d1376e3831acc6a71a456a90027d6bc297c6a58fc9e3",
+      "price": 729.9,
+      "imageHash": "09485ba9f7a2666b70aee3503934de25613e736eeac0641098f384f251927183",
+      "priceObservationHash": "3d39ee6feb47ac79ffb160ccacad382a86280f0f5f99925e40fb77ff6ed6138f"
+    },
+    {
+      "id": "ssd-xpg-gammix-s70-blade-1tb",
+      "identity": "e025d4207f3cb3664f0d7c8afb58c6829e7b10175102e92393110a16ff9dd09c",
+      "price": 1499.99,
+      "imageHash": "14e71f2805cf22bad21cdefea64935884cce3df9181cf1e57f822d8c65539bfa",
+      "priceObservationHash": "e1b07f4f54221b8c8fbee04111f5943f098a233ba60a443d9c5bb63049d30cfa"
+    },
+    {
+      "id": "ssd-kingston-nv3-2tb",
+      "identity": "102d7ebeca86db7ea13223967a16162e8f0f36007fe959676196d47d9fb2173e",
+      "price": 2121.74,
+      "imageHash": "ddc7b87f90b9240e117b3ce63b75ef0c3c6b73bf50b37b6f3a3f3874c8f7d85e",
+      "priceObservationHash": "3ec07c901602820b2f47afd7489fee2cc146a5f7445d489a73d68cebd2586a47"
+    },
+    {
+      "id": "ssd-sandisk-520-2tb",
+      "identity": "3b1f5798b8009b3c8f9bfa16fba9047e179d92c4ffe66d4b82f8c2d58a1c1ada",
+      "price": 3249.9,
+      "imageHash": "b7b534c0c272d2733c1a0ad4e479f69045ee82ab52ecb5d8552d876a0506be8d",
+      "priceObservationHash": "1336dd2655e6d186b4dcc3bcc201e9d04963cea7bcc2002d0aee379f48d16153"
+    },
+    {
+      "id": "ssd-kingston-nv3-4tb",
+      "identity": "5c7e775222b684e4d6568e0b6b8f3da4ae6c53d630b89d38d495ed7a88fa6411",
+      "price": 3899.9,
+      "imageHash": "d6cb4bb6e93db740a8e58eb66aeae9418894f3de1b28581f5da1c78fc857427e",
+      "priceObservationHash": "33b5c3472a8f4a72a57e89cdc787600c5f330e7db0da92c75a510fe0c8b66036"
+    },
+    {
+      "id": "ram-kf436c17bbk2-16",
+      "identity": "f65809fe2506fec0f303492276e996833a1a0482ac500e045b09bb2f499a4f23",
+      "price": 1759.9,
+      "imageHash": "21f5312d92a147cd000ba885ff5ffd5cfae0dc0816205e8a9a54c23a120f5aa5",
+      "priceObservationHash": "707a02ee68e7ccdbc5d4250a8a5a6136fa5aa746d76d25c37a8d7f85ea0faa13"
+    },
+    {
+      "id": "ram-kf436c18bb2a-16",
+      "identity": "b29213938fada2ff4cd55fc891b9a2c1ad6053ab0b01253f17f5900102daa58d",
+      "price": 1999.9,
+      "imageHash": "960f4597827505784a1854bca9bbac0bf44384ceb7a2f69cce21debf26380a5f",
+      "priceObservationHash": "312fb39d5c9d8defd8cc40aab28cf44da0c68948204f9ac216ceb097bcaba312"
+    },
+    {
+      "id": "ram-ax5u6000c4816g-slabrbk",
+      "identity": "d61e5e814ce42242a3b96d2a3d65d60993314f01fa9429e3015ca5d790cceb50",
+      "price": 2049.99,
+      "imageHash": "6bf7519102fe79b6feefd97a2cf1cc0e574604f1ac6898e5f943840836fc2f5e",
+      "priceObservationHash": "72ca11f46445395bcf481dcc5f536b76a2a6b02fef83324ba8d68e2b0d4067c1"
+    },
+    {
+      "id": "ram-kf432c16bb-8",
+      "identity": "18b0f2192173b0bfaaf38c5982857239f7022f8992d38566cdf7d628d3d1509f",
+      "price": 699.9,
+      "imageHash": "826ccdb87d6559157ceae5803b54e596f7cb2cb0218dd52f15ae27d321a712e3",
+      "priceObservationHash": "802311e92c7d9ef17f3e8e8a0671218141ee314b4f91c82350575075a7929958"
+    },
+    {
+      "id": "ram-kf432c16bb-16",
+      "identity": "eb8dee09a7bed9ce0a7af3be415a9d30b11b4db3fba96871a93e67b25ef8628a",
+      "price": 1279.99,
+      "imageHash": "b8d799796d226e0a352e52b6f05625200fce13b809834b445cec48e5f20925d3",
+      "priceObservationHash": "d0b50d603fbf96bbdb3df769610cba54f8e17b6dafe8c740f93f388396216151"
+    },
+    {
+      "id": "ram-cmk16gx5m1b5200c40",
+      "identity": "f1af85cf45f0b893f8f97d53b737841d3b971b33a80ea17e05630013444eebf4",
+      "price": 2199.9,
+      "imageHash": "83bc872081f0e89126f03f28b99db2ee2026203f4148e3e4e676f0a5a01297c6",
+      "priceObservationHash": "e9e4856eb87cdc7f0eba03fbf74116ca037210760a6ddfc9b7272fc7189e7064"
+    },
+    {
+      "id": "ssd-sa400s37-480g",
+      "identity": "e5c447c9d7b76c4eb0794653afe3b6592f25e52fdbf2d600b557d17dd11fac97",
+      "price": 569.9,
+      "imageHash": "22fac1439b7d666162770d0e182d90b895fb20971f353fd5049a83b242ec8700",
+      "priceObservationHash": "20f9433106e6073633341e8f3175a1b6abee67eb6b5ba63e84b4ebce5a868767"
+    },
+    {
+      "id": "hdd-st2000dm008",
+      "identity": "1a60af9b18c19ab09975a4f1a07ed0d5ae269c94878c939ff23997a45ae7a967",
+      "price": 1116,
+      "imageHash": "262efb92278f8b19f7a127204d4cb956be1068f4b8d47f64854eff048ceb7ed0",
+      "priceObservationHash": "d9b559a0ab008d5f09b2363f1302d906233b70fe32b716d43aa8d0798c4c4e6f"
+    },
+    {
+      "id": "gpu-msi-rtx-3050-lp-6g-oc",
+      "identity": "e067674d1df79366d57716b348f70a065053f308207abc9a1d570f3a4a56be40",
+      "price": 1399.99,
+      "imageHash": "f608cec9bfb23180b1b7de33e343e25dbec826844aa51cf11c5b4b74d7877212",
+      "priceObservationHash": "f292e5305580a284f54516c19cd181a04e5642bf90773197560ef5145f838abb"
+    },
+    {
+      "id": "gpu-gigabyte-rtx-3060-windforce-oc-12g-rev2",
+      "identity": "67558c6e400bba07ac3f95c7e7062ee58442e687dfa1ab55a5ec28b34ad24863",
+      "price": 2399.99,
+      "imageHash": "6165d8348213fbf7e5703cd43071d96084d2eb5a12e4bb54ff0eccd7925b1171",
+      "priceObservationHash": "7085e6a70e2abaeb319faf32f00bcdb6ebc7b6be4e77792ad072bb7ed74dfc95"
+    },
+    {
+      "id": "gpu-msi-rtx-4060-ventus-2x-black-8g-oc",
+      "identity": "14c494afa82be3bae982207287a96a31e49f832664bd3cfd13968675899b3de6",
+      "price": 3324.05,
+      "imageHash": "b53800adf555255d034dc111a7709b8b7a76ed49ade66918ffff18fd98a8d1b5",
+      "priceObservationHash": "66d81efacd84319656452bf421c9a6606727943c5cf6da7f30087fa2316178cf"
+    },
+    {
+      "id": "gpu-gigabyte-rtx-5060-ti-eagle-oc-ice-8g",
+      "identity": "e450b479a5bf6dccea5782b784dd6210fc9bb5cac17b6ac7ba6f34940c3ea3ad",
+      "price": 3199.99,
+      "imageHash": "d6e6649299d85ffd4d2632fb375ef6d0606058401b0741b548bd83a8c6ae9d2a",
+      "priceObservationHash": "9d285c8954674fad285c08fa74a1ad7da9464a87b7465e79c9af6e40bb876d3c"
+    },
+    {
+      "id": "gpu-gigabyte-rtx-5070-windforce-oc-sff-12g",
+      "identity": "e4dd712c89f27b2126d9e00db06956ef7a761a6c2e1b58adf3aa8d4e0b428409",
+      "price": 5199.99,
+      "imageHash": "1bf4177d3ab0ccd4f0231eae7b23c76633c97c6c64538c32afcf169825743d08",
+      "priceObservationHash": "17bac6a95d0df4c767534894ed887412eb9894d458ab70fbec885fda75c70107"
+    },
+    {
+      "id": "gpu-gigabyte-rx-7600-gaming-oc-8g",
+      "identity": "d9c2d9c4d9be5e9e6177a2a3ca928bec7a00012338d106adde9a8ac52e1507d5",
+      "price": 2099.99,
+      "imageHash": "e232ad235029d6f08a87a6e1b62cd2df24be0087658f91ff4d88a4c8ac7681de",
+      "priceObservationHash": "23c53e3da12c258eec926e394c8ae789f78924d0928b0ce396cb2584aa818e54"
+    },
+    {
+      "id": "gpu-asrock-rx-9060-xt-challenger-16g-oc",
+      "identity": "8068ea5678e5b8a4cbe35b19a319660a7bf8258b4c3152b395f08388db61b719",
+      "price": 3799.99,
+      "imageHash": "5650f84cd9e09494d632658fa5501114e79cf9415c694eec0d1807530c5a6891",
+      "priceObservationHash": "bd5b991642fd335c9feec71e487e239c515e741c898719085be99a962e54c81e"
+    },
+    {
+      "id": "gpu-xfx-rx-9070-xt-swift-white-16g",
+      "identity": "bdf18413c55aca0101577d6dcdcd19b6dba3843efbd1aa22966299c8884910bd",
+      "price": 5199.99,
+      "imageHash": "265549ce4f128872299ac1190b6025acc26457b4d139dca6d00c7ad9305b1400",
+      "priceObservationHash": "43db2bec2a791868492a92d2e96203c7f407c64d9289f9900f9c2136a46ace03"
+    },
+    {
+      "id": "psu-coolermaster-mwe-gold650-v3",
+      "identity": "af8caf557b92888e646c5ac45c59acade25c34bb5bb36c6ba8b9573fedf8326c",
+      "price": 349.99,
+      "imageHash": "398781d0370474969beb407e83ffaee3bb03850795ce48e1842e5c0065508412",
+      "priceObservationHash": "86e1fb3779c686fdb2bdaa1ad476af31c4e73b7601818faf8e31c2ee1e7ae44a"
+    },
+    {
+      "id": "psu-corsair-rm750e-2025",
+      "identity": "82e7a6a360f5ec0c2a88e238583e9d272c6971df3ea21e984c70a3d466f35116",
+      "price": 599.99,
+      "imageHash": "eae715178bab5b6a0040e47177c9bddc883fa16b073e0a6a1ae83cbfb655dcce",
+      "priceObservationHash": "f41ba599b585c0b77502dd097f2490237e1f1c9bccc17b108ca1881b111a1ef1"
+    },
+    {
+      "id": "psu-msi-mag-a850gl-pcie5-white",
+      "identity": "365287ef4c3ce5c59e4deb00db7a9dbcae234b942f4250300f646f4c231ef77b",
+      "price": 829.99,
+      "imageHash": "46e4c4f78c214a9763462b000ff7638f1fe3743e58632dd8c055fc6c6723a616",
+      "priceObservationHash": "afcf2fa61aaf0b8d3b841e8fb537507d67fe0ea6766bfb05282ae07b2dfea091"
+    },
+    {
+      "id": "cooler-bequiet-pure-rock-pro3-black",
+      "identity": "97cd7dd7cc5899aacadc8a9b7a13d7702c6794e334d498e053d9914e680a9e60",
+      "price": 279.99,
+      "imageHash": "8ae5f35fbb1ec65265c2e2018eb056af2e45ea19e7d814b83f19f9dcbf6199a9",
+      "priceObservationHash": "26a984b5ca32d55d9a3163d03babc82d7cd7e076ea264c87e6b63c1b98cad4f1"
+    },
+    {
+      "id": "mb-gigabyte-b650-gaming-x-ax-v2",
+      "identity": "5c3e229b5c1ff290f70b5e9eeaeb70b41471845d6fa829e377db651b97b73597",
+      "price": 1299.99,
+      "imageHash": "509df0f2c19529c2922c49ecd60db970639426c7f0a35f2743034c5e4a318d64",
+      "priceObservationHash": "c697b752e2f1a3915d222c69d830faec7d1d58326bbbe0bc52f46dca490fa7f4"
+    },
+    {
+      "id": "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5",
+      "identity": "fedcf402587688326e7225fc913cbe6210c0abb9343255e5f574ba13d28933e0",
+      "price": 1149.99,
+      "imageHash": "6e1d8ee5ce5071a7e1f494a6c84eb3bf22442e895fb96525abef182b39ff0b72",
+      "priceObservationHash": "d9237f03d6299819ef2071d90657e5668aa4a5b109768c61b46fc73ed6e7c872"
+    },
+    {
+      "id": "mb-msi-pro-h610m-s-ddr4",
+      "identity": "128fec7ce564cb9ffdb00070018a0052e416c7e21de5e7da9a133f814377bd04",
+      "price": 489.99,
+      "imageHash": "ad7985577916e0f3f26515bc0a7213b013f843b08d0366d2ca51aa0e2da7076c",
+      "priceObservationHash": "80e392b15011716f511121a7b47d12b70d0ddac8e052eaa2ced787efe712968e"
+    },
+    {
+      "id": "case-coolermaster-elite301-white",
+      "identity": "1b51cd47afae34391ce66901266a2f80fcb8bf749c90e18a308bca26093b134e",
+      "price": 349.99,
+      "imageHash": "1de8d6dced8d5503ce6aec88e3791f1f3ae5835baa6905dd6e2c50081aba2b94",
+      "priceObservationHash": "f8ce166ab2126a168ea2d09fe1d263d55cc4b7d45ce72bebcabd7a2c93439cff"
+    },
+    {
+      "id": "cpu-intel-i5-14600k-box",
+      "identity": "2522b1b936432c38355e59fb30781a9d3c3f30a84ff79808bae1bc6dda66bca4",
+      "price": 1699.99,
+      "imageHash": "7022c36a923bae73e8e5b4844c51993c456bd97a7d7c83a025ec99e17f2cbe30",
+      "priceObservationHash": "e7263ffcf9e1401768137a26639c8cfbbd137dd4ecf9485e12a232cb491b784c"
+    },
+    {
+      "id": "ram-kf556c36bweak2-32",
+      "identity": "0c1da1f00ebb99148351399361940235a966f19e6b9ef7575b0401abc98bdeb5",
+      "price": 4199.99,
+      "imageHash": "8adf77f9d3bcdb60a14c4e761226eca655f6f2c9d520caf7c75be7dc94458dd2",
+      "priceObservationHash": "2a9e6e824764cc7cffba0a581c0934ccff3a10ab934c1041736877cc8fbdac5c"
+    },
+    {
+      "id": "mb-asus-tuf-z790-plus-wifi-ddr5",
+      "identity": "c7aba69a53b2086799387483237f9b53ad1e38c354cf6b03bfbcd9847f2e37a0",
+      "price": 1998.99,
+      "imageHash": "f87db3619788bc9ffd280288f551f869c8f65c371454c167eb87dd5ea5da2e80",
+      "priceObservationHash": "5fdb8d28ff65abd13194555aaefa028d4a762d10a55ae5b1203e9e89db4f429a"
+    },
+    {
+      "id": "ram-apacer-nox-rgb-8gb-3200",
+      "identity": "7880c5f70adbf83ea7322b56eac4c6cd4b78f80f7e644e80ce6e1c5bbbde9fc4",
+      "price": 529.9,
+      "imageHash": "33a0935f6bdad4088f5dca84363a756a10edd7439b97123f8e7cb2ae8f265a3c",
+      "priceObservationHash": "fa1eaa870e94ede7937ddee2afcade8ca32b28479baa3e7d8dfe801cd5c89ee5"
+    },
+    {
+      "id": "ram-cmg16gx4m2e3200c16",
+      "identity": "34dbaf3b211259c0b17b82f49e0ce2535525f7dd001538a48a0ddf698d833796",
+      "price": 1399.9,
+      "imageHash": "f31b897091da65fe9af18d5c70d39d4ae165678f5ca233d3c53e0713d17f6c63",
+      "priceObservationHash": "a01ae43bbb601c479ebc56529e2373309886d33c63a278fb5c61b5ec429e843f"
+    },
+    {
+      "id": "ram-mancer-vant-s-16gb-3200",
+      "identity": "7074964cd48cd86fbcb044ca77a560eddf37912f0bf7fea8f6fb9cc9c3698ef6",
+      "price": 619.99,
+      "imageHash": "22e596799f69b9c3f00d5a40977d785d137e8ca4d2dda931a37ec6baf891c045",
+      "priceObservationHash": "49196b4b1e7ca24f82be54b2cd7518b9fc1e4ce18a7d8f82ed1006843cae4ca2"
+    },
+    {
+      "id": "ram-apacer-nox-16gb-3200",
+      "identity": "88283178f0d6b5ddf2a0a81effeb6cc306034b03105148a985968559917eab19",
+      "price": 919.9,
+      "imageHash": "43c51f76f2567e1b2e3b802e304cd1f20b41d96e98dc5490b3e97d86e7a96173",
+      "priceObservationHash": "734472491df400823502df5901c171afcd45a25bfcd964992356ed800c86bf41"
+    },
+    {
+      "id": "ram-pvv516g56c36",
+      "identity": "6e60f5ec146b0c73587b338d50c33733c7c6ab401dd0ae52d2c0019cba7ad938",
+      "price": 2119.9,
+      "imageHash": "aca68ca4b5417438582912ed5fcdb6e4a7866ff6e01953a6f27c48c58f55903d",
+      "priceObservationHash": "54aa16e79a84faa042f4ac42f0eefc71dcaf6ad6d1a6896e9bd8a00d425d9b84"
+    },
+    {
+      "id": "ram-cmk16gx5m2b5200z40",
+      "identity": "61c3fbe5f3761ca84ee1b8f53009ac4dbfe57aba7d1ae4caaa577e7dc2874954",
+      "price": 2239.9,
+      "imageHash": "b81197b7501a76ded39c55174ea50291d26b0e58ce15e27e6562069f9eb3d39d",
+      "priceObservationHash": "b2de0c0a6e90cce39a0199a45266e90db116c7b5670f241526209dd420aa78df"
+    },
+    {
+      "id": "ram-kf564c32bbe-16",
+      "identity": "e6d0687fa9c509c0538db70a6472c19d8821f3945884923a6671d265a8406b06",
+      "price": 2699.9,
+      "imageHash": "c206d862b2354b6277a57e211a8e634ac37a35adc88591b457c9cc48ff0b2274",
+      "priceObservationHash": "5d92b5ab8c1ceed360d886cc29966f6b19a4138d8d9757921f2f916911279f48"
+    },
+    {
+      "id": "ram-ff7d532g6000hc38j01",
+      "identity": "13601242013e638dbb9acda14d8de94898bf9bb4f087399c07c1faac7317da26",
+      "price": 5799.99,
+      "imageHash": "a7e07c068bc5fd70b46ec930329fe53ba741c6dab84b0cd170f08ee51557707e",
+      "priceObservationHash": "716a9ae31f17ac1e475af4d10cbb076460ffec6918ceee6b183cfbac63907101"
+    },
+    {
+      "id": "ram-cmk32gx5m2b6000c38",
+      "identity": "a1e4f838b39924990ac701c7712b882a884fb640ab3d3fc660b7d732e6494d48",
+      "price": 5239.9,
+      "imageHash": "afd952d829b687785cc8e92419852370b74984c26f56c43818eff671f1946f93",
+      "priceObservationHash": "5b1d9ff9b832ba1bdde35209f6f25710dc1d7e5ae058aff7e8cc01715b8f7b05"
+    },
+    {
+      "id": "ssd-snv3s-1000g",
+      "identity": "454bf8ea471dcf267de80ec8b565bd1b0c1582a70df21d3b4a3f94d122b7ffe6",
+      "price": 1199.99,
+      "imageHash": "4b17709f27b7d867d5dd2b682ea305b36b58141c73843491c1226cd8675b6d6b",
+      "priceObservationHash": "3c028a34624506f7ae5ada3c321368e01a161c746c861cf215ade95ed37248f8"
+    },
+    {
+      "id": "ssd-lnm610p500g-rnnng",
+      "identity": "029eea26ae4949ec37491e8d8072471b5f45646de7834e8255b996d3ac32b090",
+      "price": 679.03,
+      "imageHash": "ae0ecf0928363b33c2310deedeb780ad9679807b18e026e7cf992395eeaf13d6",
+      "priceObservationHash": "dd693928995f3828521d9e941af789d1199ef7d22375e4218ecb32938033e9d0"
+    },
+    {
+      "id": "ssd-lnm620x512g-rnnng",
+      "identity": "3294f6e18c148e216f43d71358d0cb8709a5f38c1be8b9e4a51f9def120d7d36",
+      "price": 899.91,
+      "imageHash": "17619440a7eec51739bc2aaa8780d4661cdcae6d98f508ea592683ab8b7fc3e2",
+      "priceObservationHash": "a9545b0872b02b3c1bd5bfb970013d3b3954ab3725181fdc1b97e01ba07b7115"
+    },
+    {
+      "id": "ssd-asu650ss-480gt-r",
+      "identity": "f2b6dd4392c6a07b754ca0302c77e663e2894e0dd4c89bf97ebf91acb040b147",
+      "price": 649.5,
+      "imageHash": "f2308d094eeeb7ce410c195553677106268f465ac5c51f642d015d0866ffca37",
+      "priceObservationHash": "3d91e3566b7df91a85cedef4ea9467885eefb057d7a2ab35c42428de839a1ae8"
+    },
+    {
+      "id": "ssd-lnq790x001t-rnnng",
+      "identity": "2dd5c42cbc66fb5bfa841c43e206b1150b158807bfac862c8740e4c9b9252302",
+      "price": 1149.99,
+      "imageHash": "627d9f74b8deed1a8de5251dd684c8184aa57f63a2dcec10887ee834368043aa",
+      "priceObservationHash": "b2f29a96ead7051e4cb9135f3a295840e6aa6253a7d4aa03e2e3619634b96fee"
+    },
+    {
+      "id": "ssd-mz-v9p1t0b-am",
+      "identity": "9a17397ef822f251813e03dea2104e465692b6af2a728f4289a85bfd27f9c6c6",
+      "price": 2399.99,
+      "imageHash": "37aa4d2459eddf926632b94d21ace9269de65da182a8fbb92d8ed1e79c657eaa",
+      "priceObservationHash": "4c58b9960e55f4225010cdbf5db67066160524b1441e611cc180a482a0d17038"
+    },
+    {
+      "id": "ssd-lnq100x480g-rnnnu",
+      "identity": "fed945e3eedb0f2cf2729f0bc7ad6e7c388e3b60520600548e1e0ab00bcb4a46",
+      "price": 665.5,
+      "imageHash": "e7008df88eb338a8208a0b67158884fd3254b1ada2a3edad34d8e2b284dbe88f",
+      "priceObservationHash": "c12533ae56e2312c3503a7796ec41a3e92871d87ebda8b057e808bb76bea109d"
+    }
+  ]
+}

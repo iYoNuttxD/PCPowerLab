@@ -1,31 +1,164 @@
-/* V3 journey: budget context, quiet hierarchy, and visible filter state. */
-.wizard-budget-progress { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-2) var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border); }
-.wizard-budget-progress dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin: 0; min-width: 0; }
-.wizard-budget-progress dt { color: var(--muted); font-size: 0.75rem; line-height: 1.4; }
-.wizard-budget-progress dd { color: var(--text); margin: var(--space-1) 0 0; font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+/* V3 task surfaces only. Home's composition, artwork and feature order are unchanged. */
+:is(.journey-wizard, .catalog-page, .summary-page) {
+  --journey-body-size: 1rem;
+  --journey-detail-size: 0.875rem;
+  --journey-section-size: clamp(1.25rem, 2.2vw, 1.65rem);
+}
+:is(.journey-wizard, .catalog-page, .summary-page) :is(h2, h3, h4) {
+  color: var(--text);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+:is(.journey-wizard, .catalog-page, .summary-page) :is(p, li, dt, dd) { line-height: 1.6; }
+:is(.journey-wizard, .catalog-page, .summary-page) .panel-card { box-shadow: none; }
+:is(.journey-wizard, .catalog-page, .summary-page) .panel-card:hover { border-color: var(--border); }
+:is(.journey-wizard, .catalog-page, .summary-page) .panel-card:focus-within { border-color: var(--border-strong); }
+:is(.journey-wizard, .catalog-page, .summary-page) :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+:is(.journey-wizard, .catalog-page, .summary-page) a:not(.btn) { text-decoration: underline; text-underline-offset: 3px; }
+:is(.journey-wizard, .catalog-page, .summary-page) .task-disclosure > summary {
+  min-height: 44px;
+  padding-block: var(--space-2);
+  color: var(--text);
+  font-size: var(--journey-detail-size);
+  line-height: 1.5;
+}
+:is(.journey-wizard, .catalog-page, .summary-page) .task-disclosure { background: var(--bg-elevated); }
+
+/* Current task first, spending context second, technical detail on demand. */
+.journey-wizard .wizard-step-intro { gap: var(--space-2); padding-top: var(--space-1); }
+.journey-wizard .wizard-step-intro h2 { font-size: var(--journey-section-size); }
+.journey-wizard .wizard-step-intro p { max-width: 68ch; }
+.journey-wizard .wizard-progress { padding: var(--space-3) var(--space-4); border-radius: var(--radius); background: var(--panel); }
+.journey-wizard .wizard-progress summary { font-size: var(--journey-detail-size); }
+.journey-wizard .wizard-actions { border-color: var(--border-strong); gap: var(--space-3); }
+.wizard-budget-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+.wizard-budget-progress dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: 0; min-width: 0; }
+.wizard-budget-progress dt { color: var(--muted); font-size: 0.8125rem; line-height: 1.4; }
+.wizard-budget-progress dd { color: var(--text); margin: var(--space-1) 0 0; font-size: 1rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .wizard-budget-progress .is-over-budget :is(dt, dd) { color: var(--red); }
-.wizard-budget-progress .wizard-price-pending { grid-column: 1 / -1; color: var(--yellow); font-size: 0.8rem; }
-.wizard-actions .wizard-next-step { color: var(--muted); font-size: 0.8rem; }
+.wizard-budget-progress .wizard-price-pending { grid-column: 1 / -1; color: var(--yellow); font-size: 0.875rem; }
+.wizard-actions .wizard-next-step { color: var(--muted); font-size: 0.875rem; }
 .wizard-budget-start > p { color: var(--muted); line-height: 1.6; max-width: 65ch; }
-.wizard-budget-start .form-grid { margin-block: var(--space-5); }
-.wizard-catalog-tools { padding: var(--space-4); border-color: var(--border); background: var(--bg-elevated); }
-.catalog-page .catalog-toolbar { background: var(--bg-elevated); }
-.catalog-toolbar > h2 { font-size: 1rem; margin: 0 0 var(--space-4); }
+.wizard-budget-start .form-grid { margin-block: var(--space-4); gap: var(--space-5); }
+.wizard-layout.journey-wizard.is-planning { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 960px; margin-inline: auto; }
+.journey-wizard .wizard-selection { border-color: var(--green); padding: var(--space-4); font-size: 0.9375rem; }
+.journey-wizard .wizard-sidebar .panel-card { padding: var(--space-5); gap: var(--space-3); }
+.journey-wizard .wizard-sidebar h2 { font-size: 1.2rem; }
+.journey-wizard .wizard-sidebar .build-parts-list li { padding: var(--space-3); background: var(--bg-elevated); }
+
+/* Search, applied constraints and results are three visibly separate layers. */
+.wizard-catalog-tools { padding: var(--space-5); border-color: var(--border); background: var(--bg-elevated); }
+.catalog-page .catalog-toolbar { background: var(--bg-elevated); padding: var(--space-6); }
+.catalog-toolbar > h2 { font-size: 1.125rem; margin: 0; }
+.catalog-filters { gap: var(--space-4); }
+.catalog-filter-grid .field { font-size: 0.9375rem; }
+.catalog-filter-grid .field small { font-size: 0.8125rem; line-height: 1.5; }
 .catalog-results-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border); padding-bottom: var(--space-3); }
 .catalog-results-heading :is(h2, h3, p) { margin: 0; }
-.catalog-results-heading :is(h2, h3) { font-size: 1.1rem; }
+.catalog-results-heading :is(h2, h3) { font-size: 1.125rem; }
 .catalog-results-heading p { color: var(--muted); font-size: 0.875rem; }
 .active-filters { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--border); min-width: 0; }
-.active-filters > p { color: var(--muted); margin: 0; font-size: 0.8rem; }
-.active-filter-list button { min-height: 44px; text-align: left; max-width: 100%; overflow-wrap: anywhere; font: inherit; font-size: 0.85rem; }
+.active-filters > p { color: var(--muted); margin: 0; font-size: 0.875rem; }
+.active-filter-list button { min-height: 44px; text-align: left; max-width: 100%; overflow-wrap: anywhere; font: inherit; font-size: 0.875rem; }
 .active-filter-list button:hover { border-color: var(--cyan); }
-.component-feature-summary { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+.catalog-page .context-strip { font-size: 0.9375rem; background: var(--bg-elevated); }
+.catalog-page .context-strip a { color: var(--cyan); min-height: 44px; display: inline-flex; align-items: center; }
+.catalog-page .catalog-compare-bar { padding: var(--space-4); background: var(--panel); }
+.catalog-page .catalog-compare-bar li { background: var(--bg-elevated); }
+
+/* Whole names remain readable, including at enlarged text and narrow widths.
+   Image frames and credits are preserved; cards grow instead of clipping text. */
+:is(.journey-wizard, .catalog-page) .component-card {
+  grid-template-rows: auto auto auto auto 1fr auto auto auto;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  align-content: start;
+}
+:is(.journey-wizard, .catalog-page) .component-card h3 {
+  display: block;
+  min-height: 2.7em;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  text-wrap: initial;
+}
+:is(.journey-wizard, .catalog-page) .component-card .component-brand {
+  color: var(--muted);
+  font-size: 0.875rem;
+  white-space: normal;
+  overflow: visible;
+}
+:is(.journey-wizard, .catalog-page) .component-card .badge { background: var(--panel-strong); color: var(--muted); border-color: var(--border); font-weight: 600; }
+:is(.journey-wizard, .catalog-page) .component-card.is-selected { border-color: var(--green); box-shadow: inset 0 3px var(--green); }
+:is(.journey-wizard, .catalog-page) .component-card.is-selected .badge { color: var(--green); border-color: var(--green); }
+:is(.journey-wizard, .catalog-page) .component-card .spec-grid :is(dt, dd) { font-size: 0.875rem; line-height: 1.5; }
+:is(.journey-wizard, .catalog-page) .component-card-price { gap: var(--space-2); padding-top: var(--space-3); }
+:is(.journey-wizard, .catalog-page) .component-card .price { color: var(--text); font-size: 1.25rem; line-height: 1.3; font-variant-numeric: tabular-nums; }
+:is(.journey-wizard, .catalog-page) .component-card .button-row { gap: var(--space-2); }
+:is(.journey-wizard, .catalog-page) .component-card .btn { white-space: normal; overflow-wrap: anywhere; padding: var(--space-2); line-height: 1.4; }
+.component-feature-summary { margin: 0; color: var(--muted); font-size: 0.875rem; line-height: 1.5; }
+.component-performance-unavailable { margin: 0; color: var(--yellow); font-size: 0.875rem; line-height: 1.5; }
+.component-score-disclosure > summary { color: var(--muted); font-size: 0.875rem; min-height: 44px; display: flex; align-items: center; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.component-score-disclosure > p { line-height: 1.5; margin-bottom: 0; }
 .verified-feature-details { margin-block: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--border); }
 .verified-feature-details li { line-height: 1.6; }
-:is(.wizard-layout, .catalog-page, .catalog-filters) :is(button, a, input, select, summary):focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
-:is(.wizard-layout, .catalog-page) .component-card .badge { background: var(--panel-strong); color: var(--muted); border-color: var(--border); }
-:is(.wizard-layout, .catalog-page) .component-card.is-selected .badge { color: var(--green); border-color: var(--green); }
-:is(.wizard-layout, .catalog-page) .component-card .component-brand { color: var(--muted); }
+@supports (grid-template-rows: subgrid) {
+  :is(.journey-wizard, .catalog-page) .component-grid > .component-card { grid-row: span 8; grid-template-rows: subgrid; }
+}
+
+/* Summary and recommendations share the same hierarchy without restyling Home. */
+.summary-page { gap: var(--space-8); }
+.summary-page .summary-section { gap: var(--space-5); }
+.summary-page .summary-section-heading h2 { font-size: var(--journey-section-size); }
+.summary-page .summary-section-heading p { max-width: 68ch; font-size: 0.9375rem; }
+.summary-page .metric-grid > div { background: var(--bg-elevated); }
+.summary-page .metric-grid strong { font-size: 1.375rem; font-variant-numeric: tabular-nums; }
+.summary-page .summary-actions-card { background: var(--bg-elevated); }
+.summary-page .score-circle { background: var(--bg-elevated); box-shadow: none; border-color: var(--border-strong); }
+.summary-page .score-circle strong { color: var(--text); }
+.summary-page .criterion-card { background: var(--bg-elevated); }
+.recommendation-card { gap: var(--space-5); }
+.recommendation-card > .section-heading { align-items: flex-start; gap: var(--space-3) var(--space-5); }
+.recommendation-card > .section-heading h3 { font-size: 1.25rem; }
+.recommendation-card > .section-heading strong { font-size: 1.375rem; font-variant-numeric: tabular-nums; }
+.recommendation-card .estimated-price-label { font-size: 0.8125rem; margin-bottom: var(--space-1); }
+.recommendation-card > p { margin: 0; }
+.recommendation-card .build-parts-list li { grid-template-columns: minmax(0, 1fr); background: var(--bg-elevated); gap: var(--space-2); }
+.recommendation-card .component-identity { flex-wrap: wrap; }
+.recommendation-card .component-identity-text { flex: 1 1 160px; }
+.recommendation-card > .stack { border-top: 1px solid var(--border); padding-top: var(--space-5); }
+
+/* Status is a label/icon as well as a color. Tinted fills are composited over
+   the opaque panel surface and measured in visual-accessibility.test.js. */
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert {
+  background: var(--panel);
+  padding: var(--space-4);
+  border-width: 1px 1px 1px 4px;
+  align-items: flex-start;
+}
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert > svg { margin-top: 2px; }
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert :is(p, li) { color: var(--muted); }
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert ul { padding-left: var(--space-5); margin-block: var(--space-2); }
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-success { color: var(--green); border-color: var(--green); background: linear-gradient(var(--success-surface), var(--success-surface)), var(--panel); }
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-warning { color: var(--yellow); border-color: var(--yellow); background: linear-gradient(var(--warning-surface), var(--warning-surface)), var(--panel); }
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-error { color: var(--red); border-color: var(--red); background: linear-gradient(var(--error-surface), var(--error-surface)), var(--panel); }
+:is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-info { color: var(--cyan); border-color: var(--cyan); background: linear-gradient(var(--info-surface), var(--info-surface)), var(--panel); }
+:is(.journey-wizard, .summary-page) :is(.status-compatible, .status-compatible:hover) { border-color: var(--green); box-shadow: inset 3px 0 var(--green); }
+:is(.journey-wizard, .summary-page) :is(.status-incompatible, .status-incompatible:hover) { border-color: var(--red); box-shadow: inset 3px 0 var(--red); }
+:is(.journey-wizard, .summary-page) :is(.status-unverified, .status-unverified:hover) { border-color: var(--yellow); box-shadow: inset 3px 0 var(--yellow); }
+:is(.journey-wizard, .catalog-page, .summary-page) .loading-state { color: var(--muted); background: var(--bg-elevated); border: 1px dashed var(--border-strong); border-radius: var(--radius); padding: var(--space-6); }
+:is(.journey-wizard, .catalog-page, .summary-page) .empty-state { background: var(--bg-elevated); border-style: dashed; }
 
 @media (min-width: 881px) and (max-width: 1180px) {
   .wizard-layout.journey-wizard { grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-4); }
@@ -33,16 +166,51 @@
   .wizard-budget-progress > .btn { justify-self: start; }
 }
 @media (max-width: 560px) {
-  .wizard-budget-progress { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  .wizard-budget-progress { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
   .wizard-budget-progress > .btn { justify-self: start; min-height: 44px; padding-block: var(--space-1); }
-  .wizard-budget-progress dd { font-size: 0.86rem; }
-  .wizard-layout .wizard-actions { padding: var(--space-2) var(--space-3); }
-  .wizard-actions p { font-size: 0.8rem; }
-  .wizard-catalog-tools { padding: var(--space-3); }
+  .wizard-budget-progress dl { gap: var(--space-2); }
+  .wizard-budget-progress dd { font-size: 0.9375rem; }
+  .wizard-layout .wizard-actions { padding: var(--space-3); }
+  .wizard-actions p { font-size: 0.875rem; }
+  .wizard-catalog-tools, .catalog-page .catalog-toolbar { padding: var(--space-4); }
+  :is(.journey-wizard, .catalog-page) .component-card { padding: var(--space-4); }
+  .summary-page { gap: var(--space-6); }
+  .recommendation-card > .section-heading { display: grid; grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-height: 600px) {
+  /* Sticky task navigation must not consume the viewport at 200% zoom/landscape. */
+  .journey-wizard .wizard-actions, .journey-wizard .wizard-sidebar { position: static; }
+}
+@media (forced-colors: active) {
+  :is(.journey-wizard, .catalog-page, .summary-page) :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible { outline-color: Highlight; }
+  :is(.journey-wizard, .catalog-page) .component-card.is-selected { border: 2px solid Highlight; }
 }
 
-.component-score-disclosure > summary { color: var(--muted); font-size: 0.8rem; min-height: 44px; display: flex; align-items: center; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.component-score-disclosure > p { line-height: 1.5; margin-bottom: 0; }
+/* Per-piece explanations stay readable without making the primary result longer. */
+.recommendation-explanation { min-width: 0; font-size: 0.9375rem; }
+.recommendation-explanation :is(p, li) { line-height: 1.6; overflow-wrap: anywhere; }
+.recommendation-explanation h4 { margin: 0 0 var(--space-2); font-size: 1rem; line-height: 1.4; }
+.recommendation-explanation summary { min-height: 44px; padding-block: var(--space-2); cursor: pointer; line-height: 1.5; overflow-wrap: anywhere; }
+.recommendation-explanation summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.recommendation-explanation > summary { color: var(--text); }
+.recommendation-explanation-budget, .recommendation-comparison { margin-block: var(--space-4); padding: var(--space-4); background: var(--panel-strong); border-radius: var(--radius); }
+.recommendation-explanation-budget p, .recommendation-comparison p { margin-bottom: var(--space-2); }
+.recommendation-explanation-budget p:last-child, .recommendation-comparison p:last-child { margin-bottom: 0; }
+.recommendation-explanation-warnings { border-left: 3px solid var(--yellow); padding-left: var(--space-4); margin-block: var(--space-4); }
+.recommendation-component-reasons { display: grid; gap: var(--space-3); margin-block: var(--space-4); min-width: 0; }
+.recommendation-component-reason { min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-2) var(--space-3); background: var(--bg-elevated); }
+.recommendation-component-reason > summary { color: var(--text); font-weight: 700; }
+.recommendation-component-reason[open] > summary { margin-bottom: var(--space-3); border-bottom: 1px solid var(--border); }
+.recommendation-spec-facts { display: grid; gap: var(--space-1); }
+.recommendation-explanation ul { padding-left: var(--space-5); margin-block: var(--space-3); }
+.recommendation-excluded-alternatives { border-top: 1px solid var(--border); padding-top: var(--space-2); }
+.recommendation-excluded-alternatives > summary { color: var(--cyan); font-weight: 600; }
+.recommendation-excluded-alternatives > ul { display: grid; gap: var(--space-3); }
+.recommendation-explanation-limits { color: var(--muted); }
+@media (forced-colors: active) {
+  .recommendation-explanation summary:focus-visible { outline-color: Highlight; }
+}
 
-.wizard-layout.journey-wizard.is-planning { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 960px; margin-inline: auto; }
-.component-performance-unavailable { margin: 0; color: var(--yellow); font-size: 0.85rem; line-height: 1.5; }
+.journey-wizard .wizard-progress summary { flex-wrap: wrap; }
+.journey-wizard .wizard-actions .btn { white-space: normal; text-align: center; }
+.journey-wizard .wizard-step-intro details > summary { min-height: 44px; padding-block: var(--space-2); color: var(--cyan); cursor: pointer; }

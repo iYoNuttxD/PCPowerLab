@@ -7,6 +7,8 @@ import { simulateGamePerformance } from './gamePerformanceService.js';
 import { recommendBuildByBudget } from './recommendationService.js';
 import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
+import { listPerformanceParameters } from './performanceParametersService.js';
+import { compareRecommendedSelection, explainBuildSelection } from './recommendationExplanationService.js';
 
 const defaultUsageType = 'general';
 const recommendedPriorities = ['cost-benefit', 'performance', 'lowest-price', 'balanced'];
@@ -19,6 +21,7 @@ export function createBuildSummaryGenerator(analyses = {}) {
     bottlenecks: analyzeBuildBottlenecks,
     gamePerformance: simulateGamePerformance,
     recommendation: recommendBuildByBudget,
+    selectionExplanation: explainBuildSelection,
     ...analyses
   };
 
@@ -27,6 +30,7 @@ export function createBuildSummaryGenerator(analyses = {}) {
     const components = selectBuildComponents(input.build);
     const buildInput = serializeBuildSelection(components);
     const pricing = summarizeBuildPricing(components);
+    const performanceByComponentId = new Map(listPerformanceParameters().map(parameter => [parameter.componentId, parameter]));
     const compatibility = {
       compatible: null, alerts: [], unverifiedChecks: [],
       ...runOptionalAnalysis(
@@ -61,10 +65,15 @@ export function createBuildSummaryGenerator(analyses = {}) {
         }), 'Não foi possível simular o jogo informado. Revise o jogo e as configurações ou tente novamente.')
       : null;
     const recommendationObservation = input.budget && budgetStatus?.available !== false
-      ? buildRecommendationObservation({ input, buildInput, budgetStatus, recommend: services.recommendation })
+      ? buildRecommendationObservation({ input, buildInput, budgetStatus, components, performanceByComponentId, recommend: services.recommendation })
       : null;
+    const selectionExplanation = runOptionalAnalysis(() => services.selectionExplanation({ components,
+      usageType: input.usageType || defaultUsageType, priority: budgetStatus?.priority,
+      budgetAmount: budgetStatus?.available === false ? null : budgetStatus?.amount,
+      compatibility, performanceByComponentId, selectionSource: 'current_selection'
+    }), 'Não foi possível explicar as peças agora. Seus componentes, preços e demais análises foram mantidos.');
     const results = { compatibility, bottlenecks, budgetStatus, gamePerformance };
-    const sections = Object.fromEntries(Object.entries({ ...results, recommendation: recommendationObservation })
+    const sections = Object.fromEntries(Object.entries({ ...results, selectionExplanation, recommendation: recommendationObservation })
       .filter(([, result]) => result != null)
       .map(([name, result]) => [name, {
         status: result.available === false || result.status === 'unavailable' ? 'unavailable'
@@ -80,6 +89,7 @@ export function createBuildSummaryGenerator(analyses = {}) {
       sections,
       components,
       pricing,
+      selectionExplanation,
       totalEstimatedPrice: pricing.estimatedTotal,
       budgetStatus,
       compatibility: {
@@ -363,7 +373,7 @@ function buildFinalRecommendation({
   return 'Configuração recomendada para o perfil informado.';
 }
 
-function buildRecommendationObservation({ input, buildInput, budgetStatus, recommend }) {
+function buildRecommendationObservation({ input, buildInput, budgetStatus, components, performanceByComponentId, recommend }) {
   const priority = recommendedPriorities.includes(budgetStatus.priority)
     ? budgetStatus.priority
     : 'cost-benefit';
@@ -384,6 +394,8 @@ function buildRecommendationObservation({ input, buildInput, budgetStatus, recom
 
       return {
         ...recommendation,
+        ...(recommendation.components ? { comparison: compareRecommendedSelection(components, recommendation.components,
+          performanceByComponentId, input.usageType || defaultUsageType) } : {}),
         available: true,
         message: 'Alternativa compatível pelas regras verificadas, dentro do orçamento e para o uso informado. Compare antes de substituir peças.',
         totalEstimatedPrice: recommendation.totalEstimatedPrice,

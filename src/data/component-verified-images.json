@@ -4132,5 +4132,30 @@
     "fileBytes": 84162,
     "sha256": "4965482ab5ba2196e7461698e4f21c90905f90cdd1217f22a06316ca891746ac",
     "productIdentity": "42b536f02eedea047a5186506b8e12c3d4aef276c69ec03630539fdcf2b46cb1"
+  },
+  "gpu-asrock-arc-a380-challenger-itx-6g-oc": {
+    "status": "verified",
+    "model": "ASRock Intel Arc A380 Challenger ITX 6GB OC",
+    "partNumber": "90-GA3KZZ-00UANF",
+    "imagePath": "/images/components/gpu-asrock-arc-a380-challenger-itx-6g-oc-v3.jpg",
+    "imageSource": "https://www.pichau.com.br/placa-de-video-asrock-intel-arc-a380-challenger-itx-oc-6gb-gddr6-96-bit-90-ga3kzz-00uanf",
+    "manufacturerProductUrl": "https://www.asrock.com/Graphics-Card/Intel/Intel%20Arc%20A380%20Challenger%20ITX%206GB%20OC/index.asp",
+    "originalAssetUrl": "https://media.pichau.com.br/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/a/3/a380-cli-6go3.jpg",
+    "imageURL": "https://media.pichau.com.br/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/a/3/a380-cli-6go3.jpg",
+    "author": "Imagem ASRock publicada pela Pichau; fotógrafo não informado",
+    "rightsBasis": "Imagem pública de produto usada como referência em projeto acadêmico não comercial. Permissão específica de reprodução não foi estabelecida; nenhuma licença aberta é alegada. Direitos permanecem com o respectivo titular.",
+    "license": null,
+    "licenseUrl": null,
+    "imageType": "photo",
+    "lastVerifiedAt": "2026-10-20",
+    "identityLevel": "exact-model",
+    "identityNotes": "Imagem vinculada à página do SKU 90-GA3KZZ-00UANF, inspecionada visualmente: placa compacta preta Challenger com uma ventoinha, consistente com o modelo ITX. Sem etiqueta/SKU visível; não prova a revisão de uma unidade vendida.",
+    "alt": "ASRock Intel Arc A380 Challenger ITX 6GB OC, placa preta com uma ventoinha",
+    "modifications": "Arquivo original preservado, sem geração, retoque, corte, remoção de fundo ou conversão.",
+    "width": 787,
+    "height": 787,
+    "fileBytes": 78328,
+    "sha256": "dadf01a74c78bd5f08994444d49fda7cd58299d345162fd6c51d8353840353fa",
+    "productIdentity": "d26e278186c5f427b1e3ad169a41e50ff2448e5626d41dee5a92c3680c9ad05d"
   }
 }

@@ -1384,7 +1384,7 @@
     "price": 663.1,
     "currency": "BRL",
     "paymentCondition": "PIX à vista",
-    "cardTotal": 698.0,
+    "cardTotal": 698,
     "installments": "10x R$69,80 sem juros",
     "queriedAt": "2026-10-08",
     "validUntil": null,
@@ -2693,7 +2693,7 @@
     "seller": "MOCK VAREJO",
     "condition": "unknown",
     "productUrl": "https://www.kabum.com.br/produto/196410/hd-seagate-2tb-barracuda-3-5-sata-st2000dm008",
-    "price": 1116.0,
+    "price": 1116,
     "currency": "BRL",
     "paymentCondition": "PIX à vista",
     "cardTotal": null,
@@ -2878,7 +2878,7 @@
     "price": 3324.05,
     "currency": "BRL",
     "paymentCondition": "PIX or NuPay",
-    "cardTotal": 3499.0,
+    "cardTotal": 3499,
     "installments": "12x R$291.62 sem juros",
     "queriedAt": "2026-10-08",
     "observedAt": "2026-10-08T14:38:13Z",
@@ -5590,6 +5590,74 @@
     ],
     "verificationMethod": "rendered_product_page",
     "observedAt": "2026-10-20T22:06:58Z",
+    "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "gpu-asrock-arc-a380-challenger-itx-6g-oc",
+    "model": "90-GA3KZZ-00UANF",
+    "sourceVariantName": "90-GA3KZZ-00UANF",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asrock-intel-arc-a380-challenger-itx-oc-6gb-gddr6-96-bit-90-ga3kzz-00uanf",
+    "price": 1239.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 1458.81,
+    "installments": "12x de R$ 121,57 sem juros",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-asrock-arc-a380-challenger-itx-6g-oc",
+      "name": "ASRock Intel Arc A380 Challenger ITX 6GB OC",
+      "brand": "ASRock",
+      "category": "gpu",
+      "partNumber": "90-GA3KZZ-00UANF",
+      "specs": {
+        "vramGb": 6,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 96,
+        "memorySpeedGbps": 15.5,
+        "baseClockMhz": 2250,
+        "xmxEngines": 128,
+        "lengthMm": 190,
+        "widthMm": 124,
+        "heightMm": 39,
+        "slotCount": 2,
+        "recommendedPsuWatts": 500,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "4.0 x8",
+        "tdpWatts": null,
+        "requiresResizableBar": true,
+        "requiresUefiBoot": true,
+        "hardwareAv1Encode": true,
+        "maxDisplays": 4
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:52:50Z",
     "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
   }
 ]

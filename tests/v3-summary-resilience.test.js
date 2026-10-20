@@ -14,7 +14,7 @@ const input = () => ({
 });
 const fail = () => { throw new Error('private implementation detail'); };
 
-for (const section of ['bottlenecks', 'gamePerformance', 'recommendation']) {
+for (const section of ['bottlenecks', 'gamePerformance', 'recommendation', 'selectionExplanation']) {
   test(`v3: unexpected ${section} failure is scoped to that section, not missing selections`, () => {
     const payload = input();
     const before = globalThis.structuredClone(payload);

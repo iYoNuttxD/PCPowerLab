@@ -5,6 +5,7 @@ import { listComponents } from './component.service.js';
 import { evaluateResolvedBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
 import { requiredBuildSlots, selectOptionalBuildComponents, calculateBuildPrice } from './build.service.js';
+import { explainBuildSelection } from './recommendationExplanationService.js';
 import {
   calculateBuildPerformanceScore,
   calculateCostBenefitScore,
@@ -114,14 +115,20 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }
         slot
       }))
       .filter((candidate) => candidate.estimatedPrice !== null)
-      .filter((candidate) => Number.isFinite(candidate.performanceScore) && candidate.performanceScore >= 40)
+      .filter((candidate) => Number.isFinite(candidate.performanceScore)
+        && candidate.performanceScore >= (['study', 'general'].includes(usageType) ? 0 : 40))
       .sort(compareCandidates(priority));
 
     const balancedCandidates = selectBalancedCandidatePool(components, priority);
 
     return {
       ...candidatesBySlot,
-      [slot]: balancedCandidates
+      [slot]: balancedCandidates.map(candidate => ({ ...candidate, recommendationMeta: {
+        ...candidate.recommendationMeta,
+        categoryRank: components.findIndex(item => item.id === candidate.id) + 1,
+        rankedCandidatesCount: components.length,
+        shortlistedCandidatesCount: balancedCandidates.length
+      } }))
     };
   }, {});
 }
@@ -420,6 +427,7 @@ function formatBudgetRangeRecommendation({
 
   return {
     ...performanceMetadata(recommendation.components, performanceByComponentId),
+    selectionExplanation: buildSelectionExplanation(recommendation, usageType, priority, performanceByComponentId, budgetRange.max, budgetRange.min),
     methodology: recommendationMethodology(usageType, priority),
     name: buildRecommendationName(usageType, priority, position),
     usageType,
@@ -450,6 +458,7 @@ function formatRecommendation({
 
   return {
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
+    selectionExplanation: buildSelectionExplanation(recommendation, usageType, priority, performanceByComponentId, budgetAmount),
     ...performanceMetadata(recommendation.components, performanceByComponentId),
     methodology: recommendationMethodology(usageType, priority),
     remainingBudget: Number((budgetAmount - recommendation.totalEstimatedPrice).toFixed(2)),
@@ -565,7 +574,19 @@ function buildWarnings(components, compatibilityAlerts) {
     warnings.push('A diferença de desempenho entre processador e placa de vídeo pode indicar gargalo em alguns cenários.');
   }
 
+  if ([cpuScore, gpuScore].some(score => score < 40)) {
+    warnings.push('Há uma peça com índice simulado de entrada abaixo de 40/100. O orçamento atendido não garante requisitos de jogos ou programas; confira as limitações antes da compra.');
+  }
+
   return warnings;
+}
+
+function buildSelectionExplanation(recommendation, usageType, priority, performanceByComponentId, budgetAmount, budgetMin = null) {
+  return explainBuildSelection({ components: recommendation.components, usageType, priority,
+    budgetAmount, budgetMin, compatibility: recommendation.compatibilityResult, performanceByComponentId,
+    // A single-part comparison can consider the full active catalog, separately
+    // from the bounded shortlist used to rank complete builds.
+    candidatesBySlot: Object.fromEntries(requiredBuildSlots.map(slot => [slot, listComponents({ type: slot })])) });
 }
 
 function buildSummary(usageType, priority) {

@@ -1,8 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
 
-export default function Select({ label, id, options = [], className = '', revealSelectedValue = false, ...props }) {
+export default function Select({ label, id, hint, error, options = [], className = '', revealSelectedValue = false, ...props }) {
   const generatedId = useId();
   const selectId = id || generatedId;
+  const descriptionId = `${selectId}-description`;
   const fullValueId = `${selectId}-full-value`;
   const selectRef = useRef(null);
   const [fullValue, setFullValue] = useState('');
@@ -34,14 +35,18 @@ export default function Select({ label, id, options = [], className = '', reveal
   return (
     <div className={`field ${className}`}>
       <label htmlFor={selectId}>{label}</label>
-      <select {...props} id={selectId} ref={selectRef}
-        aria-describedby={[props['aria-describedby'], shownValue && fullValueId].filter(Boolean).join(' ') || undefined}>
+      <select {...props} id={selectId} ref={selectRef} aria-invalid={Boolean(error) || props['aria-invalid'] || false}
+        aria-describedby={[props['aria-describedby'], (hint || error) && descriptionId, shownValue && fullValueId].filter(Boolean).join(' ') || undefined}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
+      {(hint || error) && <div id={descriptionId} className="field-messages">
+        {hint && <small>{hint}</small>}
+        {error && <small className="field-error" aria-live="polite">{error}</small>}
+      </div>}
       {shownValue && <small id={fullValueId} className="field-selected-value">{shownValue}</small>}
     </div>
   );

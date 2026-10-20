@@ -25,15 +25,15 @@ A inspeção identificou duas falhas concretas independentes: exceções inesper
 
 A página inicial não foi redesenhada. Identidades antigas, seleções salvas, imagens e referências históricas permanecem preservadas. Nenhum serviço pago, coletor de preço ao vivo, compra ou implantação foi adicionado. Valores de lojas são observações datadas, não promessa de estoque ou preço final; frete e montagem não entram no total.
 
-## Catálogo e transparência de desempenho
+## Catálogo e transparência de desempenho (primeira rodada)
 
 Foram acrescentados seis modelos com identidade exata, foto e preço observado em 20/10/2026: Ryzen 7 7800X3D, Ryzen 9 9900X, MSI RTX 5060 Ti VENTUS 2X OC PLUS 16 GB, MSI RTX 5060 VENTUS 2X OC 8 GB, DeepCool CC310 e Cougar MX230 RGB. O catálogo passa de 81 para 87 produtos ativos. Modelos inicialmente considerados, mas esgotados ou sem identidade verificável, não foram adicionados como ofertas disponíveis.
 
 Os quatro novos CPU/GPU ainda não têm modelo de desempenho calibrado: não recebem FPS/pontuação inventados nem entram em recomendações automáticas classificadas por desempenho. Podem ser consultados e selecionados com especificações, preço e verificações suportadas. Essa expansão não equivale à ampliação completa da simulação; a calibração permanece pendente.
 
-## Validação
+## Validação da primeira rodada
 
-A versão-base passou 935 testes Node e compilação de produção antes das alterações. Validação final da V3 em 20/10/2026:
+A versão-base passou 935 testes Node e compilação de produção antes das alterações. Validação da primeira rodada da V3 em 20/10/2026 (os resultados da complementação integral estão abaixo):
 
 - `npm test`: **977 passaram, 0 falhas, 0 skips** (42 testes a mais que a base).
 - `npm run lint` na raiz e no frontend: aprovados.
@@ -52,3 +52,27 @@ Detalhes: [jornada e testes](V3_JOURNEY_VALIDATION.md), [catálogo e fontes](cat
 O Chromium local foi impedido de iniciar pelo sandbox (`socket(): Operation not permitted`); a execução com revisão de permissão também não conseguiu inicializar o ambiente. Nenhuma asserção visual/local foi executada com sucesso. Não foram usadas rotas alternativas para contornar essa restrição. Os testes Playwright preparados devem ser executados em ambiente autorizado antes da homologação visual, incluindo desktop/mobile, teclado, voltar/avançar, orçamento, filtros, resumo parcial e recuperação dos links.
 
 As páginas públicas de fabricantes/lojas foram consultadas no navegador cloud apenas para verificar fontes e ofertas, não para validar a aplicação local.
+
+## Complementação do plano integral
+
+A revisão não confunde implementação com aceite humano. A [matriz integral de aceite](V3-ACCEPTANCE-MATRIX.md) cobre cada item do plano e as dependências restantes.
+
+- Objetivo descrito no primeiro passo, além de orçamento e tipo de uso.
+- Explicações por componente com fatos, custo, posição real na ordenação do algoritmo, alternativas de uma peça e motivos concretos de exclusão. A montagem manual não é apresentada como recomendação automática.
+- Lacuna de entrada revisada por orçamento/uso: a evidência específica da MSI permite verificar a alimentação sem cabo da 3050 LP existente; isso torna viável uma montagem de referência de R$ 4.339,84 para limite de R$ 4.500. Limites de R$ 3.000/4.000 continuam sem promessa de configuração completa verificada.
+- Arc A380 acrescentada como opção factual de menor preço e recursos de mídia, com UEFI, CSM, GPT e Resizable BAR explicitamente pendentes quando desconhecidos. O total passa a 88 produtos ativos; cinco novos CPU/GPU não recebem pontuações ou FPS inventados.
+- Coerência de tipografia, hierarquia, espaçamento, estados e foco aplicada às telas relevantes; auditoria de contraste dos tokens e composições reais separada da verificação visual em navegador.
+- Regressões de seleção completa, voltar/avançar, recarregar, resumo e lojas, troca individual, recálculo, desfazer e rejeição de análise antiga; preservação das 81 identidades anteriores.
+- [Protocolo do ciclo 3](V3-CICLO3-PROTOCOLO.md) e ficha vazia de observação preparados. Não houve testes com participantes.
+
+Continuam dependentes de evidência/ambiente: reprodução da combinação exata do relato original, calibração de desempenho dos novos modelos, navegação real por teclado e validação responsiva no navegador autorizado, e sessões humanas do ciclo 3. Não há alegação de cumprimento observado da meta de 90%.
+
+### Validação final da complementação (20/10/2026)
+
+- `npm test`: **1.030 testes aprovados, zero falhas e skips**.
+- Lint raiz/frontend e build de produção: aprovados; aviso existente de bundle >500 kB permanece (JavaScript 1.012,19 kB antes de gzip).
+- **17 scripts `check-*.mjs` aprovados**, incluindo o harness de 35 grupos/853 assertivas e **64/64 verificações de contraste**.
+- Auditoria de imagens: **88/88 ativos verificados**, zero fallback, órfãos e duplicatas suspeitas.
+- Playwright: **304 casos E2E e 18 de integração coletados; nenhum executado**.
+- `git diff --check`: aprovado.
+- A nova explicação por peça também tem isolamento de falha e regressão: indisponibilidade não derruba o resumo inteiro.

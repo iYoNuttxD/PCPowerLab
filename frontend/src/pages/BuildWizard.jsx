@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { describeBuildObjective } from '../utils/buildObjectives.js';
 import { stepSelectionConflicts } from '../utils/selectionConflicts.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { Save, Wand2 } from 'lucide-react';
@@ -365,7 +366,7 @@ export default function BuildWizard() {
 
         {currentStep === 'budget' && (
           <Card className="wizard-budget-start">
-            <h3>Orçamento e tipo de uso</h3>
+            <h3>Orçamento e objetivo do PC</h3>
             <p>Defina o ponto de partida. Você pode ajustar estes valores sem perder as peças escolhidas.</p>
             {budgetCurrencyError && <Alert type="warning">
               <p>Seu orçamento salvo usa {budgetCurrency}. Informe um novo valor em reais para comparar com o catálogo.</p>
@@ -393,11 +394,13 @@ export default function BuildWizard() {
               />
               <Select
                 label="Tipo de uso"
+                aria-describedby="wizard-objective-description"
                 value={build.usageType}
                 onChange={(event) => { clearMessages(); build.actions.setUsageType(event.target.value); }}
                 options={[...new Set([...usageTypes, build.usageType])].map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
+            <p id="wizard-objective-description" className="hint-text" role="status"><strong>Seu objetivo: </strong>{describeBuildObjective(build.usageType)}</p>
             <p className="hint-text">Os preços são referências, sem frete e montagem. A compatibilidade será verificada na revisão.</p>
           </Card>
         )}

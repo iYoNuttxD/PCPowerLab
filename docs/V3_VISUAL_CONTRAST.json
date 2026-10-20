@@ -1,0 +1,521 @@
+{
+  "scope": "V3 wizard, catalog, summary, recommendation and shared controls",
+  "method": "WCAG sRGB relative luminance; actual CSS token/declaration inputs; alpha compositing for status surfaces and disabled controls. Decorative separators and disabled controls are not normative requirements.",
+  "limitation": "Source-token audit only. Browser geometry, computed cascade, assistive technology and real keyboard interaction remain separate checks.",
+  "count": 64,
+  "passed": 64,
+  "checks": [
+    {
+      "name": "--text text on --bg",
+      "ratio": 17.289,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--muted text on --bg",
+      "ratio": 11.012,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--cyan text on --bg",
+      "ratio": 12.382,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--green text on --bg",
+      "ratio": 12.532,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--yellow text on --bg",
+      "ratio": 12.816,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--red text on --bg",
+      "ratio": 9.501,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "focus ring beside --bg",
+      "ratio": 12.816,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css :focus-visible (3px outline, 3px offset)",
+      "passed": true
+    },
+    {
+      "name": "control border on --bg",
+      "ratio": 5.272,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .field controls / .btn-secondary / .btn-ghost",
+      "passed": true
+    },
+    {
+      "name": "--text text on --bg-elevated",
+      "ratio": 15.474,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--muted text on --bg-elevated",
+      "ratio": 9.856,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--cyan text on --bg-elevated",
+      "ratio": 11.082,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--green text on --bg-elevated",
+      "ratio": 11.216,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--yellow text on --bg-elevated",
+      "ratio": 11.471,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--red text on --bg-elevated",
+      "ratio": 8.504,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "focus ring beside --bg-elevated",
+      "ratio": 11.471,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css :focus-visible (3px outline, 3px offset)",
+      "passed": true
+    },
+    {
+      "name": "control border on --bg-elevated",
+      "ratio": 4.718,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .field controls / .btn-secondary / .btn-ghost",
+      "passed": true
+    },
+    {
+      "name": "--text text on --panel",
+      "ratio": 15.012,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--muted text on --panel",
+      "ratio": 9.562,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--cyan text on --panel",
+      "ratio": 10.752,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--green text on --panel",
+      "ratio": 10.881,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--yellow text on --panel",
+      "ratio": 11.128,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--red text on --panel",
+      "ratio": 8.25,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "focus ring beside --panel",
+      "ratio": 11.128,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css :focus-visible (3px outline, 3px offset)",
+      "passed": true
+    },
+    {
+      "name": "control border on --panel",
+      "ratio": 4.578,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .field controls / .btn-secondary / .btn-ghost",
+      "passed": true
+    },
+    {
+      "name": "--text text on --panel-strong",
+      "ratio": 13.121,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--muted text on --panel-strong",
+      "ratio": 8.357,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--cyan text on --panel-strong",
+      "ratio": 9.397,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--green text on --panel-strong",
+      "ratio": 9.511,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--yellow text on --panel-strong",
+      "ratio": 9.727,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "--red text on --panel-strong",
+      "ratio": 7.211,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "theme.css tokens used by global.css and journey.css",
+      "passed": true
+    },
+    {
+      "name": "focus ring beside --panel-strong",
+      "ratio": 9.727,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css :focus-visible (3px outline, 3px offset)",
+      "passed": true
+    },
+    {
+      "name": "control border on --panel-strong",
+      "ratio": 4.001,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .field controls / .btn-secondary / .btn-ghost",
+      "passed": true
+    },
+    {
+      "name": "input placeholder",
+      "ratio": 8.028,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "global.css placeholder / field background",
+      "passed": true
+    },
+    {
+      "name": "primary button text",
+      "ratio": 12.382,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "global.css .btn-primary",
+      "passed": true
+    },
+    {
+      "name": "primary button visible boundary",
+      "ratio": 9.397,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .btn-primary",
+      "passed": true
+    },
+    {
+      "name": "primary disabled text (non-normative)",
+      "ratio": 7.62,
+      "minimum": 4.5,
+      "criterion": "extra legibility target; disabled exempt",
+      "source": "global.css .btn-primary + .btn:disabled opacity",
+      "passed": true
+    },
+    {
+      "name": "secondary button text",
+      "ratio": 9.397,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "global.css .btn-secondary",
+      "passed": true
+    },
+    {
+      "name": "secondary button visible boundary",
+      "ratio": 4.001,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .btn-secondary",
+      "passed": true
+    },
+    {
+      "name": "secondary disabled text (non-normative)",
+      "ratio": 6.08,
+      "minimum": 4.5,
+      "criterion": "extra legibility target; disabled exempt",
+      "source": "global.css .btn-secondary + .btn:disabled opacity",
+      "passed": true
+    },
+    {
+      "name": "success button text",
+      "ratio": 12.532,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "global.css .btn-success",
+      "passed": true
+    },
+    {
+      "name": "success button visible boundary",
+      "ratio": 9.511,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .btn-success",
+      "passed": true
+    },
+    {
+      "name": "success disabled text (non-normative)",
+      "ratio": 7.687,
+      "minimum": 4.5,
+      "criterion": "extra legibility target; disabled exempt",
+      "source": "global.css .btn-success + .btn:disabled opacity",
+      "passed": true
+    },
+    {
+      "name": "danger button text",
+      "ratio": 7.076,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "global.css .btn-danger",
+      "passed": true
+    },
+    {
+      "name": "danger button visible boundary",
+      "ratio": 7.211,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css .btn-danger",
+      "passed": true
+    },
+    {
+      "name": "danger disabled text (non-normative)",
+      "ratio": 4.726,
+      "minimum": 4.5,
+      "criterion": "extra legibility target; disabled exempt",
+      "source": "global.css .btn-danger + .btn:disabled opacity",
+      "passed": true
+    },
+    {
+      "name": "info alert title",
+      "ratio": 9.447,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css :is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-info; alpha composited over --panel",
+      "passed": true
+    },
+    {
+      "name": "info alert body",
+      "ratio": 8.402,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css alert body on composited fill",
+      "passed": true
+    },
+    {
+      "name": "info alert boundary/icon",
+      "ratio": 9.447,
+      "minimum": 3,
+      "criterion": "1.4.11 non-text indicator",
+      "source": "journey.css status border/icon on composited fill",
+      "passed": true
+    },
+    {
+      "name": "info alert focus",
+      "ratio": 9.778,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css focus ring on composited fill",
+      "passed": true
+    },
+    {
+      "name": "success alert title",
+      "ratio": 9.57,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css :is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-success; alpha composited over --panel",
+      "passed": true
+    },
+    {
+      "name": "success alert body",
+      "ratio": 8.409,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css alert body on composited fill",
+      "passed": true
+    },
+    {
+      "name": "success alert boundary/icon",
+      "ratio": 9.57,
+      "minimum": 3,
+      "criterion": "1.4.11 non-text indicator",
+      "source": "journey.css status border/icon on composited fill",
+      "passed": true
+    },
+    {
+      "name": "success alert focus",
+      "ratio": 9.787,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css focus ring on composited fill",
+      "passed": true
+    },
+    {
+      "name": "warning alert title",
+      "ratio": 9.818,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css :is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-warning; alpha composited over --panel",
+      "passed": true
+    },
+    {
+      "name": "warning alert body",
+      "ratio": 8.436,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css alert body on composited fill",
+      "passed": true
+    },
+    {
+      "name": "warning alert boundary/icon",
+      "ratio": 9.818,
+      "minimum": 3,
+      "criterion": "1.4.11 non-text indicator",
+      "source": "journey.css status border/icon on composited fill",
+      "passed": true
+    },
+    {
+      "name": "warning alert focus",
+      "ratio": 9.818,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css focus ring on composited fill",
+      "passed": true
+    },
+    {
+      "name": "error alert title",
+      "ratio": 7.46,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css :is(.journey-wizard, .catalog-page, .summary-page, .recommendation-card, .modal-panel) .alert-error; alpha composited over --panel",
+      "passed": true
+    },
+    {
+      "name": "error alert body",
+      "ratio": 8.646,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "journey.css alert body on composited fill",
+      "passed": true
+    },
+    {
+      "name": "error alert boundary/icon",
+      "ratio": 7.46,
+      "minimum": 3,
+      "criterion": "1.4.11 non-text indicator",
+      "source": "journey.css status border/icon on composited fill",
+      "passed": true
+    },
+    {
+      "name": "error alert focus",
+      "ratio": 10.063,
+      "minimum": 3,
+      "criterion": "1.4.11 / 2.4.7 focus indicator",
+      "source": "journey.css focus ring on composited fill",
+      "passed": true
+    },
+    {
+      "name": "large summary metric",
+      "ratio": 15.474,
+      "minimum": 3,
+      "criterion": "1.4.3 large bold text",
+      "source": "journey.css .summary-page .metric-grid strong (1.375rem bold)",
+      "passed": true
+    },
+    {
+      "name": "active filter text",
+      "ratio": 13.121,
+      "minimum": 4.5,
+      "criterion": "1.4.3 normal text",
+      "source": "global.css active filters",
+      "passed": true
+    },
+    {
+      "name": "active filter boundary",
+      "ratio": 4.001,
+      "minimum": 3,
+      "criterion": "1.4.11 control boundary",
+      "source": "global.css active filters",
+      "passed": true
+    }
+  ]
+}

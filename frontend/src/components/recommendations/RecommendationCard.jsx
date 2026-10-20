@@ -9,6 +9,7 @@ import Select from '../ui/Select.jsx';
 import { componentLabels, componentTypes, usageLabels, priorityLabels } from '../../utils/componentLabels.js';
 import { calculateBuildPrice, recommendationSelection } from '../../utils/buildHelpers.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
+import RecommendationExplanation from './RecommendationExplanation.jsx';
 
 export default function RecommendationCard({ recommendation, onApply, onPreview, currentComponents = {}, disabled = false }) {
   if (!recommendation) {
@@ -49,6 +50,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         })}
         {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s)</small></ComponentIdentity></li>)}
       </ul>
+      <RecommendationExplanation explanation={recommendation.selectionExplanation} comparison={recommendation.comparison} needsRecalculation={Boolean(retainsCooling)} />
       <SuggestedPiecePicker components={suggested} currentComponents={currentComponents} onPreview={onPreview} disabled={disabled} />
       {onApply && <p className="hint-text">A recomendação troca as peças principais e mantém sua refrigeração, salvo quando indicar outra.</p>}
       {onApply && (

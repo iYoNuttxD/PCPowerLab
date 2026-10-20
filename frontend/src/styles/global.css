@@ -40,7 +40,7 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid var(--yellow);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
 
@@ -653,7 +653,7 @@ p:last-child {
 
 .btn:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.76;
 }
 
 .btn-loader {
@@ -2299,7 +2299,7 @@ p:last-child {
 }
 
 svg { flex-shrink: 0; }
-input::placeholder, textarea::placeholder { color: #96a9c1; opacity: 1; }
+input::placeholder, textarea::placeholder { color: var(--placeholder); opacity: 1; }
 input[aria-invalid="true"] { border-color: var(--red); }
 .field input:disabled, .field select:disabled { cursor: not-allowed; opacity: 0.7; }
 .segmented-control button:hover, .stepper button:hover { border-color: var(--cyan); }
@@ -2348,7 +2348,7 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .simulation-modes legend { padding: 0 0 var(--space-3); font-weight: 700; }
 .simulation-modes label { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--border-strong); border-radius: var(--radius); cursor: pointer; background: var(--panel); }
 .simulation-modes label:has(:checked) { border-color: var(--cyan); background: var(--panel-strong); }
-.simulation-modes label:focus-within { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.simulation-modes label:focus-within { outline: 3px solid var(--focus); outline-offset: 3px; }
 .simulation-modes input { accent-color: var(--cyan); width: 20px; height: 20px; flex-shrink: 0; }
 .simulation-modes small { display: block; color: var(--muted); margin-top: var(--space-1); line-height: 1.5; }
 .analysis-table-scroll { overflow-x: auto; max-width: 100%; }
@@ -2422,7 +2422,7 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .component-comparison-table tr > :first-child { position: sticky; left: 0; background: var(--panel); min-width: 120px; }
 .replacement-option { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
 .replacement-option:has(:checked) { border-color: var(--cyan); background: var(--panel-strong); }
-.replacement-option:focus-within { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.replacement-option:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
 .replacement-option input { accent-color: var(--cyan); flex-shrink: 0; width: 20px; height: 20px; }
 .replacement-option small { display: block; margin-top: var(--space-2); color: var(--muted); }
 @media (max-width: 560px) {
@@ -2577,3 +2577,32 @@ input[aria-invalid="true"] { border-color: var(--red); }
 .recommendation-result-card .component-identity { flex-wrap: wrap; }
 .ready-build-card .component-identity-text,
 .recommendation-result-card .component-identity-text { flex: 1 1 160px; }
+
+
+/* Shared access states: labels and native semantics remain the source of truth. */
+.field label { color: var(--text); line-height: 1.5; }
+.field :is(input, select, textarea)[aria-invalid="true"] { border-color: var(--red); border-width: 2px; }
+.field-error { line-height: 1.5; }
+.field :is(input, select, textarea):focus-visible { outline-color: var(--focus); }
+.btn { line-height: 1.5; }
+.btn[aria-busy="true"] { cursor: progress; }
+.modal-panel { overscroll-behavior: contain; scroll-padding-block: var(--space-6); }
+.modal-panel :is(summary, a:not(.btn)) { text-underline-offset: 3px; }
+.modal-panel a:not(.btn) { text-decoration: underline; }
+.modal-panel summary { min-height: 44px; padding-block: var(--space-2); cursor: pointer; }
+.modal-panel [tabindex]:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.task-panel:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+@media (forced-colors: active) {
+  :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 3px solid Highlight;
+  }
+  .btn, .field :is(input, select, textarea), .task-tabs > button { border-color: ButtonText; }
+  .btn[aria-pressed="true"], .task-tabs [aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -4px; }
+}
+
+.field-messages { display: grid; gap: var(--space-1); min-width: 0; }
+
+/* Text enlargement can need two header rows before the width breakpoint changes. */
+.topbar, .nav-list { flex-wrap: wrap; }
+.main-nav { min-width: 0; max-width: 100%; }
+.brand, .mobile-menu-button { max-width: 100%; }
