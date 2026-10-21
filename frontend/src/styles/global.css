@@ -2581,7 +2581,7 @@ input[aria-invalid="true"] { border-color: var(--red); }
 
 /* Shared access states: labels and native semantics remain the source of truth. */
 .field label { color: var(--text); line-height: 1.5; }
-.field :is(input, select, textarea)[aria-invalid="true"] { border-color: var(--red); border-width: 2px; }
+.field :is(input, select, textarea)[aria-invalid="true"] { border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
 .field-error { line-height: 1.5; }
 .field :is(input, select, textarea):focus-visible { outline-color: var(--focus); }
 .btn { line-height: 1.5; }

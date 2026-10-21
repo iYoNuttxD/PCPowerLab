@@ -51,6 +51,11 @@
 .wizard-budget-start > p { color: var(--muted); line-height: 1.6; max-width: 65ch; }
 .wizard-budget-start .form-grid { margin-block: var(--space-4); gap: var(--space-5); }
 .wizard-layout.journey-wizard.is-planning { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 960px; margin-inline: auto; }
+.journey-wizard.is-planning .wizard-main { gap: var(--space-4); }
+.journey-wizard.is-planning .compact-hero { padding-block: var(--space-2) 0; }
+.journey-wizard.is-planning .compact-hero h1 { margin-bottom: 0; }
+.journey-wizard.is-planning .wizard-step-content { padding-top: var(--space-4); }
+.journey-wizard.is-planning .wizard-budget-start .form-grid { margin-top: 0; }
 .journey-wizard .wizard-selection { border-color: var(--green); padding: var(--space-4); font-size: 0.9375rem; }
 .journey-wizard .wizard-sidebar .panel-card { padding: var(--space-5); gap: var(--space-3); }
 .journey-wizard .wizard-sidebar h2 { font-size: 1.2rem; }

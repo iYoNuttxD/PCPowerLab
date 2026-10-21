@@ -50,6 +50,13 @@ test('starts with budget/use and editing resumes the same piece without losing s
   expect(state.usageType).toBe('programming');
 });
 
+test('first budget entry is fully visible on a notebook without scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.goto('/build');
+  await expect(page.getByRole('spinbutton', { name: 'Orçamento', exact: true })).toBeInViewport({ ratio: 1 });
+  await expect(page.getByRole('combobox', { name: 'Tipo de uso', exact: true })).toBeInViewport({ ratio: 1 });
+});
+
 test('search, keyboard details and step changes preserve completed analysis', async ({ page }) => {
   await seed(page);
   await mockWizardAnalysis(page);

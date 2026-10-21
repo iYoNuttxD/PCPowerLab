@@ -366,8 +366,6 @@ export default function BuildWizard() {
 
         {currentStep === 'budget' && (
           <Card className="wizard-budget-start">
-            <h3>Orçamento e objetivo do PC</h3>
-            <p>Defina o ponto de partida. Você pode ajustar estes valores sem perder as peças escolhidas.</p>
             {budgetCurrencyError && <Alert type="warning">
               <p>Seu orçamento salvo usa {budgetCurrency}. Informe um novo valor em reais para comparar com o catálogo.</p>
               <Button variant="secondary" onClick={() => {

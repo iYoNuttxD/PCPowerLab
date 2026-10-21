@@ -42,8 +42,9 @@ async function expectPositionedHeading(page) {
   await expect.poll(() => page.evaluate(() => {
     const heading = document.querySelector('#wizard-step-heading').getBoundingClientRect();
     const controls = document.querySelector('.wizard-actions').getBoundingClientRect();
-    return heading.top >= controls.bottom + 8 && heading.bottom < innerHeight;
-  })).toBe(true);
+    return heading.top - controls.bottom;
+  })).toBeGreaterThanOrEqual(8);
+  await expect(page.locator('#wizard-step-heading')).toBeInViewport({ ratio: 1 });
 }
 
 async function analyze(page) {

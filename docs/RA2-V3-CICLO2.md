@@ -2,6 +2,8 @@
 
 Data: 20/10/2026. Base: `442fa2e` (PR #46). Proposta para revisão, sem publicação em produção.
 
+**Atualização do Mac autorizado:** [305 E2E aprovados, 1 skip esperado e 18 integrações aprovadas](V3-MAC-BROWSER-VALIDATION.md), com inspeção real, teclado e zoom nativo de 200%. Os registros de bloqueio da nuvem abaixo são históricos. O ciclo 3 humano, a configuração original do relato e a calibração dos cinco novos CPU/GPU continuam pendentes.
+
 ## Evidência e limites
 
 O ciclo 2 reuniu 10 respostas. A principal falha relatada foi uma montagem com todas as peças selecionadas que terminou em “Dados insuficientes”, sem resultados e links. A configuração exata desse respondente não foi fornecida: **não é possível afirmar que o caso original foi reproduzido**.
@@ -66,6 +68,8 @@ A revisão não confunde implementação com aceite humano. A [matriz integral d
 - [Protocolo do ciclo 3](V3-CICLO3-PROTOCOLO.md) e ficha vazia de observação preparados. Não houve testes com participantes.
 
 Continuam dependentes de evidência/ambiente: reprodução da combinação exata do relato original, calibração de desempenho dos novos modelos, navegação real por teclado e validação responsiva no navegador autorizado, e sessões humanas do ciclo 3. Não há alegação de cumprimento observado da meta de 90%.
+
+Atualização: a dependência de navegador desta lista foi resolvida no Mac. Os demais limites permanecem. A [matriz de aceite](V3-ACCEPTANCE-MATRIX.md) registra a situação atual.
 
 ### Validação final da complementação (20/10/2026)
 

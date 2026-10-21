@@ -217,7 +217,7 @@ test('optional cooling can be skipped during catalog failure and is not required
   await expectSelectionOnly(page);
   await expect(page.getByRole('tab', { name: /^Cooler do processador(?: ·|$)/ })).toHaveAttribute('aria-selected', 'true');
   await page.getByRole('button', { name: 'Continuar', exact: true }).click();
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
   await page.getByRole('button', { name: 'Voltar', exact: true }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Refrigeração');
   const state = await stored(page);

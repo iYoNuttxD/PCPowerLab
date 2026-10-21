@@ -53,7 +53,7 @@ test('cooling selection uses product cards and exposes no simulator before Summa
   await expect(page.locator('.cooling-panel .cooling-simulation')).toHaveCount(0);
   await expect(page.getByRole('combobox', { name: 'Cooler do processador', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Continuar', exact: true }).click();
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
   const state = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), storageKey);
   expect(state.selectedComponents.cooler.id).toBe(selectedComponents.cooler.id);
 });

@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
     if (path === '/components') return ok(route, listComponents({ includeLegacy: true }));
     if (path === '/performance/games') return ok(route, games);
     if (path === '/build-summary') return ok(route, generateBuildSummary(route.request().postDataJSON()));
-    if (path === '/purchase-links/build') return ok(route, getPurchaseLinksByBuild(route.request().postDataJSON()));
+    if (path === '/purchase-links/by-build') return ok(route, getPurchaseLinksByBuild(route.request().postDataJSON()));
     if (path === '/notifications') return ok(route, []);
     return fail(route, `Unexpected test endpoint: ${path}`);
   });
@@ -54,7 +54,7 @@ test('slow store lookup cannot delay completed summary or FPS', async ({ page })
   await seed(page);
   let release;
   const pending = new Promise(resolve => { release = resolve; });
-  await page.route('**/purchase-links/build', async route => {
+  await page.route('**/purchase-links/by-build', async route => {
     await pending;
     await ok(route, getPurchaseLinksByBuild(route.request().postDataJSON()));
   });
@@ -71,7 +71,7 @@ test('slow store lookup cannot delay completed summary or FPS', async ({ page })
 test('store failure has its own retry and cannot erase summary or budget', async ({ page }) => {
   await seed(page);
   let failLinks = true;
-  await page.route('**/purchase-links/build', route => {
+  await page.route('**/purchase-links/by-build', route => {
     return failLinks ? fail(route, 'Lojas temporariamente indisponíveis.')
       : ok(route, getPurchaseLinksByBuild(route.request().postDataJSON()));
   });
@@ -94,7 +94,7 @@ test('pending BIOS stays specific and does not hide bottlenecks, alternatives or
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
   await expect(page.getByText('Montagem completa: 7 de 7 peças principais selecionadas', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Verificações pendentes', exact: true })).toBeVisible();
-  await expect(page.getByText(/BIOS instalado ou versão mínima/)).toBeVisible();
+  await expect(page.getByRole('article').getByText(/BIOS instalado ou versão mínima/)).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Análise de gargalos', exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Simulação indisponível', exact: true })).toBeVisible();
   await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);

@@ -1,5 +1,7 @@
 # V3 P2: hierarquia visual e acessibilidade
 
+**Atualização:** [inspeção no Mac concluída](V3-MAC-BROWSER-VALIDATION.md) com Chrome, teclado e zoom nativo de 200%. O bloqueio de navegador descrito abaixo pertence à etapa anterior na nuvem.
+
 ## Escopo implementado
 
 A revisão atua no assistente, catálogo, resumo e recomendações. A estrutura da página inicial, o console ilustrativo, as quatro áreas de apresentação e as imagens/créditos existentes não foram substituídos. O cabeçalho compartilhado pode quebrar em duas linhas quando o texto aumenta, sem alterar seus destinos.
@@ -53,7 +55,7 @@ Inspeção/execução isolada também confirmou: link para pular ao conteúdo, r
 - Lint frontend e build de produção aprovados. O alerta existente de bundle maior que 500 kB permanece.
 - `npx playwright test tests/e2e/visual-accessibility-v3.spec.js --list`: dez casos coletados, cinco cenários em desktop e mobile. Coleta não significa execução.
 
-## Navegador: pendência explícita
+## Histórico: navegador bloqueado na nuvem
 
 O coordenador registrou que o Chromium local foi impedido pelo ambiente ao criar o socket do processo e que a tentativa de escalonamento foi negada. Esta frente não repetiu nem contornou a operação negada e não usou o computador do usuário.
 
@@ -66,3 +68,11 @@ Os testes Playwright adicionados cobrem, quando executados em ambiente permitido
 5. Altura de 500 px, navegação não fixa e campo de busca visível sem overflow global.
 
 Ainda não verificados: aparência/ritmo visual no navegador, responsividade real, zoom de navegador, leitor de tela, comportamento de foco nativo, contraste computado completo, capturas finais e testes humanos. Antes de marcar P2 como validado visualmente, executar esses cenários no SHA final e registrar as evidências. Sem commit, push, merge ou deploy nesta frente.
+
+## Execução posterior no Mac
+
+Os dez casos de `visual-accessibility-v3.spec.js` passaram dentro da suíte final de 305 E2E aprovados e 1 skip esperado. Inspeção no Chrome do usuário confirmou foco do diálogo, Escape ao acionador, filtros pelo teclado, legibilidade em 390/1366/1920 px e zoom nativo de 200% (855 × 448 CSS na janela normal). A navegação passa a estática na altura reduzida, sem cobrir o formulário. O zoom foi restaurado para 100% após a inspeção.
+
+A borda de erro de 2 px alterava a geometria dos campos. Foi substituída por borda com espessura constante e reforço interno da mesma cor, mantendo mensagem e `aria-invalid`. Os testes de alinhamento passaram em 320/390/768/1024/1440 px. O primeiro orçamento ficou mais compacto, com folga preservada para o foco ao voltar.
+
+Continuam fora do que foi verificado: leitor de tela, cores forçadas reais, todos os pixels/estados possíveis e avaliação humana do ciclo 3. Os 64 contrastes continuam sendo auditoria de tokens/composições. [Capturas e relato de execução](V3-MAC-BROWSER-VALIDATION.md).

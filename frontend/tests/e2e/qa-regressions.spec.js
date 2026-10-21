@@ -75,6 +75,7 @@ test('resposta atrasada do resumo não restaura análises após editar uma peça
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
   await expect.poll(() => Boolean(release)).toBe(true);
   await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();
+  await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
   const replacement = activePart(components, 'cpu-ryzen-5-5500');
   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();
   await releaseResponse(page, release);

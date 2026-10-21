@@ -16,7 +16,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
     return (
       <Card>
         <h3>Recomendações</h3>
-        <p>Informe orçamento e tipo de uso para gerar uma configuração recomendada.</p>
+        <p>Use Gerar recomendação para comparar uma sugestão com seu orçamento e tipo de uso. Suas peças só mudam quando você aplica a sugestão.</p>
       </Card>
     );
   }

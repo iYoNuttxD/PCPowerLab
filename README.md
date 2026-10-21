@@ -1,10 +1,10 @@
 # PCPowerLab
 
-> V3 em revisão: [correções do ciclo 2 e limites de validação](docs/RA2-V3-CICLO2.md). Resumo resiliente, orçamento primeiro e catálogo verificado. A homologação visual desta revisão ainda depende de execução em navegador autorizado.
+> V3 em revisão: [correções do ciclo 2 e limites de validação](docs/RA2-V3-CICLO2.md). [Validação no Mac](docs/V3-MAC-BROWSER-VALIDATION.md): 305 E2E aprovados, 1 skip esperado e 18 integrações aprovadas, com inspeção no Chrome e zoom nativo de 200%. O ciclo 3 com participantes e a calibração de novos modelos continuam pendentes.
 
 > [Consolidação técnica da base V2](docs/RA2-CONSOLIDACAO-FINAL.md): catálogo, pontuações, refrigeração, revisão de interface e evidências por fonte. Na base V2, navegador ef7f: 267 E2E aprovados, 1 skip e 18 integrações aprovadas; revisão focal ac27 em cinco larguras aprovada. Consolidação visual/cores/zoom pendente; **NÃO HOMOLOGADA integralmente**.
 
-> Revisão do catálogo: [substituições, compatibilidade e preservação de configurações](docs/RA2-CATALOG-REPLACEMENTS.md). 87 componentes ativos com referência datada e fotografia após a expansão V3; 117 identidades do catálogo anterior preservadas. Disponibilidade observada não é estoque ao vivo.
+> Revisão do catálogo: [substituições, compatibilidade e preservação de configurações](docs/RA2-CATALOG-REPLACEMENTS.md). 88 componentes ativos com referência datada e fotografia após a expansão V3; 117 identidades do catálogo anterior preservadas. Disponibilidade observada não é estoque ao vivo.
 
 PCPowerLab é uma API em Node.js/Express para apoiar a montagem de computadores personalizados. O MVP ajuda o usuário a consultar peças, montar builds, validar compatibilidade, analisar gargalos, simular desempenho, controlar orçamento, receber recomendações, salvar configurações, comparar builds, sugerir upgrades, compartilhar configurações e consultar links de pesquisa de compra com origem de preço identificada.
 
