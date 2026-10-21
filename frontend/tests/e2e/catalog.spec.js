@@ -106,6 +106,7 @@ test('compara peças da mesma categoria, mantém seleção ao filtrar e padroniz
   expect(columnNames.slice().sort()).toEqual([ram16.name, ram32.name].sort());
   await expect(capacityRow.getByRole('cell')).toHaveText(columnNames.map(name => capacityByName.get(name)));
   await expect(dialog.getByRole('row').filter({ hasText: 'Taxa de transferência' })).toContainText('3.600 MT/s');
+  await dialog.getByRole('button', { name: 'Mostrar todas as especificações', exact: true }).click();
   await expect(dialog.getByRole('row').filter({ hasText: 'Modelo / código' })).toContainText(ram32.partNumber);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Comparar peças (2)', exact: true })).toBeFocused();

@@ -1,0 +1,21 @@
+{
+  "manualInspection": true,
+  "sourceFreeze": "code-freeze.json",
+  "checks": [
+    "Wi-Fi query returned three motherboards",
+    "same B650 chipset exposes M.2/Wi-Fi/network/USB differences",
+    "compact photo 88px and firmware in full specifications",
+    "comparison mobile close remained at y=71.23 with table focused",
+    "integrated summary 2489.94 and Cyberpunk 1080p high range 4-14 FPS",
+    "cooling focus last summary, close y=25, no horizontal overflow",
+    "Escape restored exact thermal opener",
+    "browser back/forward retained summary selection and estimate",
+    "home inspected at 1920x1080",
+    "notebook comparison inspected at 1366x900",
+    "temporary viewport reset: 1710x952, no horizontal overflow"
+  ],
+  "nativeZoom200Final": "not observed; did not attempt native unlock; prior native screen lock evidence only",
+  "measurements": false,
+  "inspectionCompleteExceptNativeZoom": true,
+  "exactManualHistoryLimit": "Back/forward retained the summary and estimate; no claim of a separate route transition in this final observation."
+}

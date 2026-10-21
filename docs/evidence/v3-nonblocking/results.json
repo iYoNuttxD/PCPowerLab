@@ -1,14 +1,14 @@
 {
-  "at": "2026-10-21T08:35:47.682162+00:00",
+  "at": "2026-10-21T08:59:41.149442+00:00",
   "branch": "max/pcpowerlab-v3-cycle2",
   "pullRequest": 47,
-  "publicationStatus": "implementation commit verified on remote branch and GitHub PR",
+  "publicationStatus": "Initial nonblocking implementation verified on remote; this artifact records the fully tested comparison follow-up. Exact final head is verified after push and recorded in Library.",
   "codeFreeze": {
-    "at": "2026-10-21T08:26:42.904Z",
-    "sourceSha256": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4",
+    "at": "2026-10-21T08:50:10.117Z",
+    "sourceSha256": "9f7d6f62fe560af55f38d837f04d7286ec49bb666167c1cdf5afcfd9b860e550",
     "files": 299
   },
-  "sourceHashAfterTests": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4",
+  "sourceHashAfterTests": "9f7d6f62fe560af55f38d837f04d7286ec49bb666167c1cdf5afcfd9b860e550",
   "node": {
     "passed": 1084,
     "failed": 0,
@@ -62,17 +62,22 @@
     "log": "images-final.log"
   },
   "manualInspection": {
-    "earlierThisChange": [
-      "notebook 1366x900",
+    "finalThisChange": [
       "mobile 390x844",
-      "proposal 2489.94 to summary",
-      "FPS and cooling ranges",
-      "keyboard cycling"
+      "notebook 1366x900",
+      "monitor 1920x1080",
+      "Wi-Fi resource search:3 boards",
+      "same-chipset comparison including M.2/Wi-Fi/USB",
+      "summary integrated 2489.94, Cyberpunk 4-14 FPS",
+      "cooling popup Shift+Tab/Tab/Escape/return and close visible",
+      "comparison close visible with table focused",
+      "home 1920",
+      "viewport restored to 1710x952"
     ],
-    "latestPixels": "automated Chrome screenshots reviewed; further live inspection blocked by locked Mac",
-    "nativeZoom200Final": "not observed; older native zoom evidence is historical",
+    "nativeZoom200Final": "not repeated; prior native access reported locked screen; no unlock attempted",
     "userCycle3": false,
-    "participantOriginalBuildReproduced": false
+    "participantOriginalBuildReproduced": false,
+    "record": "manual-final-checks.json"
   },
   "estimates": {
     "measuredBenchmark": false,
@@ -80,7 +85,12 @@
     "coolingModel": "cooling-class-v1",
     "unknownDataBlocksCore": false
   },
-  "implementationCommit": "bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71",
   "remoteVerifiedAt": "2026-10-21T08:37:32.966871+00:00",
-  "pullRequestDraft": true
+  "pullRequestDraft": true,
+  "publishedImplementationBase": "bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71",
+  "followup": {
+    "compactComparison": true,
+    "stickyCloseAllDialogs": true,
+    "finalCodeChangedAfterTests": false
+  }
 }

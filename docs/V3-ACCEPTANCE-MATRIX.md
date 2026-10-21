@@ -18,7 +18,7 @@ Esta matriz separa implementação, validação automatizada e evidência que de
 | UI enxuta e ações visíveis | Busca + categoria + preço máximo, até um específico por categoria. Extras recolhidos; sem mínimo, atalho redundante, filtro de compatibilidade ou faixa de score. Resultado e ação principal antes dos detalhes. | Verificador catálogo; E2E catálogo; integração exige três controles visíveis em Todas as peças |
 | Orçamento realmente primeiro e sugestão utilizável | Orçamento/uso/tipo de vídeo visíveis na etapa 01; botão direto de sugestão; revisão sem mural de peças faltantes antes de aplicar proposta. | Jornada iniciante real R$ 3.000 → proposta R$ 2.489,94 → resumo com FPS e refrigeração |
 
-A matriz completa de 67 sinais permanece em [V3-FEEDBACK-FOLLOWUP.md](V3-FEEDBACK-FOLLOWUP.md). Estados PARCIAL/NÃO COMPROVADO de opinião ou autonomia humana não representam bloqueios funcionais do produto. Inspeções de versões anteriores, inclusive zoom nativo 200%, são identificadas como históricas; os últimos ajustes não herdam essa certificação.
+A matriz completa de 67 sinais permanece em [V3-FEEDBACK-FOLLOWUP.md](V3-FEEDBACK-FOLLOWUP.md). Estados PARCIAL/NÃO COMPROVADO de opinião ou autonomia humana não representam bloqueios funcionais do produto. Inspeção interativa final cobriu celular/notebook/1920, busca, comparação, resumo, pop-up e teclado; encontrou e corrigiu comparação longa e Fechar fora da tela. Zoom nativo 200% anterior permanece histórico; não foi repetido.
 
 ### Resultado final do contrato atual
 

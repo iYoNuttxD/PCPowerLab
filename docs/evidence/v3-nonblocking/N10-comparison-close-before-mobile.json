@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-21T08:48:55.726Z",
+  "type": "manual interactive Chrome inspection via CUA",
+  "url": "http://localhost:3192/components",
+  "viewport": {
+    "height": 844,
+    "overflow": false,
+    "width": 390
+  },
+  "codeState": "Intermediate inspection: compact comparison before universal sticky header",
+  "finalState": false,
+  "observedCloseBounds": {
+    "top": -587.765625,
+    "bottom": -540.96875,
+    "viewportHeight": 844
+  },
+  "issue": "Comparison close button offscreen after table receives keyboard focus"
+}

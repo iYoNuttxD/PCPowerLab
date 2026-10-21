@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-21T08:48:25.891Z",
+  "type": "manual interactive Chrome inspection via CUA",
+  "url": "http://localhost:3192/components",
+  "viewport": {
+    "height": 1080,
+    "overflow": false,
+    "width": 1920
+  },
+  "codeState": "Intermediate inspection: compact comparison before universal sticky header",
+  "finalState": false
+}

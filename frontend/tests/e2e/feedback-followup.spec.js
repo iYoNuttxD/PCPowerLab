@@ -20,6 +20,18 @@ test('resource search finds Wi-Fi boards and same-chipset comparison explains pr
   const dialog = page.getByRole('dialog', { name: 'Comparar componentes', exact: true });
   await expect(dialog.getByRole('row', { name: /^Slots M.2/ })).toContainText('2');
   await expect(dialog.getByRole('row', { name: /^Slots M.2/ })).toContainText('3');
+  await expect(dialog.getByRole('row', { name: /^Atualização de BIOS/ })).toHaveCount(0);
+  await expect(dialog.getByRole('row', { name: /^Marca / })).toHaveCount(0);
+  await expect(dialog.getByRole('row', { name: /^Pontuação de desempenho/ })).toHaveCount(0);
+  const photoWidth = await dialog.locator('.component-media').first().evaluate(node => node.getBoundingClientRect().width);
+  expect(photoWidth).toBeLessThanOrEqual(88);
+  await dialog.getByRole('button', { name: 'Mostrar todas as especificações', exact: true }).click();
+  await expect(dialog.getByRole('row', { name: /^Atualização de BIOS/ })).toBeVisible();
+  await dialog.getByRole('button', { name: 'Mostrar recursos essenciais', exact: true }).click();
+  await dialog.getByRole('region', { name: 'Tabela de comparação de peças', exact: true }).press('ArrowRight');
+  const closeBox = await dialog.getByRole('button', { name: 'Fechar', exact: true }).boundingBox();
+  expect(closeBox.y).toBeGreaterThanOrEqual(0);
+  expect(closeBox.y + closeBox.height).toBeLessThanOrEqual(page.viewportSize().height);
   await dialog.getByText('Mesmo chipset: como escolher entre os modelos?', { exact: true }).click();
   await expect(dialog).toContainText('O chipset não resume a placa');
   await expect(dialog).toContainText('sem Wi-Fi integrado');

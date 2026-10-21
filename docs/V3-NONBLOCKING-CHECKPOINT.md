@@ -1,9 +1,9 @@
 # Checkpoint final recuperável — 21/10/2026
 
-Branch max/pcpowerlab-v3-cycle2, PR #47 em rascunho. Todas as alterações preservadas, sem reset.
+Branch max/pcpowerlab-v3-cycle2, PR #47 em rascunho. Sem reset, merge ou deploy.
 
-Código congelado: fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4. 1.084 Node; 309 E2E + 1 skip; 39 integrações; seis verificações adicionais de captura sobrepostas; 17 verificadores/lints/build; 95 imagens: aprovados. Logs e resultados em docs/evidence/v3-nonblocking. Relatório atual: docs/V3-NONBLOCKING-VALIDATION.md. Matriz de 67 sinais preservada e atualizada.
+Código funcional congelado: 9f7d6f62fe560af55f38d837f04d7286ec49bb666167c1cdf5afcfd9b860e550. Regressão final pós-comparativo: 1.084 Node, 309 E2E + 1 skip previsto, 39 integrações e 17 verificadores/lints/build passaram. Catálogo e imagens inalterados, auditoria 95/95 aprovada. Logs e resultados em docs/evidence/v3-nonblocking.
 
-Inspeção real anterior observou a proposta integrada R$ 2.489,94 até resumo com faixas. Capturas finais automatizadas de desktop/celular revisadas. Inspeção manual adicional de últimos ajustes e zoom nativo 200% pendente enquanto Mac estiver bloqueado. Não houve tentativa de desbloqueio. Ciclo 3 e montagem original do participante não foram executados.
+Inspeção interativa final retomada após iniciar prévia isolada 3192 (credencial QA aleatória). Celular/notebook/1920, busca Wi-Fi, comparação B650, resumo integrado R$2.489,94, faixas térmicas/acústicas, foco/Escape/retorno, Fechar visível e home conferidos. Override de viewport restaurado. Restante de inspeção: zoom nativo 200% não repetido, sem tentativa de desbloquear Mac. Capturas N08–N16, incluindo antes/depois e notas JSON. Nenhuma homologação humana/ciclo 3 ou montagem original reproduzida.
 
-Implementação publicada e conferida no remoto/GitHub: bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71. PR permanece OPEN/DRAFT. Este fechamento documental posterior não modifica código funcional. Próximos passos: publicar este registro documental, conferir novo head e atualizar a Library ID libfile_c8f1fad0635c8191a64cae89c2377da8, versão observada 2. Sem merge/deploy. Logs de diagnóstico permanecem locais em validation-logs, fora do commit.
+Implementação principal já publicada bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71, documentação 64061ebd25a2728b2915d9aba24eaa3aa4aa6524. Este complemento de comparação está pronto para commit/push e conferência do novo head; depois atualizar a mesma Library ID libfile_c8f1fad0635c8191a64cae89c2377da8 (versão observada 3). Logs de diagnóstico permanecem locais em validation-logs, fora do commit. Relatório atual docs/V3-NONBLOCKING-VALIDATION.md; matriz completa de 67 sinais preservada.

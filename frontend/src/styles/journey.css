@@ -230,6 +230,6 @@
 .catalog-page .catalog-advanced-filters { margin-top: var(--space-2); padding: var(--space-3); }
 .summary-result-first { border-left: 4px solid var(--cyan); }
 .summary-result-first .metric-value { font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 750; }
-.cooling-dialog { scroll-padding-top: 8rem; }
-.cooling-dialog .modal-header { position: sticky; top: -24px; z-index: 3; background: var(--panel); padding-block: var(--space-2); }
-@media (max-width: 600px) { .cooling-dialog .modal-header { top: -16px; } }
+.modal-panel { scroll-padding-top: 8rem; }
+.modal-panel .modal-header { position: sticky; top: -24px; z-index: 3; background: var(--panel); padding-block: var(--space-2); }
+@media (max-width: 600px) { .modal-panel .modal-header { top: -16px; } }

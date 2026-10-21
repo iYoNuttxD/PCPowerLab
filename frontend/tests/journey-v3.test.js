@@ -108,7 +108,9 @@ test('motherboard comparison differentiates verified connectivity and preserves 
   assert.match(html, /Slots M.2[\s\S]*?<td>2<\/td><td>3<\/td>/);
   assert.match(html, /Wi-Fi integrado[\s\S]*?<td>Não<\/td><td>Wi-Fi 6E<\/td>/);
   assert.match(html, /Rede cabeada[\s\S]*?<td>1 Gbps<\/td><td>2,5 Gbps<\/td>/);
-  assert.match(html, /Atualização de BIOS sem CPU[\s\S]*?<td>Não confirmado<\/td><td>Sim<\/td>/);
+  assert.doesNotMatch(html, /scope="row">Atualização de BIOS sem CPU/);
+  assert.match(html, /Conector USB-C frontal[\s\S]*?<td>Não confirmado<\/td><td>Não confirmado<\/td>/);
+  assert.doesNotMatch(html, /scope="row">Pontuação de desempenho/);
 });
 
 
