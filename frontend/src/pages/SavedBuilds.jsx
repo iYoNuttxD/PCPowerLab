@@ -22,6 +22,7 @@ import { savedBuildsService } from '../services/savedBuildsService.js';
 import { savedBuildVersionsService } from '../services/savedBuildVersionsService.js';
 import { sharingService } from '../services/sharingService.js';
 import { buildToApiPayload, hydrateBuildComponents } from '../utils/buildHelpers.js';
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { componentLabels, componentTypes, priorityLabels, usageLabels } from '../utils/componentLabels.js';
 import { formatCurrency } from '../utils/formatCurrency.js';
 import { translateValue } from '../utils/translations.js';
@@ -301,7 +302,7 @@ export default function SavedBuilds() {
               {componentTypes.map((type) => (
                 <li key={type}>
                   <span>{componentLabels[type]}</span>
-                  <ComponentIdentity component={savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`]} category={type} />
+                  {type === 'gpu' && usesIntegratedGraphics(savedBuild.components) ? <strong>Vídeo integrado à CPU · sem compra separada</strong> : <ComponentIdentity component={savedBuild.components?.[type] || savedBuild.components?.[`${type}Id`]} category={type} />}
                 </li>
               ))}
               {(savedBuild.components?.coolerId || savedBuild.components?.cooler) && (
@@ -525,7 +526,7 @@ function SavedVersionSummary({ snapshot, componentMap }) {
     <h4>Peças desta versão</h4>
     <dl>
       {componentTypes.map(type => <div key={type}>
-        <dt>{componentLabels[type]}</dt><dd>{selection[type] ? nameFor(selection[type]) : 'Não informado nesta versão'}</dd>
+        <dt>{componentLabels[type]}</dt><dd>{type === 'gpu' && usesIntegratedGraphics(selection) ? 'Vídeo integrado à CPU · sem compra separada' : selection[type] ? nameFor(selection[type]) : 'Não informado nesta versão'}</dd>
       </div>)}
       <div><dt>{componentLabels.cooler}</dt><dd>{selection.cooler ? nameFor(selection.cooler) : 'Nenhum cooler separado registrado'}</dd></div>
       <div><dt>Ventoinhas adicionais</dt><dd>{selection.fans.length ? <ul>{selection.fans.map(fan => (

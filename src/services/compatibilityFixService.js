@@ -214,7 +214,7 @@ function mapBuildToIds(build) {
 
 function calculateMinimumRecommendedWatts(build) {
   const cpuTdp = build.cpu.specs.tdpWatts || 0;
-  const gpuRecommendedPsu = build.gpu.specs.recommendedPsuWatts || 0;
+  const gpuRecommendedPsu = build.gpu?.specs?.recommendedPsuWatts || 0;
 
   return Math.max(gpuRecommendedPsu, cpuTdp + 350) + getCoolingPower(build).knownWatts;
 }

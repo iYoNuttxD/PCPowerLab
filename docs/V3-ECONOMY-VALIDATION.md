@@ -1,5 +1,7 @@
 # PCPowerLab V3 — fechamento de recomendações econômicas
 
+> **Atualização de fechamento integral:** o estado atual é descrito em [V3-INTEGRAL-COMPLETION.md](V3-INTEGRAL-COMPLETION.md). Os valores e limites abaixo conservam a cronologia da etapa anterior. A arquitetura integrada foi implementada; há proposta factual de seis peças por R$ 2.489,94, além de opção dedicada por R$ 3.799,84. Isso não certifica BIOS instalada, desempenho nem satisfação humana.
+
 21/10/2026. Continuação de `9487ff14e559f4b15dc4ed7b05684772c502f329`, mesma branch/PR #47, sem merge/deploy. Escopo: escolhas econômicas úteis, diagnóstico de viabilidade e dados técnicos verificáveis. Não houve nova calibração nem teste humano.
 
 ## O que era corrigível e foi alterado

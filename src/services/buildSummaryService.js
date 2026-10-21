@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { checkBuildCompatibilityAlerts } from './compatibility-alert.service.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
@@ -389,7 +390,8 @@ function buildRecommendationObservation({ input, buildInput, budgetStatus, compo
         usageType: input.usageType || defaultUsageType,
         // Include selected cooling and its full cost. An alternative must not
         // silently omit accessories to fit the budget or claim compatibility.
-        components: buildInput
+        components: buildInput,
+        ...(usesIntegratedGraphics(components) ? { selectionMode: 'price-and-compatibility', graphicsMode: 'integrated' } : {})
       });
 
       return {

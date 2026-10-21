@@ -54,6 +54,9 @@ test('incomplete stock specifications remain scoped uncertainty rather than an i
   const result = checkCoolingCompatibility({ cpu: { specs: { includesCpuCooler: true,
     includedCpuCooler: { name: 'Unknown-height stock', specSourceUrl: 'https://manufacturer.example/fixture', specs: { coolingType: 'air' } }
   } } });
-  assertScoped(result.coolingAssessment);
+  assert.equal(result.coolingAssessment.status, 'unverified');
+  assert.equal(result.coolingAssessment.scope, 'included_cooler_identity_only');
+  assert.equal(result.coolingAssessment.includedCooler.dimensionsVerified, false);
+  assert.ok(result.coolingAssessment.unverifiedChecks.some(c => c.code === 'CPU_COOLING_FIT_UNVERIFIED'));
   assert.deepEqual(result.unverifiedChecks, []);
 });

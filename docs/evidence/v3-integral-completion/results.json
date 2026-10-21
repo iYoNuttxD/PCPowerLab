@@ -1,0 +1,51 @@
+{
+  "baseHead": "22e082d4e9833867c5c46577bfec26009d453cf3",
+  "functionalDiffSha256": "5fc112fba162b1662ad07e3f15b57fc82d26760550a9f72e2e22150a6cfba175",
+  "frozen": true,
+  "node": {
+    "passed": 1055,
+    "failed": 0,
+    "skipped": 0
+  },
+  "integration": {
+    "passed": 27,
+    "failed": 0,
+    "viewports": [
+      "desktop",
+      "tablet",
+      "mobile"
+    ],
+    "realHTTP": true
+  },
+  "e2e": {
+    "passed": 309,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Geometry-only mobile test skipped in desktop project",
+    "initialRun": {
+      "passed": 307,
+      "failed": 2,
+      "skipped": 1,
+      "issue": "Native category selection did not persist in two filter tests; no production cause established. Targeted retest and 10 stability executions passed; final full frozen regression passed."
+    }
+  },
+  "scripts": {
+    "passed": 17,
+    "failed": 0
+  },
+  "contrast": {
+    "passed": 64,
+    "scope": "source tokens, not WCAG certification"
+  },
+  "images": {
+    "verified": 95,
+    "active": 95
+  },
+  "publication": "branch/PR only; no merge/deploy",
+  "limitations": [
+    "Installed BIOS unknown",
+    "Cooler identity verified; dimensions/power/curves unknown",
+    "No new empirical performance calibration",
+    "No human cycle 3 or reproduction of unidentified participant build"
+  ]
+}

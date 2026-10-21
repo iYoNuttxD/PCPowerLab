@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../../src/utils/graphicsSelection.js';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -28,7 +29,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
   const current = build.selectedComponents[type];
   const options = filterComponents(components, filters).filter(component => component.id !== current?.id);
   const candidate = components.find(component => component.category === type && component.id === candidateId && component.id !== current?.id);
-  const selection = { ...build.selectedComponents, [type]: candidate };
+  const selection = { ...build.selectedComponents, [type]: candidate, ...(type === 'gpu' && usesIntegratedGraphics(build.selectedComponents) ? { graphicsMode: 'dedicated' } : {}) };
   const payload = {
     build: buildToApiPayload(selection),
     budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,

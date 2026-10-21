@@ -59,3 +59,21 @@ Resultados e histórico de falhas: [results.json](evidence/v3-mac-browser/result
 Com dependências instaladas e Chrome disponível, execute `PLAYWRIGHT_CHANNEL=chrome npm test` no frontend e `PLAYWRIGHT_CHANNEL=chrome npm run test:integration`. Para Node/imagens, use um Python com Pillow (`PYTHON` ou `PATH`) e Node LTS para os harnesses SSR. A suíte E2E usa respostas controladas; a integração usa API real. A inspeção do Chrome foi adicional às duas.
 
 Continuam pendentes: configuração exata do respondente; calibração dos cinco novos CPUs/GPUs; BIOS/ReBAR/UEFI/CSM/GPT e refrigeração quando desconhecidos; leitor de tela e cores forçadas reais; sessões humanas do ciclo 3. Nenhuma pontuação ou FPS novo foi fabricado. Não há certificação WCAG integral, garantia de preço/estoque ou aprovação de CI por ausência de workflow. O aviso de bundle grande permanece.
+
+## Fechamento integral: vídeo integrado e preservação da UX
+
+Inspeção adicional no Chrome conectado ao Mac, em 21/10/2026. O orçamento R$ 3.000 foi preenchido pela interface; selecionados Estudos e vídeo integrado, gerada e aplicada a proposta de R$ 2.489,94. O resumo foi gerado, recarregado e mantido com seis peças; foi observado e corrigido o texto fixo “7 de 7”, que passou a “6 de 6”. O pop-up identificou o Wraith Stealth incluído, manteve dados térmicos desconhecidos e não simulou um cooler genérico. Shift+Tab circulou dentro do diálogo e Escape retornou ao acionador.
+
+Foram inspecionados 390 × 844 (resumo/pop-up), 1366 × 768 (orçamento/ações) e 1920 × 1080 (home), além do tamanho normal da janela. Sem transbordamento horizontal nos pontos medidos. As substituições de viewport foram removidas. Voltar/avançar e retorno ao assistente conservaram R$ 3.000 e a escolha de vídeo. A busca `wifi` encontrou três placas e a lista compacta foi exercitada. A comparação entre B650M D3HP e B650 GAMING X AX V2 mostrou diferenças de M.2, Wi-Fi, USB-C frontal e formato dentro do mesmo chipset, com explicação para leigos expandida. Essa observação comprova comportamento, não satisfação dos respondentes.
+
+| Evidência | Conteúdo observado |
+|---|---|
+| [F01](evidence/v3-integral-completion/F01-integrated-cooling.jpg), [F03 celular](evidence/v3-integral-completion/F03-integrated-popup-mobile.jpg) | Pop-up real, cooler incluso identificado e ausência de curva explicitada. |
+| [F02](evidence/v3-integral-completion/F02-integrated-summary-mobile.jpg) | Resumo no celular, seis peças preservadas. |
+| [F06](evidence/v3-integral-completion/F06-home-large-final.jpg) | Composição da home em monitor grande; sequência 01–03. |
+| [F07](evidence/v3-integral-completion/F07-budget-integrated-notebook.jpg) | Etapa 01, R$ 3.000 / total R$ 2.489,94 / saldo R$ 510,06, sem compra de GPU separada. |
+| [F08](evidence/v3-integral-completion/F08-wifi-list-final.jpg) | Busca por recurso e exibição compacta. |
+| [F09](evidence/v3-integral-completion/F09-b650-comparison-final.jpg), [F10](evidence/v3-integral-completion/F10-b650-guide-final.jpg) | Comparação e guia de placas do mesmo chipset. |
+| [S18](evidence/v3-integral-completion/S18-3200g-available.txt), [S19](evidence/v3-integral-completion/S19-b450m-hdv-r4-available.txt) | Páginas exatas e disponíveis que fundamentaram as duas novas referências. |
+
+O zoom nativo de 200% foi executado na etapa anterior e permanece identificado na cronologia. Nesta etapa final não foi repetido como zoom nativo: o E2E cobre 200% de tamanho de texto e reflow. Não se confunde esse teste com ampliação nativa do navegador. As capturas F04/F05 locais eram de uma região intermediária do resumo e não foram publicadas como prova de sua visão geral.

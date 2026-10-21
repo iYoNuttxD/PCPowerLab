@@ -67,7 +67,7 @@ test('actual catalog satisfies the AMD AM4 ceiling example and preserves distinc
   const { listComponents } = await import('../../src/services/component.service.js');
   const actual = listComponents();
   const matches = filterComponents(actual, { ...emptyCatalogFilters, category: 'cpu', brand: 'AMD', maxPrice: '1000', specs: { socket: 'AM4' }, sort: 'price-asc' });
-  assert.deepEqual(matches.map(component => component.id), ['cpu-ryzen-5-4500-box', 'cpu-ryzen-5-5500']);
+  assert.deepEqual(matches.map(component => component.id), ['cpu-ryzen-3-3200g-box', 'cpu-ryzen-5-4500-box', 'cpu-ryzen-5-5500']);
   assert.equal(actual.some(component => component.id === 'cpu-ryzen-5-5600'), false);
   const ddr4 = filterComponents(actual, { ...emptyCatalogFilters, category: 'ram', specs: { memoryType: 'DDR4', capacityGb: '16', speedMhz: '3600' } });
   assert.deepEqual(ddr4.map(component => component.id).sort(), ['ram-kf436c17bbk2-16', 'ram-kf436c18bb2a-16']);

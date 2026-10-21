@@ -1,5 +1,7 @@
 # PCPowerLab V3 — feedback, mudanças concretas e evidência
 
+> **Atualização de fechamento integral:** o estado atual é descrito em [V3-INTEGRAL-COMPLETION.md](V3-INTEGRAL-COMPLETION.md). Os valores e limites abaixo conservam a cronologia da etapa anterior. A arquitetura integrada foi implementada; há proposta factual de seis peças por R$ 2.489,94, além de opção dedicada por R$ 3.799,84. Isso não certifica BIOS instalada, desempenho nem satisfação humana.
+
 Revisão de 21/10/2026, na branch `max/pcpowerlab-v3-cycle2`, PR #47 em rascunho. Sem merge/deploy. A validação anterior não certificava todas as falas: esta revisão corrige lacunas funcionais e não afirma homologação dos participantes.
 
 ## Fonte e classificação
@@ -151,3 +153,7 @@ A rodada integral final, com código congelado, terminou com **309 E2E aprovados
 ## Fechamento econômico posterior
 
 A [etapa focada de seleção factual e viabilidade](V3-ECONOMY-VALIDATION.md) corrige a exclusão automática de modelos sem score, acrescenta requisitos de VRAM e substitui o erro genérico por piso/motivos. Não se encerra H10/AD7/V7 por contagem de catálogo. A proposta de programação com 16 GB de RAM / 8 GB de VRAM de R$5.009,84 inclui a ASRock RX7600 Pro sem score/FPS; retorna `unverified` por BIOS instalada não inspecionada. A referência de R$4.339,84 é piso pelas regras atuais de encaixe/energia, não certificação da BIOS/cooler. A RX550 teve fonte de 400 W / consumo típico de 50 W completados; comprimento/cabo continuam pendentes. A CPU 4500 recebeu proteção de BIOS que faltava na revisão de 21/10. Classificações humanas continuam parciais.
+
+## Atualização integral das ações restantes
+
+O limite arquitetural “sem GPU dedicada” acima é histórico e foi resolvido no [fechamento integral](V3-INTEGRAL-COMPLETION.md): proposta factual de R$ 2.489,94 com 16 GB, CPU de entrada/placa-mãe exatas, Wraith Stealth incluso e BIOS P2.30 a confirmar. Há também proposta dedicada abaixo de R$ 4.000, sem reaproveitar score de outro produto. H10/AD7/V7/F10 ganham essa mudança funcional concreta; não são considerados encerrados apenas porque o catálogo chegou a 95 peças. As demais 67 linhas continuam rastreáveis e as conclusões subjetivas não se tornam homologação.

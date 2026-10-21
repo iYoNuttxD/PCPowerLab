@@ -8,14 +8,14 @@ import { getDatedReference } from '../src/data/dated-price-references.js';
 const factual = (amount, extra = {}) => recommendBuildByBudget({ budget: { amount }, usageType: 'study', selectionMode: 'price-and-compatibility', ...extra });
 const core = () => factual(4500).components;
 
-for (const amount of [3000, 4000]) test(`BRL ${amount} reports verified minimum, gap and specific cheaper-path blockers without approving it`, () => {
+for (const amount of [3000]) test(`BRL ${amount} reports verified minimum, gap and specific cheaper-path blockers without approving it`, () => {
   const before = listComponents().map(c => [c.id, c.price, c.performanceScore]);
   assert.throws(() => factual(amount), error => {
     assert.equal(error.statusCode, 422);
-    assert.match(error.message, /4\.339,84/);
-    assert.equal(error.budgetFeasibility.minimumCatalogRulesTotal, 4339.84);
-    assert.equal(error.budgetFeasibility.lowerBound, 3235.05);
-    assert.equal(error.budgetFeasibility.pendingTotal, 3289.75);
+    assert.match(error.message, /3\.799,84/);
+    assert.equal(error.budgetFeasibility.minimumCatalogRulesTotal, 3799.84);
+    assert.equal(error.budgetFeasibility.lowerBound, 3019.75);
+    assert.equal(error.budgetFeasibility.pendingTotal, 3019.75);
     assert.deepEqual(error.budgetFeasibility.pendingChecks.map(check => check.code).sort(), ['CASE_GPU_LENGTH_UNVERIFIED', 'CPU_BIOS_UNVERIFIED', 'GPU_POWER_CONNECTORS_UNVERIFIED']);
     assert.ok(error.errors.some(message => message.includes('não aprovado')));
     return true;
@@ -25,14 +25,14 @@ for (const amount of [3000, 4000]) test(`BRL ${amount} reports verified minimum,
 
 test('entry factual selection has verified core, exact price, capacity floor and no aggregate performance claim', () => {
   const result = factual(4500);
-  assert.equal(result.totalEstimatedPrice, 4339.84);
+  assert.equal(result.totalEstimatedPrice, 3799.84);
   assert.equal(result.compatibilityStatus, 'unverified');
-  assert.equal(result.coreCatalogRulesStatus, 'compatible');
+  assert.equal(result.coreCatalogRulesStatus, 'unverified');
   assert.ok(result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
   assert.equal(result.performanceScore, null);
   assert.equal(result.performanceBasis, 'not_used');
   assert.equal(result.memoryRequirement.minimumGb, 8);
-  assert.equal(result.biosSupport.minimumVersion, '2423');
+  assert.equal(result.biosSupport.minimumVersion, 'P2.30');
   assert.equal(result.biosSupport.installedVersion, null);
   assert.equal(result.coolingAssessment.status, 'unverified');
   assert.equal(result.simulationAvailability.available, false);
@@ -48,9 +48,9 @@ test('intermediate factual proposal admits exact uncalibrated RX7600, meets 16GB
   const result = factual(5500, { usageType: 'programming', requirements: { minVramGb: 8 } });
   assert.equal(result.components.gpu.id, 'gpu-asrock-rx-7600-challenger-pro-8gb');
   assert.equal(result.components.case.id, 'case-montech-x2-plus-white');
-  assert.equal(result.totalEstimatedPrice, 5009.84);
+  assert.equal(result.totalEstimatedPrice, 4469.84);
   assert.equal(result.compatibilityStatus, 'unverified');
-  assert.equal(result.coreCatalogRulesStatus, 'compatible');
+  assert.equal(result.coreCatalogRulesStatus, 'unverified');
   assert.ok(result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
   assert.ok(result.components.ram.specs.capacityGb >= 16);
   assert.ok(result.components.gpu.specs.vramGb >= 8);
@@ -74,7 +74,8 @@ test('factual price ordering cannot override capacity, conflict or missing-data 
 });
 
 test('Ryzen4500 BIOS minimum is factual while installed BIOS remains unknown, older fails and exact minimum passes', () => {
-  const build = structuredClone(core());
+  const build = globalThis.structuredClone(core());
+  build.motherboard = listComponents({ type: 'motherboard' }).find(c => c.id === 'mb-asus-tuf-b550m-plus');
   build.cpu = listComponents({ type: 'cpu' }).find(c => c.id === 'cpu-ryzen-5-4500-box');
   let result = evaluateResolvedBuildCompatibility(build);
   assert.equal(result.compatible, false);
@@ -87,7 +88,7 @@ test('Ryzen4500 BIOS minimum is factual while installed BIOS remains unknown, ol
 });
 
 test('RX550 manufacturer power recommendation resolves only PSU wattage, without guessing length or auxiliary power', () => {
-  const build = structuredClone(core());
+  const build = globalThis.structuredClone(core());
   build.gpu = listComponents({ type: 'gpu' }).find(c => c.id === 'gpu-pcyes-rx-550-edge-4gb');
   assert.equal(build.gpu.specs.recommendedPsuWatts, 400);
   assert.equal(build.gpu.specs.typicalBoardPowerWatts, 50);

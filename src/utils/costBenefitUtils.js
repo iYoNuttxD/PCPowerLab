@@ -56,6 +56,7 @@ export function calculateCostBenefitScore(component, performanceParameter, optio
 }
 
 export function calculateBuildPerformanceScore(components, performanceByComponentId, usageType) {
+  if (usesIntegratedGraphics(components)) return null;
   const entries = requiredBuildSlots.map((slot) => components[slot]).filter(Boolean);
 
   if (entries.length === 0) {
@@ -173,3 +174,4 @@ function getCategoryLabel(category) {
 
   return labels[category] || 'componentes desta categoria';
 }
+import { usesIntegratedGraphics } from './graphicsSelection.js';

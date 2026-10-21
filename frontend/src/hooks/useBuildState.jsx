@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { isSelectableComponent } from '../utils/catalogAvailability.js';
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { buildToApiPayload, calculateBuildPrice, hydrateBuildComponents, recommendationSelection } from '../utils/buildHelpers.js';
@@ -28,6 +29,13 @@ export function BuildProvider({ children }) {
   }, [state]);
 
   const actions = useMemo(() => ({
+    setGraphicsMode(mode) {
+      setState(current => {
+        const next = { ...current.selectedComponents };
+        if (mode === 'integrated') { next.graphicsMode = 'integrated'; delete next.gpu; } else delete next.graphicsMode;
+        return changeSelection(current, next);
+      });
+    },
     setWizardStep(step) {
       setState((current) => ({ ...current, wizardStep: normalizeWizardStep(step) }));
     },
@@ -40,7 +48,7 @@ export function BuildProvider({ children }) {
       component = currentCatalog.current?.[component?.id] || component;
       if (!isSelectableComponent(component)) return;
       setState(current => current.selectedComponents[type]?.id === component?.id ? current
-        : changeSelection(current, { ...current.selectedComponents, [type]: component }));
+        : changeSelection(current, { ...current.selectedComponents, [type]: component, ...(type === 'gpu' && usesIntegratedGraphics(current.selectedComponents) ? { graphicsMode: 'dedicated' } : {}) }));
     },
     replaceComponent(type, component, summary, expectedRevision) {
       setState(current => replaceBuildComponent(current, type, component, summary, expectedRevision));

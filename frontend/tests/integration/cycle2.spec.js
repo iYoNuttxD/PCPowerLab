@@ -393,16 +393,16 @@ async function seedEconomyBuild(page, request, amount) {
 }
 
 test('API real explica orçamento econômico inviável e preserva peças e limite', async ({ page, request }, testInfo) => {
-  await seedEconomyBuild(page, request, 4000);
+  await seedEconomyBuild(page, request, 3000);
   const before = await state(page);
   await step(page, 'Revisão');
   const response = page.waitForResponse(r => r.url().endsWith('/recommendations/budget'));
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
   expect((await response).status()).toBe(422);
   const alert = page.getByRole('alert').filter({ hasText: 'Menor total encontrado' });
-  await expect(alert).toContainText('4.339,84');
+  await expect(alert).toContainText('3.799,84');
   await page.getByText('Entender o limite e as peças pendentes', { exact: true }).click();
-  await expect(page.locator('main')).toContainText('3.289,75 não aprovado');
+  await expect(page.locator('main')).toContainText('3.019,75 não aprovado');
   await expect(page.locator('main')).toContainText('Conectores de alimentação');
   const after = await state(page);
   expect(after.selectedComponents).toEqual(before.selectedComponents);
@@ -418,10 +418,10 @@ test('API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem 
   await step(page, 'Revisão');
   const result = await action(page, '/recommendations/budget', () => page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click());
   expect(result.selectionMode).toBe('price-and-compatibility');
-  expect(result.totalEstimatedPrice).toBe(5009.84);
+  expect(result.totalEstimatedPrice).toBe(4469.84);
   expect(result.performanceScore).toBe(null);
   expect(result.compatibilityStatus).toBe('unverified');
-  expect(result.biosSupport.minimumVersion).toBe('2423');
+  expect(result.biosSupport.minimumVersion).toBe('P2.30');
   expect(result.components.gpu.id).toBe('gpu-asrock-rx-7600-challenger-pro-8gb');
   const card = page.locator('.recommendation-card');
   await expect(card).toContainText('Seleção por preço e compatibilidade');
@@ -434,4 +434,66 @@ test('API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem 
   expect(current.selectedComponents.gpu.id).toBe(result.components.gpu.id);
   expect(current.selectedComponents.ram.specs.capacityGb).toBe(16);
   expect(current.budget.amount).toBe(5500);
+});
+
+test('montagem integrada real cabe em 3000, preserva seis peças ao salvar/recarregar e mantém pop-up acessível', async ({ page }, testInfo) => {
+  await page.goto('/build');
+  await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('3000');
+  await page.getByRole('combobox', { name: 'Tipo de uso', exact: true }).selectOption('study');
+  await page.getByRole('combobox', { name: 'Tipo de vídeo da montagem', exact: true }).selectOption('integrated');
+  await expect(page.getByRole('combobox', { name: 'Critério da sugestão', exact: true })).toHaveValue('price-and-compatibility');
+  await step(page, 'Revisão');
+  const result = await action(page, '/recommendations/budget', () => page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click());
+  expect(result.totalEstimatedPrice).toBe(2489.94);
+  expect(result.components.graphicsMode).toBe('integrated');
+  expect(result.components.gpu).toBeUndefined();
+  const card = page.locator('.recommendation-card');
+  await expect(card).toContainText('Wraith Stealth');
+  await expect(card).toContainText('P2.30');
+  await card.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
+  const before = await state(page);
+  expect(before.selectedComponents.graphicsMode).toBe('integrated');
+  expect(before.selectedComponents.gpu).toBeUndefined();
+  await step(page, 'Placa de vídeo');
+  await expect(page.getByRole('button', { name: 'Avançar', exact: true })).toBeEnabled();
+  await page.reload();
+  expect((await state(page)).selectedComponents).toEqual(before.selectedComponents);
+  await step(page, 'Revisão');
+  let saved;
+  try {
+    saved = await action(page, '/saved-builds', () => page.getByRole('button', { name: 'Salvar build', exact: true }).click());
+    expect(saved.components.graphicsMode).toBe('integrated');
+    expect(saved.components.gpu).toBeUndefined();
+    expect(saved.totalEstimatedPrice).toBe(2489.94);
+    await navigation(page, 'builds', '/saved-builds');
+    const savedCard = page.getByRole('article').filter({ has: page.getByRole('heading', { name: saved.name, exact: true }) });
+    await savedCard.locator('summary').filter({ hasText: 'Ver componentes' }).click();
+    await expect(savedCard).toContainText('Vídeo integrado à CPU');
+    await savedCard.getByRole('button', { name: 'Abrir montagem', exact: true }).click();
+    expect((await state(page)).selectedComponents.graphicsMode).toBe('integrated');
+    await page.goto('/summary');
+    const summary = await action(page, '/build-summary', () => page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click());
+    expect(summary.selectionStatus).toBe('complete');
+    expect(summary.totalEstimatedPrice).toBe(2489.94);
+    expect(summary.sections.recommendation.status).toBe('available');
+    expect(summary.bottlenecks.available).toBe(false);
+    await expect(page.locator('main')).toContainText('Vídeo integrado à CPU');
+    const opener = page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true });
+    await opener.click();
+    const dialog = page.getByRole('dialog', { name: 'Temperatura e ruído', exact: true });
+    await expect(dialog).toContainText('Wraith Stealth');
+    await expect(dialog).toContainText('sem custo adicional');
+    const close = dialog.getByRole('button', { name: 'Fechar', exact: true });
+    await close.focus();
+    await page.keyboard.press('Shift+Tab');
+    expect(await page.evaluate(() => Boolean(document.activeElement.closest('dialog')))).toBe(true);
+    await capture(page, testInfo, 'integrated-cooling-real', dialog);
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(opener).toBeFocused();
+    await page.reload();
+    expect((await state(page)).selectedComponents.graphicsMode).toBe('integrated');
+  } finally {
+    if (saved?.id) expect((await page.request.delete(`/api/v1/saved-builds/${saved.id}`)).ok()).toBe(true);
+  }
 });

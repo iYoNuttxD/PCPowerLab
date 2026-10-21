@@ -28,6 +28,7 @@ export const statusLabels = {
   analysis_failed: 'Falha temporária da análise',
   invalid_analysis_input: 'Revise os dados desta análise',
   synthetic_model_not_simulation_calibrated: 'Modelo sem calibração para simulação',
+  integrated_graphics_not_calibrated: 'Vídeo integrado sem calibração',
   compatibility_analysis_unavailable: 'Verificação de compatibilidade pendente',
   unverified_build: 'Verificações técnicas pendentes',
   currency_mismatch: 'Moeda do orçamento diferente dos preços',

@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import CoolingExplorer from '../components/build/CoolingExplorer.jsx';
 import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
 import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
@@ -358,7 +359,7 @@ export default function BuildSummary() {
         <Button variant="secondary" onClick={undoReplacement}>Desfazer última troca</Button>
       </Card>}
       {request.error && <ErrorState message={request.error} onRetry={lastRequestAction === 'save' ? saveBuild : lastRequestAction === 'share' ? shareBuild : generateSummary} />}
-      {completeBuild && <Alert type="info" title="Montagem completa: 7 de 7 peças principais selecionadas">{build.summary?.analysisStatus === 'partial'
+      {completeBuild && <Alert type="info" title={`Montagem completa: ${usesIntegratedGraphics(build.selectedComponents) ? '6 de 6' : '7 de 7'} peças principais selecionadas`}>{build.summary?.analysisStatus === 'partial'
         ? 'Algumas análises estão pendentes ou indisponíveis. Isso não significa que faltam peças; veja o motivo em cada seção. O orçamento e as escolhas foram preservados.'
         : 'As peças foram mantidas. Gere ou atualize o resumo para conferir compatibilidade e desempenho. Os links das lojas são consultados separadamente.'}</Alert>}
 
@@ -879,7 +880,7 @@ function buildDetailsFromSelectedComponents(selectedComponents = {}) {
         ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
       }
     };
-  }, { fans: selectedComponents.fans || [] });
+  }, { fans: selectedComponents.fans || [], ...(usesIntegratedGraphics(selectedComponents) ? { graphicsMode: 'integrated' } : {}) });
 }
 
 function getScoreTone(value) {

@@ -1,4 +1,5 @@
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
@@ -67,7 +68,7 @@ export default function SharedBuild() {
           {componentTypes.map((type) => (
             <li key={type}>
               <span>{componentLabels[type]}</span>
-              <ComponentIdentity component={components[type] || components[`${type}Id`]} category={type} />
+              {type === 'gpu' && usesIntegratedGraphics(components) ? <strong>Vídeo integrado à CPU · sem compra separada</strong> : <ComponentIdentity component={components[type] || components[`${type}Id`]} category={type} />}
             </li>
           ))}
           {(components.cooler || components.coolerId) && (

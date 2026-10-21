@@ -1,6 +1,7 @@
 import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { unavailablePerformance } from '../utils/performanceAvailability.js';
-import { normalizeSelectedComponentIds } from './build.service.js';
+import { normalizeSelectedComponentIds, selectBuildComponents } from './build.service.js';
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { professionalSoftware } from '../data/professionalSoftware.js';
 import { findComponentById } from './component.service.js';
@@ -35,6 +36,13 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
     throw error;
   }
 
+  if (usesIntegratedGraphics(simulationInput.build)) {
+    const components = selectBuildComponents(simulationInput.build);
+    const unavailable = unavailablePerformance(components);
+    return { ...unavailable, software: software.name, softwareId: software.id, category: software.category,
+      performanceScore: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null,
+      meetsRecommendedRequirements: null, summary: unavailable.message };
+  }
   const compatibility = validateSimulationCompatibility(simulationInput.build);
   const buildInput = normalizeSelectedComponentIds(simulationInput.build);
   const components = mapSimulationComponents(buildInput);

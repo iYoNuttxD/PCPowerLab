@@ -1,6 +1,7 @@
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { unavailablePerformance } from '../utils/performanceAvailability.js';
-import { normalizeSelectedComponentIds } from './build.service.js';
+import { selectBuildComponents, normalizeSelectedComponentIds } from './build.service.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { games } from '../data/games.js';
 import { findComponentById } from './component.service.js';
@@ -44,6 +45,8 @@ export function simulateGamePerformance(simulationInput) {
     throw error;
   }
 
+  if (usesIntegratedGraphics(simulationInput.build)) { selectBuildComponents(simulationInput.build); return { available: false, reason: 'integrated_graphics_not_calibrated', estimatedFps: null, game: game.name, gameId: game.id,
+    summary: 'Vídeo integrado sem perfil calibrado para este jogo. Não se usa o modelo de uma GPU dedicada.' }; }
   const targetResolution = normalizeTargetResolution(simulationInput.targetResolution ?? game.targetResolution);
   const qualityPreset = normalizeQualityPreset(simulationInput.qualityPreset);
   const compatibility = validateSimulationCompatibility(simulationInput.build);

@@ -5972,5 +5972,157 @@
     "verificationMethod": "rendered_product_page",
     "observedAt": "2026-10-21T00:41:04.468Z",
     "availabilityEvidence": "Compra habilitada na página do produto; evidência S08-case-xr-store"
+  },
+  {
+    "productId": "cpu-ryzen-3-3200g-box",
+    "model": "YD3200C5FHBOX",
+    "sourceVariantName": "YD3200C5FHBOX",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/26551/processador-amd-ryzen-3-3200g-36ghz-40ghz-turbo-4-cores-4-threads-cooler-wraith-stealth-am4-yd3200c5fhbox",
+    "price": 439.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-3-3200g-box",
+      "name": "AMD Ryzen 3 3200G Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "YD3200C5FHBOX",
+      "specs": {
+        "socket": "AM4",
+        "cores": 4,
+        "threads": 4,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4,
+        "tdpWatts": 65,
+        "memoryTypes": [
+          "DDR4"
+        ],
+        "maxMemoryDataRateMTs": 2933,
+        "integratedGraphics": "Radeon Vega 8 Graphics",
+        "graphicsCoreCount": 8,
+        "graphicsClockMhz": 1250,
+        "maxOperatingTempC": 95,
+        "includesCpuCooler": true,
+        "includedCpuCooler": {
+          "name": "AMD Wraith Stealth",
+          "specSourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+          "specs": {
+            "coolingType": "air",
+            "supportedSockets": [
+              "AM4"
+            ],
+            "heightMm": null,
+            "powerWatts": null
+          }
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T03:24:14.781605Z",
+    "availabilityEvidence": "Comprar agora habilitado na página exata; S18-3200g-available."
+  },
+  {
+    "productId": "mb-asrock-b450m-hdv-r4",
+    "model": "B450M-HDV R4.0",
+    "sourceVariantName": "B450M-HDV R4.0",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/11732/placa-mae-asrock-b450m-hdv-r40-chipset-b450-amd--am4-matx-ddr4",
+    "price": 379.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "mb-asrock-b450m-hdv-r4",
+      "name": "ASRock B450M-HDV R4.0",
+      "brand": "ASRock",
+      "category": "motherboard",
+      "partNumber": "B450M-HDV R4.0",
+      "specs": {
+        "socket": "AM4",
+        "chipset": "B450",
+        "memoryType": "DDR4",
+        "memorySlots": 2,
+        "maxMemoryGb": 64,
+        "formFactor": "mATX",
+        "dimensionsMm": [
+          230,
+          201
+        ],
+        "storageInterfaces": [
+          "SATA",
+          "M.2 NVMe"
+        ],
+        "m2Slots": 1,
+        "m2SupportedLengthsMm": [
+          2242,
+          2260,
+          2280
+        ],
+        "sataPorts": 4,
+        "graphicsOutputs": [
+          "HDMI",
+          "DVI-D",
+          "VGA"
+        ],
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2,
+        "cpuFanHeaderMaxAmps": 1,
+        "minimumBiosByCpu": {
+          "cpu-ryzen-3-3200g-box": "P2.30"
+        },
+        "biosSupportSources": {
+          "cpu-ryzen-3-3200g-box": "https://www.asrock.com/support/cpu.asp?s=AM4&u=599"
+        },
+        "wifi": false,
+        "frontUsbCHeader": false
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T03:24:14.781605Z",
+    "availabilityEvidence": "Comprar agora habilitado na página exata; S19-b450m-hdv-r4-available."
   }
 ]

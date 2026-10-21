@@ -34,7 +34,7 @@ export function checkCoolingCompatibility(build) {
     && knownNumber(stock.specs.heightMm) && stock.specs.heightMm > 0;
   const cooler = build.cooler?.specs || (verifiedStock ? stock.specs : null);
   if (!build.cooler && !verifiedStock) {
-    scopeWarnings.push({ code: 'CPU_COOLING_FIT_UNVERIFIED', severity: 'medium', verification: 'unverified', message: build.cpu?.specs?.includesCpuCooler === false
+    scopeWarnings.push({ code: 'CPU_COOLING_FIT_UNVERIFIED', severity: 'medium', verification: 'unverified', message: stock?.name && stock?.specSourceUrl ? `${stock.name} incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe.` : build.cpu?.specs?.includesCpuCooler === false
       ? 'Este processador não inclui cooler. Informe a refrigeração que será utilizada; não é necessário comprar outro cooler se você já possui um compatível.'
       : 'Nenhum cooler avulso selecionado. A identidade e as medidas do cooler incluído ou já disponível não foram verificadas; isso não significa que seja necessário comprar outro.' });
   }
@@ -138,7 +138,8 @@ export function checkCoolingCompatibility(build) {
   if (!power.complete) unknown('COOLING_POWER_UNVERIFIED', 'Consumo de um ou mais componentes de refrigeração não informado.');
   return { alerts, unverifiedChecks, coolingAssessment: {
     status: alerts.length ? 'incompatible' : (unverifiedChecks.length || scopeWarnings.length) ? 'unverified' : 'compatible',
-    scope: cooler ? (build.cooler ? 'selected_cooler' : 'included_cooler') : 'cooling_not_assessed',
+    scope: cooler ? (build.cooler ? 'selected_cooler' : 'included_cooler') : stock?.name && stock?.specSourceUrl ? 'included_cooler_identity_only' : 'cooling_not_assessed',
+    ...(stock?.name && stock?.specSourceUrl && !build.cooler ? { includedCooler: { name: stock.name, sourceUrl: stock.specSourceUrl, additionalPrice: 0, dimensionsVerified: Boolean(verifiedStock) } } : {}),
     unverifiedChecks: [...scopeWarnings, ...unverifiedChecks], alerts: [...alerts]
   } };
 }

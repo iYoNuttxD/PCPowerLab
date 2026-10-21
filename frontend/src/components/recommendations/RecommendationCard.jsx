@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../../src/utils/graphicsSelection.js';
 import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
 import { hasSimulatedPerformance } from '../../utils/performanceMethodology.js';
 import { useState } from 'react';
@@ -53,12 +54,13 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
           return (
             <li key={type}>
               <span>{componentLabels[type]}</span>
-              <ComponentIdentity component={component || recommendation.components?.[`${type}Id`]} category={type} fallback="Não sugerido" />
+              {type === 'gpu' && usesIntegratedGraphics(suggested) ? <strong>Vídeo integrado à CPU · sem compra separada</strong> : <ComponentIdentity component={component || recommendation.components?.[`${type}Id`]} category={type} fallback="Não sugerido" />}
             </li>
           );
         })}
         {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s)</small></ComponentIdentity></li>)}
       </ul>
+      {!suggested.cooler && suggested.cpu?.specs?.includedCpuCooler?.name && <p className="hint-text">Inclui {suggested.cpu.specs.includedCpuCooler.name} no preço da CPU. Identidade confirmada; medidas e simulação térmica desse cooler continuam pendentes.</p>}
       <RecommendationExplanation explanation={recommendation.selectionExplanation} comparison={recommendation.comparison} needsRecalculation={Boolean(retainsCooling)} />
       <SuggestedPiecePicker components={suggested} currentComponents={currentComponents} onPreview={onPreview} disabled={disabled} />
       {onApply && <p className="hint-text">A recomendação troca as peças principais e mantém sua refrigeração, salvo quando indicar outra.</p>}

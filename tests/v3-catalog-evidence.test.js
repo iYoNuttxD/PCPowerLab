@@ -23,7 +23,7 @@ const payload = { build: newBuild, usageType: 'gaming', budget: { amount: 20000,
 test('V3 adds seven priced photographed choices across real budget/use gaps, not obsolete candidates', () => {
   assert.equal(catalogV3.length, 7);
   assert.deepEqual(Object.fromEntries(['cpu', 'gpu', 'case'].map(category => [category, catalogV3.filter(c => c.category === category).length])), { cpu: 2, gpu: 3, case: 2 });
-  assert.equal(components.filter(c => c.active !== false).length, 93);
+  assert.equal(components.filter(c => c.active !== false).length, 95);
   assert.equal(components.filter(c => c.active === false).length, 79);
   for (const entry of catalogV3) {
     const c = byId(entry.id), reference = getDatedReference(c);
@@ -69,9 +69,9 @@ test('V3 manufacturer facts distinguish real use, dimensions, cooling and memory
   assert.equal(tower.radiatorSizesMm.includes(280), false);
 });
 
-test('six motherboard comparisons have exact identity evidence and consistent capacity, without fabricated Flashback', () => {
+test('seven motherboard comparisons have exact identity evidence and consistent capacity, without fabricated Flashback', () => {
   const boards = components.filter(c => c.active !== false && c.category === 'motherboard');
-  assert.equal(boards.length, 6);
+  assert.equal(boards.length, 7);
   for (const board of boards) {
     assert.equal(board.verifiedFeatures.catalogIdentity, componentImageIdentity(board));
     assert.equal(board.verifiedFeatures.fields.maxMemoryGb, board.specs.maxMemoryGb);

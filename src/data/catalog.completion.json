@@ -1,0 +1,110 @@
+[
+  {
+    "id": "cpu-ryzen-3-3200g-box",
+    "name": "AMD Ryzen 3 3200G Box",
+    "category": "cpu",
+    "brand": "AMD",
+    "partNumber": "YD3200C5FHBOX",
+    "specSourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-integral-completion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "Entrada com vídeo integrado, abaixo de R$ 500",
+    "selectionNotes": [
+      "Quatro núcleos/quatro threads para uma opção básica; não promete adequação a jogos atuais, renderização ou programas exigentes. Vídeo integrado usa parte da RAM do sistema.",
+      "Wraith Stealth incluso identificado pela AMD; medidas, consumo e curva térmica desse cooler não foram confirmados. Confirme BIOS P2.30 ou posterior na ASRock B450M-HDV R4.0 antes da compra."
+    ],
+    "specs": {
+      "socket": "AM4",
+      "cores": 4,
+      "threads": 4,
+      "baseClockGhz": 3.6,
+      "boostClockGhz": 4,
+      "tdpWatts": 65,
+      "memoryTypes": [
+        "DDR4"
+      ],
+      "maxMemoryDataRateMTs": 2933,
+      "integratedGraphics": "Radeon Vega 8 Graphics",
+      "graphicsCoreCount": 8,
+      "graphicsClockMhz": 1250,
+      "maxOperatingTempC": 95,
+      "includesCpuCooler": true,
+      "includedCpuCooler": {
+        "name": "AMD Wraith Stealth",
+        "specSourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+        "specs": {
+          "coolingType": "air",
+          "supportedSockets": [
+            "AM4"
+          ],
+          "heightMm": null,
+          "powerWatts": null
+        }
+      }
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem modelo calibrado. Pode participar de proposta factual por custo e recursos; não recebe pontuação, FPS ou veredito numérico de gargalo."
+  },
+  {
+    "id": "mb-asrock-b450m-hdv-r4",
+    "name": "ASRock B450M-HDV R4.0",
+    "category": "motherboard",
+    "brand": "ASRock",
+    "partNumber": "B450M-HDV R4.0",
+    "specSourceUrl": "https://asrock.com/mb/AMD/B450M-HDV%20R4.0/index.asp",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-integral-completion",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "AM4 básica com saídas de vídeo, abaixo de R$ 400",
+    "selectionNotes": [
+      "Duas posições de RAM e um M.2 limitam expansão em relação às placas maiores. HDMI/DVI-D/VGA só produzem imagem com CPU que tenha vídeo integrado.",
+      "Ryzen 3 3200G listado com BIOS mínima P2.30; versão instalada depende da unidade. Wi-Fi e USB-C frontal não incluídos."
+    ],
+    "specs": {
+      "socket": "AM4",
+      "chipset": "B450",
+      "memoryType": "DDR4",
+      "memorySlots": 2,
+      "maxMemoryGb": 64,
+      "formFactor": "mATX",
+      "dimensionsMm": [
+        230,
+        201
+      ],
+      "storageInterfaces": [
+        "SATA",
+        "M.2 NVMe"
+      ],
+      "m2Slots": 1,
+      "m2SupportedLengthsMm": [
+        2242,
+        2260,
+        2280
+      ],
+      "sataPorts": 4,
+      "graphicsOutputs": [
+        "HDMI",
+        "DVI-D",
+        "VGA"
+      ],
+      "cpuFanHeaders": 1,
+      "systemFanHeaders": 2,
+      "cpuFanHeaderMaxAmps": 1,
+      "minimumBiosByCpu": {
+        "cpu-ryzen-3-3200g-box": "P2.30"
+      },
+      "biosSupportSources": {
+        "cpu-ryzen-3-3200g-box": "https://www.asrock.com/support/cpu.asp?s=AM4&u=599"
+      },
+      "wifi": false,
+      "frontUsbCHeader": false
+    }
+  }
+]

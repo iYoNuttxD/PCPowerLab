@@ -1,0 +1,384 @@
+[
+  {
+    "input": {
+      "budget": {
+        "amount": 3000
+      },
+      "usageType": "study",
+      "graphicsMode": "integrated",
+      "selectionMode": "price-and-compatibility"
+    },
+    "totalEstimatedPrice": 2489.94,
+    "compatibilityStatus": "unverified",
+    "coreCatalogRulesStatus": "unverified",
+    "biosSupport": {
+      "cpuId": "cpu-ryzen-3-3200g-box",
+      "motherboardId": "mb-asrock-b450m-hdv-r4",
+      "minimumVersion": "P2.30",
+      "installedVersion": null,
+      "verifiedAt": "2026-10-21",
+      "sourceUrl": "https://www.asrock.com/support/cpu.asp?s=AM4&u=599",
+      "scope": "Published support table; confirm installed firmware before purchase."
+    },
+    "performanceScore": null,
+    "performanceBasis": "not_used",
+    "simulationAvailability": {
+      "available": false,
+      "reason": "integrated_graphics_not_calibrated",
+      "performanceBasis": "unavailable",
+      "message": "Vídeo integrado sem modelo calibrado: não há FPS ou gargalo numérico. Custos, compatibilidade e lojas continuam disponíveis.",
+      "componentsWithoutPerformanceModel": [
+        "cpu-ryzen-3-3200g-box"
+      ]
+    },
+    "coolingAssessment": {
+      "status": "unverified",
+      "scope": "included_cooler_identity_only",
+      "includedCooler": {
+        "name": "AMD Wraith Stealth",
+        "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+        "additionalPrice": 0,
+        "dimensionsVerified": false
+      },
+      "unverifiedChecks": [
+        {
+          "code": "CPU_COOLING_FIT_UNVERIFIED",
+          "severity": "medium",
+          "verification": "unverified",
+          "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+        }
+      ],
+      "alerts": []
+    },
+    "unverifiedChecks": [
+      {
+        "code": "CPU_BIOS_UNVERIFIED",
+        "verification": "unverified",
+        "message": "O fabricante publica suporte a esta CPU a partir da BIOS P2.30 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra."
+      }
+    ],
+    "components": {
+      "graphicsMode": "integrated",
+      "cpu": {
+        "id": "cpu-ryzen-3-3200g-box",
+        "name": "AMD Ryzen 3 3200G Box",
+        "price": 439.99,
+        "partNumber": "YD3200C5FHBOX",
+        "referenceDate": "2026-10-21"
+      },
+      "motherboard": {
+        "id": "mb-asrock-b450m-hdv-r4",
+        "name": "ASRock B450M-HDV R4.0",
+        "price": 379.99,
+        "partNumber": "B450M-HDV R4.0",
+        "referenceDate": "2026-10-21"
+      },
+      "ram": {
+        "id": "ram-mancer-vant-s-16gb-3200",
+        "name": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+        "price": 619.99,
+        "partNumber": "MCR-VNT3200-16GB",
+        "referenceDate": "2026-10-08"
+      },
+      "storage": {
+        "id": "ssd-kingston-a400-240gb",
+        "name": "Kingston A400 240GB SATA SSD",
+        "price": 479.99,
+        "partNumber": "SA400S37/240G",
+        "referenceDate": "2026-10-08"
+      },
+      "psu": {
+        "id": "psu-coolermaster-mwe-gold650-v3",
+        "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+        "price": 349.99,
+        "partNumber": "MPE-6502-ACAAG-3BBR",
+        "referenceDate": "2026-10-08"
+      },
+      "case": {
+        "id": "case-deepcool-cc310-black",
+        "name": "DeepCool CC310 Black",
+        "price": 219.99,
+        "partNumber": "R-CC310-BKNNM0-G",
+        "referenceDate": "2026-10-20"
+      }
+    }
+  },
+  {
+    "input": {
+      "budget": {
+        "amount": 4000
+      },
+      "usageType": "study",
+      "selectionMode": "price-and-compatibility"
+    },
+    "totalEstimatedPrice": 3799.84,
+    "compatibilityStatus": "unverified",
+    "coreCatalogRulesStatus": "unverified",
+    "biosSupport": {
+      "cpuId": "cpu-ryzen-3-3200g-box",
+      "motherboardId": "mb-asrock-b450m-hdv-r4",
+      "minimumVersion": "P2.30",
+      "installedVersion": null,
+      "verifiedAt": "2026-10-21",
+      "sourceUrl": "https://www.asrock.com/support/cpu.asp?s=AM4&u=599",
+      "scope": "Published support table; confirm installed firmware before purchase."
+    },
+    "performanceScore": null,
+    "performanceBasis": "not_used",
+    "simulationAvailability": {
+      "available": false,
+      "performanceBasis": "simulated",
+      "scoreOnly": true,
+      "reason": "synthetic_model_not_simulation_calibrated",
+      "message": "Estimativa de desempenho indisponível para este modelo.",
+      "componentsWithoutPerformanceModel": [
+        "cpu-ryzen-3-3200g-box",
+        "gpu-msi-rtx-3050-lp-6g-oc"
+      ]
+    },
+    "coolingAssessment": {
+      "status": "unverified",
+      "scope": "included_cooler_identity_only",
+      "includedCooler": {
+        "name": "AMD Wraith Stealth",
+        "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+        "additionalPrice": 0,
+        "dimensionsVerified": false
+      },
+      "unverifiedChecks": [
+        {
+          "code": "CPU_COOLING_FIT_UNVERIFIED",
+          "severity": "medium",
+          "verification": "unverified",
+          "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+        }
+      ],
+      "alerts": []
+    },
+    "unverifiedChecks": [
+      {
+        "code": "CPU_BIOS_UNVERIFIED",
+        "verification": "unverified",
+        "message": "O fabricante publica suporte a esta CPU a partir da BIOS P2.30 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra."
+      }
+    ],
+    "components": {
+      "cpu": {
+        "id": "cpu-ryzen-3-3200g-box",
+        "name": "AMD Ryzen 3 3200G Box",
+        "price": 439.99,
+        "partNumber": "YD3200C5FHBOX",
+        "referenceDate": "2026-10-21"
+      },
+      "motherboard": {
+        "id": "mb-asrock-b450m-hdv-r4",
+        "name": "ASRock B450M-HDV R4.0",
+        "price": 379.99,
+        "partNumber": "B450M-HDV R4.0",
+        "referenceDate": "2026-10-21"
+      },
+      "gpu": {
+        "id": "gpu-msi-rtx-3050-lp-6g-oc",
+        "name": "MSI GeForce RTX 3050 LP 6G OC",
+        "price": 1399.99,
+        "partNumber": "G3050LP6C",
+        "referenceDate": "2026-10-08"
+      },
+      "ram": {
+        "id": "ram-apacer-nox-rgb-8gb-3200",
+        "name": "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black",
+        "price": 529.9,
+        "partNumber": "AH4U08G32C28YNBAA-1",
+        "referenceDate": "2026-10-08"
+      },
+      "storage": {
+        "id": "ssd-kingston-a400-240gb",
+        "name": "Kingston A400 240GB SATA SSD",
+        "price": 479.99,
+        "partNumber": "SA400S37/240G",
+        "referenceDate": "2026-10-08"
+      },
+      "psu": {
+        "id": "psu-coolermaster-mwe-gold650-v3",
+        "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+        "price": 349.99,
+        "partNumber": "MPE-6502-ACAAG-3BBR",
+        "referenceDate": "2026-10-08"
+      },
+      "case": {
+        "id": "case-deepcool-cc310-black",
+        "name": "DeepCool CC310 Black",
+        "price": 219.99,
+        "partNumber": "R-CC310-BKNNM0-G",
+        "referenceDate": "2026-10-20"
+      }
+    }
+  },
+  {
+    "input": {
+      "budget": {
+        "amount": 5500
+      },
+      "usageType": "programming",
+      "requirements": {
+        "minMemoryGb": 16,
+        "minVramGb": 8
+      },
+      "selectionMode": "price-and-compatibility"
+    },
+    "totalEstimatedPrice": 4469.84,
+    "compatibilityStatus": "unverified",
+    "coreCatalogRulesStatus": "unverified",
+    "biosSupport": {
+      "cpuId": "cpu-ryzen-3-3200g-box",
+      "motherboardId": "mb-asrock-b450m-hdv-r4",
+      "minimumVersion": "P2.30",
+      "installedVersion": null,
+      "verifiedAt": "2026-10-21",
+      "sourceUrl": "https://www.asrock.com/support/cpu.asp?s=AM4&u=599",
+      "scope": "Published support table; confirm installed firmware before purchase."
+    },
+    "performanceScore": null,
+    "performanceBasis": "not_used",
+    "simulationAvailability": {
+      "available": false,
+      "performanceBasis": "simulated",
+      "scoreOnly": false,
+      "reason": "performance_model_unavailable",
+      "message": "Estimativa de desempenho indisponível para este modelo.",
+      "componentsWithoutPerformanceModel": [
+        "cpu-ryzen-3-3200g-box",
+        "gpu-asrock-rx-7600-challenger-pro-8gb"
+      ]
+    },
+    "coolingAssessment": {
+      "status": "unverified",
+      "scope": "included_cooler_identity_only",
+      "includedCooler": {
+        "name": "AMD Wraith Stealth",
+        "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+        "additionalPrice": 0,
+        "dimensionsVerified": false
+      },
+      "unverifiedChecks": [
+        {
+          "code": "CPU_COOLING_FIT_UNVERIFIED",
+          "severity": "medium",
+          "verification": "unverified",
+          "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+        }
+      ],
+      "alerts": []
+    },
+    "unverifiedChecks": [
+      {
+        "code": "CPU_BIOS_UNVERIFIED",
+        "verification": "unverified",
+        "message": "O fabricante publica suporte a esta CPU a partir da BIOS P2.30 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra."
+      }
+    ],
+    "components": {
+      "cpu": {
+        "id": "cpu-ryzen-3-3200g-box",
+        "name": "AMD Ryzen 3 3200G Box",
+        "price": 439.99,
+        "partNumber": "YD3200C5FHBOX",
+        "referenceDate": "2026-10-21"
+      },
+      "motherboard": {
+        "id": "mb-asrock-b450m-hdv-r4",
+        "name": "ASRock B450M-HDV R4.0",
+        "price": 379.99,
+        "partNumber": "B450M-HDV R4.0",
+        "referenceDate": "2026-10-21"
+      },
+      "gpu": {
+        "id": "gpu-asrock-rx-7600-challenger-pro-8gb",
+        "name": "ASRock Radeon RX 7600 Challenger Pro 8GB OC",
+        "price": 1959.99,
+        "partNumber": "90-GA62ZZ-00UANF",
+        "referenceDate": "2026-10-21"
+      },
+      "ram": {
+        "id": "ram-mancer-vant-s-16gb-3200",
+        "name": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+        "price": 619.99,
+        "partNumber": "MCR-VNT3200-16GB",
+        "referenceDate": "2026-10-08"
+      },
+      "storage": {
+        "id": "ssd-kingston-a400-240gb",
+        "name": "Kingston A400 240GB SATA SSD",
+        "price": 479.99,
+        "partNumber": "SA400S37/240G",
+        "referenceDate": "2026-10-08"
+      },
+      "psu": {
+        "id": "psu-coolermaster-mwe-gold650-v3",
+        "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+        "price": 349.99,
+        "partNumber": "MPE-6502-ACAAG-3BBR",
+        "referenceDate": "2026-10-08"
+      },
+      "case": {
+        "id": "case-montech-x2-plus-white",
+        "name": "Montech X2 Plus White",
+        "price": 239.9,
+        "partNumber": "X2 PLUS (W)",
+        "referenceDate": "2026-10-21"
+      }
+    }
+  },
+  {
+    "input": {
+      "budget": {
+        "amount": 3000
+      },
+      "usageType": "study",
+      "selectionMode": "price-and-compatibility"
+    },
+    "statusCode": 422,
+    "message": "Não há proposta confirmada até R$ 3.000,00. Menor total encontrado pelas regras de encaixe e energia do catálogo: R$ 3.799,84; faltam R$ 799,84. BIOS instalada e refrigeração ainda precisam de confirmação.",
+    "budgetFeasibility": {
+      "minimumVerifiedTotal": null,
+      "minimumCatalogRulesTotal": 3799.84,
+      "scope": "Core catalog fit/power rules; installed BIOS and included cooler not inspected.",
+      "lowerBound": 3019.75,
+      "minimumCatalogRulesComponents": {
+        "cpu": "cpu-ryzen-3-3200g-box",
+        "motherboard": "mb-asrock-b450m-hdv-r4",
+        "gpu": "gpu-msi-rtx-3050-lp-6g-oc",
+        "ram": "ram-apacer-nox-rgb-8gb-3200",
+        "storage": "ssd-kingston-a400-240gb",
+        "psu": "psu-coolermaster-mwe-gold650-v3",
+        "case": "case-deepcool-cc310-black"
+      },
+      "pendingTotal": 3019.75,
+      "pendingChecks": [
+        {
+          "code": "GPU_POWER_CONNECTORS_UNVERIFIED",
+          "severity": "medium",
+          "verification": "unverified",
+          "message": "Conectores de alimentação da GPU não confirmados."
+        },
+        {
+          "code": "CPU_BIOS_UNVERIFIED",
+          "severity": "medium",
+          "verification": "unverified",
+          "message": "Este processador exige BIOS P2.30 ou posterior nesta placa; a versão instalada não foi confirmada."
+        },
+        {
+          "code": "CASE_GPU_LENGTH_UNVERIFIED",
+          "severity": "medium",
+          "verification": "unverified",
+          "message": "Comprimento da GPU ou limite do gabinete nao informado."
+        }
+      ]
+    },
+    "errors": [
+      "Requisito: pelo menos 8 GB de RAM, sem requisito adicional de VRAM. Preços de referência, sem frete, montagem ou periféricos; refrigeração selecionada preservada.",
+      "Limite inferior por preços isolados: R$ 3.019,75. Essa soma pode misturar peças incompatíveis e não é uma montagem aprovada.",
+      "Caminho mais barato de R$ 3.019,75 não aprovado: Conectores de alimentação da GPU não confirmados. Este processador exige BIOS P2.30 ou posterior nesta placa; a versão instalada não foi confirmada. Comprimento da GPU ou limite do gabinete nao informado."
+    ]
+  }
+]

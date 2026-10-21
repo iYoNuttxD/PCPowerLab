@@ -1,0 +1,905 @@
+- banner:
+  - text: 
+  - link "TeraByteShop":
+    - /url: https://www.terabyteshop.com.br/
+    - img "TeraByteShop"
+  - searchbox "campo busca"
+  - text: 
+  - button "botão buscar":
+    - generic: 
+  - generic "minha conta":
+    - link "":
+      - /url: /Central.obj
+      - generic: 
+    - text: Olá,
+    - link "Entre":
+      - /url: /Central.obj
+    - text: ou
+    - link "Cadastre-se":
+      - /url: /Cadastro.obj
+    - text:   
+  - list:
+    - generic "favoritos":
+      - button "":
+        - generic: 
+        - text: 
+    - generic "favoritos":
+      - link " 0":
+        - /url: /lista-desejos
+        - generic: 
+        - generic: "0"
+    - generic "carrinho":
+      - button " 0" [disabled]:
+        - generic: 
+        - generic: "0"
+    - generic "atendimento":
+      - link "":
+        - /url: https://suporte.tera.com.br/#/portal/ajuda
+        - generic: 
+  - button " Departamentos":
+    - generic: 
+    - generic: Departamentos
+  - list:
+    - link "Promoções":
+      - /url: /promocoes
+    - link "Cupons":
+      - /url: https://landing.terabyteshop.com.br/cupons/
+    - link " Frete Grátis":
+      - /url: /frete-gratis
+      - generic: 
+      - text: Frete Grátis
+    - link "PC Gamer":
+      - /url: /pc-gamer
+    - link "Kit Upgrade":
+      - /url: /kit-upgrade
+    - link "Hardware":
+      - /url: /hardware
+    - link "Home e Eletro Novo":
+      - /url: /home-e-eletro
+      - text: Home e Eletro
+      - generic: Novo
+    - link "Monitores":
+      - /url: /monitores
+  - generic:                                          
+  - text:  
+  - list:
+    - img "Preço topo"
+    - listitem: Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4
+    - generic: 
+    - paragraph: R$ 379,99
+    - paragraph: 15% de desconto à vista no pix
+    - generic: 
+    - paragraph:
+      - text: 12x de R$ 37,25
+      - generic: s/juros no cartão
+    - button "comprar":
+      - generic: 
+      - text: Comprar
+- text:  
+- text: 
+- list:
+  - link "HARDWARE":
+    - /url: https://www.terabyteshop.com.br/hardware
+    - strong: HARDWARE
+  - generic: 
+  - link "PLACA MãE":
+    - /url: https://www.terabyteshop.com.br/hardware/placas-mae
+    - strong: PLACA MãE
+  - generic: 
+  - link "AM4 - AMD RYZEN":
+    - /url: https://www.terabyteshop.com.br/hardware/placas-mae/am4-amd-ryzen
+    - strong: AM4 - AMD RYZEN
+- list:
+  - button:
+    - generic: 
+- text: 
+- list:
+  - link:
+    - /url: https://api.whatsapp.com/send?text=https://www.terabyteshop.com.br/produto/11732/placa-mae-asrock-b450m-hdv-r40-chipset-b450-amd--am4-matx-ddr4
+    - generic: 
+  - text: 
+  - generic: 
+- button
+- img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- button
+- button
+- button "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4":
+  - img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- button "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4":
+  - img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- button "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4":
+  - img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- button "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4":
+  - img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- button "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4":
+  - img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- img "Black"
+- text: TeraWeen
+- text: APROVEITE!
+- generic: 09:39:47
+- generic: 
+- text: Quase acabando
+- strong: "4423"
+- text: vendidos
+- text: Restam
+- strong: "46"
+- list:
+  - listitem: PROMO LIVE
+  - generic: 
+  - text: Novo
+  - generic: 
+  - text: 12 meses de garantia
+  - generic: 
+  - text: Pronta entrega
+  - generic: 
+- heading "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4" [level=1]
+- generic: "CÓD: B450M-HDV R4.0"
+- generic: "•Vendido por: TerabyteShop"
+- text: MAIS VENDIDO
+- text: 7º Posição em
+- link "Placa Mãe":
+  - /url: /hardware/placas-mae
+- generic: 
+- text: "FRETE GRÁTIS: RS,PR,SC,SP,MG,RJ,ES"
+- text: ★★★★★
+- link "10 avaliações":
+  - /url: "#av_area"
+- paragraph:
+  - text: "De:"
+  - deletion: R$ 669,90
+  - text: "por:"
+- paragraph: R$ 379,99
+- generic: 43% OFF
+- paragraph: à vista com 15% de desconto no pix
+- paragraph: R$ 447,05 em até 12x de R$ 37,25 sem juros no cartão
+- paragraph:
+  - link " VER PARCELAMENTO":
+    - /url: "#AAA"
+- button "Comprar agora"
+- link "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4":
+  - /url: https://www.terabyteshop.com.br/produto/11732/placa-mae-asrock-b450m-hdv-r40-chipset-b450-amd--am4-matx-ddr4
+  - img "Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4"
+- generic: +
+- link "Serviço de Atualização de Bios para Placa Mãe":
+  - /url: https://www.terabyteshop.com.br/produto/18151/servico-de-atualizacao-de-bios-para-placa-mae-ok
+  - img "Serviço de Atualização de Bios para Placa Mãe"
+- heading "OPORTUNIDADE - COMPRE JUNTO" [level=3]
+- text: Placa Mãe ASRock B450M-HDV R4.0, Chipset B450, AMD AM4, mATX, DDR4
+- paragraph: + Serviço de Atualização de Bios para Placa Mãe
+- generic: "Por: R$ 494,27 à vista com 15% de desconto no boleto ou pix"
+- button "COMPRAR JUNTO"
+- paragraph:
+  - link " Características gerais" [expanded]:
+    - /url: "#cg"
+- generic: 
+- heading "PLACA MÃE ASROCK" [level=2]
+- heading "B450M-HDV R4.0 MATX" [level=4]
+- paragraph: A interface Ultra M.2 PCIe Gen3 x4 eleva a velocidade de transferência de dados para até 32Gb/s. Além disso, ela também suporta módulos M.2 SATA3 6Gb/s e é compatível com o Kit U.2 da ASRock para instalação de alguns dos SSDs U.2 PCIe Gen3 x4 mais rápidos do mundo.
+- img "placa-mae-asrock-b450m-hdv-11732-01"
+- img "placa-mae-asrock-b450m-hdv-11732-02"
+- heading "AMD STORE MI" [level=4]
+- paragraph: Uma ferramenta poderosa que combina a velocidade do seu SSD com a capacidade do seu HD em um único disco rápido e fácil de gerenciar. SSDs são rápidos, mas caros e oferecem capacidades mínimas. Discos rígidos mecânicos ostentam grandes capacidades por um preço baixo, mas são muito mais lentos que um SSD.
+- heading "MAIOR PROTEÇÃO" [level=4]
+- paragraph: Design do PCB em Fibra de Vidro de Alta Densidade que reduz o espaço entre as camadas do PCB para proteger a placa-mãe contra curtos elétricos causados por humidade. Aparência do PCB em preto puro. O novo PCB Preto Safira representa qualidade inabalável e dá à placa-mãe um toque mais misterioso.
+- img "placa-mae-asrock-b450m-hdv-11732-03"
+- img "placa-mae-asrock-b450m-hdv-11732-04"
+- heading "DURABILIDADE" [level=4]
+- text: A ASRock aplicou capacitors sólidos nesta placa-mãe. Com estes capacitores sólidos, esta placa-mãe é capaz de operar de forma mais estável e possui uma vida útil maior.
+- heading "ÁUDIO ELNA" [level=4]
+- paragraph: Quem disse que áudio de alta qualidade está disponível apenas em placas-mãe high-end? A ASRock aplicou capacitores de áudio ELNA em placas-mãe mainstream e de entrada! Comparados com os tradicionais capacitores sólidos, a perda de corrente dos capacitores de áudio ELNA é de meros 3uA.
+- img "placa-mae-asrock-b450m-hdv-11732-05"
+- paragraph:
+  - link " Especificações Técnicas":
+    - /url: "#esptec"
+- paragraph:
+  - link " Avaliações dos clientes":
+    - /url: "#avc"
+- text:                      
+- heading "Veja Também!" [level=3]
+- text: 
+- generic: "-31%"
+- link "Placa Mãe Asus Prime B550M-A WiFi II, Chipset B550, AMD AM4, mATX, DDR4, 90MB19X0-M0EAY0":
+  - /url: https://www.terabyteshop.com.br/produto/20456/placa-mae-asus-prime-b550m-a-wifi-ii-chipset-b550-amd-am4-matx-ddr4-90mb19x0-m0eay0
+  - img "Placa Mãe Asus Prime B550M-A WiFi II, Chipset B550, AMD AM4, mATX, DDR4, 90MB19X0-M0EAY0"
+- generic: 
+- text: Frete grátis
+- generic: 19º Mais vendido
+- link "Placa Mãe Asus Prime B550M-A WiFi II, Chipset B550, AMD AM4, mATX, DDR4, 90MB19X0-M0EAY0":
+  - /url: https://www.terabyteshop.com.br/produto/20456/placa-mae-asus-prime-b550m-a-wifi-ii-chipset-b550-amd-am4-matx-ddr4-90mb19x0-m0eay0
+  - heading "Placa Mãe Asus Prime B550M-A WiFi II, Chipset B550, AMD AM4, mATX, DDR4, 90MB19X0-M0EAY0" [level=2]
+- deletion: "De: R$ 1.025,90"
+- text: "por:"
+- generic: R$ 709,99
+- generic: à vista no Pix
+- generic: 12x de R$ 69,61 sem juros no cartão
+- group "Comprar": 
+- text: 
+- generic: "-33%"
+- link "Placa Mãe SuperFrame B450M Legendary Series Chipset B450, AMD, AM4, mATX, DDR4, SF-B450-LS":
+  - /url: https://www.terabyteshop.com.br/produto/27537/placa-mae-superframe-b450m-legendary-series-chipset-b450-amd-am4-matx-ddr4-sf-b450-ls
+  - img "Placa Mãe SuperFrame B450M Legendary Series Chipset B450, AMD, AM4, mATX, DDR4, SF-B450-LS"
+- link "Placa Mãe SuperFrame B450M Legendary Series Chipset B450, AMD, AM4, mATX, DDR4, SF-B450-LS":
+  - /url: https://www.terabyteshop.com.br/produto/27537/placa-mae-superframe-b450m-legendary-series-chipset-b450-amd-am4-matx-ddr4-sf-b450-ls
+  - heading "Placa Mãe SuperFrame B450M Legendary Series Chipset B450, AMD, AM4, mATX, DDR4, SF-B450-LS" [level=2]
+- deletion: "De: R$ 1.047,90"
+- text: "por:"
+- generic: R$ 699,99
+- generic: à vista no Pix
+- generic: 12x de R$ 68,63 sem juros no cartão
+- group "Comprar": 
+- text: 
+- generic: "-16%"
+- link "Placa Mãe Asus Prime B550M-A, Chipset B550, AMD AM4, mATX, DDR4, 90MB14I0-M0EAY0":
+  - /url: https://www.terabyteshop.com.br/produto/16575/placa-mae-asus-prime-b550m-a-chipset-b550-amd-am4-matx-ddr4-90mb14i0-m0eay0
+  - img "Placa Mãe Asus Prime B550M-A, Chipset B550, AMD AM4, mATX, DDR4, 90MB14I0-M0EAY0"
+- generic: 
+- text: Frete grátis
+- generic: 3º Mais vendido
+- link "Placa Mãe Asus Prime B550M-A, Chipset B550, AMD AM4, mATX, DDR4, 90MB14I0-M0EAY0":
+  - /url: https://www.terabyteshop.com.br/produto/16575/placa-mae-asus-prime-b550m-a-chipset-b550-amd-am4-matx-ddr4-90mb14i0-m0eay0
+  - heading "Placa Mãe Asus Prime B550M-A, Chipset B550, AMD AM4, mATX, DDR4, 90MB14I0-M0EAY0" [level=2]
+- deletion: "De: R$ 714,90"
+- text: "por:"
+- generic: R$ 599,99
+- generic: à vista no Pix
+- generic: 12x de R$ 58,82 sem juros no cartão
+- group "Comprar": 
+- text: 
+- generic: "-26%"
+- link "Placa Mãe Asus TUF Gaming A520M-PLUS II, Chipset A520, AMD AM4, mATX, DDR4, 90MB17G0-M0EAY0":
+  - /url: https://www.terabyteshop.com.br/produto/23583/placa-mae-asus-tuf-gaming-a520m-plus-ii-chipset-a520-amd-am4-matx-ddr4-90mb17g0-m0eay0
+  - img "Placa Mãe Asus TUF Gaming A520M-PLUS II, Chipset A520, AMD AM4, mATX, DDR4, 90MB17G0-M0EAY0"
+- generic: 
+- text: Frete grátis
+- generic: 4º Mais vendido
+- link "Placa Mãe Asus TUF Gaming A520M-PLUS II, Chipset A520, AMD AM4, mATX, DDR4, 90MB17G0-M0EAY0":
+  - /url: https://www.terabyteshop.com.br/produto/23583/placa-mae-asus-tuf-gaming-a520m-plus-ii-chipset-a520-amd-am4-matx-ddr4-90mb17g0-m0eay0
+  - heading "Placa Mãe Asus TUF Gaming A520M-PLUS II, Chipset A520, AMD AM4, mATX, DDR4, 90MB17G0-M0EAY0" [level=2]
+- deletion: "De: R$ 770,90"
+- text: "por:"
+- generic: R$ 569,99
+- generic: à vista no Pix
+- generic: 12x de R$ 55,88 sem juros no cartão
+- group "Comprar": 
+- text: 
+- generic: "-40%"
+- link "Placa Mãe Gigabyte B550M AORUS Elite, Chipset B550, AMD AM4, mATX, DDR4":
+  - /url: https://www.terabyteshop.com.br/produto/16145/placa-mae-gigabyte-b550m-aorus-elite-chipset-b550-amd-am4-atx-ddr4
+  - img "Placa Mãe Gigabyte B550M AORUS Elite, Chipset B550, AMD AM4, mATX, DDR4"
+- generic: 
+- text: Frete grátis
+- generic: 2º Mais vendido
+- link "Placa Mãe Gigabyte B550M AORUS Elite, Chipset B550, AMD AM4, mATX, DDR4":
+  - /url: https://www.terabyteshop.com.br/produto/16145/placa-mae-gigabyte-b550m-aorus-elite-chipset-b550-amd-am4-atx-ddr4
+  - heading "Placa Mãe Gigabyte B550M AORUS Elite, Chipset B550, AMD AM4, mATX, DDR4" [level=2]
+- deletion: "De: R$ 1.239,99"
+- text: "por:"
+- generic: R$ 749,99
+- generic: à vista no Pix
+- generic: 12x de R$ 73,53 sem juros no cartão
+- group "Comprar": 
+- text:      
+- text: 
+- heading "Formas de Pagamento" [level=5]
+- img "MercadoPago Pix"
+- img "Cartão Mercado Pago"
+- img "MercadoPago 2 cartões"
+- img "NuPay"
+- img "Boleto MP"
+- heading "Segurança" [level=5]
+- list:
+  - link "Empresa Autorizada - Compre & Confie":
+    - /url: https://www.confi.com.vc/lojas-confiaveis/detalhes?id=109856
+    - img "Empresa Autorizada - Compre & Confie"
+  - link "Google - Site Seguro":
+    - /url: https://transparencyreport.google.com/safe-browsing/search?url=terabyteshop.com.br&hl=pt-PT
+    - img "Google - Site Seguro"
+  - img "Site Protegido Cloudflare"
+  - link "Em Avaliação":
+    - /url: https://www.ebit.com.br/5197/selo
+    - img "Em Avaliação"
+  - link "Verificar":
+    - /url: https://auditoria.siteblindado.com/consumidor/selo-blindado/?language1=pt&hostname=www.terabyteshop.com.br
+    - img "site blindado"
+- heading "Institucional" [level=5]
+- list:
+  - generic: 
+  - link "Quem somos":
+    - /url: https://www.terabyteshop.com.br/site/quem-somos
+  - generic: 
+  - link "Termos e Condições de Venda":
+    - /url: https://www.terabyteshop.com.br/site/termos-e-condicoes-gerais-de-venda-de-produtos
+  - generic: 
+  - link "Política de Troca e Devoluções":
+    - /url: https://www.terabyteshop.com.br/site/politica-de-vendas-trocas-e-devolucoes
+  - generic: 
+  - link "Política de Segurança e Privacidade":
+    - /url: https://www.terabyteshop.com.br/site/politica-de-privacidade-compra-segura
+  - generic: 
+  - link "Política de Cookies":
+    - /url: https://www.terabyteshop.com.br/site/politica-de-cookies
+  - generic: 
+  - link "Prêmios TerabyteShop":
+    - /url: https://www.terabyteshop.com.br/site/premios
+- heading "Dúvidas" [level=5]
+- list:
+  - generic: 
+  - link "Como comprar":
+    - /url: https://www.terabyteshop.com.br/site/como-comprar
+  - generic: 
+  - link "Prazos e entregas":
+    - /url: https://www.terabyteshop.com.br/site/prazos-e-servicos-de-entrega
+  - generic: 
+  - link "Formas de Pagamento":
+    - /url: https://www.terabyteshop.com.br/site/formas-de-pagamento-aceitas
+  - generic: 
+  - link "Programa de Parceiros":
+    - /url: https://www.terabyteshop.com.br/site/regras-programa-de-parceiros
+- heading "Cliente" [level=5]
+- list:
+  - generic: 
+  - link "Minha conta":
+    - /url: https://www.terabyteshop.com.br/Central.obj
+  - generic: 
+  - link "Meus pedidos":
+    - /url: https://www.terabyteshop.com.br/Central/MeusPedidos.obj
+  - generic: 
+  - link "Meus tickets":
+    - /url: https://www.terabyteshop.com.br/Central/Ticket.obj
+- heading "Ajuda" [level=5]
+- list:
+  - generic: 
+  - link "Video Tutoriais":
+    - /url: https://www.terabyteshop.com.br/site/videos-tutoriais
+  - generic: 
+  - link "Manuseio do Produto":
+    - /url: https://www.terabyteshop.com.br/site/manuseio
+  - generic: 
+  - link "Fale Conosco":
+    - /url: https://suporte.tera.com.br/#/portal/ajuda
+- generic: SIGA-NOS
+- list:
+  - link "instagram":
+    - /url: https://www.instagram.com/terabyteshop/
+    - img "Instagram"
+  - link "twitter":
+    - /url: https://twitter.com/terabyteshop
+    - img "Twitter"
+  - link "Telegram":
+    - /url: https://t.me/terabyteshopoficial
+    - img "Telegram"
+  - link "youtube":
+    - /url: https://www.youtube.com/user/Terabyteshop
+    - img "YouTube"
+  - link "facebook":
+    - /url: https://pt-br.facebook.com/Terabyteshop
+    - img "Facebook"
+  - link "Discord":
+    - /url: https://discord.com/invite/bYHsC3gv4Y
+    - img "Discord"
+- contentinfo:
+  - list:
+    - img "TeraByteShop"
+    - listitem: TERABYTE ATACADO E VAREJO DE PRODUTOS DE INFORMATICA LTDA
+    - listitem: "CNPJ: 07.993.973/0001-18 | Curitiba-PR"
+    - text: Este site é protegido por reCAPTCHA e a
+    - link "Política de Privacidade":
+      - /url: https://policies.google.com/privacy
+    - text: e os
+    - link "Termos de Serviço":
+      - /url: https://policies.google.com/terms
+    - text: do Google se aplicam.
+  - list:
+    - text: ATENDIMENTO
+    - text: De segunda a sexta das 8:30 às 12H / 13H às 18H
+    - listitem: SOMOS E-COMMERCE - NÃO TEMOS ATENDIMENTO LOCAL
+  - list:
+    - generic: 
+    - text: Preferências de cookies
+    - img "Powered By"
+- button "topo":
+  - generic: 
+- alert:
+  - generic: 
+  - text: Utilizamos cookies para personalizar anúncios e melhorar a sua experiência no site. Ao continuar navegando, você concorda
+  - text: com a nossa
+  - link "Política de Privacidade":
+    - /url: https://www.terabyteshop.com.br/site/politica-de-privacidade-compra-segura
+  - text: e
+  - link "Política de Cookies":
+    - /url: https://www.terabyteshop.com.br/site/politica-de-cookies
+  - text: .
+  - button "Preferências"
+  - button "Continuar"
+- text: 
+- navigation:
+  - button
+  - list:
+    - link " Cupons":
+      - /url: https://landing.terabyteshop.com.br/cupons/
+      - generic: 
+      - text: Cupons
+    - link " Frete Gratis":
+      - /url: https://www.terabyteshop.com.br/frete-gratis
+      - generic: 
+      - text: Frete Gratis
+    - link " Promoções":
+      - /url: https://www.terabyteshop.com.br/promocoes
+      - generic: 
+      - text: Promoções
+    - generic: 
+    - text: Inteligência Artificial
+    - list:
+      - link "Agent Computer":
+        - /url: https://www.terabyteshop.com.br/inteligencia-artificial/agent-computer
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/inteligencia-artificial
+    - link " Open Box":
+      - /url: https://www.terabyteshop.com.br/open-box
+      - generic: 
+      - text: Open Box
+    - generic: 
+    - text: PC Gamer
+    - list:
+      - link "Powered By MSI":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/powered-by-msi
+      - link "T-HOME":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/t-home
+      - link "T-OFFICE":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/t-office-1
+      - link "T-MOBA":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/t-moba
+      - link "T-GAMER":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/t-gamer
+      - link "T-POWER":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/t-power
+      - link "Monte seu PC":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/full-custom
+      - link "Mini PC":
+        - /url: https://www.terabyteshop.com.br/pc-gamer/mini-pc
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/pc-gamer
+    - generic: 
+    - text: Kit Upgrade
+    - list:
+      - link "Kit Upgrade Intel":
+        - /url: https://www.terabyteshop.com.br/kit-upgrade/kit-upgrade-intel
+      - link "Kit Upgrade AMD":
+        - /url: https://www.terabyteshop.com.br/kit-upgrade/kit-upgrade-amd
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/kit-upgrade
+    - generic: 
+    - text: Hardware
+    - list:
+      - generic: Processadores
+      - list:
+        - link "AMD":
+          - /url: https://www.terabyteshop.com.br/hardware/processadores/amd-ryzen
+        - link "INTEL":
+          - /url: https://www.terabyteshop.com.br/hardware/processadores/intel
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/hardware/processadores
+      - generic: Placa de Vídeo
+      - list:
+        - link "AMD Radeon":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-de-video/amd-radeon
+        - link "Intel Arc":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-de-video/intel-arc
+        - link "NVIDIA GeForce":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-de-video/nvidia-geforce
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-de-video
+      - generic: Placa Mãe
+      - list:
+        - link "AM4 - AMD Ryzen":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-mae/am4-amd-ryzen
+        - link "AM5 - AMD Ryzen":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-mae/am5-amd-ryzen
+        - link "LGA 1200 - INTEL":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-mae/lga-1200-intel
+        - link "LGA 1700 - INTEL":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-mae/lga-1700-intel
+        - link "LGA 1851 - INTEL":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-mae/lga-1851-intel
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/hardware/placas-mae
+      - generic: Memórias
+      - list:
+        - link "DDR4":
+          - /url: https://www.terabyteshop.com.br/hardware/memorias/ddr4
+        - link "DDR5":
+          - /url: https://www.terabyteshop.com.br/hardware/memorias/ddr5
+        - link "Memória Notebook":
+          - /url: https://www.terabyteshop.com.br/hardware/memorias/memoria-p-notebook
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/hardware/memorias
+      - generic: Hard Disk (HD)/SSD
+      - list:
+        - link "SSD":
+          - /url: https://www.terabyteshop.com.br/hardware/hard-disk/ssd
+        - link "HD SATA III":
+          - /url: https://www.terabyteshop.com.br/hardware/hard-disk/hd-sata-iii
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/hardware/hard-disk
+      - generic: Placa de Som
+      - list:
+        - link "Creative":
+          - /url: https://www.terabyteshop.com.br/hardware/placa-de-som/creative
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/hardware/placa-de-som
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/hardware
+    - generic: 
+    - text: Monitores
+    - list:
+      - link "Monitor Philips":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-philips
+      - link "Monitor Bluecase":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-bluecase
+      - link "Monitor SuperFrame":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-superframe
+      - link "Duex":
+        - /url: https://www.terabyteshop.com.br/monitores/duex-1
+      - link "Monitor Gamer Ninja":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-gamer-ninja
+      - link "Monitor Dr.Office":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-droffice
+      - link "Monitor Asus":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-asus
+      - link "Monitor AsRock":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-asrock
+      - link "Monitor Acer":
+        - /url: https://www.terabyteshop.com.br/monitores/acer
+      - link "Monitor MSI":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-msi
+      - link "Monitor AOC":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-aoc
+      - link "Monitor Gigabyte":
+        - /url: https://www.terabyteshop.com.br/monitores/monitor-gigabyte
+      - link "Monitor LG":
+        - /url: https://www.terabyteshop.com.br/monitores/lg
+      - link "Monitor Samsung":
+        - /url: https://www.terabyteshop.com.br/monitores/samsung
+      - generic: Suporte para Monitor
+      - list:
+        - link "Bluecase":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/bluecase
+        - link "Dr.Office":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/droffice
+        - link "Elements":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/elements-2
+        - link "ELG":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/elg
+        - link "North Bayou":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/north-bayou
+        - link "Octoo":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/octoo
+        - link "PCYes":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/pcyes
+        - link "PIX":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/pix
+        - link "SuperFrame":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/superframe
+        - link "Suportes Monitores":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor/suportes
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/monitores/suporte-para-monitor
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/monitores
+    - generic: 
+    - text: Gabinetes
+    - list:
+      - link "Gabinete SuperFrame":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-superframe
+      - link "Gabinete Pure Power":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-pure-power
+      - link "Gabinete Dr. Office":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-dr-office
+      - link "Gabinete BRX":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-brx
+      - link "Gabinete Gamer Ninja":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-gamer-ninja
+      - link "Gabinete Montech":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-montech
+      - link "Gabinete Asus":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-asus
+      - link "Gabinete Be Quiet":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-be-quiet
+      - link "Gabinete Lian Li":
+        - /url: https://www.terabyteshop.com.br/gabinetes/lian-li
+      - link "Gabinete NZXT":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-nzxt
+      - link "Gabinete Cooler Master":
+        - /url: https://www.terabyteshop.com.br/gabinetes/cooler-master-1
+      - link "Gabinete Corsair":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-corsair
+      - link "Gabinete Cougar":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-cougar
+      - link "Gabinete Hyte":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-hyte
+      - link "Gabinete Gamdias":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-gamdias
+      - link "Gabinete Gamemax":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-gamemax
+      - link "Gabinete Redragon":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-redragon
+      - link "Gabinete Liketec":
+        - /url: https://www.terabyteshop.com.br/gabinetes/gabinete-liketec
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/gabinetes
+    - generic: 
+    - text: Simulador
+    - list:
+      - link "Cockpits / Estruturas":
+        - /url: https://www.terabyteshop.com.br/simuladores/cockpits---estruturas
+      - link "Volantes / Joystick":
+        - /url: https://www.terabyteshop.com.br/simuladores/volantes---joystick
+      - link "Suportes e Acessórios":
+        - /url: https://www.terabyteshop.com.br/simuladores/suportes-e-acessorios
+      - link "Sistema de Movimento":
+        - /url: https://www.terabyteshop.com.br/simuladores/sistema-de-movimento
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/simuladores
+    - generic: 
+    - text: Fontes
+    - list:
+      - link "Fontes Xilence":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-xilence
+      - link "Fonte SuperFrame":
+        - /url: https://www.terabyteshop.com.br/fontes/superframe
+      - link "Fonte Pure Power":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-pure-power
+      - link "Fonte MSI":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-msi
+      - link "Fonte Cooler Master":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-cooler-master
+      - link "Fonte Be Quiet":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-be-quiet
+      - link "Fonte Corsair":
+        - /url: https://www.terabyteshop.com.br/fontes/corsair
+      - link "Fonte Montech":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-montech
+      - link "Fonte Cougar":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-cougar
+      - link "Fonte Aerocool":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-aerocool
+      - link "Fonte Gigabyte":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-gigabyte
+      - link "Fonte Deepcool":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-deepcool
+      - link "Fonte ASRock":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-asrock
+      - link "Fonte Duex":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-duex
+      - link "Fonte Gamemax":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-gamemax
+      - link "Fonte Redragon":
+        - /url: https://www.terabyteshop.com.br/fontes/fonte-redragon
+      - link "Fonte Thermaltake":
+        - /url: https://www.terabyteshop.com.br/fontes/thermaltake-1
+      - link "Fontes Diversas":
+        - /url: https://www.terabyteshop.com.br/fontes/fontes-diversas
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/fontes
+    - generic: 
+    - text: Periféricos
+    - list:
+      - link "Combos":
+        - /url: https://www.terabyteshop.com.br/perifericos/combos
+      - link "Teclado":
+        - /url: https://www.terabyteshop.com.br/perifericos/teclado
+      - link "Mouse":
+        - /url: https://www.terabyteshop.com.br/perifericos/mouse
+      - link "MousePad":
+        - /url: https://www.terabyteshop.com.br/perifericos/mouse-pad-personalizado
+      - link "Fone de Ouvido e Headset":
+        - /url: https://www.terabyteshop.com.br/perifericos/fone-de-ouvido
+      - link "Microfone":
+        - /url: https://www.terabyteshop.com.br/perifericos/microfone
+      - link "Caixa de Som":
+        - /url: https://www.terabyteshop.com.br/perifericos/caixa-de-som
+      - link "Componentes Teclado":
+        - /url: https://www.terabyteshop.com.br/perifericos/componentes-teclado
+      - link "Joystick e Controle":
+        - /url: https://www.terabyteshop.com.br/perifericos/joystick-e-controle
+      - link "WebCam":
+        - /url: https://www.terabyteshop.com.br/perifericos/webcam
+      - generic: Energia
+      - list:
+        - link "Filtro de Linha & Protetor":
+          - /url: https://www.terabyteshop.com.br/perifericos/energia/filtro-de-linha-e-protetor
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/perifericos/energia
+      - generic: Conectividade
+      - list:
+        - link "Hub USB":
+          - /url: https://www.terabyteshop.com.br/perifericos/conectividade/hub-usb
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/perifericos/conectividade
+      - generic: Armazenamento
+      - list:
+        - link "SSD Externo":
+          - /url: https://www.terabyteshop.com.br/perifericos/armazenamento/ssd-externo
+        - link "Pendrive":
+          - /url: https://www.terabyteshop.com.br/perifericos/armazenamento/pendrive
+        - link "Cartão de Memória":
+          - /url: https://www.terabyteshop.com.br/perifericos/armazenamento/cartao-de-memoria
+        - link "Case SSD/HD":
+          - /url: https://www.terabyteshop.com.br/perifericos/armazenamento/case-ssd-hd
+        - link "HD Externo":
+          - /url: https://www.terabyteshop.com.br/perifericos/armazenamento/hd-externo
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/perifericos/armazenamento
+      - generic: Cabos e Adaptadores
+      - list:
+        - link "Cabo de Força":
+          - /url: https://www.terabyteshop.com.br/perifericos/cabos-e-adaptadores/cabo-de-forca
+        - link "HDMI & DisplayPort":
+          - /url: https://www.terabyteshop.com.br/perifericos/cabos-e-adaptadores/hdmi-e-displayport
+        - link "Cabos Extensores":
+          - /url: https://www.terabyteshop.com.br/perifericos/cabos-e-adaptadores/cabos-extensores
+        - link "Adaptador de Vídeo":
+          - /url: https://www.terabyteshop.com.br/perifericos/cabos-e-adaptadores/adaptador-de-video
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/perifericos/cabos-e-adaptadores
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/perifericos
+    - link " Notebooks":
+      - /url: https://www.terabyteshop.com.br/notebooks
+      - generic: 
+      - text: Notebooks
+    - text: Cadeiras
+    - list:
+      - generic: Cadeira Gamer
+      - list:
+        - link "Elements":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/elements
+        - link "SuperFrame":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/superframe-2
+        - link "Gamer Ninja":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/gamer-ninja
+        - link "Terabyte":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/terabyte
+        - link "DT3":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/dt3
+        - link "ThunderX3":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/thunderx3
+        - link "Cooler Master":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/cooler-master
+        - link "Cougar":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/cadeira-gamer-cougar
+        - link "Gamdias":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer/gamdias-1
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-gamer
+      - generic: Cadeira Escritório
+      - list:
+        - link "DT3":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-office/dt3
+        - link "Cougar":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-office/cougar
+        - link "Dr. Office":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-office/dr-office
+        - link "Elements":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-office/elements-1
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/cadeira/cadeira-office
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/cadeira
+    - generic: 
+    - text: Refrigeração
+    - list:
+      - link "Air Cooler":
+        - /url: https://www.terabyteshop.com.br/refrigeracao/air-cooler
+      - link "Ventoinhas (Fans)":
+        - /url: https://www.terabyteshop.com.br/refrigeracao/ventoinhas-fans
+      - link "Pasta Térmica":
+        - /url: https://www.terabyteshop.com.br/refrigeracao/pasta-termica
+      - link "Water Cooler":
+        - /url: https://www.terabyteshop.com.br/refrigeracao/watercooler
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/refrigeracao
+    - text: Impressão 3D
+    - list:
+      - link "Impressoras 3D":
+        - /url: https://www.terabyteshop.com.br/impressao3D/impressoras3D
+      - generic: Suprimentos
+      - list:
+        - link "Filamentos":
+          - /url: https://www.terabyteshop.com.br/impressao3D/suprimentos/filamentos
+        - link "Acessórios":
+          - /url: https://www.terabyteshop.com.br/impressao3D/suprimentos/acessorios-2
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/impressao3D/suprimentos
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/impressao3D
+    - generic: 
+    - text: Mesa Gamer
+    - list:
+      - link "Mesa Gamer Ninja":
+        - /url: https://www.terabyteshop.com.br/mesa-gamer/mesa-gamer-ninja
+      - link "Mesa SuperFrame":
+        - /url: https://www.terabyteshop.com.br/mesa-gamer/mesa-superframe
+      - link "Mesa Cougar":
+        - /url: https://www.terabyteshop.com.br/mesa-gamer/mesa-cougar
+      - link "Mesa DT3":
+        - /url: https://www.terabyteshop.com.br/mesa-gamer/mesa-dt3
+      - link "Mesa Marvo":
+        - /url: https://www.terabyteshop.com.br/mesa-gamer/mesa-marvo
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/mesa-gamer
+    - generic: 
+    - text: Rede
+    - list:
+      - link "Roteador e adaptador Wi-Fi":
+        - /url: https://www.terabyteshop.com.br/rede/adaptador-wi-fi
+      - link "Placa de Rede":
+        - /url: https://www.terabyteshop.com.br/rede/placa-de-rede
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/rede
+    - generic: 
+    - text: LifeStyle
+    - list:
+      - link "Fotografia":
+        - /url: https://www.terabyteshop.com.br/lifestyle/fotografia
+      - link "Mochilas":
+        - /url: https://www.terabyteshop.com.br/lifestyle/mochilas
+      - link "Powerbank":
+        - /url: https://www.terabyteshop.com.br/lifestyle/powerbank
+      - link "Smartwatch":
+        - /url: https://www.terabyteshop.com.br/lifestyle/smartwatch
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/lifestyle
+    - generic: 
+    - text: Video Games
+    - list:
+      - link "Consoles":
+        - /url: https://www.terabyteshop.com.br/games/consoles
+      - link "Acessórios":
+        - /url: https://www.terabyteshop.com.br/games/acessorios
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/games
+    - generic: 
+    - text: Home e Eletro
+    - list:
+      - link "Fritadeiras e Eletrodomésticos":
+        - /url: https://www.terabyteshop.com.br/home-e-eletro/pro-home
+      - link "Copo Térmico":
+        - /url: https://www.terabyteshop.com.br/home-e-eletro/copo-termico
+      - link "Air Fryer":
+        - /url: https://www.terabyteshop.com.br/home-e-eletro/air-fryer
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/home-e-eletro
+    - generic: 
+    - text: Geek
+    - list:
+      - link "Action Figures":
+        - /url: https://www.terabyteshop.com.br/geek/action-figures
+      - link "Funko":
+        - /url: https://www.terabyteshop.com.br/geek/funko-pop
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/geek
+    - generic: 
+    - text: Segurança
+    - list:
+      - link "Câmera de Segurança":
+        - /url: https://www.terabyteshop.com.br/seguranca/cameras-de-seguranca
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/seguranca
+    - generic: 
+    - text: Diversos
+    - list:
+      - generic: Softwares
+      - list:
+        - link "Antivírus":
+          - /url: https://www.terabyteshop.com.br/diversos/softwares/antivirus
+        - link "Sistema Operacional":
+          - /url: https://www.terabyteshop.com.br/diversos/softwares/sistema-operacional
+        - link "Ver Todos":
+          - /url: https://www.terabyteshop.com.br/diversos/softwares
+      - link "Ver Todos":
+        - /url: https://www.terabyteshop.com.br/diversos
+  - text: Departamentos

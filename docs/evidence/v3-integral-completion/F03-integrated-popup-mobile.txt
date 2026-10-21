@@ -1,0 +1,368 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - button "Abrir menu":
+    - generic: Menu
+- main:
+  - generic: Painel final
+  - heading "Resumo da configuração" [level=1]
+  - paragraph: Revise as peças e a compatibilidade antes de salvar ou comprar.
+  - paragraph: Voltar à configuração anterior preserva o orçamento. A análise será recalculada; se falhar, use Simular desempenho para tentar novamente.
+  - button "Desfazer última troca"
+  - status:
+    - strong: "Montagem completa: 6 de 6 peças principais selecionadas"
+    - generic: As peças foram mantidas. Gere ou atualize o resumo para conferir compatibilidade e desempenho. Os links das lojas são consultados separadamente.
+  - generic: Painel da build
+  - heading "Visão geral" [level=2]
+  - generic "Ver ou trocar peças"
+  - heading "Orçamento" [level=3]
+  - generic: Dentro
+  - text: Orçamento
+  - strong: R$ 3.000,00
+  - text: Total estimado da build
+  - strong: R$ 2.489,94
+  - text: Restante
+  - strong: R$ 510,06
+  - paragraph: Total de referência, sem frete e montagem.
+  - heading "Status da build" [level=3]
+  - paragraph: Gere o resumo ou analise a montagem para verificar as peças.
+  - generic: Pendente
+  - strong: Compatibilidade não verificada
+  - generic "Pontuação da configuração"
+  - generic: Próximos passos
+  - heading "Ações" [level=2]
+  - button "Gerar resumo final"
+  - button "Salvar como nova configuração":
+    - text: Salvar como nova configuração
+  - button "Compartilhar":
+    - text: Compartilhar
+  - link "Voltar e editar":
+    - /url: /build
+  - link "Comparar build":
+    - /url: /compare
+  - link "Sugerir upgrade":
+    - /url: /upgrades
+  - generic "Relatório e exportação"
+  - generic: Compatibilidade e desempenho
+  - heading "Análises da configuração" [level=2]
+  - heading "Compatibilidade ainda não verificada" [level=3]
+  - paragraph: Monte uma build completa e execute a análise para receber alertas técnicos.
+  - generic "O que a compatibilidade verifica?"
+  - heading "Gargalos" [level=3]
+  - paragraph: A análise será exibida depois que uma build completa for enviada.
+  - generic "O que é um gargalo?"
+  - generic: Jogos
+  - heading "Simulação em jogos" [level=2]
+  - heading "Desempenho estimado" [level=3]
+  - paragraph: Escolha o jogo, resolução e qualidade para atualizar a estimativa de FPS.
+  - generic: Jogo
+  - combobox "Jogo":
+    - option "Counter-Strike 2"
+    - option "Valorant"
+    - option "Fortnite"
+    - option "League of Legends"
+    - option "Minecraft"
+    - option "GTA V"
+    - option "Red Dead Redemption 2"
+    - option "Cyberpunk 2077" [selected]
+    - option "The Witcher 3"
+    - option "Elden Ring"
+    - option "Forza Horizon 5"
+    - option "Microsoft Flight Simulator"
+    - option "Apex Legends"
+    - option "Call of Duty Warzone"
+    - option "Baldur's Gate 3"
+    - option "Hogwarts Legacy"
+    - option "Starfield"
+    - option "Alan Wake 2"
+    - option "Helldivers 2"
+    - option "Palworld"
+  - generic: Resolução
+  - combobox "Resolução":
+    - option "1080p" [selected]
+    - option "1440p"
+    - option "4k"
+  - generic: Qualidade
+  - combobox "Qualidade":
+    - option "Baixo"
+    - option "Médio"
+    - option "Alto" [selected]
+    - option "Ultra"
+  - status: Execute a simulação para ver uma estimativa para o jogo, a resolução e a qualidade selecionados.
+  - button "Simular desempenho"
+  - region "Temperatura e ruído":
+    - generic: Conforto da montagem
+    - heading "Explore o conforto da montagem" [level=3]
+    - paragraph: Explore o efeito do cooler, das ventoinhas e do ambiente quando precisar, sem sair da sua montagem.
+    - button "Explorar temperatura e ruído"
+    - dialog "Temperatura e ruído":
+      - heading "Temperatura e ruído" [level=2]
+      - button "Fechar" [active]
+      - paragraph: Estimativa ilustrativa do modelo. Dados ausentes continuam indicados; não é uma medição deste computador.
+      - paragraph: Esta CPU inclui AMD Wraith Stealth, sem custo adicional. Não há medidas nem curva térmica/acústica verificadas para esse cooler; nenhum resultado é inventado. Você pode conferir ou escolher outra refrigeração abaixo.
+      - paragraph:
+        - text: Para explorar um cenário ilustrativo, selecione um cooler com dados de simulação. Isso não exige comprar outro cooler quando a CPU já inclui um adequado.
+        - link "Escolher refrigeração":
+          - /url: /build
+      - region "Resultados do cenário":
+        - heading "Resultados do cenário" [level=3]
+        - generic: Simulação aproximada
+        - paragraph: Faixas de cenários, não medições. Não confirmam encaixe no gabinete.
+        - generic "Ajustar cenário · entrada 25 °C · cooler 75% RPM"
+        - option "50% da rotação máxima"
+        - option "75% da rotação máxima" [selected]
+        - option "100% da rotação máxima"
+        - status: Este componente não tem um perfil aprovado; nenhum perfil genérico foi inferido.
+        - region "Ruído simulado":
+          - heading "Ruído da refrigeração selecionada" [level=4]
+          - strong: Sem total disponível
+          - paragraph: A 1 m · cooler e ventoinhas selecionadas. Não inclui o restante do PC, fans do gabinete não selecionados nem o ambiente.
+          - status: "Subtotal parcial: há fontes sem perfil no cenário."
+          - paragraph: "1 ventoinha(s) inclusa(s) no DeepCool CC310 Black: Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+        - generic "Hipóteses e fontes"
+  - generic: Compra
+  - heading "Links de compra" [level=2]
+  - heading "Preços e pesquisa em lojas" [level=3]
+  - paragraph: Confirme preço e estoque na loja.
+  - generic: Processador
+  - figure "Foto da família":
+    - img "AMD Ryzen 3 3200G Box — fotografia da página exata"
+    - generic: Foto da família
+  - strong: AMD Ryzen 3 3200G Box
+  - generic: "Referência: R$ 439,99"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 21/10/2026, 03:24 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/26551/processador-amd-ryzen-3-3200g-36ghz-40ghz-turbo-4-cores-4-threads-cooler-wraith-stealth-am4-yd3200c5fhbox
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/ryzen-3-3200g-box
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=ryzen%203%203200g%20box
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=ryzen%203%203200g%20box
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=ryzen%203%203200g%20box
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/ryzen-3-3200g-box
+      - text: Pesquisar na loja
+  - generic: Placa-mãe
+  - figure:
+    - img "ASRock B450M-HDV R4.0 — fotografia da página exata"
+  - strong: ASRock B450M-HDV R4.0
+  - generic: "Referência: R$ 379,99"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 21/10/2026, 03:24 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/11732/placa-mae-asrock-b450m-hdv-r40-chipset-b450-amd--am4-matx-ddr4
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/asrock-b450m-hdv-r4-0
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=asrock%20b450m-hdv%20r4.0
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=asrock%20b450m-hdv%20r4.0
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=asrock%20b450m-hdv%20r4.0
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/asrock-b450m-hdv-r4-0
+      - text: Pesquisar na loja
+  - generic: Memória RAM
+  - figure:
+    - status:
+      - generic: Carregando fotografia…
+  - strong: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black
+  - generic: "Referência: R$ 619,99"
+  - paragraph:
+    - link "Referência PIX · Pichau · 08/10/2026, 14:57 UTC":
+      - /url: https://www.pichau.com.br/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/mancer-vant-s-16gb-1x16gb-ddr4-3200-cl19-black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=mancer%20vant%20s%2016gb%20(1x16gb)%20ddr4-3200%20cl19%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=mancer%20vant%20s%2016gb%20(1x16gb)%20ddr4-3200%20cl19%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=mancer%20vant%20s%2016gb%20(1x16gb)%20ddr4-3200%20cl19%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/mancer-vant-s-16gb-1x16gb-ddr4-3200-cl19-black
+      - text: Pesquisar na loja
+  - generic: Armazenamento
+  - figure:
+    - status:
+      - generic: Carregando fotografia…
+  - strong: Kingston A400 240GB SATA SSD
+  - generic: "Referência: R$ 479,99"
+  - paragraph:
+    - link "Referência PIX · Pichau · 08/10/2026, 14:22 UTC":
+      - /url: https://www.pichau.com.br/ssd-kingston-a400-240gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-350mb-s-sa400s37-240g
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/kingston-a400-240gb-sata-ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=kingston%20a400%20240gb%20sata%20ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=kingston%20a400%20240gb%20sata%20ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=kingston%20a400%20240gb%20sata%20ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/kingston-a400-240gb-sata-ssd
+      - text: Pesquisar na loja
+  - generic: Fonte de alimentação
+  - figure:
+    - status:
+      - generic: Carregando fotografia…
+  - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+  - generic: "Referência: R$ 349,99"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/38210/fonte-cooler-master-mwe-gold-650-v3-650w-80-plus-gold-atx-31-pfc-ativo-mpe-6502-acaag-3bbr
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/cooler-master-mwe-gold-650-v3-atx-3-1-non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=cooler%20master%20mwe%20gold%20650%20v3%20atx%203.1%20non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=cooler%20master%20mwe%20gold%20650%20v3%20atx%203.1%20non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=cooler%20master%20mwe%20gold%20650%20v3%20atx%203.1%20non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/cooler-master-mwe-gold-650-v3-atx-3-1-non-modular
+      - text: Pesquisar na loja
+  - generic: Gabinete
+  - figure:
+    - status:
+      - generic: Carregando fotografia…
+  - strong: DeepCool CC310 Black
+  - generic: "Referência: R$ 219,99"
+  - paragraph:
+    - link "Referência PIX · Pichau · 20/10/2026, 22:04 UTC":
+      - /url: https://www.pichau.com.br/gabinete-office-deepcool-cc310-mid-tower-preto-r-cc310-bknnm0-g
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/deepcool-cc310-black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=deepcool%20cc310%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=deepcool%20cc310%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=deepcool%20cc310%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/deepcool-cc310-black
+      - text: Pesquisar na loja
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

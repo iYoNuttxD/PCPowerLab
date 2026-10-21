@@ -1,3 +1,5 @@
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
+import { integratedCpuEvidence } from '../../../src/data/integratedGraphicsEvidence.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { describeBuildObjective } from '../utils/buildObjectives.js';
 import { stepSelectionConflicts } from '../utils/selectionConflicts.js';
@@ -67,15 +69,16 @@ export default function BuildWizard() {
   const budgetCurrency = String(build.budget.currency || 'BRL').trim().toUpperCase();
   const budgetCurrencyError = budgetCurrency !== 'BRL' ? 'Informe um orçamento em reais (BRL). Não há conversão automática.' : '';
   const budgetError = validateBudgetAmount(build.budget.amount) || budgetCurrencyError;
-  const isComponentStep = componentTypes.includes(currentStep);
+  const integrated = usesIntegratedGraphics(build.selectedComponents);
+  const isComponentStep = componentTypes.includes(currentStep) && !(currentStep === 'gpu' && integrated);
   const immediateConflicts = stepSelectionConflicts(build.selectedComponents, currentStep);
-  const canAdvance = isComponentStep
+  const canAdvance = currentStep === 'gpu' && integrated ? Boolean(integratedCpuEvidence(build.selectedComponents.cpu)) : isComponentStep
     ? Boolean(build.selectedComponents[currentStep]) && immediateConflicts.length === 0
     : currentStep === 'cooling' ? true : currentStep === 'budget'
       ? !budgetError
       : missingSlots.length === 0;
 
-  const stepComponents = useMemo(() => byType[currentStep] || [], [byType, currentStep]);
+  const stepComponents = useMemo(() => (byType[currentStep] || []).filter(c => currentStep !== 'cpu' || !integrated || integratedCpuEvidence(c)), [byType, currentStep, integrated]);
   const filters = useMemo(() => ({ ...emptyCatalogFilters, ...stepFilters[currentStep], category: currentStep }), [stepFilters, currentStep]);
   const filteredComponents = useMemo(() => filterComponents(stepComponents, filters), [stepComponents, filters]);
   const filterError = priceRangeError(filters) || performanceRangeError(filters);
@@ -84,7 +87,7 @@ export default function BuildWizard() {
   const bottlenecksComplete = (build.bottlenecks?.status === 'success' && build.bottlenecks?.data?.available !== false && !build.bottlenecks?.data?.unavailable)
     || (!build.bottlenecks?.status && typeof build.bottlenecks?.hasBottleneck === 'boolean' && build.bottlenecks?.available !== false);
   const completedSteps = requiredWizardSteps.filter((step) => componentTypes.includes(step)
-    ? Boolean(build.selectedComponents[step]) && stepSelectionConflicts(build.selectedComponents, step).length === 0
+    ? (step === 'gpu' && integrated && Boolean(integratedCpuEvidence(build.selectedComponents.cpu))) || Boolean(build.selectedComponents[step]) && stepSelectionConflicts(build.selectedComponents, step).length === 0
     : step === 'budget' ? !budgetError
       : !missingSlots.length && !budgetError && bottlenecksComplete
         && !hasWizardCompatibilityBlockers(build.compatibility, build.alerts));
@@ -281,8 +284,9 @@ export default function BuildWizard() {
         usageType: build.usageType,
         components: build.buildPayload,
         ...(build.selectedComponents.cooler || build.selectedComponents.fans?.length ? { allowPendingCooling: true } : {}),
-        selectionMode,
-        requirements: { ...(minimumMemory === 'auto' ? {} : { minMemoryGb: Number(minimumMemory) }), minVramGb: Number(minimumVram) }
+        selectionMode: integrated ? 'price-and-compatibility' : selectionMode,
+        ...(integrated ? { graphicsMode: 'integrated' } : {}),
+        requirements: { ...(minimumMemory === 'auto' ? {} : { minMemoryGb: Number(minimumMemory) }), minVramGb: integrated ? 0 : Number(minimumVram) }
       }); } catch (error) {
         if (isCurrent()) setRecommendationDiagnostics((error.errors || []).filter(message => typeof message === 'string'));
         throw error;
@@ -336,6 +340,7 @@ export default function BuildWizard() {
           {request.error && recommendationDiagnostics.length > 0 && <details className="task-disclosure"><summary>Entender o limite e as peças pendentes</summary><ul>{recommendationDiagnostics.map((message, index) => <li key={index}>{message}</li>)}</ul></details>}
           {feedback && <Alert type={feedback.type}>{feedback.message}</Alert>}
 
+        {currentStep === 'gpu' && integrated && <Card><h3>Vídeo integrado, sem placa dedicada</h3><p>{integratedCpuEvidence(build.selectedComponents.cpu)?.model || 'Escolha uma CPU com vídeo integrado verificado.'} usa parte da memória RAM do sistema. Não há compra separada de GPU.</p><p>Conecte o monitor na saída da placa-mãe. A compatibilidade depende da CPU, da placa e da BIOS; não há FPS calibrado para este caminho.</p><Button variant="secondary" onClick={() => build.actions.setGraphicsMode('dedicated')}>Usar placa de vídeo dedicada</Button></Card>}
         {isComponentStep && (
           <>
             {build.selectedComponents[currentStep] && (
@@ -397,7 +402,7 @@ export default function BuildWizard() {
                 hint={budgetCurrencyError ? `Valor salvo em ${budgetCurrency}; escolha Definir orçamento em reais para informar um novo limite.` : "Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento."}
                 error={validateBudgetAmount(build.budget.amount)}
               />
-              {selectionMode === 'performance-ranked' && <Select
+              {!integrated && selectionMode === 'performance-ranked' && <Select
                 label="Prioridade"
                 value={build.budget.priority}
                 onChange={(event) => { clearMessages(); build.actions.setBudget({ priority: event.target.value }); }}
@@ -411,11 +416,13 @@ export default function BuildWizard() {
                 options={[...new Set([...usageTypes, build.usageType])].map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
-            <Select label="Critério da sugestão" value={selectionMode} onChange={event => { setSelectionMode(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'performance-ranked', label: 'Índices do perfil e orçamento' }, { value: 'price-and-compatibility', label: 'Preço e encaixes — conferir BIOS antes da compra' }]} />
-            {selectionMode === 'price-and-compatibility' && <p className="hint-text">Busca o menor total pelas regras de encaixe e energia do catálogo com os requisitos abaixo. A BIOS instalada e a refrigeração continuam sujeitas a confirmação. O perfil orienta a RAM mínima. Confirme requisitos de cada programa; não há promessa de FPS ou de ausência de gargalos.</p>}
+            <Select label="Tipo de vídeo da montagem" value={integrated ? 'integrated' : 'dedicated'} onChange={event => { clearMessages(); build.actions.setGraphicsMode(event.target.value); if (event.target.value === 'integrated') { setSelectionMode('price-and-compatibility'); setMinimumVram('0'); } }} options={[{ value: 'dedicated', label: 'Placa de vídeo dedicada' }, { value: 'integrated', label: 'Vídeo integrado à CPU — sem comprar GPU separada' }]} />
+            {integrated && <p className="hint-text">Esse caminho remove somente a GPU dedicada da montagem. A CPU precisa ter vídeo integrado e a placa-mãe precisa de saída de imagem. A sugestão usa preço e encaixes; memória padrão de 16 GB por ser compartilhada. Confira os requisitos dos programas.</p>}
+            <Select label="Critério da sugestão" disabled={integrated} value={integrated ? 'price-and-compatibility' : selectionMode} onChange={event => { setSelectionMode(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'performance-ranked', label: 'Índices do perfil e orçamento' }, { value: 'price-and-compatibility', label: 'Preço e encaixes — conferir BIOS antes da compra' }]} />
+            {(integrated || selectionMode === 'price-and-compatibility') && <p className="hint-text">Busca o menor total pelas regras de encaixe e energia do catálogo com os requisitos abaixo. A BIOS instalada e a refrigeração continuam sujeitas a confirmação. O perfil orienta a RAM mínima. Confirme requisitos de cada programa; não há promessa de FPS ou de ausência de gargalos.</p>}
             <details className="task-disclosure"><summary>Ajustar requisitos da recomendação</summary>
-              <Select label="Memória mínima da sugestão" value={minimumMemory} onChange={event => { setMinimumMemory(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'auto', label: 'Pelo perfil: 8 GB para estudo/uso geral; 16 GB nos demais' }, ...[8, 16, 32, 64].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
-              <Select label="VRAM mínima da sugestão" value={minimumVram} onChange={event => { setMinimumVram(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: '0', label: 'Sem requisito adicional de VRAM' }, ...[4, 6, 8, 12, 16].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
+              <Select label="Memória mínima da sugestão" value={minimumMemory} onChange={event => { setMinimumMemory(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'auto', label: 'Pelo perfil: 8 GB estudo/geral; 16 GB demais ou vídeo integrado' }, ...[8, 16, 32, 64].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
+              <Select label="VRAM mínima da sugestão" disabled={integrated} value={minimumVram} onChange={event => { setMinimumVram(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: '0', label: 'Sem requisito adicional de VRAM' }, ...[4, 6, 8, 12, 16].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
               <p className="hint-text">Capacidade de VRAM não é velocidade da GPU. É um ponto de partida editável. Confira os requisitos específicos dos seus aplicativos; mais memória não garante mais FPS.</p>
             </details>
             <p id="wizard-objective-description" className="hint-text" role="status"><strong>Seu objetivo: </strong>{describeBuildObjective(build.usageType)}</p>

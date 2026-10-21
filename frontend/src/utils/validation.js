@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { componentTypes } from './componentLabels.js';
 
 export function validateBudgetAmount(amount) {
@@ -11,7 +12,7 @@ export function validateBudgetAmount(amount) {
 }
 
 export function getMissingBuildSlots(selectedComponents) {
-  return componentTypes.filter((type) => !selectedComponents?.[type]?.id && !selectedComponents?.[type]);
+  return componentTypes.filter(type => type !== 'gpu' || !usesIntegratedGraphics(selectedComponents)).filter((type) => !selectedComponents?.[type]?.id && !selectedComponents?.[type]);
 }
 
 export function isNonEmptyText(value) {

@@ -1,5 +1,6 @@
+import { requiredSlotsFor, usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
-import { requiredBuildSlots, selectBuildComponents, serializeBuildSelection } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { getSavedBuildById } from './savedBuildsService.js';
 
@@ -119,9 +120,10 @@ function normalizeDirectBuildComponents(buildInput) {
 }
 
 function mapSavedBuildComponentsToExport(componentsInput) {
-  const components = requiredBuildSlots.reduce((result, slot) => ({
+  const components = requiredSlotsFor(componentsInput).reduce((result, slot) => ({
     ...result, [`${slot}Id`]: componentsInput[slot]
   }), {});
+  if (usesIntegratedGraphics(componentsInput)) components.graphicsMode = 'integrated';
   if (componentsInput.cooler) components.coolerId = componentsInput.cooler;
   if (componentsInput.fans?.length) components.fans = JSON.parse(JSON.stringify(componentsInput.fans));
   return components;

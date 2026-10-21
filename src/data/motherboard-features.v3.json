@@ -143,5 +143,28 @@
     ],
     "verifiedAt": "2026-10-20",
     "catalogIdentity": "c7aba69a53b2086799387483237f9b53ad1e38c354cf6b03bfbcd9847f2e37a0"
+  },
+  "mb-asrock-b450m-hdv-r4": {
+    "sourceUrls": [
+      "https://asrock.com/mb/AMD/B450M-HDV%20R4.0/index.asp"
+    ],
+    "fields": {
+      "memorySlots": 2,
+      "maxMemoryGb": 64,
+      "m2Slots": 1,
+      "sataPorts": 4,
+      "ethernetGbps": 1,
+      "wifi": false,
+      "bluetooth": false,
+      "frontUsbCHeader": false,
+      "frontUsbCDataRateGbps": null,
+      "flashback": null,
+      "systemFanHeaders": 2
+    },
+    "notes": [
+      "Recursos da placa exata; não é ranking de VRM nem confirmação da BIOS instalada."
+    ],
+    "verifiedAt": "2026-10-21",
+    "catalogIdentity": "c6b3cf5818de8b16a7946458249e1bfe182ece330c411ccdfa1d26a51b877b41"
   }
 }

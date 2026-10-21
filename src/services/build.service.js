@@ -1,6 +1,7 @@
+import { dedicatedBuildSlots, requiredSlotsFor, usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { findComponentById } from './component.service.js';
 
-export const requiredBuildSlots = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case'];
+export const requiredBuildSlots = dedicatedBuildSlots;
 export const optionalBuildSlots = ['cooler'];
 
 const slotInputFields = {
@@ -20,7 +21,7 @@ export function selectBuildComponents(selectionInput) {
   const selectedComponentIds = normalizeSelectedComponentIds(selectionInput);
   validateRequiredSlots(selectedComponentIds);
 
-  const build = requiredBuildSlots.reduce((build, slot) => {
+  const build = requiredSlotsFor(selectedComponentIds).reduce((build, slot) => {
     const componentId = selectedComponentIds[slot];
     if (!componentId && optionalBuildSlots.includes(slot)) return build;
     const component = findComponentById(componentId);
@@ -38,7 +39,7 @@ export function selectBuildComponents(selectionInput) {
       [slot]: component
     };
   }, {});
-  return { ...build, ...selectOptionalBuildComponents(selectionInput) };
+  return { ...build, ...selectOptionalBuildComponents(selectionInput), ...(usesIntegratedGraphics(selectedComponentIds) ? { graphicsMode: 'integrated' } : {}) };
 }
 
 export function selectOptionalBuildComponents(selectionInput = {}) {
@@ -108,6 +109,7 @@ export function serializeBuildSelection(build) {
   const selection = Object.fromEntries([...requiredBuildSlots, ...optionalBuildSlots]
     .filter((slot) => build[slot]).map((slot) => [slot, build[slot].id]));
   if (build.fans?.length) selection.fans = build.fans.map((fan) => ({ fanId: fan.id, quantity: fan.quantity }));
+  if (usesIntegratedGraphics(build)) selection.graphicsMode = 'integrated';
   return selection;
 }
 
@@ -124,7 +126,7 @@ export function normalizeSelectedComponentIds(selectionInput) {
     ? selectionInput.components
     : {};
 
-  return [...requiredBuildSlots, ...optionalBuildSlots].reduce((selectedComponentIds, slot) => {
+  const result = [...requiredBuildSlots, ...optionalBuildSlots].reduce((selectedComponentIds, slot) => {
     const inputField = slotInputFields[slot];
 
     return {
@@ -132,10 +134,19 @@ export function normalizeSelectedComponentIds(selectionInput) {
       [slot]: normalizeText(selectionInput[inputField] ?? selectionInput[slot] ?? nestedComponents[slot] ?? nestedComponents[inputField])
     };
   }, {});
+  const mode = selectionInput.graphicsMode ?? nestedComponents.graphicsMode;
+  if (mode !== undefined && !['dedicated', 'integrated'].includes(mode)) {
+    const error = new Error('Escolha vídeo dedicado ou integrado.'); error.statusCode = 400; throw error;
+  }
+  if (mode === 'integrated') {
+    if (result.gpu) { const error = new Error('Vídeo integrado não pode incluir uma GPU dedicada na mesma seleção.'); error.statusCode = 400; throw error; }
+    result.graphicsMode = 'integrated';
+  }
+  return result;
 }
 
 function validateRequiredSlots(selectedComponentIds) {
-  const missingSlots = requiredBuildSlots.filter((slot) => !selectedComponentIds[slot]);
+  const missingSlots = requiredSlotsFor(selectedComponentIds).filter((slot) => !selectedComponentIds[slot]);
 
   if (missingSlots.length === 0) {
     return;

@@ -1,0 +1,60 @@
+
+> pcpowerlab-frontend@0.1.0 test:integration
+> npm run build && playwright test --config=playwright.integration.config.js
+
+
+> pcpowerlab-frontend@0.1.0 build
+> vite build
+
+vite v7.3.3 building client environment for production...
+transforming...
+✓ 2489 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.56 kB │ gzip:   0.36 kB
+dist/assets/index-3N8RRb36.css     79.68 kB │ gzip:  14.04 kB
+dist/assets/index-JbklzgsA.js   1,029.67 kB │ gzip: 305.09 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.30s
+
+Running 27 tests using 1 worker
+
+(node:7040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.9s)
+  ✓   2 [desktop] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.8s)
+  ✓   3 [desktop] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (2.1s)
+  ✓   4 [desktop] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.8s)
+  ✓   5 [desktop] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.5s)
+  ✓   6 [desktop] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (682ms)
+  ✓   7 [desktop] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (995ms)
+  ✓   8 [desktop] › tests/integration/cycle2.spec.js:413:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (911ms)
+  ✓   9 [desktop] › tests/integration/cycle2.spec.js:439:1 › montagem integrada real cabe em 3000, preserva seis peças ao salvar/recarregar e mantém pop-up acessível (1.7s)
+(node:7153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [tablet] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (4.3s)
+  ✓  11 [tablet] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (2.1s)
+  ✓  12 [tablet] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (2.4s)
+  ✓  13 [tablet] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (2.2s)
+  ✓  14 [tablet] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.3s)
+  ✓  15 [tablet] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (539ms)
+  ✓  16 [tablet] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (837ms)
+  ✓  17 [tablet] › tests/integration/cycle2.spec.js:413:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (985ms)
+  ✓  18 [tablet] › tests/integration/cycle2.spec.js:439:1 › montagem integrada real cabe em 3000, preserva seis peças ao salvar/recarregar e mantém pop-up acessível (1.9s)
+(node:7289) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [mobile] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (4.8s)
+  ✓  20 [mobile] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (2.7s)
+  ✓  21 [mobile] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (2.7s)
+  ✓  22 [mobile] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (3.0s)
+  ✓  23 [mobile] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (2.3s)
+  ✓  24 [mobile] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (827ms)
+  ✓  25 [mobile] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (1.2s)
+  ✓  26 [mobile] › tests/integration/cycle2.spec.js:413:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (1.2s)
+  ✓  27 [mobile] › tests/integration/cycle2.spec.js:439:1 › montagem integrada real cabe em 3000, preserva seis peças ao salvar/recarregar e mantém pop-up acessível (2.1s)
+
+  27 passed (57.5s)

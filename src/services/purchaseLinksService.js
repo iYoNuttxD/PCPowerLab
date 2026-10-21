@@ -1,6 +1,7 @@
+import { requiredSlotsFor } from '../utils/graphicsSelection.js';
 import { getProductMarket } from './marketPriceService.js';
 import { createComponentPurchaseLinks } from '../data/purchaseLinks.js';
-import { requiredBuildSlots, selectBuildComponents } from './build.service.js';
+import { selectBuildComponents } from './build.service.js';
 import { findComponentById } from './component.service.js';
 
 export function getPurchaseLinksByComponentId(componentIdInput) {
@@ -25,7 +26,7 @@ export function getPurchaseLinksByComponentId(componentIdInput) {
 export function getPurchaseLinksByBuild(buildInput) {
   const build = selectBuildComponents(buildInput);
 
-  const links = requiredBuildSlots.reduce((linksBySlot, slot) => ({
+  const links = requiredSlotsFor(build).reduce((linksBySlot, slot) => ({
     ...linksBySlot,
     [slot]: getPurchaseLinksByComponentId(build[slot].id)
   }), {});

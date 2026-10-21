@@ -1,5 +1,7 @@
 # V3: matriz de aceite do plano integral
 
+> **Atualização de fechamento integral:** o estado atual é descrito em [V3-INTEGRAL-COMPLETION.md](V3-INTEGRAL-COMPLETION.md). Os valores e limites abaixo conservam a cronologia da etapa anterior. A arquitetura integrada foi implementada; há proposta factual de seis peças por R$ 2.489,94, além de opção dedicada por R$ 3.799,84. Isso não certifica BIOS instalada, desempenho nem satisfação humana.
+
 Esta matriz separa implementação, validação automatizada e evidência que depende de pessoas ou de navegador. Código implementado não equivale a validação observada. Não há merge ou deploy nesta entrega.
 
 ## P0 — Resumo resiliente
@@ -96,3 +98,9 @@ Sem ciclo 3 humano, meta de 90%, leitor de tela/cores forçadas ou reprodução 
 [Diagnóstico, mudanças, cenários e evidências](V3-ECONOMY-VALIDATION.md). Novo critério factual percorre o catálogo ativo por preço/requisitos/encaixes, sem score/FPS. Programação com 16 GB de RAM / 8 GB de VRAM: R$5.009,84 com RX7600 Pro, BIOS/cooler pendentes explícitos. R$3.000 fica abaixo até da soma inferior isolada de R$3.235,05. R$4.000 tem caminho de R$3.289,75 não aprovado por dados ausentes; piso pelas regras atuais é R$4.339,84, sem certificar firmware da unidade. `minimumVerifiedTotal` permanece nulo; desconhecido não vira compatível na proposta factual.
 
 **Entregue:** seleção factual, requisitos de VRAM, erro explicativo progressivo, dados oficiais de 50 W / 400 W da RX550, mínimo de BIOS 2423 da ASUS e correção da checagem da CPU 4500. **Limitado por dados:** comprimento/caboRX550, BIOS instalada, calibração de desempenho. Testes: 1.048 Node, 24 integrações + 6 econômicas na apresentação final, 28 E2E afetados, 51 direcionados, 93 imagens, lints/build. A suíte integral anterior não foi novamente rotulada como executada neste head. Sem merge/deploy/ciclo 3.
+
+## Fechamento integral: condição atual
+
+O [relatório de implementação e verificação integral](V3-INTEGRAL-COMPLETION.md) contém o mapa dos pedidos explícitos, a relação com os 67 sinais originais, os três cenários econômicos, fontes oficiais, pesquisa dos oito modelos e dependências externas delimitadas. Vídeo integrado é agora um modo explícito com seis peças, saídas da placa-mãe verificadas, Wraith Stealth identificado, RAM compartilhada, resumo/lojas independentes, persistência e histórico. Não há SKU de GPU fictício. Uma CPU sem vídeo ou saída de placa-mãe desconhecida não ganha aprovação por estar sem GPU dedicada.
+
+Compatibilidade do núcleo, confirmação da BIOS da unidade e refrigeração são estados separados. Os cenários térmicos/acústicos existentes permanecem hipóteses ilustrativas, não medições nem ruído total do PC. As limitações de calibração foram pesquisadas por modelo e não bloqueiam a proposta factual. As classificações de experiência humana continuam parciais onde o dado original não permite concluir satisfação.

@@ -10,6 +10,7 @@ export const supportedComparisonCriteria = [
 ];
 
 export function calculateBuildCostBenefitScore({ components, performanceByComponentId, usageType }) {
+  if (usesIntegratedGraphics(components)) return null;
   const componentEntries = requiredBuildSlots
     .filter((slot) => components[slot])
     .map((slot) => [slot, components[slot]]);
@@ -154,3 +155,4 @@ function getBudgetCriteriaScore(build) {
 
   return 60 - Math.min(build.totalEstimatedPrice / 200, 40);
 }
+import { usesIntegratedGraphics } from './graphicsSelection.js';

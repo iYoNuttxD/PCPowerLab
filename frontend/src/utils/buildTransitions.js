@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { buildToApiPayload, hydrateBuildComponents } from './buildHelpers.js';
 import { canApplyReplacement } from './replacementComparison.js';
 import { componentTypes } from './componentLabels.js';
@@ -31,7 +32,7 @@ export function replaceBuildComponent(state, type, component, summary, expectedR
   if (expectedRevision !== state.revision || ![...componentTypes, 'cooler'].includes(type)
     || !component?.id || component.category !== type || state.selectedComponents[type]?.id === component.id) return state;
   // This operation has no authority to change any other slot or the budget.
-  const next = changeSelection(state, { ...state.selectedComponents, [type]: component });
+  const next = changeSelection(state, { ...state.selectedComponents, [type]: component, ...(type === 'gpu' && usesIntegratedGraphics(state.selectedComponents) ? { graphicsMode: 'dedicated' } : {}) });
   if (summary && (!canApplyReplacement(summary)
     || JSON.stringify(buildToApiPayload(summary.components)) !== JSON.stringify(buildToApiPayload(next.selectedComponents)))) return state;
   return summary ? { ...next, ...analyzedResults(summary) } : next;
@@ -57,6 +58,7 @@ export function reconcileBuildCatalog(state, componentMap) {
       return known;
     };
     for (const [slot, component] of Object.entries(refreshed)) {
+      if (slot === 'graphicsMode') continue;
       refreshed[slot] = slot === 'fans' ? component.map(mark) : mark(component);
     }
     return refreshed;

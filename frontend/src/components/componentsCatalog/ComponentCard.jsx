@@ -11,6 +11,7 @@ import { componentLabels } from '../../utils/componentLabels.js';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { formatSpecValue, specKeys, specLabel, catalogPerformanceScore, componentValueScore } from '../../utils/componentPresentation.js';
 import { performanceScoreLabel } from '../../utils/performanceMethodology.js';
+import { performanceResearchFor } from '../../../../src/data/performanceResearch.js';
 import { formatCatalogScore } from '../../utils/catalogSelection.js';
 import ComponentImage from './ComponentImage.jsx';
 import { verifiedFeatureFields, formatVerifiedFeature } from '../../utils/verifiedFeaturesPresentation.js';
@@ -117,9 +118,11 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
 
 export function PerformanceModelNotice({ component }) {
   if (component?.performanceModelStatus !== 'unavailable') return null;
+  const research = performanceResearchFor(component);
   return <section aria-label="Limites do modelo de desempenho">
     <h3>Desempenho não estimado</h3>
     <p>{typeof component.performanceModelNotes === 'string' && component.performanceModelNotes.trim()
       ? component.performanceModelNotes : 'Não há modelo de desempenho disponível para este componente.'}</p>
+    {research && <details><summary>Consultar testes externos deste modelo</summary><p>{research.scope}</p><a href={research.url} target="_blank" rel="noopener noreferrer">{research.source} (abre outra aba)</a><p className="hint-text">Referência para leitura. Esses testes não calibram a simulação do PCPowerLab.</p></details>}
   </section>;
 }
