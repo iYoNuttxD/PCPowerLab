@@ -1,0 +1,611 @@
+- link "Ir para o contéudo principal":
+  - /url: "#main-content"
+- link "Ir para o rodapé":
+  - /url: "#footer"
+- banner:
+  - link "Página inicial KaBuM!":
+    - /url: /
+    - img "Logo Kabum"
+  - generic: Campo de busca de produtos
+  - combobox "Campo de busca de produtos"
+  - button "Buscar" [disabled]:
+    - generic: Buscar
+  - button "Abrir caixa para digitar cep":
+    - generic: 
+    - generic: "Enviar para:"
+    - generic: Digite o CEP
+  - figure:
+    - generic: 
+  - button "Entre"
+  - text: ou
+  - button "Cadastre-se"
+  - button "Atendimento":
+    - generic: 
+  - button "Abrir opções de acessibilidade":
+    - generic: 
+  - link "Favoritos":
+    - /url: /minha-conta/favoritos
+    - generic: 
+  - link "Carrinho":
+    - /url: /carrinho
+    - generic: 
+  - generic "Botão do menu (Departamentos)":
+    - button "Departamentos":
+      - text: Departamentos
+      - generic: 
+  - link "Botão do menu (Cupons)":
+    - /url: /hotsite/cupons
+    - text: Cupons
+  - link "Botão do menu (Mais Vendidos)":
+    - /url: /promocao/maisvendidos
+    - text: Mais Vendidos
+  - link "Mais-v-":
+    - /url: ""
+  - link "Mundo Gamer":
+    - /url: https://kabum.com.br/mundos/gamer
+  - link "Memória RAM":
+    - /url: https://kabum.com.br/hardware/memoria-ram
+  - link "Hardware":
+    - /url: https://kabum.com.br/promocao/HARDWAREKABUM
+  - link "PC Gamer":
+    - /url: https://kabum.com.br/pc-gamer-completo
+  - link "Computadores":
+    - /url: https://kabum.com.br/promocao/COMPUTADORKABUM
+  - link "Periféricos":
+    - /url: https://kabum.com.br/promocao/perifericoskabum
+  - link "TV":
+    - /url: https://kabum.com.br/tv
+  - link "Venda no KaBuM!":
+    - /url: https://kabum.com.br/hotsite/marketplace
+  - link "Botão do menu (Mundo Gamer)":
+    - /url: https://kabum.com.br/mundos/gamer
+    - text: Mundo Gamer
+  - link "Botão do menu (Memória RAM)":
+    - /url: https://kabum.com.br/hardware/memoria-ram
+    - text: Memória RAM
+  - link "Botão do menu (Hardware)":
+    - /url: https://kabum.com.br/promocao/HARDWAREKABUM
+    - text: Hardware
+  - link "Botão do menu (PC Gamer)":
+    - /url: https://kabum.com.br/pc-gamer-completo
+    - text: PC Gamer
+  - link "Botão do menu (Computadores)":
+    - /url: https://kabum.com.br/promocao/COMPUTADORKABUM
+    - text: Computadores
+  - link "Botão do menu (Periféricos)":
+    - /url: https://kabum.com.br/promocao/perifericoskabum
+    - text: Periféricos
+  - link "Botão do menu (TV)":
+    - /url: https://kabum.com.br/tv
+    - text: TV
+  - button "Botão do menu (Ver mais)":
+    - text: Mais
+    - generic: 
+  - link "banner_monte_seu_pc":
+    - /url: /monte-seu-pc
+    - img "banner_monte_seu_pc"
+- navigation "Breadcrumb":
+  - list:
+    - link "Início":
+      - /url: /
+    - generic: /
+    - link "Hardware":
+      - /url: /hardware
+    - generic: /
+    - link "Processadores":
+      - /url: /hardware/processadores
+    - generic: /
+    - link "Processador AMD":
+      - /url: /hardware/processadores/processador-amd
+    - generic: /
+    - listitem: Código 333154
+- button "Ver miniaturas anteriores" [disabled]:
+  - generic: 
+- group "Miniaturas do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 1 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 2 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 3 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 4 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 5 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 6 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 7 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 8 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - button "Visualizar imagem 9 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+- button "Ver próximas miniaturas":
+  - generic: 
+- button "Abrir galeria na imagem 1 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX":
+  - img "Imagem 1 de 9 do produto Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX"
+- generic: Restam 1 Unid.
+- button "Compartilhar produto":
+  - generic: 
+- button "Adicionar produto aos favoritos":
+  - generic: 
+- link "AMD":
+  - /url: https://kabum.com.br/marcas/amd
+  - img "AMD"
+- heading "Processador AMD Ryzen 5 4500, 3.6GHz (4.1GHz Max Turbo), Cache 11MB, 6 Núcleos, 12 Threads, AM4, Sem video Integrado - 100-100000644BOX" [level=1]
+- generic: "Vendido e entregue por:"
+- generic: KaBuM!
+- heading "Sobre o produto" [level=3]
+- text: Resumo gerado por IA
+- list:
+  - text: •
+  - strong: Processador
+  - text: ": AMD Ryzen 5 4500 com 6 núcleos e 12 threads, ideal para tarefas cotidianas e uso profissional."
+  - text: •
+  - strong: Especificações Técnicas
+  - text: ": Frequência de até 4.1 GHz com Max Boost e 8MB de cache L3, oferecendo alta velocidade e desempenho."
+  - text: •
+  - strong: Compatibilidade
+  - text: ": Projetado para desktop, compatível com placas-mãe AM4."
+  - text: •
+  - strong: Recursos Avançados
+  - text: ": Tecnologia AMD StoreMI para acelerar o armazenamento e tempos de carregamento."
+  - text: •
+  - strong: Observações
+  - text: ": Não possui vídeo integrado, sendo necessário o uso de uma placa de vídeo dedicada."
+- navigation "Atalhos do produto":
+  - button "Ver descrição"
+  - button "Ver informações técnicas"
+- button "Avaliação 4.9 de 5, 528 avaliações":
+  - generic: "4.9"
+  - generic: (528)
+- link "Redirecionar para página de listagem de ofertas":
+  - /url: /ofertas/ofertaskabum
+- button "Ver condições"
+- generic: R$ 1.013,95
+- paragraph:
+  - generic: R$
+  - generic: "5"
+  - generic: "4"
+  - generic: "5"
+  - generic: ","
+  - generic: "2"
+  - generic: "9"
+  - generic: "-15%"
+  - generic: à vista no PIX
+- paragraph:
+  - generic: 10x R$ 64,15
+  - text: s/ juros ou em até 36x no NuPay
+- button "Ver detalhes de parcelamento"
+- separator
+- generic: Onde deseja receber seu pedido?
+- button "Inserir CEP"
+- button "Comprar agora":
+  - generic: Comprar agora
+- button "Adicionar ao carrinho":
+  - text: Adicionar ao carrinho
+- button "Banner":
+  - link "Banner":
+    - /url: https://www.kabum.com.br/promocao/ADS_INTEL_OUTUBRO_2026
+    - img "Banner"
+- heading "Produtos relacionados" [level=3]
+- button "Ir para o Slide anterior" [disabled]:
+  - generic: 
+- generic "Carrossel de produtos similares":
+  - group "Slide 1 de 10":
+    - link "Processador AMD Ryzen 7 5800X3D, 3.4GHz (4.5GHz Max Turbo), Cache 100MB, 8 Núcleos, 16 Threads, AM4, Sem Vídeo Integrado - 100-100000651POF R$ 2.045,99":
+      - /url: /produto/1053828/processador-amd-ryzen-7-5800x3d-3-4ghz-4-5ghz-max-turbo-cache-100mb-8-nucleos-16-threads-am4-sem-video-integrado-100-100000651pof
+      - paragraph: Processador AMD Ryzen 7 5800X3D, 3.4GHz (4.5GHz Max Turbo), Cache 100MB, 8 Núcleos, 16 Threads, AM4, Sem Vídeo Integrado - 100-100000651POF
+      - paragraph: R$ 2.045,99
+  - group "Slide 2 de 10":
+    - link "Processador AMD Ryzen 5 5500, 3.6GHz (4.2GHz Max Turbo), Cache 19MB, 6 Núcleos, 12 Threads, AM4, Sem Vídeo Integrado - 100-100000457BOX R$ 537,79":
+      - /url: /produto/320799/processador-amd-ryzen-5-5500-3-6ghz-4-2ghz-max-turbo-cache-19mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000457box
+      - paragraph: Processador AMD Ryzen 5 5500, 3.6GHz (4.2GHz Max Turbo), Cache 19MB, 6 Núcleos, 12 Threads, AM4, Sem Vídeo Integrado - 100-100000457BOX
+      - paragraph: R$ 537,79
+  - group "Slide 3 de 10":
+    - link "Processador AMD Ryzen 7 9800X3D, 4.7GHz (5.2GHz Max Turbo), Cache 104MB, 8 Núcleos, 16 Threads, AM5, Com Vídeo Integrado - 100-100001084WOF R$ 2.399,99":
+      - /url: /produto/662405/processador-amd-ryzen-7-9800x3d-4-7ghz-5-2ghz-max-turbo-cache-104mb-8-nucleos-16-threads-am5-com-video-integrado-100-100001084wof
+      - paragraph: Processador AMD Ryzen 7 9800X3D, 4.7GHz (5.2GHz Max Turbo), Cache 104MB, 8 Núcleos, 16 Threads, AM5, Com Vídeo Integrado - 100-100001084WOF
+      - paragraph: R$ 2.399,99
+  - group "Slide 4 de 10":
+    - link "Processador AMD Ryzen 7 5700X, 3.4GHz (4.6GHz Max Turbo), Cache 36MB, 8 Núcleos, 16 Threads, AM4, Sem Vídeo Integrado - 100-100000926WOF R$ 1.199,99":
+      - /url: /produto/320797/processador-amd-ryzen-7-5700x-3-4ghz-4-6ghz-max-turbo-cache-36mb-8-nucleos-16-threads-am4-sem-video-integrado-100-100000926wof
+      - paragraph: Processador AMD Ryzen 7 5700X, 3.4GHz (4.6GHz Max Turbo), Cache 36MB, 8 Núcleos, 16 Threads, AM4, Sem Vídeo Integrado - 100-100000926WOF
+      - paragraph: R$ 1.199,99
+  - group "Slide 5 de 10":
+    - link "Processador AMD Ryzen 7 7800X3D, 4.2GHz (5.0GHz Max Turbo), Cache 104MB, 8 Núcleos, 16 Threads, AM5, Com Vídeo Integrado - 100-100000910WOF R$ 1.999,99":
+      - /url: /produto/426262/processador-amd-ryzen-7-7800x3d-4-2ghz-5-0ghz-max-turbo-cache-104mb-8-nucleos-16-threads-am5-com-video-integrado-100-100000910wof
+      - paragraph: Processador AMD Ryzen 7 7800X3D, 4.2GHz (5.0GHz Max Turbo), Cache 104MB, 8 Núcleos, 16 Threads, AM5, Com Vídeo Integrado - 100-100000910WOF
+      - paragraph: R$ 1.999,99
+  - group "Slide 6 de 10":
+    - link "Processador AMD Ryzen 7 5700G, 3.8GHz (4.6GHz Max Turbo), Cache 20MB, 8 Núcleos, 16 Threads, AM4, Com Vídeo Integrado - 100-100000263BOX R$ 1.299,99":
+      - /url: /produto/181089/processador-amd-ryzen-7-5700g-3-8ghz-4-6ghz-max-turbo-cache-20mb-8-nucleos-16-threads-am4-com-video-integrado-100-100000263box
+      - paragraph: Processador AMD Ryzen 7 5700G, 3.8GHz (4.6GHz Max Turbo), Cache 20MB, 8 Núcleos, 16 Threads, AM4, Com Vídeo Integrado - 100-100000263BOX
+      - paragraph: R$ 1.299,99
+  - group "Slide 7 de 10":
+    - link "Processador AMD Ryzen 5 8500G, 3.5 GHz (5.0GHz Max Turbo), Cache 22MB, 6 Núcleos, 12 Threads, AM5, Com Vídeo Integrado - 100-100000931BOX R$ 799,99":
+      - /url: /produto/520366/processador-amd-ryzen-5-8500g-3-5-ghz-5-0ghz-max-turbo-cache-22mb-6-nucleos-12-threads-am5-com-video-integrado-100-100000931box
+      - paragraph: Processador AMD Ryzen 5 8500G, 3.5 GHz (5.0GHz Max Turbo), Cache 22MB, 6 Núcleos, 12 Threads, AM5, Com Vídeo Integrado - 100-100000931BOX
+      - paragraph: R$ 799,99
+  - group "Slide 8 de 10":
+    - link "Processador AMD Ryzen 5 5500, 3.6GHz, Cache 16MB, Hexa Core, 12 Threads, AM4 - 100-100000457BOX R$ 559,00":
+      - /url: /produto/356695/processador-amd-ryzen-5-5500-3-6ghz-cache-16mb-hexa-core-12-threads-am4-100-100000457box
+      - paragraph: Processador AMD Ryzen 5 5500, 3.6GHz, Cache 16MB, Hexa Core, 12 Threads, AM4 - 100-100000457BOX
+      - paragraph: R$ 559,00
+  - group "Slide 9 de 10":
+    - link "Processador AMD Ryzen 7 5700G, 3.8GHz (4.6GHz Max Turbo), Cache 20MB, Octa Core, AM4, Vídeo Integrado - 100-100000263BOX R$ 1.281,35":
+      - /url: /produto/203463/processador-amd-ryzen-7-5700g-3-8ghz-4-6ghz-max-turbo-cache-20mb-octa-core-am4-vi-deo-integrado-100-100000263box
+      - paragraph: Processador AMD Ryzen 7 5700G, 3.8GHz (4.6GHz Max Turbo), Cache 20MB, Octa Core, AM4, Vídeo Integrado - 100-100000263BOX
+      - paragraph: R$ 1.281,35
+  - group "Slide 10 de 10":
+    - link "Processador AMD Ryzen 9 9950X3D, 4.4 GHz (5.7 GHz Max Turbo), Cache 144MB, 16 Núcleos, 32 Threads, AM5, Com Vídeo Integrado - 100-100000719WOF R$ 4.199,99":
+      - /url: /produto/708039/processador-amd-ryzen-9-9950x3d-4-4-ghz-5-7-ghz-max-turbo-cache-144mb-16-nucleos-32-threads-am5-com-video-integrado-100-100000719wof
+      - paragraph: Processador AMD Ryzen 9 9950X3D, 4.4 GHz (5.7 GHz Max Turbo), Cache 144MB, 16 Núcleos, 32 Threads, AM5, Com Vídeo Integrado - 100-100000719WOF
+      - paragraph: R$ 4.199,99
+- button "Ir para o próximo Slide":
+  - generic: 
+- region " Informações Técnicas":
+  - generic: 
+  - heading "Informações Técnicas" [level=2]
+  - paragraph:
+    - strong: "Características:"
+  - paragraph: "- Marca: AMD"
+  - paragraph: "- Modelo: 100-100000644BOX"
+  - paragraph
+  - paragraph:
+    - strong: "Especificações:"
+  - paragraph: "- Plataforma: Computador de mesa"
+  - paragraph: "- Família de produto: Processadores AMD Ryzen™"
+  - paragraph: "- Linha de produto: Processadores de desktop AMD Ryzen™ 5"
+  - paragraph: "- Nº de núcleos de CPU: 6"
+  - paragraph: "- Nº de threads: 12"
+  - paragraph: "- Relógio de Max Boost: Até 4.1GHz"
+  - paragraph: "- Clock básico: 3,6 GHz"
+  - paragraph: "- Cachê L1 total: 384 KB"
+  - paragraph: "- Cachê L2 total: 3 MB"
+  - paragraph: "- Cachê L3 total: 8 MB"
+  - paragraph: "- TDP / TDP Padrão: 65 W"
+  - paragraph: "- Tecnologia de processador para núcleos de CPU: TSMC 7nm FinFET"
+  - paragraph: "- Desbloqueado : Sim"
+  - paragraph: "- Soquete da CPU: AM4"
+  - paragraph: "- Contagem de soquetes: 1P"
+  - paragraph: "- Solução térmica (PIB): AMD Wraith Stealth"
+  - paragraph: "- Temperatura máxima: 95°C"
+  - paragraph
+  - paragraph:
+    - strong: "Suporte de SO:"
+  - paragraph: "- Edição Windows 11 - 64-Bit"
+  - paragraph: "- Edição Windows 10 - 64-Bit"
+  - paragraph: "- RHEL x86 64 bits"
+  - paragraph: "- Ubuntu x86 64 bits"
+  - paragraph:
+    - emphasis: "* O suporte ao sistema operacional (SO) poderá variar de acordo com o fabricante."
+  - paragraph
+  - paragraph:
+    - strong: "Conectividade:"
+  - paragraph: "- Versão do PCI Express: PCIe 3.0"
+  - paragraph: "- Tipo de memória: DDR4"
+  - paragraph: "- Canais de memória: 2"
+  - paragraph: "- Velocidade máxima da memória: Até 3200MHz"
+  - paragraph
+  - paragraph:
+    - strong: "Velocidade máxima de memória:"
+  - paragraph: "- 2x1R: DDR4-3200"
+  - paragraph: "- 2x2R: DDR4-3200"
+  - paragraph: "- 4x1R: DDR4-2933"
+  - paragraph: "- 4x2R: DDR4-2667"
+  - paragraph
+  - paragraph:
+    - strong: "Recursos:"
+  - paragraph: "- Tecnologias compatíveis"
+  - paragraph: "- Tecnologia AMD StoreMI"
+  - paragraph: "- Arquitetura de núcleo AMD \"Zen 2\""
+  - paragraph: "- Premium AMD Ryzen VR-Ready"
+  - paragraph
+  - paragraph:
+    - strong: "Conteúdo da Embalagem:"
+  - paragraph: "- Processador AMD Ryzen 5 4500"
+  - paragraph: "Garantia:"
+  - paragraph: 3 anos de garantia (3 meses de garantia legal + 33 meses de garantia contratual junto ao fabricante)
+  - paragraph: "Peso:"
+  - paragraph: 446 gramas (bruto com embalagem)
+  - button "Ver mais"
+- region " Descrição do produto":
+  - generic: 
+  - heading "Descrição do produto" [level=2]
+  - heading [level=2]: Processador AMD Ryzen 5 4500, Cache 11MB, AM4, Sem Vídeo - 100-100000644BOX
+  - heading [level=3]: Processador AMD Ryzen 5 4500
+  - paragraph:
+    - text: Esteja trabalhando ou fazendo as tarefas do cotidiano, a velocidade sem precedentes dos processadores
+    - strong: AMD Ryzen série 4000
+    - text: para desktop é imparável. Com os processadores AMD Ryzen
+    - strong: para desktop
+    - text: ", você está sempre na frente."
+  - paragraph
+  - heading [level=3]: Alta Velocidade
+  - paragraph:
+    - text: O AMD Ryzen 5 4500 ainda conta com
+    - strong: 6 núcleos e 12 threads
+    - text: ", impulsionadno o desempenho do seu Computador com clocks de até"
+    - strong: 4,1 Ghz com Max Boost
+    - text: e
+    - strong: 8MB de cache L3
+    - text: total.
+  - paragraph
+  - heading [level=3]: AMD Ryzen VR Ready Premium
+  - paragraph:
+    - text: Para usuários que buscam uma experiência especial de realidade virtual, a AMD oferece os processadores de alto desempenho
+    - strong: Ryzen VR Ready Premium
+    - text: . Esses modelos atendem ou superam as especificações de processadores recomendadas pelos principais fabricantes de HMD para
+    - strong: realidade virtual
+    - text: ", como Oculus Rift, HTC Vive ou Microsoft Windows Mixed Reality, ajudando a garantir as melhores experiências possíveis no mundo virtual que você escolher."
+  - paragraph
+  - heading [level=3]: Tecnologia AMD StoreMI
+  - paragraph:
+    - text: É um jeito rápido e fácil de expandir e
+    - strong: acelerar o armazenamento nos PCs
+    - text: com um processador AMD Ryzen. A tecnologia AMD SroreMI é uma ferramenta eficaz para os fãs de PCs que desejam
+    - strong: incrementar os tempos de carregamento
+    - text: e de boot, o gerenciamento de arquivos ou a capacidade de resposta
+  - paragraph:
+    - strong: Não possui video integrado
+  - paragraph
+  - link:
+    - /url: https://drive.google.com/file/d/1XhBLuGBnNKggAKEko8SohlNkmk9SRJ2Q/view?usp=sharing
+  - button "Ver mais"
+- generic: ‌
+- generic: ‌
+- generic: ‌
+- generic: ‌
+- generic: ‌
+- region "Notifications (F8)":
+  - list
+- region "KaBuM! Newsletter":
+  - generic: KaBuM! News
+  - paragraph: Receba ofertas
+  - form "Inscreva-se na newsletter do KaBuM!":
+    - textbox "Digite seu nome"
+    - textbox "Digite seu e-mail"
+    - button "CADASTRAR":
+      - generic: CADASTRAR
+- contentinfo:
+  - button "Ver mais":
+    - text: Ver mais
+  - list:
+    - link:
+      - /url: /hotsite/regulamentosgeral
+      - text: Regulamentos
+    - link:
+      - /url: /hotsite/cupons
+      - text: Cupons
+    - link:
+      - /url: /promocao/FRETEGRATIS
+      - text: Frete Grátis
+    - link:
+      - /url: /hotsite/app
+      - text: Baixe o App
+  - list:
+    - link:
+      - /url: /monte-seu-pc
+      - text: Monte seu PC
+    - link:
+      - /url: /ofertas/ofertasdoninja
+      - text: Oferta Ninja
+    - link:
+      - /url: /hotsite/prime
+      - text: Seja Prime
+    - link:
+      - /url: /hotsite/giftcard
+      - text: Gift Card KaBuM!
+  - list:
+    - link:
+      - /url: /hotsite/blackfriday
+      - text: Black Friday
+    - link:
+      - /url: /hotsite/preco-lendario
+      - text: Setembro Lendário
+    - link:
+      - /url: /hotsite/julhogamer
+      - text: Julho Gamer
+    - link:
+      - /url: /hotsite/mega-maio
+      - text: Mega Maio
+  - list:
+    - link:
+      - /url: /hotsite/mulheres-no-game
+      - text: Mulheres no Game
+  - list:
+    - link:
+      - /url: /hardware
+      - text: Hardware
+    - link:
+      - /url: /celular-smartphone
+      - text: Celulares e Smartphones
+    - link:
+      - /url: /perifericos
+      - text: Periféricos
+    - link:
+      - /url: /perifericos/teclado-mouse
+      - text: Teclado e Mouse
+  - list:
+    - link:
+      - /url: /computadores
+      - text: Computadores
+    - link:
+      - /url: /hardware/placa-de-video-vga
+      - text: Placa de Vídeo
+    - link:
+      - /url: /computadores/monitores
+      - text: Monitores
+    - link:
+      - /url: /gamer
+      - text: Controles e Games
+  - list:
+    - link:
+      - /url: /audio
+      - text: Áudio
+    - link:
+      - /url: /tv
+      - text: TV
+    - link:
+      - /url: /computadores/notebooks
+      - text: Notebook
+    - link:
+      - /url: /eletroportateis
+      - text: Eletroportáteis
+  - list:
+    - link:
+      - /url: /casa-inteligente
+      - text: Smart Home
+    - link:
+      - /url: /ferramentas
+      - text: Ferramentas
+    - link:
+      - /url: /ar-e-ventilacao
+      - text: Ar e Ventilação
+    - link:
+      - /url: /seguranca
+      - text: Segurança
+  - list:
+    - link:
+      - /url: /conectividade
+      - text: Conectividade
+    - link:
+      - /url: /hardware/processadores
+      - text: Processadores
+    - link:
+      - /url: /geek
+      - text: Geek
+    - link:
+      - /url: /espaco-gamer
+      - text: Espaço Gamer
+  - list:
+    - link:
+      - /url: /servicos-digitais
+      - text: Serviços Digitais
+    - link:
+      - /url: /cameras-e-drones
+      - text: Câmeras e Drones
+    - link:
+      - /url: /escritorio
+      - text: Escritório
+    - link:
+      - /url: /energia
+      - text: Energia
+  - generic: Atendimento
+  - button " Fale conosco":
+    - generic: 
+    - text: Fale conosco
+  - generic: Vendas Pessoa Jurídica
+  - text: Fale conosco via
+  - link "chat":
+    - /url: https://kabumatendimento.zendesk.com/hc/pt-br
+  - text: "ou pelo email:"
+  - link "vendas@kabum.com.br":
+    - /url: mailto:vendas@kabum.com.br
+  - generic: Loja Física
+  - generic: "Loja 1: Rua Amazonas da Silva, 27 - Vila Guilherme - São Paulo/SP 02051-000"
+  - generic: 09:00 às 22:00 - Segunda a Sábado;
+  - generic: 12:00 às 20:00 - Domingos e feriados.
+  - generic: "Loja 2: Galeria Magalu no Conjunto Nacional - Rua Alameda Santos nº 2152, Jardim Paulista, São Paulo/SP CEP: 01419-101"
+  - generic: 09:00 às 21:00 - Segunda a Sábado;
+  - generic: 10:00 às 18:00 - Domingos e feriados.
+  - list:
+    - link "Sobre o KaBuM!":
+      - /url: /sobre
+    - link "Blog KaBuM!":
+      - /url: https://blog.kabum.com.br
+    - link "KaBuM! Ads":
+      - /url: /hotsite/kabum-ads
+    - link "Afiliados KaBuM!":
+      - /url: /hotsite/afiliados
+    - link "Venda no KaBuM!":
+      - /url: /hotsite/marketplace
+    - link "Políticas do Site e Marketplace":
+      - /url: /politicas
+  - list:
+    - link "Políticas de Cookies":
+      - /url: /politica-cookies
+    - link "Políticas de Privacidade":
+      - /url: /privacidade
+    - link "Proteção de Marcas":
+      - /url: /protecao_de_marcas
+    - link "Código de Conduta e Ética":
+      - /url: https://static.kabum.com.br/conteudo/documentos/institucional/codigo-de-conduta.pdf
+    - link "Código de Conduta e Ética de Fornecedores":
+      - /url: https://static.kabum.com.br/conteudo/documentos/institucional/codigo-de-conduta-de-fornecedores.pdf
+    - link "Código de Defesa do Consumidor":
+      - /url: https://www.procon.df.gov.br/wp-content/uploads/2019/08/Codigo-do-consumidor-FINAL.pdf
+  - list:
+    - link "Exerça seus Direitos de Privacidade":
+      - /url: /portaldeprivacidade
+    - link "Segurança & Privacidade":
+      - /url: https://especiais.magazineluiza.com.br/seguranca
+    - link "Canal Confidencial":
+      - /url: https://www.canalconfidencial.com.br/kabum
+    - link "Garantia Estendida e Roubo + Quebra Acidental":
+      - /url: /hotsite/segurosegarantias
+    - link "Relatórios":
+      - /url: /relatorios
+    - link "Trabalhe Conosco":
+      - /url: https://99jobs.com/kabum
+  - list:
+    - link "Acessibilidade":
+      - /url: /acessibilidade
+    - link "Mapa do Site":
+      - /url: /mapa-do-site
+  - generic: "Mídias sociais:"
+  - link "Facebook":
+    - /url: https://www.facebook.com/kabum.com.br
+    - img "Ícone Facebook"
+  - link "Instagram":
+    - /url: https://www.instagram.com/kabum
+    - img "Ícone Instagram"
+  - link "X (Antigo Twitter)":
+    - /url: https://twitter.com/kabumcombr
+    - img "Ícone X"
+  - link "Youtube":
+    - /url: https://www.youtube.com/kabum
+    - img "Ícone YouTube"
+  - link "Linkedin":
+    - /url: https://www.linkedin.com/company/3060887
+    - img "Ícone LinkedIn"
+  - link "Tiktok":
+    - /url: https://www.tiktok.com/@kabum
+    - img "Ícone TikTok"
+  - generic: "Baixe os aplicativos:"
+  - button "App Store":
+    - text: App Store
+  - button "Ícone Google Play Google Play":
+    - img "Ícone Google Play"
+    - text: Google Play
+  - button "Voltar ao topo":
+    - img "Logo Kabum"
+  - text: Uma empresa do grupo
+  - img "Magalu"
+  - text: "Avenida Marechal Arthur da Costa e Silva, 835 - Jardim Gloria - Limeira/SP - CEP: 13487-220 | \"KaBuM!® é uma marca registrada de KABUM S.A | CNPJ: 05.570.714/0001-59 | Todos os direitos reservados. Os preços anunciados neste site ou via e-mail promocional podem ser alterados sem prévio aviso. O KaBuM! não é responsável por erros descritivos. As fotos contidas nesta página são meramente ilustrativas do produto e podem variar de acordo com o fornecedor/lote do fabricante. Este site trabalha 100% em criptografia SSL."
+  - link "Clique aqui e veja as políticas de nossa empresa.":
+    - /url: /politicas
+  - text: "\""
+  - link "Verificar":
+    - /url: https://auditoria.siteblindado.com/consumidor/selo-blindado/?language1=pt&hostname=www.kabum.com.br
+    - img "site blindado"
+  - img "Empresa reconhecida - Buscapé"
+  - link "Site seguro reconhecido - Google":
+    - /url: https://transparencyreport.google.com/safe-browsing/search?url=kabum.com.br&hl=pt-PT
+    - img "Site seguro reconhecido - Google"
+  - link "Ebit diamante excelente":
+    - /url: https://www.ebit.com.br/kabum
+    - img "Ebit diamante excelente"
+  - link "Compre e confie":
+    - /url: https://www.confi.com.vc/app/lojas-confiaveis?id=103388
+    - img "Compre e confie"
+  - link "Empresa de reputação ótima pelo Selo Reclame AQUI Ótimo Selo Reclame Aqui":
+    - /url: https://www.reclameaqui.com.br/empresa/kabum/?utm_source=referral&utm_medium=embbed&utm_campaign=reputacao&utm_term=horizontal
+    - img "Empresa de reputação ótima pelo Selo Reclame AQUI"
+    - generic: Ótimo
+    - img "Selo Reclame Aqui"
+  - img "Empresa campeã prêmio Reclame Aqui 2022"
+- dialog "Controle sua privacidade":
+  - heading "Controle sua privacidade" [level=3]
+  - link:
+    - /url: https://www.becompliance.com/
+  - generic: Nós utilizamos os cookies para personalizar anúncios, gerar dados estatísticos e garantir que você tenha a melhor experiência no KaBuM!. Conheça nossa
+  - link "Política de Privacidade":
+    - /url: https://www.kabum.com.br/privacidade
+  - text: "-"
+  - link "Política de Cookies":
+    - /url: https://www.kabum.com.br/politica-cookies
+  - button "Entendi"
+- alert

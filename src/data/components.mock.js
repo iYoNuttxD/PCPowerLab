@@ -4,6 +4,7 @@ import { replacementCatalog, attachCatalogLifecycle } from './catalogReplacement
 import { attachDatedReference } from './dated-price-references.js';
 import { attachComponentImage } from './component-images.js';
 import { catalogV21 } from './catalog.v21.js';
+import { feedbackCatalog } from './catalog.feedback.js';
 import { catalogV3 } from './catalog.v3.js';
 import { enrichCaseCooling } from './caseCooling.v21.js';
 import { attachVerifiedMotherboardFeatures } from './motherboard-features.v3.js';
@@ -924,5 +925,6 @@ export const components = [
   ...catalogV21,
   ...replacementCatalog,
   ...marketRevalidationCatalog,
-  ...catalogV3
+  ...catalogV3,
+  ...feedbackCatalog
 ].map(enrichCaseCooling).map(enrichMotherboardLimits).map(attachComponentImage).map(attachDatedReference).map(attachCatalogLifecycle).map(attachMarketRevalidationLifecycle).map(attachVerifiedMotherboardFeatures);

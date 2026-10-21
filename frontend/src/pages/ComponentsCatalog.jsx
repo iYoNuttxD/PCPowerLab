@@ -134,7 +134,7 @@ export default function ComponentsCatalog() {
       {loading && <LoadingSpinner />}
       {error && <ErrorState message={error} onRetry={reload} />}
       {!loading && !error && !filterError && !compatibilityLoading && !compatibilityError && filteredComponents.length === 0 && <EmptyState title="Nenhum componente encontrado" message="Tente outro nome, marca, categoria ou faixa de preço. Use Limpar filtros para ver todas as peças." />}
-      {!loading && !error && !compatibilityLoading && !compatibilityError && <div className="cards-grid component-grid">
+      {!loading && !error && !compatibilityLoading && !compatibilityError && <div className={`cards-grid component-grid ${filters.layout === 'list' ? 'component-list' : ''}`}>
         {filteredComponents.map((component) => (
           <ComponentCard key={component.id} component={component} compatibilityPreview={compatibilityRequested && compatibilityReady ? compatibility.data[component.id] : null} onSelect={addToBuild} selected={isCatalogComponentSelected(build.selectedComponents, component)} onLinks={openLinks} onCompare={toggleComparison}
             compared={comparisonIds.includes(component.id)} compareDisabled={!comparisonIds.includes(component.id) && (comparedComponents.length >= 4 || Boolean(comparisonCategory && comparisonCategory !== component.category))} />

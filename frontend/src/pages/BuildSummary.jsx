@@ -1,4 +1,4 @@
-import CoolingSimulationPanel from '../components/build/CoolingSimulationPanel.jsx';
+import CoolingExplorer from '../components/build/CoolingExplorer.jsx';
 import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
 import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
@@ -47,19 +47,8 @@ import { translateValue } from '../utils/translations.js';
 export default function BuildSummary() {
   const navigate = useNavigate();
   const location = useLocation();
-  const coolingSectionRef = useRef(null);
-  useEffect(() => {
-    if (location.hash !== '#cooling-simulation') return;
-    const frame = requestAnimationFrame(() => {
-      const section = coolingSectionRef.current;
-      if (!section) return;
-      const headerHeight = document.querySelector('.topbar')?.getBoundingClientRect().height || 0;
-      section.style.scrollMarginTop = `${headerHeight + 16}px`;
-      section.focus({ preventScroll: true });
-      section.scrollIntoView({ block: 'start', behavior: 'auto' });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [location.hash, location.key]);
+  const coolingOpen = location.hash === '#cooling-simulation';
+  function closeCooling() { navigate({ pathname: location.pathname, search: location.search, hash: '' }, { replace: true }); }
   const build = useBuildState();
   const catalog = useComponents();
   const request = useApiRequest();
@@ -546,11 +535,9 @@ export default function BuildSummary() {
         )}
       </SummarySection>
 
-      <section id="cooling-simulation" ref={coolingSectionRef} tabIndex={-1} aria-label="Temperatura e ruído" className="summary-section">
-        <CoolingSimulationPanel cpu={build.selectedComponents.cpu} cooler={build.selectedComponents.cooler}
-          fans={build.selectedComponents.fans || []} caseComponent={build.selectedComponents.case}
-          conditions={build.coolingConditions} onConditionsChange={build.actions.setCoolingConditions} />
-      </section>
+      <CoolingExplorer build={build} open={coolingOpen}
+        onOpen={() => navigate({ pathname: location.pathname, search: location.search, hash: '#cooling-simulation' })}
+        onClose={closeCooling} />
 
       <SummarySection eyebrow="Compra" title="Links de compra">
         {!completeBuild && <p>Complete as peças principais para pesquisar esta configuração nas lojas.</p>}

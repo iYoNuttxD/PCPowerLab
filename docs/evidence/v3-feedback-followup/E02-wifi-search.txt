@@ -1,0 +1,90 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Catálogo técnico
+  - heading "Catálogo de componentes" [level=1]
+  - paragraph: Escolha peças, filtre e compare.
+  - region "Buscar e filtrar":
+    - heading "Buscar e filtrar" [level=2]
+    - generic: Buscar componente
+    - searchbox "Buscar componente" [active]: Wi-Fi
+    - generic: Categoria
+    - combobox "Categoria":
+      - option "Todas as categorias"
+      - option "Processador"
+      - option "Placa de vídeo"
+      - option "Placa-mãe" [selected]
+      - option "Memória RAM"
+      - option "Armazenamento"
+      - option "Fonte de alimentação"
+      - option "Gabinete"
+      - option "Cooler do processador"
+      - option "Ventoinha"
+    - generic: Preço mínimo (R$)
+    - spinbutton "Preço mínimo (R$)"
+    - generic: Preço máximo (R$)
+    - spinbutton "Preço máximo (R$)"
+    - generic: Ordenar por
+    - combobox "Ordenar por":
+      - 'option "Nome: A–Z" [selected]'
+      - 'option "Nome: Z–A"'
+      - option "Menor preço"
+      - option "Maior preço"
+    - generic "Mais filtros"
+    - option "Todas as marcas" [selected]
+    - option "ASUS"
+    - option "Gigabyte"
+    - option "MSI"
+    - option "Todos os valores" [selected]
+    - option "AM4"
+    - option "AM5"
+    - option "LGA1700"
+    - option "Todos os valores" [selected]
+    - option "DDR4"
+    - option "DDR5"
+    - option "Todos os valores" [selected]
+    - option "ATX"
+    - option "mATX"
+    - option "Todos os valores" [selected]
+    - option "B550"
+    - option "B650"
+    - option "B760"
+    - option "H610"
+    - option "Z790"
+    - region "Filtros aplicados":
+      - paragraph: 2 filtros ativos
+      - 'button "Remover filtro Busca: Wi-Fi"': "Busca: Wi-Fi ×"
+      - 'button "Remover filtro Categoria: Placa-mãe"': "Categoria: Placa-mãe ×"
+    - button "Limpar filtros"
+    - paragraph: 88/88 referências datadas · confirme preço e estoque na loja
+  - generic: Selecione peças para começar
+  - link "Ver minha montagem":
+    - /url: /summary
+  - heading "Resultados do catálogo" [level=2]
+  - status: 0 componentes encontrados
+  - status:
+    - heading "Nenhum componente encontrado" [level=3]
+    - paragraph: Tente outro nome, marca, categoria ou faixa de preço. Use Limpar filtros para ver todas as peças.
+  - generic "Sobre os índices e filtros"
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

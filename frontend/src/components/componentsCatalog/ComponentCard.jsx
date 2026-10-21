@@ -1,3 +1,4 @@
+import MotherboardGuide from './MotherboardGuide.jsx';
 import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
 import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
 import { useState } from 'react';
@@ -43,6 +44,7 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
           ))}
         </dl>
         <div className="component-card-context">
+        {component?.budgetTier && <p className="component-feature-summary">{component.budgetTier}</p>}
         {performanceUnavailable && <p className="component-performance-unavailable">Desempenho não estimado</p>}
         {performanceScore !== null && <details className="component-score-disclosure"><summary>Índice de desempenho</summary><p className="hint-text">{performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)} / 100</p></details>}
         {component?.category === 'motherboard' && component?.verifiedFeatures && <p className="component-feature-summary">
@@ -89,11 +91,14 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
         {Array.isArray(component?.selectionNotes) && component.selectionNotes.length > 0 && <section><h3>Cuidados ao escolher</h3><ul>{component.selectionNotes.map(note => <li key={note}>{note}</li>)}</ul></section>}
         <PerformanceModelNotice component={component} />
         {!performanceUnavailable && ['cpu', 'gpu', 'ram', 'storage'].includes(component?.category) && <p className="hint-text" title="Índices do modelo, comparáveis apenas na mesma categoria. Sem benchmark medido.">{performanceScore === null ? 'Pontuação de desempenho' : performanceScoreLabel(component)}: {formatCatalogScore(performanceScore)}{performanceScore !== null && ' / 100'}<br />Índice por R$ 1.000: {formatCatalogScore(componentValueScore(component))}</p>}
+        <MotherboardGuide component={component} />
+        <details className="task-disclosure"><summary>Todas as especificações técnicas</summary>
         <dl className="spec-grid component-details">
           {keys.map((key) => (
             <div key={key}><dt>{specLabel(key)}</dt><dd>{formatSpecValue(key, specs[key])}</dd></div>
           ))}
         </dl>
+        </details>
         {component?.verifiedFeatures && <section className="verified-feature-details" aria-label="Recursos verificados da placa-mãe">
           <h3>Expansão e conectividade</h3>
           <dl className="spec-grid component-details">

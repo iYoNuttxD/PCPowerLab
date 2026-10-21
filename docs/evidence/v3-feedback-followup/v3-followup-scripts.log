@@ -1,0 +1,324 @@
+PASS 1: Performance Lab → Upgrades → Performance Lab restores task, shared game settings, per-task selections and all three results after catalog checks
+PASS 2: A→B→A settings discard obsolete success; shared game and independent software scopes invalidate across tab switches and remounts
+PASS 3: Changed build revision, component, fan count or price rejects both stored inputs and results on remount
+PASS 4: Interrupted retries synchronously discard old success; late responses, loading and errors never resurrect for single, comparison or software tasks
+PASS 5: Removed catalog options replace obsolete selection and reject the old result
+PASS 6: Saved upgrade source, independent budgets/settings and both results restore after saved-source validation; roadmap BRL sentences and metric labels render correctly
+PASS 7: Explicit current URL and changed saved URLs override session state; simulated Back/Forward source transitions cannot resurrect old results
+PASS 8: Saved component/revision changes, current catalog prices and global build revision invalidate cached upgrade inputs and both results
+PASS 9: Upgrade budget and roadmap settings invalidate only their own result; shared priority changes clear both without A→B→A resurrection
+PASS 10: Upgrade and roadmap retries discard former success before navigation; late responses and errors never survive remount
+PASS 11: Missing/failed saved-source resolution stays selected and blocked; later recovery cannot revive discarded results
+PASS 12: Catalog loading delays restoration and explains disabled actions; catalog failure clears saved results and offers retry
+PASS 13: Result schema validation rejects malformed display fields and collection/component shapes before rendering
+PASS 14: Corrupt JSON, schema, identity, shape, age, future timestamps and oversized session records fall back safely
+PASS 15: Denied storage never blocks analysis; remount gracefully falls back to default inputs without cached state
+SUMMARY: 15 navigation/session scenario groups passed against actual pages and hook source
+LIMITATION: hook/SSR and controlled route-state transitions; no browser history events, live HTTP, DOM, layout or real Chrome verification
+
+RESULT check-analysis-navigation.mjs: 0
+PASS: useApiRequest synchronously prevents duplicate mutation, reports failure, retries, and skips own post-unmount writes
+PASS: actual SavedBuilds duplicate share calls API once and disables competing mutation controls until completion
+PASS: VersionsModal keeps latest build, ignores closed-modal failure, and ignores unmounted response
+PASS: HistoryModal keeps latest build, ignores closed-modal failure, and ignores unmounted response
+
+RESULT check-async-regressions.mjs: 0
+PASS: malformed object display fields are rejected before real card rendering; missing names/prices retain unavailable labels; actual catalog satisfies boundary
+PASS: server rendering includes technical fields, compatibility and sorting for all 9 categories
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ []
+- [
+-   'Buscar componente',
+-   'Categoria',
+-   'Preço mínimo (R$)',
+-   'Preço máximo (R$)',
+-   'Ordenar por'
+- ]
+
+    at file:///private/var/folders/cn/v3w8jx4x083fprnhw71_zsgw0000gn/T/pcpowerlab-catalog-ssr-NEMZzN/render.mjs:53493:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:643:26
+    at async file:///Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/scripts/check-catalog-render.mjs:126:3 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [],
+  expected: [
+    'Buscar componente',
+    'Categoria',
+    'Preço mínimo (R$)',
+    'Preço máximo (R$)',
+    'Ordenar por'
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+
+RESULT check-catalog-render.mjs: 1
+PASS: score/power titles, scales, sources, text equivalents and unchanged 35% reference
+PASS: incomplete cooling power is labeled and suppresses reference/headroom
+PASS: missing chart values stay explicit and genuine zero is retained
+PASS: FPS table retains complete labels, requirements, unknown/zero data and settings; mean excludes unknown
+PASS: summary score missing values are neither zero nor a negative classification; valid scores unchanged
+PASS: ranking and weight bars preserve missing/zero distinctions and textual units
+LIMITATION: SSR and data checks do not render Recharts SVG geometry, execute effects, or validate mobile layout, hover, keyboard focus, scrolling, assistive technology or user comprehension
+
+RESULT check-chart-render.mjs: 0
+PASS: concise exact price sources; family/benchmark sources rejected; image credits preserved in a dedicated destination
+PASS: scope, estimate labels and missing-performance states render honestly across recommendation cards
+LIMITATION: static rendering does not validate browser layout, focus or interaction
+
+RESULT check-commercial-disclosures.mjs: 0
+PASS 1: Every offered category reaches the real backend ranking contract; cooling and build-only fans are excluded
+PASS 2: Zero, negative, fractional, blank, nonnumeric and out-of-range limits show an associated inline error without a request or empty-state claim
+PASS 3: Valid boundary limits recover and send numeric request parameters
+PASS 4: Only a successful empty array shows empty results; failed and malformed responses remain errors, and changing filters clears old results
+PASS 5: Loading disables filter edits and repeated submissions, with no premature empty-state claim
+Insights ranking: 5 groups passed (page handlers + SSR + real backend service; no browser claim).
+
+RESULT check-insights-ranking.mjs: 0
+PASS: rendered navigation preserves grouped destinations, skip link and hidden administrative entry
+PASS: isolated navigation handles both resize/blur orders without stealing outside focus; same-route, Escape/outside dismissal and listener cleanup work
+PASS: wizard controls keep a single advance/summary path, explain blockers, and close step disclosure with Escape
+PASS: each cooler/fan edit clears the old wizard message before changing the configuration
+PASS: shared route rejects obsolete responses, resets by ID, keeps h1 in pending/error states and retries; admin also has a pending-state h1
+PASS: opt-in select disclosure preserves the exact name, appears only for clipped text, follows resize/selection, keeps descriptions and cleans up
+LIMITATION: isolated handlers/SSR do not validate real DOM events, keyboard focus, history, layout, contrast, scrolling, screenshots, or browser persistence
+
+RESULT check-navigation-wizard.mjs: 0
+{"route":"/","heading":"Seu próximo PCcomeça aqui.","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/components","heading":"Catálogo de componentes","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/build","heading":"Monte seu PC","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/summary","heading":"Resumo da configuração","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/performance-lab","heading":"Simule o desempenho do seu PC","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/compare","heading":"Comparação de configurações","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/insights","heading":"Custo-benefício de componentes","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/feedback","heading":"Central de feedback","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/feedback/new","heading":"Feedback geral","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/ready-builds","heading":"Builds prontas","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/saved-builds","heading":"Builds salvas","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/upgrades","heading":"Sugestões de upgrade","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/shared/audit-placeholder","heading":"Configuração compartilhada","initialLoading":true,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/admin","heading":"Área Administrativa","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/about","heading":"PCPowerLab","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/image-credits","heading":"Créditos das imagens","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"route":"/missing-route-v25","heading":"Página não encontrada","initialLoading":false,"method":"React static server rendering","visualWidthsExecuted":[]}
+{"foreground":"text","background":"bg","ratio":17.29,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"bg-elevated","ratio":15.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"panel","ratio":15.01,"method":"opaque sRGB token calculation only"}
+{"foreground":"text","background":"panel-strong","ratio":13.12,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"bg","ratio":11.01,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"bg-elevated","ratio":9.86,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"panel","ratio":9.56,"method":"opaque sRGB token calculation only"}
+{"foreground":"muted","background":"panel-strong","ratio":8.36,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"bg","ratio":12.38,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"bg-elevated","ratio":11.08,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"panel","ratio":10.75,"method":"opaque sRGB token calculation only"}
+{"foreground":"cyan","background":"panel-strong","ratio":9.4,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"bg","ratio":12.53,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"bg-elevated","ratio":11.22,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"panel","ratio":10.88,"method":"opaque sRGB token calculation only"}
+{"foreground":"green","background":"panel-strong","ratio":9.51,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"bg","ratio":9.76,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"bg-elevated","ratio":8.74,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"panel","ratio":8.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"magenta","background":"panel-strong","ratio":7.41,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"bg","ratio":12.82,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"bg-elevated","ratio":11.47,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"panel","ratio":11.13,"method":"opaque sRGB token calculation only"}
+{"foreground":"yellow","background":"panel-strong","ratio":9.73,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"bg","ratio":9.5,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"bg-elevated","ratio":8.5,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"panel","ratio":8.25,"method":"opaque sRGB token calculation only"}
+{"foreground":"red","background":"panel-strong","ratio":7.21,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"bg","ratio":10.52,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"bg-elevated","ratio":9.41,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"panel","ratio":9.13,"method":"opaque sRGB token calculation only"}
+{"foreground":"blue","background":"panel-strong","ratio":7.98,"method":"opaque sRGB token calculation only"}
+PASS: 17 routes and 32 opaque text-token pairs. No effects, browser DOM, geometry, focus, screenshots or human validation executed.
+
+RESULT check-page-audit.mjs: 0
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /<h1>PCPowerLab<\/h1>/. Input:
+
+'<div class="home-page"><section class="hero"><div class="hero-copy"><span class="eyebrow">Seu PC, peça por peça</span><h1>Seu próximo PC<br/><span class="hero-highlight">começa aqui.</span></h1><p>Monte uma configuração personalizada, valide compatibilidade, simule desempenho e receba recomendações claras antes de investir nas peças.</p><div class="button-row"><a class="btn btn-primary btn-md" href="/build" data-discover="true">Montar meu PC <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a><a class="btn btn-secondary btn-md" href="/components" data-discover="true">Ver componentes</a><a class="btn btn-ghost btn-md" href="/ready-builds" data-discover="true">Explorar builds prontas</a></div></div><div class="hero-console" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg><div class="console-screen"><span>CPU + GPU</span><strong>PC</strong><span>Exemplo ilustrativo</span></div><div class="scan-lines"></div></div></section><ol class="home-journey" aria-label="Como montar seu PC"><li><span>01</span><div><strong>Defina seu limite</strong><p>Comece pelo orçamento e pelo que você quer fazer.</p></div></li><li><span>02</span><div><strong>Encontre suas peças</strong><p>Busque recursos, compare modelos e monte no seu ritmo.</p></div></li><li><span>03</span><div><strong>Confira antes de comprar</strong><p>Veja compatibilidade, pendências e lojas em um resumo.</p></div></li></ol><section class="feature-grid" aria-label="Benefícios"><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg><h2>Compatibilidade</h2><p>Valide socket, memória, gabinete, fonte e outras regras técnicas.</p></section><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gamepad2 lucide-gamepad-2" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"></line><line x1="8" x2="8" y1="9" y2="13"></line><line x1="15" x2="15.01" y1="12" y2="12"></line><line x1="18" x2="18.01" y1="10" y2="10"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg><h2>Desempenho</h2><p>Simule jogos, gargalos e equilíbrio entre CPU, GPU, RAM e armazenamento.</p></section><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu" aria-hidden="true"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg><h2>Recomendações</h2><p>Receba sugestões por orçamento, uso, custo-benefício e upgrades.</p></section><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg><h2>Resumo claro</h2><p>Transforme dados técnicos em explicações simples para decidir melhor.</p></section></section></div>'
+
+    at file:///Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/scripts/check-public-admin-ux.mjs:87:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '<div class="home-page"><section class="hero"><div class="hero-copy"><span class="eyebrow">Seu PC, peça por peça</span><h1>Seu próximo PC<br/><span class="hero-highlight">começa aqui.</span></h1><p>Monte uma configuração personalizada, valide compatibilidade, simule desempenho e receba recomendações claras antes de investir nas peças.</p><div class="button-row"><a class="btn btn-primary btn-md" href="/build" data-discover="true">Montar meu PC <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a><a class="btn btn-secondary btn-md" href="/components" data-discover="true">Ver componentes</a><a class="btn btn-ghost btn-md" href="/ready-builds" data-discover="true">Explorar builds prontas</a></div></div><div class="hero-console" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg><div class="console-screen"><span>CPU + GPU</span><strong>PC</strong><span>Exemplo ilustrativo</span></div><div class="scan-lines"></div></div></section><ol class="home-journey" aria-label="Como montar seu PC"><li><span>01</span><div><strong>Defina seu limite</strong><p>Comece pelo orçamento e pelo que você quer fazer.</p></div></li><li><span>02</span><div><strong>Encontre suas peças</strong><p>Busque recursos, compare modelos e monte no seu ritmo.</p></div></li><li><span>03</span><div><strong>Confira antes de comprar</strong><p>Veja compatibilidade, pendências e lojas em um resumo.</p></div></li></ol><section class="feature-grid" aria-label="Benefícios"><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg><h2>Compatibilidade</h2><p>Valide socket, memória, gabinete, fonte e outras regras técnicas.</p></section><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gamepad2 lucide-gamepad-2" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"></line><line x1="8" x2="8" y1="9" y2="13"></line><line x1="15" x2="15.01" y1="12" y2="12"></line><line x1="18" x2="18.01" y1="10" y2="10"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg><h2>Desempenho</h2><p>Simule jogos, gargalos e equilíbrio entre CPU, GPU, RAM e armazenamento.</p></section><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu" aria-hidden="true"><path d="M12 20v2"></path><path d="M12 2v2"></path><path d="M17 20v2"></path><path d="M17 2v2"></path><path d="M2 12h2"></path><path d="M2 17h2"></path><path d="M2 7h2"></path><path d="M20 12h2"></path><path d="M20 17h2"></path><path d="M20 7h2"></path><path d="M7 20v2"></path><path d="M7 2v2"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="8" y="8" width="8" height="8" rx="1"></rect></svg><h2>Recomendações</h2><p>Receba sugestões por orçamento, uso, custo-benefício e upgrades.</p></section><section class="panel-card "><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg><h2>Resumo claro</h2><p>Transforme dados técnicos em explicações simples para decidir melhor.</p></section></section></div>',
+  expected: /<h1>PCPowerLab<\/h1>/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+
+RESULT check-public-admin-ux.mjs: 1
+PASS: rendered recommendation distinguishes whole-build and individual paths, excludes unchanged parts and fan packs
+PASS: picker selection previews exactly one part; unchanged suggestions reset it; whole-build action remains separate
+PASS: ready-build preview cancels safely, applies one checked part with revision, and explicit whole-build editing retains its cooling
+PASS: wizard rejects a checked modal callback after the build revision changes
+PASS: a fresh budget step exposes budget/use controls, blocks an empty amount and hides only the empty parts sidebar
+PASS: budget editing returns to the prior step without changing pieces; recommendation request includes retained cooler/fan quantities and the edited budget
+PASS: wizard searches change only the visible candidate list, keep the selected part advanceable, and retain existing analysis results
+PASS: upgrade tasks retain independent budgets, step count and both results without changing common source or current build
+PASS: late upgrade response is ignored after a build change; a current suggestion previews and applies only its checked part
+PASS: previewing a later roadmap step preserves the original CPU and does not apply preceding steps
+PASS: changed-and-restored budget criteria reject the obsolete recommendation response
+PASS: actual ReadyBuilds duplicate submit calls API once and retains accepted recommendation
+LIMITATION: isolated handlers and SSR do not verify DOM events, native dialogs, history, layout, focus, scrolling, or browser persistence
+
+RESULT check-recommendation-entrypoints.mjs: 0
+PASS 1: Ready task tabs render exclusive accessible panels while retaining cards, filters, profile manager and entered budget
+PASS 2: Same-route fragment changes and restored history select the visible target without resetting input or manual task state
+PASS 3: Applying a profile switches to the recommendation task, retains inferred criteria and requests reduced-motion focus with header clearance
+PASS 4: Moved budget form still submits selected criteria and renders accepted recommendations
+PASS 5: Feedback opens with records before optional metrics and preserves filtering, whole-build/cooling apply, deletion failure and retry
+PASS 6: General and orphaned feedback render project language and submit rating/comment without fabricated recommendation intent/context
+PASS 7: Contextual feedback retains recommendation question/actions and submits linked build plus explicit follow intent
+LIMITATION: SSR/isolated handlers do not establish visual position, real DOM focus/scroll, browser history, or keyboard behavior
+
+RESULT check-recommendation-feedback-access.mjs: 0
+PASS: every saved card retains 11 actions, with Open/Swap outside closed native secondary details and Escape returning to its summary
+PASS: same-render duplicate submit and post-success repeat save once, retain the native editor, and never navigate
+PASS: changed fields permit another save; errors remain visible in the editor, retry works, explicit close stays on saved builds
+PASS: close/reopen rejects stale edit completion; loading saved configuration and encoded Upgrade destination remain intact
+PASS: readable historical names, missing-piece fallback, cooler/fan quantities, budget/use settings, and closed raw-data details preserve the exact snapshot
+PASS: saved cards opt into narrowly scoped component-row layout; viewport rendering remains unverified
+PASS: named delete confirmation is non-mutating until confirmed; cancel/Escape, duplicate confirmation, failure and retry are covered
+PASS: actual Modal effect opens before focusing Cancel, tolerates absent/default targets, and restores scrolling and opener on close
+PASS: actionable saved-build compatibility notices remain expanded beside revalidation
+LIMITATION: hook/handler and SSR contracts only; pointer retargeting, native dialog focus, 390/768/1440 layouts, and browser navigation history require actual UI QA
+
+RESULT check-saved-build-interactions.mjs: 0
+PASS: selections precede compact criteria and optional help; all eight result columns, unknown/incompatible/price states and simulated zero scores survive
+PASS: null, empty and malformed shared evidence is unverified; recognized compatibility-only statuses retain their meaning
+PASS: read-only shared identity persists through loading/error/retry; missing evidence stays distinct from verified compatibility and seven parts stay visible
+LIMITATION: source/SSR only; native keyboard focus, layout, screenshots and E2E remain unverified
+
+RESULT check-saved-comparison-ux.mjs: 0
+PASS: each actual saved-build card renders an encoded Upgrade URL identifying that build
+PASS: saved B remains the source through loading; both upgrade handlers target B and preserve global A
+PASS: changed route source rejects a late result; current A is used only after explicit selection
+PASS: unknown and empty requested IDs remain blocked until the user explicitly chooses another source
+PASS: failed saved-source loading shows a recoverable error; retry retains the requested ID
+PASS: malformed saved-list response cannot become a successful empty list or current-build fallback
+PASS: invalid roadmap step counts have accessible local errors and never reach the API; a valid integer retries successfully
+LIMITATION: source handlers and real router SSR; no browser events, live router history, layout, or HTTP transport in this focused regression
+
+RESULT check-saved-upgrade-source.mjs: 0
+PASS 1: loading catalogs block requests; loaded catalogs recover and select available defaults (SSR + handlers)
+PASS 2: single-game success submits current settings, seven build slots and cooling; mode changes preserve selections
+PASS 3: comparison boundaries: 0/1/>10 blocked even at handler level; 2 and 10 submit exactly the selected IDs
+PASS 4: each of the seven missing required build slots blocks game, comparison and software handlers
+PASS 5: empty catalogs are explicit and reloadable; missing saved game falls back; a one-game catalog cannot compare
+PASS 6: game/software catalog failures show honest messages and their retry handlers recover
+PASS 7: missing game/component/parameters and network failures render detail, retain selections and recover through retry
+PASS 8: comparison and software network-error retries retain chosen games/software and recover
+PASS 9: pending results cannot survive game/resolution/quality/build-revision/build-payload changes; current retries succeed
+PASS 10: selected-game changes invalidate comparisons; resolution and quality A→B→A do not resurrect earlier requests
+PASS 11: completed results clear on criteria/build changes, while page-local selections survive a build replacement
+PASS 12: storage-unavailable fallback: a fresh PerformanceLab mount restores build.game defaults
+PASS 13: software/build changes reject late professional results; independent software requests survive game-only edits
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Cooling task renders the actual simulator component
+    at verify (file:///Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/scripts/check-simulation-states.mjs:21:59)
+    at file:///Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/scripts/check-simulation-states.mjs:409:3
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
+
+RESULT check-simulation-states.mjs: 1
+PASS: actual BuildProvider storage loader survives null settings, merges partial legacy fields and tolerates denied storage
+
+RESULT check-storage-regressions.mjs: 0
+PASS --text text on --bg: 17.29:1 (>= 4.5:1)
+PASS --muted text on --bg: 11.01:1 (>= 4.5:1)
+PASS --cyan text on --bg: 12.38:1 (>= 4.5:1)
+PASS --green text on --bg: 12.53:1 (>= 4.5:1)
+PASS --yellow text on --bg: 12.82:1 (>= 4.5:1)
+PASS --red text on --bg: 9.50:1 (>= 4.5:1)
+PASS focus ring beside --bg: 12.82:1 (>= 3:1)
+PASS control border on --bg: 5.27:1 (>= 3:1)
+PASS --text text on --bg-elevated: 15.47:1 (>= 4.5:1)
+PASS --muted text on --bg-elevated: 9.86:1 (>= 4.5:1)
+PASS --cyan text on --bg-elevated: 11.08:1 (>= 4.5:1)
+PASS --green text on --bg-elevated: 11.22:1 (>= 4.5:1)
+PASS --yellow text on --bg-elevated: 11.47:1 (>= 4.5:1)
+PASS --red text on --bg-elevated: 8.50:1 (>= 4.5:1)
+PASS focus ring beside --bg-elevated: 11.47:1 (>= 3:1)
+PASS control border on --bg-elevated: 4.72:1 (>= 3:1)
+PASS --text text on --panel: 15.01:1 (>= 4.5:1)
+PASS --muted text on --panel: 9.56:1 (>= 4.5:1)
+PASS --cyan text on --panel: 10.75:1 (>= 4.5:1)
+PASS --green text on --panel: 10.88:1 (>= 4.5:1)
+PASS --yellow text on --panel: 11.13:1 (>= 4.5:1)
+PASS --red text on --panel: 8.25:1 (>= 4.5:1)
+PASS focus ring beside --panel: 11.13:1 (>= 3:1)
+PASS control border on --panel: 4.58:1 (>= 3:1)
+PASS --text text on --panel-strong: 13.12:1 (>= 4.5:1)
+PASS --muted text on --panel-strong: 8.36:1 (>= 4.5:1)
+PASS --cyan text on --panel-strong: 9.40:1 (>= 4.5:1)
+PASS --green text on --panel-strong: 9.51:1 (>= 4.5:1)
+PASS --yellow text on --panel-strong: 9.73:1 (>= 4.5:1)
+PASS --red text on --panel-strong: 7.21:1 (>= 4.5:1)
+PASS focus ring beside --panel-strong: 9.73:1 (>= 3:1)
+PASS control border on --panel-strong: 4.00:1 (>= 3:1)
+PASS input placeholder: 8.03:1 (>= 4.5:1)
+PASS primary button text: 12.38:1 (>= 4.5:1)
+PASS primary button visible boundary: 9.40:1 (>= 3:1)
+PASS primary disabled text (non-normative): 7.62:1 (>= 4.5:1)
+PASS secondary button text: 9.40:1 (>= 4.5:1)
+PASS secondary button visible boundary: 4.00:1 (>= 3:1)
+PASS secondary disabled text (non-normative): 6.08:1 (>= 4.5:1)
+PASS success button text: 12.53:1 (>= 4.5:1)
+PASS success button visible boundary: 9.51:1 (>= 3:1)
+PASS success disabled text (non-normative): 7.69:1 (>= 4.5:1)
+PASS danger button text: 7.08:1 (>= 4.5:1)
+PASS danger button visible boundary: 7.21:1 (>= 3:1)
+PASS danger disabled text (non-normative): 4.73:1 (>= 4.5:1)
+PASS info alert title: 9.45:1 (>= 4.5:1)
+PASS info alert body: 8.40:1 (>= 4.5:1)
+PASS info alert boundary/icon: 9.45:1 (>= 3:1)
+PASS info alert focus: 9.78:1 (>= 3:1)
+PASS success alert title: 9.57:1 (>= 4.5:1)
+PASS success alert body: 8.41:1 (>= 4.5:1)
+PASS success alert boundary/icon: 9.57:1 (>= 3:1)
+PASS success alert focus: 9.79:1 (>= 3:1)
+PASS warning alert title: 9.82:1 (>= 4.5:1)
+PASS warning alert body: 8.44:1 (>= 4.5:1)
+PASS warning alert boundary/icon: 9.82:1 (>= 3:1)
+PASS warning alert focus: 9.82:1 (>= 3:1)
+PASS error alert title: 7.46:1 (>= 4.5:1)
+PASS error alert body: 8.65:1 (>= 4.5:1)
+PASS error alert boundary/icon: 7.46:1 (>= 3:1)
+PASS error alert focus: 10.06:1 (>= 3:1)
+PASS large summary metric: 15.47:1 (>= 3:1)
+PASS active filter text: 13.12:1 (>= 4.5:1)
+PASS active filter boundary: 4.00:1 (>= 3:1)
+64/64 source-token contrast checks passed; browser verification is not claimed.
+
+RESULT check-visual-contrast.mjs: 0

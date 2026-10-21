@@ -1512,7 +1512,7 @@ Também são aceitos `components.cooler`/`components.coolerId` e `components.fan
 - Salvos, versões, JSON exportado (versão compatível 1.0), compartilhamento, relatório e comparação preservam os opcionais. Importação pode enviar `export.build` à seleção; interface reidrata IDs de JSON importado
 - Compatibilidade: `status` é `compatible`, `incompatible` ou `unverified`; `compatible` só é true no primeiro caso. Conflitos ficam em `alerts`; verificações incompletas em `unverifiedChecks` com `verification:'unverified'`. O endpoint de alertas agrega as duas listas para apresentação, mantendo estado separado
 - `coolingPower` retorna `knownWatts`, `complete`, `unknownComponents`. Valores desconhecidos não viram zero verificado. Valores conhecidos são somados ao mínimo de fonte e à estimativa de consumo; as fórmulas preexistentes de finalidades distintas continuam heurísticas
-- Recomendações por orçamento/faixa aceitam os opcionais no nível raiz ou em `components`; reservam custo e testam compatibilidade. Não descartam os acessórios para caber no orçamento. Se os dados forem insuficientes, retornam 422 sem afirmar compatibilidade
+- Recomendações por orçamento/faixa aceitam os opcionais no nível raiz ou em `components`; reservam custo e testam compatibilidade. Não descartam os acessórios para caber no orçamento. Se os dados forem insuficientes, retornam 422 sem afirmar compatibilidade, salvo a opção explícita e limitada de proposta com refrigeração pendente descrita na complementação V3 abaixo
 - As novas categorias são `cooler` (air/AIO) e `fan`. Parâmetros de desempenho continuam restritos às sete categorias principais; não cadastrar bônus de FPS por refrigeração
 - CRUD de regras é um registro documental separado do motor codificado. Alterá-lo não muda a execução das verificações
 
@@ -1646,3 +1646,10 @@ A interface usa detalhes progressivos para custos, motivo de seleção e exclus�
 Regressões: `tests/v3-recommendation-explanations.test.js` (contrato e cenários reais/controlados) e `frontend/tests/recommendation-explanation.test.js` (renderização React SSR). `frontend/tests/e2e/recommendation-explanations-v3.spec.js` prepara navegação por teclado, legibilidade e invalidação após edição para execução em navegador autorizado; coleta de casos não equivale a execução visual.
 
 A explicação por peça também é uma análise opcional isolada: falha inesperada retorna `selectionExplanation.available: false`, `reason: "analysis_failed"` e `retryable: true`; `sections.selectionExplanation` fica indisponível sem apagar seleção, preços, links ou análises independentes.
+
+
+### Complementação de recomendações V3 (21/10/2026)
+
+`POST /recommendations/budget`, `/recommendations/by-usage` e recomendações por faixa aceitam `requirements: { minMemoryGb: 8 | 16 | 32 | 64 }`. Sem ajuste, estudo/uso geral usam mínimo de 8 GB; demais perfis, 16 GB. É requisito de seleção editável, não benchmark. Valor numérico fora da lista retorna 400. A resposta acrescenta `memoryRequirement: { minimumGb, policy }` e `simulationAvailability`, que comunica falta de modelo antes da aplicação.
+
+Nas recomendações de orçamento/uso, `allowPendingCooling: true` permite apresentar uma proposta com acessório preservado somente quando todas as pendências pertencem à refrigeração, não há alerta de conflito e as sete peças principais são compatíveis independentemente. O padrão é `false` (estrito), e valor não booleano retorna 400. A resposta permanece `compatibilityStatus: "unverified"` com `unverifiedChecks` e custo do acessório; a opção não relaxa BIOS, alimentação ou conflito físico confirmado. Recomendações por faixa continuam estritas quanto à refrigeração.

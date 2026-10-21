@@ -37,6 +37,7 @@ import { hasWizardCompatibilityBlockers, requiredWizardSteps, wizardDescriptions
 
 export default function BuildWizard() {
   const navigate = useNavigate();
+  const [minimumMemory, setMinimumMemory] = useState('auto');
   const { byType, loading, error, reload } = useComponents();
   const build = useBuildState();
   const request = useApiRequest();
@@ -55,7 +56,7 @@ export default function BuildWizard() {
   const previousStep = useRef(currentStep);
   const activeRequest = useRef(0);
   const pendingBottlenecks = useRef(false);
-  const configurationKey = JSON.stringify([build.revision, build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType]);
+  const configurationKey = JSON.stringify([build.revision, build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType, minimumMemory]);
   const latestConfiguration = useRef(configurationKey);
   latestConfiguration.current = configurationKey;
 
@@ -273,7 +274,9 @@ export default function BuildWizard() {
       const recommendation = await recommendationService.byBudget({
         budget: normalizeRecommendationBudgetPayload(build.budget),
         usageType: build.usageType,
-        components: build.buildPayload
+        components: build.buildPayload,
+        ...(build.selectedComponents.cooler || build.selectedComponents.fans?.length ? { allowPendingCooling: true } : {}),
+        requirements: minimumMemory === 'auto' ? undefined : { minMemoryGb: Number(minimumMemory) }
       });
       if (!isCurrent()) return;
       build.actions.setResult('recommendation', recommendation);
@@ -349,7 +352,7 @@ export default function BuildWizard() {
               <p role="status">{filterError ? 'Corrija a faixa de preço ou desempenho.' : `${filteredComponents.length} de ${stepComponents.length} peças`}</p>
             </div>}
             {!loading && !error && !filterError && stepComponents.length > 0 && filteredComponents.length === 0 && <EmptyState title="Nenhuma peça com estes filtros" message="Remova um filtro ou limpe a busca. Sua peça selecionada continua na montagem." />}
-            {!loading && !error && <div className="cards-grid component-grid">
+            {!loading && !error && <div className={`cards-grid component-grid ${filters.layout === 'list' ? 'component-list' : ''}`}>
               {filteredComponents.map((component) => (
                 <ComponentCard
                   key={component.id}
@@ -398,6 +401,10 @@ export default function BuildWizard() {
                 options={[...new Set([...usageTypes, build.usageType])].map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
+            <details className="task-disclosure"><summary>Ajustar a memória da recomendação</summary>
+              <Select label="Memória mínima da sugestão" value={minimumMemory} onChange={event => { setMinimumMemory(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'auto', label: 'Pelo perfil: 8 GB para estudo/uso geral; 16 GB nos demais' }, ...[8, 16, 32, 64].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
+              <p className="hint-text">É um ponto de partida editável. Confira os requisitos específicos dos seus aplicativos; mais memória não garante mais FPS.</p>
+            </details>
             <p id="wizard-objective-description" className="hint-text" role="status"><strong>Seu objetivo: </strong>{describeBuildObjective(build.usageType)}</p>
             <p className="hint-text">Os preços são referências, sem frete e montagem. A compatibilidade será verificada na revisão.</p>
           </Card>
@@ -425,6 +432,7 @@ export default function BuildWizard() {
             </Card>
             <CompatibilityStatus result={build.alerts || build.compatibility} />
             <BottleneckPanel result={build.bottlenecks} />
+            {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0) && <p className="hint-text">A sugestão mantém sua refrigeração. Verificações pendentes continuam em destaque; conflitos confirmados não são aceitos.</p>}
             <RecommendationCard currentComponents={build.selectedComponents} recommendation={build.recommendation} disabled={request.loading}
               onPreview={(type, component) => setReplacement({ type, component, revision: build.revision, configurationKey })} onApply={(recommendation) => {
               clearMessages();

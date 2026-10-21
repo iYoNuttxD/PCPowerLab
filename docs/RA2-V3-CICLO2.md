@@ -4,6 +4,8 @@ Data: 20/10/2026. Base: `442fa2e` (PR #46). Proposta para revisão, sem publica�
 
 **Atualização do Mac autorizado:** [305 E2E aprovados, 1 skip esperado e 18 integrações aprovadas](V3-MAC-BROWSER-VALIDATION.md), com inspeção real, teclado e zoom nativo de 200%. Os registros de bloqueio da nuvem abaixo são históricos. O ciclo 3 humano, a configuração original do relato e a calibração dos cinco novos CPU/GPU continuam pendentes.
 
+**Complementação atual (21/10/2026):** [67 sinais rastreados, mudanças e limites](V3-FEEDBACK-FOLLOWUP.md); 1.040 Node, 309 E2E + 1 skip e 18 integrações aprovados. Catálogo com 93 ativos, busca por recursos, lista compacta, pop-up térmico/acústico, guia de placa-mãe e memória mínima nas sugestões.
+
 ## Evidência e limites
 
 O ciclo 2 reuniu 10 respostas. A principal falha relatada foi uma montagem com todas as peças selecionadas que terminou em “Dados insuficientes”, sem resultados e links. A configuração exata desse respondente não foi fornecida: **não é possível afirmar que o caso original foi reproduzido**.
@@ -17,15 +19,15 @@ A inspeção identificou duas falhas concretas independentes: exceções inesper
 | Resumo indisponível apesar de peças completas | Seleção validada separadamente; análises isoladas, estados parciais e mensagens recuperáveis | Regressões de falhas opcionais e seleção inválida |
 | Links de lojas bloqueados junto com análises | Consulta independente, estado de erro e tentativa separados | Testes de isolamento do resumo e links |
 | Fluxo de montagem pouco claro | Orçamento e uso primeiro, próxima etapa explícita, limite/acumulado/restante persistentes | Testes de ordem, persistência e jornada |
-| Dificuldade para voltar sem perder escolhas | Edição de orçamento retorna à etapa anterior, escolhas e filtros por etapa mantidos | Regressões de navegação e restauração |
-| Excesso de informação e filtros pouco percebidos | Detalhes progressivos, filtros ativos removíveis, contagem e estados vazios claros | Testes de renderização e casos de navegador preparados |
+| Avaliações parciais de navegação (causa não informada) | Edição de orçamento retorna à etapa anterior, escolhas e filtros por etapa mantidos | Regressões de navegação e restauração |
+| F4: muita informação; H7: organizar listas e pesquisar eficazmente | Detalhes progressivos, filtros ativos removíveis, contagem e estados vazios claros | Testes de renderização e casos de navegador preparados |
 | Placas-mãe parecidas e catálogo limitado | Recursos verificados distinguem modelos; expansão dirigida e datada | Fontes e testes do catálogo V3 |
 | Recomendações e estimativas pouco claras | Orçamento em BRL explícito, refrigeração retida incluída, alternativa comparável e limites de estimativa | Regressões de orçamento, moeda e acessórios |
-| Cores e organização cansativas | Hierarquia mais discreta, foco visível e controles com área de toque adequada | Lint/build; inspeção visual ainda pendente |
+| AB10: design simples e pedido de cores vivas; organização Regular | Composição e hierarquia mais expressivas, preservando foco e controles | Inspeção real atual registrada; apreciação humana ainda não medida |
 
 ## Preservação
 
-A página inicial não foi redesenhada. Identidades antigas, seleções salvas, imagens e referências históricas permanecem preservadas. Nenhum serviço pago, coletor de preço ao vivo, compra ou implantação foi adicionado. Valores de lojas são observações datadas, não promessa de estoque ou preço final; frete e montagem não entram no total.
+Na primeira rodada, a página inicial não foi redesenhada. Na complementação de 21/10, recebeu composição visual e caminho 01–03, registrados no relatório atual. Identidades antigas, seleções salvas, imagens e referências históricas permanecem preservadas. Nenhum serviço pago, coletor de preço ao vivo, compra ou implantação foi adicionado. Valores de lojas são observações datadas, não promessa de estoque ou preço final; frete e montagem não entram no total.
 
 ## Catálogo e transparência de desempenho (primeira rodada)
 

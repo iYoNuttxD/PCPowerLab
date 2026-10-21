@@ -1,0 +1,178 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Catálogo técnico
+  - heading "Catálogo de componentes" [level=1]
+  - paragraph: Escolha peças, filtre e compare.
+  - region "Buscar e filtrar":
+    - heading "Buscar e filtrar" [level=2]
+    - group "Explorar por categoria":
+      - button "Todas (93)"
+      - button "Processador (13)"
+      - button "Placa de vídeo (13)"
+      - button "Placa-mãe (6)" [pressed]
+      - button "Memória RAM (22)"
+      - button "Armazenamento (21)"
+      - button "Fonte de alimentação (3)"
+      - button "Gabinete (6)"
+      - button "Cooler do processador (5)"
+      - button "Ventoinha (4)"
+    - generic: Buscar componente
+    - searchbox "Buscar componente" [active]: Wi-Fi
+    - generic: Categoria
+    - combobox "Categoria":
+      - option "Todas as categorias"
+      - option "Processador"
+      - option "Placa de vídeo"
+      - option "Placa-mãe" [selected]
+      - option "Memória RAM"
+      - option "Armazenamento"
+      - option "Fonte de alimentação"
+      - option "Gabinete"
+      - option "Cooler do processador"
+      - option "Ventoinha"
+    - generic: Preço mínimo (R$)
+    - spinbutton "Preço mínimo (R$)"
+    - generic: Preço máximo (R$)
+    - spinbutton "Preço máximo (R$)"
+    - generic: Exibição das peças
+    - combobox "Exibição das peças":
+      - option "Cartões com fotos" [selected]
+      - option "Lista compacta com fotos"
+    - generic: Ordenar por
+    - combobox "Ordenar por":
+      - 'option "Nome: A–Z" [selected]'
+      - 'option "Nome: Z–A"'
+      - option "Menor preço"
+      - option "Maior preço"
+    - generic "Mais filtros"
+    - option "Todas as marcas" [selected]
+    - option "ASUS"
+    - option "Gigabyte"
+    - option "MSI"
+    - option "Todos os valores" [selected]
+    - option "AM4"
+    - option "AM5"
+    - option "LGA1700"
+    - option "Todos os valores" [selected]
+    - option "DDR4"
+    - option "DDR5"
+    - option "Todos os valores" [selected]
+    - option "ATX"
+    - option "mATX"
+    - option "Todos os valores" [selected]
+    - option "B550"
+    - option "B650"
+    - option "B760"
+    - option "H610"
+    - option "Z790"
+    - option "Todos os valores" [selected]
+    - option "Não"
+    - option "Wi-Fi 6E"
+    - option "Wi-Fi 6E (Intel AX210)"
+    - option "Todos os valores" [selected]
+    - option "1"
+    - option "2"
+    - option "3"
+    - option "4"
+    - option "Todas" [selected]
+    - option "Sem conflitos"
+    - option "Com conflito"
+    - option "Dados incompletos"
+    - region "Filtros aplicados":
+      - paragraph: 2 filtros ativos
+      - 'button "Remover filtro Busca: Wi-Fi"': "Busca: Wi-Fi ×"
+      - 'button "Remover filtro Categoria: Placa-mãe"': "Categoria: Placa-mãe ×"
+    - button "Limpar filtros"
+    - paragraph: 93/93 referências datadas · confirme preço e estoque na loja
+  - generic: Sua montagem está em andamento
+  - link "Ver minha montagem":
+    - /url: /summary
+  - heading "Resultados do catálogo" [level=2]
+  - status: 3 componentes encontrados
+  - article:
+    - generic: Placa-mãe
+    - figure:
+      - img "ASUS TUF GAMING Z790-PLUS WIFI DDR5 — Placa ATX com inscrição TUF GAMING Z790-PLUS WIFI visível; galeria SKU DDR5 90MB1D80-M1EAY0, não variantes D4 ou II."
+    - heading "ASUS TUF GAMING Z790-PLUS WIFI (DDR5)" [level=3]
+    - paragraph: ASUS
+    - term: Encaixe (socket)
+    - definition: LGA1700
+    - term: Tipo de memória
+    - definition: DDR5
+    - paragraph: "M.2: 4 · Wi-Fi: Wi-Fi 6E"
+    - strong: R$ 1.998,99
+    - paragraph:
+      - link "Referência PIX · KaBuM · 08/10/2026, 14:50 UTC":
+        - /url: https://www.kabum.com.br/produto/427131/placa-mae-asus-tuf-gaming-z790-plus-intel-atx-ddr5-rgb-wi-fi-bluetooth-preto-90mb1d80-m1eay0
+    - 'button "Selecionar: ASUS TUF GAMING Z790-PLUS WIFI (DDR5)"':
+      - text: Selecionar
+    - button "Lojas para ASUS TUF GAMING Z790-PLUS WIFI (DDR5)":
+      - text: Lojas
+    - button "Detalhes de ASUS TUF GAMING Z790-PLUS WIFI (DDR5)": Detalhes
+    - 'button "Comparar: ASUS TUF GAMING Z790-PLUS WIFI (DDR5)"': Comparar
+  - article:
+    - generic: Placa-mãe
+    - figure:
+      - img "Gigabyte B650 GAMING X AX V2 — Caixa B650 GAMING X AX V2 e placa ATX correspondente, não revisão original sem V2."
+    - heading "Gigabyte B650 GAMING X AX V2" [level=3]
+    - paragraph: Gigabyte
+    - term: Encaixe (socket)
+    - definition: AM5
+    - term: Tipo de memória
+    - definition: DDR5
+    - paragraph: "M.2: 3 · Wi-Fi: Wi-Fi 6E"
+    - strong: R$ 1.299,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/28492/placa-mae-gigabyte-b650-gaming-x-ax-v2-chipset-b650-wifi-amd-am5-atx-ddr5
+    - 'button "Selecionar: Gigabyte B650 GAMING X AX V2"':
+      - text: Selecionar
+    - button "Lojas para Gigabyte B650 GAMING X AX V2":
+      - text: Lojas
+    - button "Detalhes de Gigabyte B650 GAMING X AX V2": Detalhes
+    - 'button "Comparar: Gigabyte B650 GAMING X AX V2"': Comparar
+  - article:
+    - generic: Placa-mãe
+    - figure:
+      - img "Gigabyte B760M DS3H WIFI6E DDR4 GEN5 — Caixa B760M DS3H WIFI6E DDR4 GEN5, placa mATX e antena; não modelo sem Wi-Fi."
+    - heading "Gigabyte B760M DS3H WIFI6E DDR4 GEN5" [level=3]
+    - paragraph: Gigabyte
+    - term: Encaixe (socket)
+    - definition: LGA1700
+    - term: Tipo de memória
+    - definition: DDR4
+    - paragraph: "M.2: 2 · Wi-Fi: Wi-Fi 6E (Intel AX210)"
+    - strong: R$ 1.149,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/38489/placa-mae-gigabyte-b760m-ds3h-wifie-ddr4-gen5-chipset-b760-intel-lga-1700-m-atx-ddr4
+    - 'button "Selecionar: Gigabyte B760M DS3H WIFI6E DDR4 GEN5"':
+      - text: Selecionar
+    - button "Lojas para Gigabyte B760M DS3H WIFI6E DDR4 GEN5":
+      - text: Lojas
+    - button "Detalhes de Gigabyte B760M DS3H WIFI6E DDR4 GEN5": Detalhes
+    - 'button "Comparar: Gigabyte B760M DS3H WIFI6E DDR4 GEN5"': Comparar
+  - generic "Sobre os índices e filtros"
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

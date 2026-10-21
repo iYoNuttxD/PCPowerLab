@@ -5659,5 +5659,317 @@
     "verificationMethod": "rendered_product_page",
     "observedAt": "2026-10-20T22:52:50Z",
     "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "cpu-ryzen-5-4500-box",
+    "model": "100-100000644BOX",
+    "sourceVariantName": "100-100000644BOX",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "new",
+    "productUrl": "https://www.kabum.com.br/produto/333154/processador-amd-ryzen-5-4500-3-6ghz-4-1ghz-max-turbo-cache-11mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000644box",
+    "price": 545.29,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-4500-box",
+      "name": "AMD Ryzen 5 4500 Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "100-100000644BOX",
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4.1,
+        "tdpWatts": 65,
+        "memoryTypes": [
+          "DDR4"
+        ],
+        "maxMemoryGb": 128,
+        "includesCpuCooler": true
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:39:35.369Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S03-cpu-4500-kabum"
+  },
+  {
+    "productId": "gpu-pcyes-rx-550-edge-4gb",
+    "model": "PVEX5504GBDF",
+    "sourceVariantName": "PVEX5504GBDF",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/28714/placa-de-video-pcyes-amd-radeon-rx-550-4gb-gddr5-128-bit-pvex5504gbdf",
+    "price": 619.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "gpu-pcyes-rx-550-edge-4gb",
+      "name": "PCYES Radeon RX 550 Edge Dual Fan 4GB",
+      "brand": "PCYES",
+      "category": "gpu",
+      "partNumber": "PVEX5504GBDF",
+      "specs": {
+        "vramGb": 4,
+        "memoryType": "GDDR5",
+        "memoryBusBits": 128,
+        "tdpWatts": null,
+        "lengthMm": null,
+        "recommendedPsuWatts": null,
+        "powerConnectors": null
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:42:20.508Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S12-gpu-rx550-pcyes-store"
+  },
+  {
+    "productId": "gpu-asrock-rx-7600-challenger-pro-8gb",
+    "model": "90-GA62ZZ-00UANF",
+    "sourceVariantName": "90-GA62ZZ-00UANF",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "new",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asrock-radeon-rx-7600-challenger-pro-oc-8gb-gddr6-128-bit-90-ga62zz-00uanf",
+    "price": 1959.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "gpu-asrock-rx-7600-challenger-pro-8gb",
+      "name": "ASRock Radeon RX 7600 Challenger Pro 8GB OC",
+      "brand": "ASRock",
+      "category": "gpu",
+      "partNumber": "90-GA62ZZ-00UANF",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 128,
+        "tdpWatts": null,
+        "lengthMm": 303,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:42:12.521Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S10-gpu-rx7600-store"
+  },
+  {
+    "productId": "case-montech-x2-plus-white",
+    "model": "X2 PLUS (W)",
+    "sourceVariantName": "X2 PLUS (W)",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39700/gabinete-gamer-montech-x2-plus-vidro-temperado-mid-tower-atx-com-3-fans-argb-branco",
+    "price": 239.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "case-montech-x2-plus-white",
+      "name": "Montech X2 Plus White",
+      "brand": "Montech",
+      "category": "case",
+      "partNumber": "X2 PLUS (W)",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "includedFanCount": 3,
+        "includedFanPwm": null,
+        "maxGpuLengthMm": 305,
+        "maxCoolerHeightMm": 160,
+        "maxPsuLengthMm": 160,
+        "radiatorSizesMm": [
+          120,
+          240
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 5
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 4
+          }
+        ],
+        "coolingSupportNotes": "Frente 2×140; topo 2×120 ou 2×140; base sobre fonte 2×120; traseira 1×120. Radiador até 240 no topo ou 120 atrás; confirmar interferências no manual."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:42:12.605Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S11-case-x2-store"
+  },
+  {
+    "productId": "case-montech-xr-white",
+    "model": "XR (W)",
+    "sourceVariantName": "XR (W)",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/29263/gabinete-gamer-montech-xr-mid-tower-white-atx-com-3-fans-vidro-temperado-xr-w",
+    "price": 299.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "case-montech-xr-white",
+      "name": "Montech XR White",
+      "brand": "Montech",
+      "category": "case",
+      "partNumber": "XR (W)",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "includedFanCount": 3,
+        "includedFanPwm": true,
+        "maxGpuLengthMm": 420,
+        "maxCoolerHeightMm": 175,
+        "maxPsuLengthMm": 230,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          360
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 9
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 3
+          }
+        ],
+        "coolingSupportNotes": "Topo 3×120 ou 2×140; lateral 2×120; base sobre fonte 3×120; traseira 1×120 ou 1×140. Radiador até 360 no topo. Verificar interferências no manual."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:41:04.468Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S08-case-xr-store"
   }
 ]

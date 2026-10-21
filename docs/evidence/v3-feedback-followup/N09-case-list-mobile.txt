@@ -1,0 +1,217 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - button "Abrir menu":
+    - generic: Menu
+- main:
+  - generic: Catálogo técnico
+  - heading "Catálogo de componentes" [level=1]
+  - paragraph: Escolha peças, filtre e compare.
+  - region "Buscar e filtrar":
+    - heading "Buscar e filtrar" [level=2]
+    - group "Explorar por categoria":
+      - button "Todas (93)"
+      - button "Processador (13)"
+      - button "Placa de vídeo (13)"
+      - button "Placa-mãe (6)"
+      - button "Memória RAM (22)"
+      - button "Armazenamento (21)"
+      - button "Fonte de alimentação (3)"
+      - button "Gabinete (6)" [pressed]
+      - button "Cooler do processador (5)"
+      - button "Ventoinha (4)"
+    - generic: Buscar componente
+    - searchbox "Buscar componente"
+    - generic: Categoria
+    - combobox "Categoria":
+      - option "Todas as categorias"
+      - option "Processador"
+      - option "Placa de vídeo"
+      - option "Placa-mãe"
+      - option "Memória RAM"
+      - option "Armazenamento"
+      - option "Fonte de alimentação"
+      - option "Gabinete" [selected]
+      - option "Cooler do processador"
+      - option "Ventoinha"
+    - generic: Preço mínimo (R$)
+    - spinbutton "Preço mínimo (R$)"
+    - generic: Preço máximo (R$)
+    - spinbutton "Preço máximo (R$)"
+    - generic: Exibição das peças
+    - combobox "Exibição das peças":
+      - option "Cartões com fotos"
+      - option "Lista compacta com fotos" [selected]
+    - generic: Ordenar por
+    - combobox "Ordenar por":
+      - 'option "Nome: A–Z" [selected]'
+      - 'option "Nome: Z–A"'
+      - option "Menor preço"
+      - option "Maior preço"
+    - group "Explorar por faixa de preço":
+      - generic: "Faixas de referência:"
+      - button "Até R$ 300,00"
+      - button "R$ 300,00 a R$ 600,00"
+      - button "Acima de R$ 600,00"
+    - generic "Mais filtros"
+    - option "Todas as marcas" [selected]
+    - option "Cooler Master"
+    - option "COUGAR"
+    - option "DeepCool"
+    - option "Montech"
+    - option "Todos os valores" [selected]
+    - option "ATX"
+    - option "E-ATX"
+    - option "ITX"
+    - option "mATX"
+    - option "Todas" [selected]
+    - option "Sem conflitos"
+    - option "Com conflito"
+    - option "Dados incompletos"
+    - region "Filtros aplicados":
+      - paragraph: 1 filtro ativo
+      - 'button "Remover filtro Categoria: Gabinete"': "Categoria: Gabinete ×"
+    - button "Limpar filtros"
+    - paragraph: 93/93 referências datadas · confirme preço e estoque na loja
+  - generic: Sua montagem está em andamento
+  - link "Ver minha montagem":
+    - /url: /summary
+  - heading "Resultados do catálogo" [level=2]
+  - status: 6 componentes encontrados
+  - article:
+    - generic: Gabinete
+    - figure:
+      - status:
+        - generic: Carregando fotografia…
+    - heading "Cooler Master Elite 301 White" [level=3]
+    - paragraph: Cooler Master
+    - term: Formatos suportados
+    - definition: mATX, ITX
+    - term: Comprimento máximo de GPU
+    - definition: Não informado
+    - strong: R$ 349,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 08/10/2026, 14:43 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/36697/gabinete-gamer-cooler-master-elite-301-branco-argb-vidro-temperado-mid-tower-matx-com-3-fans-e301-wgnn-s00
+    - 'button "Selecionar: Cooler Master Elite 301 White"':
+      - text: Selecionar
+    - button "Lojas para Cooler Master Elite 301 White":
+      - text: Lojas
+    - button "Detalhes de Cooler Master Elite 301 White": Detalhes
+    - 'button "Comparar: Cooler Master Elite 301 White"': Comparar
+  - article:
+    - generic: Gabinete
+    - figure:
+      - status:
+        - generic: Carregando fotografia…
+    - heading "Cooler Master Elite 502 White" [level=3]
+    - paragraph: Cooler Master
+    - term: Formatos suportados
+    - definition: ATX, mATX, ITX, E-ATX
+    - term: Comprimento máximo de GPU
+    - definition: 360 mm
+    - strong: R$ 589,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 08/10/2026, 14:32 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/43174/gabinete-gamer-cooler-master-elite-502-argb-vidro-temperado-mid-tower-atx-com-3-fans-branco-e502-wgnn-s00
+    - 'button "Selecionar: Cooler Master Elite 502 White"':
+      - text: Selecionar
+    - button "Lojas para Cooler Master Elite 502 White":
+      - text: Lojas
+    - button "Detalhes de Cooler Master Elite 502 White": Detalhes
+    - 'button "Comparar: Cooler Master Elite 502 White"': Comparar
+  - article:
+    - generic: Gabinete
+    - figure:
+      - status:
+        - generic: Carregando fotografia…
+    - heading "COUGAR MX230 RGB Black" [level=3]
+    - paragraph: COUGAR
+    - term: Formatos suportados
+    - definition: ITX, mATX, ATX, E-ATX
+    - term: Comprimento máximo de GPU
+    - definition: 400 mm
+    - paragraph: ATX amplo com quatro fans ARGB
+    - strong: R$ 539,99
+    - paragraph:
+      - link "Referência PIX · Pichau · 20/10/2026, 22:06 UTC":
+        - /url: https://www.pichau.com.br/gabinete-gamer-cougar-mx230-argb-mid-tower-lateral-de-vidro-com-4-fans-preto-382pc80-0001
+    - 'button "Selecionar: COUGAR MX230 RGB Black"':
+      - text: Selecionar
+    - button "Lojas para COUGAR MX230 RGB Black":
+      - text: Lojas
+    - button "Detalhes de COUGAR MX230 RGB Black": Detalhes
+    - 'button "Comparar: COUGAR MX230 RGB Black"': Comparar
+  - article:
+    - generic: Gabinete
+    - figure:
+      - img "Imagem de produto DeepCool CC310 Black"
+    - heading "DeepCool CC310 Black" [level=3]
+    - paragraph: DeepCool
+    - term: Formatos suportados
+    - definition: mATX, ITX
+    - term: Comprimento máximo de GPU
+    - definition: 280 mm
+    - paragraph: mATX compacto econômico
+    - strong: R$ 219,99
+    - paragraph:
+      - link "Referência PIX · Pichau · 20/10/2026, 22:04 UTC":
+        - /url: https://www.pichau.com.br/gabinete-office-deepcool-cc310-mid-tower-preto-r-cc310-bknnm0-g
+    - 'button "Selecionado: DeepCool CC310 Black" [pressed]':
+      - text: Selecionado
+    - button "Lojas para DeepCool CC310 Black":
+      - text: Lojas
+    - button "Detalhes de DeepCool CC310 Black": Detalhes
+    - 'button "Comparar: DeepCool CC310 Black"': Comparar
+  - article:
+    - generic: Gabinete
+    - figure:
+      - img "Gabinete Gamer Montech X2 Plus, Vidro Temperado, Mid Tower, ATX, Com 3 Fans ARGB, Branco"
+    - heading "Montech X2 Plus White" [level=3]
+    - paragraph: Montech
+    - term: Formatos suportados
+    - definition: ATX, mATX, ITX
+    - term: Comprimento máximo de GPU
+    - definition: 305 mm
+    - paragraph: ATX mesh abaixo de R$ 250
+    - strong: R$ 239,90
+    - paragraph:
+      - link "Referência PIX · Terabyte · 21/10/2026, 00:42 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/39700/gabinete-gamer-montech-x2-plus-vidro-temperado-mid-tower-atx-com-3-fans-argb-branco
+    - 'button "Selecionar: Montech X2 Plus White"':
+      - text: Selecionar
+    - button "Lojas para Montech X2 Plus White":
+      - text: Lojas
+    - button "Detalhes de Montech X2 Plus White": Detalhes
+    - 'button "Comparar: Montech X2 Plus White"': Comparar
+  - article:
+    - generic: Gabinete
+    - figure:
+      - img "Gabinete Gamer Montech XR, Mid Tower, White, ATX, Com 3 Fans, Vidro Temperado, XR (W)"
+    - heading "Montech XR White" [level=3]
+    - paragraph: Montech
+    - term: Formatos suportados
+    - definition: ATX, mATX, ITX
+    - term: Comprimento máximo de GPU
+    - definition: 420 mm
+    - paragraph: ATX panorâmico até R$ 300
+    - strong: R$ 299,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 21/10/2026, 00:41 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/29263/gabinete-gamer-montech-xr-mid-tower-white-atx-com-3-fans-vidro-temperado-xr-w
+    - 'button "Selecionar: Montech XR White"':
+      - text: Selecionar
+    - button "Lojas para Montech XR White":
+      - text: Lojas
+    - button "Detalhes de Montech XR White": Detalhes
+    - 'button "Comparar: Montech XR White" [active]': Comparar
+  - generic "Sobre os índices e filtros"
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

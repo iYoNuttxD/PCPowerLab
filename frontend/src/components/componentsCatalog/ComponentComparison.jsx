@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import MotherboardGuide from './MotherboardGuide.jsx';
 import { verifiedFeatureFields, formatVerifiedFeature } from '../../utils/verifiedFeaturesPresentation.js';
 import ReferencePriceNote from '../build/ReferencePriceNote.jsx';
 import ComponentImage from './ComponentImage.jsx';
@@ -9,13 +11,14 @@ import { formatSpecValue, specKeys, specLabel, catalogPerformanceScore, componen
 import { catalogMethodology, formatCatalogScore, isCatalogComponentSelected } from '../../utils/catalogSelection.js';
 
 export default function ComponentComparison({ components, onRemove, onSelect, selectedComponents = {} }) {
+  const [technical, setTechnical] = useState(false);
   if (components.length < 2) return <p>Selecione pelo menos duas peças da mesma categoria.</p>;
   if (components.some(component => component.category !== components[0].category)) return <p role="alert">Compare somente peças da mesma categoria.</p>;
   const rows = [
     ['Marca', components.map(component => component.brand || 'Não informado')],
     ['Modelo / código', components.map(component => component.partNumber || 'Não informado')],
     ['Preço de referência', components.map(component => formatCurrency(component.price))],
-    ...specKeys(components).map(key => [specLabel(key), components.map(component => formatSpecValue(key, component.specs?.[key]))]),
+    ...specKeys(components).filter(key => technical || (['socket', 'memoryType', 'formFactor', 'chipset', 'cores', 'threads', 'vramGb', 'capacityGb', 'watts', 'efficiency', 'interface', 'coolingType', 'heightMm', 'maxGpuLengthMm', 'supportedFormFactors', 'recommendedPsuWatts', 'diameterMm', 'connector', 'speedMhz', 'readSpeedMbS', 'writeSpeedMbS'].includes(key))).map(key => [specLabel(key), components.map(component => formatSpecValue(key, component.specs?.[key]))]),
     ...(components.some(component => component.verifiedFeatures) ? Object.entries(verifiedFeatureFields).map(([key, label]) => [label, components.map(component => formatVerifiedFeature(key, component.verifiedFeatures?.fields?.[key]))]) : []),
     ['Pontuação de desempenho (0–100)', components.map(component => formatCatalogScore(catalogPerformanceScore(component)))],
     ...(components.some(component => catalogPerformanceScore(component) !== null)
@@ -28,6 +31,8 @@ export default function ComponentComparison({ components, onRemove, onSelect, se
       <p>Compare especificações e preços. A compatibilidade com sua montagem é verificada no resumo.</p>
       <p className="hint-text">“Diferença” destaca o que muda entre as peças. Dados ausentes aparecem como “Não informado”.</p>
       <details><summary>Metodologia e limites dos índices</summary><p>{catalogMethodology}</p></details>
+      <Button variant="secondary" aria-pressed={technical} onClick={() => setTechnical(value => !value)}>{technical ? 'Mostrar recursos essenciais' : 'Mostrar todas as especificações'}</Button>
+      {components[0].category === 'motherboard' && <details className="task-disclosure"><summary>Mesmo chipset: como escolher entre os modelos?</summary>{components.map(component => <div key={component.id}><h3>{component.name}</h3><MotherboardGuide component={component} /></div>)}</details>}
       <p className="comparison-scroll-hint">Deslize a tabela para os lados para ver todas as peças. Pelo teclado, foque a tabela e use as setas.</p>
       <div className="analysis-table-scroll" role="region" aria-label="Tabela de comparação de peças" tabIndex={0}>
         <table className="analysis-table component-comparison-table">

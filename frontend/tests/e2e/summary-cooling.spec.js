@@ -24,25 +24,31 @@ test('review opens Summary cooling charts with focused target and retained scena
   await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
   await page.getByRole('link', { name: 'Ver temperatura e ruído', exact: true }).click();
   await expect(page).toHaveURL(/\/summary#cooling-simulation$/);
-  const section = page.locator('#cooling-simulation');
-  await expect(section).toBeFocused();
+  const section = page.getByRole('dialog', { name: 'Temperatura e ruído', exact: true });
+  await expect(section.getByRole('button', { name: 'Fechar', exact: true })).toBeFocused();
   await expect(section.locator('.cooling-temperature-chart')).toBeVisible();
   await expect(section.getByText('Simulação aproximada', { exact: true })).toBeVisible();
-  await expect.poll(async () => {
-    const box = await section.boundingBox();
-    const header = await page.locator('.topbar').boundingBox();
-    return box.y >= header.y + header.height;
-  }).toBe(true);
   await section.locator('.cooling-simulation-controls > summary').click();
   await section.getByLabel('Ar na entrada do cooler (°C)', { exact: true }).fill('30');
   await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)).coolingConditions.inletCelsius, storageKey)).toBe(30);
   await page.reload();
-  await expect(section).toBeFocused();
+  await expect(section.getByRole('button', { name: 'Fechar', exact: true })).toBeFocused();
   await section.locator('.cooling-simulation-controls > summary').click();
   await expect(section.getByLabel('Ar na entrada do cooler (°C)', { exact: true })).toHaveValue('30');
   const state = await page.evaluate(key => JSON.parse(localStorage.getItem(key)), storageKey);
   expect(state.selectedComponents.cooler.id).toBe(selectedComponents.cooler.id);
   expect(state.selectedComponents.fans).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(section).toHaveCount(0);
+  const opener = page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true });
+  await opener.click();
+  await expect(section).toBeVisible();
+  await page.keyboard.press('Shift+Tab');
+  await expect(section.locator('.cooling-simulation-method > summary')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(section.getByRole('button', { name: 'Fechar', exact: true })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(opener).toBeFocused();
 });
 
 test('cooling selection uses product cards and exposes no simulator before Summary', async ({ page }) => {

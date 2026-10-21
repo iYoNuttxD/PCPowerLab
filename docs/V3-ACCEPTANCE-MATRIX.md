@@ -70,3 +70,22 @@ Esta matriz separa implementação, validação automatizada e evidência que de
 305 E2E aprovados, 1 skip esperado, 18 integrações aprovadas e 1.030 testes Node aprovados. Lints, build, 17 verificadores, 64 contrastes e 88 imagens aprovados. A execução E2E final terminou em 21/10/2026 UTC, ainda 20/10 no fuso do usuário. Logs, resultados, rastreabilidade dos relatos e limites estão em [V3-MAC-BROWSER-VALIDATION.md](V3-MAC-BROWSER-VALIDATION.md).
 
 O resumo com GPU sem calibração conservou sete peças, orçamento, compatibilidade parcial e lojas. Troca de RAM R$ 5.759,75 → R$ 4.979,75, preservação das outras seis peças, recálculo, desfazer e retorno ao total original foram observados na API e no navegador. Configuração de teste do agente; não é a configuração original do participante.
+
+
+## Complementação funcional após nova leitura — 21/10/2026
+
+O [relatório com 67 sinais e células exatas](V3-FEEDBACK-FOLLOWUP.md) substitui a impressão de cobertura total da revisão anterior. Avaliações subjetivas continuam parciais ou não comprovadas; testes não medem satisfação. Os registros anteriores são históricos.
+
+| Fala / lacuna | Mudança funcional atual | Evidência / limite |
+|---|---|---|
+| H7, R2/R3/R7/R9: listas e pesquisa | Tokens, recursos Wi-Fi/M.2, categorias contadas, faixas e lista compacta com fotos | Wi-Fi 0 → 3 no navegador; nomes e controles em 320/390 px. Eficiência humana ainda não medida. |
+| H4, AD4: pop-up temperatura/ruído | Diálogo acessível real no resumo e laboratório; cenário persistido; link de seleção do cooler | Escape/retorno, Tab/Shift+Tab, recarga, celular e zoom nativo 200%. Corrigidos controles escondidos de details na armadilha de foco. |
+| H4, V7: recomendação | RAM mínima 8 GB estudo/geral e 16 GB demais, editável; limites antes de aplicar; cooler pendente mantido mediante opção explícita | Programação R$6.000 → 16 GB + cooler por R$5.839,83. Compatibilidade completa continua pendente; conflitos confirmados não são aceitos. |
+| AB7: mesmo chipset | Guia leigo de rede, M.2, RAM, USB-C e atualização de BIOS; comparação essencial/progressiva | B650 D3HP versus Gaming X AX V2 observado. Não se deduz qualidade de VRM ou BIOS instalada. |
+| H10, AD7, AD8: escolhas úteis | Ryzen4500, RX550 PCYES, RX7600 Pro, gabinetes X2 Plus/XR com ofertas exatas datadas | 88 → 93 ativos; CPU entrada, GPU básica/intermediária, mesh/panorâmico. Não cobre todas as faixas; sem FPS/score inventado. |
+| AB10: identidade visual | Home com composição ciano/magenta/verde e hierarquia 01–03, acentos no catálogo/resumo | Inspecionado em notebook e monitor grande. Aceitação estética humana não medida. |
+| F10: cinco saídas bloqueadas | Resumo mantém custo/peças, pendências, texto final e lojas independentemente dos modelos ausentes | Troca RTX3060 → RX550: R$5.839,83 → R$4.059,74; recarga e desfazer preservam as demais peças. Configuração do agente, não a original. |
+
+**Estado final validado:** 1.040 Node, 309 E2E + 1 skip esperado e 18 integrações aprovados; zero falhas na rodada final E2E. Lints/build aprovados, 17 verificadores aprovados após atualização de três contratos, 64 contrastes de tokens e 93 imagens. Há histórico de timeout de comparação: 3/3 retestes isolados e rodada integral final passaram; o histórico não foi apagado. Build conserva aviso de chunk >500 kB. [Resultados e logs](evidence/v3-feedback-followup/results.json).
+
+Sem ciclo 3 humano, meta de 90%, leitor de tela/cores forçadas ou reprodução da configuração original. Calibração, BIOS/cooler/ReBAR e arquitetura sem GPU dedicada permanecem limitações explícitas. Publicação só na branch/PR em rascunho, sem merge/deploy.

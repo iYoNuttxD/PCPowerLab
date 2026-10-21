@@ -105,3 +105,12 @@ Todas essas recomendações retornam compatibilidade verificada no escopo das se
 - Escolhas manuais técnicas e explicações de exclusão são úteis, mas não substituem a calibração ausente. A expansão está concluída como pesquisa/identidade/preço/ficha e melhora real do caminho de entrada; a expansão de cobertura de simulação permanece uma dependência externa, não declarada concluída.
 
 Validação adicional: `tests/v3-catalog-evidence.test.js` fixa a preservação das 81 identidades/imagens/preços originais com hashes e exercita estudo/jogos/trabalho nas faixas R$3k,4k,4,5k,5k,7k,10k,15k; `tests/v3-slot-power-rebar.test.js` cobre conector explicitamente ausente, invalidação e requisitos Arc sem relaxar desconhecidos. A auditoria de imagens confirmou 88/88 ativos verificados, sem órfãos ou duplicatas suspeitas. Os 79 históricos inativos continuam preservados.
+
+
+## Complementação de escolhas por função — 21/10/2026
+
+[Cinco entradas verificadas, ofertas e limites](V3-FEEDBACK-FOLLOWUP.md#catálogo-por-função-e-fonte): Ryzen 5 4500 Box (R$545,29), PCYES RX550 Edge 4 GB (R$619,90, tarefas leves), ASRock RX7600 Challenger Pro 8 GB OC (R$1.959,99), Montech X2 Plus White (R$239,90, mesh) e XR White (R$299,99, panorâmico). Compra habilitada observada nas páginas exatas; preços/estoques são pontuais, sem frete. Catálogo: 93 ativos, 13 CPUs/13 GPUs/6 gabinetes. Dados em `catalog.feedback.json`, referências por identidade em `dated-price-references.json`, imagens e limites em `component-verified-images.json`.
+
+Não há calibração dos três novos CPU/GPU desta rodada nem dos cinco anteriores. A RX550 tem dimensões/energia incompletas, explicitamente pendentes. O 4500 exige confirmação de BIOS; foto de família regional é identificada como tal. Fotos públicas não concedem licença aberta nem autorização específica não estabelecida.
+
+A tabela de faixas acima é histórica: a nova política exige 16 GB nos perfis fora de estudo/geral, salvo ajuste explícito do usuário. Não reproduzir os totais antigos como resultados atuais universais. Programação a R$6.000 com Pure Rock 3 preservado gerou 16 GB/R$5.839,83; pendência física do cooler permanece. Estudo a R$4.500 com cooler gerou R$4.499,83, com aviso de ausência de FPS antes de aplicar. Nenhuma dessas referências garante desempenho medido, preço futuro ou compra pronta. Montagens sem GPU dedicada continuam fora da arquitetura.

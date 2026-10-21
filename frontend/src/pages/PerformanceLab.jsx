@@ -1,4 +1,4 @@
-import CoolingSimulationPanel from '../components/build/CoolingSimulationPanel.jsx';
+import CoolingExplorer from '../components/build/CoolingExplorer.jsx';
 import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
 import { performanceScoreLabel } from '../utils/performanceMethodology.js';
 import { useEffect, useState } from 'react';
@@ -178,9 +178,7 @@ export default function PerformanceLab() {
         </Card>
       )}</TaskPanel>
       <TaskPanel id="performance-tasks" value="cooling" active={task === 'cooling'}>{task === 'cooling' && (
-        <CoolingSimulationPanel cpu={build.selectedComponents.cpu} cooler={build.selectedComponents.cooler}
-          fans={build.selectedComponents.fans || []} caseComponent={build.selectedComponents.case}
-          conditions={build.coolingConditions} onConditionsChange={build.actions.setCoolingConditions} />
+        <CoolingExplorer build={build} />
       )}</TaskPanel>
     </div>
   );

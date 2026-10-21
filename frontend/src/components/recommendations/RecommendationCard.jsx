@@ -35,6 +35,14 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
       <p className="hint-text">{recommendation.usageType && `Perfil: ${usageLabels[recommendation.usageType] || recommendation.usageType}. `}{recommendation.priority && `Prioridade: ${priorityLabels[recommendation.priority] || recommendation.priority}. `}{recommendation.requestedBudget && `Limite informado: ${formatCurrency(recommendation.requestedBudget.amount)}.`}</p>
       {recommendation.compatibilityStatus === 'compatible' && <p className="hint-text">Compatibilidade verificada pelas regras do catálogo. Confirme os detalhes de montagem e os preços antes de comprar.</p>}
       {Array.isArray(recommendation.warnings) && recommendation.warnings.length > 0 && <Alert type="warning" title="Pontos de atenção"><ul>{recommendation.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
+      {recommendation.simulationAvailability?.available === false && <Alert type="warning" title="FPS e gargalos indisponíveis nesta sugestão">
+        <p>Uma ou mais peças ainda não têm modelo calibrado para simulação. Você pode consultar especificações, compatibilidade e lojas. Aplicar esta sugestão não habilita estimativas de desempenho.</p>
+      </Alert>}
+      {recommendation.memoryRequirement && <p className="hint-text">Memória selecionada: {suggested.ram?.specs?.capacityGb} GB. {recommendation.memoryRequirement.policy} Confira os requisitos dos seus jogos e programas no resumo.</p>}
+      {recommendation.compatibilityStatus === 'unverified' && <Alert type="warning" title="Verificações de refrigeração pendentes">
+        <p>As peças principais passaram pelas regras verificadas. A montagem completa ainda não está confirmada; confira estes pontos antes de comprar.</p>
+        <ul>{recommendation.unverifiedChecks?.map((check, index) => <li key={`${check.code}-${index}`}>{check.message}</li>)}</ul>
+      </Alert>}
       <CoolingAssessmentNotice result={recommendation} />
       {hasSimulatedPerformance(recommendation) && <p className="hint-text">Sugestão com pontuações simuladas</p>}
       <ul className="build-parts-list">

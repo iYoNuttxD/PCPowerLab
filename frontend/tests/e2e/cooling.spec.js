@@ -40,6 +40,7 @@ async function expectSelectionOnly(page) {
 async function thermalTask(page) {
   await page.goto('/performance-lab');
   await category(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
 }
 
 test.beforeEach(async ({ page }) => {
@@ -249,6 +250,7 @@ test('Performance Lab preserves scenario settings and extra fans never change CP
   await expect.poll(() => chart.innerText()).not.toBe(before);
   await page.reload();
   await category(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
   await page.locator('.cooling-simulation-controls summary').click();
   await expect(page.getByRole('spinbutton', { name: 'Ar na entrada do cooler (°C)', exact: true })).toHaveValue('30');
   expect((await stored(page)).selectedComponents.fans.map(item => ({ id: item.id, quantity: item.quantity }))).toEqual([{ id: fan.id, quantity: 1 }]);

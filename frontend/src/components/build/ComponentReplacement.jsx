@@ -88,7 +88,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
         <p className="analysis-note">Escolha uma alternativa para comparar custo, desempenho estimado e consumo antes e depois. Verifique a montagem antes de aplicar. Os valores são estimados, sem cotação em tempo real.</p>
         {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0 || type === 'cooler') && <p className="hint-text">Cooler e ventoinhas selecionados entram na verificação. Dados ausentes de encaixe, espaço ou consumo serão indicados como não verificados.</p>}
         {loading ? <LoadingSpinner label="Carregando alternativas..." /> : error ? <ErrorState message={error} onRetry={reload} /> : <>
-          <details className="analysis-help" open={!initialComponent}><summary>Filtrar outras alternativas</summary><ComponentFilters components={components} filters={filters} fixedCategory={type} onChange={setFilters} /></details>
+          <details className="analysis-help" open={!initialComponent}><summary>Filtrar outras alternativas</summary><ComponentFilters showLayout={false} components={components} filters={filters} fixedCategory={type} onChange={setFilters} /></details>
           <fieldset className="replacement-options">
             <legend>Nova peça</legend>
             {options.map(component => <label key={component.id} className="replacement-option">

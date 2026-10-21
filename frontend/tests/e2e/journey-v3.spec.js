@@ -81,6 +81,7 @@ test('search, keyboard details and step changes preserve completed analysis', as
   await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', { name: selected.cpu.name, exact: true });
   await expect(dialog).toBeVisible();
+  await dialog.getByText('Todas as especificações técnicas', { exact: true }).click();
   await expect(dialog.locator('dt').filter({ hasText: /^Threads$/ })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(detail).toBeFocused();

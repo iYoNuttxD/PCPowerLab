@@ -20,13 +20,15 @@ const navGroups = [
 ];
 
 export default function AppLayout({ children }) {
-  const { pathname, key: locationKey } = useLocation();
+  const { pathname, hash, key: locationKey } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState(null);
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const mainRef = useRef(null);
   const previousLocation = useRef(locationKey);
+  const previousPathname = useRef(pathname);
+  const previousHash = useRef(hash);
 
   function closeMenu() {
     setMenuOpen(false);
@@ -40,11 +42,17 @@ export default function AppLayout({ children }) {
     previousLocation.current = locationKey;
     setMenuOpen(false);
     setOpenGroup(null);
+    const routeChanged = previousPathname.current !== pathname;
+    previousPathname.current = pathname;
+    const hashChanged = previousHash.current !== hash;
+    previousHash.current = hash;
+    // A dialog hash is local page state. Preserve its native focus return.
+    if (!routeChanged && hashChanged) return;
     const heading = mainRef.current?.querySelector('h1');
     heading?.setAttribute('tabindex', '-1');
     (heading || mainRef.current)?.focus({ preventScroll: true });
     window.scrollTo(0, 0);
-  }, [locationKey]);
+  }, [locationKey, pathname, hash]);
 
   useEffect(() => {
     const compactNavigation = window.matchMedia('(max-width: 1040px)');

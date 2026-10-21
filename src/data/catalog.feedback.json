@@ -1,0 +1,205 @@
+[
+  {
+    "id": "cpu-ryzen-5-4500-box",
+    "name": "AMD Ryzen 5 4500 Box",
+    "category": "cpu",
+    "brand": "AMD",
+    "partNumber": "100-100000644BOX",
+    "specSourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-4000-series/amd-ryzen-5-4500.html",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-feedback-followup",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "Entrada AM4 abaixo de R$ 600",
+    "selectionNotes": [
+      "Zen 2, 6 núcleos e 12 threads; compare recursos e preço com o Ryzen 5 5500. Não há ganho de desempenho inferido.",
+      "Inclui Wraith Stealth. Exige placa de vídeo dedicada; versão de BIOS deve ser confirmada no modelo exato da placa-mãe."
+    ],
+    "specs": {
+      "socket": "AM4",
+      "cores": 6,
+      "threads": 12,
+      "baseClockGhz": 3.6,
+      "boostClockGhz": 4.1,
+      "tdpWatts": 65,
+      "memoryTypes": [
+        "DDR4"
+      ],
+      "maxMemoryGb": 128,
+      "includesCpuCooler": true
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis."
+  },
+  {
+    "id": "gpu-pcyes-rx-550-edge-4gb",
+    "name": "PCYES Radeon RX 550 Edge Dual Fan 4GB",
+    "category": "gpu",
+    "brand": "PCYES",
+    "partNumber": "PVEX5504GBDF",
+    "specSourceUrl": "https://www.pcyes.com.br/placa-de-video-gpu-amd-radeon-rx-550-4gb-gddr5-128bit-edge-dual-fan-pvex5504gbdf-202279",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-feedback-followup",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "Vídeo básico abaixo de R$ 1.000",
+    "selectionNotes": [
+      "Opção de entrada para vídeo e tarefas leves; não é uma promessa de adequação a jogos atuais. Confira os requisitos do aplicativo.",
+      "Dimensões, consumo e alimentação auxiliar ainda não confirmados no material atual do fabricante. Compatibilidade física/elétrica permanece pendente; não inferida de outra RX 550."
+    ],
+    "specs": {
+      "vramGb": 4,
+      "memoryType": "GDDR5",
+      "memoryBusBits": 128,
+      "tdpWatts": null,
+      "lengthMm": null,
+      "recommendedPsuWatts": null,
+      "powerConnectors": null
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis."
+  },
+  {
+    "id": "gpu-asrock-rx-7600-challenger-pro-8gb",
+    "name": "ASRock Radeon RX 7600 Challenger Pro 8GB OC",
+    "category": "gpu",
+    "brand": "ASRock",
+    "partNumber": "90-GA62ZZ-00UANF",
+    "specSourceUrl": "https://www.asrock.com/Graphics-Card/AMD/Radeon%20RX%207600%20Challenger%20Pro%208GB%20OC/index.asp",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-feedback-followup",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "Alternativa de 8 GB entre R$ 1.500 e R$ 2.500",
+    "selectionNotes": [
+      "Modelo de três ventoinhas, 8 GB GDDR6 e uma alimentação PCIe de 8 pinos confirmados pelo fabricante. Não confundir com Challenger de duas ventoinhas.",
+      "Comprimento de 303 mm e fonte recomendada de 550 W publicados pelo fabricante. TDP do modelo não confirmado. Não há FPS ou desempenho relativo inferido."
+    ],
+    "specs": {
+      "vramGb": 8,
+      "memoryType": "GDDR6",
+      "memoryBusBits": 128,
+      "tdpWatts": null,
+      "lengthMm": 303,
+      "recommendedPsuWatts": 550,
+      "powerConnectors": [
+        {
+          "type": "pcie-8pin",
+          "count": 1
+        }
+      ]
+    },
+    "performanceModelStatus": "unavailable",
+    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis."
+  },
+  {
+    "id": "case-montech-x2-plus-white",
+    "name": "Montech X2 Plus White",
+    "category": "case",
+    "brand": "Montech",
+    "partNumber": "X2 PLUS (W)",
+    "specSourceUrl": "https://www.montechpc.com/x2-plus",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-feedback-followup",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "ATX mesh abaixo de R$ 250",
+    "selectionNotes": [
+      "Frente mesh, duas ventoinhas de 140 mm e uma de 120 mm incluídas; USB-C frontal depende do conector da placa-mãe.",
+      "Layout de ventoinhas por diâmetro é alternativo, não somável. Ruído e espessura dos fans não confirmados."
+    ],
+    "specs": {
+      "supportedFormFactors": [
+        "ATX",
+        "mATX",
+        "ITX"
+      ],
+      "supportedPsuFormFactors": [
+        "ATX"
+      ],
+      "maxFanThicknessMm": null,
+      "maxRadiatorThicknessMm": null,
+      "includedFanCount": 3,
+      "includedFanPwm": null,
+      "maxGpuLengthMm": 305,
+      "maxCoolerHeightMm": 160,
+      "maxPsuLengthMm": 160,
+      "radiatorSizesMm": [
+        120,
+        240
+      ],
+      "fanMounts": [
+        {
+          "diameterMm": 120,
+          "capacity": 5
+        },
+        {
+          "diameterMm": 140,
+          "capacity": 4
+        }
+      ],
+      "coolingSupportNotes": "Frente 2×140; topo 2×120 ou 2×140; base sobre fonte 2×120; traseira 1×120. Radiador até 240 no topo ou 120 atrás; confirmar interferências no manual."
+    }
+  },
+  {
+    "id": "case-montech-xr-white",
+    "name": "Montech XR White",
+    "category": "case",
+    "brand": "Montech",
+    "partNumber": "XR (W)",
+    "specSourceUrl": "https://www.montechpc.com/xr",
+    "specVerifiedAt": "2026-10-21",
+    "catalogRevision": "2026-10-21-feedback-followup",
+    "active": true,
+    "price": null,
+    "priceCurrency": "BRL",
+    "priceKind": "unavailable",
+    "budgetTier": "ATX panorâmico até R$ 300",
+    "selectionNotes": [
+      "Vidro panorâmico; 3 ventoinhas PWM ARGB incluídas, duas laterais de pás reversas e uma traseira.",
+      "Aceita placas maiores que o X2 Plus nos limites publicados; não significa melhor temperatura ou menor ruído. USB-C frontal depende da placa-mãe."
+    ],
+    "specs": {
+      "supportedFormFactors": [
+        "ATX",
+        "mATX",
+        "ITX"
+      ],
+      "supportedPsuFormFactors": [
+        "ATX"
+      ],
+      "maxFanThicknessMm": null,
+      "maxRadiatorThicknessMm": null,
+      "includedFanCount": 3,
+      "includedFanPwm": true,
+      "maxGpuLengthMm": 420,
+      "maxCoolerHeightMm": 175,
+      "maxPsuLengthMm": 230,
+      "radiatorSizesMm": [
+        120,
+        140,
+        240,
+        360
+      ],
+      "fanMounts": [
+        {
+          "diameterMm": 120,
+          "capacity": 9
+        },
+        {
+          "diameterMm": 140,
+          "capacity": 3
+        }
+      ],
+      "coolingSupportNotes": "Topo 3×120 ou 2×140; lateral 2×120; base sobre fonte 3×120; traseira 1×120 ou 1×140. Radiador até 360 no topo. Verificar interferências no manual."
+    }
+  }
+]

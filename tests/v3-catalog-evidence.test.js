@@ -23,7 +23,7 @@ const payload = { build: newBuild, usageType: 'gaming', budget: { amount: 20000,
 test('V3 adds seven priced photographed choices across real budget/use gaps, not obsolete candidates', () => {
   assert.equal(catalogV3.length, 7);
   assert.deepEqual(Object.fromEntries(['cpu', 'gpu', 'case'].map(category => [category, catalogV3.filter(c => c.category === category).length])), { cpu: 2, gpu: 3, case: 2 });
-  assert.equal(components.filter(c => c.active !== false).length, 88);
+  assert.equal(components.filter(c => c.active !== false).length, 93);
   assert.equal(components.filter(c => c.active === false).length, 79);
   for (const entry of catalogV3) {
     const c = byId(entry.id), reference = getDatedReference(c);
@@ -155,7 +155,8 @@ for (const usageType of ['study', 'gaming', 'work']) {
     [5000, 4589.75, 'ssd-kingston-nv3-500gb']
   ]) test(`real entry recommendation works for ${usageType} at BRL ${amount} without relaxing unknowns`, () => {
     const result = recommendBuildByBudget({ budget: { amount, currency: 'BRL' }, usageType });
-    assert.equal(result.totalEstimatedPrice, expectedTotal);
+    assert.equal(result.totalEstimatedPrice, Number((expectedTotal + (usageType === 'study' ? 0 : 90.09)).toFixed(2)));
+    assert.ok(result.components.ram.specs.capacityGb >= (usageType === 'study' ? 8 : 16));
     assert.equal(result.components.gpu.id, 'gpu-msi-rtx-3050-lp-6g-oc');
     assert.equal(result.components.case.id, 'case-deepcool-cc310-black');
     assert.equal(result.components.storage.id, storageId);
@@ -194,7 +195,7 @@ for (const usageType of ['study', 'gaming', 'work']) {
 for (const usageType of ['study', 'gaming', 'work']) test(`premium ${usageType} budget respects explicit performance versus price priority`, () => {
   const cheapest = recommendBuildByBudget({ budget: { amount: 15000, priority: 'lowest-price' }, usageType });
   const performance = recommendBuildByBudget({ budget: { amount: 15000, priority: 'performance' }, usageType });
-  assert.equal(cheapest.totalEstimatedPrice, 4339.84);
+  assert.equal(cheapest.totalEstimatedPrice, usageType === 'study' ? 4339.84 : 4429.93);
   assert.ok(performance.totalEstimatedPrice > cheapest.totalEstimatedPrice);
   assert.ok(performance.totalEstimatedPrice <= 15000);
   assert.equal(performance.compatibilityStatus, 'compatible');

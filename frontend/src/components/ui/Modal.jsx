@@ -28,7 +28,15 @@ export default function Modal({ open, title, children, onClose, className = '', 
       onKeyDown={(event) => {
         if (event.key !== 'Tab') return;
         const controls = [...event.currentTarget.querySelectorAll('a[href], button, input, select, textarea, summary, [tabindex]')]
-          .filter((element) => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length > 0);
+          .filter((element) => {
+            if (element.disabled || element.tabIndex < 0 || element.getClientRects().length === 0) return false;
+            // Chromium can report rectangles for controls in a closed details
+            // element. Its summary is focusable; its collapsed contents are not.
+            for (let parent = element.parentElement; parent && parent !== event.currentTarget; parent = parent.parentElement) {
+              if (parent.tagName === 'DETAILS' && !parent.open && !parent.querySelector(':scope > summary')?.contains(element)) return false;
+            }
+            return true;
+          });
         if (controls.length === 0) {
           event.preventDefault(); event.currentTarget.focus(); return;
         }

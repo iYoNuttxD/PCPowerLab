@@ -1,0 +1,51 @@
+
+> pcpowerlab-frontend@0.1.0 test:integration
+> npm run build && playwright test --config=playwright.integration.config.js
+
+
+> pcpowerlab-frontend@0.1.0 build
+> vite build
+
+vite v7.3.3 building client environment for production...
+transforming...
+✓ 2486 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.56 kB │ gzip:   0.36 kB
+dist/assets/index-3N8RRb36.css     79.68 kB │ gzip:  14.04 kB
+dist/assets/index-DAu9uZml.js   1,021.12 kB │ gzip: 302.14 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 7.41s
+
+Running 18 tests using 1 worker
+
+(node:88528) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.5s)
+  ✓   2 [desktop] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.5s)
+  ✓   3 [desktop] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.9s)
+  ✓   4 [desktop] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.7s)
+  ✓   5 [desktop] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.2s)
+  ✓   6 [desktop] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (536ms)
+(node:88662) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [tablet] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.7s)
+  ✓   8 [tablet] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.6s)
+  ✓   9 [tablet] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.9s)
+  ✓  10 [tablet] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.8s)
+  ✓  11 [tablet] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.0s)
+  ✓  12 [tablet] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (492ms)
+(node:88749) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [mobile] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.4s)
+  ✓  14 [mobile] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.5s)
+  ✓  15 [mobile] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.8s)
+  ✓  16 [mobile] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.9s)
+  ✓  17 [mobile] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.2s)
+  ✓  18 [mobile] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (478ms)
+
+  18 passed (34.1s)

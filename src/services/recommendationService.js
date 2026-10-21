@@ -1,3 +1,4 @@
+import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
 import { isNonEmptyTextArray } from '../models/component.model.js';
@@ -40,7 +41,8 @@ export function recommendBuildsByBudgetRange(input) {
   const candidatesBySlot = buildCandidatesBySlot({
     usageType,
     priority,
-    performanceByComponentId
+    performanceByComponentId,
+    minimumMemoryGb: minimumMemoryFor(input, usageType)
   });
 
   validateCandidateAvailability(candidatesBySlot);
@@ -81,7 +83,8 @@ export function recommendBuildByBudget(input) {
   const candidatesBySlot = buildCandidatesBySlot({
     usageType,
     priority,
-    performanceByComponentId
+    performanceByComponentId,
+    minimumMemoryGb: minimumMemoryFor(input, usageType)
   });
 
   validateCandidateAvailability(candidatesBySlot);
@@ -92,20 +95,21 @@ export function recommendBuildByBudget(input) {
     budgetAmount: budget.amount,
     usageType,
     priority,
+    allowPendingCooling: input.allowPendingCooling === true,
     performanceByComponentId
   });
 
   if (!recommendation) {
     const error = new Error('Nao foi possivel gerar uma recomendacao completa dentro do orcamento informado.');
     error.statusCode = 422;
-    error.errors = ['Tente aumentar o orcamento ou cadastrar mais componentes compativeis na base.'];
+    error.errors = [`Não há conjunto completo verificado neste orçamento com pelo menos ${minimumMemoryFor(input, usageType)} GB de RAM. Ajuste o orçamento, o perfil ou o requisito de memória. Nenhuma peça foi alterada.`];
     throw error;
   }
 
   return recommendation;
 }
 
-function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }) {
+function buildCandidatesBySlot({ usageType, priority, performanceByComponentId, minimumMemoryGb }) {
   return requiredBuildSlots.reduce((candidatesBySlot, slot) => {
     const components = listComponents({ type: slot })
       .map((component) => enrichCandidate(component, {
@@ -115,6 +119,7 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }
         slot
       }))
       .filter((candidate) => candidate.estimatedPrice !== null)
+      .filter((candidate) => slot !== 'ram' || candidate.specs?.capacityGb >= minimumMemoryGb)
       .filter((candidate) => Number.isFinite(candidate.performanceScore)
         && candidate.performanceScore >= (['study', 'general'].includes(usageType) ? 0 : 40))
       .sort(compareCandidates(priority));
@@ -125,6 +130,7 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId }
       ...candidatesBySlot,
       [slot]: balancedCandidates.map(candidate => ({ ...candidate, recommendationMeta: {
         ...candidate.recommendationMeta,
+        minimumMemoryGb,
         categoryRank: components.findIndex(item => item.id === candidate.id) + 1,
         rankedCandidatesCount: components.length,
         shortlistedCandidatesCount: balancedCandidates.length
@@ -231,6 +237,7 @@ function findCompatibleBuildsByBudgetRange({
 }
 
 function findBestCompatibleBuild({
+  allowPendingCooling = false,
   optionalComponents,
   candidatesBySlot,
   budgetAmount,
@@ -254,7 +261,7 @@ function findBestCompatibleBuild({
 
       const compatibilityResult = evaluateResolvedBuildCompatibility(components);
 
-      if (!compatibilityResult.compatible) {
+      if (!canPresentRecommendation(components, compatibilityResult, allowPendingCooling)) {
         return;
       }
 
@@ -289,6 +296,18 @@ function findBestCompatibleBuild({
     priority,
     performanceByComponentId
   });
+}
+
+// A pending accessory check may coexist with a useful core proposal. Never
+// promote it to compatible or relax CPU/BIOS, electrical or physical conflicts.
+function canPresentRecommendation(components, result, allowPendingCooling) {
+  if (result.compatible) return true;
+  if (!allowPendingCooling || result.status !== 'unverified' || result.alerts.length
+    || result.coolingAssessment?.status !== 'unverified' || !result.unverifiedChecks.length) return false;
+  const pendingCoolingCodes = new Set(result.coolingAssessment.unverifiedChecks.map(check => check.code));
+  if (!result.unverifiedChecks.every(check => pendingCoolingCodes.has(check.code))) return false;
+  const core = Object.fromEntries(requiredBuildSlots.map(slot => [slot, components[slot]]));
+  return evaluateResolvedBuildCompatibility(core).compatible;
 }
 
 function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponents, onCombination, maxBudget = null }) {
@@ -434,6 +453,8 @@ function formatBudgetRangeRecommendation({
     priority,
     components,
     coolingAssessment: recommendation.compatibilityResult.coolingAssessment,
+    simulationAvailability: unavailablePerformance(components) || { available: true },
+    memoryRequirement: { minimumGb: recommendation.components.ram.recommendationMeta.minimumMemoryGb, policy: 'Requisito prático de seleção, não benchmark ou garantia para todos os aplicativos.' },
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
     budgetStatus: getBudgetStatus(recommendation.totalEstimatedPrice, budgetRange),
     requestedBudgetRange: { ...budgetRange, currency: 'BRL' },
@@ -457,6 +478,8 @@ function formatRecommendation({
   const warnings = buildWarnings(recommendation.components, recommendation.compatibilityResult.alerts);
 
   return {
+    simulationAvailability: unavailablePerformance(components) || { available: true },
+    memoryRequirement: { minimumGb: recommendation.components.ram.recommendationMeta.minimumMemoryGb, policy: 'Requisito prático de seleção, não benchmark ou garantia para todos os aplicativos.' },
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
     selectionExplanation: buildSelectionExplanation(recommendation, usageType, priority, performanceByComponentId, budgetAmount),
     ...performanceMetadata(recommendation.components, performanceByComponentId),
@@ -641,6 +664,11 @@ function validateCandidateAvailability(candidatesBySlot) {
 }
 
 function validateRecommendationPayload(input) {
+  if (input?.allowPendingCooling !== undefined && typeof input.allowPendingCooling !== 'boolean') {
+    const error = new Error('allowPendingCooling deve ser verdadeiro ou falso.');
+    error.statusCode = 400;
+    throw error;
+  }
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
     const error = new Error('Informe os dados para recomendacao.');
     error.statusCode = 400;
@@ -774,4 +802,14 @@ function validateRecommendationCurrency(currency) {
     error.statusCode = 400;
     throw error;
   }
+}
+
+function minimumMemoryFor(input, usageType) {
+  const value = input.requirements?.minMemoryGb;
+  if (value !== undefined && ![8, 16, 32, 64].includes(value)) {
+    const error = new Error('Escolha um requisito de memória de 8, 16, 32 ou 64 GB.');
+    error.statusCode = 400;
+    throw error;
+  }
+  return value ?? (['study', 'general'].includes(usageType) ? 8 : 16);
 }

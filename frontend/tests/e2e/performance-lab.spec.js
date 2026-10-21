@@ -375,15 +375,18 @@ test('thermal task keeps game result and persists scenario edits without resubmi
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
   await expect(singleRegion(page)).toBeVisible();
   await taskMode(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Temperatura e ruído', exact: true })).toBeVisible();
   await expect(page.getByText('Simulação aproximada', { exact: true })).toBeVisible();
   await page.locator('.cooling-simulation-controls > summary').click();
   await page.getByLabel('Ar na entrada do cooler (°C)', { exact: true }).fill('30');
   await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)).coolingConditions.inletCelsius, storageKey)).toBe(30);
+  await page.getByRole('dialog', { name: 'Temperatura e ruído', exact: true }).getByRole('button', { name: 'Fechar', exact: true }).click();
   await taskMode(page, 'Um jogo');
   await expect(singleRegion(page)).toBeVisible();
   expect(requests).toBe(1);
   await taskMode(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
   await page.locator('.cooling-simulation-controls > summary').click();
   await expect(page.getByLabel('Ar na entrada do cooler (°C)', { exact: true })).toHaveValue('30');
   await expect(page.getByRole('tabpanel')).toHaveCount(1);

@@ -29,6 +29,7 @@ try {
         export { default as React } from 'react';
         export { renderToStaticMarkup } from 'react-dom/server';
         export { MemoryRouter } from 'react-router-dom';
+        export { default as CoolingExplorer } from './src/components/build/CoolingExplorer.jsx';
         export { default as PerformanceLab } from './src/pages/PerformanceLab.jsx';
         export { default as BuildSummary } from './src/pages/BuildSummary.jsx';
         export { default as BuildWizard } from './src/pages/BuildWizard.jsx';
@@ -71,7 +72,7 @@ try {
       });
     }}]
   });
-  const { React, renderToStaticMarkup, MemoryRouter, PerformanceLab, BuildSummary, BuildWizard, CompareBuilds, useSimulationRequest } = await import(pathToFileURL(output).href);
+  const { React, renderToStaticMarkup, MemoryRouter, CoolingExplorer, PerformanceLab, BuildSummary, BuildWizard, CompareBuilds, useSimulationRequest } = await import(pathToFileURL(output).href);
   const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
   const catalog = Array.from({ length: 12 }, (_, index) => ({ id: `game-${index + 1}`, name: `Jogo ${index + 1}`, category: 'Ação', targetResolution: '1080p' }));
   const softwareCatalog = [1, 2].map(index => ({ id: `software-${index}`, name: `Programa ${index}`, category: 'Criação', description: `Descrição ${index}` }));
@@ -121,6 +122,15 @@ try {
     const checkboxes = all(page.render(), node => node.type === 'input' && node.props.type === 'checkbox');
     checkboxes.forEach((checkbox, index) => { if (checkbox.props.checked !== (index < count)) checkbox.props.onChange(); });
     return page.render();
+  }
+
+  function thermalPanel(tree) {
+    const explorer = named(tree, 'CoolingExplorer')[0];
+    verify(explorer, 'The page exposes the thermal explorer');
+    const controller = runtime(CoolingExplorer, () => explorer.props);
+    const result = named(controller.render(), 'CoolingSimulationPanel')[0];
+    controller.close();
+    return result;
   }
 
   // Commit-like hook scheduler. Effects run after a render, including cleanup,
@@ -405,7 +415,14 @@ try {
   const callsBeforeCooling = fixtures.calls.length;
   const revisionBeforeCooling = fixtures.build.revision;
   tree = setMode(page, 'cooling');
-  const coolingPanel = named(tree, 'CoolingSimulationPanel')[0];
+  const coolingPanel = thermalPanel(tree);
+  const popup = runtime(CoolingExplorer, () => named(tree, 'CoolingExplorer')[0].props);
+  equal(named(popup.render(), 'Modal')[0].props.open, false, 'Thermal details start closed');
+  button(popup.render(), 'Explorar temperatura e ruído').props.onClick();
+  equal(named(popup.render(), 'Modal')[0].props.open, true, 'Launcher opens the actual modal');
+  named(popup.render(), 'Modal')[0].props.onClose();
+  equal(named(popup.render(), 'Modal')[0].props.open, false, 'Close dismisses local explorer');
+  popup.close();
   verify(coolingPanel, 'Cooling task renders the actual simulator component');
   equal(coolingPanel.props.cpu, fixtures.build.selectedComponents.cpu);
   equal(coolingPanel.props.cooler, fixtures.build.selectedComponents.cooler);
@@ -413,13 +430,13 @@ try {
   equal(coolingPanel.props.caseComponent, fixtures.build.selectedComponents.case);
   coolingPanel.props.onConditionsChange({ inletCelsius: 30, coolerSpeedFraction: 0.75 });
   tree = page.render();
-  equal(named(tree, 'CoolingSimulationPanel')[0].props.conditions.inletCelsius, 30);
+  equal(thermalPanel(tree).props.conditions.inletCelsius, 30);
   equal(fixtures.build.revision, revisionBeforeCooling, 'A thermal what-if must not change the selected build revision');
   tree = setMode(page, 'single');
   equal(gameResults(tree)[0].props.result, gameBeforeCooling, 'Thermal settings do not invalidate unrelated game estimates');
   equal(fixtures.calls.length, callsBeforeCooling, 'Thermal task and condition edits make no API requests');
   tree = setMode(page, 'cooling');
-  equal(named(tree, 'CoolingSimulationPanel')[0].props.conditions.inletCelsius, 30);
+  equal(thermalPanel(tree).props.conditions.inletCelsius, 30);
   page.close();
   pass('Cooling task passes exact selected hardware and persists local what-if conditions without invalidating or resubmitting game analysis');
 
@@ -539,7 +556,7 @@ try {
   fixtures.build.coolingConditions = { inletCelsius: 27, coolerSpeedFraction: 0.75, fanSpeedFraction: 0.5 };
   fixtures.build.actions.setCoolingConditions = conditions => { fixtures.build = { ...fixtures.build, coolingConditions: conditions }; };
   page = await loadedPage(BuildSummary); tree = page.render();
-  const summaryCoolingPanels = named(tree, 'CoolingSimulationPanel');
+  const summaryCoolingPanels = [thermalPanel(tree)];
   equal(summaryCoolingPanels.length, 1, 'Summary renders exactly one real thermal simulator');
   const summaryCooling = summaryCoolingPanels[0];
   for (const [prop, slot] of [['cpu', 'cpu'], ['cooler', 'cooler'], ['fans', 'fans'], ['caseComponent', 'case']]) {
@@ -547,16 +564,17 @@ try {
   }
   verify(summaryCooling.props.conditions === fixtures.build.coolingConditions, 'Summary passes the persisted scenario unchanged');
   verify(summaryCooling.props.onConditionsChange === fixtures.build.actions.setCoolingConditions, 'Summary uses the shared conditions action');
-  const summaryCoolingSection = all(tree, node => node.props?.id === 'cooling-simulation');
-  equal(summaryCoolingSection.length, 1);
-  equal(summaryCoolingSection[0].props.tabIndex, -1);
-  equal(named(summaryCoolingSection[0], 'CoolingSimulationPanel').length, 1, 'Thermal anchor wraps the actual simulator');
+  const summaryExplorer = named(tree, 'CoolingExplorer')[0];
+  equal(summaryExplorer.props.open, false, 'Summary thermal dialog starts closed without its hash');
+  fixtures.location = { ...fixtures.location, hash: '#cooling-simulation' };
+  tree = page.render();
+  equal(named(tree, 'CoolingExplorer')[0].props.open, true, 'Deep link opens the controlled thermal dialog');
   const summaryCallsBeforeThermal = structuredClone(fixtures.calls);
   equal(summaryCallsBeforeThermal, [{ name: 'purchaseLinks', payload: { components: fixtures.build.buildPayload } }], 'Mount independently looks up exactly the selected parts and cooling');
   const nextSummaryConditions = { ...fixtures.build.coolingConditions, inletCelsius: 30 };
   summaryCooling.props.onConditionsChange(nextSummaryConditions);
   tree = page.render();
-  verify(named(tree, 'CoolingSimulationPanel')[0].props.conditions === nextSummaryConditions);
+  verify(thermalPanel(tree).props.conditions === nextSummaryConditions);
   equal(fixtures.calls, summaryCallsBeforeThermal, 'Editing a Summary thermal scenario sends no analysis requests and does not refetch stores');
   page.close();
   pass('BuildSummary renders one anchored thermal simulator with the exact selected hardware, persisted conditions and shared conditions action');

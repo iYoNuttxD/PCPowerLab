@@ -25,7 +25,7 @@ function temperatureText(band, limit) {
   return `${floor5(low)}–${ceil5(high)} °C`;
 }
 
-export default function CoolingSimulationPanel({ cpu, cooler, fans = [], caseComponent, conditions, onConditionsChange }) {
+export default function CoolingSimulationPanel({ cpu, cooler, fans = [], caseComponent, conditions, onConditionsChange, heading = 'Temperatura e ruído' }) {
   const headingId = useId();
   const current = { ...DEFAULT_COOLING_CONDITIONS, ...conditions };
   const result = simulateCooling({ cpu, cooler, fans, caseComponent, conditions: current });
@@ -44,7 +44,7 @@ export default function CoolingSimulationPanel({ cpu, cooler, fans = [], caseCom
     .map(warning => warning.message).filter(Boolean))];
 
   return <Card className="cooling-simulation" aria-labelledby={headingId}>
-    <div className="cooling-simulation-heading"><h3 id={headingId}>Temperatura e ruído</h3><Badge tone="yellow">Simulação aproximada</Badge></div>
+    <div className="cooling-simulation-heading"><h3 id={headingId}>{heading}</h3><Badge tone="yellow">Simulação aproximada</Badge></div>
     <p className="hint-text">Faixas de cenários, não medições. Não confirmam encaixe no gabinete.</p>
     <details className="cooling-simulation-controls">
       <summary>Ajustar cenário · entrada {current.inletCelsius} °C · cooler {Number(current.coolerSpeedFraction) * 100}% RPM</summary>

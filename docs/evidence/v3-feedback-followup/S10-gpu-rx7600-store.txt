@@ -1,0 +1,525 @@
+- link "Pular para conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "Atendimento ao cliente":
+    - /url: https://sac.pichau.com.br/support/home
+    - button "Atendimento ao cliente":
+      - paragraph: Atendimento ao cliente
+  - checkbox "controlled" [checked]
+  - paragraph: Desativar modo escuro
+  - separator
+  - paragraph:
+    - link "Pichau":
+      - /url: /
+      - img "Pichau"
+  - search "Buscar produtos":
+    - generic "Campo de busca":
+      - combobox "O que você está procurando? Digite aqui..."
+  - link "Minha Conta":
+    - /url: /account
+    - paragraph: Minha Conta
+  - link "Favoritos":
+    - /url: /account/favorites
+    - paragraph: Favoritos
+  - link "Carrinho de compras":
+    - /url: /cart
+    - button "Carrinho de compras":
+      - strong: Carrinho
+      - generic: 0 produto
+  - navigation "Departamentos":
+    - button "Departamentos":
+      - paragraph: Departamentos
+    - link "MONTE SEU PC":
+      - /url: "/monte-seu-pc\r"
+    - link "PROMOÇÃO":
+      - /url: "/promocao/halloween\r"
+    - link "CUPONS":
+      - /url: "/promocao/cupons\r"
+    - link "PCs GAMERS":
+      - /url: "/computadores/pichau-gamer\r"
+    - link "EMPRESAS":
+      - /url: https://empresas.pichau.com.br
+- main:
+  - navigation "breadcrumb":
+    - list:
+      - link "Home":
+        - /url: /
+      - listitem: /
+      - link "Hardware":
+        - /url: hardware
+        - paragraph: Hardware
+      - listitem: /
+      - link "Placa de Vídeo":
+        - /url: hardware/placa-de-video
+        - paragraph: Placa de Vídeo
+      - listitem: /
+      - link "AMD Radeon":
+        - /url: hardware/placa-de-video/amd
+        - paragraph: AMD Radeon
+      - listitem: /
+      - paragraph: Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF
+  - region "Galeria de imagens de Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF":
+    - group "Slide 1 de 6":
+      - img "Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF"
+    - button "Imagem anterior" [disabled]:
+    - button "Próxima imagem":
+    - tablist "Escolher imagem do produto":
+      - tab "Mostrar imagem 1 de 6" [selected]
+      - tab "Mostrar imagem 2 de 6"
+      - tab "Mostrar imagem 3 de 6"
+      - tab "Mostrar imagem 4 de 6"
+      - tab "Mostrar imagem 5 de 6"
+      - tab "Mostrar imagem 6 de 6"
+  - generic: "Frete Grátis: Sul e Sudeste"
+  - button "Ver avaliações":
+    - img "5 Stars":
+    - generic: "5.0"
+    - generic: (4 avaliações)
+  - heading "Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF" [level=1]
+  - generic: Produto Disponível
+  - paragraph: "Sku: 90-GA62ZZ-00UANF"
+  - paragraph:
+    - text: "Marca:"
+    - link "AsRock":
+      - /url: /marca/asrock
+  - paragraph: Halloween
+  - generic: 30%
+  - text: Desconto
+  - generic: "13"
+  - text: Disponíveis
+  - generic: "12"
+  - generic: Dias
+  - generic: "15"
+  - generic: Horas
+  - generic: "22"
+  - generic: Minutos
+  - generic: "48"
+  - generic: Segundos
+  - generic: "de R$ 3.294,11 por:"
+  - text: à vista
+  - generic: R$ 1.959,99
+  - text: no PIX com 15% desconto
+  - generic: R$ 2.305,87
+  - text: em até 12x de
+  - generic: R$ 192,16
+  - generic: sem juros no cartão
+  - button "Comprar Colocar no carrinho":
+    - text: Comprar
+    - text: Colocar no carrinho
+  - generic: Características
+  - strong: "Garantia:"
+  - text: 12 Meses
+  - button "Favoritar":
+    - button
+    - generic: Favoritar
+  - generic: "Compartilhar produto:"
+  - button "Copiado!":
+  - button "Compartilhar":
+  - heading "SOBRE" [level=5]
+  - heading "Placa de Vídeo AsRock Radeon RX 7600 Challenger Pro OC" [level=3]
+  - paragraph: Design com três ventoinhas ajuda a otimizar o resfriamento do sistema para reduzir a temperatura de operação.
+  - img "Mostrando o produto"
+  - img "Mostrando o produto"
+  - heading "Placa traseira de metal elegante" [level=3]
+  - paragraph: O sistema de resfriamento WINDFORCE oferece desempenho térmico excepcional por meio de uma combinação de tecnologias de ponta. Ele conta com gel condutor térmico de nível de servidor, ventoinhas Hawk inovadoras com rotação alternada, tubos de calor de cobre composto, placa de cobre, ventoinhas ativas 3D e resfriamento de tela.
+  - heading "Heatpipe ultra-ajustado Consolidado para maximizar o contato." [level=3]:
+    - text: Heatpipe ultra-ajustado
+    - text: Consolidado para maximizar o contato.
+  - paragraph: Os heatpipes são consolidados para maximizar o contato entre si e também a placa de base da GPU para dissipação de calor otimizada.
+  - img "Mostrando o produto"
+  - img "Mostrando o produto"
+  - heading "Soldagem de metais de alta densidade Melhore a dissipação de calor." [level=3]:
+    - text: Soldagem de metais de alta densidade
+    - text: Melhore a dissipação de calor.
+  - paragraph: Isole efetivamente toda a cobertura do vão entre o tubo e as aletas empilhadas, melhorando assim a dissipação de calor de forma eficaz.
+  - heading "Base de cobre Maximize a área de contato da GPU." [level=3]:
+    - text: Base de cobre
+    - text: Maximize a área de contato da GPU.
+  - paragraph: Com design de dissipador de calor de base de cobre premium, a área de contato direto com a GPU seria maximizada para melhorar a transferência térmica de forma eficaz.
+  - img "Mostrando o produto"
+  - heading "INFORMAÇÕES ADICIONAIS" [level=5]
+  - table:
+    - rowgroup:
+      - 'row "Marca: ASRock"':
+        - rowheader "Marca:"
+        - cell "ASRock"
+      - 'row "Modelo: 90-GA62ZZ-00UANF"':
+        - rowheader "Modelo:"
+        - cell "90-GA62ZZ-00UANF"
+      - 'row "GPU: AMD Radeon™ RX 7600"':
+        - rowheader "GPU:"
+        - cell "AMD Radeon™ RX 7600"
+      - 'row "Clock: Boost: Até 2695 MHz Jogo: Até 2280 MHz"':
+        - rowheader "Clock:"
+        - 'cell "Boost: Até 2695 MHz Jogo: Até 2280 MHz"':
+          - text: "Boost: Até 2695 MHz"
+          - text: "Jogo: Até 2280 MHz"
+      - 'row "Interface: PCI® Express4.0 x8"':
+        - rowheader "Interface:"
+        - cell "PCI® Express4.0 x8"
+      - 'row "Memória de vídeo: 8GB"':
+        - rowheader "Memória de vídeo:"
+        - cell "8GB"
+      - 'row "Tipo de memória: GDDR6"':
+        - rowheader "Tipo de memória:"
+        - cell "GDDR6"
+      - 'row "Processadores de fluxo: 2048"':
+        - rowheader "Processadores de fluxo:"
+        - cell "2048"
+      - 'row "Barramento de Memória: 128-bit"':
+        - rowheader "Barramento de Memória:"
+        - cell "128-bit"
+      - 'row "Clock da Memória: 18 Gbps"':
+        - rowheader "Clock da Memória:"
+        - cell "18 Gbps"
+      - 'row "Resolução máxima: 7680 x 4320"':
+        - rowheader "Resolução máxima:"
+        - cell "7680 x 4320"
+      - 'row "Entradas: 1 x HDMI™ 2.1 3 x DisplayPort™ 1.4a with DSC"':
+        - rowheader "Entradas:"
+        - cell "1 x HDMI™ 2.1 3 x DisplayPort™ 1.4a with DSC":
+          - text: 1 x HDMI™ 2.1
+          - text: 3 x DisplayPort™ 1.4a with DSC
+      - 'row "HDCP: Sim"':
+        - rowheader "HDCP:"
+        - cell "Sim"
+      - 'row "Suporte máximo de exibição: 4"':
+        - rowheader "Suporte máximo de exibição:"
+        - cell "4"
+      - 'row "OpenGL: 4.6"':
+        - rowheader "OpenGL:"
+        - cell "4.6"
+      - 'row "DirectX: 12 Ultimate"':
+        - rowheader "DirectX:"
+        - cell "12 Ultimate"
+      - 'row "Conector: 1 x 8 pinos"':
+        - rowheader "Conector:"
+        - cell "1 x 8 pinos"
+      - 'row "Dimensões: 303 x 131 x 45 mm"':
+        - rowheader "Dimensões:"
+        - cell "303 x 131 x 45 mm"
+  - heading "Veja as Avaliações do Produto" [level=5]
+  - generic: "Ordenar Por:"
+  - combobox: Mais recentes
+  - textbox: DESC
+  - generic: "Ordenar Por:"
+  - generic: "Filtrar Por:"
+  - combobox: "-"
+  - textbox: "0"
+  - generic: "Filtrar Por:"
+  - generic: Procurar por review
+  - textbox "Procurar por review"
+  - generic: Procurar por review
+  - checkbox "Somente com fotos/vídeos"
+  - generic: Somente com fotos/vídeos
+  - button "Adicionar Uma Avaliação"
+  - paragraph: Avaliação do produto
+  - paragraph: NaN
+  - img "0 Stars":
+  - paragraph: (0 avaliações)
+  - paragraph: 5 estrelas
+  - progressbar
+  - paragraph
+  - paragraph: 4 estrelas
+  - progressbar
+  - paragraph
+  - paragraph: 3 estrelas
+  - progressbar
+  - paragraph
+  - paragraph: 2 estrelas
+  - progressbar
+  - paragraph
+  - paragraph: 1 estrelas
+  - progressbar
+  - paragraph
+  - generic: Nenhuma avaliação para esse produto. Seja o primeiro a avaliar!
+- heading "Seu Histórico de Navegação" [level=3]
+- link "Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF":
+  - /url: /placa-de-video-asrock-radeon-rx-7600-challenger-pro-oc-8gb-gddr6-128-bit-90-ga62zz-00uanf
+  - img "Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF"
+  - heading "Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF" [level=2]
+- link "Placa de Video Leadertech Radeon RX 550, 4GB, GDDR5, 128-bit, PV-LT-RX550-4G-D5 Placa de Video Leadertech Radeon RX 550, 4GB, GDDR5, 128-bit, PV-LT-RX550-4G-D5":
+  - /url: /placa-de-video-leadertech-radeon-rx-550-4gb-gddr5-128-bit-pv-lt-rx550-4g-d5
+  - img "Placa de Video Leadertech Radeon RX 550, 4GB, GDDR5, 128-bit, PV-LT-RX550-4G-D5"
+  - heading "Placa de Video Leadertech Radeon RX 550, 4GB, GDDR5, 128-bit, PV-LT-RX550-4G-D5" [level=2]
+- link "Gabinete DeepCool Matrexx 30 Vidro Temp Preto, DP-MATX-MATREXX30 Gabinete DeepCool Matrexx 30 Vidro Temp Preto, DP-MATX-MATREXX30":
+  - /url: /gabinete-deepcool-matrexx-30-vidro-temp-preto-dp-matx-matrexx30
+  - img "Gabinete DeepCool Matrexx 30 Vidro Temp Preto, DP-MATX-MATREXX30"
+  - heading "Gabinete DeepCool Matrexx 30 Vidro Temp Preto, DP-MATX-MATREXX30" [level=2]
+- link "Processador AMD Ryzen 5 5600, 6-Core, 12-Threads, 3.5GHz (4.4GHz Turbo), Cache 35MB, AM4, 100-100000927BOX Processador AMD Ryzen 5 5600, 6-Core, 12-Threads, 3.5GHz (4.4GHz Turbo), Cache 35MB, AM4, 100-100000927BOX":
+  - /url: /processador-amd-ryzen-5-5600-6-core-12-threads-3-5ghz-4-4ghz-turbo-cache-35mb-am4-100-100000927box
+  - img "Processador AMD Ryzen 5 5600, 6-Core, 12-Threads, 3.5GHz (4.4GHz Turbo), Cache 35MB, AM4, 100-100000927BOX"
+  - heading "Processador AMD Ryzen 5 5600, 6-Core, 12-Threads, 3.5GHz (4.4GHz Turbo), Cache 35MB, AM4, 100-100000927BOX" [level=2]
+- link "Placa de Video ASRock Radeon RX 6400 Challenger ITX, 4GB, GDDR6, 64-Bit, 90-GA3CZZ-00UANF Placa de Video ASRock Radeon RX 6400 Challenger ITX, 4GB, GDDR6, 64-Bit, 90-GA3CZZ-00UANF":
+  - /url: /placa-de-video-asrock-radeon-rx-6400-challenger-itx-4gb-gddr6-64-bit-90-ga3czz-00uanf
+  - img "Placa de Video ASRock Radeon RX 6400 Challenger ITX, 4GB, GDDR6, 64-Bit, 90-GA3CZZ-00UANF"
+  - heading "Placa de Video ASRock Radeon RX 6400 Challenger ITX, 4GB, GDDR6, 64-Bit, 90-GA3CZZ-00UANF" [level=2]
+- link "Processador AMD Ryzen 3 4100, 4-Core, 8-Threads, 3.8GHz (4.0GHz Turbo), Cache 6MB, AM4, 100-100000510BOX Processador AMD Ryzen 3 4100, 4-Core, 8-Threads, 3.8GHz (4.0GHz Turbo), Cache 6MB, AM4, 100-100000510BOX":
+  - /url: /processador-amd-ryzen-3-4100-4-core-8-threads-3-8ghz-4-0ghz-turbo-cache-6mb-am4-100-100000510box
+  - img "Processador AMD Ryzen 3 4100, 4-Core, 8-Threads, 3.8GHz (4.0GHz Turbo), Cache 6MB, AM4, 100-100000510BOX"
+  - heading "Processador AMD Ryzen 3 4100, 4-Core, 8-Threads, 3.8GHz (4.0GHz Turbo), Cache 6MB, AM4, 100-100000510BOX" [level=2]
+- link "SSD Kingston NV2, 1TB, M.2 2280, PCIe NVMe, Leitura 3500MB/s, Gravacao 2100MB/s, SNV2S-1000G SSD Kingston NV2, 1TB, M.2 2280, PCIe NVMe, Leitura 3500MB/s, Gravacao 2100MB/s, SNV2S-1000G":
+  - /url: /ssd-kingston-nv2-1tb-m-2-2280-pcie-nvme-leitura-3500mb-s-gravacao-2100mb-s-snv2s-1000g
+  - img "SSD Kingston NV2, 1TB, M.2 2280, PCIe NVMe, Leitura 3500MB/s, Gravacao 2100MB/s, SNV2S-1000G"
+  - heading "SSD Kingston NV2, 1TB, M.2 2280, PCIe NVMe, Leitura 3500MB/s, Gravacao 2100MB/s, SNV2S-1000G" [level=2]
+- link "Cooler Para Processador DeepCool AK620, 120mm, Preto e Prata, R-AK620-BKNNMT-G Cooler Para Processador DeepCool AK620, 120mm, Preto e Prata, R-AK620-BKNNMT-G":
+  - /url: /cooler-para-processador-deepcool-ak620-120mm-preto-e-prata-r-ak620-bknnmt-g
+  - img "Cooler Para Processador DeepCool AK620, 120mm, Preto e Prata, R-AK620-BKNNMT-G"
+  - heading "Cooler Para Processador DeepCool AK620, 120mm, Preto e Prata, R-AK620-BKNNMT-G" [level=2]
+- button "Próximo":
+- heading "VOCÊ PODE GOSTAR. To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=1]:
+  - generic: VOCÊ PODE GOSTAR
+- list:
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=2]:
+    - link:
+      - /url: https://www.pichau.com.br/ssd-sandisk-optimus-5100-500-gb-m-2-2280-pcie-nvme-leitura-6600-mb-s-gravacao-5600-mb-s-sdsp51500gan-000e0
+    - link:
+      - /url: https://www.pichau.com.br/ssd-sandisk-optimus-5100-500-gb-m-2-2280-pcie-nvme-leitura-6600-mb-s-gravacao-5600-mb-s-sdsp51500gan-000e0
+      - generic: SSD Sandisk Optimus 5100, 500 GB, M.2 2280, PCIe NVMe, Leitura 6600 MB/s, Gravacao 5600 MB/s, SDSP51500GAN-000E0
+    - generic: à vista
+    - generic: ‪R$‬ 829,99
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=3]:
+    - link:
+      - /url: https://www.pichau.com.br/pc-gamer-completo-pichau-fenrir-iii-amd-ryzen-5-5500-radeon-rx-580-8gb-16gb-ddr4-ssd-480gb-monitor-kit-perifericos-51676
+    - link:
+      - /url: https://www.pichau.com.br/pc-gamer-completo-pichau-fenrir-iii-amd-ryzen-5-5500-radeon-rx-580-8gb-16gb-ddr4-ssd-480gb-monitor-kit-perifericos-51676
+      - generic: PC Gamer Completo Pichau Fenrir III, AMD Ryzen 5 5500, Radeon RX 580 8GB, 16GB DDR4, SSD 480GB + Monitor + Kit Periféricos
+    - generic: à vista
+    - generic: ‪R$‬ 3.679,92
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=4]:
+    - link:
+      - /url: https://www.pichau.com.br/computador-mancer-gamer-amd-ryzen-5-5500-radeon-rx-560-4gb-8gb-ddr4-ssd-240gb-32973
+    - link:
+      - /url: https://www.pichau.com.br/computador-mancer-gamer-amd-ryzen-5-5500-radeon-rx-560-4gb-8gb-ddr4-ssd-240gb-32973
+      - generic: PC Gamer Mancer, AMD Ryzen 5 5500, Radeon RX 560 4GB, 8GB DDR4, SSD 240GB
+    - generic: à vista
+    - generic: ‪R$‬ 2.249,89
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=5]:
+    - link:
+      - /url: https://www.pichau.com.br/processador-amd-ryzen-5-5500-6-core-12-threads-3-6ghz-4-2ghz-turbo-cache-19mb-am4-100-100000457box
+    - link:
+      - /url: https://www.pichau.com.br/processador-amd-ryzen-5-5500-6-core-12-threads-3-6ghz-4-2ghz-turbo-cache-19mb-am4-100-100000457box
+      - generic: Processador AMD Ryzen 5 5500, 6-Core, 12-Threads, 3.6GHz (4.2GHz Turbo), Cache 19MB, AM4, 100-100000457BOX
+    - generic: à vista
+    - generic: ‪R$‬ 559,99
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=6]:
+    - link:
+      - /url: https://www.pichau.com.br/pc-completo-mancer-draco-ii-amd-ryzen-3-3200g-8gb-ddr4-ssd-240gb-monitor-kit-perifericos-53396
+    - link:
+      - /url: https://www.pichau.com.br/pc-completo-mancer-draco-ii-amd-ryzen-3-3200g-8gb-ddr4-ssd-240gb-monitor-kit-perifericos-53396
+      - generic: PC Completo Mancer Draco II, AMD RYZEN 3 3200G, 8GB DDR4, SSD 240GB + Monitor + Kit Periféricos
+    - generic: à vista
+    - generic: ‪R$‬ 1.887,63
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=7]:
+    - link:
+      - /url: https://www.pichau.com.br/placa-mae-gigabyte-b550m-aorus-elite-ddr4-socket-amd-am4-m-atx-chipset-amd-b550-b550m-aorus-elite
+    - link:
+      - /url: https://www.pichau.com.br/placa-mae-gigabyte-b550m-aorus-elite-ddr4-socket-amd-am4-m-atx-chipset-amd-b550-b550m-aorus-elite
+      - generic: Placa Mae Gigabyte B550M Aorus Elite, DDR4, Socket AMD AM4, M-ATX, Chipset AMD B550, B550M-AORUS-ELITE
+    - generic: à vista
+    - generic: ‪R$‬ 699,99
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=8]:
+    - link:
+      - /url: https://www.pichau.com.br/pc-gamer-completo-pichau-gm-033-intel-core-i5-radeon-rx-580-8gb-16gb-ddr3-ssd-480gb-monitor-kit-perifericos-67724
+    - link:
+      - /url: https://www.pichau.com.br/pc-gamer-completo-pichau-gm-033-intel-core-i5-radeon-rx-580-8gb-16gb-ddr3-ssd-480gb-monitor-kit-perifericos-67724
+      - generic: PC Gamer Completo Pichau GM-033, Intel Core i5, Radeon RX 580 8GB, 16GB DDR3, SSD 480GB + Monitor + Kit Periféricos
+    - generic: à vista
+    - generic: ‪R$‬ 2.469,03
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=9]:
+    - link:
+      - /url: https://www.pichau.com.br/placa-de-video-gigabyte-radeon-rx-7600-gaming-oc-8gb-gddr6-128-bit-gv-r76gaming-oc-8gd
+    - link:
+      - /url: https://www.pichau.com.br/placa-de-video-gigabyte-radeon-rx-7600-gaming-oc-8gb-gddr6-128-bit-gv-r76gaming-oc-8gd
+      - generic: Placa de Video Gigabyte Radeon RX 7600 Gaming OC, 8GB, GDDR6, 128-bit, GV-R76GAMING-OC-8GD
+    - generic: à vista
+    - generic: ‪R$‬ 1.999,99
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=10]:
+    - link:
+      - /url: https://www.pichau.com.br/computador-completo-pichau-gamer-apolo-iii-amd-ryzen-5-5600gt-16gb-ddr4-ssd-480gb-monitor-24-kit-perifericos-49496
+    - link:
+      - /url: https://www.pichau.com.br/computador-completo-pichau-gamer-apolo-iii-amd-ryzen-5-5600gt-16gb-ddr4-ssd-480gb-monitor-24-kit-perifericos-49496
+      - generic: PC Gamer Completo Pichau Apolo III, AMD Ryzen 5 5600GT, 16GB DDR4, SSD 480GB + Monitor + Kit Periféricos
+    - generic: à vista
+    - generic: ‪R$‬ 5.574,40
+    - generic: no PIX com 15% desconto
+  - heading "To skip the VOCÊ PODE GOSTAR, press Enter or Space" [level=11]:
+    - link:
+      - /url: https://www.pichau.com.br/processador-amd-ryzen-7-5800x3d-8-core-16-threads-3-4ghz-4-5ghz-turbo-cache-100mb-am4-100-100000651pof
+    - link:
+      - /url: https://www.pichau.com.br/processador-amd-ryzen-7-5800x3d-8-core-16-threads-3-4ghz-4-5ghz-turbo-cache-100mb-am4-100-100000651pof
+      - generic: Processador AMD Ryzen 7 5800X3D, 8-Core, 16-Threads, 3.4GHz (4.5GHz Turbo), Cache 100MB, AM4, 100-100000651POF
+    - generic: à vista
+    - generic: ‪R$‬ 1.989,99
+    - generic: no PIX com 15% desconto
+- navigation "Previous slide"
+- navigation "Next slide"
+- contentinfo:
+  - paragraph:
+    - strong: Atendimento Loja Virtual
+    - text: Segunda a sexta
+    - strong: 8h às 12h
+    - text: e das
+    - strong: 14h às 18h
+  - strong: (47) 3305-5150
+  - link "sac@pichau.com.br":
+    - /url: mailto:sac@pichau.com.br
+    - strong: sac@pichau.com.br
+  - paragraph:
+    - text: Loja física
+    - text: em Joinville
+  - paragraph:
+    - strong: (47) 3026-6446
+    - text: Segunda a sexta das 9h as 19h
+    - text: Sábado das 9h as 13h
+  - 'region "Banners: Banner Homepage Rodapé meio"':
+    - group "Slide 1 de 1":
+      - link "Comprar Empresas":
+        - /url: https://empresas.pichau.com.br/
+        - img "Comprar Empresas"
+  - paragraph: Departamentos
+  - list:
+    - link "Hardware":
+      - /url: /hardware
+    - link "Periféricos":
+      - /url: /perifericos
+    - link "Computadores":
+      - /url: /computadores
+    - link "Kit Upgrade":
+      - /url: /kit-upgrade
+    - link "Monitores":
+      - /url: /monitores
+    - link "Cadeiras e Mesas Gamer e Escritório":
+      - /url: /cadeiras
+    - link "Eletronicos":
+      - /url: /eletronicos
+    - link "Notebooks e Portáteis":
+      - /url: /notebooks
+    - link "Mochilas":
+      - /url: /mochilas
+    - link "Vestuario":
+      - /url: /vestuario
+    - link "Esporte":
+      - /url: /esporte
+    - link "Video Games":
+      - /url: /video-games
+    - link "Redes e Wireless":
+      - /url: /redes-wireless
+    - link "Casa Inteligente":
+      - /url: /casa-inteligente
+    - link "Casa e Lazer":
+      - /url: /casa-e-lazer
+    - link "Energético":
+      - /url: /energetico
+    - link "Openbox":
+      - /url: /openbox
+    - link "Pets":
+      - /url: /pets
+  - paragraph: Baixe os aplicativos
+  - link "Apple Store":
+    - /url: https://apps.apple.com/br/app/pichau/id1619862228
+    - img "Apple Store"
+  - link "Play Store":
+    - /url: https://play.google.com/store/apps/details?id=com.pichaumobile
+    - img "Play Store"
+  - paragraph: Institucional
+  - list:
+    - link "Quem somos":
+      - /url: /quem-somos
+    - link "Localização":
+      - /url: /quem-somos
+    - link "Nossas Lojas":
+      - /url: /quem-somos
+    - link "Blog":
+      - /url: https://www.pichauarena.com.br
+  - paragraph: Dúvidas
+  - list:
+    - link "Entrega":
+      - /url: /termos-de-aceite/#entrega
+    - link "Garantia":
+      - /url: /termos-de-aceite/#garantia
+    - link "Como comprar":
+      - /url: /termos-de-aceite/#comocomprar
+    - link "Formas de Pagamento":
+      - /url: /termos-de-aceite/#formaspagamento
+    - link "Sobre Boletos":
+      - /url: https://hotsite.pichau.com.br/info/boletos/
+  - paragraph: Ajuda
+  - list:
+    - link "SAC":
+      - /url: https://sac.pichau.com.br/support/home
+    - link "Fale conosco":
+      - /url: /atendimento
+    - link "Termos de aceite":
+      - /url: /termos-de-aceite/
+    - link "Políticas de Privacidade":
+      - /url: /politica-de-privacidade
+  - paragraph: Newsletter
+  - strong: Receba ofertas exclusivas no seu e-mail
+  - generic: E-mail
+  - textbox "E-mail"
+  - button "Inscrever na newsletter":
+  - generic: Siga-nos nas redes socias
+  - link "Facebook":
+    - /url: https://www.facebook.com/pichauinfo
+  - link "Instagram":
+    - /url: https://www.instagram.com/pichauoficial/
+  - link "Twitter":
+    - /url: https://www.twitter.com/pichauinfo
+  - link "YouTube":
+    - /url: https://www.youtube.com/pichauinfo
+  - paragraph: Pagamento
+  - list:
+    - img "Visa"
+    - img "Mastercard"
+    - img "Amex"
+    - img "Boleto"
+    - img "PIX"
+    - img "Nubank"
+- img "Pichau"
+- paragraph: "PICHAU INFORMÁTICA® É UMA MARCA REGISTRADA DE BAZAM E PICHAU INFORMATICA LTDA | CNPJ: 09.376.495/0001-22"
+- generic: Avenida Santos Dumont, 7199 - Aventureiro, Joinville - SC - 89219-731
+- paragraph: Preços e condições de pagamento exclusivos para compras via internet e podem variar nas lojas físicas. Os preços anunciados neste site ou via e-mail promocional podem ser alterados sem prévio aviso. A Pichau Informática, não é responsável por erros descritivos. As fotos contidas nesta página são meramente ilustrativas do produto e podem variar de acordo com o fornecedor/lote do fabricante. Ofertas válidas até o término de nossos estoques. Vendas sujeitas à análise e confirmação de dados.
+- paragraph:
+  - text: Made with
+  - text: by
+  - link "Pichau":
+    - /url: https://www.facebook.com/pichauinfo
+  - text: "&"
+  - link "HDLabs":
+    - /url: https://www.hdlabs.com.br
+- paragraph: Certificados de segurança
+- link "Verificar":
+  - /url: https://auditoria.siteblindado.com/consumidor/selo-blindado/?language1=pt&hostname=www.pichau.com.br
+  - img "site blindado"
+- link "Google":
+  - /url: "#"
+  - img "Google"
+- link "Em Avaliação":
+  - /url: http://www.ebit.com.br/6261/selo
+  - img "Em Avaliação"
+- iframe [id="I0_1608748238943"] [name="I0_1608748238943"]:
+  - link "4,4 Este comerciante recebeu nota 4,4 de cinco Google Avaliações do Consumidor":
+    - /url: https://www.google.com/shopping/ratings/account/metrics?q=pichau.com.br&c=BR&v=19&hl=pt_BR
+    - generic: 4,4
+    - generic "Este comerciante recebeu nota 4,4 de cinco"
+    - img "Google Avaliações do Consumidor"
+- button "Fale com o Pru da Pichau, 1 mensagem nova":
+  - generic: "1"
+  - generic: Pru da Pichau
+  - generic: IA
+  - generic: Fale com o Pru
+- button "Fale com o Pru da Pichau":
+  - generic: Fonte que segura essa placa? ⚡
+  - button "Fechar dica":
+  - paragraph: Te digo a potência certa e já mostro as opções.
+- alert
+- iframe [id="fc_widget"] [name="fc_widget"]

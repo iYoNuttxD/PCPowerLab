@@ -6,7 +6,7 @@ import Button from '../ui/Button.jsx';
 import { componentLabels, catalogComponentTypes } from '../../utils/componentLabels.js';
 import { emptyCatalogFilters, priceRangeError, performanceRangeError, catalogFilterFields, specLabel, formatSpecValue } from '../../utils/componentPresentation.js';
 
-export default function ComponentFilters({ components, filters, onChange, fixedCategory, hasBuild = false }) {
+export default function ComponentFilters({ components, filters, onChange, fixedCategory, hasBuild = false, showLayout = true }) {
   const filtersRef = useRef(null);
   const category = fixedCategory || filters.category;
   const categoryComponents = components.filter(component => category === 'all' || component.category === category);
@@ -37,14 +37,18 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
   }
   return (
     <div className="catalog-filters" ref={filtersRef}>
+      <div className="catalog-shortcuts" role="group" aria-label="Explorar por categoria">
+        {!fixedCategory && [{ value: 'all', label: 'Todas' }, ...catalogComponentTypes.map(type => ({ value: type, label: componentLabels[type] }))].map(item => <Button key={item.value} size="sm" variant={category === item.value ? 'primary' : 'secondary'} aria-pressed={category === item.value} onClick={() => changeCategory(item.value)}>{item.label} ({components.filter(component => item.value === 'all' || component.category === item.value).length})</Button>)}
+      </div>
       <div className="form-grid catalog-filter-grid">
-        <Input label="Buscar componente" type="search" value={filters.search} placeholder="Nome, modelo ou marca"
+        <Input label="Buscar componente" type="search" value={filters.search} placeholder="Modelo, marca ou recurso (ex.: Wi-Fi, DDR5)"
           onChange={event => update('search', event.target.value.slice(0, 100))} />
         {!fixedCategory && <Select label="Categoria" value={filters.category} onChange={event => changeCategory(event.target.value)}
           options={[{ value: 'all', label: 'Todas as categorias' }, ...catalogComponentTypes.map(type => ({ value: type, label: componentLabels[type] }))]} />}
         <Input label="Preço mínimo (R$)" type="number" min="0" step="0.01" value={filters.minPrice} onChange={event => update('minPrice', event.target.value)} />
         <Input label="Preço máximo (R$)" type="number" min="0" step="0.01" value={filters.maxPrice}
           error={priceRangeError(filters)} onChange={event => update('maxPrice', event.target.value)} />
+        {showLayout && <Select label="Exibição das peças" value={filters.layout || 'grid'} onChange={event => update('layout', event.target.value)} options={[{ value: 'grid', label: 'Cartões com fotos' }, { value: 'list', label: 'Lista compacta com fotos' }]} />}
         <Select label="Ordenar por" value={filters.sort || 'name-asc'} onChange={event => update('sort', event.target.value)} options={[
           { value: 'name-asc', label: 'Nome: A–Z' }, { value: 'name-desc', label: 'Nome: Z–A' },
           { value: 'price-asc', label: 'Menor preço' }, { value: 'price-desc', label: 'Maior preço' },
@@ -54,6 +58,10 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
           ] : [])
         ]} />
       </div>
+      {['cpu', 'gpu', 'case'].includes(category) && <div className="catalog-shortcuts" role="group" aria-label="Explorar por faixa de preço">
+        <span>Faixas de referência:</span>
+        {(category === 'cpu' ? [[0, 700], [700, 1500], [1500, null]] : category === 'gpu' ? [[0, 1000], [1000, 2500], [2500, null]] : [[0, 300], [300, 600], [600, null]]).map(([min, max]) => <Button key={min} variant="secondary" size="sm" onClick={() => onChange({ ...filters, minPrice: min ? String(min) : '', maxPrice: max ? String(max) : '', sort: 'price-asc' })}>{min === 0 ? `Até ${formatCurrency(max)}` : max ? `${formatCurrency(min)} a ${formatCurrency(max)}` : `Acima de ${formatCurrency(min)}`}</Button>)}
+      </div>}
       <details className="task-disclosure catalog-advanced-filters" onKeyDown={event => {
         if (event.key === 'Escape' && event.currentTarget.open) {
           event.preventDefault(); event.currentTarget.open = false; event.currentTarget.querySelector('summary')?.focus();
@@ -65,7 +73,7 @@ export default function ComponentFilters({ components, filters, onChange, fixedC
             options={[{ value: 'all', label: 'Todas as marcas' }, ...brands.map(brand => ({ value: brand, label: brand }))]} />
           {(catalogFilterFields[category] || []).map(key => {
             const values = [...new Set(categoryComponents.flatMap(component => {
-              const value = component.specs?.[key];
+              const value = component.specs?.[key] ?? component.verifiedFeatures?.fields?.[key];
               return value === undefined || value === null || value === '' ? [] : Array.isArray(value) ? value : [value];
             }).filter(value => typeof value !== 'object').map(String))].sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true }));
             return <Select key={key} label={specLabel(key)} value={filters.specs?.[key] || ''}

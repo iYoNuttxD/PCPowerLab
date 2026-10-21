@@ -63,8 +63,8 @@ try {
         const chipButtons = node => allNodes(node, child => child.type === 'button');
         const clickChip = (node, label) => chipButtons(node).find(child => child.props['aria-label'] === label).props.onClick({ detail: 1 });
         let tree = filterTree();
-        const primary = tree.props.children[0];
-        assert.deepEqual(allNodes(primary, node => Boolean(node.props?.label)).map(node => node.props.label), ['Buscar componente', 'Categoria', 'Preço mínimo (R$)', 'Preço máximo (R$)', 'Ordenar por']);
+        const primary = allNodes(tree, node => node.props?.className === 'form-grid catalog-filter-grid')[0];
+        assert.deepEqual(allNodes(primary, node => Boolean(node.props?.label)).map(node => node.props.label), ['Buscar componente', 'Categoria', 'Preço mínimo (R$)', 'Preço máximo (R$)', 'Exibição das peças', 'Ordenar por']);
         const advanced = allNodes(tree, node => node.type === 'details')[0];
         assert.equal(advanced.props.open, undefined, 'Advanced fields start natively collapsed');
         assert.equal(advanced.props.children[0].type, 'summary');

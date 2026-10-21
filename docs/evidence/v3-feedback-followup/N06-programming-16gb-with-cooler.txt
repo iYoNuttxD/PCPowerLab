@@ -1,0 +1,179 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Assistente de montagem
+  - heading "Monte seu PC" [level=1]
+  - progressbar "Etapas obrigatórias concluídas"
+  - generic "8 de 9 etapas obrigatórias concluídas Ver etapas":
+    - generic: 8 de 9 etapas obrigatórias concluídas
+    - text: Ver etapas
+  - region "Avançar ou voltar na montagem":
+    - generic "Acompanhamento do orçamento":
+      - term: Limite
+      - definition: R$ 6.000,00
+      - term: Acumulado
+      - definition: R$ 4.459,83
+      - term: Restante
+      - definition: R$ 1.540,17
+      - button "Editar orçamento"
+    - strong: Etapa 9 de 9 · Revisão
+    - button "Voltar":
+      - text: Voltar
+    - button "Ir para resumo":
+      - text: Ir para resumo
+    - status: Use Analisar build para verificar compatibilidade, orçamento e desempenho.
+  - region "Revisão":
+    - heading "Revisão" [level=2]
+    - paragraph: Confira as escolhas e analise a montagem.
+    - status:
+      - generic: Recomendação gerada. Confira as peças antes de aplicá-la à sua montagem.
+    - heading "Revisão e análises" [level=3]
+    - generic: be quiet! Pure Rock 3 Black
+    - button "Alterar refrigeração"
+    - link "Ver temperatura e ruído":
+      - /url: /summary#cooling-simulation
+    - paragraph: Análise pendente. Analise novamente após alterar peças ou orçamento.
+    - button "Analisar build":
+      - text: Analisar build
+    - button "Gerar recomendação"
+    - button "Salvar build":
+      - text: Salvar build
+    - heading "Compatibilidade ainda não verificada" [level=3]
+    - paragraph: Monte uma build completa e execute a análise para receber alertas técnicos.
+    - generic "O que a compatibilidade verifica?"
+    - heading "Gargalos" [level=3]
+    - paragraph: A análise será exibida depois que uma build completa for enviada.
+    - generic "O que é um gargalo?"
+    - paragraph: A sugestão mantém sua refrigeração. Verificações pendentes continuam em destaque; conflitos confirmados não são aceitos.
+    - heading "Configuração recomendada" [level=3]
+    - strong:
+      - generic: Total estimado de referência
+      - text: R$ 5.839,83
+    - paragraph: Configuração recomendada para programação com foco em CPU, RAM e SSD. Foco em custo-benefício entre as opções do catálogo.
+    - paragraph: "Perfil: Programação. Prioridade: Custo-benefício. Limite informado: R$ 6.000,00."
+    - paragraph: "Memória selecionada: 16 GB. Requisito prático de seleção, não benchmark ou garantia para todos os aplicativos. Confira os requisitos dos seus jogos e programas no resumo."
+    - status:
+      - strong: Verificações de refrigeração pendentes
+      - paragraph: As peças principais passaram pelas regras verificadas. A montagem completa ainda não está confirmada; confira estes pontos antes de comprar.
+      - list:
+        - listitem: Altura e encaixe não confirmam o espaço ao redor do cooler. Confira no manual se ele encosta na memória RAM ou nos componentes de alimentação da placa-mãe (VRM).
+    - paragraph: Refrigeração não verificada
+    - paragraph: Sugestão com pontuações simuladas
+    - list:
+      - generic: Processador
+      - figure:
+        - img "Embalagem de varejo AMD Ryzen 5 5500 (imagem da página do modelo)"
+      - strong: AMD Ryzen 5 5500
+      - generic: Placa de vídeo
+      - figure:
+        - img "Gigabyte GeForce RTX 3060 WINDFORCE OC 12G rev.2.0 — Caixa e placa WINDFORCE OC RTX 3060 12GB; revisão 2.0 identificada na página exata do varejista, não na face visível."
+      - strong: Gigabyte GeForce RTX 3060 WINDFORCE OC 12G rev.2.0
+      - generic: Placa-mãe
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: ASUS TUF Gaming B550M-Plus
+      - generic: Memória RAM
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black
+      - generic: Armazenamento
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Kingston NV3 500GB
+      - generic: Fonte de alimentação
+      - figure:
+        - img "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular — Imagem de produto da galeria exata MPE-6502-ACAAG-3BBR; cor, formato e marca revisados visualmente."
+      - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+      - generic: Gabinete
+      - figure:
+        - img "Imagem de produto DeepCool CC310 Black"
+      - strong: DeepCool CC310 Black
+      - generic: Cooler do processador
+      - figure:
+        - img "Foto de be quiet! Pure Rock 3 Black"
+      - strong: be quiet! Pure Rock 3 Black
+    - generic "Por que estas peças? Custos, perfil e alternativas"
+    - paragraph: Troque apenas uma peça e mantenha o restante da montagem.
+    - generic: Peça sugerida para substituir
+    - combobox "Peça sugerida para substituir":
+      - option "Escolha uma peça" [selected]
+      - 'option "Processador: AMD Ryzen 5 5500"'
+      - 'option "Placa de vídeo: Gigabyte GeForce RTX 3060 WINDFORCE OC 12G rev.2.0"'
+      - 'option "Placa-mãe: ASUS TUF Gaming B550M-Plus"'
+      - 'option "Memória RAM: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black"'
+      - 'option "Armazenamento: Kingston NV3 500GB"'
+    - button "Pré-visualizar esta peça" [disabled]
+    - paragraph: A recomendação troca as peças principais e mantém sua refrigeração, salvo quando indicar outra.
+    - button "Usar recomendação inteira"
+  - complementary:
+    - generic: Build atual
+    - strong:
+      - generic: Total estimado
+      - text: R$ 4.459,83
+    - list:
+      - button "Alterar Processador": Processador
+      - figure:
+        - img "Fotografia Intel Core i5-12400F com identificação SRL5Z"
+      - strong: Intel Core i5-12400F
+      - button "Remover Processador":
+      - button "Alterar Placa de vídeo": Placa de vídeo
+      - figure:
+        - img "MSI GeForce RTX 3050 LP 6G OC — Caixa mostra RTX 3050, 6GB, LOW PROFILE e OC; placa de perfil baixo com duas ventoinhas."
+      - strong: MSI GeForce RTX 3050 LP 6G OC
+      - button "Remover Placa de vídeo":
+      - button "Alterar Placa-mãe": Placa-mãe
+      - figure:
+        - img "MSI PRO H610M-S DDR4 — Caixa PRO H610M-S DDR4 e placa mATX; não modelo H610M-E nem versão Wi-Fi."
+      - strong: MSI PRO H610M-S DDR4
+      - button "Remover Placa-mãe":
+      - button "Alterar Memória RAM": Memória RAM
+      - figure:
+        - img "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black — Imagem da galeria do SKU exato AH4U08G32C28YNBAA-1. Cor, presença ou ausência de RGB e quantidade de módulos conferidas visualmente. Capacidade, frequência e latência não são legíveis na face frontal; identidade vinculada à página específica cujo título/H1 e SKU correspondem ao produto, não inferida apenas pela aparência."
+      - strong: Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black
+      - button "Remover Memória RAM":
+      - button "Alterar Armazenamento": Armazenamento
+      - figure "Foto da família":
+        - img "Kingston A400 240GB SATA SSD — Vista frontal A400 SATA 2,5 polegadas, sem etiqueta de capacidade. Carcaça compartilhada pela família; a capacidade específica consta na ficha, não na foto."
+        - generic: Foto da família
+      - strong: Kingston A400 240GB SATA SSD
+      - button "Remover Armazenamento":
+      - button "Alterar Fonte de alimentação": Fonte de alimentação
+      - figure:
+        - img "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular — Imagem de produto da galeria exata MPE-6502-ACAAG-3BBR; cor, formato e marca revisados visualmente."
+      - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+      - button "Remover Fonte de alimentação":
+      - button "Alterar Gabinete": Gabinete
+      - figure:
+        - img "Imagem de produto DeepCool CC310 Black"
+      - strong: DeepCool CC310 Black
+      - button "Remover Gabinete":
+      - button "Alterar Cooler do processador": Cooler do processador
+      - figure:
+        - img "Foto de be quiet! Pure Rock 3 Black"
+      - strong: be quiet! Pure Rock 3 Black
+      - button "Remover Cooler do processador":
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

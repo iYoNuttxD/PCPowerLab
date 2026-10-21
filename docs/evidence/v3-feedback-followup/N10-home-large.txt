@@ -1,0 +1,59 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Seu PC, peça por peça
+  - heading "Seu próximo PC começa aqui." [level=1]:
+    - text: Seu próximo PC
+    - text: começa aqui.
+  - paragraph: Monte uma configuração personalizada, valide compatibilidade, simule desempenho e receba recomendações claras antes de investir nas peças.
+  - link "Continuar montagem":
+    - /url: /build
+    - text: Continuar montagem
+  - link "Ver componentes":
+    - /url: /components
+  - link "Explorar builds prontas":
+    - /url: /ready-builds
+  - text: CPU + GPU
+  - strong: PC
+  - text: Exemplo ilustrativo
+  - list "Como montar seu PC":
+    - generic: "01"
+    - strong: Defina seu limite
+    - paragraph: Comece pelo orçamento e pelo que você quer fazer.
+    - generic: "02"
+    - strong: Encontre suas peças
+    - paragraph: Busque recursos, compare modelos e monte no seu ritmo.
+    - generic: "03"
+    - strong: Confira antes de comprar
+    - paragraph: Veja compatibilidade, pendências e lojas em um resumo.
+  - region "Benefícios":
+    - heading "Compatibilidade" [level=2]
+    - paragraph: Valide socket, memória, gabinete, fonte e outras regras técnicas.
+    - heading "Desempenho" [level=2]
+    - paragraph: Simule jogos, gargalos e equilíbrio entre CPU, GPU, RAM e armazenamento.
+    - heading "Recomendações" [level=2]
+    - paragraph: Receba sugestões por orçamento, uso, custo-benefício e upgrades.
+    - heading "Resumo claro" [level=2]
+    - paragraph: Transforme dados técnicos em explicações simples para decidir melhor.
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

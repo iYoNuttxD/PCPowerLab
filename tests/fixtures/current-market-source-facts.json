@@ -887,5 +887,55 @@
     "evidenceArtifact": "docs/catalog-v3-evidence.md",
     "observedAt": "2026-10-20T22:52:50Z",
     "queriedAt": "2026-10-20"
+  },
+  "cpu-ryzen-5-4500-box": {
+    "price": 545.29,
+    "model": "100-100000644BOX",
+    "seller": "KaBuM!",
+    "store": "KaBuM",
+    "availability": "available",
+    "queriedAt": "2026-10-21",
+    "sourceUrl": "https://www.kabum.com.br/produto/333154/processador-amd-ryzen-5-4500-3-6ghz-4-1ghz-max-turbo-cache-11mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000644box",
+    "evidenceArtifact": "v3-feedback-followup/S03-cpu-4500-kabum.txt"
+  },
+  "gpu-pcyes-rx-550-edge-4gb": {
+    "price": 619.9,
+    "model": "PVEX5504GBDF",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "queriedAt": "2026-10-21",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/28714/placa-de-video-pcyes-amd-radeon-rx-550-4gb-gddr5-128-bit-pvex5504gbdf",
+    "evidenceArtifact": "v3-feedback-followup/S12-gpu-rx550-pcyes-store.txt"
+  },
+  "gpu-asrock-rx-7600-challenger-pro-8gb": {
+    "price": 1959.99,
+    "model": "90-GA62ZZ-00UANF",
+    "seller": "Pichau",
+    "store": "Pichau",
+    "availability": "available",
+    "queriedAt": "2026-10-21",
+    "sourceUrl": "https://www.pichau.com.br/placa-de-video-asrock-radeon-rx-7600-challenger-pro-oc-8gb-gddr6-128-bit-90-ga62zz-00uanf",
+    "evidenceArtifact": "v3-feedback-followup/S10-gpu-rx7600-store.txt"
+  },
+  "case-montech-x2-plus-white": {
+    "price": 239.9,
+    "model": "X2 PLUS (W)",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "queriedAt": "2026-10-21",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/39700/gabinete-gamer-montech-x2-plus-vidro-temperado-mid-tower-atx-com-3-fans-argb-branco",
+    "evidenceArtifact": "v3-feedback-followup/S11-case-x2-store.txt"
+  },
+  "case-montech-xr-white": {
+    "price": 299.99,
+    "model": "XR (W)",
+    "seller": "TerabyteShop",
+    "store": "Terabyte",
+    "availability": "available",
+    "queriedAt": "2026-10-21",
+    "sourceUrl": "https://www.terabyteshop.com.br/produto/29263/gabinete-gamer-montech-xr-mid-tower-white-atx-com-3-fans-vidro-temperado-xr-w",
+    "evidenceArtifact": "v3-feedback-followup/S08-case-xr-store.txt"
   }
 }

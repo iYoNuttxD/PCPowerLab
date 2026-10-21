@@ -7,6 +7,8 @@ export const severityLabels = {
 };
 
 export const statusLabels = {
+  RAM_CAPACITY_LIMITATION: 'Memória abaixo dos requisitos',
+  CPU_BIOS_UNVERIFIED: 'Versão de BIOS a confirmar',
   'Within Range': 'Dentro da faixa',
   'within range': 'Dentro da faixa',
   within_range: 'Dentro da faixa',
@@ -156,6 +158,7 @@ export const bottleneckTypeLabels = {
 };
 
 export const issueCodeLabels = {
+  PSU_POWER_UNVERIFIED: 'Potência da fonte a confirmar',
   CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE: 'Socket de processador incompatível',
   RAM_MOTHERBOARD_TYPE_INCOMPATIBLE: 'Tipo de memória incompatível',
   STORAGE_INTERFACE_INCOMPATIBLE: 'Interface de armazenamento incompatível',
@@ -233,6 +236,7 @@ function humanizeTechnicalKey(value) {
 // Presentation-only cleanup of known legacy Portuguese messages; keep IDs and API values intact.
 export function readableMessage(value) {
   if (typeof value !== 'string') return value;
+  if (statusLabels[value]) return statusLabels[value];
   const words = { atencao: 'atenção', configuracao: 'configuração', configuracoes: 'configurações', fans: 'ventoinhas', nao: 'não', verificacoes: 'verificações', analise: 'análise' };
   return value.replace(/\bos fans incluídos\b/gi, phrase => phrase[0] === 'O' ? 'As ventoinhas incluídas' : 'as ventoinhas incluídas')
     .replace(/\b(atencao|configuracao|configuracoes|fans|nao|verificacoes|analise)\b/gi, word => {

@@ -1,0 +1,48 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Retro-arcade PC builder
+  - heading "PCPowerLab" [active] [level=1]
+  - paragraph: Monte uma configuração personalizada, valide compatibilidade, simule desempenho e receba recomendações claras antes de investir nas peças.
+  - link "Continuar montagem":
+    - /url: /build
+    - text: Continuar montagem
+  - link "Ver componentes":
+    - /url: /components
+  - link "Explorar builds prontas":
+    - /url: /ready-builds
+  - text: CPU + GPU
+  - strong: PC
+  - text: Exemplo ilustrativo
+  - region "Benefícios":
+    - heading "Compatibilidade" [level=2]
+    - paragraph: Valide socket, memória, gabinete, fonte e outras regras técnicas.
+    - heading "Desempenho" [level=2]
+    - paragraph: Simule jogos, gargalos e equilíbrio entre CPU, GPU, RAM e armazenamento.
+    - heading "Recomendações" [level=2]
+    - paragraph: Receba sugestões por orçamento, uso, custo-benefício e upgrades.
+    - heading "Resumo claro" [level=2]
+    - paragraph: Transforme dados técnicos em explicações simples para decidir melhor.
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits
+- generic: "0"
