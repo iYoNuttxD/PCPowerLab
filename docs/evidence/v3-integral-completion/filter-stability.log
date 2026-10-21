@@ -1,0 +1,41 @@
+
+> pcpowerlab-frontend@0.1.0 test
+> playwright test --project=desktop --grep combina filtros técnicos de (storage|cooler) --repeat-each=5
+
+[WebServer] (node:4170) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 2 workers
+
+(node:4172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (2.1s)
+  ✓   1 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (2.2s)
+(node:4210) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (2.1s)
+  ✓   3 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (2.1s)
+(node:4239) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (2.2s)
+  ✓   6 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (2.2s)
+(node:4266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4267) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (2.4s)
+  ✓   8 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (2.3s)
+(node:4307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (2.3s)
+  ✓  10 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (2.2s)
+
+  10 passed (14.7s)

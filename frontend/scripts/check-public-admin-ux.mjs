@@ -84,7 +84,8 @@ try {
   assert.match(markup, /Montar meu PC/);
   for (const href of ['/build', '/components', '/ready-builds']) assert(markup.includes(`href="${href}"`));
   assert.match(markup, /<section class="hero">/);
-  assert.match(markup, /<h1>PCPowerLab<\/h1>/);
+  assert.match(markup, /<h1>Seu próximo PC<br\/><span class="hero-highlight">começa aqui\.<\/span><\/h1>/);
+  assert.match(markup, /aria-label="Como montar seu PC"/);
   assert.match(markup, /class="hero-console" aria-hidden="true"/);
   assert.match(markup, /class="console-screen"/);
   assert.match(markup, /<strong>PC<\/strong>/);

@@ -145,7 +145,12 @@ test('an unavailable price category or selected accessory gives a controlled pri
       return true;
     });
   } finally { storageParts.forEach((part, index) => { part.price = prices[index]; }); }
-  assert.throws(() => recommendBuildByBudget({ budget: { amount: 10000 }, coolerId: 'cooler-noctua-nh-u12s-redux' }), { statusCode: 422 });
+  const partial=recommendBuildByBudget({ budget:{amount:10000}, coolerId:'cooler-noctua-nh-u12s-redux' });
+  assert.equal(partial.components.cooler.id,'cooler-noctua-nh-u12s-redux');
+  assert.equal(partial.totalEstimatedPrice,null);
+  assert.equal(partial.remainingBudget,null);
+  assert.equal(partial.pricing.referenceTotalComplete,false);
+  assert.ok(partial.pricing.knownReferenceSubtotal>0);
 });
 
 test('HTTP requests serialize explicit null totals while retaining compatibility, FPS and saving', async (t) => {

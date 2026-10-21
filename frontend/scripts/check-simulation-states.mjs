@@ -29,6 +29,7 @@ try {
         export { default as React } from 'react';
         export { renderToStaticMarkup } from 'react-dom/server';
         export { MemoryRouter } from 'react-router-dom';
+        export { default as CoolingExplorer } from './src/components/build/CoolingExplorer.jsx';
         export { default as PerformanceLab } from './src/pages/PerformanceLab.jsx';
         export { default as BuildSummary } from './src/pages/BuildSummary.jsx';
         export { default as BuildWizard } from './src/pages/BuildWizard.jsx';
@@ -71,7 +72,7 @@ try {
       });
     }}]
   });
-  const { React, renderToStaticMarkup, MemoryRouter, PerformanceLab, BuildSummary, BuildWizard, CompareBuilds, useSimulationRequest } = await import(pathToFileURL(output).href);
+  const { React, renderToStaticMarkup, MemoryRouter, CoolingExplorer, PerformanceLab, BuildSummary, BuildWizard, CompareBuilds, useSimulationRequest } = await import(pathToFileURL(output).href);
   const types = ['cpu', 'gpu', 'motherboard', 'ram', 'storage', 'psu', 'case'];
   const catalog = Array.from({ length: 12 }, (_, index) => ({ id: `game-${index + 1}`, name: `Jogo ${index + 1}`, category: 'Ação', targetResolution: '1080p' }));
   const softwareCatalog = [1, 2].map(index => ({ id: `software-${index}`, name: `Programa ${index}`, category: 'Criação', description: `Descrição ${index}` }));
@@ -121,6 +122,15 @@ try {
     const checkboxes = all(page.render(), node => node.type === 'input' && node.props.type === 'checkbox');
     checkboxes.forEach((checkbox, index) => { if (checkbox.props.checked !== (index < count)) checkbox.props.onChange(); });
     return page.render();
+  }
+
+  function thermalPanel(tree) {
+    const explorer = named(tree, 'CoolingExplorer')[0];
+    verify(explorer, 'The page exposes the thermal explorer');
+    const controller = runtime(CoolingExplorer, () => explorer.props);
+    const result = named(controller.render(), 'CoolingSimulationPanel')[0];
+    controller.close();
+    return result;
   }
 
   // Commit-like hook scheduler. Effects run after a render, including cleanup,
@@ -405,7 +415,14 @@ try {
   const callsBeforeCooling = fixtures.calls.length;
   const revisionBeforeCooling = fixtures.build.revision;
   tree = setMode(page, 'cooling');
-  const coolingPanel = named(tree, 'CoolingSimulationPanel')[0];
+  const coolingPanel = thermalPanel(tree);
+  const popup = runtime(CoolingExplorer, () => named(tree, 'CoolingExplorer')[0].props);
+  equal(named(popup.render(), 'Modal')[0].props.open, false, 'Thermal details start closed');
+  button(popup.render(), 'Explorar temperatura e ruído').props.onClick();
+  equal(named(popup.render(), 'Modal')[0].props.open, true, 'Launcher opens the actual modal');
+  named(popup.render(), 'Modal')[0].props.onClose();
+  equal(named(popup.render(), 'Modal')[0].props.open, false, 'Close dismisses local explorer');
+  popup.close();
   verify(coolingPanel, 'Cooling task renders the actual simulator component');
   equal(coolingPanel.props.cpu, fixtures.build.selectedComponents.cpu);
   equal(coolingPanel.props.cooler, fixtures.build.selectedComponents.cooler);
@@ -413,13 +430,13 @@ try {
   equal(coolingPanel.props.caseComponent, fixtures.build.selectedComponents.case);
   coolingPanel.props.onConditionsChange({ inletCelsius: 30, coolerSpeedFraction: 0.75 });
   tree = page.render();
-  equal(named(tree, 'CoolingSimulationPanel')[0].props.conditions.inletCelsius, 30);
+  equal(thermalPanel(tree).props.conditions.inletCelsius, 30);
   equal(fixtures.build.revision, revisionBeforeCooling, 'A thermal what-if must not change the selected build revision');
   tree = setMode(page, 'single');
   equal(gameResults(tree)[0].props.result, gameBeforeCooling, 'Thermal settings do not invalidate unrelated game estimates');
   equal(fixtures.calls.length, callsBeforeCooling, 'Thermal task and condition edits make no API requests');
   tree = setMode(page, 'cooling');
-  equal(named(tree, 'CoolingSimulationPanel')[0].props.conditions.inletCelsius, 30);
+  equal(thermalPanel(tree).props.conditions.inletCelsius, 30);
   page.close();
   pass('Cooling task passes exact selected hardware and persists local what-if conditions without invalidating or resubmitting game analysis');
 
@@ -539,7 +556,7 @@ try {
   fixtures.build.coolingConditions = { inletCelsius: 27, coolerSpeedFraction: 0.75, fanSpeedFraction: 0.5 };
   fixtures.build.actions.setCoolingConditions = conditions => { fixtures.build = { ...fixtures.build, coolingConditions: conditions }; };
   page = await loadedPage(BuildSummary); tree = page.render();
-  const summaryCoolingPanels = named(tree, 'CoolingSimulationPanel');
+  const summaryCoolingPanels = [thermalPanel(tree)];
   equal(summaryCoolingPanels.length, 1, 'Summary renders exactly one real thermal simulator');
   const summaryCooling = summaryCoolingPanels[0];
   for (const [prop, slot] of [['cpu', 'cpu'], ['cooler', 'cooler'], ['fans', 'fans'], ['caseComponent', 'case']]) {
@@ -547,15 +564,18 @@ try {
   }
   verify(summaryCooling.props.conditions === fixtures.build.coolingConditions, 'Summary passes the persisted scenario unchanged');
   verify(summaryCooling.props.onConditionsChange === fixtures.build.actions.setCoolingConditions, 'Summary uses the shared conditions action');
-  const summaryCoolingSection = all(tree, node => node.props?.id === 'cooling-simulation');
-  equal(summaryCoolingSection.length, 1);
-  equal(summaryCoolingSection[0].props.tabIndex, -1);
-  equal(named(summaryCoolingSection[0], 'CoolingSimulationPanel').length, 1, 'Thermal anchor wraps the actual simulator');
+  const summaryExplorer = named(tree, 'CoolingExplorer')[0];
+  equal(summaryExplorer.props.open, false, 'Summary thermal dialog starts closed without its hash');
+  fixtures.location = { ...fixtures.location, hash: '#cooling-simulation' };
+  tree = page.render();
+  equal(named(tree, 'CoolingExplorer')[0].props.open, true, 'Deep link opens the controlled thermal dialog');
+  const summaryCallsBeforeThermal = structuredClone(fixtures.calls);
+  equal(summaryCallsBeforeThermal, [{ name: 'purchaseLinks', payload: { components: fixtures.build.buildPayload } }], 'Mount independently looks up exactly the selected parts and cooling');
   const nextSummaryConditions = { ...fixtures.build.coolingConditions, inletCelsius: 30 };
   summaryCooling.props.onConditionsChange(nextSummaryConditions);
   tree = page.render();
-  verify(named(tree, 'CoolingSimulationPanel')[0].props.conditions === nextSummaryConditions);
-  equal(fixtures.calls, [], 'Editing a Summary thermal scenario sends no analysis requests');
+  verify(thermalPanel(tree).props.conditions === nextSummaryConditions);
+  equal(fixtures.calls, summaryCallsBeforeThermal, 'Editing a Summary thermal scenario sends no analysis requests and does not refetch stores');
   page.close();
   pass('BuildSummary renders one anchored thermal simulator with the exact selected hardware, persisted conditions and shared conditions action');
 
@@ -626,6 +646,74 @@ try {
   verify(button(tree, 'Simular desempenho').props.disabled); equal(summaryHint(tree), 'Complete a montagem antes de simular.');
   await button(tree, 'Simular desempenho').props.onClick(); equal(fixtures.calls.length, 0); page.close();
   pass('BuildSummary catalog cleanup blocks post-unmount writes; incomplete build guards the simulation handler');
+
+  // V3: independent store lookups must neither delay nor be erased by summary
+  // failures. These execute the real effects/handlers in the hook scheduler.
+  const shopProps = page => named(page.render(), 'PurchaseLinksList')[0].props;
+  reset(); summaryActions();
+  const linksValue = { gpu: [{ componentId: 'gpu-1', storeName: 'Test store', kind: 'research', url: 'https://example.com/gpu-1' }] };
+  fixtures.services.purchaseLinksService.byBuild = async payload => { fixtures.calls.push({ name: 'purchaseLinks', payload }); return linksValue; };
+  fixtures.services.recommendationService.summary = async payload => { fixtures.calls.push({ name: 'summary', payload }); throw apiError(503, 'Summary unavailable'); };
+  page = await loadedPage(BuildSummary);
+  const preservedSummaryInputs = JSON.stringify({ selectedComponents: fixtures.build.selectedComponents, budget: fixtures.build.budget });
+  equal(shopProps(page).linksBySlot, linksValue);
+  await button(page.render(), 'Gerar resumo final').props.onClick(); tree = page.render();
+  equal(shopProps(page).linksBySlot, linksValue, 'Failed summary never erases received store links');
+  verify(markup(tree).includes('Summary unavailable'));
+  equal(JSON.stringify({ selectedComponents: fixtures.build.selectedComponents, budget: fixtures.build.budget }), preservedSummaryInputs);
+  fixtures.services.recommendationService.summary = async payload => { fixtures.calls.push({ name: 'summary', payload }); return { compatibility: { compatible: true }, selectionStatus: 'complete' }; };
+  await named(tree, 'ErrorState')[0].props.onRetry(); tree = page.render();
+  equal(fixtures.calls.filter(call => call.name === 'summary').length, 2);
+  equal(fixtures.calls.filter(call => call.name === 'storeSummary').length, 1);
+  equal(shopProps(page).linksBySlot, linksValue); page.close();
+  pass('Summary failure and explicit retry preserve independent store links, selected parts and budget');
+
+  reset(); summaryActions(); pending = deferred();
+  fixtures.services.purchaseLinksService.byBuild = () => pending.promise;
+  page = await loadedPage(BuildSummary);
+  verify(shopProps(page).loading);
+  await button(page.render(), 'Gerar resumo final').props.onClick();
+  equal(fixtures.calls.filter(call => call.name === 'storeSummary').length, 1, 'Summary stores before deferred shop lookup completes');
+  verify(shopProps(page).loading);
+  pending.resolve(linksValue); await tick(); equal(shopProps(page).linksBySlot, linksValue); page.close();
+  pass('Deferred store lookup never delays summary results');
+
+  reset(); summaryActions();
+  fixtures.services.purchaseLinksService.byBuild = async () => { throw apiError(503, 'Store lookup unavailable'); };
+  page = await loadedPage(BuildSummary);
+  equal(shopProps(page).error, 'Store lookup unavailable');
+  await button(page.render(), 'Gerar resumo final').props.onClick();
+  equal(fixtures.calls.filter(call => call.name === 'storeSummary').length, 1);
+  fixtures.services.purchaseLinksService.byBuild = async () => linksValue;
+  shopProps(page).onRetry(); page.render(); await tick();
+  equal(shopProps(page).error, ''); equal(shopProps(page).linksBySlot, linksValue);
+  equal(fixtures.calls.filter(call => call.name === 'summary').length, 1, 'Store retry does not resubmit summary'); page.close();
+  pass('Store errors have independent retry and do not erase or resubmit valid summary');
+
+  reset(); summaryActions(); pending = deferred();
+  fixtures.services.purchaseLinksService.byBuild = () => pending.promise;
+  page = await loadedPage(BuildSummary);
+  const currentLinks = { gpu: [{ ...linksValue.gpu[0], componentId: 'gpu-2' }] };
+  fixtures.services.purchaseLinksService.byBuild = async () => currentLinks;
+  fixtures.build = { ...fixtures.build, revision: fixtures.build.revision + 1,
+    selectedComponents: { ...fixtures.build.selectedComponents, gpu: { id: 'gpu-2', name: 'New GPU' } },
+    buildPayload: { ...fixtures.build.buildPayload, gpuId: 'gpu-2' } };
+  page.render(); await tick(); equal(shopProps(page).linksBySlot, currentLinks);
+  pending.resolve(linksValue); await tick(); equal(shopProps(page).linksBySlot, currentLinks, 'Old parts cannot overwrite current store links');
+  pending = deferred(); fixtures.services.purchaseLinksService.byBuild = () => pending.promise;
+  shopProps(page).onRetry(); page.render(); page.close(); pending.resolve(linksValue); await tick(); equal(page.writesAfterClose, 0);
+  pass('Late store responses cannot overwrite replaced parts or write after leaving summary');
+
+  for (const [name, serviceName] of [['Salvar como nova configuração', 'savedBuildsService'], ['Compartilhar', 'sharingService']]) {
+    reset(); summaryActions(); let attempts = 0;
+    fixtures.services[serviceName] = { create: async () => { attempts += 1; if (attempts === 1) throw apiError(503, 'Temporary action failure'); return { shareId: 'retry-share', shareUrl: '/shared/retry-share' }; } };
+    page = await loadedPage(BuildSummary);
+    await button(page.render(), name).props.onClick(); tree = page.render();
+    await named(tree, 'ErrorState')[0].props.onRetry(); tree = page.render();
+    equal(attempts, 2, 'Retry must repeat the action that failed');
+    equal(fixtures.calls.filter(call => call.name === 'summary').length, 0, 'Save/share retry must not generate a summary instead'); page.close();
+  }
+  pass('Summary page retry ownership preserves save/share intent instead of triggering a different action');
 
   // Summary disclosures retain real action callbacks and keep feedback/errors outside hidden controls.
   reset(); summaryActions(); page = await loadedPage(BuildSummary); tree = page.render();
@@ -757,7 +845,7 @@ try {
     setResult() {}
   };
   page = runtime(BuildWizard); tree = page.render();
-  verify(!named(tree, 'WizardNavigation')[0].props.canAdvance);
+  verify(named(tree, 'WizardNavigation')[0].props.canAdvance);
   verify(childrenText(tree).includes('AM4') && childrenText(tree).includes('AM5'));
   verify(childrenText(tree).includes('Conflito entre as peças escolhidas') || named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
   const others = JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard')));
@@ -766,7 +854,7 @@ try {
   equal(JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard'))), others);
   verify(!named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
   page.close();
-  pass('wizard detects actual AM4/AM5 selection immediately, prevents next, resolves replacement and preserves every other component');
+  pass('wizard detects actual AM4/AM5 selection immediately, allows manual next, resolves replacement and preserves every other component');
 
   // Exercise the actual wizard callback and cleanup with responses held at
   // each service boundary. This tests request ownership, not DOM navigation.

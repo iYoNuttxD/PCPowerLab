@@ -1,3 +1,5 @@
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
+import { integratedCpuEvidence, integratedDisplayEvidence, integratedGraphicsCapability } from '../data/integratedGraphicsEvidence.js';
 import { selectBuildComponents } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
@@ -17,10 +19,21 @@ export function evaluateResolvedBuildCompatibility(selectedBuild) {
   for (const slot of ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case']) {
     if (!build[slot]) build[slot] = { specs: {} };
   }
-  const caseEvidence = supplementalCompatibilityEvidence(build.case);
-  if (caseEvidence) build.case = { ...build.case, specs: { ...caseEvidence.specs, ...build.case.specs } };
+  const verificationSources = [];
+  for (const slot of ['case', 'gpu']) {
+    const evidence = supplementalCompatibilityEvidence(build[slot]);
+    if (!evidence) continue;
+    const specs = { ...build[slot].specs };
+    for (const [field, value] of Object.entries(evidence.specs)) {
+      if (specs[field] === undefined || specs[field] === null) specs[field] = value;
+    }
+    build[slot] = { ...build[slot], specs };
+    verificationSources.push({ componentId: build[slot].id, sourceUrl: evidence.sourceUrl,
+      additionalSourceUrls: evidence.additionalSourceUrls, verifiedAt: evidence.verifiedAt, note: evidence.note });
+  }
   const { alerts, unverifiedChecks, coolingAssessment } = checkCoolingCompatibility(build);
   validateCpuAndMotherboard(build, alerts, unverifiedChecks);
+  validateGraphicsPath(build, alerts, unverifiedChecks);
   validateRamAndMotherboard(build, alerts, unverifiedChecks);
   validateStorageAndMotherboard(build, alerts, unverifiedChecks);
   validateReplacementDependencies(build, alerts, unverifiedChecks);
@@ -29,8 +42,7 @@ export function evaluateResolvedBuildCompatibility(selectedBuild) {
   validateCase(build, alerts, unverifiedChecks);
   const status = alerts.length ? 'incompatible' : unverifiedChecks.length ? 'unverified' : 'compatible';
   return { compatible: status === 'compatible', status, alerts, unverifiedChecks, coolingAssessment,
-    ...(caseEvidence ? { verificationSources: [{ componentId: build.case.id,
-      sourceUrl: caseEvidence.sourceUrl, verifiedAt: caseEvidence.verifiedAt, note: caseEvidence.note }] } : {}) };
+    ...(verificationSources.length ? { verificationSources } : {}), ...(build.graphicsAssessment ? { graphicsAssessment: build.graphicsAssessment } : {}) };
 }
 
 function validateCpuAndMotherboard(build, alerts, unverifiedChecks) {
@@ -79,13 +91,13 @@ function validateStorageAndMotherboard(build, alerts, unverifiedChecks) {
 }
 
 function validatePsu(build, alerts, unverifiedChecks) {
-  if (![build.cpu.specs.tdpWatts, build.gpu.specs.recommendedPsuWatts, build.psu.specs.watts].every((v) => Number.isFinite(v) && v >= 0)) {
+  if (![build.cpu.specs.tdpWatts, ...(usesIntegratedGraphics(build) ? [] : [build.gpu.specs.recommendedPsuWatts]), build.psu.specs.watts].every((v) => Number.isFinite(v) && v >= 0)) {
     unverifiedChecks.push({ code: 'PSU_POWER_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Dados de potencia insuficientes para verificar a fonte.' });
     return;
   }
   const cpuTdp = build.cpu.specs.tdpWatts || 0;
   const gpuRecommendedPsu = build.gpu.specs.recommendedPsuWatts || 0;
-  const minimumRecommended = Math.max(gpuRecommendedPsu, cpuTdp + 350) + getCoolingPower(build).knownWatts;
+  const minimumRecommended = Math.max(gpuRecommendedPsu, cpuTdp) + getCoolingPower(build).knownWatts;
 
   if (build.psu.specs.watts < minimumRecommended) {
     alerts.push({
@@ -109,6 +121,7 @@ function validateCase(build, alerts, unverifiedChecks) {
     });
   }
 
+  if (usesIntegratedGraphics(build)) return;
   if (![build.gpu.specs.lengthMm, build.case.specs.maxGpuLengthMm].every((v) => Number.isFinite(v) && v > 0)) {
     unverifiedChecks.push({ code: 'CASE_GPU_LENGTH_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Comprimento da GPU ou limite do gabinete nao informado.' });
   } else if (build.gpu.specs.lengthMm > build.case.specs.maxGpuLengthMm) {
@@ -165,10 +178,12 @@ function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
   const unknown = (code, message) => unverifiedChecks.push({ code, severity: 'medium', verification: 'unverified', message });
   const conflict = (code, message) => alerts.push({ code, severity: 'high', message });
   const connectorFields = { 'pcie-8pin': 'pcie8PinConnectors', '12v-2x6': 'native12v2x6Connectors' };
-  if (revalidated(build.gpu) || revalidated(build.psu) || hasField(gpu, 'powerConnectors')
-    || Object.values(connectorFields).some(field => hasField(psu, field))) {
+  if (!usesIntegratedGraphics(build) && (revalidated(build.gpu) || revalidated(build.psu) || hasField(gpu, 'powerConnectors')
+    || Object.values(connectorFields).some(field => hasField(psu, field)))) {
     const requirements = gpu.powerConnectors;
-    if (!Array.isArray(requirements) || !requirements.length) {
+    if (Array.isArray(requirements) && requirements.length === 0 && gpu.powerConnectorRequirement === 'none') {
+      // Explicit, model-specific evidence of slot power; an empty array alone is unknown.
+    } else if (!Array.isArray(requirements) || !requirements.length) {
       unknown('GPU_POWER_CONNECTORS_UNVERIFIED', 'Conectores de alimentação da GPU não confirmados.');
     } else {
       const totals = new Map();
@@ -190,6 +205,18 @@ function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
       }
     }
   }
+  if (gpu.requiresUefiBoot === true) {
+    if (board.uefiEnabled !== true || board.csmDisabled !== true || build.storage.specs.gptPartitioned !== true) {
+      unknown('GPU_UEFI_BOOT_UNVERIFIED', 'Esta GPU exige inicialização UEFI, CSM desativado e disco do sistema em GPT; a configuração instalada ainda não foi confirmada.');
+    }
+  }
+  if (gpu.requiresResizableBar === true) {
+    if (board.resizableBarSupported === false) {
+      conflict('GPU_RESIZABLE_BAR_UNSUPPORTED', 'Esta GPU exige Resizable BAR, mas a placa-mãe declara não oferecer suporte.');
+    } else if (board.resizableBarSupported !== true || board.resizableBarEnabled !== true) {
+      unknown('GPU_RESIZABLE_BAR_UNVERIFIED', 'Esta GPU exige Resizable BAR: suporte da placa-mãe e ativação na BIOS ainda precisam ser confirmados.');
+    }
+  }
   if (revalidated(build.psu) || revalidated(build.case) || hasField(psu, 'formFactor')
     || hasField(chassis, 'supportedPsuFormFactors') || hasField(psu, 'dimensionsMm') || hasField(chassis, 'maxPsuLengthMm')) {
     if (!psu.formFactor || !isNonEmptyTextArray(chassis.supportedPsuFormFactors)) {
@@ -204,24 +231,22 @@ function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
       conflict('CASE_PSU_LENGTH_INCOMPATIBLE', 'O comprimento da fonte excede o espaço declarado do gabinete.');
     }
   }
-  if (revalidated(build.motherboard) || hasField(board, 'minimumBiosByCpu') || hasField(board, 'installedBiosVersion')) {
-    const minimums = board.minimumBiosByCpu;
-    const minimum = minimums && (minimums[build.cpu.id] ?? minimums[build.cpu.specs.family]);
-    const comparison = compareBiosVersions(board.installedBiosVersion, minimum);
-    if (comparison === null) {
-      unknown('CPU_BIOS_UNVERIFIED', 'BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte.');
-    } else if (comparison < 0) {
-      conflict('CPU_BIOS_BELOW_MINIMUM', `A BIOS instalada é anterior à versão mínima ${minimum} para este processador.`);
-    }
+  // BIOS of a future purchased unit is not a comparison criterion. Known
+  // chipset exclusions remain factual alerts; incomplete data stays advisory.
+  if (board.chipset === 'B550' && /(?:3200G|3400G)/i.test(build.cpu.name || '')) {
+    conflict('CPU_CHIPSET_INCOMPATIBLE', 'O chipset B550 não suporta Ryzen 3200G/3400G. Você pode continuar com um cenário teórico ou trocar a placa-mãe.');
   }
 }
 
-function compareBiosVersions(installed, minimum) {
-  if (typeof installed !== 'string' || typeof minimum !== 'string' || !installed.trim() || !minimum.trim()) return null;
-  // Only stable, same-scheme numeric releases have an ordering here. Beta labels,
-  // different prefixes and arbitrary vendor labels cannot establish support.
-  const actual = /^(F?)(\d+)$/i.exec(installed.trim());
-  const required = /^(F?)(\d+)$/i.exec(minimum.trim());
-  if (!actual || !required || actual[1].toUpperCase() !== required[1].toUpperCase()) return null;
-  return Number(actual[2]) - Number(required[2]);
+function validateGraphicsPath(build, alerts, unverifiedChecks) {
+  if (!usesIntegratedGraphics(build)) return;
+  const cpu = integratedCpuEvidence(build.cpu);
+  const board = integratedDisplayEvidence(build.motherboard);
+  if (integratedGraphicsCapability(build.cpu) === 'absent') alerts.push({ code: 'CPU_HAS_NO_INTEGRATED_GRAPHICS', severity: 'high', message: 'Esta CPU não oferece vídeo integrado. Sem uma GPU dedicada não haverá imagem; a estimativa é apenas teórica.' });
+  else if (!cpu) unverifiedChecks.push({ code: 'INTEGRATED_GPU_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Vídeo integrado não confirmado para esta CPU exata. Uma saída na placa-mãe não cria uma GPU.' });
+  if (!board?.outputs.length) unverifiedChecks.push({ code: 'MOTHERBOARD_VIDEO_OUTPUT_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Saída de vídeo da placa-mãe não confirmada para esta montagem sem GPU dedicada.' });
+  if (cpu && board) {
+    // Published display capabilities are independent of installed firmware.
+    build.graphicsAssessment = { model: cpu.model, outputs: board.outputs, sourceUrls: [cpu.sourceUrl, board.sourceUrl], memory: 'shared-system-ram' };
+  }
 }

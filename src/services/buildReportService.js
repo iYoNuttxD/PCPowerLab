@@ -26,7 +26,10 @@ export function generateBuildReport(input) {
     qualityPreset: input.qualityPreset
   });
 
-  const score = runOptionalAnalysis(
+  const score = summary.budgetStatus?.available === false
+    ? { available: false, overallScore: null, reason: 'budget_analysis_unavailable',
+      message: 'Nota consolidada indisponível até corrigir o orçamento. As análises técnicas independentes foram mantidas.' }
+    : runOptionalAnalysis(
     () => calculateBuildScore({
       build,
       budget: input.budget,
@@ -96,10 +99,13 @@ function buildPricingSection({ totalEstimatedPrice, budgetStatus, budget }) {
 
   return {
     totalEstimatedPrice,
-    budget: budgetStatus.amount,
-    currency: budgetStatus.currency,
-    remaining: budgetStatus.remaining,
+    budget: budgetStatus.amount ?? null,
+    currency: defaultCurrency,
+    budgetCurrency: budgetStatus.currency ?? null,
+    remaining: budgetStatus.remaining ?? null,
     status: budgetStatus.status,
+    ...(budgetStatus.status === 'unavailable' ? { available: false, reason: budgetStatus.reason,
+      message: budgetStatus.message || budgetStatus.explanation?.message, errors: budgetStatus.errors || [] } : {}),
     warnings: budgetStatus.warnings ?? budget?.warnings ?? []
   };
 }

@@ -1,0 +1,115 @@
+
+Running 24 tests using 1 worker
+
+(node:96802) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.1s)
+  ✓   2 [desktop] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.3s)
+  ✓   3 [desktop] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.5s)
+  ✓   4 [desktop] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.3s)
+  ✓   5 [desktop] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (928ms)
+  ✓   6 [desktop] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (364ms)
+  ✓   7 [desktop] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (614ms)
+  ✘   8 [desktop] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (1.0m)
+(node:96926) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [tablet] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (2.8s)
+  ✓  10 [tablet] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.2s)
+  ✓  11 [tablet] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.5s)
+  ✓  12 [tablet] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.4s)
+  ✓  13 [tablet] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (859ms)
+  ✓  14 [tablet] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (311ms)
+  ✓  15 [tablet] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (576ms)
+  ✘  16 [tablet] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (1.0m)
+(node:97061) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [mobile] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (2.8s)
+  ✓  18 [mobile] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.3s)
+  ✓  19 [mobile] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.5s)
+  ✓  20 [mobile] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.5s)
+  ✓  21 [mobile] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (795ms)
+  ✓  22 [mobile] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (282ms)
+  ✓  23 [mobile] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (530ms)
+  ✘  24 [mobile] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (1.0m)
+
+
+  1) [desktop] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.scrollIntoViewIfNeeded: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('.recommendation-card')
+
+
+      33 | }
+      34 | async function capture(page, testInfo, name, target) {
+    > 35 |   if (target) await target.scrollIntoViewIfNeeded();
+         |                            ^
+      36 |   const path = testInfo.outputPath(`${name}.png`);
+      37 |   await page.screenshot({ path });
+      38 |   await testInfo.attach(name, { path, contentType: 'image/png' });
+        at capture (/Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/integration/cycle2.spec.js:35:28)
+        at /Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/integration/cycle2.spec.js:432:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    integration-test-results/cycle2-API-real-gera-e-apl-47e60-em-índice-nem-FPS-fabricado-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: integration-test-results/cycle2-API-real-gera-e-apl-47e60-em-índice-nem-FPS-fabricado-desktop/error-context.md
+
+  2) [tablet] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.scrollIntoViewIfNeeded: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('.recommendation-card')
+
+
+      33 | }
+      34 | async function capture(page, testInfo, name, target) {
+    > 35 |   if (target) await target.scrollIntoViewIfNeeded();
+         |                            ^
+      36 |   const path = testInfo.outputPath(`${name}.png`);
+      37 |   await page.screenshot({ path });
+      38 |   await testInfo.attach(name, { path, contentType: 'image/png' });
+        at capture (/Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/integration/cycle2.spec.js:35:28)
+        at /Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/integration/cycle2.spec.js:432:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    integration-test-results/cycle2-API-real-gera-e-apl-47e60-em-índice-nem-FPS-fabricado-tablet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: integration-test-results/cycle2-API-real-gera-e-apl-47e60-em-índice-nem-FPS-fabricado-tablet/error-context.md
+
+  3) [mobile] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.scrollIntoViewIfNeeded: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for locator('.recommendation-card')
+
+
+      33 | }
+      34 | async function capture(page, testInfo, name, target) {
+    > 35 |   if (target) await target.scrollIntoViewIfNeeded();
+         |                            ^
+      36 |   const path = testInfo.outputPath(`${name}.png`);
+      37 |   await page.screenshot({ path });
+      38 |   await testInfo.attach(name, { path, contentType: 'image/png' });
+        at capture (/Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/integration/cycle2.spec.js:35:28)
+        at /Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/integration/cycle2.spec.js:432:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    integration-test-results/cycle2-API-real-gera-e-apl-47e60-em-índice-nem-FPS-fabricado-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: integration-test-results/cycle2-API-real-gera-e-apl-47e60-em-índice-nem-FPS-fabricado-mobile/error-context.md
+
+  3 failed
+    [desktop] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado
+    [tablet] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado
+    [mobile] › tests/integration/cycle2.spec.js:412:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado
+  21 passed (3.5m)

@@ -1,0 +1,1676 @@
+{
+  "generatedAt": "2026-10-21T05:57:03.797Z",
+  "basis": "Estimativas de cenário; não benchmarks ou cotações em tempo real",
+  "scenarios": [
+    {
+      "label": "Estudos integrado 3000",
+      "input": {
+        "budget": {
+          "amount": 3000
+        },
+        "usageType": "study",
+        "graphicsMode": "integrated"
+      },
+      "build": {
+        "cpu": "cpu-ryzen-3-3200g-box",
+        "motherboard": "mb-asrock-b450m-hdv-r4",
+        "ram": "ram-mancer-vant-s-16gb-3200",
+        "storage": "ssd-kingston-a400-240gb",
+        "psu": "psu-coolermaster-mwe-gold650-v3",
+        "case": "case-deepcool-cc310-black",
+        "graphicsMode": "integrated"
+      },
+      "total": 2489.94,
+      "compatibility": {
+        "compatible": true,
+        "status": "compatible",
+        "unverifiedChecks": [],
+        "coolingPower": {
+          "knownWatts": 0,
+          "complete": true,
+          "unknownComponents": []
+        },
+        "coolingAssessment": {
+          "status": "unverified",
+          "scope": "included_cooler_identity_only",
+          "includedCooler": {
+            "name": "AMD Wraith Stealth",
+            "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "additionalPrice": 0,
+            "dimensionsVerified": false
+          },
+          "unverifiedChecks": [
+            {
+              "code": "CPU_COOLING_FIT_UNVERIFIED",
+              "severity": "medium",
+              "verification": "unverified",
+              "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+            }
+          ],
+          "alerts": []
+        },
+        "alerts": []
+      },
+      "game": {
+        "performanceBasis": "simulated",
+        "performanceMethodology": {
+          "basis": "simulated",
+          "kind": "catalog-simulated",
+          "modelVersion": "catalog-estimate-v1",
+          "shortLabel": "Score simulado",
+          "measuredBenchmark": false,
+          "provisionalComponentIds": [],
+          "contributors": [
+            {
+              "componentId": "cpu-ryzen-3-3200g-box",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "ram-mancer-vant-s-16gb-3200",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            },
+            {
+              "componentId": "ssd-kingston-a400-240gb",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            }
+          ],
+          "description": "Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade."
+        },
+        "game": "Valorant",
+        "gameId": "game-valorant",
+        "targetResolution": "1080p",
+        "qualityPreset": "high",
+        "available": true,
+        "estimatedFps": 40,
+        "estimatedFpsRange": {
+          "low": 18,
+          "high": 62
+        },
+        "estimation": {
+          "modelVersion": "component-scenario-v2",
+          "kind": "theoretical-scenario",
+          "measuredBenchmark": false,
+          "confidence": "low",
+          "rangeFraction": 0.55,
+          "scenarioOnly": true,
+          "assumptions": [
+            "Aproximação pela família do chip; diferenças de placa, memória e drivers ampliam a faixa.",
+            "Vídeo integrado compartilha RAM; reserva de 2 GB usada como hipótese.",
+            "Um módulo de RAM: redução aproximada de 20% no cenário gráfico, sem promessa de ganho com outro kit.",
+            "Potência gráfica integrada já faz parte do cenário de potência da CPU.",
+            "Reserva gráfica de 2 GB deduzida da RAM disponível no cenário; a alocação real é dinâmica."
+          ],
+          "sourceUrls": [
+            "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "https://mancer.com.br/p/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb/",
+            "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G"
+          ],
+          "note": "Estimativa aproximada das peças; não é ensaio medido nem confirmação de funcionamento da montagem."
+        },
+        "performanceLevel": "insufficient",
+        "meetsMinimumRequirements": false,
+        "meetsRecommendedRequirements": false,
+        "summary": "A configuração não deve entregar desempenho mínimo satisfatório em Valorant.",
+        "details": {
+          "cpuStatus": "belowMinimum",
+          "gpuStatus": "belowMinimum",
+          "ramStatus": "recommended",
+          "storageStatus": "belowRecommended"
+        },
+        "technicalDetails": {
+          "compatibility": {
+            "scope": "partial_build",
+            "status": "unverified",
+            "compatible": false
+          },
+          "weightedPerformanceIndex": 52.04,
+          "qualityMultiplier": 0.9,
+          "resolutionMultiplier": 1,
+          "bottleneckPenalty": 1,
+          "bottlenecks": []
+        }
+      },
+      "bottlenecks": {
+        "performanceBasis": "simulated",
+        "performanceMethodology": {
+          "basis": "simulated",
+          "kind": "catalog-simulated",
+          "modelVersion": "catalog-estimate-v1",
+          "shortLabel": "Score simulado",
+          "measuredBenchmark": false,
+          "provisionalComponentIds": [],
+          "contributors": [
+            {
+              "componentId": "cpu-ryzen-3-3200g-box",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "ram-mancer-vant-s-16gb-3200",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            },
+            {
+              "componentId": "ssd-kingston-a400-240gb",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            }
+          ],
+          "description": "Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade."
+        },
+        "available": true,
+        "estimation": {
+          "modelVersion": "component-scenario-v2",
+          "kind": "theoretical-scenario",
+          "measuredBenchmark": false,
+          "confidence": "low",
+          "rangeFraction": 0.55,
+          "scenarioOnly": true,
+          "assumptions": [
+            "Aproximação pela família do chip; diferenças de placa, memória e drivers ampliam a faixa.",
+            "Vídeo integrado compartilha RAM; reserva de 2 GB usada como hipótese.",
+            "Um módulo de RAM: redução aproximada de 20% no cenário gráfico, sem promessa de ganho com outro kit.",
+            "Potência gráfica integrada já faz parte do cenário de potência da CPU.",
+            "Reserva gráfica de 2 GB deduzida da RAM disponível no cenário; a alocação real é dinâmica.",
+            "Classe aproximada pelos dados disponíveis; detalhes ausentes usam hipóteses gerais."
+          ],
+          "sourceUrls": [
+            "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "https://mancer.com.br/p/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb/",
+            "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G",
+            "https://sfcc.coolermaster.com/en-global/products/mwe-gold-v3-atx-3-1-non-modular-series.html"
+          ],
+          "note": "Estimativa aproximada das peças; não é ensaio medido nem confirmação de funcionamento da montagem."
+        },
+        "hasBottleneck": true,
+        "overallBalance": "moderate",
+        "bottlenecks": [
+          {
+            "type": "gpu_bottleneck",
+            "severity": "medium",
+            "component": "gpu",
+            "relatedComponent": "cpu",
+            "message": "A placa de video pode limitar o aproveitamento do processador em tarefas graficas.",
+            "technicalDetails": {
+              "cpuScore": 34,
+              "gpuScore": 10.4,
+              "difference": 23.6
+            }
+          },
+          {
+            "type": "ram_capacity_limitation",
+            "severity": "medium",
+            "component": "ram",
+            "relatedComponent": null,
+            "message": "A capacidade de memoria RAM pode limitar multitarefas e jogos recentes.",
+            "technicalDetails": {
+              "capacityGb": 14,
+              "minimumRecommendedGb": 16,
+              "ramScore": 58
+            }
+          },
+          {
+            "type": "storage_speed_limitation",
+            "severity": "medium",
+            "component": "storage",
+            "relatedComponent": null,
+            "message": "O armazenamento pode aumentar tempos de carregamento e deixar o uso geral menos responsivo.",
+            "technicalDetails": {
+              "storageScore": 52.5,
+              "readSpeedMbS": 500,
+              "storageInterface": "SATA",
+              "minimumRecommendedScore": 55,
+              "minimumRecommendedReadSpeedMbS": 1000
+            }
+          }
+        ],
+        "performanceSummary": {
+          "cpuScore": 34,
+          "gpuScore": 10.4,
+          "ramScore": 58,
+          "storageScore": 52.5,
+          "estimatedConsumptionWatts": 165,
+          "psuWatts": 650
+        }
+      },
+      "cooling": {
+        "modelVersion": "pcpl-cooling-scenario-v1-r3",
+        "conditions": {
+          "inletCelsius": 25,
+          "coolerSpeedFraction": 0.75,
+          "extraFanSpeedFraction": 0.75,
+          "referenceHeatWatts": null,
+          "modelVersion": "pcpl-cooling-scenario-v1-r3"
+        },
+        "validConditions": true,
+        "conditionErrors": [],
+        "conditionsErrors": [],
+        "status": "available",
+        "available": true,
+        "thermal": {
+          "available": true,
+          "status": "available",
+          "basis": "generic-engineering-scenario",
+          "heuristicFallback": true,
+          "confidence": "low",
+          "scenarioBands": [
+            {
+              "id": "light",
+              "heatWatts": 16.25,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 31.3375,
+                "central": 35.5625,
+                "high": 40.315625
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            },
+            {
+              "id": "mixed",
+              "heatWatts": 39,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 40.21,
+                "central": 50.35,
+                "high": 61.7575
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            },
+            {
+              "id": "sustained",
+              "heatWatts": 65,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 50.349999999999994,
+                "central": 67.25,
+                "high": 86.26249999999999
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            }
+          ],
+          "thermalLimitCelsius": 95,
+          "tjMaxCelsius": 95,
+          "thermalLimitStatus": "estimated",
+          "referenceHeatWatts": 65,
+          "referenceHeatBasis": "Potência nominal ou hipótese de 65 W quando ausente; não é consumo medido.",
+          "assumptions": [
+            "Cooler padrão aproximado (AMD Wraith Stealth); não adiciona um produto nem preço à montagem.",
+            "Faixas de resistência de -40% a +45%; montagem, carga e ambiente podem mudar o resultado."
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ],
+          "warnings": [],
+          "missingInputs": [],
+          "displayRoundingDegrees": 5
+        },
+        "acoustics": {
+          "status": "available",
+          "available": true,
+          "coverage": "estimated",
+          "coverageScope": "selected-cooling-only",
+          "bandDba": {
+            "low": 21.193310480660944,
+            "central": 29.193310480660944,
+            "high": 37.19331048066095
+          },
+          "includedSources": [
+            {
+              "componentId": "scenario-standard-cooling",
+              "name": "AMD Wraith Stealth",
+              "physicalUnits": 1,
+              "bandDba": {
+                "low": 20,
+                "central": 28,
+                "high": 36
+              },
+              "provenance": {
+                "assumed": true,
+                "genericFallback": true,
+                "sourceUrls": [
+                  "https://www.ti.com/lit/pdf/slva462",
+                  "https://support.arctic.de/pwm-settings"
+                ],
+                "label": "Classe acústica aproximada, não medição"
+              }
+            },
+            {
+              "componentId": "case-included-fans",
+              "name": "Ventoinhas do gabinete (cenário)",
+              "physicalUnits": 1,
+              "bandDba": {
+                "low": 15,
+                "central": 23,
+                "high": 31
+              },
+              "provenance": {
+                "assumed": true,
+                "genericFallback": true,
+                "sourceUrls": [
+                  "https://www.ti.com/lit/pdf/slva462",
+                  "https://support.arctic.de/pwm-settings"
+                ],
+                "label": "Classe acústica aproximada, não medição"
+              }
+            }
+          ],
+          "excludedSources": [],
+          "warnings": [
+            {
+              "code": "unmodelled-case-fans",
+              "message": "Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+            }
+          ],
+          "convention": {
+            "id": "pcpl-1m-aweighted-equivalent-broadband-v1",
+            "quantity": "A-weighted sound pressure level",
+            "referencePressurePa": 0.00002,
+            "distanceM": 1,
+            "field": "idealized free-field equivalent; no enclosure attenuation or room reflections",
+            "listener": "one fixed hypothetical listener 1 m from common source reference; component locations collapsed to that reference",
+            "directivity": "Each admitted model profile is assumed to represent this listener. No measured directivity conversion is claimed; transfers carry explicit assumption bands. Bare fan reference is intake-facing; cooler/pump effective orientation is an assumption.",
+            "background": "excluded; modeled source-only energy. Source floors are not added once per source.",
+            "distanceCorrectionEnabled": false,
+            "independence": "incoherent broadband source-energy approximation; no phase/coherence, beating or tonal model"
+          },
+          "distanceM": 1,
+          "label": "Cooler e ventoinhas selecionadas a 1 m",
+          "disclosure": "Ruído aproximado das fontes modeladas; não é o ruído do PC completo. GPU, fonte, armazenamento, ruído elétrico e ambiente ficam fora do cálculo.",
+          "modelVersion": "pcpl-cooling-scenario-v1-r3",
+          "heuristicFallback": true,
+          "confidence": "low",
+          "assumptions": [
+            "Soma logarítmica das fontes de refrigeração a 1 m; classes desconhecidas usam faixa de ±8 dBA.",
+            "Quantidade desconhecida de ventoinhas do gabinete: hipótese de duas. Não inclui GPU, fonte ou ruído ambiente."
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ]
+        },
+        "warnings": [
+          {
+            "code": "unmodelled-case-fans",
+            "message": "Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+          }
+        ],
+        "provenance": {
+          "label": "Estimativas por classe com hipóteses explícitas; sem medição do produto",
+          "modelVersion": "pcpl-cooling-scenario-v1-r3",
+          "profileRevision": "r3-shared-anchor-reproducibility",
+          "reviewedAt": "2026-10-08",
+          "assumed": true,
+          "empiricallyCalibrated": false,
+          "thermal": {
+            "label": "Modelo térmico aproximado com prior genérico compartilhado de encapsulamento/contato",
+            "basis": "assumed-design-priors",
+            "assumed": true,
+            "genericPackagePrior": true,
+            "packagePrior": {
+              "id": "shared-package-contact-v1",
+              "units": "Celsius/W",
+              "low": 0.1,
+              "central": 0.2,
+              "high": 0.3,
+              "basis": "explicit modelling anchor and explored sensitivity range, not measured or manufacturer-rated",
+              "rationale": "Sparse paired observations identify total resistance only. A shared anchor avoids fabricated brand or CPU-model offsets. Same heat input and cooler yield equal simulated values for CPUs sharing this prior. Actual values can fall outside this explored range."
+            },
+            "cpu": null,
+            "cooler": null,
+            "sourceUrls": []
+          },
+          "acoustic": [
+            {
+              "assumed": true,
+              "genericFallback": true,
+              "sourceUrls": [
+                "https://www.ti.com/lit/pdf/slva462",
+                "https://support.arctic.de/pwm-settings"
+              ],
+              "label": "Classe acústica aproximada, não medição"
+            },
+            {
+              "assumed": true,
+              "genericFallback": true,
+              "sourceUrls": [
+                "https://www.ti.com/lit/pdf/slva462",
+                "https://support.arctic.de/pwm-settings"
+              ],
+              "label": "Classe acústica aproximada, não medição"
+            }
+          ],
+          "methodology": [
+            {
+              "label": "Rede térmica equivalente; coeficientes dependem do sistema",
+              "url": "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+              "use": "Methodology only; supplies no desktop CPU coefficients"
+            },
+            {
+              "label": "Resposta térmica não linear e dependente do processador",
+              "url": "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+              "use": "Methodology only; NSPR is never converted into degrees"
+            },
+            {
+              "label": "Soma energética de fontes sonoras",
+              "url": "https://www.osha.gov/otm/section-3-health-hazards/chapter-5",
+              "use": "Methodology only; no acoustic safety or health claims"
+            }
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings",
+            "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+            "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+            "https://www.osha.gov/otm/section-3-health-hazards/chapter-5"
+          ],
+          "limitations": [
+            "Faixas de cenários, não intervalos de confiança nem especificações do fabricante.",
+            "25%, 60% e 100% são frações da potência térmica de referência; não são utilização da CPU.",
+            "A potência é fixa em cada cenário; a faixa varia somente as hipóteses de resistência.",
+            "Temperaturas algébricas não modelam limitação de potência, throttling ou transientes.",
+            "Gabinete, GPU e ventoinhas extras não alteram o cálculo térmico; o ar de entrada é uma condição explícita.",
+            "Rotações são frações do RPM nominal, não duty cycle PWM; AIOs mantêm bomba e VRM fixos."
+          ],
+          "fallbackAssumptions": [
+            "Cooler padrão aproximado (AMD Wraith Stealth); não adiciona um produto nem preço à montagem.",
+            "Faixas de resistência de -40% a +45%; montagem, carga e ambiente podem mudar o resultado.",
+            "Soma logarítmica das fontes de refrigeração a 1 m; classes desconhecidas usam faixa de ±8 dBA.",
+            "Quantidade desconhecida de ventoinhas do gabinete: hipótese de duas. Não inclui GPU, fonte ou ruído ambiente."
+          ],
+          "fallbackSourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ]
+        },
+        "signatures": {
+          "thermal": "{\"conditions\":{\"coolerSpeedFraction\":0.75,\"inletCelsius\":25,\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\",\"referenceHeatWatts\":null},\"cooler\":\"{\\\"invalidComponent\\\":{\\\"invalidValue\\\":\\\"undefined\\\"}}\",\"cpu\":\"{\\\"brand\\\":\\\"AMD\\\",\\\"category\\\":\\\"cpu\\\",\\\"id\\\":\\\"cpu-ryzen-3-3200g-box\\\",\\\"model\\\":null,\\\"name\\\":\\\"AMD Ryzen 3 3200G Box\\\",\\\"partNumber\\\":\\\"YD3200C5FHBOX\\\",\\\"specs\\\":{\\\"baseClockGhz\\\":3.6,\\\"boostClockGhz\\\":4,\\\"cores\\\":4,\\\"graphicsClockMhz\\\":1250,\\\"graphicsCoreCount\\\":8,\\\"integratedGraphics\\\":\\\"Radeon Vega 8 Graphics\\\",\\\"maxMemoryDataRateMTs\\\":2933,\\\"maxOperatingTempC\\\":95,\\\"memoryTypes\\\":[\\\"DDR4\\\"],\\\"socket\\\":\\\"AM4\\\",\\\"tdpWatts\\\":65,\\\"threads\\\":4}}\",\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"}",
+          "acoustics": "{\"caseFans\":{\"category\":\"case\",\"id\":\"case-deepcool-cc310-black\",\"includedFanCount\":1,\"name\":\"DeepCool CC310 Black\",\"validRecord\":true},\"conditions\":{\"coolerSpeedFraction\":0.75,\"extraFanSpeedFraction\":0.75,\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"},\"cooler\":\"{\\\"invalidComponent\\\":{\\\"invalidValue\\\":\\\"undefined\\\"}}\",\"cpu\":\"{\\\"brand\\\":\\\"AMD\\\",\\\"category\\\":\\\"cpu\\\",\\\"id\\\":\\\"cpu-ryzen-3-3200g-box\\\",\\\"model\\\":null,\\\"name\\\":\\\"AMD Ryzen 3 3200G Box\\\",\\\"partNumber\\\":\\\"YD3200C5FHBOX\\\",\\\"specs\\\":{\\\"baseClockGhz\\\":3.6,\\\"boostClockGhz\\\":4,\\\"cores\\\":4,\\\"graphicsClockMhz\\\":1250,\\\"graphicsCoreCount\\\":8,\\\"integratedGraphics\\\":\\\"Radeon Vega 8 Graphics\\\",\\\"maxMemoryDataRateMTs\\\":2933,\\\"maxOperatingTempC\\\":95,\\\"memoryTypes\\\":[\\\"DDR4\\\"],\\\"socket\\\":\\\"AM4\\\",\\\"tdpWatts\\\":65,\\\"threads\\\":4}}\",\"fans\":[],\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"}",
+          "simulation": "{\"acoustics\":\"{\\\"caseFans\\\":{\\\"category\\\":\\\"case\\\",\\\"id\\\":\\\"case-deepcool-cc310-black\\\",\\\"includedFanCount\\\":1,\\\"name\\\":\\\"DeepCool CC310 Black\\\",\\\"validRecord\\\":true},\\\"conditions\\\":{\\\"coolerSpeedFraction\\\":0.75,\\\"extraFanSpeedFraction\\\":0.75,\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"},\\\"cooler\\\":\\\"{\\\\\\\"invalidComponent\\\\\\\":{\\\\\\\"invalidValue\\\\\\\":\\\\\\\"undefined\\\\\\\"}}\\\",\\\"cpu\\\":\\\"{\\\\\\\"brand\\\\\\\":\\\\\\\"AMD\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"cpu\\\\\\\",\\\\\\\"id\\\\\\\":\\\\\\\"cpu-ryzen-3-3200g-box\\\\\\\",\\\\\\\"model\\\\\\\":null,\\\\\\\"name\\\\\\\":\\\\\\\"AMD Ryzen 3 3200G Box\\\\\\\",\\\\\\\"partNumber\\\\\\\":\\\\\\\"YD3200C5FHBOX\\\\\\\",\\\\\\\"specs\\\\\\\":{\\\\\\\"baseClockGhz\\\\\\\":3.6,\\\\\\\"boostClockGhz\\\\\\\":4,\\\\\\\"cores\\\\\\\":4,\\\\\\\"graphicsClockMhz\\\\\\\":1250,\\\\\\\"graphicsCoreCount\\\\\\\":8,\\\\\\\"integratedGraphics\\\\\\\":\\\\\\\"Radeon Vega 8 Graphics\\\\\\\",\\\\\\\"maxMemoryDataRateMTs\\\\\\\":2933,\\\\\\\"maxOperatingTempC\\\\\\\":95,\\\\\\\"memoryTypes\\\\\\\":[\\\\\\\"DDR4\\\\\\\"],\\\\\\\"socket\\\\\\\":\\\\\\\"AM4\\\\\\\",\\\\\\\"tdpWatts\\\\\\\":65,\\\\\\\"threads\\\\\\\":4}}\\\",\\\"fans\\\":[],\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"}\",\"thermal\":\"{\\\"conditions\\\":{\\\"coolerSpeedFraction\\\":0.75,\\\"inletCelsius\\\":25,\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\",\\\"referenceHeatWatts\\\":null},\\\"cooler\\\":\\\"{\\\\\\\"invalidComponent\\\\\\\":{\\\\\\\"invalidValue\\\\\\\":\\\\\\\"undefined\\\\\\\"}}\\\",\\\"cpu\\\":\\\"{\\\\\\\"brand\\\\\\\":\\\\\\\"AMD\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"cpu\\\\\\\",\\\\\\\"id\\\\\\\":\\\\\\\"cpu-ryzen-3-3200g-box\\\\\\\",\\\\\\\"model\\\\\\\":null,\\\\\\\"name\\\\\\\":\\\\\\\"AMD Ryzen 3 3200G Box\\\\\\\",\\\\\\\"partNumber\\\\\\\":\\\\\\\"YD3200C5FHBOX\\\\\\\",\\\\\\\"specs\\\\\\\":{\\\\\\\"baseClockGhz\\\\\\\":3.6,\\\\\\\"boostClockGhz\\\\\\\":4,\\\\\\\"cores\\\\\\\":4,\\\\\\\"graphicsClockMhz\\\\\\\":1250,\\\\\\\"graphicsCoreCount\\\\\\\":8,\\\\\\\"integratedGraphics\\\\\\\":\\\\\\\"Radeon Vega 8 Graphics\\\\\\\",\\\\\\\"maxMemoryDataRateMTs\\\\\\\":2933,\\\\\\\"maxOperatingTempC\\\\\\\":95,\\\\\\\"memoryTypes\\\\\\\":[\\\\\\\"DDR4\\\\\\\"],\\\\\\\"socket\\\\\\\":\\\\\\\"AM4\\\\\\\",\\\\\\\"tdpWatts\\\\\\\":65,\\\\\\\"threads\\\\\\\":4}}\\\",\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"}\"}"
+        }
+      }
+    },
+    {
+      "label": "Estudos dedicado 4000",
+      "input": {
+        "budget": {
+          "amount": 4000
+        },
+        "usageType": "study",
+        "selectionMode": "price-and-compatibility"
+      },
+      "build": {
+        "cpu": "cpu-ryzen-3-3200g-box",
+        "motherboard": "mb-asrock-b450m-hdv-r4",
+        "gpu": "gpu-pcyes-rx-550-edge-4gb",
+        "ram": "ram-apacer-nox-rgb-8gb-3200",
+        "storage": "ssd-kingston-a400-240gb",
+        "psu": "psu-coolermaster-mwe-gold650-v3",
+        "case": "case-deepcool-cc310-black"
+      },
+      "total": 3019.75,
+      "compatibility": {
+        "compatible": false,
+        "status": "unverified",
+        "unverifiedChecks": [
+          {
+            "code": "GPU_POWER_CONNECTORS_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Conectores de alimentação da GPU não confirmados."
+          },
+          {
+            "code": "CASE_GPU_LENGTH_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Comprimento da GPU ou limite do gabinete nao informado."
+          }
+        ],
+        "coolingPower": {
+          "knownWatts": 0,
+          "complete": true,
+          "unknownComponents": []
+        },
+        "coolingAssessment": {
+          "status": "unverified",
+          "scope": "included_cooler_identity_only",
+          "includedCooler": {
+            "name": "AMD Wraith Stealth",
+            "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "additionalPrice": 0,
+            "dimensionsVerified": false
+          },
+          "unverifiedChecks": [
+            {
+              "code": "CPU_COOLING_FIT_UNVERIFIED",
+              "severity": "medium",
+              "verification": "unverified",
+              "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+            }
+          ],
+          "alerts": []
+        },
+        "alerts": [
+          {
+            "code": "GPU_POWER_CONNECTORS_UNVERIFIED",
+            "title": "Atencao na compatibilidade",
+            "message": "Conectores de alimentação da GPU não confirmados.",
+            "severity": "medium",
+            "blocking": false,
+            "components": [],
+            "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+          },
+          {
+            "code": "CASE_GPU_LENGTH_UNVERIFIED",
+            "title": "Atencao na compatibilidade",
+            "message": "Comprimento da GPU ou limite do gabinete nao informado.",
+            "severity": "medium",
+            "blocking": false,
+            "components": [],
+            "suggestion": "Revise os componentes selecionados antes de finalizar a configuracao."
+          }
+        ]
+      },
+      "game": {
+        "performanceBasis": "simulated",
+        "performanceMethodology": {
+          "basis": "simulated",
+          "kind": "catalog-simulated",
+          "modelVersion": "catalog-estimate-v1",
+          "shortLabel": "Score simulado",
+          "measuredBenchmark": false,
+          "provisionalComponentIds": [],
+          "contributors": [
+            {
+              "componentId": "cpu-ryzen-3-3200g-box",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "gpu-pcyes-rx-550-edge-4gb",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "ram-apacer-nox-rgb-8gb-3200",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            },
+            {
+              "componentId": "ssd-kingston-a400-240gb",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            }
+          ],
+          "description": "Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade."
+        },
+        "game": "Valorant",
+        "gameId": "game-valorant",
+        "targetResolution": "1080p",
+        "qualityPreset": "high",
+        "available": true,
+        "estimatedFps": 62,
+        "estimatedFpsRange": {
+          "low": 34,
+          "high": 90
+        },
+        "estimation": {
+          "modelVersion": "component-scenario-v2",
+          "kind": "theoretical-scenario",
+          "measuredBenchmark": false,
+          "confidence": "low",
+          "rangeFraction": 0.45,
+          "scenarioOnly": true,
+          "assumptions": [
+            "Aproximação pela família do chip; diferenças de placa, memória e drivers ampliam a faixa."
+          ],
+          "sourceUrls": [
+            "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "https://www.pcyes.com.br/placa-de-video-gpu-amd-radeon-rx-550-4gb-gddr5-128bit-edge-dual-fan-pvex5504gbdf-202279",
+            "https://www.apacer.com/upload/media/download/ZADAK/Data%20Sheet_NOX%20RGB%20DDR4.pdf",
+            "https://www.apacer.com/en/product/zadak-product/detail/zadak_memory/nox_rgb_ddr4",
+            "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G"
+          ],
+          "note": "Estimativa aproximada das peças; não é ensaio medido nem confirmação de funcionamento da montagem."
+        },
+        "performanceLevel": "insufficient",
+        "meetsMinimumRequirements": false,
+        "meetsRecommendedRequirements": false,
+        "summary": "A configuração não deve entregar desempenho mínimo satisfatório em Valorant.",
+        "details": {
+          "cpuStatus": "belowMinimum",
+          "gpuStatus": "belowMinimum",
+          "ramStatus": "recommended",
+          "storageStatus": "belowRecommended"
+        },
+        "technicalDetails": {
+          "compatibility": {
+            "scope": "full_build",
+            "status": "unverified",
+            "compatible": false,
+            "scenarioOnly": true,
+            "alerts": [],
+            "unverifiedChecks": [
+              {
+                "code": "GPU_POWER_CONNECTORS_UNVERIFIED",
+                "severity": "medium",
+                "verification": "unverified",
+                "message": "Conectores de alimentação da GPU não confirmados."
+              },
+              {
+                "code": "CASE_GPU_LENGTH_UNVERIFIED",
+                "severity": "medium",
+                "verification": "unverified",
+                "message": "Comprimento da GPU ou limite do gabinete nao informado."
+              }
+            ],
+            "coolingAssessment": {
+              "status": "unverified",
+              "scope": "included_cooler_identity_only",
+              "includedCooler": {
+                "name": "AMD Wraith Stealth",
+                "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+                "additionalPrice": 0,
+                "dimensionsVerified": false
+              },
+              "unverifiedChecks": [
+                {
+                  "code": "CPU_COOLING_FIT_UNVERIFIED",
+                  "severity": "medium",
+                  "verification": "unverified",
+                  "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+                }
+              ],
+              "alerts": []
+            }
+          },
+          "weightedPerformanceIndex": 55.26,
+          "qualityMultiplier": 0.9,
+          "resolutionMultiplier": 1,
+          "bottleneckPenalty": 0.93,
+          "bottlenecks": [
+            {
+              "type": "gpu_bottleneck",
+              "severity": "medium",
+              "component": "gpu",
+              "relatedComponent": "cpu",
+              "message": "A placa de video pode limitar o aproveitamento do processador em tarefas graficas.",
+              "technicalDetails": {
+                "cpuScore": 34,
+                "gpuScore": 16,
+                "difference": 18
+              }
+            },
+            {
+              "type": "ram_capacity_limitation",
+              "severity": "medium",
+              "component": "ram",
+              "relatedComponent": null,
+              "message": "A capacidade de memoria RAM pode limitar multitarefas e jogos recentes.",
+              "technicalDetails": {
+                "capacityGb": 8,
+                "minimumRecommendedGb": 16,
+                "ramScore": 54
+              }
+            },
+            {
+              "type": "storage_speed_limitation",
+              "severity": "medium",
+              "component": "storage",
+              "relatedComponent": null,
+              "message": "O armazenamento pode aumentar tempos de carregamento e deixar o uso geral menos responsivo.",
+              "technicalDetails": {
+                "storageScore": 52.5,
+                "readSpeedMbS": 500,
+                "storageInterface": "SATA",
+                "minimumRecommendedScore": 55,
+                "minimumRecommendedReadSpeedMbS": 1000
+              }
+            }
+          ]
+        }
+      },
+      "bottlenecks": {
+        "performanceBasis": "simulated",
+        "performanceMethodology": {
+          "basis": "simulated",
+          "kind": "catalog-simulated",
+          "modelVersion": "catalog-estimate-v1",
+          "shortLabel": "Score simulado",
+          "measuredBenchmark": false,
+          "provisionalComponentIds": [],
+          "contributors": [
+            {
+              "componentId": "cpu-ryzen-3-3200g-box",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "gpu-pcyes-rx-550-edge-4gb",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "ram-apacer-nox-rgb-8gb-3200",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            },
+            {
+              "componentId": "ssd-kingston-a400-240gb",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            }
+          ],
+          "description": "Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade."
+        },
+        "available": true,
+        "estimation": {
+          "modelVersion": "component-scenario-v2",
+          "kind": "theoretical-scenario",
+          "measuredBenchmark": false,
+          "confidence": "low",
+          "rangeFraction": 0.45,
+          "scenarioOnly": true,
+          "assumptions": [
+            "Aproximação pela família do chip; diferenças de placa, memória e drivers ampliam a faixa.",
+            "Classe aproximada pelos dados disponíveis; detalhes ausentes usam hipóteses gerais."
+          ],
+          "sourceUrls": [
+            "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "https://www.pcyes.com.br/placa-de-video-gpu-amd-radeon-rx-550-4gb-gddr5-128bit-edge-dual-fan-pvex5504gbdf-202279",
+            "https://www.apacer.com/upload/media/download/ZADAK/Data%20Sheet_NOX%20RGB%20DDR4.pdf",
+            "https://www.apacer.com/en/product/zadak-product/detail/zadak_memory/nox_rgb_ddr4",
+            "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G",
+            "https://sfcc.coolermaster.com/en-global/products/mwe-gold-v3-atx-3-1-non-modular-series.html"
+          ],
+          "note": "Estimativa aproximada das peças; não é ensaio medido nem confirmação de funcionamento da montagem."
+        },
+        "hasBottleneck": true,
+        "overallBalance": "moderate",
+        "bottlenecks": [
+          {
+            "type": "gpu_bottleneck",
+            "severity": "medium",
+            "component": "gpu",
+            "relatedComponent": "cpu",
+            "message": "A placa de video pode limitar o aproveitamento do processador em tarefas graficas.",
+            "technicalDetails": {
+              "cpuScore": 34,
+              "gpuScore": 16,
+              "difference": 18
+            }
+          },
+          {
+            "type": "ram_capacity_limitation",
+            "severity": "medium",
+            "component": "ram",
+            "relatedComponent": null,
+            "message": "A capacidade de memoria RAM pode limitar multitarefas e jogos recentes.",
+            "technicalDetails": {
+              "capacityGb": 8,
+              "minimumRecommendedGb": 16,
+              "ramScore": 54
+            }
+          },
+          {
+            "type": "storage_speed_limitation",
+            "severity": "medium",
+            "component": "storage",
+            "relatedComponent": null,
+            "message": "O armazenamento pode aumentar tempos de carregamento e deixar o uso geral menos responsivo.",
+            "technicalDetails": {
+              "storageScore": 52.5,
+              "readSpeedMbS": 500,
+              "storageInterface": "SATA",
+              "minimumRecommendedScore": 55,
+              "minimumRecommendedReadSpeedMbS": 1000
+            }
+          }
+        ],
+        "performanceSummary": {
+          "cpuScore": 34,
+          "gpuScore": 16,
+          "ramScore": 54,
+          "storageScore": 52.5,
+          "estimatedConsumptionWatts": 215,
+          "psuWatts": 650
+        }
+      },
+      "cooling": {
+        "modelVersion": "pcpl-cooling-scenario-v1-r3",
+        "conditions": {
+          "inletCelsius": 25,
+          "coolerSpeedFraction": 0.75,
+          "extraFanSpeedFraction": 0.75,
+          "referenceHeatWatts": null,
+          "modelVersion": "pcpl-cooling-scenario-v1-r3"
+        },
+        "validConditions": true,
+        "conditionErrors": [],
+        "conditionsErrors": [],
+        "status": "available",
+        "available": true,
+        "thermal": {
+          "available": true,
+          "status": "available",
+          "basis": "generic-engineering-scenario",
+          "heuristicFallback": true,
+          "confidence": "low",
+          "scenarioBands": [
+            {
+              "id": "light",
+              "heatWatts": 16.25,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 31.3375,
+                "central": 35.5625,
+                "high": 40.315625
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            },
+            {
+              "id": "mixed",
+              "heatWatts": 39,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 40.21,
+                "central": 50.35,
+                "high": 61.7575
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            },
+            {
+              "id": "sustained",
+              "heatWatts": 65,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 50.349999999999994,
+                "central": 67.25,
+                "high": 86.26249999999999
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            }
+          ],
+          "thermalLimitCelsius": 95,
+          "tjMaxCelsius": 95,
+          "thermalLimitStatus": "estimated",
+          "referenceHeatWatts": 65,
+          "referenceHeatBasis": "Potência nominal ou hipótese de 65 W quando ausente; não é consumo medido.",
+          "assumptions": [
+            "Cooler padrão aproximado (AMD Wraith Stealth); não adiciona um produto nem preço à montagem.",
+            "Faixas de resistência de -40% a +45%; montagem, carga e ambiente podem mudar o resultado."
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ],
+          "warnings": [],
+          "missingInputs": [],
+          "displayRoundingDegrees": 5
+        },
+        "acoustics": {
+          "status": "available",
+          "available": true,
+          "coverage": "estimated",
+          "coverageScope": "selected-cooling-only",
+          "bandDba": {
+            "low": 21.193310480660944,
+            "central": 29.193310480660944,
+            "high": 37.19331048066095
+          },
+          "includedSources": [
+            {
+              "componentId": "scenario-standard-cooling",
+              "name": "AMD Wraith Stealth",
+              "physicalUnits": 1,
+              "bandDba": {
+                "low": 20,
+                "central": 28,
+                "high": 36
+              },
+              "provenance": {
+                "assumed": true,
+                "genericFallback": true,
+                "sourceUrls": [
+                  "https://www.ti.com/lit/pdf/slva462",
+                  "https://support.arctic.de/pwm-settings"
+                ],
+                "label": "Classe acústica aproximada, não medição"
+              }
+            },
+            {
+              "componentId": "case-included-fans",
+              "name": "Ventoinhas do gabinete (cenário)",
+              "physicalUnits": 1,
+              "bandDba": {
+                "low": 15,
+                "central": 23,
+                "high": 31
+              },
+              "provenance": {
+                "assumed": true,
+                "genericFallback": true,
+                "sourceUrls": [
+                  "https://www.ti.com/lit/pdf/slva462",
+                  "https://support.arctic.de/pwm-settings"
+                ],
+                "label": "Classe acústica aproximada, não medição"
+              }
+            }
+          ],
+          "excludedSources": [],
+          "warnings": [
+            {
+              "code": "unmodelled-case-fans",
+              "message": "Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+            }
+          ],
+          "convention": {
+            "id": "pcpl-1m-aweighted-equivalent-broadband-v1",
+            "quantity": "A-weighted sound pressure level",
+            "referencePressurePa": 0.00002,
+            "distanceM": 1,
+            "field": "idealized free-field equivalent; no enclosure attenuation or room reflections",
+            "listener": "one fixed hypothetical listener 1 m from common source reference; component locations collapsed to that reference",
+            "directivity": "Each admitted model profile is assumed to represent this listener. No measured directivity conversion is claimed; transfers carry explicit assumption bands. Bare fan reference is intake-facing; cooler/pump effective orientation is an assumption.",
+            "background": "excluded; modeled source-only energy. Source floors are not added once per source.",
+            "distanceCorrectionEnabled": false,
+            "independence": "incoherent broadband source-energy approximation; no phase/coherence, beating or tonal model"
+          },
+          "distanceM": 1,
+          "label": "Cooler e ventoinhas selecionadas a 1 m",
+          "disclosure": "Ruído aproximado das fontes modeladas; não é o ruído do PC completo. GPU, fonte, armazenamento, ruído elétrico e ambiente ficam fora do cálculo.",
+          "modelVersion": "pcpl-cooling-scenario-v1-r3",
+          "heuristicFallback": true,
+          "confidence": "low",
+          "assumptions": [
+            "Soma logarítmica das fontes de refrigeração a 1 m; classes desconhecidas usam faixa de ±8 dBA.",
+            "Quantidade desconhecida de ventoinhas do gabinete: hipótese de duas. Não inclui GPU, fonte ou ruído ambiente."
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ]
+        },
+        "warnings": [
+          {
+            "code": "unmodelled-case-fans",
+            "message": "Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+          }
+        ],
+        "provenance": {
+          "label": "Estimativas por classe com hipóteses explícitas; sem medição do produto",
+          "modelVersion": "pcpl-cooling-scenario-v1-r3",
+          "profileRevision": "r3-shared-anchor-reproducibility",
+          "reviewedAt": "2026-10-08",
+          "assumed": true,
+          "empiricallyCalibrated": false,
+          "thermal": {
+            "label": "Modelo térmico aproximado com prior genérico compartilhado de encapsulamento/contato",
+            "basis": "assumed-design-priors",
+            "assumed": true,
+            "genericPackagePrior": true,
+            "packagePrior": {
+              "id": "shared-package-contact-v1",
+              "units": "Celsius/W",
+              "low": 0.1,
+              "central": 0.2,
+              "high": 0.3,
+              "basis": "explicit modelling anchor and explored sensitivity range, not measured or manufacturer-rated",
+              "rationale": "Sparse paired observations identify total resistance only. A shared anchor avoids fabricated brand or CPU-model offsets. Same heat input and cooler yield equal simulated values for CPUs sharing this prior. Actual values can fall outside this explored range."
+            },
+            "cpu": null,
+            "cooler": null,
+            "sourceUrls": []
+          },
+          "acoustic": [
+            {
+              "assumed": true,
+              "genericFallback": true,
+              "sourceUrls": [
+                "https://www.ti.com/lit/pdf/slva462",
+                "https://support.arctic.de/pwm-settings"
+              ],
+              "label": "Classe acústica aproximada, não medição"
+            },
+            {
+              "assumed": true,
+              "genericFallback": true,
+              "sourceUrls": [
+                "https://www.ti.com/lit/pdf/slva462",
+                "https://support.arctic.de/pwm-settings"
+              ],
+              "label": "Classe acústica aproximada, não medição"
+            }
+          ],
+          "methodology": [
+            {
+              "label": "Rede térmica equivalente; coeficientes dependem do sistema",
+              "url": "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+              "use": "Methodology only; supplies no desktop CPU coefficients"
+            },
+            {
+              "label": "Resposta térmica não linear e dependente do processador",
+              "url": "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+              "use": "Methodology only; NSPR is never converted into degrees"
+            },
+            {
+              "label": "Soma energética de fontes sonoras",
+              "url": "https://www.osha.gov/otm/section-3-health-hazards/chapter-5",
+              "use": "Methodology only; no acoustic safety or health claims"
+            }
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings",
+            "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+            "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+            "https://www.osha.gov/otm/section-3-health-hazards/chapter-5"
+          ],
+          "limitations": [
+            "Faixas de cenários, não intervalos de confiança nem especificações do fabricante.",
+            "25%, 60% e 100% são frações da potência térmica de referência; não são utilização da CPU.",
+            "A potência é fixa em cada cenário; a faixa varia somente as hipóteses de resistência.",
+            "Temperaturas algébricas não modelam limitação de potência, throttling ou transientes.",
+            "Gabinete, GPU e ventoinhas extras não alteram o cálculo térmico; o ar de entrada é uma condição explícita.",
+            "Rotações são frações do RPM nominal, não duty cycle PWM; AIOs mantêm bomba e VRM fixos."
+          ],
+          "fallbackAssumptions": [
+            "Cooler padrão aproximado (AMD Wraith Stealth); não adiciona um produto nem preço à montagem.",
+            "Faixas de resistência de -40% a +45%; montagem, carga e ambiente podem mudar o resultado.",
+            "Soma logarítmica das fontes de refrigeração a 1 m; classes desconhecidas usam faixa de ±8 dBA.",
+            "Quantidade desconhecida de ventoinhas do gabinete: hipótese de duas. Não inclui GPU, fonte ou ruído ambiente."
+          ],
+          "fallbackSourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ]
+        },
+        "signatures": {
+          "thermal": "{\"conditions\":{\"coolerSpeedFraction\":0.75,\"inletCelsius\":25,\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\",\"referenceHeatWatts\":null},\"cooler\":\"{\\\"invalidComponent\\\":{\\\"invalidValue\\\":\\\"undefined\\\"}}\",\"cpu\":\"{\\\"brand\\\":\\\"AMD\\\",\\\"category\\\":\\\"cpu\\\",\\\"id\\\":\\\"cpu-ryzen-3-3200g-box\\\",\\\"model\\\":null,\\\"name\\\":\\\"AMD Ryzen 3 3200G Box\\\",\\\"partNumber\\\":\\\"YD3200C5FHBOX\\\",\\\"specs\\\":{\\\"baseClockGhz\\\":3.6,\\\"boostClockGhz\\\":4,\\\"cores\\\":4,\\\"graphicsClockMhz\\\":1250,\\\"graphicsCoreCount\\\":8,\\\"integratedGraphics\\\":\\\"Radeon Vega 8 Graphics\\\",\\\"maxMemoryDataRateMTs\\\":2933,\\\"maxOperatingTempC\\\":95,\\\"memoryTypes\\\":[\\\"DDR4\\\"],\\\"socket\\\":\\\"AM4\\\",\\\"tdpWatts\\\":65,\\\"threads\\\":4}}\",\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"}",
+          "acoustics": "{\"caseFans\":{\"category\":\"case\",\"id\":\"case-deepcool-cc310-black\",\"includedFanCount\":1,\"name\":\"DeepCool CC310 Black\",\"validRecord\":true},\"conditions\":{\"coolerSpeedFraction\":0.75,\"extraFanSpeedFraction\":0.75,\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"},\"cooler\":\"{\\\"invalidComponent\\\":{\\\"invalidValue\\\":\\\"undefined\\\"}}\",\"cpu\":\"{\\\"brand\\\":\\\"AMD\\\",\\\"category\\\":\\\"cpu\\\",\\\"id\\\":\\\"cpu-ryzen-3-3200g-box\\\",\\\"model\\\":null,\\\"name\\\":\\\"AMD Ryzen 3 3200G Box\\\",\\\"partNumber\\\":\\\"YD3200C5FHBOX\\\",\\\"specs\\\":{\\\"baseClockGhz\\\":3.6,\\\"boostClockGhz\\\":4,\\\"cores\\\":4,\\\"graphicsClockMhz\\\":1250,\\\"graphicsCoreCount\\\":8,\\\"integratedGraphics\\\":\\\"Radeon Vega 8 Graphics\\\",\\\"maxMemoryDataRateMTs\\\":2933,\\\"maxOperatingTempC\\\":95,\\\"memoryTypes\\\":[\\\"DDR4\\\"],\\\"socket\\\":\\\"AM4\\\",\\\"tdpWatts\\\":65,\\\"threads\\\":4}}\",\"fans\":[],\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"}",
+          "simulation": "{\"acoustics\":\"{\\\"caseFans\\\":{\\\"category\\\":\\\"case\\\",\\\"id\\\":\\\"case-deepcool-cc310-black\\\",\\\"includedFanCount\\\":1,\\\"name\\\":\\\"DeepCool CC310 Black\\\",\\\"validRecord\\\":true},\\\"conditions\\\":{\\\"coolerSpeedFraction\\\":0.75,\\\"extraFanSpeedFraction\\\":0.75,\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"},\\\"cooler\\\":\\\"{\\\\\\\"invalidComponent\\\\\\\":{\\\\\\\"invalidValue\\\\\\\":\\\\\\\"undefined\\\\\\\"}}\\\",\\\"cpu\\\":\\\"{\\\\\\\"brand\\\\\\\":\\\\\\\"AMD\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"cpu\\\\\\\",\\\\\\\"id\\\\\\\":\\\\\\\"cpu-ryzen-3-3200g-box\\\\\\\",\\\\\\\"model\\\\\\\":null,\\\\\\\"name\\\\\\\":\\\\\\\"AMD Ryzen 3 3200G Box\\\\\\\",\\\\\\\"partNumber\\\\\\\":\\\\\\\"YD3200C5FHBOX\\\\\\\",\\\\\\\"specs\\\\\\\":{\\\\\\\"baseClockGhz\\\\\\\":3.6,\\\\\\\"boostClockGhz\\\\\\\":4,\\\\\\\"cores\\\\\\\":4,\\\\\\\"graphicsClockMhz\\\\\\\":1250,\\\\\\\"graphicsCoreCount\\\\\\\":8,\\\\\\\"integratedGraphics\\\\\\\":\\\\\\\"Radeon Vega 8 Graphics\\\\\\\",\\\\\\\"maxMemoryDataRateMTs\\\\\\\":2933,\\\\\\\"maxOperatingTempC\\\\\\\":95,\\\\\\\"memoryTypes\\\\\\\":[\\\\\\\"DDR4\\\\\\\"],\\\\\\\"socket\\\\\\\":\\\\\\\"AM4\\\\\\\",\\\\\\\"tdpWatts\\\\\\\":65,\\\\\\\"threads\\\\\\\":4}}\\\",\\\"fans\\\":[],\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"}\",\"thermal\":\"{\\\"conditions\\\":{\\\"coolerSpeedFraction\\\":0.75,\\\"inletCelsius\\\":25,\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\",\\\"referenceHeatWatts\\\":null},\\\"cooler\\\":\\\"{\\\\\\\"invalidComponent\\\\\\\":{\\\\\\\"invalidValue\\\\\\\":\\\\\\\"undefined\\\\\\\"}}\\\",\\\"cpu\\\":\\\"{\\\\\\\"brand\\\\\\\":\\\\\\\"AMD\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"cpu\\\\\\\",\\\\\\\"id\\\\\\\":\\\\\\\"cpu-ryzen-3-3200g-box\\\\\\\",\\\\\\\"model\\\\\\\":null,\\\\\\\"name\\\\\\\":\\\\\\\"AMD Ryzen 3 3200G Box\\\\\\\",\\\\\\\"partNumber\\\\\\\":\\\\\\\"YD3200C5FHBOX\\\\\\\",\\\\\\\"specs\\\\\\\":{\\\\\\\"baseClockGhz\\\\\\\":3.6,\\\\\\\"boostClockGhz\\\\\\\":4,\\\\\\\"cores\\\\\\\":4,\\\\\\\"graphicsClockMhz\\\\\\\":1250,\\\\\\\"graphicsCoreCount\\\\\\\":8,\\\\\\\"integratedGraphics\\\\\\\":\\\\\\\"Radeon Vega 8 Graphics\\\\\\\",\\\\\\\"maxMemoryDataRateMTs\\\\\\\":2933,\\\\\\\"maxOperatingTempC\\\\\\\":95,\\\\\\\"memoryTypes\\\\\\\":[\\\\\\\"DDR4\\\\\\\"],\\\\\\\"socket\\\\\\\":\\\\\\\"AM4\\\\\\\",\\\\\\\"tdpWatts\\\\\\\":65,\\\\\\\"threads\\\\\\\":4}}\\\",\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"}\"}"
+        }
+      }
+    },
+    {
+      "label": "Programação 16GB e 8GB VRAM 5500",
+      "input": {
+        "budget": {
+          "amount": 5500
+        },
+        "usageType": "programming",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minMemoryGb": 16,
+          "minVramGb": 8
+        }
+      },
+      "build": {
+        "cpu": "cpu-ryzen-3-3200g-box",
+        "motherboard": "mb-asrock-b450m-hdv-r4",
+        "gpu": "gpu-asrock-rx-7600-challenger-pro-8gb",
+        "ram": "ram-mancer-vant-s-16gb-3200",
+        "storage": "ssd-kingston-a400-240gb",
+        "psu": "psu-coolermaster-mwe-gold650-v3",
+        "case": "case-montech-x2-plus-white"
+      },
+      "total": 4469.84,
+      "compatibility": {
+        "compatible": true,
+        "status": "compatible",
+        "unverifiedChecks": [],
+        "coolingPower": {
+          "knownWatts": 0,
+          "complete": true,
+          "unknownComponents": []
+        },
+        "coolingAssessment": {
+          "status": "unverified",
+          "scope": "included_cooler_identity_only",
+          "includedCooler": {
+            "name": "AMD Wraith Stealth",
+            "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "additionalPrice": 0,
+            "dimensionsVerified": false
+          },
+          "unverifiedChecks": [
+            {
+              "code": "CPU_COOLING_FIT_UNVERIFIED",
+              "severity": "medium",
+              "verification": "unverified",
+              "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+            }
+          ],
+          "alerts": []
+        },
+        "alerts": []
+      },
+      "game": {
+        "performanceBasis": "simulated",
+        "performanceMethodology": {
+          "basis": "simulated",
+          "kind": "catalog-simulated",
+          "modelVersion": "catalog-estimate-v1",
+          "shortLabel": "Score simulado",
+          "measuredBenchmark": false,
+          "provisionalComponentIds": [],
+          "contributors": [
+            {
+              "componentId": "cpu-ryzen-3-3200g-box",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "gpu-asrock-rx-7600-challenger-pro-8gb",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "ram-mancer-vant-s-16gb-3200",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            },
+            {
+              "componentId": "ssd-kingston-a400-240gb",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            }
+          ],
+          "description": "Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade."
+        },
+        "game": "Valorant",
+        "gameId": "game-valorant",
+        "targetResolution": "1080p",
+        "qualityPreset": "high",
+        "available": true,
+        "estimatedFps": 111,
+        "estimatedFpsRange": {
+          "low": 61,
+          "high": 161
+        },
+        "estimation": {
+          "modelVersion": "component-scenario-v2",
+          "kind": "theoretical-scenario",
+          "measuredBenchmark": false,
+          "confidence": "low",
+          "rangeFraction": 0.45,
+          "scenarioOnly": false,
+          "assumptions": [
+            "Aproximação pela família do chip; diferenças de placa, memória e drivers ampliam a faixa."
+          ],
+          "sourceUrls": [
+            "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "https://www.asrock.com/Graphics-Card/AMD/Radeon%20RX%207600%20Challenger%20Pro%208GB%20OC/index.asp",
+            "https://mancer.com.br/p/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb/",
+            "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G"
+          ],
+          "note": "Estimativa aproximada das peças; não é ensaio medido nem confirmação de funcionamento da montagem."
+        },
+        "performanceLevel": "insufficient",
+        "meetsMinimumRequirements": false,
+        "meetsRecommendedRequirements": false,
+        "summary": "A configuração não deve entregar desempenho mínimo satisfatório em Valorant.",
+        "details": {
+          "cpuStatus": "belowMinimum",
+          "gpuStatus": "recommended",
+          "ramStatus": "recommended",
+          "storageStatus": "belowRecommended"
+        },
+        "technicalDetails": {
+          "compatibility": {
+            "scope": "full_build",
+            "status": "compatible",
+            "compatible": true,
+            "scenarioOnly": false,
+            "alerts": [],
+            "unverifiedChecks": [],
+            "coolingAssessment": {
+              "status": "unverified",
+              "scope": "included_cooler_identity_only",
+              "includedCooler": {
+                "name": "AMD Wraith Stealth",
+                "sourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+                "additionalPrice": 0,
+                "dimensionsVerified": false
+              },
+              "unverifiedChecks": [
+                {
+                  "code": "CPU_COOLING_FIT_UNVERIFIED",
+                  "severity": "medium",
+                  "verification": "unverified",
+                  "message": "AMD Wraith Stealth incluso identificado pelo fabricante, mas medidas e consumo não confirmados. Não é necessário comprar outro sem antes conferir o encaixe."
+                }
+              ],
+              "alerts": []
+            }
+          },
+          "weightedPerformanceIndex": 100.48,
+          "qualityMultiplier": 0.9,
+          "resolutionMultiplier": 1,
+          "bottleneckPenalty": 0.85,
+          "bottlenecks": [
+            {
+              "type": "cpu_bottleneck",
+              "severity": "high",
+              "component": "cpu",
+              "relatedComponent": "gpu",
+              "message": "O processador pode limitar parcialmente o desempenho da placa de video em jogos e tarefas graficas.",
+              "technicalDetails": {
+                "cpuScore": 34,
+                "gpuScore": 69,
+                "difference": 35
+              }
+            },
+            {
+              "type": "storage_speed_limitation",
+              "severity": "medium",
+              "component": "storage",
+              "relatedComponent": null,
+              "message": "O armazenamento pode aumentar tempos de carregamento e deixar o uso geral menos responsivo.",
+              "technicalDetails": {
+                "storageScore": 52.5,
+                "readSpeedMbS": 500,
+                "storageInterface": "SATA",
+                "minimumRecommendedScore": 55,
+                "minimumRecommendedReadSpeedMbS": 1000
+              }
+            }
+          ]
+        }
+      },
+      "bottlenecks": {
+        "performanceBasis": "simulated",
+        "performanceMethodology": {
+          "basis": "simulated",
+          "kind": "catalog-simulated",
+          "modelVersion": "catalog-estimate-v1",
+          "shortLabel": "Score simulado",
+          "measuredBenchmark": false,
+          "provisionalComponentIds": [],
+          "contributors": [
+            {
+              "componentId": "cpu-ryzen-3-3200g-box",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "gpu-asrock-rx-7600-challenger-pro-8gb",
+              "basis": "simulated",
+              "kind": "chip-family-scenario",
+              "modelVersion": "component-scenario-v2"
+            },
+            {
+              "componentId": "ram-mancer-vant-s-16gb-3200",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            },
+            {
+              "componentId": "ssd-kingston-a400-240gb",
+              "basis": "simulated",
+              "kind": "internal-demonstrative",
+              "modelVersion": "catalog-internal-v1"
+            }
+          ],
+          "description": "Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade."
+        },
+        "available": true,
+        "estimation": {
+          "modelVersion": "component-scenario-v2",
+          "kind": "theoretical-scenario",
+          "measuredBenchmark": false,
+          "confidence": "low",
+          "rangeFraction": 0.45,
+          "scenarioOnly": true,
+          "assumptions": [
+            "Aproximação pela família do chip; diferenças de placa, memória e drivers ampliam a faixa.",
+            "Classe aproximada pelos dados disponíveis; detalhes ausentes usam hipóteses gerais."
+          ],
+          "sourceUrls": [
+            "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+            "https://www.asrock.com/Graphics-Card/AMD/Radeon%20RX%207600%20Challenger%20Pro%208GB%20OC/index.asp",
+            "https://mancer.com.br/p/memoria-mancer-vant-s-16gb-1x16gb-ddr4-3200mhz-c19-preto-mcr-vnt3200-16gb/",
+            "https://www.kingston.com/unitedkingdom/en/memory/search?partid=SA400S37%2F240G",
+            "https://sfcc.coolermaster.com/en-global/products/mwe-gold-v3-atx-3-1-non-modular-series.html"
+          ],
+          "note": "Estimativa aproximada das peças; não é ensaio medido nem confirmação de funcionamento da montagem."
+        },
+        "hasBottleneck": true,
+        "overallBalance": "critical",
+        "bottlenecks": [
+          {
+            "type": "cpu_bottleneck",
+            "severity": "high",
+            "component": "cpu",
+            "relatedComponent": "gpu",
+            "message": "O processador pode limitar parcialmente o desempenho da placa de video em jogos e tarefas graficas.",
+            "technicalDetails": {
+              "cpuScore": 34,
+              "gpuScore": 69,
+              "difference": 35
+            }
+          },
+          {
+            "type": "storage_speed_limitation",
+            "severity": "medium",
+            "component": "storage",
+            "relatedComponent": null,
+            "message": "O armazenamento pode aumentar tempos de carregamento e deixar o uso geral menos responsivo.",
+            "technicalDetails": {
+              "storageScore": 52.5,
+              "readSpeedMbS": 500,
+              "storageInterface": "SATA",
+              "minimumRecommendedScore": 55,
+              "minimumRecommendedReadSpeedMbS": 1000
+            }
+          }
+        ],
+        "performanceSummary": {
+          "cpuScore": 34,
+          "gpuScore": 69,
+          "ramScore": 58,
+          "storageScore": 52.5,
+          "estimatedConsumptionWatts": 315,
+          "psuWatts": 650
+        }
+      },
+      "cooling": {
+        "modelVersion": "pcpl-cooling-scenario-v1-r3",
+        "conditions": {
+          "inletCelsius": 25,
+          "coolerSpeedFraction": 0.75,
+          "extraFanSpeedFraction": 0.75,
+          "referenceHeatWatts": null,
+          "modelVersion": "pcpl-cooling-scenario-v1-r3"
+        },
+        "validConditions": true,
+        "conditionErrors": [],
+        "conditionsErrors": [],
+        "status": "available",
+        "available": true,
+        "thermal": {
+          "available": true,
+          "status": "available",
+          "basis": "generic-engineering-scenario",
+          "heuristicFallback": true,
+          "confidence": "low",
+          "scenarioBands": [
+            {
+              "id": "light",
+              "heatWatts": 16.25,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 31.3375,
+                "central": 35.5625,
+                "high": 40.315625
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            },
+            {
+              "id": "mixed",
+              "heatWatts": 39,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 40.21,
+                "central": 50.35,
+                "high": 61.7575
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            },
+            {
+              "id": "sustained",
+              "heatWatts": 65,
+              "available": true,
+              "temperatureCelsius": {
+                "low": 50.349999999999994,
+                "central": 67.25,
+                "high": 86.26249999999999
+              },
+              "centralReachesLimit": false,
+              "rangeReachesLimit": false,
+              "warnings": []
+            }
+          ],
+          "thermalLimitCelsius": 95,
+          "tjMaxCelsius": 95,
+          "thermalLimitStatus": "estimated",
+          "referenceHeatWatts": 65,
+          "referenceHeatBasis": "Potência nominal ou hipótese de 65 W quando ausente; não é consumo medido.",
+          "assumptions": [
+            "Cooler padrão aproximado (AMD Wraith Stealth); não adiciona um produto nem preço à montagem.",
+            "Faixas de resistência de -40% a +45%; montagem, carga e ambiente podem mudar o resultado."
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ],
+          "warnings": [],
+          "missingInputs": [],
+          "displayRoundingDegrees": 5
+        },
+        "acoustics": {
+          "status": "available",
+          "available": true,
+          "coverage": "estimated",
+          "coverageScope": "selected-cooling-only",
+          "bandDba": {
+            "low": 22.89741262880993,
+            "central": 30.89741262880993,
+            "high": 38.89741262880993
+          },
+          "includedSources": [
+            {
+              "componentId": "scenario-standard-cooling",
+              "name": "AMD Wraith Stealth",
+              "physicalUnits": 1,
+              "bandDba": {
+                "low": 20,
+                "central": 28,
+                "high": 36
+              },
+              "provenance": {
+                "assumed": true,
+                "genericFallback": true,
+                "sourceUrls": [
+                  "https://www.ti.com/lit/pdf/slva462",
+                  "https://support.arctic.de/pwm-settings"
+                ],
+                "label": "Classe acústica aproximada, não medição"
+              }
+            },
+            {
+              "componentId": "case-included-fans",
+              "name": "Ventoinhas do gabinete (cenário)",
+              "physicalUnits": 3,
+              "bandDba": {
+                "low": 19.771212547196626,
+                "central": 27.771212547196626,
+                "high": 35.771212547196626
+              },
+              "provenance": {
+                "assumed": true,
+                "genericFallback": true,
+                "sourceUrls": [
+                  "https://www.ti.com/lit/pdf/slva462",
+                  "https://support.arctic.de/pwm-settings"
+                ],
+                "label": "Classe acústica aproximada, não medição"
+              }
+            }
+          ],
+          "excludedSources": [],
+          "warnings": [
+            {
+              "code": "unmodelled-case-fans",
+              "message": "Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+            }
+          ],
+          "convention": {
+            "id": "pcpl-1m-aweighted-equivalent-broadband-v1",
+            "quantity": "A-weighted sound pressure level",
+            "referencePressurePa": 0.00002,
+            "distanceM": 1,
+            "field": "idealized free-field equivalent; no enclosure attenuation or room reflections",
+            "listener": "one fixed hypothetical listener 1 m from common source reference; component locations collapsed to that reference",
+            "directivity": "Each admitted model profile is assumed to represent this listener. No measured directivity conversion is claimed; transfers carry explicit assumption bands. Bare fan reference is intake-facing; cooler/pump effective orientation is an assumption.",
+            "background": "excluded; modeled source-only energy. Source floors are not added once per source.",
+            "distanceCorrectionEnabled": false,
+            "independence": "incoherent broadband source-energy approximation; no phase/coherence, beating or tonal model"
+          },
+          "distanceM": 1,
+          "label": "Cooler e ventoinhas selecionadas a 1 m",
+          "disclosure": "Ruído aproximado das fontes modeladas; não é o ruído do PC completo. GPU, fonte, armazenamento, ruído elétrico e ambiente ficam fora do cálculo.",
+          "modelVersion": "pcpl-cooling-scenario-v1-r3",
+          "heuristicFallback": true,
+          "confidence": "low",
+          "assumptions": [
+            "Soma logarítmica das fontes de refrigeração a 1 m; classes desconhecidas usam faixa de ±8 dBA.",
+            "Quantidade desconhecida de ventoinhas do gabinete: hipótese de duas. Não inclui GPU, fonte ou ruído ambiente."
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ]
+        },
+        "warnings": [
+          {
+            "code": "unmodelled-case-fans",
+            "message": "Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+          }
+        ],
+        "provenance": {
+          "label": "Estimativas por classe com hipóteses explícitas; sem medição do produto",
+          "modelVersion": "pcpl-cooling-scenario-v1-r3",
+          "profileRevision": "r3-shared-anchor-reproducibility",
+          "reviewedAt": "2026-10-08",
+          "assumed": true,
+          "empiricallyCalibrated": false,
+          "thermal": {
+            "label": "Modelo térmico aproximado com prior genérico compartilhado de encapsulamento/contato",
+            "basis": "assumed-design-priors",
+            "assumed": true,
+            "genericPackagePrior": true,
+            "packagePrior": {
+              "id": "shared-package-contact-v1",
+              "units": "Celsius/W",
+              "low": 0.1,
+              "central": 0.2,
+              "high": 0.3,
+              "basis": "explicit modelling anchor and explored sensitivity range, not measured or manufacturer-rated",
+              "rationale": "Sparse paired observations identify total resistance only. A shared anchor avoids fabricated brand or CPU-model offsets. Same heat input and cooler yield equal simulated values for CPUs sharing this prior. Actual values can fall outside this explored range."
+            },
+            "cpu": null,
+            "cooler": null,
+            "sourceUrls": []
+          },
+          "acoustic": [
+            {
+              "assumed": true,
+              "genericFallback": true,
+              "sourceUrls": [
+                "https://www.ti.com/lit/pdf/slva462",
+                "https://support.arctic.de/pwm-settings"
+              ],
+              "label": "Classe acústica aproximada, não medição"
+            },
+            {
+              "assumed": true,
+              "genericFallback": true,
+              "sourceUrls": [
+                "https://www.ti.com/lit/pdf/slva462",
+                "https://support.arctic.de/pwm-settings"
+              ],
+              "label": "Classe acústica aproximada, não medição"
+            }
+          ],
+          "methodology": [
+            {
+              "label": "Rede térmica equivalente; coeficientes dependem do sistema",
+              "url": "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+              "use": "Methodology only; supplies no desktop CPU coefficients"
+            },
+            {
+              "label": "Resposta térmica não linear e dependente do processador",
+              "url": "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+              "use": "Methodology only; NSPR is never converted into degrees"
+            },
+            {
+              "label": "Soma energética de fontes sonoras",
+              "url": "https://www.osha.gov/otm/section-3-health-hazards/chapter-5",
+              "use": "Methodology only; no acoustic safety or health claims"
+            }
+          ],
+          "sourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings",
+            "https://www.ti.com/lit/an/slua844b/slua844b.pdf",
+            "https://www.noctua.at/en/expertise/guides/noctua-standardised-performance-rating",
+            "https://www.osha.gov/otm/section-3-health-hazards/chapter-5"
+          ],
+          "limitations": [
+            "Faixas de cenários, não intervalos de confiança nem especificações do fabricante.",
+            "25%, 60% e 100% são frações da potência térmica de referência; não são utilização da CPU.",
+            "A potência é fixa em cada cenário; a faixa varia somente as hipóteses de resistência.",
+            "Temperaturas algébricas não modelam limitação de potência, throttling ou transientes.",
+            "Gabinete, GPU e ventoinhas extras não alteram o cálculo térmico; o ar de entrada é uma condição explícita.",
+            "Rotações são frações do RPM nominal, não duty cycle PWM; AIOs mantêm bomba e VRM fixos."
+          ],
+          "fallbackAssumptions": [
+            "Cooler padrão aproximado (AMD Wraith Stealth); não adiciona um produto nem preço à montagem.",
+            "Faixas de resistência de -40% a +45%; montagem, carga e ambiente podem mudar o resultado.",
+            "Soma logarítmica das fontes de refrigeração a 1 m; classes desconhecidas usam faixa de ±8 dBA.",
+            "Quantidade desconhecida de ventoinhas do gabinete: hipótese de duas. Não inclui GPU, fonte ou ruído ambiente."
+          ],
+          "fallbackSourceUrls": [
+            "https://www.ti.com/lit/pdf/slva462",
+            "https://support.arctic.de/pwm-settings"
+          ]
+        },
+        "signatures": {
+          "thermal": "{\"conditions\":{\"coolerSpeedFraction\":0.75,\"inletCelsius\":25,\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\",\"referenceHeatWatts\":null},\"cooler\":\"{\\\"invalidComponent\\\":{\\\"invalidValue\\\":\\\"undefined\\\"}}\",\"cpu\":\"{\\\"brand\\\":\\\"AMD\\\",\\\"category\\\":\\\"cpu\\\",\\\"id\\\":\\\"cpu-ryzen-3-3200g-box\\\",\\\"model\\\":null,\\\"name\\\":\\\"AMD Ryzen 3 3200G Box\\\",\\\"partNumber\\\":\\\"YD3200C5FHBOX\\\",\\\"specs\\\":{\\\"baseClockGhz\\\":3.6,\\\"boostClockGhz\\\":4,\\\"cores\\\":4,\\\"graphicsClockMhz\\\":1250,\\\"graphicsCoreCount\\\":8,\\\"integratedGraphics\\\":\\\"Radeon Vega 8 Graphics\\\",\\\"maxMemoryDataRateMTs\\\":2933,\\\"maxOperatingTempC\\\":95,\\\"memoryTypes\\\":[\\\"DDR4\\\"],\\\"socket\\\":\\\"AM4\\\",\\\"tdpWatts\\\":65,\\\"threads\\\":4}}\",\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"}",
+          "acoustics": "{\"caseFans\":{\"category\":\"case\",\"id\":\"case-montech-x2-plus-white\",\"includedFanCount\":3,\"name\":\"Montech X2 Plus White\",\"validRecord\":true},\"conditions\":{\"coolerSpeedFraction\":0.75,\"extraFanSpeedFraction\":0.75,\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"},\"cooler\":\"{\\\"invalidComponent\\\":{\\\"invalidValue\\\":\\\"undefined\\\"}}\",\"cpu\":\"{\\\"brand\\\":\\\"AMD\\\",\\\"category\\\":\\\"cpu\\\",\\\"id\\\":\\\"cpu-ryzen-3-3200g-box\\\",\\\"model\\\":null,\\\"name\\\":\\\"AMD Ryzen 3 3200G Box\\\",\\\"partNumber\\\":\\\"YD3200C5FHBOX\\\",\\\"specs\\\":{\\\"baseClockGhz\\\":3.6,\\\"boostClockGhz\\\":4,\\\"cores\\\":4,\\\"graphicsClockMhz\\\":1250,\\\"graphicsCoreCount\\\":8,\\\"integratedGraphics\\\":\\\"Radeon Vega 8 Graphics\\\",\\\"maxMemoryDataRateMTs\\\":2933,\\\"maxOperatingTempC\\\":95,\\\"memoryTypes\\\":[\\\"DDR4\\\"],\\\"socket\\\":\\\"AM4\\\",\\\"tdpWatts\\\":65,\\\"threads\\\":4}}\",\"fans\":[],\"modelVersion\":\"pcpl-cooling-scenario-v1-r3\"}",
+          "simulation": "{\"acoustics\":\"{\\\"caseFans\\\":{\\\"category\\\":\\\"case\\\",\\\"id\\\":\\\"case-montech-x2-plus-white\\\",\\\"includedFanCount\\\":3,\\\"name\\\":\\\"Montech X2 Plus White\\\",\\\"validRecord\\\":true},\\\"conditions\\\":{\\\"coolerSpeedFraction\\\":0.75,\\\"extraFanSpeedFraction\\\":0.75,\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"},\\\"cooler\\\":\\\"{\\\\\\\"invalidComponent\\\\\\\":{\\\\\\\"invalidValue\\\\\\\":\\\\\\\"undefined\\\\\\\"}}\\\",\\\"cpu\\\":\\\"{\\\\\\\"brand\\\\\\\":\\\\\\\"AMD\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"cpu\\\\\\\",\\\\\\\"id\\\\\\\":\\\\\\\"cpu-ryzen-3-3200g-box\\\\\\\",\\\\\\\"model\\\\\\\":null,\\\\\\\"name\\\\\\\":\\\\\\\"AMD Ryzen 3 3200G Box\\\\\\\",\\\\\\\"partNumber\\\\\\\":\\\\\\\"YD3200C5FHBOX\\\\\\\",\\\\\\\"specs\\\\\\\":{\\\\\\\"baseClockGhz\\\\\\\":3.6,\\\\\\\"boostClockGhz\\\\\\\":4,\\\\\\\"cores\\\\\\\":4,\\\\\\\"graphicsClockMhz\\\\\\\":1250,\\\\\\\"graphicsCoreCount\\\\\\\":8,\\\\\\\"integratedGraphics\\\\\\\":\\\\\\\"Radeon Vega 8 Graphics\\\\\\\",\\\\\\\"maxMemoryDataRateMTs\\\\\\\":2933,\\\\\\\"maxOperatingTempC\\\\\\\":95,\\\\\\\"memoryTypes\\\\\\\":[\\\\\\\"DDR4\\\\\\\"],\\\\\\\"socket\\\\\\\":\\\\\\\"AM4\\\\\\\",\\\\\\\"tdpWatts\\\\\\\":65,\\\\\\\"threads\\\\\\\":4}}\\\",\\\"fans\\\":[],\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"}\",\"thermal\":\"{\\\"conditions\\\":{\\\"coolerSpeedFraction\\\":0.75,\\\"inletCelsius\\\":25,\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\",\\\"referenceHeatWatts\\\":null},\\\"cooler\\\":\\\"{\\\\\\\"invalidComponent\\\\\\\":{\\\\\\\"invalidValue\\\\\\\":\\\\\\\"undefined\\\\\\\"}}\\\",\\\"cpu\\\":\\\"{\\\\\\\"brand\\\\\\\":\\\\\\\"AMD\\\\\\\",\\\\\\\"category\\\\\\\":\\\\\\\"cpu\\\\\\\",\\\\\\\"id\\\\\\\":\\\\\\\"cpu-ryzen-3-3200g-box\\\\\\\",\\\\\\\"model\\\\\\\":null,\\\\\\\"name\\\\\\\":\\\\\\\"AMD Ryzen 3 3200G Box\\\\\\\",\\\\\\\"partNumber\\\\\\\":\\\\\\\"YD3200C5FHBOX\\\\\\\",\\\\\\\"specs\\\\\\\":{\\\\\\\"baseClockGhz\\\\\\\":3.6,\\\\\\\"boostClockGhz\\\\\\\":4,\\\\\\\"cores\\\\\\\":4,\\\\\\\"graphicsClockMhz\\\\\\\":1250,\\\\\\\"graphicsCoreCount\\\\\\\":8,\\\\\\\"integratedGraphics\\\\\\\":\\\\\\\"Radeon Vega 8 Graphics\\\\\\\",\\\\\\\"maxMemoryDataRateMTs\\\\\\\":2933,\\\\\\\"maxOperatingTempC\\\\\\\":95,\\\\\\\"memoryTypes\\\\\\\":[\\\\\\\"DDR4\\\\\\\"],\\\\\\\"socket\\\\\\\":\\\\\\\"AM4\\\\\\\",\\\\\\\"tdpWatts\\\\\\\":65,\\\\\\\"threads\\\\\\\":4}}\\\",\\\"modelVersion\\\":\\\"pcpl-cooling-scenario-v1-r3\\\"}\"}"
+        }
+      }
+    }
+  ]
+}

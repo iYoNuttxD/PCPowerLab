@@ -25,8 +25,7 @@ export default function GameComparisonResult({ result }) {
         <h3>Resultado da comparação</h3>
         <Badge tone="cyan">{result.targetResolution || 'Resolução não informada'} · {translateValue(result.qualityPreset)}</Badge>
       </div>
-      <CoolingAssessmentNotice result={result} />
-      <EstimateNotice />
+      <p className="hint-text">Cenários aproximados para a mesma montagem. Veja as faixas nos resultados por jogo.</p>
       {!games.length ? <p>Nenhum resultado retornado para os jogos selecionados.</p> : (
         <>
           <h4>FPS estimado por jogo</h4>
@@ -54,14 +53,15 @@ export default function GameComparisonResult({ result }) {
           {fpsValues.length !== games.length && <Alert type="warning">Há jogos sem FPS disponível. Esses valores não entram na média e não são tratados como zero.</Alert>}
           <AnalysisHelp topics={['fps']} />
           <details className="analysis-help">
-            <summary>Ver resultados e requisitos por jogo</summary>
+            <summary>Ver faixas estimadas e requisitos por jogo</summary>
+            <CoolingAssessmentNotice result={result} /><EstimateNotice />
             {result.summary && <p>{result.summary}</p>}
             <div className="analysis-table-scroll" role="region" aria-label="Tabela dos resultados por jogo" tabIndex={0}>
               <table className="analysis-table">
                 <caption>Valores estimados e requisitos retornados pela simulação · {result.targetResolution || 'Resolução não informada'} · {translateValue(result.qualityPreset)}</caption>
                 <thead><tr><th scope="col">Jogo</th><th scope="col">FPS estimado</th><th scope="col">Classificação</th><th scope="col">Atende mínimos</th><th scope="col">Atende recomendados</th></tr></thead>
                 <tbody>{chartData.map((game, index) => <tr key={game.gameId || index}>
-                  <th scope="row">{game.name}</th><td>{formatPerformanceNumber(game.estimatedFps)}</td><td>{game.available === false ? 'Sem estimativa' : translateValue(game.performanceLevel)}</td><td>{formatRequirement(game.meetsMinimumRequirements)}</td><td>{formatRequirement(game.meetsRecommendedRequirements)}</td>
+                  <th scope="row">{game.name}</th><td>{game.estimatedFpsRange ? `${game.estimatedFpsRange.low}–${game.estimatedFpsRange.high}` : formatPerformanceNumber(game.estimatedFps)}</td><td>{game.available === false ? 'Sem estimativa' : translateValue(game.performanceLevel)}</td><td>{formatRequirement(game.meetsMinimumRequirements)}</td><td>{formatRequirement(game.meetsRecommendedRequirements)}</td>
                 </tr>)}</tbody>
               </table>
             </div>

@@ -1,5 +1,6 @@
+import { requiredSlotsFor, usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
-import { requiredBuildSlots, selectBuildComponents, serializeBuildSelection } from './build.service.js';
+import { selectBuildComponents, serializeBuildSelection } from './build.service.js';
 import { generateBuildSummary } from './buildSummaryService.js';
 import { getSavedBuildById } from './savedBuildsService.js';
 
@@ -119,9 +120,10 @@ function normalizeDirectBuildComponents(buildInput) {
 }
 
 function mapSavedBuildComponentsToExport(componentsInput) {
-  const components = requiredBuildSlots.reduce((result, slot) => ({
+  const components = requiredSlotsFor(componentsInput).reduce((result, slot) => ({
     ...result, [`${slot}Id`]: componentsInput[slot]
   }), {});
+  if (usesIntegratedGraphics(componentsInput)) components.graphicsMode = 'integrated';
   if (componentsInput.cooler) components.coolerId = componentsInput.cooler;
   if (componentsInput.fans?.length) components.fans = JSON.parse(JSON.stringify(componentsInput.fans));
   return components;
@@ -143,13 +145,23 @@ function buildSummaryForExport({
 
     return {
       summary: {
+        selectionStatus: generatedSummary.selectionStatus,
+        analysisStatus: generatedSummary.analysisStatus,
+        sections: generatedSummary.sections,
+        ...(generatedSummary.budgetStatus ? { budgetStatus: generatedSummary.budgetStatus } : {}),
         performanceBasis: generatedSummary.performanceBasis,
         performanceMethodology: generatedSummary.performanceMethodology,
         totalEstimatedPrice: generatedSummary.totalEstimatedPrice,
         pricing: generatedSummary.pricing,
         coolingAssessment: generatedSummary.compatibility.coolingAssessment,
         compatibilityStatus: generatedSummary.compatibility.status ?? (generatedSummary.compatibility.compatible ? 'compatible' : 'incompatible')
-      }
+      },
+      ...(generatedSummary.analysisStatus === 'partial' ? { warning: {
+        message: 'Resumo parcial: consulte as análises pendentes ou indisponíveis antes de usar os dados exportados.',
+        sections: Object.entries(generatedSummary.sections).filter(([, section]) => section.status !== 'available').map(([name]) => name),
+        errors: [generatedSummary.budgetStatus, generatedSummary.compatibility, generatedSummary.bottlenecks, generatedSummary.recommendationObservation]
+          .flatMap(section => section?.errors || [])
+      } } : {})
     };
   } catch (error) {
     if (!error.statusCode || error.statusCode >= 500) {

@@ -67,11 +67,11 @@ test('simula um único jogo pelo contrato existente e preserva classificação, 
   const result = singleRegion(page);
   await expect(result.getByText('144 FPS', { exact: true })).toBeVisible();
   await expect(result.getByText('Insuficiente', { exact: true })).toBeVisible();
-  await expect(result.getByText(/A configuração está abaixo dos requisitos mínimos/)).toBeVisible();
+  await result.locator('summary').filter({ hasText: 'Ver requisitos' }).click();
+  await expect(result.getByText('Resultado de teste com requisitos insuficientes apesar de FPS alto.', { exact: true })).toBeVisible();
   await expect(result.getByText('Estimativa, não medição real.', { exact: true })).toBeVisible();
   await expect(result.getByText(/não é garantido/)).toBeVisible();
   await expect(page.getByText('Simulação concluída. Confira os resultados abaixo.', { exact: true })).toBeVisible();
-  await result.locator('summary').filter({ hasText: 'Ver requisitos' }).click();
   await expect(result.getByText('92,5', { exact: true })).toBeVisible();
   await expect(result.getByText('0,85', { exact: true })).toBeVisible();
   await expect(result.getByText('Abaixo do mínimo', { exact: true })).toBeVisible();
@@ -104,7 +104,7 @@ test('compara vários jogos e usa requisitos da API em vez de inferi-los por 60 
   const result = comparisonRegion(page);
   await expect(result.getByRole('group', { name: 'Gráfico comparativo de FPS estimado por jogo' })).toBeVisible();
   await expect(result.getByText(/não a verificação dos requisitos recomendados/)).toBeVisible();
-  await result.locator('summary').filter({ hasText: 'Ver resultados e requisitos' }).click();
+  await result.locator('summary').filter({ hasText: 'Ver faixas estimadas e requisitos' }).click();
   const row = result.getByRole('row').filter({ hasText: games[0].name });
   await expect(row).toContainText('144');
   await expect(row).toContainText('Insuficiente');
@@ -313,6 +313,7 @@ test('explicações e detalhes são acessíveis por teclado', async ({ page }) =
   await page.keyboard.press('Home'); await expect(firstTab).toBeFocused();
   await expect(page.getByRole('tabpanel')).toHaveCount(1);
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
+  await singleRegion(page).locator('summary').filter({ hasText: 'Ver requisitos' }).click();
   const summary = singleRegion(page).locator('summary').filter({ hasText: 'Como interpretar' });
   await summary.focus(); await page.keyboard.press('Enter');
   await expect(singleRegion(page).getByText(/Quadros por segundo:/)).toBeVisible();
@@ -324,7 +325,7 @@ test('resumo distingue compatibilidade pendente e mantém avisos da nota geral v
   await seed(page);
   await page.route('**/build-score', route => ok(route, { overallScore: 75, classification: 'Muito boa', criteria: { compatibilityScore: 100, performanceScore: 75, balanceScore: 70, budgetScore: 80, costBenefitScore: 60 }, warnings: ['Parâmetros de desempenho ausentes para: cpu.'] }));
   await page.goto('/summary');
-  await expect(page.locator('.build-status-card')).toContainText('Compatibilidade não verificada');
+  await expect(page.locator('.build-status-card')).toContainText('Conferência da montagem');
   await expect(page.locator('.build-status-card')).not.toContainText('Nenhuma incompatibilidade crítica');
   await page.locator('summary').filter({ hasText: 'Pontuação da configuração' }).click();
   await page.getByRole('button', { name: 'Calcular nota da build', exact: true }).click();
@@ -342,6 +343,7 @@ test('gargalos e energia explicam unidades e preservam os valores e detalhes té
   } });
   await page.goto('/build');
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
+  await page.locator('summary').filter({ hasText: 'Ver equilíbrio das peças e consumo' }).click();
   await expect(page.getByText(/os pontos não são FPS/)).toBeVisible();
   await expect(page.getByText(/não o consumo medido na tomada/)).toBeVisible();
   await expect(page.getByText('Referência da fonte com folga: 450 W', { exact: true })).toBeVisible();
@@ -375,15 +377,18 @@ test('thermal task keeps game result and persists scenario edits without resubmi
   await page.getByRole('button', { name: 'Simular jogo', exact: true }).click();
   await expect(singleRegion(page)).toBeVisible();
   await taskMode(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Temperatura e ruído', exact: true })).toBeVisible();
   await expect(page.getByText('Simulação aproximada', { exact: true })).toBeVisible();
   await page.locator('.cooling-simulation-controls > summary').click();
   await page.getByLabel('Ar na entrada do cooler (°C)', { exact: true }).fill('30');
   await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)).coolingConditions.inletCelsius, storageKey)).toBe(30);
+  await page.getByRole('dialog', { name: 'Temperatura e ruído', exact: true }).getByRole('button', { name: 'Fechar', exact: true }).click();
   await taskMode(page, 'Um jogo');
   await expect(singleRegion(page)).toBeVisible();
   expect(requests).toBe(1);
   await taskMode(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
   await page.locator('.cooling-simulation-controls > summary').click();
   await expect(page.getByLabel('Ar na entrada do cooler (°C)', { exact: true })).toHaveValue('30');
   await expect(page.getByRole('tabpanel')).toHaveCount(1);

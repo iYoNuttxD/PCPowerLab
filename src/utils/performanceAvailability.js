@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from './graphicsSelection.js';
 import { URL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { createSyntheticPerformanceParameter } from '../data/synthetic-performance-profiles.js';
@@ -67,6 +68,10 @@ export function isSimulationParameterUsable(component, parameter) {
 
 // A score-only coefficient is useful for ranking, but cannot unlock a simulation.
 export function unavailablePerformance(components) {
+  if (components?.cpu && components?.ram && components?.storage && (components?.gpu || usesIntegratedGraphics(components))) return null;
+  if (usesIntegratedGraphics(components)) return { available: false, reason: 'integrated_graphics_not_calibrated',
+    performanceBasis: 'unavailable', message: 'Vídeo integrado sem modelo calibrado: não há FPS ou gargalo numérico. Custos, compatibilidade e lojas continuam disponíveis.',
+    componentsWithoutPerformanceModel: [components.cpu?.id].filter(Boolean) };
   const componentIds = Object.values(components).flat()
     .filter((component) => {
       if (!component) return false;

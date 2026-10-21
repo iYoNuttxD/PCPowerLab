@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../../src/utils/graphicsSelection.js';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -28,7 +29,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
   const current = build.selectedComponents[type];
   const options = filterComponents(components, filters).filter(component => component.id !== current?.id);
   const candidate = components.find(component => component.category === type && component.id === candidateId && component.id !== current?.id);
-  const selection = { ...build.selectedComponents, [type]: candidate };
+  const selection = { ...build.selectedComponents, [type]: candidate, ...(type === 'gpu' && usesIntegratedGraphics(build.selectedComponents) ? { graphicsMode: 'dedicated' } : {}) };
   const payload = {
     build: buildToApiPayload(selection),
     budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
@@ -88,7 +89,7 @@ export default function ComponentReplacement({ type, build, initialComponent, on
         <p className="analysis-note">Escolha uma alternativa para comparar custo, desempenho estimado e consumo antes e depois. Verifique a montagem antes de aplicar. Os valores são estimados, sem cotação em tempo real.</p>
         {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0 || type === 'cooler') && <p className="hint-text">Cooler e ventoinhas selecionados entram na verificação. Dados ausentes de encaixe, espaço ou consumo serão indicados como não verificados.</p>}
         {loading ? <LoadingSpinner label="Carregando alternativas..." /> : error ? <ErrorState message={error} onRetry={reload} /> : <>
-          <details className="analysis-help" open={!initialComponent}><summary>Filtrar outras alternativas</summary><ComponentFilters components={components} filters={filters} fixedCategory={type} onChange={setFilters} /></details>
+          <details className="analysis-help" open={!initialComponent}><summary>Filtrar outras alternativas</summary><ComponentFilters showLayout={false} components={components} filters={filters} fixedCategory={type} onChange={setFilters} /></details>
           <fieldset className="replacement-options">
             <legend>Nova peça</legend>
             {options.map(component => <label key={component.id} className="replacement-option">
@@ -120,9 +121,9 @@ export default function ComponentReplacement({ type, build, initialComponent, on
           <p role="status">{check.status === 'loading' ? 'Verificando a montagem atual e a alternativa com o mesmo jogo, resolução e qualidade...'
           : !candidate ? 'Selecione uma alternativa para verificar.'
             : !complete ? 'Complete as outras categorias no assistente antes de verificar a substituição.'
-              : check.status === 'success' ? canApply ? validated ? 'Verificação concluída. Revise os avisos antes de aplicar.' : 'Verificação concluída com dados pendentes. Leia os avisos de compatibilidade antes de aplicar.' : result?.compatibility ? 'Há incompatibilidades. Escolha outra peça e verifique novamente.' : 'Não foi possível confirmar a compatibilidade. Verifique novamente.'
+              : check.status === 'success' ? canApply ? validated ? 'Verificação concluída. Revise os avisos antes de aplicar.' : 'Conferência concluída. Você pode aplicar e ver o cenário estimado.' : result?.compatibility ? 'Há incompatibilidades. Escolha outra peça e verifique novamente.' : 'Não foi possível confirmar a compatibilidade. Verifique novamente.'
                 : 'A alteração ainda não foi aplicada. Verifique esta combinação.'}</p>
-          {canApply && !validated && <Alert type="warning">Compatibilidade não confirmada: há dados técnicos pendentes. Você pode aplicar a troca mantendo esses avisos, mas confirme encaixes, folgas e ligações nos manuais antes de comprar ou montar.</Alert>}
+          {canApply && !validated && <Alert type="warning">A troca é permitida. Dados técnicos incompletos ou conflitos conhecidos permanecem no resumo; o desempenho é um cenário teórico.</Alert>}
           {result && <p>Total estimado após a troca: <strong>{formatCurrency(comparison.cost.after)}</strong></p>}
           {overBudget && <Alert type="warning">O novo total excede o orçamento em {formatCurrency(comparison.cost.after - Number(budgetStatus.amount))}. Aplicar mantém o orçamento informado.</Alert>}
           <div className="button-row">

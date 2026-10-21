@@ -10,11 +10,8 @@ export function validateSimulationCompatibility(input) {
   if (!complete) return { scope: 'partial_build', status: 'unverified', compatible: false };
 
   const compatibility = evaluateResolvedBuildCompatibility(selectBuildComponents(input));
-  if (!compatibility.compatible) {
-    const error = new Error('Simulacao indisponivel: a compatibilidade da configuracao nao foi confirmada.');
-    error.statusCode = 422;
-    error.errors = [...compatibility.alerts, ...compatibility.unverifiedChecks].map((entry) => entry.message);
-    throw error;
-  }
-  return { scope: 'full_build', status: compatibility.status, compatible: true, coolingAssessment: compatibility.coolingAssessment };
+  return { scope: 'full_build', status: compatibility.status, compatible: compatibility.compatible,
+    scenarioOnly: compatibility.compatible !== true, alerts: compatibility.alerts,
+    unverifiedChecks: compatibility.unverifiedChecks, coolingAssessment: compatibility.coolingAssessment };
+
 }

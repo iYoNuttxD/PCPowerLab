@@ -1,0 +1,19 @@
+{
+  "baseHead": "22e082d4e9833867c5c46577bfec26009d453cf3",
+  "functionalDiffSha256": "5fc112fba162b1662ad07e3f15b57fc82d26760550a9f72e2e22150a6cfba175",
+  "newSourceFiles": [
+    "src/data/catalog.completion.js",
+    "src/data/catalog.completion.json",
+    "src/data/integratedGraphicsEvidence.js",
+    "src/data/performanceResearch.js",
+    "src/utils/graphicsSelection.js",
+    "tests/integrated-graphics.test.js"
+  ],
+  "excludes": [
+    "documentation",
+    "generated logs",
+    "build outputs"
+  ],
+  "purpose": "Validate identical functional source before and after the final frozen regression.",
+  "verifiedUnchangedAfterFinalRegression": true
+}

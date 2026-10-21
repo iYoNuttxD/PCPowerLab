@@ -93,3 +93,26 @@ test('deve expor rota POST de relatorio tecnico', () => {
 
   assert.equal(paths.includes('POST /'), true);
 });
+
+test('relatorio preserva dados tecnicos e motivos quando somente o orcamento e invalido', () => {
+  const report = generateBuildReport({ build: validBuild, budget: { amount: 'valor-invalido' }, includePurchaseLinks: true });
+  assert.equal(report.compatibility.compatible, true);
+  assert.equal(report.pricing.totalEstimatedPrice, currentBuildTotal());
+  assert.equal(report.pricing.available, false);
+  assert.equal(report.pricing.reason, 'invalid_analysis_input');
+  assert.equal(report.pricing.budget, null);
+  assert.equal(report.pricing.remaining, null);
+  assert.ok(report.pricing.errors.some(error => /amount/.test(error)));
+  assert.equal(report.score.available, false);
+  assert.equal(report.score.overallScore, null);
+  assert.ok(report.purchaseLinks.cpu.length > 0);
+});
+
+test('relatorio nunca rotula total em BRL como moeda diferente do orcamento', () => {
+  const report = generateBuildReport({ build: validBuild, budget: { amount: 10000, currency: 'USD' } });
+  assert.equal(report.pricing.currency, 'BRL');
+  assert.equal(report.pricing.budgetCurrency, 'USD');
+  assert.equal(report.pricing.reason, 'currency_mismatch');
+  assert.equal(report.pricing.remaining, null);
+  assert.equal(report.score.available, false);
+});

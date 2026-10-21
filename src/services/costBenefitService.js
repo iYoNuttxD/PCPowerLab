@@ -62,7 +62,7 @@ function buildCostBenefitEntry(component, performanceParameter) {
   }
 
   const price = getEstimatedPrice(component);
-  const performanceScore = performanceParameter ? getPerformanceScore(component, performanceParameter) : null;
+  const performanceScore = getPerformanceScore(component, performanceParameter);
 
   if (!price || !Number.isFinite(performanceScore) || performanceScore <= 0) {
     return null;

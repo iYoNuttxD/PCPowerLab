@@ -1,0 +1,170 @@
+{
+  "mb-asus-tuf-b550m-plus": {
+    "sourceUrls": [
+      "https://dlcdnets.asus.com/pub/ASUS/mb/SocketAM4/TUF_GAMING_B550M-PLUS/E17265_TUF_GAMING_B550M-PLUS_UM_v2_WEB.pdf"
+    ],
+    "fields": {
+      "memorySlots": 4,
+      "maxMemoryGb": 128,
+      "m2Slots": 2,
+      "sataPorts": 4,
+      "ethernetGbps": 2.5,
+      "wifi": false,
+      "bluetooth": false,
+      "frontUsbCHeader": false,
+      "frontUsbCDataRateGbps": null,
+      "flashback": true,
+      "systemFanHeaders": 2
+    },
+    "notes": [
+      "Modelo sem Wi-Fi, distinto da versão B550M-PLUS (WI-FI). USB-C traseiro de 10 Gbps não equivale a conector USB-C frontal.",
+      "M.2 principal PCIe 4.0 com CPU compatível; segundo M.2 PCIe 3.0. Confira CPU, BIOS e compartilhamento de portas no manual."
+    ],
+    "verifiedAt": "2026-10-20",
+    "catalogIdentity": "d7b9e4ba2a8f9ad97d90cdeed59ddb37ebe8020b1a425a289d9ea0938654d424"
+  },
+  "mb-gigabyte-b650m-d3hp": {
+    "sourceUrls": [
+      "https://www.gigabyte.com/Motherboard/B650M-D3HP-rev-1x/sp"
+    ],
+    "fields": {
+      "memorySlots": 4,
+      "maxMemoryGb": 256,
+      "m2Slots": 2,
+      "sataPorts": 4,
+      "ethernetGbps": 2.5,
+      "wifi": false,
+      "bluetooth": false,
+      "frontUsbCHeader": true,
+      "frontUsbCDataRateGbps": 5,
+      "flashback": true,
+      "systemFanHeaders": 2
+    },
+    "notes": [
+      "Revisão 1.x. Dois M.2 PCIe 4.0; slot principal da GPU até PCIe 4.0 x16 com Ryzen 7000/9000, menos pistas com alguns Ryzen 8000.",
+      "USB-C frontal de 5 Gbps e Q-Flash Plus; Wi-Fi/Bluetooth não integrados. Capacidade de RAM depende de BIOS, CPU e QVL."
+    ],
+    "verifiedAt": "2026-10-20",
+    "catalogIdentity": "280cb9526344bb997a5544e16a2dd7696b3405604aa3708db3cbbe30139028fc"
+  },
+  "mb-gigabyte-b650-gaming-x-ax-v2": {
+    "sourceUrls": [
+      "https://www.gigabyte.com/us/Motherboard/B650-GAMING-X-AX-V2-rev-10-11-12/sp"
+    ],
+    "fields": {
+      "memorySlots": 4,
+      "maxMemoryGb": 256,
+      "m2Slots": 3,
+      "sataPorts": 4,
+      "ethernetGbps": 2.5,
+      "wifi": "Wi-Fi 6E",
+      "bluetooth": "5.2 ou 5.3 conforme revisão",
+      "frontUsbCHeader": true,
+      "frontUsbCDataRateGbps": 20,
+      "flashback": true,
+      "systemFanHeaders": 2
+    },
+    "notes": [
+      "Revisões 1.0/1.1/1.2 usam módulos Wi-Fi diferentes. Bluetooth 5.2 na 1.1; 5.3 nas 1.0/1.2.",
+      "M.2 principal até PCIe 5.0 com Ryzen 7000/9000; outros dois até PCIe 4.0. Há ainda um header híbrido de fan/bomba do sistema, não contado como SYS_FAN dedicado."
+    ],
+    "verifiedAt": "2026-10-20",
+    "catalogIdentity": "5c3e229b5c1ff290f70b5e9eeaeb70b41471845d6fa829e377db651b97b73597"
+  },
+  "mb-gigabyte-b760m-ds3h-wifie-ddr4-gen5": {
+    "sourceUrls": [
+      "https://www.gigabyte.com/fr/Motherboard/B760M-DS3H-WIFI6E-DDR4-GEN5/sp"
+    ],
+    "fields": {
+      "memorySlots": 4,
+      "maxMemoryGb": 128,
+      "m2Slots": 2,
+      "sataPorts": 4,
+      "ethernetGbps": 2.5,
+      "wifi": "Wi-Fi 6E (Intel AX210)",
+      "bluetooth": "5.3",
+      "frontUsbCHeader": false,
+      "frontUsbCDataRateGbps": null,
+      "flashback": true,
+      "systemFanHeaders": 3
+    },
+    "notes": [
+      "Modelo DDR4 GEN5 exato: não confundir com DDR5 ou DS3H de outra revisão. Slot principal PCIe 5.0; dois M.2 PCIe 4.0.",
+      "USB-C traseiro de 10 Gbps disponível, mas sem header USB-C frontal."
+    ],
+    "verifiedAt": "2026-10-20",
+    "catalogIdentity": "fedcf402587688326e7225fc913cbe6210c0abb9343255e5f574ba13d28933e0"
+  },
+  "mb-msi-pro-h610m-s-ddr4": {
+    "sourceUrls": [
+      "https://download-2.msi.com/archive/mnu_exe/mb/PROH610M-SWIFIDDR4_PROH610M-SDDR4_EN.pdf",
+      "https://www.msi.com/Motherboard/PRO-H610M-S-DDR4/Specification"
+    ],
+    "fields": {
+      "memorySlots": 2,
+      "maxMemoryGb": 64,
+      "m2Slots": 1,
+      "sataPorts": 2,
+      "ethernetGbps": 1,
+      "wifi": false,
+      "bluetooth": false,
+      "frontUsbCHeader": false,
+      "frontUsbCDataRateGbps": null,
+      "flashback": null,
+      "systemFanHeaders": 1
+    },
+    "notes": [
+      "Modelo sem Wi-Fi. Manual exato priorizado: a página MSI mistura uma seção antiga de outro modelo, com contagens conflitantes de SATA/fans.",
+      "M.2 PCIe 3.0 x4, dois slots DDR4 até 3200 MT/s por JEDEC. Não foi comprovada atualização de BIOS sem CPU; não confundir M-Flash com Flash BIOS Button."
+    ],
+    "verifiedAt": "2026-10-20",
+    "catalogIdentity": "128fec7ce564cb9ffdb00070018a0052e416c7e21de5e7da9a133f814377bd04"
+  },
+  "mb-asus-tuf-z790-plus-wifi-ddr5": {
+    "sourceUrls": [
+      "https://www.asus.com/motherboards-components/motherboards/tuf-gaming/tuf-gaming-z790-plus-wifi/techspec/"
+    ],
+    "fields": {
+      "memorySlots": 4,
+      "maxMemoryGb": 128,
+      "m2Slots": 4,
+      "sataPorts": 4,
+      "ethernetGbps": 2.5,
+      "wifi": "Wi-Fi 6E",
+      "bluetooth": "5.3, dependente do módulo",
+      "frontUsbCHeader": true,
+      "frontUsbCDataRateGbps": 10,
+      "flashback": null,
+      "systemFanHeaders": 4
+    },
+    "notes": [
+      "A página oficial informa tanto 128 GB quanto 192 GB: mantido limite conservador de 128 GB até confirmar CPU, BIOS e QVL.",
+      "Quatro M.2 PCIe 4.0; principal da GPU PCIe 5.0. USB-C frontal 10 Gbps; USB-C traseiro inclui 20 Gbps. BIOS FlashBack sem CPU não confirmado."
+    ],
+    "verifiedAt": "2026-10-20",
+    "catalogIdentity": "c7aba69a53b2086799387483237f9b53ad1e38c354cf6b03bfbcd9847f2e37a0"
+  },
+  "mb-asrock-b450m-hdv-r4": {
+    "sourceUrls": [
+      "https://asrock.com/mb/AMD/B450M-HDV%20R4.0/index.asp"
+    ],
+    "fields": {
+      "memorySlots": 2,
+      "maxMemoryGb": 64,
+      "m2Slots": 1,
+      "sataPorts": 4,
+      "ethernetGbps": 1,
+      "wifi": false,
+      "bluetooth": false,
+      "frontUsbCHeader": false,
+      "frontUsbCDataRateGbps": null,
+      "flashback": null,
+      "systemFanHeaders": 2
+    },
+    "notes": [
+      "Recursos da placa exata; não é ranking de VRM nem confirmação da BIOS instalada."
+    ],
+    "verifiedAt": "2026-10-21",
+    "catalogIdentity": "c6b3cf5818de8b16a7946458249e1bfe182ece330c411ccdfa1d26a51b877b41"
+  }
+}

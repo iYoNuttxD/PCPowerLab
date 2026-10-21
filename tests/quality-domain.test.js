@@ -17,15 +17,18 @@ const games = (build) => compareGamePerformance({ gameIds: ['game-valorant', 'ga
 const software = (build) => simulateProfessionalSoftwarePerformance({ softwareId: 'software-adobe-premiere-pro', build });
 
 for (const [name, simulate] of [['game', game], ['multiple games', games], ['professional software', software]]) {
-  test(`${name}: rejects full incompatible and unknown builds instead of returning unsupported performance`, () => {
+  test(`${name}: returns theoretical estimates with known-conflict and unknown-data advisories`, () => {
     // Select an actual mismatched socket, so this tests compatibility rather than a missing ID.
     const motherboardId = components.find(part => part.category === 'motherboard' && part.specs.socket !== selectBuildComponents(legacy).cpu.specs.socket).id;
     const incompatible = { ...legacy, motherboardId };
     assert.equal(checkBuildCompatibility(incompatible).status, 'incompatible');
-    assert.throws(() => simulate(incompatible), { statusCode: 422 });
+    const theoretical = simulate(incompatible);
+    assert.equal((theoretical.technicalDetails?.compatibility ?? theoretical.compatibility).status, 'incompatible');
+    assert.ok(theoretical.results ? theoretical.results.every(result => Number.isFinite(result.estimatedFps)) : Number.isFinite(theoretical.estimatedFps ?? theoretical.performanceScore));
     const unknown = { ...legacy, coolerId: components.find(part => part.category === 'cooler').id };
     assert.equal(checkBuildCompatibility(unknown).status, 'unverified');
-    assert.throws(() => simulate({ components: unknown }), { statusCode: 422 });
+    const unverified = simulate({ components: unknown });
+    assert.equal((unverified.technicalDetails?.compatibility ?? unverified.compatibility).status, 'unverified');
     const removed = simulate({ components: unknown, coolerId: null });
     assert.equal((removed.technicalDetails?.compatibility ?? removed.compatibility).status, 'compatible');
     const valid = simulate(legacy);

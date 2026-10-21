@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-21T08:45:08.700Z",
+  "type": "manual interactive Chrome inspection via CUA",
+  "url": "http://localhost:3192/components",
+  "viewport": {
+    "height": 1080,
+    "overflow": false,
+    "width": 1920
+  },
+  "sourceSha256": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4"
+}

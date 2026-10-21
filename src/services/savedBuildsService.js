@@ -1,11 +1,11 @@
+import { requiredSlotsFor } from '../utils/graphicsSelection.js';
 import { savedBuildVersions } from '../data/savedBuildVersions.js';
 import { notifications } from '../data/notifications.js';
 import { savedBuilds } from '../data/savedBuilds.js';
 import {
   hasRequiredSavedBuildComponents,
   normalizeSavedBuildComponents,
-  normalizeText,
-  savedBuildRequiredComponentSlots
+  normalizeText
 } from '../models/savedBuildModel.js';
 import { selectBuildComponents } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
@@ -213,7 +213,7 @@ function validateRequiredComponents(components) {
     return;
   }
 
-  const missingComponents = savedBuildRequiredComponentSlots.filter((slot) => !components[slot]);
+  const missingComponents = requiredSlotsFor(components).filter((slot) => !components[slot]);
   const error = new Error('A configuração deve conter todos os componentes principais.');
   error.statusCode = 400;
   error.errors = missingComponents.map((slot) => `Componente obrigatório ausente: ${slot}.`);

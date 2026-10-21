@@ -1384,7 +1384,7 @@
     "price": 663.1,
     "currency": "BRL",
     "paymentCondition": "PIX à vista",
-    "cardTotal": 698.0,
+    "cardTotal": 698,
     "installments": "10x R$69,80 sem juros",
     "queriedAt": "2026-10-08",
     "validUntil": null,
@@ -2693,7 +2693,7 @@
     "seller": "MOCK VAREJO",
     "condition": "unknown",
     "productUrl": "https://www.kabum.com.br/produto/196410/hd-seagate-2tb-barracuda-3-5-sata-st2000dm008",
-    "price": 1116.0,
+    "price": 1116,
     "currency": "BRL",
     "paymentCondition": "PIX à vista",
     "cardTotal": null,
@@ -2878,7 +2878,7 @@
     "price": 3324.05,
     "currency": "BRL",
     "paymentCondition": "PIX or NuPay",
-    "cardTotal": 3499.0,
+    "cardTotal": 3499,
     "installments": "12x R$291.62 sem juros",
     "queriedAt": "2026-10-08",
     "observedAt": "2026-10-08T14:38:13Z",
@@ -5143,5 +5143,986 @@
       "Preço e estoque observados manualmente; confirmar condições na loja.",
       "Não é cotação de API nem garantia de disponibilidade futura."
     ]
+  },
+  {
+    "productId": "cpu-ryzen-7-7800x3d-box",
+    "model": "100-100000910WOF",
+    "sourceVariantName": "100-100000910WOF",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/426262/processador-amd-ryzen-7-7800x3d-4-2ghz-5-0ghz-max-turbo-cache-104mb-8-nucleos-16-threads-am5-com-video-integrado-100-100000910wof",
+    "price": 1999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 235,29 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-7-7800x3d-box",
+      "name": "AMD Ryzen 7 7800X3D Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "100-100000910WOF",
+      "specs": {
+        "socket": "AM5",
+        "cores": 8,
+        "threads": 16,
+        "baseClockGhz": 4.2,
+        "boostClockGhz": 5,
+        "tdpWatts": 120,
+        "memoryTypes": [
+          "DDR5"
+        ],
+        "maxMemoryGb": 128,
+        "l3CacheMb": 96,
+        "integratedGraphics": "AMD Radeon Graphics (2 núcleos)",
+        "includesCpuCooler": false
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T21:58:00Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "cpu-ryzen-9-9900x-box",
+    "model": "100-100000662WOF",
+    "sourceVariantName": "100-100000662WOF",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/609952/processador-amd-ryzen-9-9900x-4-4-ghz-5-6-ghz-max-turbo-cache-76mb-12-nucleos-24-threads-am5-com-video-integrado-100-100000662wof",
+    "price": 2199.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 258,82 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-9-9900x-box",
+      "name": "AMD Ryzen 9 9900X Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "100-100000662WOF",
+      "specs": {
+        "socket": "AM5",
+        "cores": 12,
+        "threads": 24,
+        "baseClockGhz": 4.4,
+        "boostClockGhz": 5.6,
+        "tdpWatts": 120,
+        "memoryTypes": [
+          "DDR5"
+        ],
+        "maxMemoryGb": 256,
+        "l3CacheMb": 64,
+        "integratedGraphics": "AMD Radeon Graphics (2 núcleos)",
+        "includesCpuCooler": false
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:04:00Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "gpu-msi-rtx-5060-ti-ventus-2x-oc-plus-16g",
+    "model": "G506T-16V2CP",
+    "sourceVariantName": "G506T-16V2CP",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/777167/placa-de-video-msi-rtx-5060-ti-16g-ventus-2x-oc-plus-nvidia-geforce-16gb-gddr7-2617-mhz-fp4-and-dlss-4-ray-tracing-g506t-16v2cp",
+    "price": 4999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 588,23 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-msi-rtx-5060-ti-ventus-2x-oc-plus-16g",
+      "name": "MSI GeForce RTX 5060 Ti 16G VENTUS 2X OC PLUS",
+      "brand": "MSI",
+      "category": "gpu",
+      "partNumber": "G506T-16V2CP",
+      "specs": {
+        "vramGb": 16,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 128,
+        "memorySpeedGbps": 28,
+        "cudaCores": 4608,
+        "boostClockMhz": 2602,
+        "extremePerformanceClockMhz": 2617,
+        "extremePerformanceCondition": "MSI Center",
+        "lengthMm": 227,
+        "widthMm": 127,
+        "heightMm": 41,
+        "recommendedPsuWatts": 600,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0 x16 físico, x8 elétrico",
+        "tdpWatts": 180
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T21:59:48Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "gpu-msi-rtx-5060-ventus-2x-oc-8g",
+    "model": "G5060-8V2C",
+    "sourceVariantName": "G5060-8V2C",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "unknown",
+    "productUrl": "https://www.kabum.com.br/produto/877565/placa-de-video-msi-rtx-5060-8g-ventus-2x-oc-geforce-nvidia-8gb-gddr7-128-bits-2535-mhz-dlss-4-ray-tracing-g5060-8v2c",
+    "price": 2999.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "10x de R$ 352,94 sem juros; total não explicitado",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-msi-rtx-5060-ventus-2x-oc-8g",
+      "name": "MSI GeForce RTX 5060 8G VENTUS 2X OC",
+      "brand": "MSI",
+      "category": "gpu",
+      "partNumber": "G5060-8V2C",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR7",
+        "memoryBusBits": 128,
+        "memorySpeedGbps": 28,
+        "cudaCores": 3840,
+        "boostClockMhz": 2527,
+        "extremePerformanceClockMhz": 2535,
+        "extremePerformanceCondition": "MSI Center",
+        "lengthMm": 197,
+        "widthMm": 120,
+        "heightMm": 41,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "5.0 x16 físico, x8 elétrico",
+        "tdpWatts": 145
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:07:00Z",
+    "availabilityEvidence": "Vendido e entregue por KaBuM!; botão Comprar agora habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "case-deepcool-cc310-black",
+    "model": "R-CC310-BKNNM0-G",
+    "sourceVariantName": "R-CC310-BKNNM0-G",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-office-deepcool-cc310-mid-tower-preto-r-cc310-bknnm0-g",
+    "price": 219.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 258.81,
+    "installments": "12x de R$ 21,57 sem juros",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "case-deepcool-cc310-black",
+      "name": "DeepCool CC310 Black",
+      "brand": "DeepCool",
+      "category": "case",
+      "partNumber": "R-CC310-BKNNM0-G",
+      "specs": {
+        "supportedFormFactors": [
+          "mATX",
+          "ITX"
+        ],
+        "color": "Black",
+        "dimensionsMm": {
+          "length": 308,
+          "width": 185,
+          "height": 356
+        },
+        "maxGpuLengthMm": 280,
+        "maxCoolerHeightMm": 160,
+        "maxPsuLengthMm": 160,
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "radiatorSizesMm": [],
+        "radiatorLayouts": {},
+        "radiatorSupportStatus": "unsupported",
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 2
+          }
+        ],
+        "fanLayouts": {
+          "front": [
+            "1x120"
+          ],
+          "rear": [
+            "1x120"
+          ]
+        },
+        "includedFanCount": 1,
+        "includedFanDiameterMm": 120,
+        "includedFansPosition": "rear",
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "frontUsbC": false,
+        "coolingSupportNotes": "Sem suporte a radiador na especificação oficial. Dois pontos de 120 mm, um frontal e um traseiro; traseiro incluído. Limites de espessura não verificados."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:04:00Z",
+    "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "case-cougar-mx230-rgb-black",
+    "model": "382PC80.0001",
+    "sourceVariantName": "382PC80.0001",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/gabinete-gamer-cougar-mx230-argb-mid-tower-lateral-de-vidro-com-4-fans-preto-382pc80-0001",
+    "price": 539.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 635.28,
+    "installments": "12x de R$ 52,94 sem juros",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "case-cougar-mx230-rgb-black",
+      "name": "COUGAR MX230 RGB Black",
+      "brand": "COUGAR",
+      "category": "case",
+      "partNumber": "382PC80.0001",
+      "specs": {
+        "supportedFormFactors": [
+          "ITX",
+          "mATX",
+          "ATX",
+          "E-ATX"
+        ],
+        "color": "Black",
+        "dimensionsMm": {
+          "length": 445,
+          "width": 220,
+          "height": 475
+        },
+        "maxGpuLengthMm": 400,
+        "maxCoolerHeightMm": 170,
+        "maxPsuLengthMm": 200,
+        "supportedPsuFormFactors": null,
+        "radiatorSizesMm": [
+          120,
+          240,
+          360
+        ],
+        "radiatorLayouts": {
+          "top": [
+            120,
+            240,
+            360
+          ],
+          "rear": [
+            120
+          ]
+        },
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 10
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 4
+          }
+        ],
+        "fanLayouts": {
+          "front": [
+            "3x120",
+            "2x140"
+          ],
+          "top": [
+            "3x120",
+            "2x140"
+          ],
+          "rear": [
+            "1x120"
+          ],
+          "psuShroud": [
+            "3x120"
+          ]
+        },
+        "includedFanCount": 4,
+        "includedFanDiameterMm": 120,
+        "includedFansPosition": "3 front/1 rear",
+        "includedFanPwm": null,
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "frontUsbC": true,
+        "frontUsbCDataRateGbps": 10,
+        "coolingSupportNotes": "Radiadores 120/240/360 mm no topo, 120 mm atrás; não extrapolar suporte a 280 mm dos fans de 140 mm. Fans PWM somente em séries BF05 ou posteriores. Layouts alternativos, não somáveis. Formato da fonte e folgas de espessura não verificados."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados.",
+      "Horário registrado com precisão de minuto quando segundos não foram preservados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:06:58Z",
+    "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "gpu-asrock-arc-a380-challenger-itx-6g-oc",
+    "model": "90-GA3KZZ-00UANF",
+    "sourceVariantName": "90-GA3KZZ-00UANF",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "unknown",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asrock-intel-arc-a380-challenger-itx-oc-6gb-gddr6-96-bit-90-ga3kzz-00uanf",
+    "price": 1239.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": 1458.81,
+    "installments": "12x de R$ 121,57 sem juros",
+    "queriedAt": "2026-10-20",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e prazo não calculados; CEP não informado; excluídos do preço",
+    "taxes": "Tributos adicionais não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "retrievalCrawlLabel": null,
+    "expectedCatalogIdentity": {
+      "id": "gpu-asrock-arc-a380-challenger-itx-6g-oc",
+      "name": "ASRock Intel Arc A380 Challenger ITX 6GB OC",
+      "brand": "ASRock",
+      "category": "gpu",
+      "partNumber": "90-GA3KZZ-00UANF",
+      "specs": {
+        "vramGb": 6,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 96,
+        "memorySpeedGbps": 15.5,
+        "baseClockMhz": 2250,
+        "xmxEngines": 128,
+        "lengthMm": 190,
+        "widthMm": 124,
+        "heightMm": 39,
+        "slotCount": 2,
+        "recommendedPsuWatts": 500,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ],
+        "pciExpress": "4.0 x8",
+        "tdpWatts": null,
+        "requiresResizableBar": true,
+        "requiresUefiBoot": true,
+        "hardwareAv1Encode": true,
+        "maxDisplays": 4
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Preço e disponibilidade observados na página renderizada, sem garantia futura; confirmar na loja.",
+      "Frete e total final de compra não verificados."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-20T22:52:50Z",
+    "availabilityEvidence": "Botão COMPRAR habilitado na página renderizada do produto"
+  },
+  {
+    "productId": "cpu-ryzen-5-4500-box",
+    "model": "100-100000644BOX",
+    "sourceVariantName": "100-100000644BOX",
+    "referenceScope": "exact",
+    "store": "KaBuM",
+    "seller": "KaBuM!",
+    "condition": "new",
+    "productUrl": "https://www.kabum.com.br/produto/333154/processador-amd-ryzen-5-4500-3-6ghz-4-1ghz-max-turbo-cache-11mb-6-nucleos-12-threads-am4-sem-video-integrado-100-100000644box",
+    "price": 545.29,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-5-4500-box",
+      "name": "AMD Ryzen 5 4500 Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "100-100000644BOX",
+      "specs": {
+        "socket": "AM4",
+        "cores": 6,
+        "threads": 12,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4.1,
+        "tdpWatts": 65,
+        "memoryTypes": [
+          "DDR4"
+        ],
+        "maxMemoryGb": 128,
+        "includesCpuCooler": true
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:39:35.369Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S03-cpu-4500-kabum"
+  },
+  {
+    "productId": "gpu-pcyes-rx-550-edge-4gb",
+    "model": "PVEX5504GBDF",
+    "sourceVariantName": "PVEX5504GBDF",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/28714/placa-de-video-pcyes-amd-radeon-rx-550-4gb-gddr5-128-bit-pvex5504gbdf",
+    "price": 619.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "gpu-pcyes-rx-550-edge-4gb",
+      "name": "PCYES Radeon RX 550 Edge Dual Fan 4GB",
+      "brand": "PCYES",
+      "category": "gpu",
+      "partNumber": "PVEX5504GBDF",
+      "specs": {
+        "vramGb": 4,
+        "memoryType": "GDDR5",
+        "memoryBusBits": 128,
+        "tdpWatts": null,
+        "lengthMm": null,
+        "recommendedPsuWatts": 400,
+        "powerConnectors": null,
+        "typicalBoardPowerWatts": 50
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:42:20.508Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S12-gpu-rx550-pcyes-store"
+  },
+  {
+    "productId": "gpu-asrock-rx-7600-challenger-pro-8gb",
+    "model": "90-GA62ZZ-00UANF",
+    "sourceVariantName": "90-GA62ZZ-00UANF",
+    "referenceScope": "exact",
+    "store": "Pichau",
+    "seller": "Pichau",
+    "condition": "new",
+    "productUrl": "https://www.pichau.com.br/placa-de-video-asrock-radeon-rx-7600-challenger-pro-oc-8gb-gddr6-128-bit-90-ga62zz-00uanf",
+    "price": 1959.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "gpu-asrock-rx-7600-challenger-pro-8gb",
+      "name": "ASRock Radeon RX 7600 Challenger Pro 8GB OC",
+      "brand": "ASRock",
+      "category": "gpu",
+      "partNumber": "90-GA62ZZ-00UANF",
+      "specs": {
+        "vramGb": 8,
+        "memoryType": "GDDR6",
+        "memoryBusBits": 128,
+        "tdpWatts": null,
+        "lengthMm": 303,
+        "recommendedPsuWatts": 550,
+        "powerConnectors": [
+          {
+            "type": "pcie-8pin",
+            "count": 1
+          }
+        ]
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:42:12.521Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S10-gpu-rx7600-store"
+  },
+  {
+    "productId": "case-montech-x2-plus-white",
+    "model": "X2 PLUS (W)",
+    "sourceVariantName": "X2 PLUS (W)",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/39700/gabinete-gamer-montech-x2-plus-vidro-temperado-mid-tower-atx-com-3-fans-argb-branco",
+    "price": 239.9,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "case-montech-x2-plus-white",
+      "name": "Montech X2 Plus White",
+      "brand": "Montech",
+      "category": "case",
+      "partNumber": "X2 PLUS (W)",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "includedFanCount": 3,
+        "includedFanPwm": null,
+        "maxGpuLengthMm": 305,
+        "maxCoolerHeightMm": 160,
+        "maxPsuLengthMm": 160,
+        "radiatorSizesMm": [
+          120,
+          240
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 5
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 4
+          }
+        ],
+        "coolingSupportNotes": "Frente 2×140; topo 2×120 ou 2×140; base sobre fonte 2×120; traseira 1×120. Radiador até 240 no topo ou 120 atrás; confirmar interferências no manual."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:42:12.605Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S11-case-x2-store"
+  },
+  {
+    "productId": "case-montech-xr-white",
+    "model": "XR (W)",
+    "sourceVariantName": "XR (W)",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/29263/gabinete-gamer-montech-xr-mid-tower-white-atx-com-3-fans-vidro-temperado-xr-w",
+    "price": 299.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact_variant",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "case-montech-xr-white",
+      "name": "Montech XR White",
+      "brand": "Montech",
+      "category": "case",
+      "partNumber": "XR (W)",
+      "specs": {
+        "supportedFormFactors": [
+          "ATX",
+          "mATX",
+          "ITX"
+        ],
+        "supportedPsuFormFactors": [
+          "ATX"
+        ],
+        "maxFanThicknessMm": null,
+        "maxRadiatorThicknessMm": null,
+        "includedFanCount": 3,
+        "includedFanPwm": true,
+        "maxGpuLengthMm": 420,
+        "maxCoolerHeightMm": 175,
+        "maxPsuLengthMm": 230,
+        "radiatorSizesMm": [
+          120,
+          140,
+          240,
+          360
+        ],
+        "fanMounts": [
+          {
+            "diameterMm": 120,
+            "capacity": 9
+          },
+          {
+            "diameterMm": 140,
+            "capacity": 3
+          }
+        ],
+        "coolingSupportNotes": "Topo 3×120 ou 2×140; lateral 2×120; base sobre fonte 3×120; traseira 1×120 ou 1×140. Radiador até 360 no topo. Verificar interferências no manual."
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T00:41:04.468Z",
+    "availabilityEvidence": "Compra habilitada na página do produto; evidência S08-case-xr-store"
+  },
+  {
+    "productId": "cpu-ryzen-3-3200g-box",
+    "model": "YD3200C5FHBOX",
+    "sourceVariantName": "YD3200C5FHBOX",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/26551/processador-amd-ryzen-3-3200g-36ghz-40ghz-turbo-4-cores-4-threads-cooler-wraith-stealth-am4-yd3200c5fhbox",
+    "price": 439.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "cpu-ryzen-3-3200g-box",
+      "name": "AMD Ryzen 3 3200G Box",
+      "brand": "AMD",
+      "category": "cpu",
+      "partNumber": "YD3200C5FHBOX",
+      "specs": {
+        "socket": "AM4",
+        "cores": 4,
+        "threads": 4,
+        "baseClockGhz": 3.6,
+        "boostClockGhz": 4,
+        "tdpWatts": 65,
+        "memoryTypes": [
+          "DDR4"
+        ],
+        "maxMemoryDataRateMTs": 2933,
+        "integratedGraphics": "Radeon Vega 8 Graphics",
+        "graphicsCoreCount": 8,
+        "graphicsClockMhz": 1250,
+        "maxOperatingTempC": 95,
+        "includesCpuCooler": true,
+        "includedCpuCooler": {
+          "name": "AMD Wraith Stealth",
+          "specSourceUrl": "https://www.amd.com/en/support/downloads/drivers.html/processors/ryzen/ryzen-3000-series/amd-ryzen-3-3200g.html",
+          "specs": {
+            "coolingType": "air",
+            "supportedSockets": [
+              "AM4"
+            ],
+            "heightMm": null,
+            "powerWatts": null
+          }
+        }
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T03:24:14.781605Z",
+    "availabilityEvidence": "Comprar agora habilitado na página exata; S18-3200g-available."
+  },
+  {
+    "productId": "mb-asrock-b450m-hdv-r4",
+    "model": "B450M-HDV R4.0",
+    "sourceVariantName": "B450M-HDV R4.0",
+    "referenceScope": "exact",
+    "store": "Terabyte",
+    "seller": "TerabyteShop",
+    "condition": "new",
+    "productUrl": "https://www.terabyteshop.com.br/produto/11732/placa-mae-asrock-b450m-hdv-r40-chipset-b450-amd--am4-matx-ddr4",
+    "price": 379.99,
+    "currency": "BRL",
+    "paymentCondition": "PIX à vista",
+    "cardTotal": null,
+    "installments": "Consultar condições na loja",
+    "queriedAt": "2026-10-21",
+    "validUntil": null,
+    "availability": "available",
+    "shipping": "Frete e montagem excluídos; CEP não informado",
+    "taxes": "Não discriminados",
+    "identityMatch": "exact",
+    "snapshotEligible": true,
+    "selectedStore": true,
+    "expectedCatalogIdentity": {
+      "id": "mb-asrock-b450m-hdv-r4",
+      "name": "ASRock B450M-HDV R4.0",
+      "brand": "ASRock",
+      "category": "motherboard",
+      "partNumber": "B450M-HDV R4.0",
+      "specs": {
+        "socket": "AM4",
+        "chipset": "B450",
+        "memoryType": "DDR4",
+        "memorySlots": 2,
+        "maxMemoryGb": 64,
+        "formFactor": "mATX",
+        "dimensionsMm": [
+          230,
+          201
+        ],
+        "storageInterfaces": [
+          "SATA",
+          "M.2 NVMe"
+        ],
+        "m2Slots": 1,
+        "m2SupportedLengthsMm": [
+          2242,
+          2260,
+          2280
+        ],
+        "sataPorts": 4,
+        "graphicsOutputs": [
+          "HDMI",
+          "DVI-D",
+          "VGA"
+        ],
+        "cpuFanHeaders": 1,
+        "systemFanHeaders": 2,
+        "cpuFanHeaderMaxAmps": 1,
+        "minimumBiosByCpu": {
+          "cpu-ryzen-3-3200g-box": "P2.30"
+        },
+        "biosSupportSources": {
+          "cpu-ryzen-3-3200g-box": "https://www.asrock.com/support/cpu.asp?s=AM4&u=599"
+        },
+        "wifi": false,
+        "frontUsbCHeader": false
+      }
+    },
+    "demonstrativePrice": null,
+    "source": {
+      "kind": "manual_public_page_observation",
+      "authorizedApi": false
+    },
+    "limitations": [
+      "Observação pontual; não confirma preço ou estoque futuro.",
+      "Sem frete e montagem."
+    ],
+    "verificationMethod": "rendered_product_page",
+    "observedAt": "2026-10-21T03:24:14.781605Z",
+    "availabilityEvidence": "Comprar agora habilitado na página exata; S19-b450m-hdv-r4-available."
   }
 ]

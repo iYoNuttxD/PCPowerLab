@@ -56,11 +56,11 @@ test('nested cooling options retain IDs, quantities and unverified compatibility
   assert.throws(() => calculateBuildPrice(selected), { statusCode: 422 });
   const upgrades = suggest(input);
   assert.equal(upgrades.currentBuildSummary.totalEstimatedPrice, null);
-  assert.deepEqual(upgrades.suggestions, []);
+  assert.ok(upgrades.suggestions.every(suggestion=>suggestion.compatibilityStatus==='unverified'));
   const plan = roadmap(input);
   assert.equal(plan.currentBuildSummary.totalEstimatedPrice, null);
   assert.equal(plan.initialCompatibility.status, 'unverified');
-  assert.deepEqual(plan.steps, []);
+  assert.ok(plan.steps.every(step=>step.compatibilityAfterStep?.status !== 'incompatible'));
 });
 
 test('explicit top-level cooling removal overrides nested options in upgrades and roadmap', () => {

@@ -1,6 +1,12 @@
 # Pontuação provisória explícita — 08/10/2026
 
+> **Contrato atual — 21/10/2026:** [V3-NONBLOCKING-VALIDATION.md](V3-NONBLOCKING-VALIDATION.md) substitui os antigos bloqueios por BIOS desconhecida, medidas ausentes e falta de calibração. Dados desconhecidos são avisos opcionais; há estimativas aproximadas, não medições. Conflitos conhecidos não impedem o fluxo manual. Registros anteriores abaixo são históricos e não descrevem esses bloqueios como requisitos atuais.
+
+
 A pedido do usuário, a ausência de desempenho real permite uma pontuação inventada. Isso altera a política de pontuação do commit 1548ab6, sem alterar preços, estoque, identidades, imagens ou especificações físicas.
+
+## Registro histórico — anterior ao contrato não bloqueante
+
 
 ## Regra e escala
 

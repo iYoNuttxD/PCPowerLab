@@ -1,7 +1,9 @@
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { componentTypes } from './componentLabels.js';
 
 export function buildToApiPayload(selectedComponents) {
   return {
+    ...(usesIntegratedGraphics(selectedComponents) ? { graphicsMode: 'integrated' } : {}),
     cpuId: getComponentId(selectedComponents, 'cpu'),
     gpuId: getComponentId(selectedComponents, 'gpu'),
     motherboardId: getComponentId(selectedComponents, 'motherboard'),
@@ -22,7 +24,8 @@ export function savedBuildToSelection(savedBuild) {
       ...selection,
       [type]: components[type] || components[`${type}Id`] || ''
     }), {}),
-    fans: Array.isArray(components.fans) ? components.fans : []
+    fans: Array.isArray(components.fans) ? components.fans : [],
+    ...(usesIntegratedGraphics(components) ? { graphicsMode: 'integrated' } : {})
   };
 }
 
@@ -63,6 +66,7 @@ export function hydrateBuildComponents(components = {}, componentMap = {}, { pre
     const { fanId: _fanId, ...details } = fan;
     return { ...(preferCatalog ? { ...details, ...componentMap[id] } : { ...componentMap[id], ...details }), id, quantity: Number(fan.quantity ?? 1) };
   });
+  if (usesIntegratedGraphics(components)) selection.graphicsMode = 'integrated';
   return selection;
 }
 
@@ -75,7 +79,7 @@ export function recommendationSelection(current = {}, recommended = {}, replaceC
 }
 
 export function hasCompleteBuild(selectedComponents) {
-  return componentTypes.every((type) => selectedComponents?.[type]?.id || selectedComponents?.[type]);
+  return componentTypes.filter(type => type !== 'gpu' || !usesIntegratedGraphics(selectedComponents)).every((type) => selectedComponents?.[type]?.id || selectedComponents?.[type]);
 }
 
 export function normalizeSavedBuildPayload({ name, description, selectedComponents, budget, usageType }) {

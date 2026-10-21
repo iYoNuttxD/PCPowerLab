@@ -74,7 +74,8 @@ test('v2.4 incompatible CPU identifies affected socket without silently fixing m
   assert.equal(report.compatibility.compatible, false);
   assert.ok(report.compatibility.alerts.some(alert => /socket/i.test(JSON.stringify(alert))));
   assert.strictEqual(candidate.selectedComponents.motherboard, before.selectedComponents.motherboard);
-  assert.equal(report.gamePerformance.available, false);
+  assert.equal(report.gamePerformance.available, true);
+  assert.equal(report.gamePerformance.estimation.scenarioOnly,true);
 });
 
 test('v2.4 save and reload replacement preserve all accessories; original and version remain unchanged', () => {
@@ -104,7 +105,9 @@ test('v2.4 verified commit rejects mismatched summaries and known incompatibilit
   assert.strictEqual(replaceBuildComponent(state, 'gpu', candidate, analyze(state), 0), state);
   const changed = replaceBuildComponent(state, 'gpu', candidate);
   const summary = analyze(changed);
-  assert.strictEqual(replaceBuildComponent(state, 'gpu', candidate, { ...summary, compatibility: { compatible: false, status: 'incompatible' } }, 0), state);
+  const applied=replaceBuildComponent(state, 'gpu', candidate, { ...summary, compatibility: { compatible:false, status:'incompatible' } }, 0);
+  assert.equal(applied.selectedComponents.gpu.id,candidate.id);
+  assert.equal(applied.summary.compatibility.status,'incompatible');
 });
 
 test('v2.4 higher-price replacement keeps the budget and exposes the exact overage', () => {

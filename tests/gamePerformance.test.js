@@ -198,7 +198,7 @@ test('deve retornar erro controlado quando build estiver incompleta', () => {
   );
 });
 
-test('deve retornar indisponibilidade estruturada quando parametros de desempenho nao existirem', () => {
+test('deve estimar com hipóteses explícitas quando parametros de desempenho nao existirem', () => {
   createAdminComponent({
     id: 'cpu-test-game-no-score',
     name: 'CPU Test Game Sem Score',
@@ -219,8 +219,8 @@ test('deve retornar indisponibilidade estruturada quando parametros de desempenh
         cpuId: 'cpu-test-game-no-score'
       }
     });
-  assert.equal(result.available, false);
-  assert.equal(result.reason, 'performance_model_unavailable');
-  assert.deepEqual(result.componentsWithoutPerformanceModel, ['cpu-test-game-no-score']);
-  assert.equal(result.estimatedFps, null);
+  assert.equal(result.available, true);
+  assert.equal(result.estimation.measuredBenchmark, false);
+  assert.equal(result.estimation.confidence, 'low');
+  assert.ok(Number.isFinite(result.estimatedFps));
 });

@@ -1,3 +1,4 @@
+import { verifiedFeatureFields, formatVerifiedFeature } from './verifiedFeaturesPresentation.js';
 import { translateSpecLabel } from './translations.js';
 
 export const componentSpecFields = {
@@ -28,10 +29,12 @@ export function specLabel(key) {
   if (key === 'speedMhz') return 'Taxa de transferência';
   if (key === 'readSpeedMbS') return 'Leitura (até)';
   if (key === 'writeSpeedMbS') return 'Gravação (até)';
-  return translateSpecLabel(key);
+  const labels = { typicalBoardPowerWatts: 'Alimentação típica declarada (W)', powerConnectors: 'Conectores de alimentação', fanHeaders: 'Conectores de ventoinhas', cpu: 'CPU', cpuPump: 'Bomba / CPU', system: 'Gabinete', systemPump: 'Gabinete / bomba', pcie8pin: 'PCIe de 8 pinos', pcie6pin: 'PCIe de 6 pinos', eps8pin: 'CPU de 8 pinos', atx24pin: 'ATX de 24 pinos' };
+  return labels[key] || verifiedFeatureFields[key] || translateSpecLabel(key);
 }
 
 export function formatSpecValue(key, value) {
+  if (key in verifiedFeatureFields) return formatVerifiedFeature(key, value === 'true' ? true : value === 'false' ? false : value);
   if (value === undefined || value === null || value === '' || (Array.isArray(value) && !value.length)) return 'Não informado';
   if (key === 'fanMounts' && Array.isArray(value)) return value.map(mount => `${mount.diameterMm ?? '?'} mm: até ${mount.capacity ?? '?'} ventoinha(s)`).join('; ');
   if (key === 'radiatorSizesMm' && Array.isArray(value)) return value.map(size => `${size} mm`).join(', ');
@@ -47,7 +50,7 @@ export function formatSpecValue(key, value) {
   }
   if (key === 'color') return { White: 'Branco', Black: 'Preto', white: 'Branco', black: 'Preto' }[value] || String(value);
   if (Array.isArray(value)) return value.map(item => typeof item === 'object' ? JSON.stringify(item) : item).join(', ');
-  if (typeof value === 'object') return JSON.stringify(value);
+  if (typeof value === 'object') return Object.entries(value).filter(([, entry]) => entry != null).map(([name, entry]) => `${specLabel(name)}: ${Array.isArray(entry) ? entry.join(', ') : String(entry)}`).join(' · ') || 'Não informado';
   if (key === 'coolingType') return value === 'air' ? 'A ar' : value === 'aio' ? 'Líquida (AIO)' : String(value);
   if (typeof value === 'boolean') return value ? 'Sim' : 'Não';
   return units[key] && Number.isFinite(Number(value)) ? `${Number(value).toLocaleString('pt-BR')} ${units[key]}` : String(value);
@@ -57,7 +60,7 @@ export function specKeys(components) {
   const keys = [...new Set([
     ...(componentSpecFields[components[0]?.category] || []),
     ...components.flatMap(component => Object.keys(component.specs || {}))
-  ])];
+  ])].filter(key => !['cpuFamilies', 'minimumBiosByCpu', 'installedBiosVersion', 'gpuPcieGeneration'].includes(key));
   // The legacy speedMhz key stores MT/s; avoid printing its exact alias twice.
   const sameRate = keys.includes('speedMhz') && components.every(component => component.specs?.dataRateMTs == null || component.specs?.dataRateMTs === component.specs?.speedMhz);
   return sameRate ? keys.filter(key => key !== 'dataRateMTs') : keys;
@@ -65,7 +68,7 @@ export function specKeys(components) {
 
 export const catalogFilterFields = {
   cpu: ['socket', 'cores'], gpu: ['vramGb'],
-  motherboard: ['socket', 'memoryType', 'formFactor', 'chipset'],
+  motherboard: ['socket', 'memoryType', 'formFactor', 'chipset', 'wifi', 'm2Slots'],
   ram: ['memoryType', 'capacityGb', 'speedMhz'],
   storage: ['interface', 'capacityGb', 'readSpeedMbS', 'writeSpeedMbS'],
   psu: ['watts', 'efficiency'], case: ['supportedFormFactors'],
@@ -107,7 +110,7 @@ export function componentValueScore(component) {
 export function filterComponents(components, requestedFilters = {}, compatibilityById = {}) {
   const filters = { ...emptyCatalogFilters, ...requestedFilters };
   if (priceRangeError(filters) || performanceRangeError(filters)) return [];
-  const term = normalizeSearch(filters.search);
+  const terms = normalizeSearch(filters.search).split(' ').filter(Boolean);
   const comparable = ['cpu', 'gpu', 'ram', 'storage'].includes(filters.category);
   const result = components.filter(component => {
     const price = typeof component.price === 'number' && Number.isFinite(component.price) && component.price >= 0 ? component.price : null;
@@ -116,7 +119,7 @@ export function filterComponents(components, requestedFilters = {}, compatibilit
     const status = typeof compatibility === 'string' ? compatibility : compatibility?.status;
     return (filters.category === 'all' || component.category === filters.category)
       && (filters.brand === 'all' || component.brand === filters.brand)
-      && (!term || normalizeSearch(`${component.name || ''} ${component.brand || ''} ${component.partNumber || ''}`).includes(term))
+      && terms.every(term => term.length === 1 ? componentSearchText(component).split(' ').includes(term) : componentSearchText(component).includes(term))
       && (filters.minPrice === '' || (price !== null && price >= Number(filters.minPrice)))
       && (filters.maxPrice === '' || (price !== null && price <= Number(filters.maxPrice)))
       && (!comparable || filters.minPerformance === '' || (score !== null && score >= Number(filters.minPerformance)))
@@ -126,7 +129,7 @@ export function filterComponents(components, requestedFilters = {}, compatibilit
         if (value === '' || value === 'all' || value == null) return true;
         // Stale selections from another category cannot silently hide its products.
         if (!(catalogFilterFields[filters.category] || []).includes(key)) return true;
-        const actual = component.specs?.[key];
+        const actual = component.specs?.[key] ?? component.verifiedFeatures?.fields?.[key];
         return (Array.isArray(actual) ? actual : [actual]).some(entry => entry != null && String(entry) === String(value));
       });
   });
@@ -146,5 +149,13 @@ export function filterComponents(components, requestedFilters = {}, compatibilit
 }
 
 function normalizeSearch(value) {
-  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/wi[\s-]*fi/g, 'wifi').replace(/m[.\s]*2/g, 'm2').replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+export function componentSearchText(component) {
+  const fields = component.verifiedFeatures?.fields || {};
+  const values = Object.entries(component.specs || {}).filter(([, value]) => value != null && value !== false).flatMap(([key, value]) => [specLabel(key), formatSpecValue(key, value)]);
+  const features = Object.entries(fields).filter(([, value]) => value != null && value !== false).flatMap(([key, value]) => [verifiedFeatureFields[key] || key, formatVerifiedFeature(key, value)]);
+  return normalizeSearch([component.name, component.brand, component.partNumber, ...values, ...features,
+    fields.wifi ? 'wifi sem fio wireless' : '', fields.m2Slots ? 'm2 nvme' : ''].join(' '));
 }

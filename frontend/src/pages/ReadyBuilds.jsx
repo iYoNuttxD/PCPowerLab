@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, Upload, Wand2 } from 'lucide-react';
 import ComponentReplacement from '../components/build/ComponentReplacement.jsx';
 import { SuggestedPiecePicker } from '../components/recommendations/RecommendationCard.jsx';
+import RecommendationExplanation from '../components/recommendations/RecommendationExplanation.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -662,6 +663,7 @@ function RecommendationResultCard({ recommendation, componentMap, budgetRange, c
         ))}
         <CoolingParts components={components} />
       </ul>
+      <RecommendationExplanation explanation={recommendation.selectionExplanation} comparison={recommendation.comparison} needsRecalculation={preservesCooling} />
       <SuggestedPiecePicker components={components} currentComponents={currentSelection} onPreview={onPreview} />
       <p className="hint-text">Usar a recomendação inteira substitui as peças principais e usa os critérios de orçamento e perfil informados acima. A refrigeração atual é mantida quando não estiver incluída na recomendação.</p>
       <div className="button-row">

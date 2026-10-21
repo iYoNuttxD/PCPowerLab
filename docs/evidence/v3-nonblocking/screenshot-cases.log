@@ -1,0 +1,39 @@
+
+> pcpowerlab-frontend@0.1.0 test:integration
+> npm run build && playwright test --config=playwright.integration.config.js nonblocking.spec.js --grep uncalibrated|beginner
+
+
+> pcpowerlab-frontend@0.1.0 build
+> vite build
+
+vite v7.3.3 building client environment for production...
+transforming...
+✓ 2490 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.56 kB │ gzip:   0.36 kB
+dist/assets/index-BB4cc0mz.css     80.53 kB │ gzip:  14.19 kB
+dist/assets/index-CGxTu9td.js   1,027.38 kB │ gzip: 305.21 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.37s
+
+Running 6 tests using 1 worker
+
+(node:22240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/integration/nonblocking.spec.js:43:1 › real uncalibrated GPU returns labeled estimated ranges and compact filters have no duplicates (2.3s)
+  ✓  2 [desktop] › tests/integration/nonblocking.spec.js:57:1 › beginner can request an integrated proposal directly after setting the initial budget (1.3s)
+(node:22262) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [tablet] › tests/integration/nonblocking.spec.js:43:1 › real uncalibrated GPU returns labeled estimated ranges and compact filters have no duplicates (2.8s)
+  ✓  4 [tablet] › tests/integration/nonblocking.spec.js:57:1 › beginner can request an integrated proposal directly after setting the initial budget (1.7s)
+(node:22296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [mobile] › tests/integration/nonblocking.spec.js:43:1 › real uncalibrated GPU returns labeled estimated ranges and compact filters have no duplicates (2.6s)
+  ✓  6 [mobile] › tests/integration/nonblocking.spec.js:57:1 › beginner can request an integrated proposal directly after setting the initial budget (1.4s)
+
+  6 passed (16.7s)

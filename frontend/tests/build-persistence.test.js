@@ -58,3 +58,15 @@ test('local cooling scenarios round-trip and malformed values restore defaults',
     assert.deepEqual(normalizePersistedBuild({ coolingConditions: invalid }).coolingConditions, initialBuildState.coolingConditions);
   }
 });
+
+
+test('fresh builds start at budget while existing valid steps and selections survive', () => {
+  assert.equal(initialBuildState.wizardStep, 'budget');
+  for (const wizardStep of ['budget', 'cpu', 'ram', 'cooling', 'review']) {
+    const state = normalizePersistedBuild({ wizardStep, selectedComponents: { cpu: { id: 'cpu-kept', price: 500 } }, budget: { amount: 4000 }, usageType: 'work' });
+    assert.equal(state.wizardStep, wizardStep);
+    assert.equal(state.selectedComponents.cpu.id, 'cpu-kept');
+    assert.equal(state.budget.amount, 4000);
+    assert.equal(state.usageType, 'work');
+  }
+});

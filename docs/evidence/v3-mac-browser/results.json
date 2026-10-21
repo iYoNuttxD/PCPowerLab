@@ -1,0 +1,309 @@
+{
+  "recordedAt": "2026-10-21T00:04:57.335Z",
+  "runs": {
+    "e2e-initial": {
+      "stats": {
+        "startTime": "2026-10-20T23:32:47.192Z",
+        "duration": 289985.49700000003,
+        "expected": 282,
+        "skipped": 1,
+        "unexpected": 21,
+        "flaky": 0
+      },
+      "issues": [
+        {
+          "file": "catalog-v23.spec.js",
+          "line": 177,
+          "title": "v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no celular",
+          "project": "desktop",
+          "status": "skipped",
+          "error": []
+        },
+        {
+          "file": "catalog-v23.spec.js",
+          "line": 313,
+          "title": "filtros mantêm controles alinhados com rótulos e erros em todas as larguras",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 1\n+ Received  + 1\n\n  Object {\n    \"contained\": true,\n-   \"equalHeights\": true,\n+   \"equalHeights\": false,\n    \"noPageOverflow\": true,"
+          ]
+        },
+        {
+          "file": "catalog-v23.spec.js",
+          "line": 313,
+          "title": "filtros mantêm controles alinhados com rótulos e erros em todas as larguras",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 1\n+ Received  + 1\n\n  Object {\n    \"contained\": true,\n-   \"equalHeights\": true,\n+   \"equalHeights\": false,\n    \"noPageOverflow\": true,"
+          ]
+        },
+        {
+          "file": "catalog.spec.js",
+          "line": 282,
+          "title": "falha de API e resposta atrasada não alteram a montagem nem aprovam outra peça",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Test timeout of 30000ms exceeded.",
+            "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('dialog', { name: 'Substituir Memória RAM', exact: true }).getByRole('button', { name: 'Tentar novamente', exact: true })\n    - locator resolved to <button class=\"btn btn-secondary btn-md \">Tentar novamente</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable"
+          ]
+        },
+        {
+          "file": "cooling.spec.js",
+          "line": 211,
+          "title": "optional cooling can be skipped during catalog failure and is not required progress",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  locator('#wizard-step-heading')\nExpected: \"Orçamento\"\nReceived: \"Revisão\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" locator('#wizard-step-heading') with timeout 5000ms\n  - waiting for locator('#wizard-step-heading')"
+          ]
+        },
+        {
+          "file": "cooling.spec.js",
+          "line": 211,
+          "title": "optional cooling can be skipped during catalog failure and is not required progress",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  locator('#wizard-step-heading')\nExpected: \"Orçamento\"\nReceived: \"Revisão\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" locator('#wizard-step-heading') with timeout 5000ms\n  - waiting for locator('#wizard-step-heading')"
+          ]
+        },
+        {
+          "file": "qa-regressions.spec.js",
+          "line": 67,
+          "title": "resposta atrasada do resumo não restaura análises após editar uma peça em outra página",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Test timeout of 30000ms exceeded.",
+            "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Selecionar: AMD Ryzen 5 5500', exact: true })\n\n\n  77 |   await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();\n  78 |   const replacement = activePart(components, 'cpu-ryzen-5-5500');\n> 79 |   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();\n     |                                                                                            ^\n  80 |   await releaseResponse(page, release);"
+          ]
+        },
+        {
+          "file": "qa-regressions.spec.js",
+          "line": 216,
+          "title": "erros de orçamento e etapas preservam o alinhamento e descrevem o campo inválido",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  228 |     for (const task of ['Uma troca', 'Plano em etapas']) {\n  229 |       await page.getByRole('tab', { name: task, exact: true }).click();"
+          ]
+        },
+        {
+          "file": "qa-regressions.spec.js",
+          "line": 67,
+          "title": "resposta atrasada do resumo não restaura análises após editar uma peça em outra página",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Test timeout of 30000ms exceeded.",
+            "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Selecionar: AMD Ryzen 5 5500', exact: true })\n\n\n  77 |   await page.getByRole('link', { name: 'Voltar e editar', exact: true }).click();\n  78 |   const replacement = activePart(components, 'cpu-ryzen-5-5500');\n> 79 |   await page.getByRole('button', { name: `Selecionar: ${replacement.name}`, exact: true }).click();\n     |                                                                                            ^\n  80 |   await releaseResponse(page, release);"
+          ]
+        },
+        {
+          "file": "qa-regressions.spec.js",
+          "line": 216,
+          "title": "erros de orçamento e etapas preservam o alinhamento e descrevem o campo inválido",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  228 |     for (const task of ['Uma troca', 'Plano em etapas']) {\n  229 |       await page.getByRole('tab', { name: task, exact: true }).click();"
+          ]
+        },
+        {
+          "file": "simulated-performance.spec.js",
+          "line": 34,
+          "title": "catalog cards, details and comparison clearly distinguish simulated and absent scores",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator:  locator('.component-card').filter({ has: getByRole('heading', { name: 'AMD Ryzen 5 5500', exact: true }) }).getByText('Pontuação simulada: 67 / 100', { exact: true })\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" locator('.component-card').filter({ has: getByRole('heading', { name: 'AMD Ryzen 5 5500', exact: true }) }).getByText('Pontuação simulada: 67 / 100', { exact: true }) with timeout 5000ms\n  - waiting for locator('.component-card').filter({ has: getByRole('heading', { name: 'AMD Ryzen 5 5500', exact: true }) }).getByText('Pontuação simulada: 67 / 100', { exact: true })"
+          ]
+        },
+        {
+          "file": "simulated-performance.spec.js",
+          "line": 34,
+          "title": "catalog cards, details and comparison clearly distinguish simulated and absent scores",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator:  locator('.component-card').filter({ has: getByRole('heading', { name: 'AMD Ryzen 5 5500', exact: true }) }).getByText('Pontuação simulada: 67 / 100', { exact: true })\nExpected: visible\nReceived: hidden\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeVisible\" locator('.component-card').filter({ has: getByRole('heading', { name: 'AMD Ryzen 5 5500', exact: true }) }).getByText('Pontuação simulada: 67 / 100', { exact: true }) with timeout 5000ms\n  - waiting for locator('.component-card').filter({ has: getByRole('heading', { name: 'AMD Ryzen 5 5500', exact: true }) }).getByText('Pontuação simulada: 67 / 100', { exact: true })"
+          ]
+        },
+        {
+          "file": "summary-cooling.spec.js",
+          "line": 48,
+          "title": "cooling selection uses product cards and exposes no simulator before Summary",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  locator('#wizard-step-heading')\nExpected: \"Orçamento\"\nReceived: \"Revisão\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" locator('#wizard-step-heading') with timeout 5000ms\n  - waiting for locator('#wizard-step-heading')"
+          ]
+        },
+        {
+          "file": "summary-cooling.spec.js",
+          "line": 48,
+          "title": "cooling selection uses product cards and exposes no simulator before Summary",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  locator('#wizard-step-heading')\nExpected: \"Orçamento\"\nReceived: \"Revisão\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" locator('#wizard-step-heading') with timeout 5000ms\n  - waiting for locator('#wizard-step-heading')"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 36,
+          "title": "summary failure preserves independently received store links and complete selection",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first() with timeout 5000ms\n  - waiting for locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 53,
+          "title": "slow store lookup cannot delay completed summary or FPS",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Carregando links das lojas...', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Carregando links das lojas...', { exact: true }) with timeout 5000ms\n  - waiting for locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Carregando links das lojas...', { exact: true })"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 71,
+          "title": "store failure has its own retry and cannot erase summary or budget",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Lojas temporariamente indisponíveis.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Lojas temporariamente indisponíveis.', { exact: true }) with timeout 5000ms\n  - waiting for locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Lojas temporariamente indisponíveis.', { exact: true })"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 90,
+          "title": "pending BIOS stays specific and does not hide bottlenecks, alternatives or shops",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText(/BIOS instalado ou versão mínima/)\nExpected: visible\nError: strict mode violation: getByText(/BIOS instalado ou versão mínima/) resolved to 8 elements:\n    1) <p>BIOS instalado ou versão mínima para este process…</p> aka getByRole('article').getByText('BIOS instalado ou versão mí')\n    2) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(1)\n    3) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(2)\n    4) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(3)\n    5) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(4)"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 36,
+          "title": "summary failure preserves independently received store links and complete selection",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first() with timeout 5000ms\n  - waiting for locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 53,
+          "title": "slow store lookup cannot delay completed summary or FPS",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Carregando links das lojas...', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Carregando links das lojas...', { exact: true }) with timeout 5000ms\n  - waiting for locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Carregando links das lojas...', { exact: true })"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 71,
+          "title": "store failure has its own retry and cannot erase summary or budget",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Lojas temporariamente indisponíveis.', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Lojas temporariamente indisponíveis.', { exact: true }) with timeout 5000ms\n  - waiting for locator('section.summary-section').filter({ has: getByRole('heading', { name: 'Links de compra', exact: true }) }).getByText('Lojas temporariamente indisponíveis.', { exact: true })"
+          ]
+        },
+        {
+          "file": "summary-resilience-v3.spec.js",
+          "line": 90,
+          "title": "pending BIOS stays specific and does not hide bottlenecks, alternatives or shops",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(locator).toBeVisible() failed\n\nLocator: getByText(/BIOS instalado ou versão mínima/)\nExpected: visible\nError: strict mode violation: getByText(/BIOS instalado ou versão mínima/) resolved to 8 elements:\n    1) <p>BIOS instalado ou versão mínima para este process…</p> aka getByRole('article').getByText('BIOS instalado ou versão mí')\n    2) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(1)\n    3) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(2)\n    4) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(3)\n    5) <li>BIOS instalado ou versão mínima para este process…</li> aka getByText('BIOS instalado ou versão mí').nth(4)"
+          ]
+        }
+      ]
+    },
+    "e2e-final": {
+      "stats": {
+        "startTime": "2026-10-20T23:45:16.268Z",
+        "duration": 227248.321,
+        "expected": 303,
+        "skipped": 1,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "issues": [
+        {
+          "file": "build-wizard.spec.js",
+          "line": 296,
+          "title": "movimento reduzido usa rolagem instantânea e posiciona foco acima das peças",
+          "project": "desktop",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  44 |     const controls = document.querySelector('.wizard-actions').getBoundingClientRect();\n  45 |     return heading.top >= controls.bottom + 8 && heading.bottom < innerHeight;"
+          ]
+        },
+        {
+          "file": "build-wizard.spec.js",
+          "line": 296,
+          "title": "movimento reduzido usa rolagem instantânea e posiciona foco acima das peças",
+          "project": "mobile",
+          "status": "unexpected",
+          "error": [
+            "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  44 |     const controls = document.querySelector('.wizard-actions').getBoundingClientRect();\n  45 |     return heading.top >= controls.bottom + 8 && heading.bottom < innerHeight;"
+          ]
+        },
+        {
+          "file": "catalog-v23.spec.js",
+          "line": 177,
+          "title": "v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no celular",
+          "project": "desktop",
+          "status": "skipped",
+          "error": []
+        }
+      ]
+    },
+    "e2e-approved": {
+      "stats": {
+        "startTime": "2026-10-21T00:00:38.264Z",
+        "duration": 207242.626,
+        "expected": 305,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "issues": [
+        {
+          "file": "catalog-v23.spec.js",
+          "line": 177,
+          "title": "v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no celular",
+          "project": "desktop",
+          "status": "skipped",
+          "error": []
+        }
+      ]
+    },
+    "integration-final": {
+      "stats": {
+        "startTime": "2026-10-20T23:55:54.773Z",
+        "duration": 27603.108999999997,
+        "expected": 18,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "issues": []
+    }
+  }
+}

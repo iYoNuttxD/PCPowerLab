@@ -24,7 +24,7 @@ export function performanceMetadata(components = {}, parameters = new Map()) {
       measuredBenchmark: false,
       provisionalComponentIds: provisional.map(item => item.componentId),
       contributors,
-      description: 'Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Perfis provisórios permitem apenas scores; não habilitam FPS, software ou análise de gargalos.'
+      description: 'Índice calculado por modelo, não benchmark medido nem garantia de desempenho. Dados ausentes usam cenários aproximados com faixas; não são medições nem certificação de compatibilidade.'
     }
   };
 }

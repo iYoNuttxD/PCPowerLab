@@ -9,9 +9,12 @@ import AnalysisHelp from './AnalysisHelp.jsx';
 import { formatPerformanceNumber, numericValue } from '../../utils/performancePresentation.js';
 import { translateBottleneckType, translateComponent, translateMetricLabel, translateSeverity, translateValue, readableMessage } from '../../utils/translations.js';
 
-export default function BottleneckPanel({ result }) {
+export default function BottleneckPanel({ result, compact = false }) {
   const scoreDescriptionId = useId();
   const powerDescriptionId = useId();
+  // Wizard requests wrap the payload, summary requests return it directly.
+  // A successful HTTP response can still carry an unavailable analysis.
+  result = result?.status === 'success' && result.data ? result.data : result;
   if (!result) {
     return (
       <Card>
@@ -44,6 +47,8 @@ export default function BottleneckPanel({ result }) {
           <Badge tone="yellow">{translateValue(reason)}</Badge>
         </div>
         <p>{readableMessage(result.message) || defaultUnavailableMessage(reason)}</p>
+        {Array.isArray(result.errors) && result.errors.length > 0 && <ul>{result.errors.map((error, index) => <li key={index}>{readableMessage(error)}</li>)}</ul>}
+        <p>Esse resultado se limita aos gargalos. Suas peças e as outras verificações foram mantidas.</p>
         {reason === 'missing_performance_parameters' && (
           <p>Os parâmetros precisam ser atualizados pela equipe responsável pelo catálogo. Suas escolhas foram mantidas; revise as peças ou tente novamente após a atualização dos dados.</p>
         )}
@@ -86,6 +91,7 @@ export default function BottleneckPanel({ result }) {
   const powerData = power.values.filter(entry => entry.watts !== null);
   const safetyMargin = power.complete && power.estimated !== null && power.psu !== null ? power.psu - power.estimated : null;
 
+  const DetailContainer = compact ? 'details' : 'div';
   return (
     <Card>
       <div className="section-heading compact">
@@ -95,6 +101,9 @@ export default function BottleneckPanel({ result }) {
         </Badge>
       </div>
       <p className="analysis-note">Análise estimada a partir dos parâmetros cadastrados. Um gargalo indica uma possível limitação entre peças, não um defeito ou uma medição feita no seu PC.</p>
+      {compact && <p>{analysis.hasBottleneck ? `Possíveis limitações: ${[...new Set(bottlenecks.map(item => translateComponent(item.component)))].join(', ') || 'equilíbrio entre as peças'}.` : 'Peças equilibradas nos dados deste cenário.'}</p>}
+      <DetailContainer className={compact ? 'task-disclosure' : undefined}>
+      {compact && <summary>Ver equilíbrio das peças e consumo</summary>}
       <AnalysisHelp topics={['bottleneck', 'score', 'energy']} />
       <div className="performance-chart-panel" role="group" aria-label="Gráfico de desempenho dos componentes" aria-describedby={scoreDescriptionId}>
         <h4>Pontuação de desempenho por componente</h4>
@@ -190,6 +199,7 @@ export default function BottleneckPanel({ result }) {
           </article>
         ))}
       </div>
+      </DetailContainer>
     </Card>
   );
 }

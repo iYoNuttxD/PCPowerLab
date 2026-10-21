@@ -8,7 +8,7 @@ export const buildStorageKey = 'pcpowerlab-build-state';
 export const initialBuildState = {
   revision: 0,
   replacementHistory: [],
-  wizardStep: 'cpu',
+  wizardStep: 'budget',
   selectedComponents: { fans: [] },
   budget: { amount: '', currency: 'BRL', priority: 'cost-benefit' },
   usageType: 'gaming',

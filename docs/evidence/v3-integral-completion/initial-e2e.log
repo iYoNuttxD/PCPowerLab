@@ -1,0 +1,404 @@
+
+> pcpowerlab-frontend@0.1.0 test
+> playwright test
+
+[WebServer] (node:2465) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 310 tests using 2 workers
+
+(node:2471) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [desktop] › tests/e2e/build-wizard.spec.js:120:1 › substitui e remove uma peça sem apagar as outras; invalida análises antigas (2.4s)
+  ✓    3 [desktop] › tests/e2e/build-wizard.spec.js:147:1 › explica campos inválidos, peças faltantes e rejeição do orçamento pela API (3.3s)
+  ✓    4 [desktop] › tests/e2e/build-wizard.spec.js:183:1 › mantém etapa e contexto ao visitar outra página e aceita storage anterior (1.7s)
+  ✓    5 [desktop] › tests/e2e/build-wizard.spec.js:201:1 › catálogo apresenta carregamento, falha, recuperação e ausência de peças (883ms)
+  ✓    6 [desktop] › tests/e2e/build-wizard.spec.js:226:1 › incompatibilidade continua bloqueando gargalos e não aparece como sucesso (639ms)
+  ✓    7 [desktop] › tests/e2e/build-wizard.spec.js:243:1 › trata erros de análise, recomendação e salvamento sem rejeições não capturadas (1.0s)
+  ✓    2 [desktop] › tests/e2e/build-wizard.spec.js:77:1 › avança pelas etapas e refrigeração opcional sem perder peças (10.4s)
+  ✓    8 [desktop] › tests/e2e/build-wizard.spec.js:270:1 › resposta tardia não restaura análises após remover uma peça (861ms)
+  ✓    9 [desktop] › tests/e2e/build-wizard.spec.js:286:1 › normalização de centavos preserva os resultados da configuração analisada (754ms)
+  ✓   10 [desktop] › tests/e2e/build-wizard.spec.js:297:1 › movimento reduzido usa rolagem instantânea e posiciona foco acima das peças (799ms)
+  ✓   11 [desktop] › tests/e2e/build-wizard.spec.js:318:1 › continua navegável com armazenamento local bloqueado (1.3s)
+  ✓   12 [desktop] › tests/e2e/build-wizard.spec.js:333:1 › sair durante análise não mantém carregamento permanente nem aplica resposta antiga (1.1s)
+  ✓   13 [desktop] › tests/e2e/build-wizard.spec.js:352:1 › aplica recomendação, permite reanalisar e salva as peças substituídas (986ms)
+  ✓   14 [desktop] › tests/e2e/build-wizard.spec.js:375:1 › Escape fecha a lista de etapas e retorna ao acionador sem mudar seleção (772ms)
+  ✓   16 [desktop] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"status":"unverified","unverifiedChecks":[{"code":"missing-data"}]} (735ms)
+  ✓   15 [desktop] › tests/e2e/build-wizard.spec.js:388:1 › editar refrigeração limpa sucesso antigo e mantém revisão pendente (1.2s)
+  ✓   17 [desktop] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"status":"incompatible"} (727ms)
+  ✓   18 [desktop] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"violations":[{"severity":"low","blocking":true}]} (706ms)
+  ✓   19 [desktop] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"issues":[{"severity":"critical"}]} (703ms)
+  ✓   20 [desktop] › tests/e2e/catalog-v23.spec.js:71:1 › v2.3 combina CPU AMD AM4 até R$ 1000 e limpa filtros técnicos ao trocar categoria (2.1s)
+  ✓   21 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de ram (2.0s)
+  ✘   22 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (30.2s)
+(node:2739) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   23 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (30.2s)
+(node:2743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   25 [desktop] › tests/e2e/catalog-v23.spec.js:106:1 › v2.3 ordena preço, desempenho e custo-benefício depois dos filtros, mantendo desconhecidos no fim (933ms)
+  ✓   26 [desktop] › tests/e2e/catalog-v23.spec.js:133:1 › v2.3 destaca diferenças sem transformar dados desconhecidos em zero e bloqueia comparação entre categorias (742ms)
+  ✓   24 [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de fan (2.2s)
+  -   28 [desktop] › tests/e2e/catalog-v23.spec.js:177:1 › v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no celular
+  ✓   29 [desktop] › tests/e2e/catalog-v23.spec.js:202:1 › v2.3 compatibilidade usa a montagem atual e diferencia compatível, conflito e verificação incompleta (748ms)
+  ✓   27 [desktop] › tests/e2e/catalog-v23.spec.js:159:1 › v2.3 adicionar do catálogo preserva demais peças e preferências, invalida análises e persiste ao recarregar (2.4s)
+  ✓   30 [desktop] › tests/e2e/catalog-v23.spec.js:235:1 › v2.3 adicionar fan pela comparação mantém quantidades existentes e não duplica pacotes selecionados (2.5s)
+  ✓   31 [desktop] › tests/e2e/catalog-v23.spec.js:256:1 › v2.3 faixa de desempenho inválida tem orientação e muda de categoria sem filtros invisíveis (1.5s)
+  ✓   32 [desktop] › tests/e2e/catalog-v23.spec.js:273:1 › v2.3 falha de compatibilidade permite tentar novamente e resposta antiga não filtra outra montagem (900ms)
+  ✓   33 [desktop] › tests/e2e/catalog-v23.spec.js:313:1 › filtros mantêm controles alinhados com rótulos e erros em todas as larguras (1.8s)
+  ✓   34 [desktop] › tests/e2e/catalog-v23.spec.js:355:1 › filtros avançados começam recolhidos, chips ficam acessíveis e a comparação aparece só com seleção (1.8s)
+  ✓   35 [desktop] › tests/e2e/catalog.spec.js:68:1 › combina marca, categoria, nome e limites inclusivos de preço; explica faixa inválida (2.3s)
+  ✓   37 [desktop] › tests/e2e/catalog.spec.js:117:1 › limita a comparação a quatro peças e identifica especificação ausente (868ms)
+  ✓   36 [desktop] › tests/e2e/catalog.spec.js:91:1 › compara peças da mesma categoria, mantém seleção ao filtrar e padroniza unidades (2.7s)
+  ✓   38 [desktop] › tests/e2e/catalog.spec.js:128:1 › fotografia com origem registrada, ausência e falha de imagem mantêm fallback e cards alinhados (664ms)
+  ✓   39 [desktop] › tests/e2e/catalog.spec.js:151:1 › imagem sem origem não é carregada; preços ausentes não aparecem como zero (627ms)
+  ✓   40 [desktop] › tests/e2e/catalog.spec.js:164:1 › preço tem fonte direta e créditos têm destino único, sem explicações ocultas (676ms)
+  ✓   41 [desktop] › tests/e2e/catalog.spec.js:185:1 › referência com estoque desconhecido não exibe cotação nem link elegível (600ms)
+  ✓   42 [desktop] › tests/e2e/catalog.spec.js:194:1 › catálogo diferencia carregamento, falha, vazio e recuperação (1.7s)
+  ✓   43 [desktop] › tests/e2e/catalog.spec.js:209:1 › substitui uma peça recomendada no resumo após verificar e preserva a montagem (1.7s)
+  ✓   44 [desktop] › tests/e2e/catalog.spec.js:255:1 › incompatibilidade impede aplicar; fechar a prévia mantém as escolhas e análises anteriores (923ms)
+  ✓   45 [desktop] › tests/e2e/catalog.spec.js:269:1 › excesso de orçamento e análises indisponíveis são informados sem inventar aprovação de desempenho (1.0s)
+  ✓   47 [desktop] › tests/e2e/catalog.spec.js:303:1 › montagem incompleta orienta completar as outras peças sem chamar a API de análise (786ms)
+  ✓   48 [desktop] › tests/e2e/catalog.spec.js:314:1 › sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de aplicar (874ms)
+  ✓   46 [desktop] › tests/e2e/catalog.spec.js:282:1 › falha de API e resposta atrasada não alteram a montagem nem aprovam outra peça (2.5s)
+  ✓   49 [desktop] › tests/e2e/catalog.spec.js:335:1 › v2.4 undo after reload restores previous pieces and recalculates matching analyses (1.5s)
+  ✓   50 [desktop] › tests/e2e/catalog.spec.js:352:1 › v2.4 pending technical data allow explicit single replacement without claiming compatibility (1.0s)
+  ✓   51 [desktop] › tests/e2e/chart-presentation-v25.spec.js:28:1 › gráficos têm títulos, unidades e categorias legíveis sem depender da cor (866ms)
+  ✓   52 [desktop] › tests/e2e/chart-presentation-v25.spec.js:46:1 › consumo parcial não apresenta referência da fonte nem diferença como cálculo completo (907ms)
+  ✓   53 [desktop] › tests/e2e/chart-presentation-v25.spec.js:61:1 › nota ausente continua diferente de zero e mantém critério disponível (688ms)
+  ✓   54 [desktop] › tests/e2e/chart-presentation-v25.spec.js:76:1 › tabela FPS recupera nomes completos e valores sem depender de hover (1.1s)
+  ✓   55 [desktop] › tests/e2e/compact-review.spec.js:21:34 › comparison keeps money and header words intact at 320px (758ms)
+  ✓   56 [desktop] › tests/e2e/compact-review.spec.js:21:34 › comparison keeps money and header words intact at 1440px (801ms)
+  ✓   57 [desktop] › tests/e2e/compact-review.spec.js:45:1 › saved cards keep actions available and component gallery optional on tablet (767ms)
+  ✓   59 [desktop] › tests/e2e/compact-review.spec.js:114:1 › retired items keep their identity in saved builds and alternatives require explicit selection (920ms)
+  ✓   58 [desktop] › tests/e2e/compact-review.spec.js:75:1 › saved deletion requires named confirmation and supports cancel, Escape and retry (1.1s)
+  ✓   60 [desktop] › tests/e2e/component-images.spec.js:52:1 › shows exact local images in summary, wizard, recommendations and ID-only saved/shared contexts (2.6s)
+  ✓   61 [desktop] › tests/e2e/component-images.spec.js:66:1 › retired Samsung storage keeps its exact image and identity in existing saved and shared builds (3.3s)
+  ✓   62 [desktop] › tests/e2e/component-images.spec.js:79:1 › ready build details and build comparison selections render ID-resolved media (1.5s)
+  ✓   63 [desktop] › tests/e2e/component-images.spec.js:98:1 › individual recommendations, upgrades and ranking use current catalog metadata (1.2s)
+  ✓   64 [desktop] › tests/e2e/component-images.spec.js:107:1 › a stale verified snapshot cannot override current blocked metadata or load legacy URLs (734ms)
+  ✓   65 [desktop] › tests/e2e/component-images.spec.js:116:1 › mismatched IDs, external paths and unverified statuses fail closed (604ms)
+  ✓   66 [desktop] › tests/e2e/component-images.spec.js:129:1 › a name-only saved snapshot cannot infer an approved catalog photo by name (691ms)
+  ✓   67 [desktop] › tests/e2e/component-images.spec.js:145:1 › loading, error and subsequent verified source have accessible states and no broken image (917ms)
+  ✓   68 [desktop] › tests/e2e/component-images.spec.js:165:1 › changing a failed model to a different exact model resets image state (736ms)
+  ✓   69 [desktop] › tests/e2e/component-images.spec.js:177:1 › exact Ryzen CPUs display distinct reviewed windows of the intact licensed original (726ms)
+  ✓   70 [desktop] › tests/e2e/component-images.spec.js:197:1 › an unavailable composite original falls back accessibly for both exact CPU models (600ms)
+  ✓   71 [desktop] › tests/e2e/component-images.spec.js:211:1 › one credits destination preserves photo author, source, license and modifications (591ms)
+  ✓   72 [desktop] › tests/e2e/cooling-assessment.spec.js:22:1 › ready build cooling uncertainty is visible before use and does not block the core-valid selection (776ms)
+  ✓   73 [desktop] › tests/e2e/cooling-assessment.spec.js:33:1 › shared core-compatible build has a visible partial verdict rather than an unqualified OK (665ms)
+  ✓   74 [desktop] › tests/e2e/cooling.spec.js:57:1 › cooling product cards replace and remove the cooler, persist packs, and invalidate analysis (2.3s)
+  ✓   75 [desktop] › tests/e2e/cooling.spec.js:99:1 › fan cards add distinct products once, expose pack arithmetic, and keep controls mounted between tabs (2.4s)
+  ✓   76 [desktop] › tests/e2e/cooling.spec.js:160:3 › saved missing cooling remains visible and removable without silently selecting a replacement (2.0s)
+  ✓   77 [desktop] › tests/e2e/cooling.spec.js:160:3 › saved legacy cooling remains visible and removable without silently selecting a replacement (2.0s)
+  ✓   78 [desktop] › tests/e2e/cooling.spec.js:199:1 › unverified cooling is distinguished from incompatible builds and can be removed (1.4s)
+  ✓   79 [desktop] › tests/e2e/cooling.spec.js:212:1 › optional cooling can be skipped during catalog failure and is not required progress (1.1s)
+  ✓   81 [desktop] › tests/e2e/feedback-followup.spec.js:8:1 › resource search finds Wi-Fi boards and same-chipset comparison explains practical differences (1.3s)
+  ✓   82 [desktop] › tests/e2e/feedback-followup.spec.js:32:1 › compact list keeps photos, full model names and actions usable at 320 px (969ms)
+  ✓   83 [desktop] › tests/e2e/feedback-v210.spec.js:20:1 › known socket mismatch is contextual, blocks next, and preserves all other choices when resolved (864ms)
+  ✓   80 [desktop] › tests/e2e/cooling.spec.js:231:1 › Performance Lab preserves scenario settings and extra fans never change CPU temperatures (3.5s)
+  ✓   84 [desktop] › tests/e2e/feedback-v210.spec.js:31:1 › summary success hint and horizontal energy labels stay coherent at narrow widths (1.2s)
+  ✓   86 [desktop] › tests/e2e/journey-v3.spec.js:53:1 › first budget entry is fully visible on a notebook without scrolling (590ms)
+  ✓   85 [desktop] › tests/e2e/journey-v3.spec.js:27:1 › starts with budget/use and editing resumes the same piece without losing selections (1.8s)
+  ✓   87 [desktop] › tests/e2e/journey-v3.spec.js:60:1 › search, keyboard details and step changes preserve completed analysis (1.5s)
+  ✓   89 [desktop] › tests/e2e/journey-v3.spec.js:113:1 › unavailable bottleneck response stays pending without blocking summary navigation (781ms)
+  ✓   88 [desktop] › tests/e2e/journey-v3.spec.js:95:1 › catalog exposes all search and price chips while preserving comparison (2.4s)
+  ✓   90 [desktop] › tests/e2e/journey-v3.spec.js:126:1 › recommendation request includes retained optional cooling and current budget (740ms)
+  ✓   92 [desktop] › tests/e2e/journey-v3.spec.js:161:1 › imported foreign-currency budget is never silently converted to BRL (769ms)
+  ✓   93 [desktop] › tests/e2e/navigation-v25.spec.js:21:1 › link da rota atual fecha o grupo e devolve foco ao título; voltar e avançar preservam a navegação (1.3s)
+  ✓   91 [desktop] › tests/e2e/journey-v3.spec.js:144:1 › budget context fits mobile, notebook and large-screen layouts (2.7s)
+  ✓   94 [desktop] › tests/e2e/navigation-v25.spec.js:37:1 › Escape, clique externo e foco fora do cabeçalho fecham os grupos (747ms)
+  ✓   95 [desktop] › tests/e2e/navigation-v25.spec.js:55:1 › mudança entre desktop e menu compacto nunca deixa foco num controle oculto (924ms)
+  ✓   96 [desktop] › tests/e2e/navigation-v25.spec.js:73:1 › mudança de breakpoint não recupera foco antigo após sair do cabeçalho (692ms)
+  ✓   97 [desktop] › tests/e2e/navigation-v25.spec.js:97:1 › admin fica fora da navegação pública mas mantém a rota de autenticação (896ms)
+  ✓   98 [desktop] › tests/e2e/navigation-v25.spec.js:107:1 › compartilhamento mantém título em erro e permite nova tentativa (697ms)
+  ✓   99 [desktop] › tests/e2e/performance-lab.spec.js:56:1 › simula um único jogo pelo contrato existente e preserva classificação, requisitos e detalhes da API (814ms)
+  ✓  100 [desktop] › tests/e2e/performance-lab.spec.js:81:1 › compara vários jogos e usa requisitos da API em vez de inferi-los por 60 FPS (1.4s)
+  ✓  101 [desktop] › tests/e2e/performance-lab.spec.js:117:1 › troca de tarefa mantém resposta pendente e cache; mudar jogo e configurações invalida resultado (1.3s)
+  ✓  102 [desktop] › tests/e2e/performance-lab.spec.js:150:1 › tarefas retêm entradas e resultados independentes sem refazer chamadas ao revisitar (1.3s)
+  ✓  103 [desktop] › tests/e2e/performance-lab.spec.js:202:1 › build incompleta bloqueia ambos os modos sem chamar as APIs (601ms)
+  ✓  105 [desktop] › tests/e2e/performance-lab.spec.js:244:1 › carregamento, erro e catálogo vazio são distintos; falha de software não bloqueia jogos (880ms)
+  ✓  104 [desktop] › tests/e2e/performance-lab.spec.js:217:1 › ausência de parâmetros, falha de rede e falha de comparação permitem tentar novamente (1.2s)
+  ✓  106 [desktop] › tests/e2e/performance-lab.spec.js:268:1 › dados ausentes não viram zero FPS nem entram na média (817ms)
+  ✓  107 [desktop] › tests/e2e/performance-lab.spec.js:282:1 › simulação profissional mantém funcionamento e erros separados do jogo (1.1s)
+  ✓  108 [desktop] › tests/e2e/performance-lab.spec.js:300:1 › explicações e detalhes são acessíveis por teclado (732ms)
+  ✓  109 [desktop] › tests/e2e/performance-lab.spec.js:323:1 › resumo distingue compatibilidade pendente e mantém avisos da nota geral visíveis (753ms)
+  ✓  110 [desktop] › tests/e2e/performance-lab.spec.js:337:1 › gargalos e energia explicam unidades e preservam os valores e detalhes técnicos (961ms)
+  ✓  111 [desktop] › tests/e2e/performance-lab.spec.js:357:1 › ranking explica a normalização por categoria e mantém preço e pontuação (639ms)
+  ✓  112 [desktop] › tests/e2e/performance-lab.spec.js:370:1 › thermal task keeps game result and persists scenario edits without resubmitting analyses (977ms)
+  ✓  113 [desktop] › tests/e2e/qa-regressions.spec.js:50:1 › alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade (1.1s)
+  ✓  115 [desktop] › tests/e2e/qa-regressions.spec.js:88:1 › resposta atrasada do resumo não publica FPS dos parâmetros anteriores (743ms)
+  ✓  114 [desktop] › tests/e2e/qa-regressions.spec.js:67:1 › resposta atrasada do resumo não restaura análises após editar uma peça em outra página (1.5s)
+  ✓  116 [desktop] › tests/e2e/qa-regressions.spec.js:104:1 › build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento (837ms)
+  ✓  118 [desktop] › tests/e2e/qa-regressions.spec.js:135:1 › tentar novamente uma recomendação não aumenta o orçamento e repete a consulta (778ms)
+  ✓  117 [desktop] › tests/e2e/qa-regressions.spec.js:123:1 › falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento (1.7s)
+  ✓  119 [desktop] › tests/e2e/qa-regressions.spec.js:155:1 › comparação de builds invalida resultado e ignora resposta antiga ao alterar critérios (940ms)
+  ✓  120 [desktop] › tests/e2e/qa-regressions.spec.js:184:1 › erro ao carregar peças salvas impede abrir com preços zerados e permite recuperar (668ms)
+  ✓  122 [desktop] › tests/e2e/qa-regressions.spec.js:246:1 › pesos do perfil mantêm armazenamento legível e controles iguais em telas estreitas (716ms)
+  ✓  121 [desktop] › tests/e2e/qa-regressions.spec.js:217:1 › erros de orçamento e etapas preservam o alinhamento e descrevem o campo inválido (1.7s)
+  ✓  123 [desktop] › tests/e2e/qa-regressions.spec.js:264:1 › nomes selecionados permanecem completos sem abreviar builds nem jogos (1.1s)
+  ✓  125 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:39:1 › preset displays current price and real budget mismatch without obsolete range claims (670ms)
+  ✓  124 [desktop] › tests/e2e/qa-regressions.spec.js:300:1 › upgrade task tabs retain source, independent inputs and completed results with keyboard switching (1.1s)
+  ✓  126 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:57:3 › apply preset preserves the exact entered budget and uses current catalog prices (831ms)
+  ✓  127 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:57:3 › edit preset preserves the exact entered budget and uses current catalog prices (882ms)
+  ✓  128 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:74:1 › preview and cancel preserve user budget and selected parts (730ms)
+  ✓  129 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:87:1 › unknown current legacy price is partial and never becomes a budget fit from stale data (682ms)
+  ✓  130 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:97:3 › range recommendation uses actual above-range price instead of stale fit claims (825ms)
+  ✓  131 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:97:3 › range recommendation uses actual unknown price instead of stale fit claims (859ms)
+  ✓  132 [desktop] › tests/e2e/ready-build-budget-claims.spec.js:113:1 › multiple budget recommendations keep model names readable at desktop, tablet and mobile widths (897ms)
+  ✓  133 [desktop] › tests/e2e/recommendation-explanations-v3.spec.js:24:1 › explanations open by keyboard and preserve readable per-part facts and exclusions (978ms)
+  ✓  134 [desktop] › tests/e2e/recommendation-explanations-v3.spec.js:48:1 › budget and profile edits discard old explanations and request fresh grounded values (1.2s)
+  ✓  135 [desktop] › tests/e2e/recommendation-feedback-entry.spec.js:26:1 › ready-build tasks are exclusive and keyboard navigation preserves draft criteria (2.9s)
+  ✓  136 [desktop] › tests/e2e/recommendation-feedback-entry.spec.js:59:1 › legacy ready-build deep links select the requested task (2.0s)
+  ✓  137 [desktop] › tests/e2e/recommendation-feedback-entry.spec.js:70:1 › same-route fragments and Back/Forward reveal the requested task and retain the draft (981ms)
+  ✓  138 [desktop] › tests/e2e/recommendation-feedback-entry.spec.js:89:1 › applying a saved profile reveals and focuses recommendation without losing budget (962ms)
+  ✓  139 [desktop] › tests/e2e/recommendation-feedback-entry.spec.js:109:1 › general feedback asks about project experience and sends no recommendation intent (801ms)
+  ✓  140 [desktop] › tests/e2e/recommendation-feedback-entry.spec.js:126:1 › feedback opened from a ready build keeps its recommendation context and follow question (1.1s)
+  ✓  142 [desktop] › tests/e2e/simulated-performance.spec.js:59:1 › ranking gives an inline simulated label beside the score (526ms)
+  ✓  141 [desktop] › tests/e2e/simulated-performance.spec.js:34:1 › catalog cards, details and comparison clearly distinguish simulated and absent scores (1.2s)
+  ✓  143 [desktop] › tests/e2e/simulated-performance.spec.js:67:1 › build score and build comparison label simulated inputs next to their result (1.0s)
+  ✓  144 [desktop] › tests/e2e/simulated-performance.spec.js:81:1 › ready builds and new recommendations state their simulated performance basis (844ms)
+  ✓  146 [desktop] › tests/e2e/summary-cooling.spec.js:54:1 › cooling selection uses product cards and exposes no simulator before Summary (1.1s)
+  ✓  145 [desktop] › tests/e2e/summary-cooling.spec.js:22:1 › review opens Summary cooling charts with focused target and retained scenario (1.4s)
+  ✓  147 [desktop] › tests/e2e/summary-resilience-v3.spec.js:36:1 › summary failure preserves independently received store links and complete selection (1.1s)
+  ✓  148 [desktop] › tests/e2e/summary-resilience-v3.spec.js:53:1 › slow store lookup cannot delay completed summary or FPS (1.1s)
+  ✓  149 [desktop] › tests/e2e/summary-resilience-v3.spec.js:71:1 › store failure has its own retry and cannot erase summary or budget (1.2s)
+  ✓  150 [desktop] › tests/e2e/summary-resilience-v3.spec.js:90:1 › pending BIOS stays specific and does not hide bottlenecks, alternatives or shops (1.0s)
+  ✓  151 [desktop] › tests/e2e/visual-accessibility-v3.spec.js:26:1 › skip link and labelled controls follow normal DOM order without positive tabindex (749ms)
+  ✓  152 [desktop] › tests/e2e/visual-accessibility-v3.spec.js:41:1 › real focus ring is visible with AA contrast on the adjacent dark task surface (937ms)
+  ✓  153 [desktop] › tests/e2e/visual-accessibility-v3.spec.js:57:1 › dialog keeps keyboard focus inside and Escape returns to the exact details opener (1.5s)
+  ✓  155 [desktop] › tests/e2e/visual-accessibility-v3.spec.js:97:1 › short-height wizard releases sticky navigation instead of covering the current task (826ms)
+  ✓  154 [desktop] › tests/e2e/visual-accessibility-v3.spec.js:75:1 › catalog reflows with full names at narrow widths and 200 percent text sizing (2.3s)
+(node:3245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  157 [mobile] › tests/e2e/build-wizard.spec.js:120:1 › substitui e remove uma peça sem apagar as outras; invalida análises antigas (5.4s)
+  ✓  158 [mobile] › tests/e2e/build-wizard.spec.js:147:1 › explica campos inválidos, peças faltantes e rejeição do orçamento pela API (3.2s)
+  ✓  159 [mobile] › tests/e2e/build-wizard.spec.js:183:1 › mantém etapa e contexto ao visitar outra página e aceita storage anterior (1.7s)
+  ✓  160 [mobile] › tests/e2e/build-wizard.spec.js:201:1 › catálogo apresenta carregamento, falha, recuperação e ausência de peças (1.7s)
+  ✓  161 [mobile] › tests/e2e/build-wizard.spec.js:226:1 › incompatibilidade continua bloqueando gargalos e não aparece como sucesso (575ms)
+  ✓  162 [mobile] › tests/e2e/build-wizard.spec.js:243:1 › trata erros de análise, recomendação e salvamento sem rejeições não capturadas (1.1s)
+  ✓  163 [mobile] › tests/e2e/build-wizard.spec.js:270:1 › resposta tardia não restaura análises após remover uma peça (663ms)
+  ✓  164 [mobile] › tests/e2e/build-wizard.spec.js:286:1 › normalização de centavos preserva os resultados da configuração analisada (578ms)
+  ✓  156 [mobile] › tests/e2e/build-wizard.spec.js:77:1 › avança pelas etapas e refrigeração opcional sem perder peças (15.6s)
+  ✓  165 [mobile] › tests/e2e/build-wizard.spec.js:297:1 › movimento reduzido usa rolagem instantânea e posiciona foco acima das peças (880ms)
+  ✓  166 [mobile] › tests/e2e/build-wizard.spec.js:318:1 › continua navegável com armazenamento local bloqueado (1.4s)
+  ✓  167 [mobile] › tests/e2e/build-wizard.spec.js:333:1 › sair durante análise não mantém carregamento permanente nem aplica resposta antiga (1.2s)
+  ✓  169 [mobile] › tests/e2e/build-wizard.spec.js:375:1 › Escape fecha a lista de etapas e retorna ao acionador sem mudar seleção (698ms)
+  ✓  168 [mobile] › tests/e2e/build-wizard.spec.js:352:1 › aplica recomendação, permite reanalisar e salva as peças substituídas (1.2s)
+  ✓  171 [mobile] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"status":"unverified","unverifiedChecks":[{"code":"missing-data"}]} (677ms)
+  ✓  170 [mobile] › tests/e2e/build-wizard.spec.js:388:1 › editar refrigeração limpa sucesso antigo e mantém revisão pendente (1.4s)
+  ✓  172 [mobile] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"status":"incompatible"} (622ms)
+  ✓  173 [mobile] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"violations":[{"severity":"low","blocking":true}]} (738ms)
+  ✓  174 [mobile] › tests/e2e/build-wizard.spec.js:407:3 › não conclui revisão nem simula gargalos com bloqueio {"compatible":true,"issues":[{"severity":"critical"}]} (757ms)
+  ✓  175 [mobile] › tests/e2e/catalog-v23.spec.js:71:1 › v2.3 combina CPU AMD AM4 até R$ 1000 e limpa filtros técnicos ao trocar categoria (2.2s)
+  ✓  176 [mobile] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de ram (2.2s)
+  ✓  177 [mobile] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage (2.2s)
+  ✓  178 [mobile] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler (2.3s)
+  ✓  180 [mobile] › tests/e2e/catalog-v23.spec.js:106:1 › v2.3 ordena preço, desempenho e custo-benefício depois dos filtros, mantendo desconhecidos no fim (873ms)
+  ✓  181 [mobile] › tests/e2e/catalog-v23.spec.js:133:1 › v2.3 destaca diferenças sem transformar dados desconhecidos em zero e bloqueia comparação entre categorias (776ms)
+  ✓  179 [mobile] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de fan (2.2s)
+  ✓  183 [mobile] › tests/e2e/catalog-v23.spec.js:177:1 › v2.3 tabela de comparação mantém rolagem horizontal dentro do modal no celular (1.9s)
+  ✓  182 [mobile] › tests/e2e/catalog-v23.spec.js:159:1 › v2.3 adicionar do catálogo preserva demais peças e preferências, invalida análises e persiste ao recarregar (2.6s)
+  ✓  184 [mobile] › tests/e2e/catalog-v23.spec.js:202:1 › v2.3 compatibilidade usa a montagem atual e diferencia compatível, conflito e verificação incompleta (760ms)
+  ✓  186 [mobile] › tests/e2e/catalog-v23.spec.js:256:1 › v2.3 faixa de desempenho inválida tem orientação e muda de categoria sem filtros invisíveis (1.7s)
+  ✓  185 [mobile] › tests/e2e/catalog-v23.spec.js:235:1 › v2.3 adicionar fan pela comparação mantém quantidades existentes e não duplica pacotes selecionados (2.9s)
+  ✓  187 [mobile] › tests/e2e/catalog-v23.spec.js:273:1 › v2.3 falha de compatibilidade permite tentar novamente e resposta antiga não filtra outra montagem (955ms)
+  ✓  188 [mobile] › tests/e2e/catalog-v23.spec.js:313:1 › filtros mantêm controles alinhados com rótulos e erros em todas as larguras (2.0s)
+  ✓  189 [mobile] › tests/e2e/catalog-v23.spec.js:355:1 › filtros avançados começam recolhidos, chips ficam acessíveis e a comparação aparece só com seleção (1.9s)
+  ✓  190 [mobile] › tests/e2e/catalog.spec.js:68:1 › combina marca, categoria, nome e limites inclusivos de preço; explica faixa inválida (2.5s)
+  ✓  191 [mobile] › tests/e2e/catalog.spec.js:91:1 › compara peças da mesma categoria, mantém seleção ao filtrar e padroniza unidades (2.8s)
+  ✓  192 [mobile] › tests/e2e/catalog.spec.js:117:1 › limita a comparação a quatro peças e identifica especificação ausente (816ms)
+  ✓  193 [mobile] › tests/e2e/catalog.spec.js:128:1 › fotografia com origem registrada, ausência e falha de imagem mantêm fallback e cards alinhados (734ms)
+  ✓  194 [mobile] › tests/e2e/catalog.spec.js:151:1 › imagem sem origem não é carregada; preços ausentes não aparecem como zero (621ms)
+  ✓  195 [mobile] › tests/e2e/catalog.spec.js:164:1 › preço tem fonte direta e créditos têm destino único, sem explicações ocultas (638ms)
+  ✓  196 [mobile] › tests/e2e/catalog.spec.js:185:1 › referência com estoque desconhecido não exibe cotação nem link elegível (543ms)
+  ✓  197 [mobile] › tests/e2e/catalog.spec.js:194:1 › catálogo diferencia carregamento, falha, vazio e recuperação (1.7s)
+  ✓  198 [mobile] › tests/e2e/catalog.spec.js:209:1 › substitui uma peça recomendada no resumo após verificar e preserva a montagem (1.7s)
+  ✓  199 [mobile] › tests/e2e/catalog.spec.js:255:1 › incompatibilidade impede aplicar; fechar a prévia mantém as escolhas e análises anteriores (932ms)
+  ✓  200 [mobile] › tests/e2e/catalog.spec.js:269:1 › excesso de orçamento e análises indisponíveis são informados sem inventar aprovação de desempenho (1.0s)
+  ✓  202 [mobile] › tests/e2e/catalog.spec.js:303:1 › montagem incompleta orienta completar as outras peças sem chamar a API de análise (772ms)
+  ✓  203 [mobile] › tests/e2e/catalog.spec.js:314:1 › sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de aplicar (850ms)
+  ✓  201 [mobile] › tests/e2e/catalog.spec.js:282:1 › falha de API e resposta atrasada não alteram a montagem nem aprovam outra peça (2.5s)
+  ✓  204 [mobile] › tests/e2e/catalog.spec.js:335:1 › v2.4 undo after reload restores previous pieces and recalculates matching analyses (1.3s)
+  ✓  205 [mobile] › tests/e2e/catalog.spec.js:352:1 › v2.4 pending technical data allow explicit single replacement without claiming compatibility (1.0s)
+  ✓  206 [mobile] › tests/e2e/chart-presentation-v25.spec.js:28:1 › gráficos têm títulos, unidades e categorias legíveis sem depender da cor (857ms)
+  ✓  207 [mobile] › tests/e2e/chart-presentation-v25.spec.js:46:1 › consumo parcial não apresenta referência da fonte nem diferença como cálculo completo (827ms)
+  ✓  208 [mobile] › tests/e2e/chart-presentation-v25.spec.js:61:1 › nota ausente continua diferente de zero e mantém critério disponível (738ms)
+  ✓  209 [mobile] › tests/e2e/chart-presentation-v25.spec.js:76:1 › tabela FPS recupera nomes completos e valores sem depender de hover (1.0s)
+  ✓  210 [mobile] › tests/e2e/compact-review.spec.js:21:34 › comparison keeps money and header words intact at 320px (808ms)
+  ✓  211 [mobile] › tests/e2e/compact-review.spec.js:21:34 › comparison keeps money and header words intact at 1440px (866ms)
+  ✓  212 [mobile] › tests/e2e/compact-review.spec.js:45:1 › saved cards keep actions available and component gallery optional on tablet (775ms)
+  ✓  214 [mobile] › tests/e2e/compact-review.spec.js:114:1 › retired items keep their identity in saved builds and alternatives require explicit selection (980ms)
+  ✓  213 [mobile] › tests/e2e/compact-review.spec.js:75:1 › saved deletion requires named confirmation and supports cancel, Escape and retry (1.2s)
+  ✓  215 [mobile] › tests/e2e/component-images.spec.js:52:1 › shows exact local images in summary, wizard, recommendations and ID-only saved/shared contexts (2.6s)
+  ✓  216 [mobile] › tests/e2e/component-images.spec.js:66:1 › retired Samsung storage keeps its exact image and identity in existing saved and shared builds (3.2s)
+  ✓  217 [mobile] › tests/e2e/component-images.spec.js:79:1 › ready build details and build comparison selections render ID-resolved media (1.6s)
+  ✓  218 [mobile] › tests/e2e/component-images.spec.js:98:1 › individual recommendations, upgrades and ranking use current catalog metadata (1.2s)
+  ✓  219 [mobile] › tests/e2e/component-images.spec.js:107:1 › a stale verified snapshot cannot override current blocked metadata or load legacy URLs (732ms)
+  ✓  220 [mobile] › tests/e2e/component-images.spec.js:116:1 › mismatched IDs, external paths and unverified statuses fail closed (561ms)
+  ✓  221 [mobile] › tests/e2e/component-images.spec.js:129:1 › a name-only saved snapshot cannot infer an approved catalog photo by name (672ms)
+  ✓  222 [mobile] › tests/e2e/component-images.spec.js:145:1 › loading, error and subsequent verified source have accessible states and no broken image (951ms)
+  ✓  223 [mobile] › tests/e2e/component-images.spec.js:165:1 › changing a failed model to a different exact model resets image state (725ms)
+  ✓  224 [mobile] › tests/e2e/component-images.spec.js:177:1 › exact Ryzen CPUs display distinct reviewed windows of the intact licensed original (657ms)
+  ✓  225 [mobile] › tests/e2e/component-images.spec.js:197:1 › an unavailable composite original falls back accessibly for both exact CPU models (583ms)
+  ✓  226 [mobile] › tests/e2e/component-images.spec.js:211:1 › one credits destination preserves photo author, source, license and modifications (581ms)
+  ✓  227 [mobile] › tests/e2e/cooling-assessment.spec.js:22:1 › ready build cooling uncertainty is visible before use and does not block the core-valid selection (786ms)
+  ✓  228 [mobile] › tests/e2e/cooling-assessment.spec.js:33:1 › shared core-compatible build has a visible partial verdict rather than an unqualified OK (797ms)
+  ✓  229 [mobile] › tests/e2e/cooling.spec.js:57:1 › cooling product cards replace and remove the cooler, persist packs, and invalidate analysis (2.0s)
+  ✓  230 [mobile] › tests/e2e/cooling.spec.js:99:1 › fan cards add distinct products once, expose pack arithmetic, and keep controls mounted between tabs (2.2s)
+  ✓  231 [mobile] › tests/e2e/cooling.spec.js:160:3 › saved missing cooling remains visible and removable without silently selecting a replacement (1.8s)
+  ✓  232 [mobile] › tests/e2e/cooling.spec.js:160:3 › saved legacy cooling remains visible and removable without silently selecting a replacement (1.6s)
+  ✓  233 [mobile] › tests/e2e/cooling.spec.js:199:1 › unverified cooling is distinguished from incompatible builds and can be removed (1.0s)
+  ✓  234 [mobile] › tests/e2e/cooling.spec.js:212:1 › optional cooling can be skipped during catalog failure and is not required progress (883ms)
+  ✓  236 [mobile] › tests/e2e/feedback-followup.spec.js:8:1 › resource search finds Wi-Fi boards and same-chipset comparison explains practical differences (1.1s)
+  ✓  237 [mobile] › tests/e2e/feedback-followup.spec.js:32:1 › compact list keeps photos, full model names and actions usable at 320 px (942ms)
+  ✓  235 [mobile] › tests/e2e/cooling.spec.js:231:1 › Performance Lab preserves scenario settings and extra fans never change CPU temperatures (3.2s)
+  ✓  238 [mobile] › tests/e2e/feedback-v210.spec.js:20:1 › known socket mismatch is contextual, blocks next, and preserves all other choices when resolved (811ms)
+  ✓  239 [mobile] › tests/e2e/feedback-v210.spec.js:31:1 › summary success hint and horizontal energy labels stay coherent at narrow widths (1.3s)
+  ✓  240 [mobile] › tests/e2e/journey-v3.spec.js:27:1 › starts with budget/use and editing resumes the same piece without losing selections (1.8s)
+  ✓  241 [mobile] › tests/e2e/journey-v3.spec.js:53:1 › first budget entry is fully visible on a notebook without scrolling (679ms)
+  ✓  242 [mobile] › tests/e2e/journey-v3.spec.js:60:1 › search, keyboard details and step changes preserve completed analysis (1.5s)
+  ✓  244 [mobile] › tests/e2e/journey-v3.spec.js:113:1 › unavailable bottleneck response stays pending without blocking summary navigation (814ms)
+  ✓  243 [mobile] › tests/e2e/journey-v3.spec.js:95:1 › catalog exposes all search and price chips while preserving comparison (2.5s)
+  ✓  245 [mobile] › tests/e2e/journey-v3.spec.js:126:1 › recommendation request includes retained optional cooling and current budget (709ms)
+  ✓  247 [mobile] › tests/e2e/journey-v3.spec.js:161:1 › imported foreign-currency budget is never silently converted to BRL (730ms)
+  ✓  248 [mobile] › tests/e2e/navigation-v25.spec.js:21:1 › link da rota atual fecha o grupo e devolve foco ao título; voltar e avançar preservam a navegação (1.4s)
+  ✓  246 [mobile] › tests/e2e/journey-v3.spec.js:144:1 › budget context fits mobile, notebook and large-screen layouts (3.3s)
+  ✓  249 [mobile] › tests/e2e/navigation-v25.spec.js:37:1 › Escape, clique externo e foco fora do cabeçalho fecham os grupos (809ms)
+  ✓  251 [mobile] › tests/e2e/navigation-v25.spec.js:73:1 › mudança de breakpoint não recupera foco antigo após sair do cabeçalho (752ms)
+  ✓  250 [mobile] › tests/e2e/navigation-v25.spec.js:55:1 › mudança entre desktop e menu compacto nunca deixa foco num controle oculto (931ms)
+  ✓  253 [mobile] › tests/e2e/navigation-v25.spec.js:107:1 › compartilhamento mantém título em erro e permite nova tentativa (744ms)
+  ✓  252 [mobile] › tests/e2e/navigation-v25.spec.js:97:1 › admin fica fora da navegação pública mas mantém a rota de autenticação (973ms)
+  ✓  254 [mobile] › tests/e2e/performance-lab.spec.js:56:1 › simula um único jogo pelo contrato existente e preserva classificação, requisitos e detalhes da API (821ms)
+  ✓  255 [mobile] › tests/e2e/performance-lab.spec.js:81:1 › compara vários jogos e usa requisitos da API em vez de inferi-los por 60 FPS (1.4s)
+  ✓  256 [mobile] › tests/e2e/performance-lab.spec.js:117:1 › troca de tarefa mantém resposta pendente e cache; mudar jogo e configurações invalida resultado (1.1s)
+  ✓  258 [mobile] › tests/e2e/performance-lab.spec.js:202:1 › build incompleta bloqueia ambos os modos sem chamar as APIs (623ms)
+  ✓  257 [mobile] › tests/e2e/performance-lab.spec.js:150:1 › tarefas retêm entradas e resultados independentes sem refazer chamadas ao revisitar (1.4s)
+  ✓  259 [mobile] › tests/e2e/performance-lab.spec.js:217:1 › ausência de parâmetros, falha de rede e falha de comparação permitem tentar novamente (1.1s)
+  ✓  260 [mobile] › tests/e2e/performance-lab.spec.js:244:1 › carregamento, erro e catálogo vazio são distintos; falha de software não bloqueia jogos (799ms)
+  ✓  261 [mobile] › tests/e2e/performance-lab.spec.js:268:1 › dados ausentes não viram zero FPS nem entram na média (878ms)
+  ✓  262 [mobile] › tests/e2e/performance-lab.spec.js:282:1 › simulação profissional mantém funcionamento e erros separados do jogo (1.1s)
+  ✓  263 [mobile] › tests/e2e/performance-lab.spec.js:300:1 › explicações e detalhes são acessíveis por teclado (750ms)
+  ✓  264 [mobile] › tests/e2e/performance-lab.spec.js:323:1 › resumo distingue compatibilidade pendente e mantém avisos da nota geral visíveis (788ms)
+  ✓  265 [mobile] › tests/e2e/performance-lab.spec.js:337:1 › gargalos e energia explicam unidades e preservam os valores e detalhes técnicos (990ms)
+  ✓  266 [mobile] › tests/e2e/performance-lab.spec.js:357:1 › ranking explica a normalização por categoria e mantém preço e pontuação (596ms)
+  ✓  267 [mobile] › tests/e2e/performance-lab.spec.js:370:1 › thermal task keeps game result and persists scenario edits without resubmitting analyses (1.0s)
+  ✓  268 [mobile] › tests/e2e/qa-regressions.spec.js:50:1 › alterar resolução invalida o FPS e o texto do resumo, mantendo as peças e a compatibilidade (1.1s)
+  ✓  270 [mobile] › tests/e2e/qa-regressions.spec.js:88:1 › resposta atrasada do resumo não publica FPS dos parâmetros anteriores (779ms)
+  ✓  271 [mobile] › tests/e2e/qa-regressions.spec.js:104:1 › build salva aguarda o catálogo antes de abrir e recupera nomes, preços e orçamento (657ms)
+  ✓  269 [mobile] › tests/e2e/qa-regressions.spec.js:67:1 › resposta atrasada do resumo não restaura análises após editar uma peça em outra página (1.9s)
+  ✓  273 [mobile] › tests/e2e/qa-regressions.spec.js:135:1 › tentar novamente uma recomendação não aumenta o orçamento e repete a consulta (727ms)
+  ✓  272 [mobile] › tests/e2e/qa-regressions.spec.js:123:1 › falha ao gerar resumo é recuperável e não cria rejeição de promessa sem tratamento (1.6s)
+  ✓  274 [mobile] › tests/e2e/qa-regressions.spec.js:155:1 › comparação de builds invalida resultado e ignora resposta antiga ao alterar critérios (917ms)
+  ✓  275 [mobile] › tests/e2e/qa-regressions.spec.js:184:1 › erro ao carregar peças salvas impede abrir com preços zerados e permite recuperar (688ms)
+  ✓  277 [mobile] › tests/e2e/qa-regressions.spec.js:246:1 › pesos do perfil mantêm armazenamento legível e controles iguais em telas estreitas (707ms)
+  ✓  276 [mobile] › tests/e2e/qa-regressions.spec.js:217:1 › erros de orçamento e etapas preservam o alinhamento e descrevem o campo inválido (1.7s)
+  ✓  278 [mobile] › tests/e2e/qa-regressions.spec.js:264:1 › nomes selecionados permanecem completos sem abreviar builds nem jogos (1.2s)
+  ✓  279 [mobile] › tests/e2e/qa-regressions.spec.js:300:1 › upgrade task tabs retain source, independent inputs and completed results with keyboard switching (1.2s)
+  ✓  280 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:39:1 › preset displays current price and real budget mismatch without obsolete range claims (629ms)
+  ✓  281 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:57:3 › apply preset preserves the exact entered budget and uses current catalog prices (846ms)
+  ✓  282 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:57:3 › edit preset preserves the exact entered budget and uses current catalog prices (840ms)
+  ✓  284 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:87:1 › unknown current legacy price is partial and never becomes a budget fit from stale data (739ms)
+  ✓  283 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:74:1 › preview and cancel preserve user budget and selected parts (848ms)
+  ✓  285 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:97:3 › range recommendation uses actual above-range price instead of stale fit claims (784ms)
+  ✓  286 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:97:3 › range recommendation uses actual unknown price instead of stale fit claims (836ms)
+  ✓  287 [mobile] › tests/e2e/ready-build-budget-claims.spec.js:113:1 › multiple budget recommendations keep model names readable at desktop, tablet and mobile widths (951ms)
+  ✓  288 [mobile] › tests/e2e/recommendation-explanations-v3.spec.js:24:1 › explanations open by keyboard and preserve readable per-part facts and exclusions (983ms)
+  ✓  289 [mobile] › tests/e2e/recommendation-explanations-v3.spec.js:48:1 › budget and profile edits discard old explanations and request fresh grounded values (1.4s)
+  ✓  290 [mobile] › tests/e2e/recommendation-feedback-entry.spec.js:26:1 › ready-build tasks are exclusive and keyboard navigation preserves draft criteria (3.0s)
+  ✓  291 [mobile] › tests/e2e/recommendation-feedback-entry.spec.js:59:1 › legacy ready-build deep links select the requested task (2.0s)
+  ✓  292 [mobile] › tests/e2e/recommendation-feedback-entry.spec.js:70:1 › same-route fragments and Back/Forward reveal the requested task and retain the draft (972ms)
+  ✓  293 [mobile] › tests/e2e/recommendation-feedback-entry.spec.js:89:1 › applying a saved profile reveals and focuses recommendation without losing budget (910ms)
+  ✓  294 [mobile] › tests/e2e/recommendation-feedback-entry.spec.js:109:1 › general feedback asks about project experience and sends no recommendation intent (809ms)
+  ✓  295 [mobile] › tests/e2e/recommendation-feedback-entry.spec.js:126:1 › feedback opened from a ready build keeps its recommendation context and follow question (1.0s)
+  ✓  297 [mobile] › tests/e2e/simulated-performance.spec.js:59:1 › ranking gives an inline simulated label beside the score (525ms)
+  ✓  296 [mobile] › tests/e2e/simulated-performance.spec.js:34:1 › catalog cards, details and comparison clearly distinguish simulated and absent scores (1.8s)
+  ✓  298 [mobile] › tests/e2e/simulated-performance.spec.js:67:1 › build score and build comparison label simulated inputs next to their result (922ms)
+  ✓  299 [mobile] › tests/e2e/simulated-performance.spec.js:81:1 › ready builds and new recommendations state their simulated performance basis (813ms)
+  ✓  300 [mobile] › tests/e2e/summary-cooling.spec.js:22:1 › review opens Summary cooling charts with focused target and retained scenario (1.5s)
+  ✓  301 [mobile] › tests/e2e/summary-cooling.spec.js:54:1 › cooling selection uses product cards and exposes no simulator before Summary (860ms)
+  ✓  302 [mobile] › tests/e2e/summary-resilience-v3.spec.js:36:1 › summary failure preserves independently received store links and complete selection (1.2s)
+  ✓  303 [mobile] › tests/e2e/summary-resilience-v3.spec.js:53:1 › slow store lookup cannot delay completed summary or FPS (1.0s)
+  ✓  305 [mobile] › tests/e2e/summary-resilience-v3.spec.js:90:1 › pending BIOS stays specific and does not hide bottlenecks, alternatives or shops (1.1s)
+  ✓  304 [mobile] › tests/e2e/summary-resilience-v3.spec.js:71:1 › store failure has its own retry and cannot erase summary or budget (1.2s)
+  ✓  306 [mobile] › tests/e2e/visual-accessibility-v3.spec.js:26:1 › skip link and labelled controls follow normal DOM order without positive tabindex (662ms)
+  ✓  307 [mobile] › tests/e2e/visual-accessibility-v3.spec.js:41:1 › real focus ring is visible with AA contrast on the adjacent dark task surface (839ms)
+  ✓  308 [mobile] › tests/e2e/visual-accessibility-v3.spec.js:57:1 › dialog keeps keyboard focus inside and Escape returns to the exact details opener (1.6s)
+  ✓  310 [mobile] › tests/e2e/visual-accessibility-v3.spec.js:97:1 › short-height wizard releases sticky navigation instead of covering the current task (854ms)
+  ✓  309 [mobile] › tests/e2e/visual-accessibility-v3.spec.js:75:1 › catalog reflows with full names at narrow widths and 200 percent text sizing (2.5s)
+
+
+  1) [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage ─────
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('combobox', { name: 'Interface', exact: true })
+
+
+      23 | async function select(page, label, value) {
+      24 |   if (!['Categoria', 'Ordenar por'].includes(label)) await openAdvanced(page);
+    > 25 |   return page.getByRole('combobox', { name: label, exact: true }).selectOption(value);
+         |                                                                   ^
+      26 | }
+      27 | const cardNames = page => page.locator('.component-card h3').allTextContents();
+      28 |
+        at select (/Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/e2e/catalog-v23.spec.js:25:67)
+        at /Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/e2e/catalog-v23.spec.js:97:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-storage-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-storage-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-storage-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-storage-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler ──────
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('combobox', { name: 'Tipo de refrigeração', exact: true })
+
+
+      23 | async function select(page, label, value) {
+      24 |   if (!['Categoria', 'Ordenar por'].includes(label)) await openAdvanced(page);
+    > 25 |   return page.getByRole('combobox', { name: label, exact: true }).selectOption(value);
+         |                                                                   ^
+      26 | }
+      27 | const cardNames = page => page.locator('.component-card h3').allTextContents();
+      28 |
+        at select (/Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/e2e/catalog-v23.spec.js:25:67)
+        at /Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/frontend/tests/e2e/catalog-v23.spec.js:97:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-cooler-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-cooler-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-cooler-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/catalog-v23-v2-3-combina-filtros-técnicos-de-cooler-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de storage ──────
+    [desktop] › tests/e2e/catalog-v23.spec.js:94:3 › v2.3 combina filtros técnicos de cooler ───────
+  1 skipped
+  307 passed (3.9m)

@@ -1,0 +1,18 @@
+
+> pcpowerlab-frontend@0.1.0 build
+> vite build
+
+vite v7.3.3 building client environment for production...
+transforming...
+✓ 2486 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.56 kB │ gzip:   0.36 kB
+dist/assets/index-3N8RRb36.css     79.68 kB │ gzip:  14.04 kB
+dist/assets/index-CG7B8_jO.js   1,023.23 kB │ gzip: 302.80 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.55s

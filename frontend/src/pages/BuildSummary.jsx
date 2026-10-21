@@ -1,6 +1,7 @@
-import CoolingSimulationPanel from '../components/build/CoolingSimulationPanel.jsx';
-import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
 import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
+import CoolingExplorer from '../components/build/CoolingExplorer.jsx';
+import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { summarySimulationHint } from '../utils/summarySimulationHint.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
@@ -17,6 +18,8 @@ import AnalysisHelp from '../components/build/AnalysisHelp.jsx';
 import GameSimulationResult from '../components/build/GameSimulationResult.jsx';
 import CompatibilityStatus from '../components/compatibility/CompatibilityStatus.jsx';
 import PurchaseLinksList from '../components/build/PurchaseLinksList.jsx';
+import RecommendationCard from '../components/recommendations/RecommendationCard.jsx';
+import RecommendationExplanation from '../components/recommendations/RecommendationExplanation.jsx';
 import Alert from '../components/ui/Alert.jsx';
 import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -45,19 +48,8 @@ import { translateValue } from '../utils/translations.js';
 export default function BuildSummary() {
   const navigate = useNavigate();
   const location = useLocation();
-  const coolingSectionRef = useRef(null);
-  useEffect(() => {
-    if (location.hash !== '#cooling-simulation') return;
-    const frame = requestAnimationFrame(() => {
-      const section = coolingSectionRef.current;
-      if (!section) return;
-      const headerHeight = document.querySelector('.topbar')?.getBoundingClientRect().height || 0;
-      section.style.scrollMarginTop = `${headerHeight + 16}px`;
-      section.focus({ preventScroll: true });
-      section.scrollIntoView({ block: 'start', behavior: 'auto' });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [location.hash, location.key]);
+  const coolingOpen = location.hash === '#cooling-simulation';
+  function closeCooling() { navigate({ pathname: location.pathname, search: location.search, hash: '' }, { replace: true }); }
   const build = useBuildState();
   const catalog = useComponents();
   const request = useApiRequest();
@@ -65,9 +57,13 @@ export default function BuildSummary() {
   const [gamesLoading, setGamesLoading] = useState(true);
   const [gamesError, setGamesError] = useState('');
   const [gamesReload, setGamesReload] = useState(0);
-  const [linksByBuild, setLinksByBuild] = useState(null);
+  const [purchaseLinks, setPurchaseLinks] = useState({ status: 'idle', data: null, error: '' });
+  const [linksReload, setLinksReload] = useState(0);
+  const completeBuild = hasCompleteBuild(build.selectedComponents);
+  const purchaseSelectionKey = JSON.stringify(buildToPurchaseLinksPayload(build.selectedComponents));
   const [share, setShare] = useState(null);
   const [feedback, setFeedback] = useState('');
+  const [lastRequestAction, setLastRequestAction] = useState('summary');
   const [analyticsError, setAnalyticsError] = useState('');
   const [loadingAction, setLoadingAction] = useState('');
   const [buildScore, setBuildScore] = useState(null);
@@ -109,9 +105,24 @@ export default function BuildSummary() {
     setShare(null);
     setTechnicalReport(null);
     setExportedJson(null);
-    setLinksByBuild(null);
     setFeedback('');
   }, [configurationKey]);
+
+  // Store research does not depend on performance, compatibility or a successful
+  // summary request. Keep failures and retries scoped to the selected parts.
+  useEffect(() => {
+    let active = true;
+    if (!completeBuild) {
+      setPurchaseLinks({ status: 'idle', data: null, error: '' });
+      return () => { active = false; };
+    }
+    setPurchaseLinks({ status: 'loading', data: null, error: '' });
+    purchaseLinksService.byBuild(JSON.parse(purchaseSelectionKey))
+      .then(data => { if (active) setPurchaseLinks({ status: 'success', data, error: '' }); })
+      .catch(error => { if (active) setPurchaseLinks({ status: 'error', data: null,
+        error: error.message || 'Não foi possível carregar os links das lojas. Tente novamente.' }); });
+    return () => { active = false; };
+  }, [purchaseSelectionKey, completeBuild, linksReload]);
 
   async function generateSummary() {
     if (!hasCompleteBuild(build.selectedComponents)) {
@@ -119,21 +130,23 @@ export default function BuildSummary() {
       return;
     }
 
+    setLastRequestAction('summary');
     await request.run(async () => {
-      const [summary, links] = await Promise.all([
-        recommendationService.summary({
+      try {
+        const summary = await recommendationService.summary({
           build: build.buildPayload,
           budget: build.budget.amount ? normalizeBudgetPayload(build.budget) : undefined,
           usageType: build.usageType,
           ...build.game
-        }),
-        purchaseLinksService.byBuild(buildToPurchaseLinksPayload(build.selectedComponents)).catch(() => null)
-      ]);
-
-      if (!isCurrent()) return;
-      storeAnalyzedSummary(summary);
-      setLinksByBuild(links);
-      setFeedback('Resumo final atualizado.');
+        });
+        if (!isCurrent()) return;
+        storeAnalyzedSummary(summary);
+        setFeedback(summary.analysisStatus === 'partial'
+          ? 'Resumo atualizado com análises parciais. As peças e os resultados disponíveis foram mantidos.'
+          : 'Resumo final atualizado.');
+      } catch (error) {
+        if (isCurrent()) throw error;
+      }
     });
   }
 
@@ -143,6 +156,7 @@ export default function BuildSummary() {
       return;
     }
 
+    setLastRequestAction('save');
     await request.run(async () => {
       await savedBuildsService.create(normalizeSavedBuildPayload({
         name: 'Build final PCPowerLab',
@@ -160,6 +174,7 @@ export default function BuildSummary() {
       return;
     }
 
+    setLastRequestAction('share');
     await request.run(async () => {
       const result = await sharingService.create({
         name: 'Build compartilhada',
@@ -280,7 +295,6 @@ export default function BuildSummary() {
 
   function applyReplacement(type, component, summary) {
     build.actions.replaceComponent(type, component, summary, build.revision);
-    setLinksByBuild(null);
     setBuildScore(null);
     setFixSuggestions(null);
     setShare(null);
@@ -332,7 +346,7 @@ export default function BuildSummary() {
   const simulationBlocked = gamesLoading || Boolean(gamesError) || !gameAvailable || !hasCompleteBuild(build.selectedComponents);
 
   return (
-    <div className="page-stack">
+    <div className="page-stack summary-page">
       {build.catalogNotice && <Alert type="info">{build.catalogNotice}</Alert>}
       <section className="page-hero compact-hero">
         <span className="eyebrow">Painel final</span>
@@ -340,11 +354,21 @@ export default function BuildSummary() {
         <p>Revise as peças e a compatibilidade antes de salvar ou comprar.</p>
       </section>
 
+      {request.error && <ErrorState message={request.error} onRetry={lastRequestAction === 'save' ? saveBuild : lastRequestAction === 'share' ? shareBuild : generateSummary} />}
+      <Card className="summary-result-first">
+        <div className="section-heading compact"><div><h2>Sua montagem</h2><p>{completeBuild ? 'Peças escolhidas. Veja o desempenho aproximado e salve quando quiser.' : 'Escolha as peças para estimar o desempenho.'}</p></div><strong>{formatCurrency(build.totalPrice)}</strong></div>
+        {build.gamePerformance?.estimatedFpsRange && <p className="metric-value">{build.gamePerformance.estimatedFpsRange.low}–{build.gamePerformance.estimatedFpsRange.high} FPS estimados · {build.gamePerformance.game}</p>}
+        <div className="button-row"><Button disabled={request.loading || !completeBuild} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button><Link className="btn btn-ghost btn-md" to="/build">Voltar e editar</Link></div>
+      </Card>
+
+      <CoolingExplorer build={build} open={coolingOpen}
+        onOpen={() => navigate({ pathname: location.pathname, search: location.search, hash: '#cooling-simulation' })}
+        onClose={closeCooling} />
+
       {build.canUndo && <Card>
         <p>Voltar à configuração anterior preserva o orçamento. A análise será recalculada; se falhar, use Simular desempenho para tentar novamente.</p>
         <Button variant="secondary" onClick={undoReplacement}>Desfazer última troca</Button>
       </Card>}
-      {request.error && <ErrorState message={request.error} />}
 
       <SummarySection eyebrow="Painel da build" title="Visão geral">
         <div className="summary-overview">
@@ -361,7 +385,7 @@ export default function BuildSummary() {
               <BudgetPanel selectedComponents={build.selectedComponents} budget={build.budget} totalPrice={build.totalPrice} pricing={build.summary?.pricing} />
               <BuildStatusCard
                 compatibility={compatibilityData}
-                verified={typeof compatibilityData?.compatible === 'boolean' && compatibilityData?.status !== 'unverified'}
+                verified={compatibilityData?.available !== false && typeof compatibilityData?.compatible === 'boolean' && !['unverified', 'unavailable'].includes(compatibilityData?.status)}
                 incompatible={isIncompatible}
                 loading={loadingAction === 'fixes'}
                 disabled={Boolean(loadingAction)}
@@ -384,10 +408,8 @@ export default function BuildSummary() {
       <SummarySection eyebrow="Próximos passos" title="Ações">
         <Card className="summary-actions-card">
           <div className="button-row summary-action-row">
-            <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
             <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar como nova configuração</Button>
             <Button variant="secondary" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Compartilhar</Button>
-            <Link className="btn btn-ghost btn-md" to="/build">Voltar e editar</Link>
             <Link className="btn btn-secondary btn-md" to="/compare">Comparar build</Link>
             <Link className="btn btn-ghost btn-md" to="/upgrades">Sugerir upgrade</Link>
           </div>
@@ -443,7 +465,7 @@ export default function BuildSummary() {
               }}
             />
           )}
-          <BottleneckPanel result={build.summary?.bottlenecks || build.bottlenecks} />
+          <BottleneckPanel compact result={build.summary?.bottlenecks || build.bottlenecks} />
         </div>
       </SummarySection>
 
@@ -492,6 +514,8 @@ export default function BuildSummary() {
           <Card>
             <h3>Simulação indisponível</h3>
             <p>{build.gamePerformance.message}</p>
+            {Array.isArray(build.gamePerformance.errors) && build.gamePerformance.errors.length > 0 && <ul>{build.gamePerformance.errors.map((error, index) => <li key={index}>{error}</li>)}</ul>}
+            <p>As peças e as outras análises foram mantidas. A indisponibilidade desta estimativa não significa que faltam componentes.</p>
           </Card>
         )}
 
@@ -504,18 +528,26 @@ export default function BuildSummary() {
             <h3>Recomendação final</h3>
             <p>{build.summary.summary}</p>
             <strong>{build.summary.finalRecommendation}</strong>
+            <RecommendationExplanation explanation={build.summary.selectionExplanation} />
+            {build.summary.recommendationObservation?.available === false && <p className="hint-text">{build.summary.recommendationObservation.message}</p>}
+            {build.summary.recommendationObservation?.available === true && <details className="task-disclosure">
+              <summary>Comparar alternativa no orçamento</summary>
+              <p>{build.summary.recommendationObservation.message}</p>
+              <RecommendationCard recommendation={build.summary.recommendationObservation}
+                currentComponents={build.selectedComponents} disabled={request.loading || Boolean(loadingAction)}
+                onPreview={(type, component) => setReplacement({ type, component })} />
+            </details>}
           </Card>
         )}
       </SummarySection>
 
-      <section id="cooling-simulation" ref={coolingSectionRef} tabIndex={-1} aria-label="Temperatura e ruído" className="summary-section">
-        <CoolingSimulationPanel cpu={build.selectedComponents.cpu} cooler={build.selectedComponents.cooler}
-          fans={build.selectedComponents.fans || []} caseComponent={build.selectedComponents.case}
-          conditions={build.coolingConditions} onConditionsChange={build.actions.setCoolingConditions} />
-      </section>
+
 
       <SummarySection eyebrow="Compra" title="Links de compra">
-        <PurchaseLinksList linksBySlot={linksByBuild} selectedComponents={build.selectedComponents} />
+        {!completeBuild && <p>Complete as peças principais para pesquisar esta configuração nas lojas.</p>}
+        <PurchaseLinksList linksBySlot={purchaseLinks.data} selectedComponents={build.selectedComponents}
+          loading={purchaseLinks.status === 'loading'} error={purchaseLinks.error}
+          onRetry={() => setLinksReload(key => key + 1)} pending={purchaseLinks.status === 'idle'} />
       </SummarySection>
 
       <Modal open={reportOpen} title="Relatório técnico da configuração" onClose={() => setReportOpen(false)}>
@@ -553,31 +585,11 @@ function SummarySection({ eyebrow, title, children }) {
 }
 
 function BuildStatusCard({ compatibility, incompatible, verified, loading = false, disabled = false, onFixes }) {
-  const coolingPending = hasUnverifiedCooling(compatibility);
-  return (
-    <Card className="build-status-card">
-      <div className="section-heading compact">
-        <div>
-          <h3>Status da build</h3>
-          <p>{!verified ? 'Gere o resumo ou analise a montagem para verificar as peças.' : incompatible ? 'Há incompatibilidades técnicas que precisam de atenção.' : 'Nenhuma incompatibilidade crítica identificada nos dados analisados.'}</p>
-        </div>
-        <Badge tone={!verified ? 'cyan' : incompatible || coolingPending ? 'yellow' : 'green'}>
-          {!verified ? 'Pendente' : incompatible ? 'Atenção' : coolingPending ? 'Parcial' : 'Verificado'}
-        </Badge>
-      </div>
-      <strong className={!verified ? 'status-text' : incompatible || coolingPending ? 'status-text warning' : 'status-text success'}>
-        {!verified ? 'Compatibilidade não verificada' : incompatible ? 'Incompatível' : coolingPending ? 'Peças principais compatíveis' : 'Compatível'}
-      </strong>
-      <CoolingAssessmentNotice result={compatibility} />
-      {incompatible && (
-        <div className="button-row">
-          <Button variant="secondary" disabled={disabled} loading={loading} onClick={onFixes}>
-            <Wrench size={18} /> Ver correções
-          </Button>
-        </div>
-      )}
-    </Card>
-  );
+  return <Card className="build-status-card">
+    <h3>Conferência da montagem</h3>
+    <p>{incompatible ? 'Há um conflito conhecido. Você pode ajustar as peças ou continuar com um cenário teórico.' : compatibility?.available === false ? 'Consulta técnica indisponível. Você ainda pode ver as estimativas.' : verified ? 'Nenhum conflito identificado nos dados analisados.' : 'Dados incompletos não impedem continuar e estimar o desempenho.'}</p>
+    {incompatible && <Button variant="secondary" disabled={disabled} loading={loading} onClick={onFixes}><Wrench size={18} /> Ver correções</Button>}
+  </Card>;
 }
 
 function BuildScorePanel({ score, onCalculate, loading = false, disabled = false }) {
@@ -813,7 +825,7 @@ function isCompatibilityIncompatible(result) {
     ...(Array.isArray(data.problems) ? data.problems : [])
   ];
 
-  if (data.status === 'unverified') return false;
+  if (data.available === false || ['unverified', 'unavailable'].includes(data.status)) return false;
   return data.compatible === false
     || data.isCompatible === false
     || data.status === 'incompatible'
@@ -848,7 +860,7 @@ function buildDetailsFromSelectedComponents(selectedComponents = {}) {
         ...(component.price != null && component.price !== '' && Number.isFinite(Number(component.price)) && { price: Number(component.price) })
       }
     };
-  }, { fans: selectedComponents.fans || [] });
+  }, { fans: selectedComponents.fans || [], ...(usesIntegratedGraphics(selectedComponents) ? { graphicsMode: 'integrated' } : {}) });
 }
 
 function getScoreTone(value) {

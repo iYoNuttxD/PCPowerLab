@@ -1,10 +1,11 @@
 import { performanceMetadata } from '../utils/performanceMethodology.js';
-import { unavailablePerformance } from '../utils/performanceAvailability.js';
-import { normalizeSelectedComponentIds } from './build.service.js';
+import { estimateBuildParameters } from './estimatedParametersService.js';
+import { estimationDetails, estimatedRange } from '../utils/estimatedPerformance.js';
+import { normalizeSelectedComponentIds, selectBuildComponents } from './build.service.js';
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { professionalSoftware } from '../data/professionalSoftware.js';
 import { findComponentById } from './component.service.js';
-import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
 import {
   getRamRequirementStatus,
   getRequirementStatus
@@ -37,10 +38,9 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
 
   const compatibility = validateSimulationCompatibility(simulationInput.build);
   const buildInput = normalizeSelectedComponentIds(simulationInput.build);
-  const components = mapSimulationComponents(buildInput);
-  const unavailable = unavailablePerformance(components);
-  if (unavailable) return { ...performanceMetadata(components), ...unavailable, software: software.name, softwareId: software.id, category: software.category, performanceScore: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
+  const components = usesIntegratedGraphics(buildInput) ? selectBuildComponents(buildInput) : mapSimulationComponents(buildInput);
   const performanceParameters = mapPerformanceParameters(components);
+  const estimation = estimationDetails(performanceParameters, { integrated: usesIntegratedGraphics(components), compatibility });
   const details = buildRequirementDetails({ software, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
   const meetsRecommendedRequirements = Object.values(details).every((status) => status === 'recommended');
@@ -56,7 +56,7 @@ export function simulateProfessionalSoftwarePerformance(simulationInput) {
     software: software.name,
     softwareId: software.id,
     category: software.category,
-    performanceScore,
+    available: true, performanceScore, estimation, performanceScoreRange: estimatedRange(performanceScore, estimation, { min:0, max:100 }),
     performanceLevel,
     meetsMinimumRequirements,
     meetsRecommendedRequirements,
@@ -121,14 +121,9 @@ function mapSimulationComponents(buildInput) {
 }
 
 function mapPerformanceParameters(components) {
-  const parametersBySlot = requiredSoftwareSimulationSlots.reduce((parameters, slot) => ({
-    ...parameters,
-    [slot]: findPerformanceParametersByComponentId(components[slot].id)
-  }), {});
-
-  validatePerformanceParameters(parametersBySlot);
-
-  return parametersBySlot;
+  const parameters = estimateBuildParameters(components, requiredSoftwareSimulationSlots);
+  validatePerformanceParameters(parameters);
+  return parameters;
 }
 
 function validatePerformanceParameters(performanceParameters) {

@@ -65,62 +65,35 @@ test('scoped cooling evidence is extracted without guessing absent or malformed 
   assert.equal(compatibilityDisplayLabel('unverified', compatible), 'Não verificada');
 });
 
-test('shared verdict visibly qualifies core compatibility while preserving explicit incompatibility', () => {
-  const html = render(ui.CompatibilityStatus, { result: compatible });
-  assert.match(html, /Peças principais compatíveis/);
-  assert.match(html, /Refrigeração não verificada/);
-  assert.match(html, /status-unverified/);
-  const gpuPending = render(ui.CompatibilityStatus, { result: { compatible: false, status: 'unverified', unverifiedChecks: [{ code: 'CASE_GPU_LENGTH_UNVERIFIED', message: 'Confirme o espaço disponível para a placa de vídeo.' }] } });
-  assert.match(gpuPending, /<strong>Espaço da placa de vídeo não verificado<\/strong>/);
-  assert.match(gpuPending, /Confirme o espaço disponível/);
-  assert.doesNotMatch(gpuPending, /CASE GPU LENGTH UNVERIFIED/);
-  const connectorsPending = render(ui.CompatibilityStatus, { result: { compatible: false, status: 'unverified', unverifiedChecks: [{ code: 'GPU_POWER_CONNECTORS_UNVERIFIED', message: 'Confirme os conectores de energia necessários para a placa de vídeo.' }] } });
-  assert.match(connectorsPending, /<strong>Conectores de energia da placa de vídeo a confirmar<\/strong>/);
-  assert.match(connectorsPending, /Confirme os conectores de energia necessários/);
-  assert.doesNotMatch(connectorsPending, /GPU POWER CONNECTORS UNVERIFIED/);
-  assert.doesNotMatch(html, /Build compatível|>OK</);
-  const failed = render(ui.CompatibilityStatus, { result: { ...compatible, compatible: false, status: 'incompatible', alerts: [{ code: 'COOLER_TOO_TALL', message: 'Cooler ultrapassa o gabinete', severity: 'high' }] } });
-  assert.match(failed, /incompatibilidades encontradas/);
-  assert.match(failed, /Cooler ultrapassa o gabinete/);
-  assert.doesNotMatch(failed, /Peças principais compatíveis/);
-  const verified = render(ui.CompatibilityStatus, { result: { ...compatible, coolingAssessment: { status: 'compatible' } } });
-  assert.match(verified, /Build compatível/);
-  assert.doesNotMatch(verified, /Refrigeração não verificada/);
+test('concise verdict retains factual conflicts and optional unknown cooling details', () => {
+  const html=render(ui.CompatibilityStatus,{result:compatible});
+  assert.match(html,/Nenhum conflito nos dados disponíveis/);
+  assert.match(html,/<details[^>]*><summary>Detalhes da conferência/);
+  assert.match(html,/Dados do cooler não cadastrados/);
+  assert.doesNotMatch(html,/CPU_COOLING_FIT_UNVERIFIED/);
+  const conflict=render(ui.CompatibilityStatus,{result:{...compatible,status:'incompatible',alerts:[{message:'Cooler ultrapassa o gabinete',code:'COOLER_TOO_TALL'}]}});
+  assert.match(conflict,/Cooler ultrapassa o gabinete/);
+  assert.match(conflict,/Você pode continuar/);
 });
-
-test('summary status, score and report retain the cooling qualifier', () => {
-  const status = render(ui.BuildStatusCard, { compatibility: compatible, verified: true, incompatible: false });
-  assert.match(status, /Peças principais compatíveis/);
-  assert.match(status, /Refrigeração não verificada/);
-  assert.doesNotMatch(status, />Verificado</);
-  assert.match(render(ui.BuildScorePanel, { score: { overallScore: 70, criteria: {}, source: compatible } }), /Refrigeração não verificada/);
-  const report = render(ui.TechnicalReportView, { report: { compatibility: compatible } });
-  assert.match(report, /Refrigeração não verificada/);
-  assert.match(report, /Peças principais compatíveis/);
+test('summary conclusion avoids duplicated warning badges while preserving useful actions', () => {
+  const html=render(ui.BuildStatusCard,{compatibility:compatible,verified:true,incompatible:false});
+  assert.match(html,/Nenhum conflito identificado nos dados analisados/);
+  assert.doesNotMatch(html,/Verificações pendentes/);
 });
-
-test('ready and budget recommendations stay usable while visibly scoped', () => {
-  assert.match(render(ui.ReadyBuildChecks, { readyBuild: { compatibility: compatible }, pricing: { complete: true } }), /Peças principais compatíveis/);
-  assert.match(render(ui.ReadyBuildChecks, { readyBuild: { compatibility: compatible }, pricing: { complete: true } }), /Refrigeração não verificada/);
-  const recommendation = { ...compatible, components: parts, totalEstimatedPrice: 700, compatibilityStatus: 'compatible' };
-  const html = render(ui.RecommendationCard, { recommendation, onApply() {} });
-  assert.match(html, /Refrigeração não verificada/);
-  assert.match(html, /Usar recomendação inteira/);
-  assert.doesNotMatch(html, /disabled=""/);
-  const budget = render(ui.RecommendationResultCard, { recommendation, componentMap: Object.fromEntries(Object.values(parts).map(part => [part.id, part])) });
-  assert.match(budget, /Peças principais compatíveis/);
-  assert.match(budget, /Refrigeração não verificada/);
+test('recommendation shows primary apply action before secondary explanations', () => {
+  const recommendation={...compatible,components:parts,totalEstimatedPrice:700,compatibilityStatus:'compatible'};
+  const html=render(ui.RecommendationCard,{recommendation,onApply(){}});
+  assert.ok(html.indexOf('Usar recomendação inteira')<html.indexOf('Como escolhemos estas peças'));
+  assert.doesNotMatch(html,/disabled=""/);
 });
-
-test('catalog and game results show scoped uncertainty without fabricating an FPS or incompatibility', () => {
-  const card = render(ui.ComponentCard, { component: parts.cpu, compatibilityPreview: compatible });
-  assert.match(card, /Compatível nas regras verificadas/);
-  assert.match(card, /Refrigeração não verificada/);
-  for (const available of [true, false]) {
-    const html = render(ui.GameSimulationResult, { result: { game: 'Jogo', available, estimatedFps: 60, technicalDetails: { compatibility: compatible } } });
-    assert.match(html, /Refrigeração não verificada/);
-    if (!available) assert.doesNotMatch(html, /60 FPS/);
-  }
+test('catalog retains scoped uncertainty while game estimates present useful conclusion first', () => {
+  const card=render(ui.ComponentCard,{component:parts.cpu,compatibilityPreview:compatible});
+  assert.match(card,/Refrigeração não verificada/);
+  const available=render(ui.GameSimulationResult,{result:{game:'Jogo',available:true,estimatedFps:60,technicalDetails:{compatibility:compatible}}});
+  assert.match(available,/60 FPS/);
+  assert.match(available,/Cenário aproximado/);
+  const unavailable=render(ui.GameSimulationResult,{result:{game:'Jogo',available:false,estimatedFps:60}});
+  assert.doesNotMatch(unavailable,/60 FPS/);
 });
 
 test('immediate and saved feedback retain scoped cooling evidence; submitted snapshot remains intact', () => {

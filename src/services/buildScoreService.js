@@ -1,3 +1,5 @@
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
+import { getPerformanceScore } from '../utils/costBenefitUtils.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
 import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { generateBuildSummary } from './buildSummaryService.js';
@@ -89,7 +91,7 @@ function validateScorePayload(input) {
 function calculateCompatibilityScore(compatibility) {
   const alertSummary = summarizeAlerts(compatibility.alerts);
   const penalty = (alertSummary.high * 45) + (alertSummary.medium * 20) + (alertSummary.low * 8);
-  const incompatibilityPenalty = compatibility.compatible ? 0 : 25;
+  const incompatibilityPenalty = compatibility.alerts?.length > 0 ? 25 : 0;
 
   return clampScore(100 - penalty - incompatibilityPenalty);
 }
@@ -100,7 +102,7 @@ function calculatePerformanceCriterion({
   usageType,
   warnings
 }) {
-  const missingSlots = performanceSlots.filter((slot) => !performanceByComponentId.has(components[slot]?.id));
+  const missingSlots = performanceSlots.filter(slot => !(slot === 'gpu' && usesIntegratedGraphics(components)) && getPerformanceScore(components[slot], performanceByComponentId.get(components[slot]?.id), usageType) === null);
 
   if (missingSlots.length > 0) {
     warnings.push(`Parâmetros de desempenho ausentes para: ${missingSlots.join(', ')}.`);

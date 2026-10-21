@@ -44,9 +44,9 @@ test('cooling costs include pack quantities without fabricated performance or Na
   assert.equal(buildScore.source.totalEstimatedPrice, calculateBuildPrice(cooled));
 });
 
-test('recommendations reject uncertain selected cooling instead of dropping it', () => {
-  assert.throws(() => recommendBuildByBudget({ budget: { amount: 5000 }, ...cooling }), { statusCode: 422 });
-  assert.throws(() => recommendBuildsByBudgetRange({ budgetRange: { min: 100, max: 5000 }, components: cooling }), { statusCode: 422 });
+test('recommendations retain uncertain selected cooling without blocking the proposal', () => {
+  assert.equal(recommendBuildByBudget({ budget: { amount: 5000 }, ...cooling }).components.cooler.id, cooler.id);
+  assert.ok(recommendBuildsByBudgetRange({ budgetRange: { min: 100, max: 5000 }, components: cooling }));
   assert.throws(() => recommendBuildByBudget({ budget: { amount: 5000 }, fans: [{ fanId: fan.id, quantity: 0 }] }), { statusCode: 400 });
 });
 
@@ -65,10 +65,12 @@ test('compatibility fixes do not silently discard selected accessories', () => {
   const fixes = suggestCompatibilityFixes({ ...withCooling, psuId: 'psu-generic-400w' });
   assert.equal(fixes.compatible, false);
   assert.ok(fixes.unverifiedChecks.length > 0);
-  assert.deepEqual(fixes.suggestions, []);
+  assert.ok(fixes.suggestions.length>0);
+  assert.ok(fixes.suggestions.every(suggestion=>suggestion.replaceComponent==='psu'));
+  assert.ok(fixes.coolingAssessment.unverifiedChecks.length>0);
 });
 
-test('partial performance has no cooling bonus and full unverified cooling builds are blocked', () => {
+test('partial and full scenarios remain usable without a cooling FPS bonus', () => {
   const partial = Object.fromEntries(Object.entries(base).filter(([key]) => ['cpuId', 'gpuId', 'ramId', 'storageId'].includes(key)));
   const partialCooling = { ...partial, coolerId: cooler.id, fans: withCooling.fans };
   const simulation = { gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' };
@@ -77,8 +79,8 @@ test('partial performance has no cooling bonus and full unverified cooling build
   const softwareId = listProfessionalSoftware()[0].id;
   assert.equal(simulateProfessionalSoftwarePerformance({ softwareId, build: partialCooling }).performanceScore,
     simulateProfessionalSoftwarePerformance({ softwareId, build: partial }).performanceScore);
-  assert.throws(() => simulateGamePerformance({ ...simulation, build: withCooling }), { statusCode: 422 });
-  assert.throws(() => simulateProfessionalSoftwarePerformance({ softwareId, build: withCooling }), { statusCode: 422 });
+  assert.ok(Number.isFinite(simulateGamePerformance({ ...simulation, build: withCooling }).estimatedFps));
+  assert.ok(Number.isFinite(simulateProfessionalSoftwarePerformance({ softwareId, build: withCooling }).performanceScore));
   assert.deepEqual(listComponentsByCostBenefit({ category: 'cooler' }), []);
   assert.deepEqual(listComponentsByCostBenefit({ category: 'fan' }), []);
 });
@@ -88,6 +90,6 @@ test('known air cooler height never substitutes for unknown RAM and VRM clearanc
   const originalCase = selectBuildComponents(base).case;
   addComponentRecord({ ...originalCase, id: 'case-regression-cooler-ready', name: 'Test cooler-ready case', price: 100,
     specs: { ...originalCase.specs, maxCoolerHeightMm: 200 } });
-  assert.throws(() => recommendBuildByBudget({ budget: { amount: 5000 }, coolerId: cooler.id }), { statusCode: 422 });
-  assert.throws(() => recommendBuildsByBudgetRange({ budgetRange: { min: 3000, max: 5000 }, components: { cooler: cooler.id } }), { statusCode: 422 });
+  assert.equal(recommendBuildByBudget({ budget: { amount: 5000 }, coolerId: cooler.id }).components.cooler.id, cooler.id);
+  assert.ok(recommendBuildsByBudgetRange({ budgetRange: { min: 3000, max: 5000 }, components: { cooler: cooler.id } }));
 });

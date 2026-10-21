@@ -7,5 +7,5 @@ test('duplicate names have distinct response identities and recommendation refer
  assert.deepEqual(result.builds.map(build=>build.comparisonIndex),[0,1]);
  const selected=result.builds.find(build=>build.comparisonIndex===result.recommendedBuild.comparisonIndex);
  assert.equal(selected.comparisonScore,result.recommendedBuild.comparisonScore);
- assert.equal(result.builds[1].bottleneckStatus,'unavailable');
+ assert.equal(result.builds[1].bottleneckStatus,'analyzed');
 });

@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { findComponentById, listComponents } from './component.service.js';
 import { requiredBuildSlots, selectOptionalBuildComponents } from './build.service.js';
 import { evaluateResolvedBuildCompatibility } from './compatibility.service.js';
@@ -6,7 +7,7 @@ export function previewCatalogCompatibility(selection = {}, category) {
   if (!selection || typeof selection !== 'object' || Array.isArray(selection)) {
     throw Object.assign(new Error('Informe uma selecao de componentes valida.'), { statusCode: 400 });
   }
-  const build = { ...selectOptionalBuildComponents(selection) };
+  const build = { ...selectOptionalBuildComponents(selection), ...(usesIntegratedGraphics(selection) ? { graphicsMode: 'integrated' } : {}) };
   const nested = selection.components || {};
   for (const slot of requiredBuildSlots) {
     const id = selection[`${slot}Id`] ?? selection[slot] ?? nested[slot] ?? nested[`${slot}Id`];
@@ -24,7 +25,10 @@ export function previewCatalogCompatibility(selection = {}, category) {
       const existing = (build.fans || []).find(fan => fan.id === candidate.id);
       candidateBuild.fans = (build.fans || []).filter(fan => fan.id !== candidate.id)
         .concat({ ...candidate, quantity: existing?.quantity || 1 });
-    } else candidateBuild[candidate.category] = candidate;
+    } else {
+      candidateBuild[candidate.category] = candidate;
+      if (candidate.category === 'gpu' && usesIntegratedGraphics(candidateBuild)) delete candidateBuild.graphicsMode;
+    }
     return { componentId: candidate.id, ...evaluateResolvedBuildCompatibility(candidateBuild) };
   });
 }

@@ -70,8 +70,9 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     await call('/build-summary', { build: { ...build, cpuId: 'unknown' } }, 404);
     const invalid = await sum({ ...build, cpuId: 'cpu-intel-i5-12400f' });
     assert.equal(invalid.compatibility.compatible, false);
-    assert.equal(invalid.gamePerformance.available, false);
-    assert.equal('estimatedFps' in invalid.gamePerformance, false);
+    assert.equal(invalid.gamePerformance.available, true);
+    assert.ok(Number.isFinite(invalid.gamePerformance.estimatedFps));
+    assert.equal(invalid.gamePerformance.estimation.scenarioOnly,true);
     const changed = await sum({ ...build, ramId: 'ram-kf436c17bbk2-16' });
     for (const slot of ['cpu', 'gpu', 'motherboard', 'storage', 'psu', 'case']) assert.deepEqual(changed.components[slot], original.components[slot]);
     assert.equal(changed.components.ram.id, 'ram-kf436c17bbk2-16');
@@ -99,7 +100,7 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     const cooled = await sum(cooling);
     assert.equal(cooled.compatibility.compatible, false);
     assert.ok(['unverified', 'incompatible'].includes(cooled.compatibility.status));
-    assert.equal(cooled.gamePerformance.available, false);
+    assert.equal(cooled.gamePerformance.available, true);
     const missingIds = [cooler.id, fan.id];
     assertIncompletePrice(cooled, referenceCents / 100, missingIds);
     assert.equal(cooled.pricing.unavailableReferenceUnits, 3);
@@ -146,9 +147,9 @@ test('quality HTTP journey: catalog, analysis, budget, replacement, cooling, sav
     assert.equal(compared.results.find(result => result.gameId === input.gameId).estimatedFps, game.estimatedFps);
     await call('/performance/compare-games', { ...input, gameIds: [input.gameId] }, 400);
     for (const invalidBuild of [{ ...build, cpuId: 'cpu-intel-i5-12400f' }, { ...build, coolerId: 'cooler-arctic-liquid-freezer-iii-pro-360' }]) {
-      await call('/performance/simulate-game', { ...input, build: invalidBuild }, 422);
-      await call('/performance/compare-games', { ...input, build: invalidBuild, gameIds: ['game-cyberpunk-2077', 'game-counter-strike-2'] }, 422);
-      await call('/performance/simulate-software', { build: invalidBuild, softwareId: 'software-blender' }, 422);
+      assert.equal((await call('/performance/simulate-game', { ...input, build: invalidBuild })).available,true);
+      assert.ok((await call('/performance/compare-games', { ...input, build: invalidBuild, gameIds: ['game-cyberpunk-2077', 'game-counter-strike-2'] })).results.every(row=>Number.isFinite(row.estimatedFps)));
+      assert.equal((await call('/performance/simulate-software', { build: invalidBuild, softwareId: 'software-blender' })).available,true);
     }
     const software = await call('/performance/simulate-software', { build, softwareId: 'software-blender' });
     assert.ok(Number.isFinite(software.performanceScore));

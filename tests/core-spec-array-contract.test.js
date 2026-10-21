@@ -50,8 +50,8 @@ for (const [category, field, id, code] of [
         const result = checkBuildCompatibility({ ...build, [`${category}Id`]: id });
         assert.equal(result.status, 'unverified');
         assert.ok(result.unverifiedChecks.some(check => check.code === code));
-        assert.throws(() => recommendBuildByBudget(recommendation), { statusCode: 422 });
-        assert.throws(() => recommendBuildsByBudgetRange({ budgetRange: { min: 2000, max: 10000 }, usageType: 'gaming' }), { statusCode: 422 });
+        assert.equal(recommendBuildByBudget(recommendation).compatibilityStatus, 'unverified');
+        assert.ok(recommendBuildsByBudgetRange({ budgetRange: { min: 2000, max: 10000 }, usageType: 'gaming' }));
       }
     } finally {
       records.forEach((component, index) => { component.specs[field] = originals[index]; });

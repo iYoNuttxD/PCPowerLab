@@ -1,3 +1,4 @@
+import { estimatedParameter, estimatedIntegratedGraphics } from './estimatedPerformance.js';
 import { corePerformanceCategories, isUsableScoreParameter } from './performanceAvailability.js';
 import { requiredBuildSlots } from '../services/build.service.js';
 
@@ -14,8 +15,10 @@ export function getEstimatedPrice(component) {
 }
 
 export function getPerformanceScore(component, performanceParameter, usageType = 'general') {
-  if (!component || (component.performanceModelStatus === 'unavailable' && !isUsableScoreParameter(component, performanceParameter))) {
-    return null;
+  if (!component) return null;
+  if (corePerformanceCategories.includes(component.category) && !isUsableScoreParameter(component, performanceParameter)) {
+    const estimate = estimatedParameter(component, performanceParameter);
+    return ['gaming', 'streaming'].includes(usageType) ? estimate.gamingScore : ['work', 'productivity', 'programming', 'video-editing'].includes(usageType) ? estimate.productivityScore : estimate.performanceScore;
   }
 
   if (['cooler', 'fan'].includes(component.category)) {
@@ -71,7 +74,7 @@ export function calculateBuildPerformanceScore(components, performanceByComponen
     return total + getPerformanceScore(component, performanceParameter, usageType);
   }, 0);
 
-  return Number((totalScore / entries.length).toFixed(2));
+  return usesIntegratedGraphics(components) ? Number(((totalScore + estimatedIntegratedGraphics(components.cpu, components.ram).performanceScore) / (entries.length + 1)).toFixed(2)) : Number((totalScore / entries.length).toFixed(2));
 }
 
 function getUsageScoreField(usageType) {
@@ -173,3 +176,4 @@ function getCategoryLabel(category) {
 
   return labels[category] || 'componentes desta categoria';
 }
+import { usesIntegratedGraphics } from './graphicsSelection.js';

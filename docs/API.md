@@ -1512,7 +1512,7 @@ Também são aceitos `components.cooler`/`components.coolerId` e `components.fan
 - Salvos, versões, JSON exportado (versão compatível 1.0), compartilhamento, relatório e comparação preservam os opcionais. Importação pode enviar `export.build` à seleção; interface reidrata IDs de JSON importado
 - Compatibilidade: `status` é `compatible`, `incompatible` ou `unverified`; `compatible` só é true no primeiro caso. Conflitos ficam em `alerts`; verificações incompletas em `unverifiedChecks` com `verification:'unverified'`. O endpoint de alertas agrega as duas listas para apresentação, mantendo estado separado
 - `coolingPower` retorna `knownWatts`, `complete`, `unknownComponents`. Valores desconhecidos não viram zero verificado. Valores conhecidos são somados ao mínimo de fonte e à estimativa de consumo; as fórmulas preexistentes de finalidades distintas continuam heurísticas
-- Recomendações por orçamento/faixa aceitam os opcionais no nível raiz ou em `components`; reservam custo e testam compatibilidade. Não descartam os acessórios para caber no orçamento. Se os dados forem insuficientes, retornam 422 sem afirmar compatibilidade
+- Recomendações por orçamento/faixa aceitam os opcionais no nível raiz ou em `components`; reservam custo e testam compatibilidade. Não descartam os acessórios para caber no orçamento. Se os dados forem insuficientes, retornam 422 sem afirmar compatibilidade, salvo a opção explícita e limitada de proposta com refrigeração pendente descrita na complementação V3 abaixo
 - As novas categorias são `cooler` (air/AIO) e `fan`. Parâmetros de desempenho continuam restritos às sete categorias principais; não cadastrar bônus de FPS por refrigeração
 - CRUD de regras é um registro documental separado do motor codificado. Alterá-lo não muda a execução das verificações
 
@@ -1595,3 +1595,76 @@ As contagens anteriores neste documento são históricas. Fotografias dos 81 ati
 `coolingAssessment` é distinto da compatibilidade principal e mantém `status`, `scope`, `alerts` e `unverifiedChecks`; desconhecido não significa aprovado. [Contrato completo](COOLING-COMPATIBILITY-SCOPE.md). Socket compatível não certifica posição/espessura/folga de gabinete nem adequação térmica.
 
 O cenário térmico/acústico é aproximado e baseado em hipóteses; não é benchmark ou medição de hardware. Fans extras participam de ruído estimado, consumo conhecido, custo e encaixe, mas **não alteram a temperatura** neste modelo. O acoplamento térmico adicional foi adiado. Scores sintéticos não habilitam automaticamente FPS/software/gargalos.
+
+## V3 — Resumo parcial, disponibilidade por seção e recomendações
+
+`POST /build-summary` continua exigindo uma seleção completa com IDs válidos. A seleção é validada antes das análises: peças obrigatórias ausentes ou categoria incorreta retornam **400**, IDs inexistentes retornam **404**. Uma falha de análise não é tratada como ausência de peças e não muda a seleção recebida.
+
+Campos aditivos na resposta:
+
+- `selectionStatus: "complete"`: os sete slots obrigatórios foram resolvidos. Não significa compatibilidade confirmada.
+- `analysisStatus: "complete" | "partial"`: disponibilidade das seções solicitadas, não aprovação da montagem. Uma incompatibilidade conhecida pode estar completamente analisada.
+- `sections`: estados de `compatibility`, `bottlenecks`, `budgetStatus`, `gamePerformance`, `selectionExplanation` e `recommendation`, quando solicitados. Cada entrada traz `status: "available" | "unverified" | "unavailable"`, e `reason`/`retryable` quando aplicáveis. Seções omitidas não foram solicitadas.
+- Uma falha inesperada em uma análise retorna naquela seção `available: false`, `status: "unavailable"`, `reason: "analysis_failed"`, `retryable: true`, mensagem pública e `errors: []`. Não expõe detalhes internos da exceção. Entradas opcionais inválidas usam `reason: "invalid_analysis_input"`, `retryable: false` e erros controlados que permitem corrigir a entrada. Campos de erro existentes por falta de modelo continuam preservados.
+- Falha no verificador de compatibilidade retorna `compatible: null`, nunca `false` como diagnóstico de incompatibilidade. Nesse caso, o FPS fica indisponível com `reason: "compatibility_analysis_unavailable"`; preços, peças, gargalos independentes e pesquisa de alternativa permanecem disponíveis.
+- Compatibilidade realmente não verificada, incluindo BIOS ou refrigeração pendente, mantém `status: "unverified"` e a lista `unverifiedChecks`; simulação de jogo continua bloqueada com `reason: "unverified_build"`. Nenhuma regra foi relaxada para produzir um número.
+
+`recommendationObservation`, quando há orçamento válido, pode conter uma alternativa com os mesmos critérios e o detalhamento de `recommendations/budget`, incluindo `components`, `usageType`, `priority`, `requestedBudget` e `compatibilityStatus`. Ela pode existir mesmo quando a montagem atual tem verificações pendentes: a alternativa é verificada independentemente. Cooler e quantidades de ventoinhas informados são preservados na consulta e entram no custo e na compatibilidade; não são omitidos para caber no orçamento. Se nenhuma alternativa verificada couber, somente essa seção fica indisponível. A resposta não aplica nenhuma substituição.
+
+`POST /recommendations/budget` e `/recommendations/by-usage` acrescentam `requestedBudget: { amount, currency: "BRL" }`, `compatibilityStatus` e `unverifiedChecks`. Recomendações por faixa acrescentam `requestedBudgetRange: { min, max, currency: "BRL" }`. A lista de prioridades inclui `balanced`. Os tipos de uso incluem `gaming`, `work`, `video-editing`, `programming`, `design`, `general`, `study`, `streaming`, `upgrade` e `productivity`.
+
+As recomendações comparam referências em reais, não fazem câmbio. Moeda diferente de BRL em `budget.currency` ou `budgetRange.currency` retorna **400**. No resumo, orçamento em outra moeda não derruba análises técnicas: `budgetStatus` retorna `available: false`, `status: "unavailable"`, `reason: "currency_mismatch"` e `remaining: null`. O cadastro genérico de orçamento continua aceitando códigos de moeda; isso não autoriza compará-los com preços em BRL.
+
+A interface consulta `/purchase-links/build` independentemente de `/build-summary`. Uma falha de resumo não elimina links já recebidos, e uma falha de lojas não elimina o resumo. Há estados distintos de carregamento, erro com nova tentativa e resultado vazio. Links continuam pesquisa de loja, não prova de preço, estoque, compatibilidade ou recomendação de compra.
+
+Exportação JSON com `includeSummary: true` também preserva o resumo técnico quando somente o orçamento/análise opcional é inválido. `summary` inclui `selectionStatus`, `analysisStatus`, `sections` e `budgetStatus`, quando informado. Uma resposta parcial acrescenta `warnings` com os nomes das seções afetadas e erros controlados, sem tratar o orçamento inválido como aprovado. O relatório técnico preserva `pricing.available: false`, o motivo e `remaining: null` para orçamento indisponível; a nota consolidada que depende desse orçamento também fica indisponível. `pricing.currency` continua BRL e `budgetCurrency` identifica separadamente a moeda do orçamento.
+
+CPUs admitidas na expansão V3 exigem evidência de BIOS também ao selecionar uma placa-mãe de catálogo anterior. Socket AM5 igual não prova suporte para 7800X3D/9900X: sem versão mínima e instalada verificáveis, retorna `CPU_BIOS_UNVERIFIED`, sem inventar incompatibilidade definitiva ou liberar simulação.
+
+### V3 — Justificativas por peça e impacto de alternativas
+
+As duas recomendações de orçamento e a recomendação por faixa acrescentam `selectionExplanation`. O resumo também expõe esse campo para a montagem atual, sem transformar uma seleção do usuário em recomendação automática.
+
+- `version: "selection-explanation-v1"`, `selectionSource: "recommendation" | "current_selection"`, `usageType`, `priority`, `scope` e `selectionRule`: identificam a origem e os limites da explicação. A busca de conjuntos usa um subconjunto do catálogo e não garante ótimo global nem melhor compra no mercado.
+- `budget`: `currency: "BRL"`, `limit`, `min` (quando há faixa), `total`, `knownReferenceSubtotal`, `coolingSubtotal`, `remaining` e `status`. Cooler e packs de ventoinhas entram com suas quantidades completas. Preço ausente mantém total/saldo `null` e `status: "unavailable"`, não zero. `status` também pode ser `within_budget`, `over_budget` ou `below_range`.
+- `compatibility`: `status`, `checks`, `coolingStatus` e `coolingWarnings`. O estado principal e as pendências específicas de refrigeração continuam distintos; uma falha de serviço é `unavailable`, não incompatibilidade comprovada.
+- `componentReasons`: uma entrada por peça, incluindo cooler e cada pack selecionado. Cada entrada tem `slot`, `componentId`, `name`, `quantity`, `facts`, `role`, `selectionReason`, `profile`, `performance`, `budget`, `compatibility` e `tradeoff`.
+  - `facts` contém apenas especificações cadastradas, como socket, núcleos, VRAM, capacidade e dimensões. Ausência não é preenchida por suposição.
+  - `selectionReason` identifica a posição real da peça na ordenação da categoria, a quantidade de candidatos elegíveis e o tamanho do subconjunto comparado. Esses valores também estão em `components[slot].recommendationMeta.categoryRank`, `rankedCandidatesCount` e `shortlistedCandidatesCount`. A ordenação precede a compatibilidade do conjunto: estar nessa lista não aprova qualquer troca.
+  - `profile.weight` descreve a parcela ponderada de custo-benefício. A prioridade `lowest-price` não utiliza essa parcela no score final, e o texto informa essa distinção. A ordenação por perfil não certifica requisitos de uma aplicação.
+  - `performance.basis` distingue `simulated`, `neutral_heuristic`, `unavailable` e `not_scored`. `score` é `null` sem modelo válido e para refrigeração; um peso auxiliar neutro não mede qualidade. `provisional` identifica perfis provisórios já existentes. Nenhum desses campos cria benchmark, FPS ou ganho térmico.
+  - `budget` da peça inclui `unitPrice`, `quantity`, `lineTotal`, `shareOfTotalPercent`, `source`, `observedAt` e mensagem. Percentual é participação no custo total, nunca percentual de desempenho.
+
+Nas recomendações, cada peça principal pode incluir `alternative`, `comparedCandidates`, `excludedAlternatives` e `alternativeScope: "single_part_replacement_preserving_other_parts_and_cooling"`. Trata-se de uma **troca individual** no conjunto retornado, preservando todas as outras peças e a refrigeração. A alternativa é escolhida entre trocas verificadas, priorizando uma economia de custo próxima; não é uma segunda classificação de melhores builds. Retorna identidade, especificações, preço de referência, total recalculado, `priceDelta`, `remainingBudget`, `withinBudget`, `withinRange`, `scoreDelta`, estado e explicação. Uma troca verificada tecnicamente pode ultrapassar o orçamento ou ficar abaixo do mínimo da faixa; isso é explicitado. Diferenças de índice são pontos do modelo, não percentuais de ganho real.
+
+`excludedAlternatives` preserva nome, especificações, preço e `reasons: [{ code, message }]` para trocas incompatíveis, não verificadas, sem preço ou sem modelo. Por exemplo, `CPU_BIOS_UNVERIFIED` e `PERFORMANCE_MODEL_UNAVAILABLE` explicam por que uma CPU nova não entra como alternativa direta aprovada. Isso **não prova** que o modelo seja inviável em todas as combinações. Peças sem modelo utilizável não recebem nota fabricada para entrar na classificação.
+
+No resumo, `recommendationObservation.comparison` compara o conjunto alternativo com a montagem recebida no mesmo perfil: `currentTotal`, `recommendedTotal`, `priceDelta`, `simulatedScoreDelta`, `changedSlots`, `scope` e `message`. Ausência de preço/modelo deixa a diferença correspondente `null`. Esse bloco é informativo e não aplica trocas. A explicação de `current_selection` diz expressamente que as peças foram escolhidas pelo usuário.
+
+A interface usa detalhes progressivos para custos, motivo de seleção e exclusões. Explicações são vinculadas à seleção analisada: mudanças reais de orçamento, perfil ou peças exigem nova análise. Se uma resposta anterior omite a refrigeração que o cliente vai manter, as justificativas antigas de custo/compatibilidade são ocultadas e a interface pede recálculo, em vez de reaproveitar uma aprovação obsoleta. Respostas antigas sem o campo mantêm uma mensagem de explicação indisponível.
+
+Regressões: `tests/v3-recommendation-explanations.test.js` (contrato e cenários reais/controlados) e `frontend/tests/recommendation-explanation.test.js` (renderização React SSR). `frontend/tests/e2e/recommendation-explanations-v3.spec.js` prepara navegação por teclado, legibilidade e invalidação após edição para execução em navegador autorizado; coleta de casos não equivale a execução visual.
+
+A explicação por peça também é uma análise opcional isolada: falha inesperada retorna `selectionExplanation.available: false`, `reason: "analysis_failed"` e `retryable: true`; `sections.selectionExplanation` fica indisponível sem apagar seleção, preços, links ou análises independentes.
+
+
+### Complementação de recomendações V3 (21/10/2026)
+
+`POST /recommendations/budget`, `/recommendations/by-usage` e recomendações por faixa aceitam `requirements: { minMemoryGb: 8 | 16 | 32 | 64 }`. Sem ajuste, estudo/uso geral usam mínimo de 8 GB; demais perfis, 16 GB. É requisito de seleção editável, não benchmark. Valor numérico fora da lista retorna 400. A resposta acrescenta `memoryRequirement: { minimumGb, policy }` e `simulationAvailability`, que comunica falta de modelo antes da aplicação.
+
+Nas recomendações de orçamento/uso, `allowPendingCooling: true` permite apresentar uma proposta com acessório preservado somente quando todas as pendências pertencem à refrigeração, não há alerta de conflito e as sete peças principais são compatíveis independentemente. O padrão é `false` (estrito), e valor não booleano retorna 400. A resposta permanece `compatibilityStatus: "unverified"` com `unverifiedChecks` e custo do acessório; a opção não relaxa BIOS, alimentação ou conflito físico confirmado. Recomendações por faixa continuam estritas quanto à refrigeração.
+
+
+### Seleção factual e diagnóstico econômico (21/10/2026)
+
+`POST /recommendations/budget` e `/recommendations/by-usage` aceitam `selectionMode: "performance-ranked" | "price-and-compatibility"`; padrão mantém índices anteriores. O segundo modo busca menor total no catálogo ativo sem filtro/score de desempenho, com os mesmos encaixes/energia e mínimos de capacidade. `requirements.minVramGb` aceita 0/4/6/8/12/16 (padrão 0), além de `minMemoryGb`. VRAM também filtra recomendações por faixa; a faixa rejeita explicitamente o modo factual (400), em vez de ignorá-lo.
+
+Proposta factual retorna `performanceScore: null`, `performanceBasis: "not_used"`, `selectionMode`, `minimumVramGb`, `coreCatalogRulesStatus`, `compatibilityStatus: "unverified"`, `biosSupport` publicado quando conhecido e `unverifiedChecks` com BIOS instalada não inspecionada. Refrigeração e ausência de modelo permanecem separadas. Não é certificado de compra ou desempenho. Falha 422 retorna conclusão com piso/diferença/motivos em `message`/`errors`; no navegador, motivos ficam sob divulgação progressiva. O serviço interno retém `budgetFeasibility` para evidência, sem acrescentá-lo ao envelope HTTP. Exemplos completos em [cenários econômicos](evidence/v3-economy/scenarios.json).
+
+### Vídeo integrado (fechamento V3 de 21/10/2026)
+
+`graphicsMode: "integrated"` é uma escolha explícita, aceita no objeto de seleção ou `components`. Exige os seis IDs `cpuId`, `motherboardId`, `ramId`, `storageId`, `psuId`, `caseId`; uma GPU ausente sem esse modo continua sendo seleção incompleta. Enviar GPU dedicada junto ao modo integrado retorna 400. Capacidade de vídeo da CPU e saídas da placa-mãe são verificações distintas: nomes de socket ou portas sozinhos não comprovam funcionamento.
+
+A recomendação por orçamento único aceita esse modo junto de `selectionMode: "price-and-compatibility"`; RAM mínima padrão 16 GB, editável. `minVramGb` precisa ser zero ou omitido: memória compartilhada não é VRAM dedicada. O modo não é exposto na interface de sugestões por faixa, e a API por faixa o rejeita explicitamente com 400. Não existe SKU nem preço fictício para o vídeo integrado.
+
+Salvar, versões, exportar, compartilhar, relatar, gerar resumo e consultar links preservam o modo com seis produtos. FPS, software e gargalos sem calibração retornam indisponibilidade explícita. Comparações não calculam pontuação sem GPU, e upgrades sem modelo não inventam ganho nem falham com acesso a uma peça ausente. A BIOS mínima publicada e o cooler incluso identificado são separados da BIOS instalada e das dimensões/curvas térmicas não verificadas.

@@ -34,7 +34,7 @@ test('provisional methodology survives score, comparison, report and JSON export
   const score = calculateBuildScore({ build });
   assertProvisional(score);
   assert.ok(Number.isFinite(score.criteria.performanceScore));
-  assert.equal(score.criteria.balanceScore, null);
+  assert.ok(Number.isFinite(score.criteria.balanceScore));
   const comparison = compareBuilds({ builds: [build, currentBuild], comparisonCriteria: 'performance' });
   assertSimulated(comparison);
   assertProvisional(comparison.builds[0]);
@@ -44,23 +44,23 @@ test('provisional methodology survives score, comparison, report and JSON export
   assertProvisional(exported.summary);
 });
 
-test('score-only profiles never unlock FPS, software requirements or bottlenecks', () => {
+test('provisional profiles produce labeled scenarios without claiming measured calibration', () => {
   const partial = { cpuId: build.cpuId, gpuId, ramId: build.ramId, storageId: build.storageId };
   const game = simulateGamePerformance({ build: partial, gameId: 'game-valorant' });
   const software = simulateProfessionalSoftwarePerformance({ build: partial, softwareId: listProfessionalSoftware()[0].id });
   const bottleneck = analyzeBuildBottlenecks(build);
   for (const result of [game, software, bottleneck]) {
     assertProvisional(result);
-    assert.equal(result.available, false);
-    assert.equal(result.reason, 'synthetic_model_not_simulation_calibrated');
+    assert.equal(result.available, true);
+    assert.equal(result.estimation.measuredBenchmark, false);
   }
   const comparison = compareGamePerformance({ build: partial, gameIds: ['game-valorant', 'game-counter-strike-2'] });
   assertProvisional(comparison);
   assertProvisional(comparison.results[0]);
-  assert.equal(game.estimatedFps, null);
-  assert.equal(software.performanceScore, null);
-  assert.equal(software.meetsMinimumRequirements, null);
-  assert.equal(bottleneck.hasBottleneck, null);
+  assert.ok(Number.isFinite(game.estimatedFps));
+  assert.ok(Number.isFinite(software.performanceScore));
+  assert.equal(typeof software.meetsMinimumRequirements, 'boolean');
+  assert.equal(typeof bottleneck.hasBottleneck, 'boolean');
 });
 
 test('rankings label synthetic scores without manufacturing measured evidence', () => {

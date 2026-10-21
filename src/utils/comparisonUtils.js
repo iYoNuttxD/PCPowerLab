@@ -73,7 +73,7 @@ export function normalizeBudgetStatus(budgetStatus) {
 
 export function calculateComparisonScore({ build, criteria }) {
   if (!Number.isFinite(build.performanceScore) || !Number.isFinite(build.costBenefitScore) && criteria !== 'performance') return null;
-  const compatibilityScore = build.compatible ? 15 : -35;
+  const compatibilityScore = build.compatible ? 15 : build.compatibilityStatus === 'incompatible' ? -35 : 0;
   const alertPenalty = (build.alertSummary.high * 12) + (build.alertSummary.medium * 6) + (build.alertSummary.low * 2);
   const bottleneckPenalty = (build.bottleneckSummary.high * 10)
     + (build.bottleneckSummary.medium * 6)

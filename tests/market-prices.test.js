@@ -1,9 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { URL } from 'node:url';
 import { assessMarketQuote, getProductMarket, summarizeBuildPricing, referencePrice, marketIntegrationStatus } from '../src/services/marketPriceService.js';
 import { listComponents } from '../src/services/component.service.js';
 import { getPurchaseLinksByComponentId } from '../src/services/purchaseLinksService.js';
 const now = Date.parse('2026-10-08T12:00:00Z');
+const sourceFacts = JSON.parse(readFileSync(new URL('./fixtures/current-market-source-facts.json', import.meta.url), 'utf8'));
 const quote = (changes = {}) => ({ productId: 'cpu-test', externalProductId: 'fixture-sku', identityVerified: true, storeId: 'store-a', storeName: 'Test fixture A', productUrl: 'https://example.org/product/cpu-test', price: 100, currency: 'BRL', availability: 'available', queriedAt: '2026-10-08T10:00:00Z', validUntil: '2026-10-08T13:00:00Z', updateStatus: 'success', source: { name: 'Synthetic authorized-provider fixture', kind: 'authorized_api', authorized: true, reference: 'fixture-not-a-live-provider', productHosts: ['example.org'] }, ...changes });
 
 test('no provider or real offer is invented for catalog and research links', () => {
@@ -11,7 +14,7 @@ test('no provider or real offer is invented for catalog and research links', () 
   assert.equal(getProductMarket('cpu-test').offers.length, 0);
   for (const component of listComponents()) {
     assert.equal(component.pricing.isMarketQuote, false);
-    assert.equal(component.pricing.queriedAt, component.pricing.updateStatus === 'dated_snapshot' ? '2026-10-08' : null);
+    assert.equal(component.pricing.queriedAt, component.pricing.updateStatus === 'dated_snapshot' ? sourceFacts[component.id].queriedAt : null);
     assert.equal(component.pricing.validUntil, null);
     for (const link of getPurchaseLinksByComponentId(component.id)) {
       assert.equal(link.kind, 'research'); assert.equal(link.productUrl, null);

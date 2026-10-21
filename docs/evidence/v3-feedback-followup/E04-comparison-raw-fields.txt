@@ -1,0 +1,368 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Catálogo técnico
+  - heading "Catálogo de componentes" [level=1]
+  - paragraph: Escolha peças, filtre e compare.
+  - region "Buscar e filtrar":
+    - heading "Buscar e filtrar" [level=2]
+    - generic: Buscar componente
+    - searchbox "Buscar componente": B650
+    - generic: Categoria
+    - combobox "Categoria":
+      - option "Todas as categorias"
+      - option "Processador"
+      - option "Placa de vídeo"
+      - option "Placa-mãe" [selected]
+      - option "Memória RAM"
+      - option "Armazenamento"
+      - option "Fonte de alimentação"
+      - option "Gabinete"
+      - option "Cooler do processador"
+      - option "Ventoinha"
+    - generic: Preço mínimo (R$)
+    - spinbutton "Preço mínimo (R$)"
+    - generic: Preço máximo (R$)
+    - spinbutton "Preço máximo (R$)"
+    - generic: Ordenar por
+    - combobox "Ordenar por":
+      - 'option "Nome: A–Z" [selected]'
+      - 'option "Nome: Z–A"'
+      - option "Menor preço"
+      - option "Maior preço"
+    - generic "Mais filtros"
+    - option "Todas as marcas" [selected]
+    - option "ASUS"
+    - option "Gigabyte"
+    - option "MSI"
+    - option "Todos os valores" [selected]
+    - option "AM4"
+    - option "AM5"
+    - option "LGA1700"
+    - option "Todos os valores" [selected]
+    - option "DDR4"
+    - option "DDR5"
+    - option "Todos os valores" [selected]
+    - option "ATX"
+    - option "mATX"
+    - option "Todos os valores" [selected]
+    - option "B550"
+    - option "B650"
+    - option "B760"
+    - option "H610"
+    - option "Z790"
+    - region "Filtros aplicados":
+      - paragraph: 2 filtros ativos
+      - 'button "Remover filtro Busca: B650"': "Busca: B650 ×"
+      - 'button "Remover filtro Categoria: Placa-mãe"': "Categoria: Placa-mãe ×"
+    - button "Limpar filtros"
+    - paragraph: 88/88 referências datadas · confirme preço e estoque na loja
+  - generic: Selecione peças para começar
+  - link "Ver minha montagem":
+    - /url: /summary
+  - heading "Resultados do catálogo" [level=2]
+  - status: 2 componentes encontrados
+  - region "Peças selecionadas para comparar":
+    - status: 2 de 4 · Placa-mãe
+    - list:
+      - generic: Gigabyte B650M D3HP
+      - button "Retirar Gigabyte B650M D3HP da seleção": Retirar
+      - generic: Gigabyte B650 GAMING X AX V2
+      - button "Retirar Gigabyte B650 GAMING X AX V2 da seleção": Retirar
+    - button "Comparar peças (2)"
+    - button "Limpar seleção"
+  - article:
+    - generic: Placa-mãe
+    - figure:
+      - img "Gigabyte B650 GAMING X AX V2 — Caixa B650 GAMING X AX V2 e placa ATX correspondente, não revisão original sem V2."
+    - heading "Gigabyte B650 GAMING X AX V2" [level=3]
+    - paragraph: Gigabyte
+    - term: Encaixe (socket)
+    - definition: AM5
+    - term: Tipo de memória
+    - definition: DDR5
+    - paragraph: "M.2: 3 · Wi-Fi: Wi-Fi 6E"
+    - strong: R$ 1.299,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/28492/placa-mae-gigabyte-b650-gaming-x-ax-v2-chipset-b650-wifi-amd-am5-atx-ddr5
+    - 'button "Selecionar: Gigabyte B650 GAMING X AX V2"':
+      - text: Selecionar
+    - button "Lojas para Gigabyte B650 GAMING X AX V2":
+      - text: Lojas
+    - button "Detalhes de Gigabyte B650 GAMING X AX V2": Detalhes
+    - 'button "Retirar da comparação: Gigabyte B650 GAMING X AX V2" [pressed]': Na comparação
+  - article:
+    - generic: Placa-mãe
+    - figure:
+      - img "Foto de Gigabyte B650M D3HP"
+    - heading "Gigabyte B650M D3HP" [level=3]
+    - paragraph: Gigabyte
+    - term: Encaixe (socket)
+    - definition: AM5
+    - term: Tipo de memória
+    - definition: DDR5
+    - paragraph: "M.2: 2 · Wi-Fi: Não"
+    - strong: R$ 799,99
+    - paragraph:
+      - link "Referência PIX · Terabyte · 08/10/2026, 14:32 UTC":
+        - /url: https://www.terabyteshop.com.br/produto/28919/placa-mae-gigabyte-b650m-d3hp-chipset-b650-amd-am5-matx-ddr5
+    - 'button "Selecionar: Gigabyte B650M D3HP"':
+      - text: Selecionar
+    - button "Lojas para Gigabyte B650M D3HP":
+      - text: Lojas
+    - button "Detalhes de Gigabyte B650M D3HP": Detalhes
+    - 'button "Retirar da comparação: Gigabyte B650M D3HP" [pressed]': Na comparação
+  - generic "Sobre os índices e filtros"
+  - dialog "Comparar componentes":
+    - heading "Comparar componentes" [level=2]
+    - button "Fechar"
+    - region "Comparação de peças":
+      - heading "Compare Placa-mãe" [level=2]
+      - paragraph: Compare especificações e preços. A compatibilidade com sua montagem é verificada no resumo.
+      - paragraph: “Diferença” destaca o que muda entre as peças. Dados ausentes aparecem como “Não informado”.
+      - generic "Metodologia e limites dos índices"
+      - paragraph: Deslize a tabela para os lados para ver todas as peças. Pelo teclado, foque a tabela e use as setas.
+      - region "Tabela de comparação de peças" [active]:
+        - table "Peças da mesma categoria · preços de referência":
+          - caption: Peças da mesma categoria · preços de referência
+          - rowgroup:
+            - row "Característica Gigabyte B650M D3HP Gigabyte B650 GAMING X AX V2":
+              - columnheader "Característica"
+              - columnheader "Gigabyte B650M D3HP"
+              - columnheader "Gigabyte B650 GAMING X AX V2"
+          - rowgroup:
+            - row "Fotografia":
+              - rowheader "Fotografia"
+              - cell:
+                - figure:
+                  - img "Foto de Gigabyte B650M D3HP"
+              - cell:
+                - figure:
+                  - img "Gigabyte B650 GAMING X AX V2 — Caixa B650 GAMING X AX V2 e placa ATX correspondente, não revisão original sem V2."
+            - row "Condições da referência Referência PIX · Terabyte · 08/10/2026, 14:32 UTC Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+              - rowheader "Condições da referência"
+              - cell "Referência PIX · Terabyte · 08/10/2026, 14:32 UTC":
+                - paragraph:
+                  - link "Referência PIX · Terabyte · 08/10/2026, 14:32 UTC":
+                    - /url: https://www.terabyteshop.com.br/produto/28919/placa-mae-gigabyte-b650m-d3hp-chipset-b650-amd-am5-matx-ddr5
+              - cell "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+                - paragraph:
+                  - link "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+                    - /url: https://www.terabyteshop.com.br/produto/28492/placa-mae-gigabyte-b650-gaming-x-ax-v2-chipset-b650-wifi-amd-am5-atx-ddr5
+            - row "Marca Gigabyte Gigabyte":
+              - rowheader "Marca"
+              - cell "Gigabyte"
+              - cell "Gigabyte"
+            - row "Modelo / código Diferença B650M D3HP B650 GAMING X AX V2":
+              - rowheader "Modelo / código Diferença":
+                - text: Modelo / código
+                - generic: Diferença
+              - cell "B650M D3HP"
+              - cell "B650 GAMING X AX V2"
+            - row "Preço de referência Diferença R$ 799,99 R$ 1.299,99":
+              - rowheader "Preço de referência Diferença":
+                - text: Preço de referência
+                - generic: Diferença
+              - cell "R$ 799,99"
+              - cell "R$ 1.299,99"
+            - row "Encaixe (socket) AM5 AM5":
+              - rowheader "Encaixe (socket)"
+              - cell "AM5"
+              - cell "AM5"
+            - row "Tipo de memória DDR5 DDR5":
+              - rowheader "Tipo de memória"
+              - cell "DDR5"
+              - cell "DDR5"
+            - row "Formato Diferença mATX ATX":
+              - rowheader "Formato Diferença":
+                - text: Formato
+                - generic: Diferença
+              - cell "mATX"
+              - cell "ATX"
+            - row "Chipset da placa-mãe B650 B650":
+              - rowheader "Chipset da placa-mãe"
+              - cell "B650"
+              - cell "B650"
+            - row "Interfaces de armazenamento M.2 NVMe, SATA M.2 NVMe, SATA":
+              - rowheader "Interfaces de armazenamento"
+              - cell "M.2 NVMe, SATA"
+              - cell "M.2 NVMe, SATA"
+            - row "Slots de memória 4 4":
+              - rowheader "Slots de memória"
+              - cell "4"
+              - cell "4"
+            - row "Memória máxima 256 GB 256 GB":
+              - rowheader "Memória máxima"
+              - cell "256 GB"
+              - cell "256 GB"
+            - row "Portas SATA 4 4":
+              - rowheader "Portas SATA"
+              - cell "4"
+              - cell "4"
+            - row "Slots M.2 Diferença 2 3":
+              - rowheader "Slots M.2 Diferença":
+                - text: Slots M.2
+                - generic: Diferença
+              - cell "2"
+              - cell "3"
+            - row "Conectores para cooler 1 1":
+              - rowheader "Conectores para cooler"
+              - cell "1"
+              - cell "1"
+            - row "Conectores para ventoinhas 2 2":
+              - rowheader "Conectores para ventoinhas"
+              - cell "2"
+              - cell "2"
+            - row "Geração PCIe Diferença 4 Não informado":
+              - rowheader "Geração PCIe Diferença":
+                - text: Geração PCIe
+                - generic: Diferença
+              - cell "4"
+              - cell "Não informado"
+            - row "Comprimentos M.2 suportados 80 mm, 110 mm 80 mm, 110 mm":
+              - rowheader "Comprimentos M.2 suportados"
+              - cell "80 mm, 110 mm"
+              - cell "80 mm, 110 mm"
+            - row "Condições de suporte à memória Diferença Velocidade XMP/EXPO e capacidade por módulo dependem de CPU, BIOS e QVL. Não informado":
+              - rowheader "Condições de suporte à memória Diferença":
+                - text: Condições de suporte à memória
+                - generic: Diferença
+              - cell "Velocidade XMP/EXPO e capacidade por módulo dependem de CPU, BIOS e QVL."
+              - cell "Não informado"
+            - row "Dimensões Diferença Não informado 305, 244":
+              - rowheader "Dimensões Diferença":
+                - text: Dimensões
+                - generic: Diferença
+              - cell "Não informado"
+              - cell "305, 244"
+            - row "Gpu Pcie Generation Diferença Não informado 4":
+              - rowheader "Gpu Pcie Generation Diferença":
+                - text: Gpu Pcie Generation
+                - generic: Diferença
+              - cell "Não informado"
+              - cell "4"
+            - row "Cpu Families Diferença Não informado Ryzen7000, Ryzen8000, Ryzen9000":
+              - rowheader "Cpu Families Diferença":
+                - text: Cpu Families
+                - generic: Diferença
+              - cell "Não informado"
+              - cell "Ryzen7000, Ryzen8000, Ryzen9000"
+            - row "Power Connectors Diferença Não informado 24pinATX, 8pinEPS, 4pinEPS":
+              - rowheader "Power Connectors Diferença":
+                - text: Power Connectors
+                - generic: Diferença
+              - cell "Não informado"
+              - cell "24pinATX, 8pinEPS, 4pinEPS"
+            - 'row "Fan Headers Diferença Não informado {\"cpu\":1,\"cpuPump\":1,\"system\":2,\"systemPump\":1}"':
+              - rowheader "Fan Headers Diferença":
+                - text: Fan Headers
+                - generic: Diferença
+              - cell "Não informado"
+              - 'cell "{\"cpu\":1,\"cpuPump\":1,\"system\":2,\"systemPump\":1}"'
+            - row "Front Usb CHeader Diferença Não informado Sim":
+              - rowheader "Front Usb CHeader Diferença":
+                - text: Front Usb CHeader
+                - generic: Diferença
+              - cell "Não informado"
+              - cell "Sim"
+            - 'row "Minimum Bios By Cpu Diferença Não informado {}"':
+              - rowheader "Minimum Bios By Cpu Diferença":
+                - text: Minimum Bios By Cpu
+                - generic: Diferença
+              - cell "Não informado"
+              - 'cell "{}"'
+            - row "Slots de memória 4 4":
+              - rowheader "Slots de memória"
+              - cell "4"
+              - cell "4"
+            - row "Capacidade publicada (fabricante) 256 GB 256 GB":
+              - rowheader "Capacidade publicada (fabricante)"
+              - cell "256 GB"
+              - cell "256 GB"
+            - row "Slots M.2 Diferença 2 3":
+              - rowheader "Slots M.2 Diferença":
+                - text: Slots M.2
+                - generic: Diferença
+              - cell "2"
+              - cell "3"
+            - row "Portas SATA 4 4":
+              - rowheader "Portas SATA"
+              - cell "4"
+              - cell "4"
+            - row "Rede cabeada 2,5 Gbps 2,5 Gbps":
+              - rowheader "Rede cabeada"
+              - cell "2,5 Gbps"
+              - cell "2,5 Gbps"
+            - row "Wi-Fi integrado Diferença Não Wi-Fi 6E":
+              - rowheader "Wi-Fi integrado Diferença":
+                - text: Wi-Fi integrado
+                - generic: Diferença
+              - cell "Não"
+              - cell "Wi-Fi 6E"
+            - row "Bluetooth Diferença Não 5.2 ou 5.3 conforme revisão":
+              - rowheader "Bluetooth Diferença":
+                - text: Bluetooth
+                - generic: Diferença
+              - cell "Não"
+              - cell "5.2 ou 5.3 conforme revisão"
+            - row "Conector USB-C frontal Sim Sim":
+              - rowheader "Conector USB-C frontal"
+              - cell "Sim"
+              - cell "Sim"
+            - row "Taxa do USB-C frontal Diferença 5 Gbps 20 Gbps":
+              - rowheader "Taxa do USB-C frontal Diferença":
+                - text: Taxa do USB-C frontal
+                - generic: Diferença
+              - cell "5 Gbps"
+              - cell "20 Gbps"
+            - row "Atualização de BIOS sem CPU Sim Sim":
+              - rowheader "Atualização de BIOS sem CPU"
+              - cell "Sim"
+              - cell "Sim"
+            - row "Conectores para ventoinhas do gabinete 2 2":
+              - rowheader "Conectores para ventoinhas do gabinete"
+              - cell "2"
+              - cell "2"
+            - row "Pontuação de desempenho (0–100) Não informado Não informado":
+              - rowheader "Pontuação de desempenho (0–100)"
+              - cell "Não informado"
+              - cell "Não informado"
+            - row "Índice por real (pontos / R$ 1.000) Não informado Não informado":
+              - rowheader "Índice por real (pontos / R$ 1.000)"
+              - cell "Não informado"
+              - cell "Não informado"
+            - 'row "Minha montagem Selecionar: Gigabyte B650M D3HP Selecionar: Gigabyte B650 GAMING X AX V2"':
+              - rowheader "Minha montagem"
+              - 'cell "Selecionar: Gigabyte B650M D3HP"':
+                - 'button "Selecionar: Gigabyte B650M D3HP"': Selecionar
+              - 'cell "Selecionar: Gigabyte B650 GAMING X AX V2"':
+                - 'button "Selecionar: Gigabyte B650 GAMING X AX V2"': Selecionar
+            - row "Seleção Remover Gigabyte B650M D3HP da comparação Remover Gigabyte B650 GAMING X AX V2 da comparação":
+              - rowheader "Seleção"
+              - cell "Remover Gigabyte B650M D3HP da comparação":
+                - button "Remover Gigabyte B650M D3HP da comparação": Remover
+              - cell "Remover Gigabyte B650 GAMING X AX V2 da comparação":
+                - button "Remover Gigabyte B650 GAMING X AX V2 da comparação": Remover
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

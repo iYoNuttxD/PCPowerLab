@@ -1,0 +1,131 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Assistente de montagem
+  - heading "Monte seu PC" [level=1]
+  - progressbar "Etapas obrigatórias concluídas"
+  - generic "8 de 9 etapas obrigatórias concluídas Ver etapas":
+    - generic: 8 de 9 etapas obrigatórias concluídas
+    - text: Ver etapas
+  - region "Avançar ou voltar na montagem":
+    - generic "Acompanhamento do orçamento":
+      - term: Limite
+      - definition: R$ 3.000,00
+      - term: Acumulado
+      - definition: R$ 2.489,94
+      - term: Restante
+      - definition: R$ 510,06
+    - strong: Etapa 1 de 9 · Orçamento
+    - button "Voltar" [disabled]:
+      - text: Voltar
+    - button "Avançar":
+      - text: Avançar
+    - paragraph: "Próximo: Revisão"
+    - status: Orçamento definido. Avance para Revisão.
+  - region "Orçamento":
+    - heading "Orçamento" [active] [level=2]
+    - paragraph: Comece pelo limite de gasto e pelo uso principal. Depois, escolha as peças.
+    - generic: Orçamento
+    - spinbutton "Orçamento": "3000"
+    - generic: Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento.
+    - generic: Tipo de uso
+    - combobox "Tipo de uso":
+      - option "Jogos"
+      - option "Trabalho"
+      - option "Edição de vídeo"
+      - option "Programação"
+      - option "Design"
+      - option "Uso geral"
+      - option "Estudos" [selected]
+      - option "Streaming"
+      - option "Upgrade"
+    - generic: Tipo de vídeo da montagem
+    - combobox "Tipo de vídeo da montagem":
+      - option "Placa de vídeo dedicada"
+      - option "Vídeo integrado à CPU — sem comprar GPU separada" [selected]
+    - paragraph: Esse caminho remove somente a GPU dedicada da montagem. A CPU precisa ter vídeo integrado e a placa-mãe precisa de saída de imagem. A sugestão usa preço e encaixes; memória padrão de 16 GB por ser compartilhada. Confira os requisitos dos programas.
+    - generic: Critério da sugestão
+    - combobox "Critério da sugestão" [disabled]:
+      - option "Índices do perfil e orçamento"
+      - option "Preço e encaixes — conferir BIOS antes da compra" [selected]
+    - paragraph: Busca o menor total pelas regras de encaixe e energia do catálogo com os requisitos abaixo. A BIOS instalada e a refrigeração continuam sujeitas a confirmação. O perfil orienta a RAM mínima. Confirme requisitos de cada programa; não há promessa de FPS ou de ausência de gargalos.
+    - generic "Ajustar requisitos da recomendação"
+    - 'option "Pelo perfil: 8 GB estudo/geral; 16 GB demais ou vídeo integrado" [selected]'
+    - option "8 GB ou mais"
+    - option "16 GB ou mais"
+    - option "32 GB ou mais"
+    - option "64 GB ou mais"
+    - option "Sem requisito adicional de VRAM" [selected]
+    - option "4 GB ou mais"
+    - option "6 GB ou mais"
+    - option "8 GB ou mais"
+    - option "12 GB ou mais"
+    - option "16 GB ou mais"
+    - status:
+      - strong: "Seu objetivo:"
+      - text: Quero estudar, assistir aulas e usar ferramentas educacionais. Confira os requisitos dos aplicativos antes de comprar.
+    - paragraph: Os preços são referências, sem frete e montagem. A compatibilidade será verificada na revisão.
+  - complementary:
+    - generic: Build atual
+    - strong:
+      - generic: Total estimado
+      - text: R$ 2.489,94
+    - list:
+      - button "Alterar Processador": Processador
+      - figure "Foto da família":
+        - img "AMD Ryzen 3 3200G Box — fotografia da página exata"
+        - generic: Foto da família
+      - strong: AMD Ryzen 3 3200G Box
+      - button "Remover Processador":
+      - button "Escolher Placa de vídeo": Placa de vídeo
+      - strong: Vídeo integrado à CPU · sem compra separada
+      - button "Alterar Placa-mãe": Placa-mãe
+      - figure:
+        - img "ASRock B450M-HDV R4.0 — fotografia da página exata"
+      - strong: ASRock B450M-HDV R4.0
+      - button "Remover Placa-mãe":
+      - button "Alterar Memória RAM": Memória RAM
+      - figure:
+        - img "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black — Imagem da galeria do SKU exato MCR-VNT3200-16GB. Cor, presença ou ausência de RGB e quantidade de módulos conferidas visualmente. Capacidade, frequência e latência não são legíveis na face frontal; identidade vinculada à página específica cujo título/H1 e SKU correspondem ao produto, não inferida apenas pela aparência."
+      - strong: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black
+      - button "Remover Memória RAM":
+      - button "Alterar Armazenamento": Armazenamento
+      - figure "Foto da família":
+        - img "Kingston A400 240GB SATA SSD — Vista frontal A400 SATA 2,5 polegadas, sem etiqueta de capacidade. Carcaça compartilhada pela família; a capacidade específica consta na ficha, não na foto."
+        - generic: Foto da família
+      - strong: Kingston A400 240GB SATA SSD
+      - button "Remover Armazenamento":
+      - button "Alterar Fonte de alimentação": Fonte de alimentação
+      - figure:
+        - img "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular — Imagem de produto da galeria exata MPE-6502-ACAAG-3BBR; cor, formato e marca revisados visualmente."
+      - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+      - button "Remover Fonte de alimentação":
+      - button "Alterar Gabinete": Gabinete
+      - figure:
+        - img "Imagem de produto DeepCool CC310 Black"
+      - strong: DeepCool CC310 Black
+      - button "Remover Gabinete":
+      - button "Escolher Cooler do processador": Cooler do processador
+      - strong: AMD Wraith Stealth · incluso na CPU
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

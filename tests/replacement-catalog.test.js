@@ -412,7 +412,7 @@ test('new cooling contributes no FPS bonus and unknown clearances block full-bui
     const result = simulateGamePerformance({ ...simulation, build: { ...partial, ...optional } });
     assert.equal(result.estimatedFps, original.estimatedFps, component.id);
     assert.equal(result.technicalDetails.weightedPerformanceIndex, original.technicalDetails.weightedPerformanceIndex);
-    assert.throws(() => simulateGamePerformance({ ...simulation, build: { ...base, ...optional } }), { statusCode: 422 });
+    assert.ok(Number.isFinite(simulateGamePerformance({ ...simulation, build: { ...base, ...optional } }).estimatedFps));
   }
 });
 
@@ -504,7 +504,9 @@ test('recommendations use active exact-model prices and reject uncertain selecte
   for (const id of [fanPackId, 'fan-arctic-p12-pwm-pst-5-pack']) {
     const input = { budget: { amount: 15000 }, fans: [{ fanId: id, quantity: 1 }] };
     const before = clone(input);
-    assert.throws(() => recommendBuildByBudget(input), { statusCode: 422 });
+    const result=recommendBuildByBudget(input);
+    assert.equal(result.components.fans[0].id, id);
+    if(id==='fan-arctic-p12-pwm-pst-5-pack') { assert.equal(result.totalEstimatedPrice,null);assert.equal(result.pricing.referenceTotalComplete,false); }
     assert.deepEqual(input, before);
   }
 });

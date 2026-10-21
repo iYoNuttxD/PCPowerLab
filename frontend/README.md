@@ -1,5 +1,7 @@
 # PCPowerLab Frontend
 
+> Contrato atual da V3: [estimativas não bloqueantes e interface enxuta](../docs/V3-NONBLOCKING-VALIDATION.md). Resultados atuais de navegador/API e limites estão nesse registro; contagens e bloqueios de versões anteriores abaixo são históricos.
+
 > [Consolidação técnica atual](../docs/RA2-CONSOLIDACAO-FINAL.md): **NÃO HOMOLOGADA**. Suíte real em ef7f: 267 E2E aprovados, 1 skip e 18 integrações aprovadas. Delta ac27 conferido em cinco larguras; consolidação visual/cores/zoom pendente. Registros V2.5–V2.12 abaixo são históricos; SSR/handlers não substituem navegador.
 
 Interface web do PCPowerLab, criada com Vite + React para consumir a API REST local do projeto.

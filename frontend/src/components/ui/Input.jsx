@@ -8,10 +8,12 @@ export default function Input({ label, id, hint, error, className = '', ...props
   return (
     <div className={`field ${className}`}>
       <label htmlFor={inputId}>{label}</label>
-      <input {...props} id={inputId} aria-invalid={Boolean(error)}
+      <input {...props} id={inputId} aria-invalid={Boolean(error) || props['aria-invalid'] || false}
         aria-describedby={[props['aria-describedby'], (hint || error) && descriptionId].filter(Boolean).join(' ') || undefined} />
-      {hint && !error && <small id={descriptionId}>{hint}</small>}
-      {error && <small id={descriptionId} className="field-error">{error}</small>}
+      {(hint || error) && <div id={descriptionId} className="field-messages">
+        {hint && <small>{hint}</small>}
+        {error && <small className="field-error" aria-live="polite">{error}</small>}
+      </div>}
     </div>
   );
 }

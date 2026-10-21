@@ -1,4 +1,5 @@
 import { performanceMetadata } from '../utils/performanceMethodology.js';
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { bottleneckVerdict } from '../utils/performanceAvailability.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { buildDecisionMethodology } from '../utils/decisionMethodology.js';
@@ -65,7 +66,9 @@ export function suggestUpgrades(input) {
       hasBottleneck: bottleneckVerdict(bottleneckAnalysis)
     },
     suggestions,
-    summary: buildUpgradeSummary(suggestions, bottleneckAnalysis)
+    summary: usesIntegratedGraphics(currentBuild) && suggestions.length === 0
+      ? 'Sem estimativa calibrada de ganho para esta montagem com vídeo integrado. Compare recursos e preços no catálogo; as peças foram preservadas.'
+      : buildUpgradeSummary(suggestions, bottleneckAnalysis)
   };
 }
 
@@ -119,6 +122,7 @@ function findBestSuggestionForSlot({
   hasBottleneck
 }) {
   const currentComponent = currentBuild[slot];
+  if (!currentComponent) return null;
   const currentPerformance = performanceByComponentId.get(currentComponent.id);
   const currentScore = getPerformanceScore(currentComponent, currentPerformance, usageType);
   if (!Number.isFinite(currentScore)) return null;
@@ -181,7 +185,7 @@ function buildCandidateSuggestion({
   };
   const compatibility = runOptionalAnalysis(() => checkBuildCompatibility(upgradedBuildIds), null);
 
-  if (!compatibility?.compatible) {
+  if (!compatibility || compatibility.alerts?.length > 0) {
     return null;
   }
 
@@ -216,7 +220,8 @@ function buildCandidateSuggestion({
       hasBottleneck
     }),
     explanation,
-    compatibilityStatus: 'compatible',
+    compatibilityStatus: compatibility.status,
+    unverifiedChecks: compatibility.unverifiedChecks,
     coolingAssessment: compatibility.coolingAssessment,
     score: calculateSuggestionScore({
       scoreGain,

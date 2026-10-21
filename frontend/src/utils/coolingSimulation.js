@@ -1,11 +1,12 @@
+import { approximateThermal, approximateAcoustics } from './coolingFallback.js';
 import cpuLedger from '../data/cooling-model/cpu-priors.json' with { type: 'json' };
 import coolerLedger from '../data/cooling-model/cooler-priors.json' with { type: 'json' };
 import acousticLedger from '../data/cooling-model/acoustic-priors.json' with { type: 'json' };
 import frozenScope from '../data/cooling-model/active-model-scope.json' with { type: 'json' };
 import manifest from '../data/cooling-model/model-manifest.json' with { type: 'json' };
 
-// All coefficients remain the independently reviewed r3 design priors. They are
-// neither manufacturer thermal resistances nor empirically calibrated predictions.
+// Registered profiles retain their reviewed r3 priors. Missing profiles use the
+// explicitly labeled broad class model. Neither is an empirically calibrated prediction.
 export const COOLING_MODEL_VERSION = manifest.modelVersion;
 export const DEFAULT_COOLING_CONDITIONS = Object.freeze({
   inletCelsius: 25,
@@ -400,7 +401,7 @@ export function coolingSimulationSignatures({ cpu, cooler, fans = [], caseCompon
     conditions: scopedConditionSignature(conditions, ['extraFanSpeedFraction'])
   });
   const acoustics = stable({
-    modelVersion: COOLING_MODEL_VERSION, cooler: coolingComponentIdentity(cooler),
+    modelVersion: COOLING_MODEL_VERSION, cpu: coolingComponentIdentity(cpu), cooler: coolingComponentIdentity(cooler),
     fans: Array.isArray(fans) ? fans.map(fan => ({ identity: coolingComponentIdentity(fan), quantity: fan?.quantity === undefined ? 1 : fan.quantity, installedCount: fan?.installedCount, stopped: fan?.stopped === undefined ? false : fan.stopped })) : { invalid: fans },
     caseFans: isMissing(caseComponent) ? null : { id: caseComponent?.id, name: caseComponent?.name, category: caseComponent?.category, validRecord: isRecord(caseComponent) && isRecord(caseComponent.specs), includedFanCount: caseComponent?.specs?.includedFanCount },
     conditions: scopedConditionSignature(conditions, ['inletCelsius', 'referenceHeatWatts'])
@@ -408,7 +409,7 @@ export function coolingSimulationSignatures({ cpu, cooler, fans = [], caseCompon
   return { thermal, acoustics, simulation: stable({ thermal, acoustics }) };
 }
 
-/** Pure scenario engine. Unknown imports stay unavailable/partial; no hidden fallback. */
+/** Known profiles use their priors; unknown valid selections use explicit broad class scenarios. */
 export function simulateCooling(input = {}) {
   if (!isRecord(input)) input = { conditions: null };
   const { cpu, cooler, fans = [], caseComponent, conditions } = input;
@@ -418,8 +419,12 @@ export function simulateCooling(input = {}) {
   const extraFanNoiseConditions = normalizeCoolingConditions(scopedConditions(conditions, ['inletCelsius', 'referenceHeatWatts', 'coolerSpeedFraction']));
   const cpuResolution = resolveProfile(cpu, 'cpu');
   const coolerResolution = resolveProfile(cooler, 'cooler');
-  const thermal = thermalSimulation(cpuResolution, coolerResolution, thermalConditions.conditions, thermalConditions.errors);
-  const acoustics = acousticSimulation(cooler, coolerResolution, fans, caseComponent, coolerNoiseConditions.conditions, extraFanNoiseConditions.conditions);
+  let thermal = thermalSimulation(cpuResolution, coolerResolution, thermalConditions.conditions, thermalConditions.errors);
+  let acoustics = acousticSimulation(cooler, coolerResolution, fans, caseComponent, coolerNoiseConditions.conditions, extraFanNoiseConditions.conditions);
+  if (cpuResolution.status !== 'invalid' && cpu && coolerResolution.status !== 'invalid' && thermalConditions.conditions && !thermal.available) thermal = approximateThermal(cpu, cooler, thermalConditions.conditions);
+  if ((cpu || cooler || (Array.isArray(fans) && fans.length) || caseComponent) && normalized.valid && (!acoustics.available || acoustics.coverage === 'partial' || !cooler)) {
+    acoustics = approximateAcoustics({ cpu, cooler, fans, caseComponent, conditions: normalized.conditions }, acoustics);
+  }
   const warnings = [...thermal.warnings, ...acoustics.warnings];
   return deepFreeze({
     modelVersion: COOLING_MODEL_VERSION, conditions: normalized.conditions,
@@ -427,7 +432,8 @@ export function simulateCooling(input = {}) {
     status: thermal.available ? acoustics.coverage === 'partial' ? 'partial' : 'available' : thermal.status,
     available: thermal.available || acoustics.available,
     thermal, acoustics, warnings,
-    provenance: provenance(cpuResolution, coolerResolution, acoustics),
+    provenance: { ...provenance(cpuResolution, coolerResolution, acoustics),
+      ...((thermal.heuristicFallback || acoustics.heuristicFallback) ? { label: 'Estimativas por classe com hipóteses explícitas; sem medição do produto', fallbackAssumptions: [...(thermal.assumptions || []), ...(acoustics.assumptions || [])], fallbackSourceUrls: [...new Set([...(thermal.sourceUrls || []), ...(acoustics.sourceUrls || [])])] } : {}) },
     signatures: coolingSimulationSignatures({ cpu, cooler, fans, caseComponent, conditions })
   });
 }

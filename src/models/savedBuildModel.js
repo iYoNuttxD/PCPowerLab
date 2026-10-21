@@ -1,3 +1,4 @@
+import { requiredSlotsFor, usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 export const savedBuildRequiredComponentSlots = [
   'cpu',
   'motherboard',
@@ -42,6 +43,7 @@ export function normalizeSavedBuildComponents(componentsInput) {
   if (Object.hasOwn(componentsInput, 'fans')) {
     normalized.fans = JSON.parse(JSON.stringify(componentsInput.fans));
   }
+  if (usesIntegratedGraphics(componentsInput)) normalized.graphicsMode = 'integrated';
   return normalized;
 }
 
@@ -54,5 +56,5 @@ export function normalizeText(value) {
 }
 
 export function hasRequiredSavedBuildComponents(components) {
-  return savedBuildRequiredComponentSlots.every((slot) => Boolean(components[slot]));
+  return requiredSlotsFor(components).every((slot) => Boolean(components[slot]));
 }

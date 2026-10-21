@@ -1,0 +1,140 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Painel final
+  - heading "Resumo da configuração" [level=1]
+  - paragraph: Revise as peças e a compatibilidade antes de salvar ou comprar.
+  - paragraph: Voltar à configuração anterior preserva o orçamento. A análise será recalculada; se falhar, use Simular desempenho para tentar novamente.
+  - button "Desfazer última troca"
+  - status:
+    - strong: "Montagem completa: 7 de 7 peças principais selecionadas"
+    - generic: As peças foram mantidas. Gere ou atualize o resumo para conferir compatibilidade e desempenho. Os links das lojas são consultados separadamente.
+  - generic: Painel da build
+  - heading "Visão geral" [level=2]
+  - generic "Ver ou trocar peças"
+  - heading "Orçamento" [level=3]
+  - generic: Dentro
+  - text: Orçamento
+  - strong: R$ 6.000,00
+  - text: Total estimado da build
+  - strong: R$ 5.839,83
+  - text: Restante
+  - strong: R$ 160,17
+  - paragraph: Total de referência, sem frete e montagem.
+  - heading "Status da build" [level=3]
+  - paragraph: Gere o resumo ou analise a montagem para verificar as peças.
+  - generic: Pendente
+  - strong: Compatibilidade não verificada
+  - generic "Pontuação da configuração"
+  - generic: Próximos passos
+  - heading "Ações" [level=2]
+  - button "Gerar resumo final"
+  - button "Salvar como nova configuração":
+    - text: Salvar como nova configuração
+  - button "Compartilhar":
+    - text: Compartilhar
+  - link "Voltar e editar":
+    - /url: /build
+  - link "Comparar build":
+    - /url: /compare
+  - link "Sugerir upgrade":
+    - /url: /upgrades
+  - generic "Relatório e exportação"
+  - generic: Compatibilidade e desempenho
+  - heading "Análises da configuração" [level=2]
+  - heading "Compatibilidade ainda não verificada" [level=3]
+  - paragraph: Monte uma build completa e execute a análise para receber alertas técnicos.
+  - generic "O que a compatibilidade verifica?"
+  - heading "Gargalos" [level=3]
+  - paragraph: A análise será exibida depois que uma build completa for enviada.
+  - generic "O que é um gargalo?"
+  - generic: Jogos
+  - heading "Simulação em jogos" [level=2]
+  - heading "Desempenho estimado" [level=3]
+  - paragraph: Escolha o jogo, resolução e qualidade para atualizar a estimativa de FPS.
+  - status:
+    - generic: Carregando jogos...
+  - generic: Jogo
+  - combobox "Jogo" [disabled]:
+    - option "Selecione um jogo disponível" [selected]
+  - generic: Resolução
+  - combobox "Resolução":
+    - option "1080p" [selected]
+    - option "1440p"
+    - option "4k"
+  - generic: Qualidade
+  - combobox "Qualidade":
+    - option "Baixo"
+    - option "Médio"
+    - option "Alto" [selected]
+    - option "Ultra"
+  - status: Aguarde o carregamento dos jogos.
+  - button "Simular desempenho" [disabled]
+  - region "Temperatura e ruído":
+    - generic: Conforto da montagem
+    - heading "Explore o conforto da montagem" [level=3]
+    - paragraph: Explore o efeito do cooler, das ventoinhas e do ambiente quando precisar, sem sair da sua montagem.
+    - button "Explorar temperatura e ruído"
+    - dialog "Temperatura e ruído":
+      - heading "Temperatura e ruído" [level=2]
+      - button "Fechar" [active]
+      - paragraph: Estimativa ilustrativa do modelo. Dados ausentes continuam indicados; não é uma medição deste computador.
+      - region "Resultados do cenário":
+        - heading "Resultados do cenário" [level=3]
+        - generic: Simulação aproximada
+        - paragraph: Faixas de cenários, não medições. Não confirmam encaixe no gabinete.
+        - generic "Ajustar cenário · entrada 25 °C · cooler 75% RPM"
+        - option "50% da rotação máxima"
+        - option "75% da rotação máxima" [selected]
+        - option "100% da rotação máxima"
+        - 'figure "Temperatura do CPU · faixas de cenários Faixa: hipóteses exploradas · traço: cenário central"':
+          - text: Temperatura do CPU · faixas de cenários
+          - generic: "Faixa: hipóteses exploradas · traço: cenário central"
+          - list:
+            - text: Leve
+            - generic: 16 W
+            - strong: 25–40 °C
+            - text: Mista
+            - generic: 39 W
+            - strong: 30–55 °C
+            - text: Sustentada
+            - generic: 65 W
+            - strong: 35–70 °C
+          - generic: 0 °C
+          - generic: 100 °C
+        - paragraph: Limite térmico não confirmado para este CPU.
+        - region "Ruído simulado":
+          - heading "Ruído da refrigeração selecionada" [level=4]
+          - strong: 19–30 dBA
+          - paragraph: A 1 m · cooler e ventoinhas selecionadas. Não inclui o restante do PC, fans do gabinete não selecionados nem o ambiente.
+          - status: "Subtotal parcial: há fontes sem perfil no cenário."
+          - paragraph: "1 ventoinha(s) inclusa(s) no DeepCool CC310 Black: Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+        - generic "Hipóteses e fontes"
+  - generic: Compra
+  - heading "Links de compra" [level=2]
+  - heading "Preços e pesquisa em lojas" [level=3]
+  - paragraph: Confirme preço e estoque na loja.
+  - status:
+    - generic: Carregando links das lojas...
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

@@ -1,0 +1,14 @@
+
+> pcpowerlab@0.1.0 lint
+> eslint src tests
+
+
+/Users/daniel/Documents/Codex/2026-10-20/task/PCPowerLab/tests/v3-economy-recommendation.test.js
+  77:17  error  'structuredClone' is not defined  no-undef
+  90:17  error  'structuredClone' is not defined  no-undef
+
+✖ 2 problems (2 errors, 0 warnings)
+
+
+> pcpowerlab-frontend@0.1.0 lint
+> eslint src tests scripts playwright.config.js playwright.integration.config.js

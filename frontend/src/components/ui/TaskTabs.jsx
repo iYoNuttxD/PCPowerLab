@@ -18,5 +18,5 @@ export default function TaskTabs({ id, label, tabs, value, onChange }) {
 
 export function TaskPanel({ id, value, active, children }) {
   return <section className="task-panel" role="tabpanel" id={`${id}-panel-${value}`}
-    aria-labelledby={`${id}-tab-${value}`} hidden={!active}>{children}</section>;
+    aria-labelledby={`${id}-tab-${value}`} tabIndex={0} hidden={!active}>{children}</section>;
 }

@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-21T08:51:55.632Z",
+  "type": "manual interactive Chrome inspection via CUA",
+  "url": "http://localhost:3192/summary",
+  "viewport": {
+    "height": 844,
+    "overflow": false,
+    "width": 390
+  },
+  "sourceFreeze": "code-freeze.json",
+  "codeState": "comparison compact"
+}

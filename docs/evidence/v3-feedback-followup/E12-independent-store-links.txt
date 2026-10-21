@@ -1,0 +1,422 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main [active]:
+  - generic: Painel final
+  - heading "Resumo da configuração" [level=1]
+  - paragraph: Revise as peças e a compatibilidade antes de salvar ou comprar.
+  - paragraph: Voltar à configuração anterior preserva o orçamento. A análise será recalculada; se falhar, use Simular desempenho para tentar novamente.
+  - button "Desfazer última troca"
+  - status:
+    - strong: "Montagem completa: 7 de 7 peças principais selecionadas"
+    - generic: Algumas análises estão pendentes ou indisponíveis. Isso não significa que faltam peças; veja o motivo em cada seção. O orçamento e as escolhas foram preservados.
+  - generic: Painel da build
+  - heading "Visão geral" [level=2]
+  - generic "Ver ou trocar peças"
+  - heading "Orçamento" [level=3]
+  - generic: Dentro
+  - text: Orçamento
+  - strong: R$ 4.500,00
+  - text: Total estimado da build
+  - strong: R$ 4.299,84
+  - text: Restante
+  - strong: R$ 200,16
+  - paragraph: Total de referência, sem frete e montagem.
+  - heading "Status da build" [level=3]
+  - paragraph: As peças estão selecionadas, mas algumas especificações precisam ser confirmadas. Veja as verificações pendentes abaixo.
+  - generic: Verificações pendentes
+  - strong: Compatibilidade não verificada
+  - paragraph: Refrigeração não verificada
+  - generic "Pontuação da configuração"
+  - generic: Próximos passos
+  - heading "Ações" [level=2]
+  - button "Gerar resumo final"
+  - button "Salvar como nova configuração":
+    - text: Salvar como nova configuração
+  - button "Compartilhar":
+    - text: Compartilhar
+  - link "Voltar e editar":
+    - /url: /build
+  - link "Comparar build":
+    - /url: /compare
+  - link "Sugerir upgrade":
+    - /url: /upgrades
+  - generic "Relatório e exportação"
+  - status:
+    - generic: Resumo atualizado com análises parciais. As peças e os resultados disponíveis foram mantidos.
+  - generic: Compatibilidade e desempenho
+  - heading "Análises da configuração" [level=2]
+  - heading "Compatibilidade não verificada" [level=3]
+  - generic: Verificações pendentes
+  - paragraph: Refrigeração não verificada
+  - paragraph: Verificação pelas especificações cadastradas. Compatibilidade indica se as peças podem funcionar juntas; não é uma garantia de FPS.
+  - generic "Entenda a compatibilidade"
+  - heading "Verificações pendentes" [level=4]
+  - article:
+    - strong: CPU BIOS UNVERIFIED
+    - paragraph: BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte.
+  - paragraph: As escolhas foram mantidas. Faltam informações técnicas para estas verificações, não necessariamente peças na montagem. Confirme os dados no fabricante antes de comprar.
+  - heading "Análise de gargalos indisponível" [level=3]
+  - generic: Modelo sem calibração para simulação
+  - paragraph: Estimativa de desempenho indisponível para este modelo.
+  - paragraph: Esse resultado se limita aos gargalos. Suas peças e as outras verificações foram mantidas.
+  - generic: Jogos
+  - heading "Simulação em jogos" [level=2]
+  - heading "Desempenho estimado" [level=3]
+  - paragraph: Escolha o jogo, resolução e qualidade para atualizar a estimativa de FPS.
+  - generic: Jogo
+  - combobox "Jogo":
+    - option "Counter-Strike 2"
+    - option "Valorant"
+    - option "Fortnite"
+    - option "League of Legends"
+    - option "Minecraft"
+    - option "GTA V"
+    - option "Red Dead Redemption 2"
+    - option "Cyberpunk 2077" [selected]
+    - option "The Witcher 3"
+    - option "Elden Ring"
+    - option "Forza Horizon 5"
+    - option "Microsoft Flight Simulator"
+    - option "Apex Legends"
+    - option "Call of Duty Warzone"
+    - option "Baldur's Gate 3"
+    - option "Hogwarts Legacy"
+    - option "Starfield"
+    - option "Alan Wake 2"
+    - option "Helldivers 2"
+    - option "Palworld"
+  - generic: Resolução
+  - combobox "Resolução":
+    - option "1080p" [selected]
+    - option "1440p"
+    - option "4k"
+  - generic: Qualidade
+  - combobox "Qualidade":
+    - option "Baixo"
+    - option "Médio"
+    - option "Alto" [selected]
+    - option "Ultra"
+  - status: Simulação indisponível para esta configuração. Confira o motivo abaixo.
+  - button "Simular desempenho"
+  - heading "Simulação indisponível" [level=3]
+  - paragraph: "Simulação indisponível: a compatibilidade da configuração não foi confirmada. Revise os alertas e os dados técnicos pendentes."
+  - paragraph: As peças e as outras análises foram mantidas. A indisponibilidade desta estimativa não significa que faltam componentes.
+  - heading "Recomendação final" [level=3]
+  - paragraph: A compatibilidade não foi verificada por falta de dados técnicos, está dentro do orçamento informado.
+  - strong: Confirme as verificações técnicas pendentes listadas em Compatibilidade antes da compra. As peças selecionadas foram mantidas.
+  - generic "Entender as peças da minha montagem"
+  - generic "Comparar alternativa no orçamento"
+  - option "Escolha uma peça" [selected]
+  - 'option "Processador: AMD Ryzen 5 5500"'
+  - 'option "Placa-mãe: ASUS TUF Gaming B550M-Plus"'
+  - region "Temperatura e ruído":
+    - region "Temperatura e ruído":
+      - heading "Temperatura e ruído" [level=3]
+      - generic: Simulação aproximada
+      - paragraph: Faixas de cenários, não medições. Não confirmam encaixe no gabinete.
+      - generic "Ajustar cenário · entrada 25 °C · cooler 75% RPM"
+      - option "50% da rotação máxima"
+      - option "75% da rotação máxima" [selected]
+      - option "100% da rotação máxima"
+      - status: Selecione um cooler explicitamente.
+      - region "Ruído simulado":
+        - heading "Ruído da refrigeração selecionada" [level=4]
+        - strong: Sem total disponível
+        - paragraph: A 1 m · cooler e ventoinhas selecionadas. Não inclui o restante do PC, fans do gabinete não selecionados nem o ambiente.
+        - status: "Subtotal parcial: há fontes sem perfil no cenário."
+        - paragraph: "1 ventoinha(s) inclusa(s) no DeepCool CC310 Black: Ventoinhas inclusas no gabinete não têm perfil acústico explícito; subtotal parcial."
+      - generic "Hipóteses e fontes"
+  - generic: Compra
+  - heading "Links de compra" [level=2]
+  - heading "Preços e pesquisa em lojas" [level=3]
+  - paragraph: Confirme preço e estoque na loja.
+  - generic: Processador
+  - figure:
+    - img "Fotografia Intel Core i5-12400F com identificação SRL5Z"
+  - strong: Intel Core i5-12400F
+  - generic: "Referência: R$ 829,99"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 08/10/2026, 14:30 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/20072/processador-intel-core-i5-12400f-25ghz-44ghz-turbo-12-geracao-6-cores-12-threads-lga-1700-bx8071512400f
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/core-i5-12400f
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=core%20i5-12400f
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=core%20i5-12400f
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=core%20i5-12400f
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/core-i5-12400f
+      - text: Pesquisar na loja
+  - generic: Placa de vídeo
+  - figure:
+    - img "MSI GeForce RTX 3050 LP 6G OC — Caixa mostra RTX 3050, 6GB, LOW PROFILE e OC; placa de perfil baixo com duas ventoinhas."
+  - strong: MSI GeForce RTX 3050 LP 6G OC
+  - generic: "Referência: R$ 1.399,99"
+  - paragraph:
+    - link "Referência PIX · KaBuM · 08/10/2026, 14:26 UTC":
+      - /url: https://www.kabum.com.br/produto/1012613/placa-de-video-msi-rtx-3050-lp-oc-nvidia-geforce-6gb-gddr6-96-bit-low-profile-g3050lp6c
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/msi-geforce-rtx-3050-lp-6g-oc
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=msi%20geforce%20rtx%203050%20lp%206g%20oc
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=msi%20geforce%20rtx%203050%20lp%206g%20oc
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=msi%20geforce%20rtx%203050%20lp%206g%20oc
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/msi-geforce-rtx-3050-lp-6g-oc
+      - text: Pesquisar na loja
+  - generic: Placa-mãe
+  - figure:
+    - img "MSI PRO H610M-S DDR4 — Caixa PRO H610M-S DDR4 e placa mATX; não modelo H610M-E nem versão Wi-Fi."
+  - strong: MSI PRO H610M-S DDR4
+  - generic: "Referência: R$ 489,99"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 08/10/2026, 14:36 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/31521/placa-mae-msi-pro-h610m-s-chipset-h610-intel-lga-1700-matx-ddr4
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/msi-pro-h610m-s-ddr4
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=msi%20pro%20h610m-s%20ddr4
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=msi%20pro%20h610m-s%20ddr4
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=msi%20pro%20h610m-s%20ddr4
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/msi-pro-h610m-s-ddr4
+      - text: Pesquisar na loja
+  - generic: Memória RAM
+  - figure:
+    - img "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black — Imagem da galeria do SKU exato AH4U08G32C28YNBAA-1. Cor, presença ou ausência de RGB e quantidade de módulos conferidas visualmente. Capacidade, frequência e latência não são legíveis na face frontal; identidade vinculada à página específica cujo título/H1 e SKU correspondem ao produto, não inferida apenas pela aparência."
+  - strong: Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black
+  - generic: "Referência: R$ 529,90"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 08/10/2026, 14:57 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/42825/memoria-ddr4-apacer-nox-rgb-8gb-3200mhz-preto-ah4u08g32c28ynbaa-1
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/apacer-nox-rgb-8gb-1x8gb-ddr4-3200-cl16-black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=apacer%20nox%20rgb%208gb%20(1x8gb)%20ddr4-3200%20cl16%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=apacer%20nox%20rgb%208gb%20(1x8gb)%20ddr4-3200%20cl16%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=apacer%20nox%20rgb%208gb%20(1x8gb)%20ddr4-3200%20cl16%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/apacer-nox-rgb-8gb-1x8gb-ddr4-3200-cl16-black
+      - text: Pesquisar na loja
+  - generic: Armazenamento
+  - figure "Foto da família":
+    - img "Kingston A400 240GB SATA SSD — Vista frontal A400 SATA 2,5 polegadas, sem etiqueta de capacidade. Carcaça compartilhada pela família; a capacidade específica consta na ficha, não na foto."
+    - generic: Foto da família
+  - strong: Kingston A400 240GB SATA SSD
+  - generic: "Referência: R$ 479,99"
+  - paragraph:
+    - link "Referência PIX · Pichau · 08/10/2026, 14:22 UTC":
+      - /url: https://www.pichau.com.br/ssd-kingston-a400-240gb-2-5-sata-iii-6gb-s-leitura-500mb-s-gravacao-350mb-s-sa400s37-240g
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/kingston-a400-240gb-sata-ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=kingston%20a400%20240gb%20sata%20ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=kingston%20a400%20240gb%20sata%20ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=kingston%20a400%20240gb%20sata%20ssd
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/kingston-a400-240gb-sata-ssd
+      - text: Pesquisar na loja
+  - generic: Fonte de alimentação
+  - figure:
+    - img "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular — Imagem de produto da galeria exata MPE-6502-ACAAG-3BBR; cor, formato e marca revisados visualmente."
+  - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+  - generic: "Referência: R$ 349,99"
+  - paragraph:
+    - link "Referência PIX · Terabyte · 08/10/2026, 14:35 UTC":
+      - /url: https://www.terabyteshop.com.br/produto/38210/fonte-cooler-master-mwe-gold-650-v3-650w-80-plus-gold-atx-31-pfc-ativo-mpe-6502-acaag-3bbr
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/cooler-master-mwe-gold-650-v3-atx-3-1-non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=cooler%20master%20mwe%20gold%20650%20v3%20atx%203.1%20non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=cooler%20master%20mwe%20gold%20650%20v3%20atx%203.1%20non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=cooler%20master%20mwe%20gold%20650%20v3%20atx%203.1%20non-modular
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/cooler-master-mwe-gold-650-v3-atx-3-1-non-modular
+      - text: Pesquisar na loja
+  - generic: Gabinete
+  - figure:
+    - img "Imagem de produto DeepCool CC310 Black"
+  - strong: DeepCool CC310 Black
+  - generic: "Referência: R$ 219,99"
+  - paragraph:
+    - link "Referência PIX · Pichau · 20/10/2026, 22:04 UTC":
+      - /url: https://www.pichau.com.br/gabinete-office-deepcool-cc310-mid-tower-preto-r-cc310-bknnm0-g
+  - article:
+    - strong: Kabum
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.kabum.com.br/busca/deepcool-cc310-black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Pichau
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.pichau.com.br/search?q=deepcool%20cc310%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Terabyte
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.terabyteshop.com.br/busca?str=deepcool%20cc310%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Amazon Brasil
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://www.amazon.com.br/s?k=deepcool%20cc310%20black
+      - text: Pesquisar na loja
+  - article:
+    - strong: Mercado Livre
+    - generic: Buscar este componente
+    - link "Pesquisar na loja":
+      - /url: https://lista.mercadolivre.com.br/deepcool-cc310-black
+      - text: Pesquisar na loja
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits
+- generic: "0"

@@ -1,0 +1,96 @@
+{
+  "at": "2026-10-21T08:59:41.149442+00:00",
+  "branch": "max/pcpowerlab-v3-cycle2",
+  "pullRequest": 47,
+  "publicationStatus": "Initial nonblocking implementation verified on remote; this artifact records the fully tested comparison follow-up. Exact final head is verified after push and recorded in Library.",
+  "codeFreeze": {
+    "at": "2026-10-21T08:50:10.117Z",
+    "sourceSha256": "9f7d6f62fe560af55f38d837f04d7286ec49bb666167c1cdf5afcfd9b860e550",
+    "files": 299
+  },
+  "sourceHashAfterTests": "9f7d6f62fe560af55f38d837f04d7286ec49bb666167c1cdf5afcfd9b860e550",
+  "node": {
+    "passed": 1084,
+    "failed": 0,
+    "skipped": 0,
+    "log": "node-final.log"
+  },
+  "e2e": {
+    "passed": 309,
+    "failed": 0,
+    "skipped": 1,
+    "projects": [
+      "desktop",
+      "mobile"
+    ],
+    "skip": "mobile-specific geometry case does not apply to desktop",
+    "log": "e2e-final.log"
+  },
+  "integration": {
+    "passed": 39,
+    "failed": 0,
+    "projects": [
+      "desktop",
+      "tablet",
+      "mobile"
+    ],
+    "realApi": true,
+    "log": "integration-final.log"
+  },
+  "additionalScreenshotChecks": {
+    "passed": 6,
+    "overlapsWithIntegration": true,
+    "notAdditionalUniqueCases": true,
+    "log": "screenshot-cases.log"
+  },
+  "static": {
+    "backendLint": "passed",
+    "frontendLint": "passed",
+    "frontendCheckScripts": 17,
+    "status": "passed",
+    "log": "static-final.log"
+  },
+  "build": {
+    "status": "passed",
+    "warning": "bundle above 500 kB; no bundle budget defined"
+  },
+  "images": {
+    "verified": 95,
+    "active": 95,
+    "blocked": 0,
+    "orphan": 0,
+    "log": "images-final.log"
+  },
+  "manualInspection": {
+    "finalThisChange": [
+      "mobile 390x844",
+      "notebook 1366x900",
+      "monitor 1920x1080",
+      "Wi-Fi resource search:3 boards",
+      "same-chipset comparison including M.2/Wi-Fi/USB",
+      "summary integrated 2489.94, Cyberpunk 4-14 FPS",
+      "cooling popup Shift+Tab/Tab/Escape/return and close visible",
+      "comparison close visible with table focused",
+      "home 1920",
+      "viewport restored to 1710x952"
+    ],
+    "nativeZoom200Final": "not repeated; prior native access reported locked screen; no unlock attempted",
+    "userCycle3": false,
+    "participantOriginalBuildReproduced": false,
+    "record": "manual-final-checks.json"
+  },
+  "estimates": {
+    "measuredBenchmark": false,
+    "performanceModel": "component-scenario-v2",
+    "coolingModel": "cooling-class-v1",
+    "unknownDataBlocksCore": false
+  },
+  "remoteVerifiedAt": "2026-10-21T08:37:32.966871+00:00",
+  "pullRequestDraft": true,
+  "publishedImplementationBase": "bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71",
+  "followup": {
+    "compactComparison": true,
+    "stickyCloseAllDialogs": true,
+    "finalCodeChangedAfterTests": false
+  }
+}

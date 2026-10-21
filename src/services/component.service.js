@@ -1,3 +1,4 @@
+import { estimatedParameter } from '../utils/estimatedPerformance.js';
 import { corePerformanceCategories, isUsableScoreParameter, hasVerifiedMeasurementEvidence, isSimulationParameterUsable } from '../utils/performanceAvailability.js';
 import { referencePrice } from './marketPriceService.js';
 import { findPerformanceParameterRecordByComponentId } from '../data/performance-parameter.repository.js';
@@ -53,16 +54,18 @@ function validateComponentCategory(category) {
 export function withCatalogPerformance(component) {
   const parameter = ['cpu', 'gpu', 'ram', 'storage'].includes(component.category)
     ? findPerformanceParameterRecordByComponentId(component.id) : null;
-  const score = corePerformanceCategories.includes(component.category) && !isUsableScoreParameter(component, parameter) ? null : parameter?.performanceScore;
+  const fallback = corePerformanceCategories.includes(component.category) && !isUsableScoreParameter(component, parameter) ? estimatedParameter(component) : null;
+  const score = fallback?.performanceScore ?? parameter?.performanceScore;
   const performanceScore = typeof score === 'number' && Number.isFinite(score) && score >= 0 && score <= 100 ? score : null;
   return { ...withCatalogIdentity(component), performanceScore,
+    ...((fallback || (performanceScore !== null && component.performanceModelStatus === 'unavailable')) ? { performanceModelStatus: 'estimated', performanceModelNotes: 'Aproximação da família ou classe do componente, com faixa ampliada na simulação. Não é benchmark medido.' } : {}),
     performanceMethodology: performanceScore === null ? null
       : {
         basis: hasVerifiedMeasurementEvidence(parameter, component) ? 'measured' : 'simulated',
-        kind: parameter?.scoreKind || 'internal-calibration',
-        modelVersion: parameter?.modelVersion || 'catalog-internal-v1',
+        kind: fallback?.estimateBasis || parameter?.scoreKind || 'internal-calibration',
+        modelVersion: fallback?.modelVersion || parameter?.modelVersion || 'catalog-internal-v1',
         shortLabel: hasVerifiedMeasurementEvidence(parameter, component) ? 'Índice baseado em benchmark' : 'Pontuação simulada',
-        simulationSupported: isSimulationParameterUsable(component, parameter),
+        simulationSupported: Boolean(fallback) || isSimulationParameterUsable(component, parameter),
         measuredBenchmark: hasVerifiedMeasurementEvidence(parameter, component),
         description: 'Indice interno estimado de 0 a 100; compare apenas pecas da mesma categoria. Nao representa benchmark medido nem FPS.'
       } };

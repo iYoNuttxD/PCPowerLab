@@ -1,3 +1,4 @@
+import { usesIntegratedGraphics } from '../../../../src/utils/graphicsSelection.js';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import { Trash2 } from 'lucide-react';
 import Button from '../ui/Button.jsx';
@@ -25,7 +26,7 @@ export default function BuildSummaryCard({ selectedComponents, totalPrice, onRem
                   {componentLabels[type]}
                 </button>
               ) : <span>{componentLabels[type]}</span>}
-              <ComponentIdentity component={component} category={type} fallback="Não selecionado" />
+              {type === 'gpu' && usesIntegratedGraphics(selectedComponents) ? <strong>Vídeo integrado à CPU · sem compra separada</strong> : type === 'cooler' && !component && selectedComponents.cpu?.specs?.includedCpuCooler?.name ? <strong>{selectedComponents.cpu.specs.includedCpuCooler.name} · incluso na CPU</strong> : <ComponentIdentity component={component} category={type} fallback="Não selecionado" />}
               {component && onRemove && (
                 <Button variant="ghost" size="sm" onClick={() => onRemove(type)} aria-label={`Remover ${componentLabels[type]}`}>
                   <Trash2 size={16} aria-hidden="true" />

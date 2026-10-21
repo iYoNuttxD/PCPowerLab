@@ -1,0 +1,56 @@
+{
+  "recordedAt": "2026-10-21T02:36:26.535327+00:00",
+  "baseHead": "8cc0c8fa1098e8ef119dae43b5578e2a281a3f49",
+  "branch": "max/pcpowerlab-v3-cycle2",
+  "node": {
+    "passed": 1040,
+    "failed": 0,
+    "skipped": 0,
+    "log": "v3-complete-node.log"
+  },
+  "browser": {
+    "passed": 309,
+    "failed": 0,
+    "skipped": 1,
+    "retried": 0,
+    "total": 310,
+    "log": "v3-release-e2e.log",
+    "skipReason": "Mobile-only geometry does not apply to desktop project."
+  },
+  "integration": {
+    "passed": 18,
+    "failed": 0,
+    "log": "v3-complete-integration.log"
+  },
+  "checks": {
+    "ssrHandlersAndContrastScriptsPassed": 17,
+    "contrastTokenPairsPassed": 64,
+    "imagesPassed": 93,
+    "lint": "passed",
+    "build": "passed with existing >500 kB chunk warning"
+  },
+  "earlierAttempt": {
+    "passed": 308,
+    "failed": 1,
+    "skipped": 1,
+    "failure": "Build-comparison timeout",
+    "isolatedRecheckPassed": 3,
+    "finalFullRunPassed": true
+  },
+  "manual": {
+    "browser": "Chrome on authorized Mac",
+    "viewportsCss": [
+      390,
+      1366,
+      1920
+    ],
+    "nativeZoomPercent": 200,
+    "fullSourceConfigurationReproduced": false,
+    "humanCycle3Executed": false,
+    "screenReaderOrForcedColorsExecuted": false
+  },
+  "feedbackSignals": 67,
+  "catalogActive": 93,
+  "deployment": false,
+  "merge": false
+}

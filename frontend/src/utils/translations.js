@@ -7,6 +7,8 @@ export const severityLabels = {
 };
 
 export const statusLabels = {
+  RAM_CAPACITY_LIMITATION: 'Memória abaixo dos requisitos',
+  CPU_BIOS_UNVERIFIED: 'Versão de BIOS a confirmar',
   'Within Range': 'Dentro da faixa',
   'within range': 'Dentro da faixa',
   within_range: 'Dentro da faixa',
@@ -23,6 +25,13 @@ export const statusLabels = {
   incompatible: 'Incompatível',
   unverified: 'Não verificada',
   unverified_compatibility: 'Compatibilidade pendente',
+  analysis_failed: 'Falha temporária da análise',
+  invalid_analysis_input: 'Revise os dados desta análise',
+  synthetic_model_not_simulation_calibrated: 'Modelo sem calibração para simulação',
+  integrated_graphics_not_calibrated: 'Vídeo integrado sem calibração',
+  compatibility_analysis_unavailable: 'Verificação de compatibilidade pendente',
+  unverified_build: 'Verificações técnicas pendentes',
+  currency_mismatch: 'Moeda do orçamento diferente dos preços',
   performance_model_unavailable: 'Esta configuração inclui componentes sem parâmetros de desempenho calibrados. Não é possível estimar seu desempenho.',
   fans: 'Ventoinhas',
   excellent: 'Excelente',
@@ -145,11 +154,14 @@ export const bottleneckTypeLabels = {
   cpu_bottleneck: 'Gargalo de processador',
   gpu_bottleneck: 'Gargalo de placa de vídeo',
   ram_limitation: 'Limitação de memória RAM',
+  ram_capacity_limitation: 'Capacidade de memória RAM',
+  storage_speed_limitation: 'Velocidade do armazenamento',
   storage_limitation: 'Limitação de armazenamento',
   psu_headroom_warning: 'Atenção na fonte'
 };
 
 export const issueCodeLabels = {
+  PSU_POWER_UNVERIFIED: 'Potência da fonte a confirmar',
   CPU_MOTHERBOARD_SOCKET_INCOMPATIBLE: 'Socket de processador incompatível',
   RAM_MOTHERBOARD_TYPE_INCOMPATIBLE: 'Tipo de memória incompatível',
   STORAGE_INTERFACE_INCOMPATIBLE: 'Interface de armazenamento incompatível',
@@ -227,6 +239,7 @@ function humanizeTechnicalKey(value) {
 // Presentation-only cleanup of known legacy Portuguese messages; keep IDs and API values intact.
 export function readableMessage(value) {
   if (typeof value !== 'string') return value;
+  if (statusLabels[value]) return statusLabels[value];
   const words = { atencao: 'atenção', configuracao: 'configuração', configuracoes: 'configurações', fans: 'ventoinhas', nao: 'não', verificacoes: 'verificações', analise: 'análise' };
   return value.replace(/\bos fans incluídos\b/gi, phrase => phrase[0] === 'O' ? 'As ventoinhas incluídas' : 'as ventoinhas incluídas')
     .replace(/\b(atencao|configuracao|configuracoes|fans|nao|verificacoes|analise)\b/gi, word => {

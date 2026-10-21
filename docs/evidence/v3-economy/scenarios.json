@@ -1,0 +1,825 @@
+{
+  "recordedAt": "2026-10-21T03:02:56.143Z",
+  "scope": "Reference prices and existing catalog fit/power rules; not installed BIOS or performance certification.",
+  "results": [
+    {
+      "input": {
+        "budget": {
+          "amount": 3000
+        },
+        "usageType": "study",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minVramGb": 0
+        }
+      },
+      "status": 422,
+      "message": "Não há proposta confirmada até R$ 3.000,00. Menor total encontrado pelas regras de encaixe e energia do catálogo: R$ 4.339,84; faltam R$ 1.339,84. BIOS instalada e refrigeração ainda precisam de confirmação.",
+      "errors": [
+        "Requisito: pelo menos 8 GB de RAM, sem requisito adicional de VRAM. Preços de referência, sem frete, montagem ou periféricos; refrigeração selecionada preservada.",
+        "Limite inferior por preços isolados: R$ 3.235,05. Essa soma pode misturar peças incompatíveis e não é uma montagem aprovada.",
+        "Caminho mais barato de R$ 3.289,75 não aprovado: Conectores de alimentação da GPU não confirmados. BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte. Comprimento da GPU ou limite do gabinete nao informado."
+      ],
+      "budgetFeasibility": {
+        "minimumVerifiedTotal": null,
+        "minimumCatalogRulesTotal": 4339.84,
+        "scope": "Core catalog fit/power rules; installed BIOS and included cooler not inspected.",
+        "lowerBound": 3235.05,
+        "minimumCatalogRulesComponents": {
+          "cpu": "cpu-ryzen-5-5500",
+          "motherboard": "mb-asus-tuf-b550m-plus",
+          "gpu": "gpu-msi-rtx-3050-lp-6g-oc",
+          "ram": "ram-apacer-nox-rgb-8gb-3200",
+          "storage": "ssd-kingston-a400-240gb",
+          "psu": "psu-coolermaster-mwe-gold650-v3",
+          "case": "case-deepcool-cc310-black"
+        },
+        "pendingTotal": 3289.75,
+        "pendingChecks": [
+          {
+            "code": "GPU_POWER_CONNECTORS_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Conectores de alimentação da GPU não confirmados."
+          },
+          {
+            "code": "CPU_BIOS_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte."
+          },
+          {
+            "code": "CASE_GPU_LENGTH_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Comprimento da GPU ou limite do gabinete nao informado."
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "budget": {
+          "amount": 4000
+        },
+        "usageType": "study",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minVramGb": 0
+        }
+      },
+      "status": 422,
+      "message": "Não há proposta confirmada até R$ 4.000,00. Menor total encontrado pelas regras de encaixe e energia do catálogo: R$ 4.339,84; faltam R$ 339,84. BIOS instalada e refrigeração ainda precisam de confirmação.",
+      "errors": [
+        "Requisito: pelo menos 8 GB de RAM, sem requisito adicional de VRAM. Preços de referência, sem frete, montagem ou periféricos; refrigeração selecionada preservada.",
+        "Limite inferior por preços isolados: R$ 3.235,05. Essa soma pode misturar peças incompatíveis e não é uma montagem aprovada.",
+        "Caminho mais barato de R$ 3.289,75 não aprovado: Conectores de alimentação da GPU não confirmados. BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte. Comprimento da GPU ou limite do gabinete nao informado."
+      ],
+      "budgetFeasibility": {
+        "minimumVerifiedTotal": null,
+        "minimumCatalogRulesTotal": 4339.84,
+        "scope": "Core catalog fit/power rules; installed BIOS and included cooler not inspected.",
+        "lowerBound": 3235.05,
+        "minimumCatalogRulesComponents": {
+          "cpu": "cpu-ryzen-5-5500",
+          "motherboard": "mb-asus-tuf-b550m-plus",
+          "gpu": "gpu-msi-rtx-3050-lp-6g-oc",
+          "ram": "ram-apacer-nox-rgb-8gb-3200",
+          "storage": "ssd-kingston-a400-240gb",
+          "psu": "psu-coolermaster-mwe-gold650-v3",
+          "case": "case-deepcool-cc310-black"
+        },
+        "pendingTotal": 3289.75,
+        "pendingChecks": [
+          {
+            "code": "GPU_POWER_CONNECTORS_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Conectores de alimentação da GPU não confirmados."
+          },
+          {
+            "code": "CPU_BIOS_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte."
+          },
+          {
+            "code": "CASE_GPU_LENGTH_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Comprimento da GPU ou limite do gabinete nao informado."
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "budget": {
+          "amount": 4500
+        },
+        "usageType": "study",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minVramGb": 0
+        }
+      },
+      "status": 200,
+      "total": 4339.84,
+      "remaining": 160.16,
+      "compatibilityStatus": "unverified",
+      "coreCatalogRulesStatus": "compatible",
+      "performanceScore": null,
+      "simulationAvailability": {
+        "available": false,
+        "performanceBasis": "simulated",
+        "scoreOnly": true,
+        "reason": "synthetic_model_not_simulation_calibrated",
+        "message": "Estimativa de desempenho indisponível para este modelo.",
+        "componentsWithoutPerformanceModel": [
+          "gpu-msi-rtx-3050-lp-6g-oc"
+        ]
+      },
+      "biosSupport": {
+        "cpuId": "cpu-ryzen-5-5500",
+        "motherboardId": "mb-asus-tuf-b550m-plus",
+        "minimumVersion": "2423",
+        "installedVersion": null,
+        "sourceUrl": "https://www.asus.com/br/motherboards-components/motherboards/all-series/tuf-gaming-b550m-plus/helpdesk_cpu?model2Name=TUF-GAMING-B550M-PLUS",
+        "verifiedAt": "2026-10-21",
+        "scope": "Published support table; not evidence of the installed firmware."
+      },
+      "unverifiedChecks": [
+        {
+          "code": "CPU_BIOS_UNVERIFIED",
+          "verification": "unverified",
+          "message": "O fabricante publica suporte a esta CPU a partir da BIOS 2423 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra."
+        }
+      ],
+      "coolingAssessment": {
+        "status": "unverified",
+        "scope": "cooling_not_assessed",
+        "unverifiedChecks": [
+          {
+            "code": "CPU_COOLING_FIT_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Nenhum cooler avulso selecionado. A identidade e as medidas do cooler incluído ou já disponível não foram verificadas; isso não significa que seja necessário comprar outro."
+          }
+        ],
+        "alerts": []
+      },
+      "components": {
+        "cpu": {
+          "id": "cpu-ryzen-5-5500",
+          "name": "AMD Ryzen 5 5500",
+          "price": 559.99,
+          "specs": {
+            "socket": "AM4",
+            "cores": 6,
+            "threads": 12,
+            "baseClockGhz": 3.6,
+            "boostClockGhz": 4.2,
+            "tdpWatts": 65
+          }
+        },
+        "motherboard": {
+          "id": "mb-asus-tuf-b550m-plus",
+          "name": "ASUS TUF Gaming B550M-Plus",
+          "price": 799.99,
+          "specs": {
+            "socket": "AM4",
+            "memoryType": "DDR4",
+            "formFactor": "mATX",
+            "chipset": "B550",
+            "storageInterfaces": [
+              "M.2 NVMe",
+              "SATA"
+            ],
+            "memorySlots": 4,
+            "maxMemoryGb": 128,
+            "m2Slots": 2,
+            "m2SupportedLengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+            "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+          }
+        },
+        "gpu": {
+          "id": "gpu-msi-rtx-3050-lp-6g-oc",
+          "name": "MSI GeForce RTX 3050 LP 6G OC",
+          "price": 1399.99,
+          "specs": {
+            "vramGb": 6,
+            "memoryType": "GDDR6",
+            "memoryBusBits": 96,
+            "boostClockMhz": 1492,
+            "memorySpeedGbps": 14,
+            "lengthMm": 174,
+            "widthMm": 69,
+            "heightMm": 42,
+            "recommendedPsuWatts": 300,
+            "powerConnectors": null,
+            "pciExpress": "4.0 x16 physical, x8 electrical",
+            "tdpWatts": 70,
+            "cudaCores": 2304,
+            "powerConnectorsNote": "No supplementary connector field on manufacturer spec page; slot-powered behavior requires explicit verification rather than guessing from 70W.",
+            "powerConnectorNotes": null
+          }
+        },
+        "ram": {
+          "id": "ram-apacer-nox-rgb-8gb-3200",
+          "name": "Apacer NOX RGB 8GB (1x8GB) DDR4-3200 CL16 Black",
+          "price": 529.9,
+          "specs": {
+            "memoryType": "DDR4",
+            "capacityGb": 8,
+            "modulesPerKit": 1,
+            "capacityPerModuleGb": 8,
+            "speedMhz": 3200,
+            "dataRateMTs": 3200,
+            "casLatency": 16,
+            "timings": "16-20-20-38",
+            "voltageV": 1.35,
+            "speedProfile": "Intel XMP 2.0",
+            "rgb": true,
+            "heightMm": null,
+            "pins": 288
+          }
+        },
+        "storage": {
+          "id": "ssd-kingston-a400-240gb",
+          "name": "Kingston A400 240GB SATA SSD",
+          "price": 479.99,
+          "specs": {
+            "interface": "SATA",
+            "storageType": "SSD",
+            "capacityGb": 240,
+            "readSpeedMbS": 500,
+            "writeSpeedMbS": 350,
+            "speedBasis": "Máximo sequencial anunciado"
+          }
+        },
+        "psu": {
+          "id": "psu-coolermaster-mwe-gold650-v3",
+          "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+          "price": 349.99,
+          "specs": {
+            "watts": 650,
+            "efficiency": "80 Plus Gold",
+            "atxVersion": "3.1",
+            "formFactor": "ATX",
+            "dimensionsMm": {
+              "length": 140,
+              "width": 150,
+              "height": 86
+            },
+            "modular": false,
+            "inputVoltage": "100-240V",
+            "connectors": {
+              "atx24": 1,
+              "eps8Or4plus4": 2,
+              "pcie6plus2": 4,
+              "sata": 6,
+              "peripheral4": 3,
+              "native12v2x6": 0
+            },
+            "pcie8PinConnectors": 4,
+            "native12v2x6Connectors": 0
+          }
+        },
+        "case": {
+          "id": "case-deepcool-cc310-black",
+          "name": "DeepCool CC310 Black",
+          "price": 219.99,
+          "specs": {
+            "supportedFormFactors": [
+              "mATX",
+              "ITX"
+            ],
+            "color": "Black",
+            "dimensionsMm": {
+              "length": 308,
+              "width": 185,
+              "height": 356
+            },
+            "maxGpuLengthMm": 280,
+            "maxCoolerHeightMm": 160,
+            "maxPsuLengthMm": 160,
+            "supportedPsuFormFactors": [
+              "ATX"
+            ],
+            "radiatorSizesMm": [],
+            "radiatorLayouts": {},
+            "radiatorSupportStatus": "unsupported",
+            "fanMounts": [
+              {
+                "diameterMm": 120,
+                "capacity": 2
+              }
+            ],
+            "fanLayouts": {
+              "front": [
+                "1x120"
+              ],
+              "rear": [
+                "1x120"
+              ]
+            },
+            "includedFanCount": 1,
+            "includedFanDiameterMm": 120,
+            "includedFansPosition": "rear",
+            "maxFanThicknessMm": null,
+            "maxRadiatorThicknessMm": null,
+            "frontUsbC": false,
+            "coolingSupportNotes": "Sem suporte a radiador na especificação oficial. Dois pontos de 120 mm, um frontal e um traseiro; traseiro incluído. Limites de espessura não verificados."
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "budget": {
+          "amount": 5000
+        },
+        "usageType": "programming",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minVramGb": 8
+        }
+      },
+      "status": 422,
+      "message": "Não há proposta confirmada até R$ 5.000,00. Menor total encontrado pelas regras de encaixe e energia do catálogo: R$ 5.009,84; faltam R$ 9,84. BIOS instalada e refrigeração ainda precisam de confirmação.",
+      "errors": [
+        "Requisito: pelo menos 16 GB de RAM e 8 GB de VRAM. Preços de referência, sem frete, montagem ou periféricos; refrigeração selecionada preservada.",
+        "Limite inferior por preços isolados: R$ 4.665,23. Essa soma pode misturar peças incompatíveis e não é uma montagem aprovada.",
+        "Caminho mais barato de R$ 4.739,84 não aprovado: BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte."
+      ],
+      "budgetFeasibility": {
+        "minimumVerifiedTotal": null,
+        "minimumCatalogRulesTotal": 5009.84,
+        "scope": "Core catalog fit/power rules; installed BIOS and included cooler not inspected.",
+        "lowerBound": 4665.23,
+        "minimumCatalogRulesComponents": {
+          "cpu": "cpu-ryzen-5-5500",
+          "motherboard": "mb-asus-tuf-b550m-plus",
+          "gpu": "gpu-asrock-rx-7600-challenger-pro-8gb",
+          "ram": "ram-mancer-vant-s-16gb-3200",
+          "storage": "ssd-kingston-a400-240gb",
+          "psu": "psu-coolermaster-mwe-gold650-v3",
+          "case": "case-montech-x2-plus-white"
+        },
+        "pendingTotal": 4739.84,
+        "pendingChecks": [
+          {
+            "code": "CPU_BIOS_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte."
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "budget": {
+          "amount": 5500
+        },
+        "usageType": "programming",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minVramGb": 8
+        }
+      },
+      "status": 200,
+      "total": 5009.84,
+      "remaining": 490.16,
+      "compatibilityStatus": "unverified",
+      "coreCatalogRulesStatus": "compatible",
+      "performanceScore": null,
+      "simulationAvailability": {
+        "available": false,
+        "performanceBasis": "simulated",
+        "scoreOnly": false,
+        "reason": "performance_model_unavailable",
+        "message": "Estimativa de desempenho indisponível para este modelo.",
+        "componentsWithoutPerformanceModel": [
+          "gpu-asrock-rx-7600-challenger-pro-8gb"
+        ]
+      },
+      "biosSupport": {
+        "cpuId": "cpu-ryzen-5-5500",
+        "motherboardId": "mb-asus-tuf-b550m-plus",
+        "minimumVersion": "2423",
+        "installedVersion": null,
+        "sourceUrl": "https://www.asus.com/br/motherboards-components/motherboards/all-series/tuf-gaming-b550m-plus/helpdesk_cpu?model2Name=TUF-GAMING-B550M-PLUS",
+        "verifiedAt": "2026-10-21",
+        "scope": "Published support table; not evidence of the installed firmware."
+      },
+      "unverifiedChecks": [
+        {
+          "code": "CPU_BIOS_UNVERIFIED",
+          "verification": "unverified",
+          "message": "O fabricante publica suporte a esta CPU a partir da BIOS 2423 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra."
+        }
+      ],
+      "coolingAssessment": {
+        "status": "unverified",
+        "scope": "cooling_not_assessed",
+        "unverifiedChecks": [
+          {
+            "code": "CPU_COOLING_FIT_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Nenhum cooler avulso selecionado. A identidade e as medidas do cooler incluído ou já disponível não foram verificadas; isso não significa que seja necessário comprar outro."
+          }
+        ],
+        "alerts": []
+      },
+      "components": {
+        "cpu": {
+          "id": "cpu-ryzen-5-5500",
+          "name": "AMD Ryzen 5 5500",
+          "price": 559.99,
+          "specs": {
+            "socket": "AM4",
+            "cores": 6,
+            "threads": 12,
+            "baseClockGhz": 3.6,
+            "boostClockGhz": 4.2,
+            "tdpWatts": 65
+          }
+        },
+        "motherboard": {
+          "id": "mb-asus-tuf-b550m-plus",
+          "name": "ASUS TUF Gaming B550M-Plus",
+          "price": 799.99,
+          "specs": {
+            "socket": "AM4",
+            "memoryType": "DDR4",
+            "formFactor": "mATX",
+            "chipset": "B550",
+            "storageInterfaces": [
+              "M.2 NVMe",
+              "SATA"
+            ],
+            "memorySlots": 4,
+            "maxMemoryGb": 128,
+            "m2Slots": 2,
+            "m2SupportedLengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+            "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+          }
+        },
+        "gpu": {
+          "id": "gpu-asrock-rx-7600-challenger-pro-8gb",
+          "name": "ASRock Radeon RX 7600 Challenger Pro 8GB OC",
+          "price": 1959.99,
+          "specs": {
+            "vramGb": 8,
+            "memoryType": "GDDR6",
+            "memoryBusBits": 128,
+            "tdpWatts": null,
+            "lengthMm": 303,
+            "recommendedPsuWatts": 550,
+            "powerConnectors": [
+              {
+                "type": "pcie-8pin",
+                "count": 1
+              }
+            ]
+          }
+        },
+        "ram": {
+          "id": "ram-mancer-vant-s-16gb-3200",
+          "name": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+          "price": 619.99,
+          "specs": {
+            "memoryType": "DDR4",
+            "capacityGb": 16,
+            "modulesPerKit": 1,
+            "capacityPerModuleGb": 16,
+            "speedMhz": 3200,
+            "dataRateMTs": 3200,
+            "casLatency": 19,
+            "timings": "19-19-19-43",
+            "voltageV": 1.35,
+            "speedProfile": null,
+            "rgb": false,
+            "dimensionsMm": {
+              "length": 136,
+              "height": 30,
+              "thickness": 7
+            },
+            "pins": 288
+          }
+        },
+        "storage": {
+          "id": "ssd-kingston-a400-240gb",
+          "name": "Kingston A400 240GB SATA SSD",
+          "price": 479.99,
+          "specs": {
+            "interface": "SATA",
+            "storageType": "SSD",
+            "capacityGb": 240,
+            "readSpeedMbS": 500,
+            "writeSpeedMbS": 350,
+            "speedBasis": "Máximo sequencial anunciado"
+          }
+        },
+        "psu": {
+          "id": "psu-coolermaster-mwe-gold650-v3",
+          "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+          "price": 349.99,
+          "specs": {
+            "watts": 650,
+            "efficiency": "80 Plus Gold",
+            "atxVersion": "3.1",
+            "formFactor": "ATX",
+            "dimensionsMm": {
+              "length": 140,
+              "width": 150,
+              "height": 86
+            },
+            "modular": false,
+            "inputVoltage": "100-240V",
+            "connectors": {
+              "atx24": 1,
+              "eps8Or4plus4": 2,
+              "pcie6plus2": 4,
+              "sata": 6,
+              "peripheral4": 3,
+              "native12v2x6": 0
+            },
+            "pcie8PinConnectors": 4,
+            "native12v2x6Connectors": 0
+          }
+        },
+        "case": {
+          "id": "case-montech-x2-plus-white",
+          "name": "Montech X2 Plus White",
+          "price": 239.9,
+          "specs": {
+            "supportedFormFactors": [
+              "ATX",
+              "mATX",
+              "ITX"
+            ],
+            "supportedPsuFormFactors": [
+              "ATX"
+            ],
+            "maxFanThicknessMm": null,
+            "maxRadiatorThicknessMm": null,
+            "includedFanCount": 3,
+            "includedFanPwm": null,
+            "maxGpuLengthMm": 305,
+            "maxCoolerHeightMm": 160,
+            "maxPsuLengthMm": 160,
+            "radiatorSizesMm": [
+              120,
+              240
+            ],
+            "fanMounts": [
+              {
+                "diameterMm": 120,
+                "capacity": 5
+              },
+              {
+                "diameterMm": 140,
+                "capacity": 4
+              }
+            ],
+            "coolingSupportNotes": "Frente 2×140; topo 2×120 ou 2×140; base sobre fonte 2×120; traseira 1×120. Radiador até 240 no topo ou 120 atrás; confirmar interferências no manual."
+          }
+        }
+      }
+    },
+    {
+      "input": {
+        "budget": {
+          "amount": 6000
+        },
+        "usageType": "work",
+        "selectionMode": "price-and-compatibility",
+        "requirements": {
+          "minVramGb": 8
+        }
+      },
+      "status": 200,
+      "total": 5009.84,
+      "remaining": 990.16,
+      "compatibilityStatus": "unverified",
+      "coreCatalogRulesStatus": "compatible",
+      "performanceScore": null,
+      "simulationAvailability": {
+        "available": false,
+        "performanceBasis": "simulated",
+        "scoreOnly": false,
+        "reason": "performance_model_unavailable",
+        "message": "Estimativa de desempenho indisponível para este modelo.",
+        "componentsWithoutPerformanceModel": [
+          "gpu-asrock-rx-7600-challenger-pro-8gb"
+        ]
+      },
+      "biosSupport": {
+        "cpuId": "cpu-ryzen-5-5500",
+        "motherboardId": "mb-asus-tuf-b550m-plus",
+        "minimumVersion": "2423",
+        "installedVersion": null,
+        "sourceUrl": "https://www.asus.com/br/motherboards-components/motherboards/all-series/tuf-gaming-b550m-plus/helpdesk_cpu?model2Name=TUF-GAMING-B550M-PLUS",
+        "verifiedAt": "2026-10-21",
+        "scope": "Published support table; not evidence of the installed firmware."
+      },
+      "unverifiedChecks": [
+        {
+          "code": "CPU_BIOS_UNVERIFIED",
+          "verification": "unverified",
+          "message": "O fabricante publica suporte a esta CPU a partir da BIOS 2423 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra."
+        }
+      ],
+      "coolingAssessment": {
+        "status": "unverified",
+        "scope": "cooling_not_assessed",
+        "unverifiedChecks": [
+          {
+            "code": "CPU_COOLING_FIT_UNVERIFIED",
+            "severity": "medium",
+            "verification": "unverified",
+            "message": "Nenhum cooler avulso selecionado. A identidade e as medidas do cooler incluído ou já disponível não foram verificadas; isso não significa que seja necessário comprar outro."
+          }
+        ],
+        "alerts": []
+      },
+      "components": {
+        "cpu": {
+          "id": "cpu-ryzen-5-5500",
+          "name": "AMD Ryzen 5 5500",
+          "price": 559.99,
+          "specs": {
+            "socket": "AM4",
+            "cores": 6,
+            "threads": 12,
+            "baseClockGhz": 3.6,
+            "boostClockGhz": 4.2,
+            "tdpWatts": 65
+          }
+        },
+        "motherboard": {
+          "id": "mb-asus-tuf-b550m-plus",
+          "name": "ASUS TUF Gaming B550M-Plus",
+          "price": 799.99,
+          "specs": {
+            "socket": "AM4",
+            "memoryType": "DDR4",
+            "formFactor": "mATX",
+            "chipset": "B550",
+            "storageInterfaces": [
+              "M.2 NVMe",
+              "SATA"
+            ],
+            "memorySlots": 4,
+            "maxMemoryGb": 128,
+            "m2Slots": 2,
+            "m2SupportedLengthsMm": [
+              42,
+              60,
+              80,
+              110
+            ],
+            "memorySupportNotes": "Limites de slots e capacidade publicados pelo fabricante. Velocidade XMP/EXPO depende de CPU, BIOS, população dos slots e lista QVL.",
+            "storageSupportNotes": "Escolher slot compatível com o tamanho do SSD; geração PCIe e compartilhamento de pistas dependem do slot, CPU e revisão da placa."
+          }
+        },
+        "gpu": {
+          "id": "gpu-asrock-rx-7600-challenger-pro-8gb",
+          "name": "ASRock Radeon RX 7600 Challenger Pro 8GB OC",
+          "price": 1959.99,
+          "specs": {
+            "vramGb": 8,
+            "memoryType": "GDDR6",
+            "memoryBusBits": 128,
+            "tdpWatts": null,
+            "lengthMm": 303,
+            "recommendedPsuWatts": 550,
+            "powerConnectors": [
+              {
+                "type": "pcie-8pin",
+                "count": 1
+              }
+            ]
+          }
+        },
+        "ram": {
+          "id": "ram-mancer-vant-s-16gb-3200",
+          "name": "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black",
+          "price": 619.99,
+          "specs": {
+            "memoryType": "DDR4",
+            "capacityGb": 16,
+            "modulesPerKit": 1,
+            "capacityPerModuleGb": 16,
+            "speedMhz": 3200,
+            "dataRateMTs": 3200,
+            "casLatency": 19,
+            "timings": "19-19-19-43",
+            "voltageV": 1.35,
+            "speedProfile": null,
+            "rgb": false,
+            "dimensionsMm": {
+              "length": 136,
+              "height": 30,
+              "thickness": 7
+            },
+            "pins": 288
+          }
+        },
+        "storage": {
+          "id": "ssd-kingston-a400-240gb",
+          "name": "Kingston A400 240GB SATA SSD",
+          "price": 479.99,
+          "specs": {
+            "interface": "SATA",
+            "storageType": "SSD",
+            "capacityGb": 240,
+            "readSpeedMbS": 500,
+            "writeSpeedMbS": 350,
+            "speedBasis": "Máximo sequencial anunciado"
+          }
+        },
+        "psu": {
+          "id": "psu-coolermaster-mwe-gold650-v3",
+          "name": "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular",
+          "price": 349.99,
+          "specs": {
+            "watts": 650,
+            "efficiency": "80 Plus Gold",
+            "atxVersion": "3.1",
+            "formFactor": "ATX",
+            "dimensionsMm": {
+              "length": 140,
+              "width": 150,
+              "height": 86
+            },
+            "modular": false,
+            "inputVoltage": "100-240V",
+            "connectors": {
+              "atx24": 1,
+              "eps8Or4plus4": 2,
+              "pcie6plus2": 4,
+              "sata": 6,
+              "peripheral4": 3,
+              "native12v2x6": 0
+            },
+            "pcie8PinConnectors": 4,
+            "native12v2x6Connectors": 0
+          }
+        },
+        "case": {
+          "id": "case-montech-x2-plus-white",
+          "name": "Montech X2 Plus White",
+          "price": 239.9,
+          "specs": {
+            "supportedFormFactors": [
+              "ATX",
+              "mATX",
+              "ITX"
+            ],
+            "supportedPsuFormFactors": [
+              "ATX"
+            ],
+            "maxFanThicknessMm": null,
+            "maxRadiatorThicknessMm": null,
+            "includedFanCount": 3,
+            "includedFanPwm": null,
+            "maxGpuLengthMm": 305,
+            "maxCoolerHeightMm": 160,
+            "maxPsuLengthMm": 160,
+            "radiatorSizesMm": [
+              120,
+              240
+            ],
+            "fanMounts": [
+              {
+                "diameterMm": 120,
+                "capacity": 5
+              },
+              {
+                "diameterMm": 140,
+                "capacity": 4
+              }
+            ],
+            "coolingSupportNotes": "Frente 2×140; topo 2×120 ou 2×140; base sobre fonte 2×120; traseira 1×120. Radiador até 240 no topo ou 120 atrás; confirmar interferências no manual."
+          }
+        }
+      }
+    }
+  ]
+}

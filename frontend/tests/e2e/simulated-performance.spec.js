@@ -37,6 +37,7 @@ test('catalog cards, details and comparison clearly distinguish simulated and ab
   await page.route(/\/api\/v1\/components(?:\?.*)?$/, route => ok(route, [cpu, missing]));
   await page.goto('/components');
   const card = page.locator('.component-card').filter({ has: page.getByRole('heading', { name: cpu.name, exact: true }) });
+  await card.locator('summary').filter({ hasText: 'Índice de desempenho' }).click();
   await expect(card.getByText('Pontuação simulada: 67 / 100', { exact: true })).toBeVisible();
   await expect(page.locator('.component-card').filter({ hasText: missing.name })).not.toContainText('Pontuação simulada');
   await card.getByRole('button', { name: `Detalhes de ${cpu.name}`, exact: true }).click();

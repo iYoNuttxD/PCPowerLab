@@ -15,15 +15,7 @@ export function compareReplacementSummaries(before, after, settings = {}) {
 }
 
 export function canApplyReplacement(summary) {
-  const compatibility = summary?.compatibility;
-  if (!compatibility || hasKnownIncompatibility(compatibility)) return false;
-  return compatibility.compatible === true || compatibility.status === 'unverified';
-}
-
-function hasKnownIncompatibility(compatibility) {
-  if (compatibility.status === 'incompatible') return true;
-  const issues = ['alerts', 'violations', 'issues'].flatMap(key => Array.isArray(compatibility[key]) ? compatibility[key] : []);
-  return issues.some(issue => issue.blocking === true || ['high', 'critical'].includes(issue.severity));
+  return Boolean(summary?.components && summary.selectionStatus !== 'incomplete' && summary.available !== false);
 }
 
 function metric(value) {
@@ -63,12 +55,6 @@ function comparePerformance(beforeSummary, afterSummary, settings) {
   }
   if (keys.some(key => !before[key] || !after[key])) return unavailable('unverified-settings');
   if (keys.some(key => before[key] !== after[key] || after[key] !== settings[key])) return unavailable('different-settings');
-  if ([beforeSummary, afterSummary].some(summary => !canApplyReplacement(summary))) {
-    return unavailable('incompatible-build');
-  }
-  if ([beforeSummary, afterSummary].some(summary => summary.compatibility.compatible !== true || summary.compatibility.status === 'unverified')) {
-    return unavailable('unverified-compatibility');
-  }
   const comparison = compareMetric(before.estimatedFps, after.estimatedFps);
   return {
     ...comparison,

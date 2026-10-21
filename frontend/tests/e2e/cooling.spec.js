@@ -40,6 +40,7 @@ async function expectSelectionOnly(page) {
 async function thermalTask(page) {
   await page.goto('/performance-lab');
   await category(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
 }
 
 test.beforeEach(async ({ page }) => {
@@ -200,9 +201,10 @@ test('unverified cooling is distinguished from incompatible builds and can be re
   await mockWizardAnalysis(page, { compatibility: { compatible: false, status: 'unverified', alerts: [], unverifiedChecks: [{ code: 'COOLER_HEIGHT_UNVERIFIED', message: 'Altura máxima não informada.' }] } });
   await page.goto('/build');
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Compatibilidade não verificada', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Nenhum conflito nos dados disponíveis', exact: true })).toBeVisible();
+  await page.getByText('Detalhes da conferência',{exact:true}).click();
   await expect(page.getByText('Altura máxima não informada.', { exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Atenção: incompatibilidades encontradas' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Confira um conflito entre as peças' })).toHaveCount(0);
   await page.getByRole('button', { name: 'Alterar refrigeração', exact: true }).click();
   await page.getByRole('button', { name: `Remover cooler: ${cooler.name}`, exact: true }).click();
   expect((await stored(page)).selectedComponents.cooler).toBeUndefined();
@@ -217,7 +219,7 @@ test('optional cooling can be skipped during catalog failure and is not required
   await expectSelectionOnly(page);
   await expect(page.getByRole('tab', { name: /^Cooler do processador(?: ·|$)/ })).toHaveAttribute('aria-selected', 'true');
   await page.getByRole('button', { name: 'Continuar', exact: true }).click();
-  await expect(page.locator('#wizard-step-heading')).toHaveText('Orçamento');
+  await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
   await page.getByRole('button', { name: 'Voltar', exact: true }).click();
   await expect(page.locator('#wizard-step-heading')).toHaveText('Refrigeração');
   const state = await stored(page);
@@ -243,12 +245,14 @@ test('Performance Lab preserves scenario settings and extra fans never change CP
   await page.getByRole('button', { name: `Adicionar: ${fan.name}`, exact: true }).click();
   await thermalTask(page);
   await expect.poll(() => chart.innerText()).toBe(before);
-  await expect(page.getByText('Subtotal parcial: há fontes sem perfil no cenário.', { exact: true })).toBeVisible();
+  await expect(page.locator('.cooling-noise-result')).toContainText(/dBA/);
+  await expect(page.getByText('Subtotal parcial: há fontes sem perfil no cenário.', { exact: true })).toHaveCount(0);
   await page.locator('.cooling-simulation-controls summary').click();
   await page.getByRole('spinbutton', { name: 'Ar na entrada do cooler (°C)', exact: true }).fill('30');
   await expect.poll(() => chart.innerText()).not.toBe(before);
   await page.reload();
   await category(page, 'Temperatura e ruído');
+  await page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true }).click();
   await page.locator('.cooling-simulation-controls summary').click();
   await expect(page.getByRole('spinbutton', { name: 'Ar na entrada do cooler (°C)', exact: true })).toHaveValue('30');
   expect((await stored(page)).selectedComponents.fans.map(item => ({ id: item.id, quantity: item.quantity }))).toEqual([{ id: fan.id, quantity: 1 }]);
@@ -265,6 +269,7 @@ test('Performance Lab preserves scenario settings and extra fans never change CP
   await category(page, 'Cooler do processador');
   await page.getByRole('button', { name: `Selecionar: ${cooler.name}`, exact: true }).click();
   await thermalTask(page);
-  await expect(chart).toHaveCount(0);
+  await expect(chart).toBeVisible();
+  await expect(page.getByText('Faixas aproximadas para comparar cenários.', { exact: true })).toBeVisible();
   await expect(page.getByText('95 °C', { exact: true })).toHaveCount(0);
 });
