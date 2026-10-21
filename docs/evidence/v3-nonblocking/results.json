@@ -2,7 +2,7 @@
   "at": "2026-10-21T08:35:47.682162+00:00",
   "branch": "max/pcpowerlab-v3-cycle2",
   "pullRequest": 47,
-  "publicationStatus": "awaiting commit/push verification",
+  "publicationStatus": "implementation commit verified on remote branch and GitHub PR",
   "codeFreeze": {
     "at": "2026-10-21T08:26:42.904Z",
     "sourceSha256": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4",
@@ -79,5 +79,8 @@
     "performanceModel": "component-scenario-v2",
     "coolingModel": "cooling-class-v1",
     "unknownDataBlocksCore": false
-  }
+  },
+  "implementationCommit": "bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71",
+  "remoteVerifiedAt": "2026-10-21T08:37:32.966871+00:00",
+  "pullRequestDraft": true
 }

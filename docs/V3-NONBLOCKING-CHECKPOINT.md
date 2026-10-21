@@ -6,4 +6,4 @@ Código congelado: fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39
 
 Inspeção real anterior observou a proposta integrada R$ 2.489,94 até resumo com faixas. Capturas finais automatizadas de desktop/celular revisadas. Inspeção manual adicional de últimos ajustes e zoom nativo 200% pendente enquanto Mac estiver bloqueado. Não houve tentativa de desbloqueio. Ciclo 3 e montagem original do participante não foram executados.
 
-Próximos passos: commit/push autorizado; verificar SHA remoto; atualizar este registro e a mesma Library ID libfile_c8f1fad0635c8191a64cae89c2377da8 (versão atual observada 2) com relatório final e matriz. Não merge/deploy. Último remoto antes desta publicação a1410ee55715e23c5879bf7da3fc847690f2032d.
+Implementação publicada e conferida no remoto/GitHub: bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71. PR permanece OPEN/DRAFT. Este fechamento documental posterior não modifica código funcional. Próximos passos: publicar este registro documental, conferir novo head e atualizar a Library ID libfile_c8f1fad0635c8191a64cae89c2377da8, versão observada 2. Sem merge/deploy. Logs de diagnóstico permanecem locais em validation-logs, fora do commit.

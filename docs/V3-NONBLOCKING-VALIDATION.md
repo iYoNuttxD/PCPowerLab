@@ -1,6 +1,6 @@
 # PCPowerLab V3 — estimativas utilizáveis e interface enxuta
 
-Atualização de 21/10/2026, PR #47, branch `max/pcpowerlab-v3-cycle2`. Sem merge ou deploy. Este é o contrato técnico atual e substitui as restrições de versões anteriores. A regressão congelada terminou sem falhas; publicação ainda depende de commit/push e conferência remota. O registro exato será preenchido após essa conferência.
+Atualização de 21/10/2026, PR #47, branch `max/pcpowerlab-v3-cycle2`. Sem merge ou deploy. Este é o contrato técnico atual e substitui as restrições de versões anteriores. Implementação publicada e confirmada por git ls-remote e metadados da PR: **`bfbe4c0c5d7cc161d2bbfa09c865884d71f37f71`**. A regressão congelada terminou sem falhas. Este registro documental posterior não altera o código validado.
 
 ## Pedido que orienta esta revisão
 
