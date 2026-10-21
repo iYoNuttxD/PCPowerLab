@@ -61,7 +61,8 @@ test('deve retornar erro controlado quando nao couber no orcamento', () => {
     }),
     (error) => {
       assert.equal(error.statusCode, 422);
-      assert.equal(error.message.includes('dentro do orcamento informado'), true);
+      assert.match(error.message, /Menor total encontrado/);
+      assert.ok(error.budgetFeasibility.minimumCatalogRulesTotal > 1000);
       return true;
     }
   );

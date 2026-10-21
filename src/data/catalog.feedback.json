@@ -15,7 +15,7 @@
     "budgetTier": "Entrada AM4 abaixo de R$ 600",
     "selectionNotes": [
       "Zen 2, 6 núcleos e 12 threads; compare recursos e preço com o Ryzen 5 5500. Não há ganho de desempenho inferido.",
-      "Inclui Wraith Stealth. Exige placa de vídeo dedicada; versão de BIOS deve ser confirmada no modelo exato da placa-mãe."
+      "Inclui Wraith Stealth e exige GPU dedicada. ASUS TUF GAMING B550M-PLUS exige BIOS 2423 ou posterior; a versão instalada não foi confirmada."
     ],
     "specs": {
       "socket": "AM4",
@@ -31,7 +31,17 @@
       "includesCpuCooler": true
     },
     "performanceModelStatus": "unavailable",
-    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis."
+    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis.",
+    "biosRequirements": [
+      {
+        "motherboardId": "mb-asus-tuf-b550m-plus",
+        "motherboardName": "ASUS TUF GAMING B550M-PLUS",
+        "minimumVersion": "2423",
+        "installedVersion": null,
+        "sourceUrl": "https://www.asus.com/br/motherboards-components/motherboards/all-series/tuf-gaming-b550m-plus/helpdesk_cpu?model2Name=TUF-GAMING-B550M-PLUS",
+        "verifiedAt": "2026-10-21"
+      }
+    ]
   },
   {
     "id": "gpu-pcyes-rx-550-edge-4gb",
@@ -49,7 +59,7 @@
     "budgetTier": "Vídeo básico abaixo de R$ 1.000",
     "selectionNotes": [
       "Opção de entrada para vídeo e tarefas leves; não é uma promessa de adequação a jogos atuais. Confira os requisitos do aplicativo.",
-      "Dimensões, consumo e alimentação auxiliar ainda não confirmados no material atual do fabricante. Compatibilidade física/elétrica permanece pendente; não inferida de outra RX 550."
+      "O fabricante publica alimentação típica de 50 W e fonte recomendada de 400 W. Comprimento e alimentação auxiliar não confirmados; não inferir ausência de cabo a partir dos 50 W."
     ],
     "specs": {
       "vramGb": 4,
@@ -57,11 +67,25 @@
       "memoryBusBits": 128,
       "tdpWatts": null,
       "lengthMm": null,
-      "recommendedPsuWatts": null,
-      "powerConnectors": null
+      "recommendedPsuWatts": 400,
+      "powerConnectors": null,
+      "typicalBoardPowerWatts": 50
     },
     "performanceModelStatus": "unavailable",
-    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis."
+    "performanceModelNotes": "Sem modelo calibrado: não participa do ranking por desempenho. Especificações, comparação, montagem manual e links continuam disponíveis; FPS e gargalos numéricos indisponíveis.",
+    "technicalEvidence": {
+      "sourceUrl": "https://www.pcyes.com.br/placa-de-video-gpu-amd-radeon-rx-550-4gb-gddr5-128bit-edge-dual-fan-pvex5504gbdf-202279",
+      "verifiedAt": "2026-10-21",
+      "facts": {
+        "typicalBoardPowerWatts": 50,
+        "recommendedPsuWatts": 400
+      },
+      "unknown": [
+        "lengthMm",
+        "powerConnectors"
+      ],
+      "note": "Alimentação típica não foi renomeada para TDP. Fotografias e dados de embalagem não provam comprimento nem ausência de cabo."
+    }
   },
   {
     "id": "gpu-asrock-rx-7600-challenger-pro-8gb",

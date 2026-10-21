@@ -5749,8 +5749,9 @@
         "memoryBusBits": 128,
         "tdpWatts": null,
         "lengthMm": null,
-        "recommendedPsuWatts": null,
-        "powerConnectors": null
+        "recommendedPsuWatts": 400,
+        "powerConnectors": null,
+        "typicalBoardPowerWatts": 50
       }
     },
     "demonstrativePrice": null,

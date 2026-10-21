@@ -380,3 +380,58 @@ test('storage legado parcial e nulo reabre wizard sem perder peças com catálog
   expect(restored.selectedComponents.fans).toEqual([]);
   expect(restored.compatibility).toBeNull();
 });
+
+async function seedEconomyBuild(page, request, amount) {
+  const catalog = await api(request, '/components');
+  const ready = await api(request, `/ready-builds/${readyBuildId}`);
+  const selectedComponents = readySelection(catalog, ready);
+  await page.addInitScript(({ key, selectedComponents, amount }) => {
+    localStorage.setItem(key, JSON.stringify({ selectedComponents, budget: { amount, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'study', wizardStep: 'budget' }));
+  }, { key, selectedComponents, amount });
+  await page.goto('/build');
+  await page.getByRole('combobox', { name: 'Critério da sugestão', exact: true }).selectOption('price-and-compatibility');
+}
+
+test('API real explica orçamento econômico inviável e preserva peças e limite', async ({ page, request }, testInfo) => {
+  await seedEconomyBuild(page, request, 4000);
+  const before = await state(page);
+  await step(page, 'Revisão');
+  const response = page.waitForResponse(r => r.url().endsWith('/recommendations/budget'));
+  await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
+  expect((await response).status()).toBe(422);
+  const alert = page.getByRole('alert').filter({ hasText: 'Menor total encontrado' });
+  await expect(alert).toContainText('4.339,84');
+  await page.getByText('Entender o limite e as peças pendentes', { exact: true }).click();
+  await expect(page.locator('main')).toContainText('3.289,75 não aprovado');
+  await expect(page.locator('main')).toContainText('Conectores de alimentação');
+  const after = await state(page);
+  expect(after.selectedComponents).toEqual(before.selectedComponents);
+  expect(after.budget).toEqual(before.budget);
+  await capture(page, testInfo, 'economy-unavailable-real', alert);
+});
+
+test('API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado', async ({ page, request }, testInfo) => {
+  await seedEconomyBuild(page, request, 5500);
+  await page.getByRole('combobox', { name: 'Tipo de uso', exact: true }).selectOption('programming');
+  await page.getByText('Ajustar requisitos da recomendação', { exact: true }).click();
+  await page.getByRole('combobox', { name: 'VRAM mínima da sugestão', exact: true }).selectOption('8');
+  await step(page, 'Revisão');
+  const result = await action(page, '/recommendations/budget', () => page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click());
+  expect(result.selectionMode).toBe('price-and-compatibility');
+  expect(result.totalEstimatedPrice).toBe(5009.84);
+  expect(result.performanceScore).toBe(null);
+  expect(result.compatibilityStatus).toBe('unverified');
+  expect(result.biosSupport.minimumVersion).toBe('2423');
+  expect(result.components.gpu.id).toBe('gpu-asrock-rx-7600-challenger-pro-8gb');
+  const card = page.locator('.recommendation-card');
+  await expect(card).toContainText('Seleção por preço e compatibilidade');
+  await expect(card).toContainText('FPS e gargalos indisponíveis');
+  await expect(card).toContainText('Memória selecionada: 16 GB');
+  await expect(card).toContainText('versão instalada não foi inspecionada');
+  await capture(page, testInfo, 'economy-intermediate-real', card);
+  await card.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
+  const current = await state(page);
+  expect(current.selectedComponents.gpu.id).toBe(result.components.gpu.id);
+  expect(current.selectedComponents.ram.specs.capacityGb).toBe(16);
+  expect(current.budget.amount).toBe(5500);
+});

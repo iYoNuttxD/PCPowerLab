@@ -89,3 +89,10 @@ O [relatório com 67 sinais e células exatas](V3-FEEDBACK-FOLLOWUP.md) substitu
 **Estado final validado:** 1.040 Node, 309 E2E + 1 skip esperado e 18 integrações aprovados; zero falhas na rodada final E2E. Lints/build aprovados, 17 verificadores aprovados após atualização de três contratos, 64 contrastes de tokens e 93 imagens. Há histórico de timeout de comparação: 3/3 retestes isolados e rodada integral final passaram; o histórico não foi apagado. Build conserva aviso de chunk >500 kB. [Resultados e logs](evidence/v3-feedback-followup/results.json).
 
 Sem ciclo 3 humano, meta de 90%, leitor de tela/cores forçadas ou reprodução da configuração original. Calibração, BIOS/cooler/ReBAR e arquitetura sem GPU dedicada permanecem limitações explícitas. Publicação só na branch/PR em rascunho, sem merge/deploy.
+
+
+## Fechamento econômico — 21/10/2026
+
+[Diagnóstico, mudanças, cenários e evidências](V3-ECONOMY-VALIDATION.md). Novo critério factual percorre o catálogo ativo por preço/requisitos/encaixes, sem score/FPS. Programação com 16 GB de RAM / 8 GB de VRAM: R$5.009,84 com RX7600 Pro, BIOS/cooler pendentes explícitos. R$3.000 fica abaixo até da soma inferior isolada de R$3.235,05. R$4.000 tem caminho de R$3.289,75 não aprovado por dados ausentes; piso pelas regras atuais é R$4.339,84, sem certificar firmware da unidade. `minimumVerifiedTotal` permanece nulo; desconhecido não vira compatível na proposta factual.
+
+**Entregue:** seleção factual, requisitos de VRAM, erro explicativo progressivo, dados oficiais de 50 W / 400 W da RX550, mínimo de BIOS 2423 da ASUS e correção da checagem da CPU 4500. **Limitado por dados:** comprimento/caboRX550, BIOS instalada, calibração de desempenho. Testes: 1.048 Node, 24 integrações + 6 econômicas na apresentação final, 28 E2E afetados, 51 direcionados, 93 imagens, lints/build. A suíte integral anterior não foi novamente rotulada como executada neste head. Sem merge/deploy/ciclo 3.

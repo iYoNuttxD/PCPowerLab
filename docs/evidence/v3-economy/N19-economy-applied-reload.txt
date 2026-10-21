@@ -1,0 +1,118 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Assistente de montagem
+  - heading "Monte seu PC" [level=1]
+  - progressbar "Etapas obrigatórias concluídas"
+  - generic "8 de 9 etapas obrigatórias concluídas Ver etapas":
+    - generic: 8 de 9 etapas obrigatórias concluídas
+    - text: Ver etapas
+  - region "Avançar ou voltar na montagem":
+    - generic "Acompanhamento do orçamento":
+      - term: Limite
+      - definition: R$ 5.500,00
+      - term: Acumulado
+      - definition: R$ 5.009,84
+      - term: Restante
+      - definition: R$ 490,16
+      - button "Editar orçamento"
+    - strong: Etapa 9 de 9 · Revisão
+    - button "Voltar":
+      - text: Voltar
+    - button "Ir para resumo":
+      - text: Ir para resumo
+    - status: Use Analisar build para verificar compatibilidade, orçamento e desempenho.
+  - region "Revisão":
+    - heading "Revisão" [level=2]
+    - paragraph: Confira as escolhas e analise a montagem.
+    - heading "Revisão e análises" [level=3]
+    - generic: Nenhum cooler adicional
+    - button "Alterar refrigeração"
+    - link "Ver temperatura e ruído":
+      - /url: /summary#cooling-simulation
+    - paragraph: Análise pendente. Analise novamente após alterar peças ou orçamento.
+    - button "Analisar build":
+      - text: Analisar build
+    - button "Gerar recomendação"
+    - button "Salvar build":
+      - text: Salvar build
+    - heading "Compatibilidade ainda não verificada" [level=3]
+    - paragraph: Monte uma build completa e execute a análise para receber alertas técnicos.
+    - generic "O que a compatibilidade verifica?"
+    - heading "Gargalos" [level=3]
+    - paragraph: A análise será exibida depois que uma build completa for enviada.
+    - generic "O que é um gargalo?"
+    - heading "Recomendações" [level=3]
+    - paragraph: Use Gerar recomendação para comparar uma sugestão com seu orçamento e tipo de uso. Suas peças só mudam quando você aplica a sugestão.
+  - complementary:
+    - generic: Build atual
+    - strong:
+      - generic: Total estimado
+      - text: R$ 5.009,84
+    - list:
+      - button "Alterar Processador": Processador
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: AMD Ryzen 5 5500
+      - button "Remover Processador":
+      - button "Alterar Placa de vídeo": Placa de vídeo
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: ASRock Radeon RX 7600 Challenger Pro 8GB OC
+      - button "Remover Placa de vídeo":
+      - button "Alterar Placa-mãe": Placa-mãe
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: ASUS TUF Gaming B550M-Plus
+      - button "Remover Placa-mãe":
+      - button "Alterar Memória RAM": Memória RAM
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black
+      - button "Remover Memória RAM":
+      - button "Alterar Armazenamento": Armazenamento
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Kingston A400 240GB SATA SSD
+      - button "Remover Armazenamento":
+      - button "Alterar Fonte de alimentação": Fonte de alimentação
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+      - button "Remover Fonte de alimentação":
+      - button "Alterar Gabinete": Gabinete
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Montech X2 Plus White
+      - button "Remover Gabinete":
+      - button "Escolher Cooler do processador": Cooler do processador
+      - strong: Não selecionado
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

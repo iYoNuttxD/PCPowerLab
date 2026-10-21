@@ -29,7 +29,7 @@ export function specLabel(key) {
   if (key === 'speedMhz') return 'Taxa de transferência';
   if (key === 'readSpeedMbS') return 'Leitura (até)';
   if (key === 'writeSpeedMbS') return 'Gravação (até)';
-  const labels = { powerConnectors: 'Conectores de alimentação', fanHeaders: 'Conectores de ventoinhas', cpu: 'CPU', cpuPump: 'Bomba / CPU', system: 'Gabinete', systemPump: 'Gabinete / bomba', pcie8pin: 'PCIe de 8 pinos', pcie6pin: 'PCIe de 6 pinos', eps8pin: 'CPU de 8 pinos', atx24pin: 'ATX de 24 pinos' };
+  const labels = { typicalBoardPowerWatts: 'Alimentação típica declarada (W)', powerConnectors: 'Conectores de alimentação', fanHeaders: 'Conectores de ventoinhas', cpu: 'CPU', cpuPump: 'Bomba / CPU', system: 'Gabinete', systemPump: 'Gabinete / bomba', pcie8pin: 'PCIe de 8 pinos', pcie6pin: 'PCIe de 6 pinos', eps8pin: 'CPU de 8 pinos', atx24pin: 'ATX de 24 pinos' };
   return labels[key] || verifiedFeatureFields[key] || translateSpecLabel(key);
 }
 

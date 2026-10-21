@@ -1,3 +1,4 @@
+import { publishedCpuBiosSupport } from '../data/cpuBiosSupport.js';
 import { selectBuildComponents } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
@@ -231,12 +232,14 @@ function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
   // Newly admitted CPU generations must not inherit an old board's unchecked
   // socket-only verdict. Their minimum/installed BIOS evidence stays pending.
   if (revalidated(build.motherboard) || build.cpu.catalogRevision === V3_TARGETED_EXPANSION
+    || build.cpu.catalogRevision === '2026-10-21-feedback-followup'
     || hasField(board, 'minimumBiosByCpu') || hasField(board, 'installedBiosVersion')) {
     const minimums = board.minimumBiosByCpu;
-    const minimum = minimums && (minimums[build.cpu.id] ?? minimums[build.cpu.specs.family]);
+    const published = publishedCpuBiosSupport(build.cpu, build.motherboard);
+    const minimum = minimums?.[build.cpu.id] ?? minimums?.[build.cpu.specs.family] ?? published?.minimumVersion;
     const comparison = compareBiosVersions(board.installedBiosVersion, minimum);
     if (comparison === null) {
-      unknown('CPU_BIOS_UNVERIFIED', 'BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte.');
+      unknown('CPU_BIOS_UNVERIFIED', minimum ? `Este processador exige BIOS ${minimum} ou posterior nesta placa; a versão instalada não foi confirmada.` : 'BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte.');
     } else if (comparison < 0) {
       conflict('CPU_BIOS_BELOW_MINIMUM', `A BIOS instalada é anterior à versão mínima ${minimum} para este processador.`);
     }

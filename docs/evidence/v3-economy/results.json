@@ -1,0 +1,42 @@
+{
+  "node": {
+    "passed": 1048,
+    "failed": 0,
+    "skipped": 0
+  },
+  "targetedNode": {
+    "passed": 51,
+    "failed": 0
+  },
+  "integration": {
+    "passed": 24,
+    "failed": 0,
+    "projects": [
+      "desktop",
+      "tablet",
+      "mobile"
+    ]
+  },
+  "finalEconomyIntegrationAfterCopyReduction": {
+    "passed": 6,
+    "failed": 0
+  },
+  "affectedE2e": {
+    "passed": 28,
+    "failed": 0
+  },
+  "images": {
+    "verified": 93,
+    "blocked": 0
+  },
+  "lint": "passed",
+  "build": "passed, existing >500kB chunk warning",
+  "previousFullE2e": {
+    "passed": 309,
+    "skipped": 1,
+    "scope": "previous published revision 9487ff14e559f4b15dc4ed7b05684772c502f329; not rerun in full for this focused step"
+  },
+  "humanCycle3": false,
+  "merge": false,
+  "deploy": false
+}

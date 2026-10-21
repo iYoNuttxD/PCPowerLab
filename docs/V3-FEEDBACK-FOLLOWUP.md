@@ -106,7 +106,7 @@ N12/N13: GPU R$2.399,99 → R$619,90; total R$5.839,83 → R$4.059,74. Recarga e
 | Modelo acrescentado | Função/faixa observada | Evidência de preço e estoque | Dados honestamente limitados |
 |---|---|---|---|
 | Ryzen 5 4500 Box | AM4 de entrada, R$545,29 | S03, KaBuM, comprar habilitado | Sem ranking/FPS; confirmar BIOS; foto de família da variante regional explicitada. |
-| PCYES RX550 Edge 4 GB | Vídeo/tarefas leves, R$619,90 | S12, Terabyte, pronta entrega/compra habilitada | Não promete jogos atuais. Comprimento, consumo e energia auxiliar não confirmados; compatibilidade parcial. |
+| PCYES RX550 Edge 4 GB | Vídeo/tarefas leves, R$619,90 | S12, Terabyte, pronta entrega/compra habilitada | Não promete jogos atuais. Fonte400W e alimentação típica50W agora publicadas pelo fabricante; comprimento/cabo auxiliar ainda não confirmados. |
 | ASRock RX7600 Challenger Pro 8 GB OC | Alternativa de 8 GB, R$1.959,99 | S10, Pichau, compra habilitada/13 unidades observadas | Sem modelo de desempenho. 303 mm, fonte recomendada 550 W e 1×8 pinos publicados pelo fabricante. |
 | Montech X2 Plus White | ATX mesh, R$239,90; 305 mm GPU, três fans | S11, Terabyte, compra habilitada | Layouts alternativos não somados; ruído/espessuras desconhecidos. |
 | Montech XR White | ATX panorâmico, R$299,99; 420 mm GPU, três fans PWM | S08, Terabyte, compra habilitada | Folgas e ruído não inferidos da aparência. |
@@ -146,3 +146,8 @@ A rodada integral final, com código congelado, terminou com **309 E2E aprovados
 - Ampliar cobertura de montagens mais econômicas com modelos/arquitetura verificáveis; não declarar que aumentar contagem resolveu todas as faixas.
 - Executar ciclo 3 com pessoas e observar eficiência de busca, autonomia, carga de informação e apreciação visual. O agente não homologou esses resultados.
 - Investigar o timeout esporádico registrado da comparação de builds se reaparecer. O reteste isolado não apaga o registro da rodada integral.
+
+
+## Fechamento econômico posterior
+
+A [etapa focada de seleção factual e viabilidade](V3-ECONOMY-VALIDATION.md) corrige a exclusão automática de modelos sem score, acrescenta requisitos de VRAM e substitui o erro genérico por piso/motivos. Não se encerra H10/AD7/V7 por contagem de catálogo. A proposta de programação com 16 GB de RAM / 8 GB de VRAM de R$5.009,84 inclui a ASRock RX7600 Pro sem score/FPS; retorna `unverified` por BIOS instalada não inspecionada. A referência de R$4.339,84 é piso pelas regras atuais de encaixe/energia, não certificação da BIOS/cooler. A RX550 teve fonte de 400 W / consumo típico de 50 W completados; comprimento/cabo continuam pendentes. A CPU 4500 recebeu proteção de BIOS que faltava na revisão de 21/10. Classificações humanas continuam parciais.

@@ -1,0 +1,35 @@
+
+Running 24 tests using 1 worker
+
+(node:97978) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.5s)
+  ✓   2 [desktop] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.8s)
+  ✓   3 [desktop] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.9s)
+  ✓   4 [desktop] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.8s)
+  ✓   5 [desktop] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.4s)
+  ✓   6 [desktop] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (535ms)
+  ✓   7 [desktop] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (1.1s)
+  ✓   8 [desktop] › tests/integration/cycle2.spec.js:413:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (834ms)
+(node:98313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [tablet] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.3s)
+  ✓  10 [tablet] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.5s)
+  ✓  11 [tablet] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.8s)
+  ✓  12 [tablet] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.6s)
+  ✓  13 [tablet] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (1.0s)
+  ✓  14 [tablet] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (437ms)
+  ✓  15 [tablet] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (792ms)
+  ✓  16 [tablet] › tests/integration/cycle2.spec.js:413:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (659ms)
+(node:98375) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [mobile] › tests/integration/cycle2.spec.js:88:1 › montagem manual, orçamento, análises, salvamento, recuperação e lojas com API real (3.0s)
+  ✓  18 [mobile] › tests/integration/cycle2.spec.js:180:1 › incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento (1.4s)
+  ✓  19 [mobile] › tests/integration/cycle2.spec.js:224:1 › simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API (1.7s)
+  ✓  20 [mobile] › tests/integration/cycle2.spec.js:274:1 › catálogo, imagens, comparação de peças e navegação pública (1.6s)
+  ✓  21 [mobile] › tests/integration/cycle2.spec.js:314:1 › acesso administrativo direto, senha inválida, sessão protegida e logout (824ms)
+  ✓  22 [mobile] › tests/integration/cycle2.spec.js:360:1 › storage legado parcial e nulo reabre wizard sem perder peças com catálogo real (289ms)
+  ✓  23 [mobile] › tests/integration/cycle2.spec.js:395:1 › API real explica orçamento econômico inviável e preserva peças e limite (616ms)
+  ✓  24 [mobile] › tests/integration/cycle2.spec.js:413:1 › API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado (547ms)
+
+  24 passed (37.6s)

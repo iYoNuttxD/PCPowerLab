@@ -38,10 +38,13 @@ import { hasWizardCompatibilityBlockers, requiredWizardSteps, wizardDescriptions
 export default function BuildWizard() {
   const navigate = useNavigate();
   const [minimumMemory, setMinimumMemory] = useState('auto');
+  const [minimumVram, setMinimumVram] = useState('0');
+  const [selectionMode, setSelectionMode] = useState('performance-ranked');
   const { byType, loading, error, reload } = useComponents();
   const build = useBuildState();
   const request = useApiRequest();
   const [feedback, setFeedback] = useState(null);
+  const [recommendationDiagnostics, setRecommendationDiagnostics] = useState([]);
   const [replacement, setReplacement] = useState(null);
   const [coolingSection, setCoolingSection] = useState('cooler');
   const [stepFilters, setStepFilters] = useState({});
@@ -56,7 +59,7 @@ export default function BuildWizard() {
   const previousStep = useRef(currentStep);
   const activeRequest = useRef(0);
   const pendingBottlenecks = useRef(false);
-  const configurationKey = JSON.stringify([build.revision, build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType, minimumMemory]);
+  const configurationKey = JSON.stringify([build.revision, build.buildPayload, normalizeBudgetPayload(build.budget), build.usageType, minimumMemory, minimumVram, selectionMode]);
   const latestConfiguration = useRef(configurationKey);
   latestConfiguration.current = configurationKey;
 
@@ -142,6 +145,7 @@ export default function BuildWizard() {
 
   function clearMessages() {
     setFeedback(null);
+    setRecommendationDiagnostics([]);
     request.setError('');
   }
 
@@ -271,13 +275,18 @@ export default function BuildWizard() {
     }
 
     await runWizardRequest(async (isCurrent) => {
-      const recommendation = await recommendationService.byBudget({
+      let recommendation;
+      try { recommendation = await recommendationService.byBudget({
         budget: normalizeRecommendationBudgetPayload(build.budget),
         usageType: build.usageType,
         components: build.buildPayload,
         ...(build.selectedComponents.cooler || build.selectedComponents.fans?.length ? { allowPendingCooling: true } : {}),
-        requirements: minimumMemory === 'auto' ? undefined : { minMemoryGb: Number(minimumMemory) }
-      });
+        selectionMode,
+        requirements: { ...(minimumMemory === 'auto' ? {} : { minMemoryGb: Number(minimumMemory) }), minVramGb: Number(minimumVram) }
+      }); } catch (error) {
+        if (isCurrent()) setRecommendationDiagnostics((error.errors || []).filter(message => typeof message === 'string'));
+        throw error;
+      }
       if (!isCurrent()) return;
       build.actions.setResult('recommendation', recommendation);
       setFeedback({ type: 'success', message: 'Recomendação gerada. Confira as peças antes de aplicá-la à sua montagem.' });
@@ -324,6 +333,7 @@ export default function BuildWizard() {
           </div>
           {request.loading && <LoadingSpinner label="Aguarde, processando sua montagem..." />}
           {request.error && <ErrorState message={request.error} />}
+          {request.error && recommendationDiagnostics.length > 0 && <details className="task-disclosure"><summary>Entender o limite e as peças pendentes</summary><ul>{recommendationDiagnostics.map((message, index) => <li key={index}>{message}</li>)}</ul></details>}
           {feedback && <Alert type={feedback.type}>{feedback.message}</Alert>}
 
         {isComponentStep && (
@@ -387,12 +397,12 @@ export default function BuildWizard() {
                 hint={budgetCurrencyError ? `Valor salvo em ${budgetCurrency}; escolha Definir orçamento em reais para informar um novo limite.` : "Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento."}
                 error={validateBudgetAmount(build.budget.amount)}
               />
-              <Select
+              {selectionMode === 'performance-ranked' && <Select
                 label="Prioridade"
                 value={build.budget.priority}
                 onChange={(event) => { clearMessages(); build.actions.setBudget({ priority: event.target.value }); }}
                 options={priorityOptions.map((priority) => ({ value: priority, label: priorityLabels[priority] }))}
-              />
+              />}
               <Select
                 label="Tipo de uso"
                 aria-describedby="wizard-objective-description"
@@ -401,9 +411,12 @@ export default function BuildWizard() {
                 options={[...new Set([...usageTypes, build.usageType])].map((usage) => ({ value: usage, label: usageLabels[usage] }))}
               />
             </div>
-            <details className="task-disclosure"><summary>Ajustar a memória da recomendação</summary>
+            <Select label="Critério da sugestão" value={selectionMode} onChange={event => { setSelectionMode(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'performance-ranked', label: 'Índices do perfil e orçamento' }, { value: 'price-and-compatibility', label: 'Preço e encaixes — conferir BIOS antes da compra' }]} />
+            {selectionMode === 'price-and-compatibility' && <p className="hint-text">Busca o menor total pelas regras de encaixe e energia do catálogo com os requisitos abaixo. A BIOS instalada e a refrigeração continuam sujeitas a confirmação. O perfil orienta a RAM mínima. Confirme requisitos de cada programa; não há promessa de FPS ou de ausência de gargalos.</p>}
+            <details className="task-disclosure"><summary>Ajustar requisitos da recomendação</summary>
               <Select label="Memória mínima da sugestão" value={minimumMemory} onChange={event => { setMinimumMemory(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'auto', label: 'Pelo perfil: 8 GB para estudo/uso geral; 16 GB nos demais' }, ...[8, 16, 32, 64].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
-              <p className="hint-text">É um ponto de partida editável. Confira os requisitos específicos dos seus aplicativos; mais memória não garante mais FPS.</p>
+              <Select label="VRAM mínima da sugestão" value={minimumVram} onChange={event => { setMinimumVram(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: '0', label: 'Sem requisito adicional de VRAM' }, ...[4, 6, 8, 12, 16].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
+              <p className="hint-text">Capacidade de VRAM não é velocidade da GPU. É um ponto de partida editável. Confira os requisitos específicos dos seus aplicativos; mais memória não garante mais FPS.</p>
             </details>
             <p id="wizard-objective-description" className="hint-text" role="status"><strong>Seu objetivo: </strong>{describeBuildObjective(build.usageType)}</p>
             <p className="hint-text">Os preços são referências, sem frete e montagem. A compatibilidade será verificada na revisão.</p>

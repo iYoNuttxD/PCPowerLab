@@ -1,0 +1,159 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Assistente de montagem
+  - heading "Monte seu PC" [level=1]
+  - progressbar "Etapas obrigatórias concluídas"
+  - generic "1 de 9 etapas obrigatórias concluídas Ver etapas":
+    - generic: 1 de 9 etapas obrigatórias concluídas
+    - text: Ver etapas
+  - region "Avançar ou voltar na montagem":
+    - generic "Acompanhamento do orçamento":
+      - term: Limite
+      - definition: R$ 5.500,00
+      - term: Acumulado
+      - definition: R$ 0,00
+      - term: Restante
+      - definition: R$ 5.500,00
+      - button "Editar orçamento"
+    - strong: Etapa 9 de 9 · Revisão
+    - button "Voltar":
+      - text: Voltar
+    - button "Ir para resumo":
+      - text: Ir para resumo
+    - status: Faltam 7 peças. Use Ver etapas para completar antes de analisar ou salvar.
+  - region "Revisão":
+    - heading "Revisão" [level=2]
+    - paragraph: Confira as escolhas e analise a montagem.
+    - status:
+      - generic: Recomendação gerada. Confira as peças antes de aplicá-la à sua montagem.
+    - heading "Revisão e análises" [level=3]
+    - generic: Nenhum cooler adicional
+    - button "Alterar refrigeração"
+    - link "Ver temperatura e ruído":
+      - /url: /summary#cooling-simulation
+    - paragraph: Análise pendente. Analise novamente após alterar peças ou orçamento.
+    - status:
+      - generic: "Faltam peças: Processador, Placa de vídeo, Placa-mãe, Memória RAM, Armazenamento, Fonte de alimentação, Gabinete. Volte à categoria para escolher."
+    - button "Analisar build":
+      - text: Analisar build
+    - button "Gerar recomendação"
+    - button "Salvar build" [active]:
+      - text: Salvar build
+    - heading "Compatibilidade ainda não verificada" [level=3]
+    - paragraph: Monte uma build completa e execute a análise para receber alertas técnicos.
+    - generic "O que a compatibilidade verifica?"
+    - heading "Gargalos" [level=3]
+    - paragraph: A análise será exibida depois que uma build completa for enviada.
+    - generic "O que é um gargalo?"
+    - heading "Configuração recomendada" [level=3]
+    - strong:
+      - generic: Total estimado de referência
+      - text: R$ 5.009,84
+    - status:
+      - strong: Seleção por preço e compatibilidade
+      - paragraph: "Menor total pelas regras de encaixe e energia do catálogo, sem ranking de desempenho. Confira as pendências abaixo. Requisito de VRAM: 8 GB ou mais. Confira os requisitos específicos dos seus programas."
+    - paragraph: "Perfil: Programação. Prioridade: Menor preço de referência. Limite informado: R$ 5.500,00."
+    - status:
+      - strong: FPS e gargalos indisponíveis nesta sugestão
+      - paragraph: Uma ou mais peças ainda não têm modelo calibrado para simulação. Você pode consultar especificações, compatibilidade e lojas. Aplicar esta sugestão não habilita estimativas de desempenho.
+    - paragraph: "Memória selecionada: 16 GB. Requisito de capacidade editável; não confirma requisitos de um aplicativo. Confira os requisitos dos seus jogos e programas no resumo."
+    - status:
+      - strong: Verificações técnicas pendentes
+      - paragraph: A montagem completa ainda não está confirmada. Confira estes pontos antes de comprar.
+      - list:
+        - listitem: O fabricante publica suporte a esta CPU a partir da BIOS 2423 nesta placa. A versão instalada não foi inspecionada; confirme antes da compra.
+    - paragraph: Refrigeração não verificada
+    - list:
+      - generic: Processador
+      - figure:
+        - img "Embalagem de varejo AMD Ryzen 5 5500 (imagem da página do modelo)"
+      - strong: AMD Ryzen 5 5500
+      - generic: Placa de vídeo
+      - figure:
+        - img "Placa de Video AsRock Radeon RX 7600 Challenger Pro OC, 8GB, GDDR6, 128-bit, 90-GA62ZZ-00UANF"
+      - strong: ASRock Radeon RX 7600 Challenger Pro 8GB OC
+      - generic: Placa-mãe
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: ASUS TUF Gaming B550M-Plus
+      - generic: Memória RAM
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black
+      - generic: Armazenamento
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Kingston A400 240GB SATA SSD
+      - generic: Fonte de alimentação
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+      - generic: Gabinete
+      - figure:
+        - status:
+          - generic: Carregando fotografia…
+      - strong: Montech X2 Plus White
+    - generic "Por que estas peças? Custos, perfil e alternativas"
+    - paragraph: Troque apenas uma peça e mantenha o restante da montagem.
+    - generic: Peça sugerida para substituir
+    - combobox "Peça sugerida para substituir":
+      - option "Escolha uma peça" [selected]
+      - 'option "Processador: AMD Ryzen 5 5500"'
+      - 'option "Placa de vídeo: ASRock Radeon RX 7600 Challenger Pro 8GB OC"'
+      - 'option "Placa-mãe: ASUS TUF Gaming B550M-Plus"'
+      - 'option "Memória RAM: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black"'
+      - 'option "Armazenamento: Kingston A400 240GB SATA SSD"'
+      - 'option "Fonte de alimentação: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular"'
+      - 'option "Gabinete: Montech X2 Plus White"'
+    - button "Pré-visualizar esta peça" [disabled]
+    - paragraph: A recomendação troca as peças principais e mantém sua refrigeração, salvo quando indicar outra.
+    - button "Usar recomendação inteira"
+  - complementary:
+    - generic: Build atual
+    - strong:
+      - generic: Total estimado
+      - text: R$ 0,00
+    - list:
+      - button "Escolher Processador": Processador
+      - strong: Não selecionado
+      - button "Escolher Placa de vídeo": Placa de vídeo
+      - strong: Não selecionado
+      - button "Escolher Placa-mãe": Placa-mãe
+      - strong: Não selecionado
+      - button "Escolher Memória RAM": Memória RAM
+      - strong: Não selecionado
+      - button "Escolher Armazenamento": Armazenamento
+      - strong: Não selecionado
+      - button "Escolher Fonte de alimentação": Fonte de alimentação
+      - strong: Não selecionado
+      - button "Escolher Gabinete": Gabinete
+      - strong: Não selecionado
+      - button "Escolher Cooler do processador": Cooler do processador
+      - strong: Não selecionado
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

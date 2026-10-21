@@ -38,7 +38,8 @@ const factFields = {
 // Explanations describe the actual inputs and bounded comparisons. They do not
 // retrofit benchmark evidence or claim that the heuristic found a global optimum.
 export function explainBuildSelection({ components, usageType = 'general', priority = 'cost-benefit', budgetAmount = null,
-  budgetMin = null, compatibility, performanceByComponentId = new Map(), candidatesBySlot = {}, selectionSource = 'recommendation' }) {
+  budgetMin = null, compatibility, performanceByComponentId = new Map(), candidatesBySlot = {}, selectionSource = 'recommendation', selectionMode = 'performance-ranked' }) {
+  const factual = selectionMode === 'price-and-compatibility';
   const pricing = summarizeBuildPricing(components);
   const total = pricing.estimatedTotal;
   const validBudget = known(budgetAmount) && budgetAmount > 0;
@@ -54,17 +55,17 @@ export function explainBuildSelection({ components, usageType = 'general', prior
     const lineTotal = known(reference?.price) ? round(reference.price * quantity) : null;
     const parameter = performanceByComponentId.get(component.id);
     const auxiliary = ['cooler', 'fans'].includes(slot);
-    const score = auxiliary ? null : getPerformanceScore(component, parameter, usageType);
-    const weight = usageSlotWeights[usageType]?.[slot] ?? null;
+    const score = auxiliary || factual ? null : getPerformanceScore(component, parameter, usageType);
+    const weight = factual ? null : usageSlotWeights[usageType]?.[slot] ?? null;
     const facts = catalogFacts(slot, component);
-    const alternatives = auxiliary || selectionSource !== 'recommendation' ? null : compareSinglePartAlternatives({
+    const alternatives = factual || auxiliary || selectionSource !== 'recommendation' ? null : compareSinglePartAlternatives({
       slot, component, components, candidates: candidatesBySlot[slot] || [], performanceByComponentId, usageType,
       total, budgetAmount: validBudget ? budgetAmount : null, budgetMin
     });
     return {
       slot, componentId: component.id, name: component.name, quantity, facts,
       role: roles[slot],
-      selectionReason: auxiliary ? roles[slot] : selectionSource === 'recommendation'
+      selectionReason: auxiliary ? roles[slot] : factual ? 'Integra o conjunto de menor total pelas regras de encaixe e energia do catálogo, com os requisitos de capacidade informados. A BIOS instalada não foi inspecionada. Nenhum índice de desempenho participou da escolha.' : selectionSource === 'recommendation'
         ? `${component.recommendationMeta?.categoryRank ? `Esta peça ficou em ${component.recommendationMeta.categoryRank}º entre ${component.recommendationMeta.rankedCandidatesCount} opções elegíveis da categoria (preço e índice válidos, antes de verificar o encaixe do conjunto), ordenadas por ${orderingLabels[priority] || orderingLabels['cost-benefit']}; ${component.recommendationMeta.shortlistedCandidatesCount} entraram na busca de conjuntos.`
           : `Integra o conjunto classificado para ${labels[usageType] || usageType}.`}
           ${priority === 'lowest-price' ? 'A pontuação do conjunto favorece economia no orçamento, índice simulado e equilíbrio CPU/GPU.' : priority === 'performance'
@@ -72,11 +73,11 @@ export function explainBuildSelection({ components, usageType = 'general', prior
             : 'A pontuação do conjunto combina custo-benefício, índice simulado, uso do orçamento e equilíbrio CPU/GPU.'} A seleção é do conjunto, não uma prova de que esta peça isolada é a melhor compra.`
         : 'Peça da sua montagem atual. Esta explicação descreve os dados disponíveis, não aprova a compra nem afirma que a peça foi escolhida automaticamente.',
       profile: { usageType, label: labels[usageType] || usageType, weight,
-        message: auxiliary ? 'Refrigeração entra no custo e nas verificações, não na pontuação de desempenho.'
+        message: factual ? 'O perfil orienta a memória mínima; requisitos específicos do programa e periféricos devem ser conferidos separadamente.' : auxiliary ? 'Refrigeração entra no custo e nas verificações, não na pontuação de desempenho.'
           : `Perfil ${labels[usageType] || usageType}${priority === 'lowest-price' ? ': usa o índice deste perfil; a prioridade menor preço não usa a parcela de custo-benefício ponderada' : known(weight) ? `: peso ${weight} na parcela de custo-benefício do algoritmo` : ''}. Isso não comprova desempenho em uma aplicação específica.` },
-      performance: { score, basis: auxiliary ? 'not_scored' : !known(score) ? 'unavailable' : parameter ? 'simulated' : 'neutral_heuristic',
+      performance: { score, basis: auxiliary || factual ? 'not_scored' : !known(score) ? 'unavailable' : parameter ? 'simulated' : 'neutral_heuristic',
         provisional: parameter?.scoreKind === 'synthetic-provisional',
-        message: auxiliary ? 'Sem estimativa de ganho de FPS ou temperatura.' : !known(score) ? 'Sem índice de desempenho utilizável; não é possível estimar o impacto no desempenho.'
+        message: factual ? 'Desempenho não utilizado nesta seleção: não há promessa de FPS, ganho ou ausência de gargalos.' : auxiliary ? 'Sem estimativa de ganho de FPS ou temperatura.' : !known(score) ? 'Sem índice de desempenho utilizável; não é possível estimar o impacto no desempenho.'
           : parameter ? `Índice simulado ${score}/100${parameter.scoreKind === 'synthetic-provisional' ? ', provisório' : ''}; não é benchmark medido nem garantia de FPS.`
             : `Peso neutro ${score}/100 usado no algoritmo; não mede qualidade ou desempenho desta peça.` },
       budget: { unitPrice: reference?.price ?? null, quantity, lineTotal,
@@ -97,9 +98,9 @@ export function explainBuildSelection({ components, usageType = 'general', prior
       ...(alternatives || {})
     };
   });
-  return { version: 'selection-explanation-v1', selectionSource, usageType, priority,
-    scope: selectionSource === 'recommendation' ? 'shortlisted_catalog_builds_and_single_part_catalog_comparisons' : 'current_selection',
-    selectionRule: `A classificação combina índices simulados, preços de referência${priority === 'lowest-price' ? ' e economia no orçamento' : ', pesos do perfil e uso do orçamento'} e equilíbrio CPU/GPU em um subconjunto do catálogo. Não garante ótimo global nem a melhor oferta de mercado.`,
+  return { version: 'selection-explanation-v1', selectionSource, selectionMode, usageType, priority,
+    scope: factual ? 'all_active_catalog_price_and_compatibility' : selectionSource === 'recommendation' ? 'shortlisted_catalog_builds_and_single_part_catalog_comparisons' : 'current_selection',
+    selectionRule: factual ? 'Escolha pelo menor total de referência entre conjuntos que passam pelas regras de encaixe e energia do catálogo, com mínimos de RAM e VRAM. BIOS instalada não inspecionada. Índices e FPS não participam da seleção; capacidade não garante desempenho em um programa.' : `A classificação combina índices simulados, preços de referência${priority === 'lowest-price' ? ' e economia no orçamento' : ', pesos do perfil e uso do orçamento'} e equilíbrio CPU/GPU em um subconjunto do catálogo. Não garante ótimo global nem a melhor oferta de mercado.`,
     budget: { currency: 'BRL', limit: validBudget ? budgetAmount : null, min: budgetMin, total, coolingSubtotal: coolingTotal,
       knownReferenceSubtotal: pricing.knownReferenceSubtotal, remaining: validBudget && known(total) ? round(budgetAmount - total) : null,
       status: !validBudget || !known(total) ? 'unavailable' : total > budgetAmount ? 'over_budget' : known(budgetMin) && total < budgetMin ? 'below_range' : 'within_budget' },

@@ -114,3 +114,8 @@ Validação adicional: `tests/v3-catalog-evidence.test.js` fixa a preservação 
 Não há calibração dos três novos CPU/GPU desta rodada nem dos cinco anteriores. A RX550 tem dimensões/energia incompletas, explicitamente pendentes. O 4500 exige confirmação de BIOS; foto de família regional é identificada como tal. Fotos públicas não concedem licença aberta nem autorização específica não estabelecida.
 
 A tabela de faixas acima é histórica: a nova política exige 16 GB nos perfis fora de estudo/geral, salvo ajuste explícito do usuário. Não reproduzir os totais antigos como resultados atuais universais. Programação a R$6.000 com Pure Rock 3 preservado gerou 16 GB/R$5.839,83; pendência física do cooler permanece. Estudo a R$4.500 com cooler gerou R$4.499,83, com aviso de ausência de FPS antes de aplicar. Nenhuma dessas referências garante desempenho medido, preço futuro ou compra pronta. Montagens sem GPU dedicada continuam fora da arquitetura.
+
+
+### Seleção automática factual sem nova calibração
+
+[Fechamento econômico](V3-ECONOMY-VALIDATION.md): catálogo continua com 93 ativos; não houve aumento de contagem. RX7600 Pro pode integrar seleção por preço/VRAM/encaixe, sem score ou FPS. RX550 teve potência de fonte de 400 W e alimentação típica50W confirmadas no fabricante; comprimento/conector continuam desconhecidos. Ryzen 4500 e 5500 têm mínimo de BIOS 2423 publicado para ASUS TUF GAMING B550M-PLUS, sem evidência de firmware instalado. O novo modo mantém a proposta `unverified`. A referência mais barata pelas regras atuais não deve ser confundida com configuração integralmente certificada.
