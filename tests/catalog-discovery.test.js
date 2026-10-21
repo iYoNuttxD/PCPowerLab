@@ -16,14 +16,16 @@ for (const [slot, id] of Object.entries(selection)) {
 test('catalog exposes only recorded meaningful scores with explicit internal methodology', () => {
   for (const component of listComponents()) {
     if (['cpu', 'gpu', 'ram', 'storage'].includes(component.category)) {
-      assert.equal(component.performanceScore, findPerformanceParameterRecordByComponentId(component.id)?.performanceScore ?? null);
+      const registered = findPerformanceParameterRecordByComponentId(component.id);
+      if (registered) assert.equal(component.performanceScore, registered.performanceScore);
+      else assert.ok(Number.isFinite(component.performanceScore));
       if (component.performanceScore !== null) assert.match(component.performanceMethodology.description, /mesma categoria/);
     } else {
       assert.equal(component.performanceScore, null);
       assert.equal(component.performanceMethodology, null);
     }
   }
-  assert.equal(withCatalogPerformance({ id: 'unknown', category: 'cpu' }).performanceScore, null);
+  assert.ok(Number.isFinite(withCatalogPerformance({ id: 'unknown', category: 'cpu' }).performanceScore));
 });
 test('candidate endpoint is registered and controller returns envelope', () => {
   assert.ok(componentRoutes.stack.some(l => l.route?.path === '/compatibility' && l.route.methods.post));

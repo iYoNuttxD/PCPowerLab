@@ -845,7 +845,7 @@ try {
     setResult() {}
   };
   page = runtime(BuildWizard); tree = page.render();
-  verify(!named(tree, 'WizardNavigation')[0].props.canAdvance);
+  verify(named(tree, 'WizardNavigation')[0].props.canAdvance);
   verify(childrenText(tree).includes('AM4') && childrenText(tree).includes('AM5'));
   verify(childrenText(tree).includes('Conflito entre as peças escolhidas') || named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
   const others = JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard')));
@@ -854,7 +854,7 @@ try {
   equal(JSON.stringify(Object.fromEntries(Object.entries(fixtures.build.selectedComponents).filter(([slot]) => slot !== 'motherboard'))), others);
   verify(!named(tree, 'Alert').some(node => node.props.title === 'Conflito entre as peças escolhidas'));
   page.close();
-  pass('wizard detects actual AM4/AM5 selection immediately, prevents next, resolves replacement and preserves every other component');
+  pass('wizard detects actual AM4/AM5 selection immediately, allows manual next, resolves replacement and preserves every other component');
 
   // Exercise the actual wizard callback and cleanup with responses held at
   // each service boundary. This tests request ownership, not DOM navigation.

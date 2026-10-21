@@ -33,6 +33,7 @@ test('compact list keeps photos, full model names and actions usable at 320 px',
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto('/components');
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('case');
+  await page.locator('summary').filter({ hasText: 'Mais filtros e exibição' }).click();
   await page.getByRole('combobox', { name: 'Exibição das peças', exact: true }).selectOption('list');
   await expect(page.locator('.component-list > article')).toHaveCount(6);
   await expect(page.locator('.component-list')).toContainText('Montech XR White');

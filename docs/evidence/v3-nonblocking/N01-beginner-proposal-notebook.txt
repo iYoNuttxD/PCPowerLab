@@ -1,0 +1,95 @@
+- link "Pular para o conteúdo":
+  - /url: "#main-content"
+- banner:
+  - link "PCPowerLab — início":
+    - /url: /
+    - generic: PCPowerLab
+  - navigation "Navegação principal":
+    - list:
+      - link "Montar PC":
+        - /url: /build
+      - button "Explorar":
+        - text: Explorar
+      - button "Minhas builds":
+        - text: Minhas builds
+      - button "Analisar":
+        - text: Analisar
+      - link "Feedback":
+        - /url: /feedback
+- main:
+  - generic: Assistente de montagem
+  - heading "Monte seu PC" [level=1]
+  - progressbar "Etapas obrigatórias concluídas"
+  - generic "1 de 9 etapas obrigatórias concluídas Ver etapas":
+    - generic: 1 de 9 etapas obrigatórias concluídas
+    - text: Ver etapas
+  - region "Avançar ou voltar na montagem":
+    - generic "Acompanhamento do orçamento":
+      - term: Limite
+      - definition: R$ 3.000,00
+      - term: Acumulado
+      - definition: R$ 0,00
+      - term: Restante
+      - definition: R$ 3.000,00
+      - button "Editar orçamento"
+    - strong: Etapa 9 de 9 · Revisão
+    - button "Voltar":
+      - text: Voltar
+    - button "Ir para resumo":
+      - text: Ir para resumo
+    - status: Confira a sugestão e use a recomendação inteira para começar.
+  - region "Revisão":
+    - heading "Revisão" [level=2]
+    - paragraph: Confira as escolhas e analise a montagem.
+    - status:
+      - generic: Recomendação gerada. Confira as peças antes de aplicá-la à sua montagem.
+    - heading "Configuração recomendada" [level=3]
+    - strong:
+      - generic: Total estimado de referência
+      - text: R$ 2.489,94
+    - paragraph: "Opção de menor custo estimado, evitando conflitos conhecidos no catálogo. Perfil: Estudos."
+    - button "Usar recomendação inteira"
+    - list:
+      - generic: Processador
+      - figure "Foto da família":
+        - img "AMD Ryzen 3 3200G Box — fotografia da página exata"
+        - generic: Foto da família
+      - strong: AMD Ryzen 3 3200G Box
+      - generic: Placa de vídeo
+      - strong: Vídeo integrado à CPU · sem compra separada
+      - generic: Placa-mãe
+      - figure:
+        - img "ASRock B450M-HDV R4.0 — fotografia da página exata"
+      - strong: ASRock B450M-HDV R4.0
+      - generic: Memória RAM
+      - figure:
+        - img "Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black — Imagem da galeria do SKU exato MCR-VNT3200-16GB. Cor, presença ou ausência de RGB e quantidade de módulos conferidas visualmente. Capacidade, frequência e latência não são legíveis na face frontal; identidade vinculada à página específica cujo título/H1 e SKU correspondem ao produto, não inferida apenas pela aparência."
+      - strong: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black
+      - generic: Armazenamento
+      - figure "Foto da família":
+        - img "Kingston A400 240GB SATA SSD — Vista frontal A400 SATA 2,5 polegadas, sem etiqueta de capacidade. Carcaça compartilhada pela família; a capacidade específica consta na ficha, não na foto."
+        - generic: Foto da família
+      - strong: Kingston A400 240GB SATA SSD
+      - generic: Fonte de alimentação
+      - figure:
+        - img "Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular — Imagem de produto da galeria exata MPE-6502-ACAAG-3BBR; cor, formato e marca revisados visualmente."
+      - strong: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular
+      - generic: Gabinete
+      - figure:
+        - img "Imagem de produto DeepCool CC310 Black"
+      - strong: DeepCool CC310 Black
+    - generic "Como escolhemos estas peças"
+    - generic "Trocar só uma peça"
+    - option "Escolha uma peça" [selected]
+    - 'option "Processador: AMD Ryzen 3 3200G Box"'
+    - 'option "Placa-mãe: ASRock B450M-HDV R4.0"'
+    - 'option "Memória RAM: Mancer Vant S 16GB (1x16GB) DDR4-3200 CL19 Black"'
+    - 'option "Armazenamento: Kingston A400 240GB SATA SSD"'
+    - 'option "Fonte de alimentação: Cooler Master MWE Gold 650 V3 ATX 3.1 Non-Modular"'
+    - 'option "Gabinete: DeepCool CC310 Black"'
+- contentinfo:
+  - generic: PCPowerLab · Seu próximo PC começa aqui.
+  - link "Sobre o projeto":
+    - /url: /about
+  - link "Créditos das imagens":
+    - /url: /image-credits

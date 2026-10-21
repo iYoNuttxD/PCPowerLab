@@ -1,5 +1,8 @@
 # Cooling fit and core compatibility
 
+> **Contrato atual — 21/10/2026:** [V3-NONBLOCKING-VALIDATION.md](V3-NONBLOCKING-VALIDATION.md) substitui os antigos bloqueios por BIOS desconhecida, medidas ausentes e falta de calibração. Dados desconhecidos são avisos opcionais; há estimativas aproximadas, não medições. Conflitos conhecidos não impedem o fluxo manual. Registros anteriores abaixo são históricos e não descrevem esses bloqueios como requisitos atuais.
+
+
 `compatibility.status` and `compatible` retain the existing core-build contract.
 When no aftermarket cooler is selected and included-cooler identity/specifications
 are unavailable, they do **not** prove cooling fit. Consumers must also display

@@ -44,7 +44,7 @@ test('review opens Summary cooling charts with focused target and retained scena
   await opener.click();
   await expect(section).toBeVisible();
   await page.keyboard.press('Shift+Tab');
-  await expect(section.locator('.cooling-simulation-method > summary')).toBeFocused();
+  await expect(section.locator('summary').filter({ hasText: 'Refrigeração desta montagem' })).toBeFocused();
   await page.keyboard.press('Tab');
   await expect(section.getByRole('button', { name: 'Fechar', exact: true })).toBeFocused();
   await page.keyboard.press('Escape');

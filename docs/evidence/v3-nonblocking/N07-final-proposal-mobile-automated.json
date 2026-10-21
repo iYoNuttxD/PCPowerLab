@@ -1,0 +1,7 @@
+{
+  "evidenceType": "automated real API integration screenshot",
+  "manualInspection": false,
+  "project": "mobile",
+  "sourceTest": "frontend/tests/integration/nonblocking.spec.js",
+  "sourceSha256": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4"
+}

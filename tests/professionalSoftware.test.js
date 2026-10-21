@@ -100,7 +100,7 @@ test('deve retornar erro controlado quando build estiver incompleta', () => {
   );
 });
 
-test('deve retornar indisponibilidade estruturada quando faltarem parametros de desempenho', () => {
+test('deve estimar com hipóteses explícitas quando faltarem parametros de desempenho', () => {
   createAdminComponent({
     id: 'cpu-test-software-no-score',
     name: 'CPU Test Software Sem Score',
@@ -121,8 +121,8 @@ test('deve retornar indisponibilidade estruturada quando faltarem parametros de 
         cpuId: 'cpu-test-software-no-score'
       }
     });
-  assert.equal(result.available, false);
-  assert.equal(result.reason, 'performance_model_unavailable');
-  assert.deepEqual(result.componentsWithoutPerformanceModel, ['cpu-test-software-no-score']);
-  assert.equal(result.performanceScore, null);
+  assert.equal(result.available, true);
+  assert.equal(result.estimation.measuredBenchmark, false);
+  assert.equal(result.estimation.confidence, 'low');
+  assert.ok(Number.isFinite(result.performanceScore));
 });

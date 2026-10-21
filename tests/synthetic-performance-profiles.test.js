@@ -50,7 +50,7 @@ for (const [id, value] of Object.entries(expected)) test(`provisional exact-mode
   assert.equal(createSyntheticPerformanceParameter({ ...component, partNumber: 'unrelated' }), null);
   const changedInputs = { ...component.specs, [Object.keys(parameter.scoreInputs)[0]]: 'changed' };
   assert.equal(createSyntheticPerformanceParameter({ ...component, specs: changedInputs }), null);
-  assert.equal(getPerformanceScore(component, { ...parameter, performanceScore: 50 }), null);
+  assert.ok(Number.isFinite(getPerformanceScore(component, { ...parameter, performanceScore: 50 })));
   const entry = listComponentsByCostBenefit({ category: component.category }).find(item => item.component.id === id);
   assert.ok(entry, 'Explicit provisional model participates in relative value ranking');
   assert.equal(entry.performanceBasis, 'simulated');
@@ -76,19 +76,20 @@ test('scores rank and serialize while unsupported FPS, software and physical bot
   const score = calculateBuildScore({ build, budget: { amount: 8000 } });
   assert.ok(Number.isFinite(score.criteria.performanceScore));
   assert.equal(score.performanceBasis, 'simulated');
-  assert.equal(score.criteria.balanceScore, null);
-  assert.equal(score.source.hasBottleneck, null);
-  assert.equal(score.overallScore, null, 'Unknown balance does not become a fictitious complete build grade');
+  assert.ok(Number.isFinite(score.criteria.balanceScore));
+  assert.equal(typeof score.source.hasBottleneck, 'boolean');
+  assert.ok(Number.isFinite(score.overallScore));
   // Four-slot simulation isolates the score gate; the full build separately retains its connector uncertainty.
   const simulationBuild = Object.fromEntries(['cpuId', 'gpuId', 'ramId', 'storageId'].map(key => [key, build[key]]));
   const game = simulateGamePerformance({ build: simulationBuild, gameId: 'game-valorant' });
-  assert.equal(game.estimatedFps, null);
-  assert.equal(game.meetsMinimumRequirements, null);
-  assert.equal(game.scoreOnly, true);
+  assert.ok(Number.isFinite(game.estimatedFps));
+  assert.equal(game.estimation.measuredBenchmark,false);
+  assert.equal(typeof game.meetsMinimumRequirements,'boolean');
+  assert.ok(game.estimatedFpsRange);
   const software = simulateProfessionalSoftwarePerformance({ build: simulationBuild, softwareId: listProfessionalSoftware()[0].id });
-  assert.equal(software.performanceScore, null);
-  assert.equal(software.meetsRecommendedRequirements, null);
-  assert.equal(analyzeBuildBottlenecks(build).hasBottleneck, null);
+  assert.ok(Number.isFinite(software.performanceScore));
+  assert.equal(typeof software.meetsRecommendedRequirements,'boolean');
+  assert.equal(typeof analyzeBuildBottlenecks(build).hasBottleneck,'boolean');
   const exported = JSON.stringify(exportBuildToJson({ build, includeSummary: true }));
   assert.ok(exported.includes('synthetic-provisional'));
   assert.ok(exported.includes('simulated'));
@@ -109,8 +110,8 @@ test('reviewed measured score takes priority without treating a score as FPS cal
   assert.equal(hasVerifiedMeasurementEvidence({ ...measured, measurementEvidence: { ...measured.measurementEvidence, observedAt: '2026-02-30T12:00:00Z' } }, component), false);
   assert.equal(hasVerifiedMeasurementEvidence({ ...measured, measurementEvidence: { ...measured.measurementEvidence, sourceUrl: 'https://' } }, component), false);
   assert.equal(getPerformanceScore(component, measured), 91);
-  assert.equal(getPerformanceScore({ ...component, specs: { ...component.specs, cores: 99 } }, measured), null);
-  assert.equal(getPerformanceScore(component, { ...measured, measuredBenchmark: false }), null);
+  assert.ok(Number.isFinite(getPerformanceScore({ ...component, specs: { ...component.specs, cores: 99 } }, measured)));
+  assert.ok(Number.isFinite(getPerformanceScore(component, { ...measured, measuredBenchmark: false })));
   const index = performanceParameters.findIndex(p => p.componentId === component.id);
   try {
     performanceParameters[index] = measured;
@@ -141,17 +142,18 @@ test('fresh measured-score API records do not grant simulation permission or los
       assert.equal(component.performanceMethodology.basis, 'measured');
       assert.equal(component.performanceMethodology.simulationSupported, false, 'Flag alone is not a versioned simulator profile');
       const result = simulateGamePerformance({ build, gameId: 'game-valorant' });
-      assert.equal(result.estimatedFps, null);
-      assert.equal(result.meetsMinimumRequirements, null);
-      assert.equal(result.meetsRecommendedRequirements, null);
+      assert.ok(Number.isFinite(result.estimatedFps));
+      assert.equal(result.estimation.measuredBenchmark,false);
+      assert.equal(typeof result.meetsMinimumRequirements,'boolean');
+      assert.equal(typeof result.meetsRecommendedRequirements,'boolean');
       const ranked = listComponentsByCostBenefit({ category: 'gpu' }).find(entry => entry.component.id === id);
       assert.equal(ranked.performanceBasis, 'simulated');
       assert.equal(ranked.performanceMethodology.contributors.find(entry => entry.componentId === id).basis, 'measured');
       const metadata = performanceMetadata({ gpu: component });
       assert.equal(metadata.performanceMethodology.contributors[0].basis, 'measured');
       updateAdminComponent(id, { specs: { vramGb: 8 } });
-      assert.equal(findComponentById(id).performanceScore, null, 'A changed exact identity invalidates the reviewed measurement');
-      assert.ok(!listComponentsByCostBenefit({ category: 'gpu' }).some(entry => entry.component.id === id));
+      assert.equal(findComponentById(id).performanceMethodology.basis, 'simulated', 'Changed identity cannot keep measured attribution');
+      assert.ok(!listComponentsByCostBenefit({ category: 'gpu' }).some(entry => entry.component.id === id), 'An invalidated price reference cannot rank as a known cost');
       components[componentIndex] = originalComponent;
     }
   } finally {

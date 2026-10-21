@@ -219,3 +219,17 @@
 .journey-wizard .wizard-progress summary { flex-wrap: wrap; }
 .journey-wizard .wizard-actions .btn { white-space: normal; text-align: center; }
 .journey-wizard .wizard-step-intro details > summary { min-height: 44px; padding-block: var(--space-2); color: var(--cyan); cursor: pointer; }
+
+/* One category chooser and one price limit; secondary controls are curated. */
+.compact-catalog-filters .catalog-essential-filters { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.compact-catalog-filters .catalog-advanced-filters { margin-top: 12px; }
+.compact-catalog-filters .active-filters { padding-top: 8px; }
+@media (max-width: 520px) { .compact-catalog-filters .catalog-essential-filters { grid-template-columns: 1fr; } }
+/* Keep the catalogue entry short enough to expose the first results on notebooks. */
+.catalog-page .compact-hero { padding-block: var(--space-3); }
+.catalog-page .catalog-advanced-filters { margin-top: var(--space-2); padding: var(--space-3); }
+.summary-result-first { border-left: 4px solid var(--cyan); }
+.summary-result-first .metric-value { font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 750; }
+.cooling-dialog { scroll-padding-top: 8rem; }
+.cooling-dialog .modal-header { position: sticky; top: -24px; z-index: 3; background: var(--panel); padding-block: var(--space-2); }
+@media (max-width: 600px) { .cooling-dialog .modal-header { top: -16px; } }

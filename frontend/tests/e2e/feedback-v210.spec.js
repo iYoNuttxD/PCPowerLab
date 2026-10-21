@@ -17,12 +17,12 @@ async function setup(page, extra={}) {
   return route.fulfill({json:{success:true,data}});
  });
 }
-test('known socket mismatch is contextual, blocks next, and preserves all other choices when resolved',async({page})=>{
+test('known socket mismatch is contextual, allows theoretical continuation, and preserves all other choices when resolved',async({page})=>{
  const incompatible=activePart(catalog, 'mb-gigabyte-b650m-d3hp');
  await setup(page,{wizardStep:'motherboard',selectedComponents:{...selection,motherboard:incompatible}});
  await page.goto('/build');
  await expect(page.getByRole('alert').filter({hasText:'Conflito entre as peças escolhidas'})).toContainText('AM4');
- await expect(page.getByRole('button',{name:'Avançar',exact:true})).toBeDisabled();
+ await expect(page.getByRole('button',{name:'Avançar',exact:true})).toBeEnabled();
  await page.getByRole('button',{name:`Selecionar: ${selection.motherboard.name}`,exact:true}).click();
  await expect(page.getByRole('button',{name:'Avançar',exact:true})).toBeEnabled();
  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('pcpowerlab-build-state')));
@@ -35,6 +35,8 @@ test('summary success hint and horizontal energy labels stay coherent at narrow 
  await expect(page.locator('#summary-simulation-hint')).not.toContainText('Execute a simulação');
  for(const width of [320,390,768]){
   await page.setViewportSize({width,height:800});
+  const balance=page.locator('summary').filter({hasText:'Ver equilíbrio das peças e consumo'});
+  if ((await balance.locator('..').getAttribute('open')) === null) await balance.click();
   const chart=page.getByRole('group',{name:'Gráfico de consumo energético da build',exact:true});
   await chart.scrollIntoViewIfNeeded();
   await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

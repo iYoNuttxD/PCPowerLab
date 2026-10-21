@@ -60,7 +60,7 @@ export function specKeys(components) {
   const keys = [...new Set([
     ...(componentSpecFields[components[0]?.category] || []),
     ...components.flatMap(component => Object.keys(component.specs || {}))
-  ])].filter(key => !['cpuFamilies', 'minimumBiosByCpu', 'gpuPcieGeneration'].includes(key));
+  ])].filter(key => !['cpuFamilies', 'minimumBiosByCpu', 'installedBiosVersion', 'gpuPcieGeneration'].includes(key));
   // The legacy speedMhz key stores MT/s; avoid printing its exact alias twice.
   const sameRate = keys.includes('speedMhz') && components.every(component => component.specs?.dataRateMTs == null || component.specs?.dataRateMTs === component.specs?.speedMhz);
   return sameRate ? keys.filter(key => key !== 'dataRateMTs') : keys;
@@ -119,7 +119,7 @@ export function filterComponents(components, requestedFilters = {}, compatibilit
     const status = typeof compatibility === 'string' ? compatibility : compatibility?.status;
     return (filters.category === 'all' || component.category === filters.category)
       && (filters.brand === 'all' || component.brand === filters.brand)
-      && terms.every(term => componentSearchText(component).includes(term))
+      && terms.every(term => term.length === 1 ? componentSearchText(component).split(' ').includes(term) : componentSearchText(component).includes(term))
       && (filters.minPrice === '' || (price !== null && price >= Number(filters.minPrice)))
       && (filters.maxPrice === '' || (price !== null && price <= Number(filters.maxPrice)))
       && (!comparable || filters.minPerformance === '' || (score !== null && score >= Number(filters.minPerformance)))

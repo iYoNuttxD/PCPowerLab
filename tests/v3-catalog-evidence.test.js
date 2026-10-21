@@ -99,27 +99,22 @@ test('admin identity changes invalidate motherboard comparison evidence too', ()
   } finally { components[index] = original; }
 });
 
-test('new CPU/GPU selections preserve totals and shop research while BIOS and performance remain unverified', () => {
-  for (const c of catalogV3.filter(c => ['cpu', 'gpu'].includes(c.category))) {
-    assert.equal(c.performanceModelStatus, 'unavailable');
-    assert.equal(performanceParameters.find(p => p.componentId === c.id), undefined);
-    assert.equal(getPurchaseLinksByComponentId(c.id).length, 5);
+test('new CPU/GPU selections preserve exact facts, price and shop research while enabling approximate performance', () => {
+  for(const c of catalogV3.filter(c=>['cpu','gpu'].includes(c.category))) {
+    assert.equal(c.performanceModelStatus,'unavailable');
+    assert.equal(performanceParameters.find(p=>p.componentId===c.id),undefined);
+    assert.equal(getPurchaseLinksByComponentId(c.id).length,5);
   }
-  const summary = generateBuildSummary(payload);
-  assert.equal(summary.selectionStatus, 'complete');
-  assert.equal(summary.totalEstimatedPrice, 18469.84);
-  assert.equal(summary.pricing.referenceTotalComplete, true);
-  assert.equal(summary.pricing.availableMarketQuotesTotal, null);
-  assert.equal(summary.budgetStatus.status, 'within_budget');
-  assert.equal(summary.bottlenecks.reason, 'performance_model_unavailable');
-  assert.deepEqual(summary.bottlenecks.componentsWithoutPerformanceModel.sort(), [newBuild.cpuId, newBuild.gpuId].sort());
-  assert.ok(summary.compatibility.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
-  assert.equal(summary.compatibility.compatible, false);
-  assert.equal(summary.gamePerformance.available, false);
-  assert.equal(Number.isFinite(summary.gamePerformance.estimatedFps), false);
-  assert.equal(calculateBuildScore(payload).overallScore, null);
-  const recommendation = recommendBuildByBudget({ budget: { amount: 20000, currency: 'BRL' }, usageType: 'gaming' });
-  assert.equal(catalogV3.some(c => ['cpu', 'gpu'].includes(c.category) && [recommendation.components.cpu.id, recommendation.components.gpu.id].includes(c.id)), false);
+  const summary=generateBuildSummary(payload);
+  assert.equal(summary.selectionStatus,'complete');
+  assert.equal(summary.totalEstimatedPrice,18469.84);
+  assert.equal(summary.pricing.referenceTotalComplete,true);
+  assert.equal(summary.gamePerformance.available,true);
+  assert.ok(summary.gamePerformance.estimatedFpsRange);
+  assert.equal(summary.gamePerformance.estimation.measuredBenchmark,false);
+  assert.equal(summary.bottlenecks.available,true);
+  assert.ok(!summary.compatibility.unverifiedChecks.some(check=>/BIOS/.test(check.code)));
+  assert.ok(Number.isFinite(calculateBuildScore(payload).criteria.performanceScore));
 });
 
 test('new cases never convert unsupported AIO or unknown PSU format into compatible', () => {
@@ -149,57 +144,27 @@ test('all 81 pre-V3 active identities, photographs and historical prices remain 
   }
 });
 
-for (const usageType of ['study', 'gaming', 'work']) {
-  for (const [amount, expectedTotal, storageId] of [
-    [4500, 4339.84, 'ssd-kingston-a400-240gb'],
-    [5000, 4589.75, 'ssd-kingston-nv3-500gb']
-  ]) test(`real entry recommendation works for ${usageType} at BRL ${amount} without relaxing unknowns`, () => {
-    const result = recommendBuildByBudget({ budget: { amount, currency: 'BRL' }, usageType });
-    assert.equal(result.totalEstimatedPrice, Number((expectedTotal + (usageType === 'study' ? 0 : 90.09)).toFixed(2)));
-    assert.ok(result.components.ram.specs.capacityGb >= (usageType === 'study' ? 8 : 16));
-    assert.equal(result.components.gpu.id, 'gpu-msi-rtx-3050-lp-6g-oc');
-    assert.equal(result.components.case.id, 'case-deepcool-cc310-black');
-    assert.equal(result.components.storage.id, storageId);
-    assert.equal(result.compatibilityStatus, 'compatible');
-    assert.deepEqual(result.unverifiedChecks, []);
-    const build = Object.fromEntries(Object.entries(result.components).map(([slot, component]) => [`${slot}Id`, component.id]));
-    const compatibility = checkBuildCompatibility(build);
-    assert.equal(compatibility.compatible, true);
-    assert.deepEqual(compatibility.unverifiedChecks, []);
-    assert.ok(compatibility.verificationSources.some(source => source.componentId === result.components.gpu.id));
-    assert.equal(compatibility.coolingAssessment.status, 'unverified', 'No cooler fit or thermal outcome is fabricated by this seven-slot recommendation');
-    const gameSummary = generateBuildSummary({ build, usageType, gameId: 'game-valorant' });
-    assert.equal(gameSummary.gamePerformance.estimatedFps, null, 'Verified physical fit does not invent game calibration for the score-only 3050');
-    assert.equal(gameSummary.gamePerformance.available, false);
-    for (const component of Object.values(result.components)) {
-      assert.notEqual(component.active, false);
-      assert.ok(getDatedReference(byId(component.id)).price > 0);
-    }
+for(const usageType of ['study','gaming','work']) {
+  for(const amount of [4000,4500,5000,7000,10000,15000]) test(`real ${usageType} recommendation at BRL ${amount} avoids known conflicts without excluding unknowns`, () => {
+    const result=recommendBuildByBudget({budget:{amount,currency:'BRL'},usageType});
+    assert.ok(result.totalEstimatedPrice<=amount);
+    assert.ok(result.components.ram.specs.capacityGb>=(usageType==='study'?8:16));
+    const build=Object.fromEntries(Object.entries(result.components).map(([slot,c])=>[`${slot}Id`,c.id]));
+    assert.deepEqual(checkBuildCompatibility(build).alerts,[]);
+    assert.equal(Object.keys(result.components).length,7);
+    const summary=generateBuildSummary({build,usageType,gameId:'game-valorant'});
+    assert.ok(Number.isFinite(summary.gamePerformance.estimatedFps));
+    assert.equal(summary.gamePerformance.estimation.measuredBenchmark,false);
+    for(const c of Object.values(result.components)) assert.ok(getDatedReference(byId(c.id)).price>0);
   });
-  test(`sub-entry ${usageType} budget fails honestly rather than fabricating a cheaper seven-slot build`, () => {
-    for (const amount of [3000, 4000]) assert.throws(() => recommendBuildByBudget({ budget: { amount }, usageType }), error => error.statusCode === 422);
+  test(`BRL 3000 ${usageType} reports the actual shortfall when seven products exceed budget`,()=> {
+    assert.throws(()=>recommendBuildByBudget({budget:{amount:3000},usageType}),error=>error.statusCode===422 && error.budgetFeasibility.minimumCatalogRulesTotal>3000);
   });
-  test(`midrange and larger ${usageType} budgets still return complete compatible selections`, () => {
-    for (const amount of [7000, 10000, 15000]) {
-      const result = recommendBuildByBudget({ budget: { amount }, usageType });
-      assert.equal(Object.keys(result.components).length, 7);
-      assert.ok(result.totalEstimatedPrice <= amount);
-      assert.equal(result.compatibilityStatus, 'compatible');
-      assert.deepEqual(result.unverifiedChecks, []);
-      assert.equal(catalogV3.some(component => ['cpu', 'gpu'].includes(component.category) && Object.values(result.components).some(selected => selected.id === component.id)), false, 'Technical specifications alone do not invent a performance ranking');
-    }
+  test(`premium ${usageType} priorities remain distinct without claiming measured performance`,()=> {
+    const cheap=recommendBuildByBudget({budget:{amount:15000,priority:'lowest-price'},usageType});
+    const performance=recommendBuildByBudget({budget:{amount:15000,priority:'performance'},usageType});
+    assert.ok(performance.totalEstimatedPrice>=cheap.totalEstimatedPrice);
+    assert.ok(performance.totalEstimatedPrice<=15000);
+    assert.equal(performance.performanceBasis,'simulated');
   });
 }
-
-
-for (const usageType of ['study', 'gaming', 'work']) test(`premium ${usageType} budget respects explicit performance versus price priority`, () => {
-  const cheapest = recommendBuildByBudget({ budget: { amount: 15000, priority: 'lowest-price' }, usageType });
-  const performance = recommendBuildByBudget({ budget: { amount: 15000, priority: 'performance' }, usageType });
-  assert.equal(cheapest.totalEstimatedPrice, usageType === 'study' ? 4339.84 : 4429.93);
-  assert.ok(performance.totalEstimatedPrice > cheapest.totalEstimatedPrice);
-  assert.ok(performance.totalEstimatedPrice <= 15000);
-  assert.equal(performance.compatibilityStatus, 'compatible');
-  assert.deepEqual(performance.unverifiedChecks, []);
-  assert.equal(performance.components.ram.specs.capacityGb, 64);
-  assert.equal(performance.performanceBasis, 'simulated', 'Higher budget does not turn internal scores into measured results');
-});

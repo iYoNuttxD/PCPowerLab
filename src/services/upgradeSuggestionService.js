@@ -185,7 +185,7 @@ function buildCandidateSuggestion({
   };
   const compatibility = runOptionalAnalysis(() => checkBuildCompatibility(upgradedBuildIds), null);
 
-  if (!compatibility?.compatible) {
+  if (!compatibility || compatibility.alerts?.length > 0) {
     return null;
   }
 
@@ -220,7 +220,8 @@ function buildCandidateSuggestion({
       hasBottleneck
     }),
     explanation,
-    compatibilityStatus: 'compatible',
+    compatibilityStatus: compatibility.status,
+    unverifiedChecks: compatibility.unverifiedChecks,
     coolingAssessment: compatibility.coolingAssessment,
     score: calculateSuggestionScore({
       scoreGain,

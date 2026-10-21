@@ -1,0 +1,14 @@
+{
+  "evidenceType": "automated Chrome integration screenshot, reviewed visually by agent",
+  "sourceTest": "frontend/tests/integration/nonblocking.spec.js",
+  "project": "mobile",
+  "sourceSha256": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4",
+  "screenshotSha256": "443847d04db17a199e6733d135138a53c7dfda59097da9ad9420517156d6b3d3",
+  "checks": [
+    "Shift+Tab from close reaches last visible summary",
+    "close remains inside viewport",
+    "Tab returns to close",
+    "Escape restores opener focus"
+  ],
+  "manualInspection": false
+}

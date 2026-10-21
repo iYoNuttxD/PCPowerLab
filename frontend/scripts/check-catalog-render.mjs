@@ -24,7 +24,7 @@ try {
         import ComponentFilters from './src/components/componentsCatalog/ComponentFilters.jsx';
         import ComponentComparison from './src/components/componentsCatalog/ComponentComparison.jsx';
         import { ComponentsProvider } from './src/hooks/useComponents.js';
-        import { emptyCatalogFilters, catalogFilterFields, specLabel } from './src/utils/componentPresentation.js';
+        import { emptyCatalogFilters, catalogFilterFields } from './src/utils/componentPresentation.js';
         import { components } from ${JSON.stringify(componentFile)};
 
         const bad = { id: 'bad-cpu', category: 'cpu', name: { injected: true } };
@@ -42,57 +42,49 @@ try {
           const html = renderToStaticMarkup(React.createElement(ComponentFilters, {
             components, filters: { ...emptyCatalogFilters, category }, onChange: () => {}, hasBuild: true
           }));
-          for (const key of catalogFilterFields[category]) assert(html.includes(specLabel(key)), category + ': missing label ' + key);
-          assert(html.includes('Compatibilidade'), category + ': missing compatibility filter');
+          assert(html.includes('Buscar componente') && html.includes('Preço máximo (R$)'), category + ': essential search and budget');
+          assert(!html.includes('>Compatibilidade<') && !html.includes('Preço mínimo (R$)') && !html.includes('Desempenho mínimo'), category + ': redundant controls removed');
           assert(html.includes('Ordenar por'), category + ': missing sort selector');
         }
-        console.log('PASS: server rendering includes technical fields, compatibility and sorting for all 9 categories');
+        console.log('PASS: server rendering preserves search, maximum price and progressive sorting without redundant filters');
         const allNodes = (node, predicate) => !node || typeof node !== 'object' ? [] : Array.isArray(node) ? node.flatMap(child => allNodes(child, predicate)) : [...(predicate(node) ? [node] : []), ...allNodes(node.props?.children, predicate)];
-        let filters = { ...emptyCatalogFilters, category: 'cpu', search: 'Ryzen', minPrice: '100', maxPrice: '1500', brand: 'AMD', specs: { socket: 'AM4' }, minPerformance: '50', maxPerformance: '90', compatibility: 'compatible', sort: 'price-asc' };
+        let filters = { ...emptyCatalogFilters, category: 'cpu', search: 'Ryzen', maxPrice: '1500', brand: 'AMD', specs: { socket: 'AM4' }, sort: 'price-asc' };
         const filterTree = () => {
           let captured;
-          // Render the capture component with React's real SSR dispatcher so
-          // ComponentFilters' hooks are valid, then exercise the captured handlers.
-          function CaptureFilters() {
-            captured = ComponentFilters({ components, filters, onChange: next => { filters = next; }, hasBuild: true });
-            return captured;
-          }
-          renderToStaticMarkup(React.createElement(CaptureFilters));
-          return captured;
+          function CaptureFilters() { captured = ComponentFilters({ components, filters, onChange: next => { filters = next; } }); return captured; }
+          renderToStaticMarkup(React.createElement(CaptureFilters)); return captured;
         };
         const chipButtons = node => allNodes(node, child => child.type === 'button');
         const clickChip = (node, label) => chipButtons(node).find(child => child.props['aria-label'] === label).props.onClick({ detail: 1 });
         let tree = filterTree();
-        const primary = allNodes(tree, node => node.props?.className === 'form-grid catalog-filter-grid')[0];
-        assert.deepEqual(allNodes(primary, node => Boolean(node.props?.label)).map(node => node.props.label), ['Buscar componente', 'Categoria', 'Preço mínimo (R$)', 'Preço máximo (R$)', 'Exibição das peças', 'Ordenar por']);
+        const primary = allNodes(tree, node => node.props?.className?.includes('catalog-essential-filters'))[0];
+        const primaryLabels = allNodes(primary, node => Boolean(node.props?.label)).map(node => node.props.label);
+        assert.deepEqual(primaryLabels.slice(0, 3), ['Buscar componente', 'Categoria', 'Preço máximo (R$)']);
+        assert(primaryLabels.length <= 4, 'At most one category-specific essential filter');
         const advanced = allNodes(tree, node => node.type === 'details')[0];
         assert.equal(advanced.props.open, undefined, 'Advanced fields start natively collapsed');
         assert.equal(advanced.props.children[0].type, 'summary');
         const advancedLabels = allNodes(advanced, node => Boolean(node.props?.label)).map(node => node.props.label);
-        for (const label of ['Marca', 'Encaixe (socket)', 'Desempenho mínimo', 'Desempenho máximo', 'Compatibilidade']) assert(advancedLabels.includes(label), label);
-        assert.equal(allNodes(advanced, node => node.props?.['aria-label'] === 'Filtros aplicados').length, 0, 'Applied chips must stay outside the closed disclosure');
+        assert(advancedLabels.includes('Ordenar por') && advancedLabels.includes('Exibição das peças'));
+        assert(!advancedLabels.includes('Compatibilidade') && !advancedLabels.includes('Desempenho mínimo'));
+        assert.equal(allNodes(advanced, node => node.props?.['aria-label'] === 'Filtros aplicados').length, 0);
         let chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
-        assert.equal(chipButtons(chips).length, 9);
+        assert.equal(chipButtons(chips).length, 5);
         clickChip(chips, 'Remover filtro Encaixe (socket): AM4');
-        assert.equal(filters.specs.socket, ''); assert.equal(filters.brand, 'AMD'); assert.equal(filters.search, 'Ryzen'); assert.equal(filters.minPrice, '100');
+        assert.equal(filters.specs.socket, ''); assert.equal(filters.brand, 'AMD'); assert.equal(filters.search, 'Ryzen');
         tree = filterTree(); chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
-        assert.equal(chipButtons(chips).length, 8);
-        clickChip(chips, 'Remover filtro AMD');
-        assert.equal(filters.brand, 'all'); assert.equal(filters.compatibility, 'compatible');
+        assert.equal(chipButtons(chips).length, 4);
+        clickChip(chips, 'Remover filtro AMD'); assert.equal(filters.brand, 'all');
         tree = filterTree(); allNodes(tree, node => node.props?.label === 'Categoria')[0].props.onChange({ target: { value: 'ram' } });
-        assert.deepEqual(filters.specs, {}); assert.equal(filters.minPerformance, ''); assert.equal(filters.maxPerformance, ''); assert.equal(filters.sort, 'name-asc');
-        assert.equal(filters.search, 'Ryzen'); assert.equal(filters.minPrice, '100'); assert.equal(filters.maxPrice, '1500');
+        assert.deepEqual(filters.specs, {}); assert.equal(filters.sort, 'name-asc');
+        assert.equal(filters.search, 'Ryzen'); assert.equal(filters.maxPrice, '1500');
         tree = filterTree(); chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
-        clickChip(chips, 'Remover filtro Busca: Ryzen');
-        assert.equal(filters.search, ''); assert.equal(filters.category, 'ram'); assert.equal(filters.minPrice, '100');
+        clickChip(chips, 'Remover filtro Busca: Ryzen'); assert.equal(filters.search, ''); assert.equal(filters.category, 'ram');
         tree = filterTree(); chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
-        const priceChip = chipButtons(chips).find(node => node.props['aria-label'].startsWith('Remover filtro Preço mínimo:'));
-        priceChip.props.onClick({ detail: 1 });
-        assert.equal(filters.minPrice, ''); assert.equal(filters.maxPrice, '1500');
-        tree = filterTree(); chips = allNodes(tree, node => node.props?.['aria-label'] === 'Filtros aplicados')[0];
-        clickChip(chips, 'Remover filtro Categoria: Memória RAM');
-        assert.equal(filters.category, 'all'); assert.equal(filters.maxPrice, '1500');
-        console.log('PASS: primary/advanced filters retain native disclosure semantics; visible active chips remove only their criterion and category changes clear obsolete advanced settings');
+        const priceChip = chipButtons(chips).find(node => node.props['aria-label'].startsWith('Remover filtro Até '));
+        priceChip.props.onClick({ detail: 1 }); assert.equal(filters.maxPrice, ''); assert.equal(filters.category, 'ram');
+        console.log('PASS: compact primary controls, collapsed secondary controls, independent filter chips and category cleanup');
+
 
 
         const cpu = components.find(component => component.category === 'cpu');

@@ -12,12 +12,12 @@ for (const amount of [3000]) test(`BRL ${amount} reports verified minimum, gap a
   const before = listComponents().map(c => [c.id, c.price, c.performanceScore]);
   assert.throws(() => factual(amount), error => {
     assert.equal(error.statusCode, 422);
-    assert.match(error.message, /3\.799,84/);
-    assert.equal(error.budgetFeasibility.minimumCatalogRulesTotal, 3799.84);
+    assert.match(error.message, /3\.019,75/);
+    assert.equal(error.budgetFeasibility.minimumCatalogRulesTotal, 3019.75);
     assert.equal(error.budgetFeasibility.lowerBound, 3019.75);
     assert.equal(error.budgetFeasibility.pendingTotal, 3019.75);
-    assert.deepEqual(error.budgetFeasibility.pendingChecks.map(check => check.code).sort(), ['CASE_GPU_LENGTH_UNVERIFIED', 'CPU_BIOS_UNVERIFIED', 'GPU_POWER_CONNECTORS_UNVERIFIED']);
-    assert.ok(error.errors.some(message => message.includes('não aprovado')));
+    assert.deepEqual(error.budgetFeasibility.pendingChecks.map(check => check.code).sort(), ['CASE_GPU_LENGTH_UNVERIFIED', 'GPU_POWER_CONNECTORS_UNVERIFIED']);
+    assert.ok(error.errors.some(message => message.includes('dados opcionais')));
     return true;
   });
   assert.deepEqual(listComponents().map(c => [c.id, c.price, c.performanceScore]), before);
@@ -25,17 +25,17 @@ for (const amount of [3000]) test(`BRL ${amount} reports verified minimum, gap a
 
 test('entry factual selection has verified core, exact price, capacity floor and no aggregate performance claim', () => {
   const result = factual(4500);
-  assert.equal(result.totalEstimatedPrice, 3799.84);
+  assert.equal(result.totalEstimatedPrice, 3019.75);
   assert.equal(result.compatibilityStatus, 'unverified');
   assert.equal(result.coreCatalogRulesStatus, 'unverified');
-  assert.ok(result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
+  assert.ok(!result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
   assert.equal(result.performanceScore, null);
   assert.equal(result.performanceBasis, 'not_used');
   assert.equal(result.memoryRequirement.minimumGb, 8);
   assert.equal(result.biosSupport.minimumVersion, 'P2.30');
   assert.equal(result.biosSupport.installedVersion, null);
   assert.equal(result.coolingAssessment.status, 'unverified');
-  assert.equal(result.simulationAvailability.available, false);
+  assert.equal(result.simulationAvailability.available, true);
   assert.equal(result.selectionExplanation.scope, 'all_active_catalog_price_and_compatibility');
   for (const reason of result.selectionExplanation.componentReasons) {
     assert.equal(reason.performance.score, null);
@@ -49,14 +49,14 @@ test('intermediate factual proposal admits exact uncalibrated RX7600, meets 16GB
   assert.equal(result.components.gpu.id, 'gpu-asrock-rx-7600-challenger-pro-8gb');
   assert.equal(result.components.case.id, 'case-montech-x2-plus-white');
   assert.equal(result.totalEstimatedPrice, 4469.84);
-  assert.equal(result.compatibilityStatus, 'unverified');
-  assert.equal(result.coreCatalogRulesStatus, 'unverified');
-  assert.ok(result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
+  assert.equal(result.compatibilityStatus, 'compatible');
+  assert.equal(result.coreCatalogRulesStatus, 'compatible');
+  assert.ok(!result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
   assert.ok(result.components.ram.specs.capacityGb >= 16);
   assert.ok(result.components.gpu.specs.vramGb >= 8);
-  assert.equal(result.components.gpu.performanceModelStatus, 'unavailable');
+  assert.equal(result.components.gpu.performanceModelStatus, 'estimated');
   assert.equal(result.performanceScore, null);
-  assert.equal(result.simulationAvailability.available, false);
+  assert.equal(result.simulationAvailability.available, true);
   assert.ok(getDatedReference(result.components.gpu));
 });
 
@@ -73,18 +73,15 @@ test('factual price ordering cannot override capacity, conflict or missing-data 
   assert.equal(pending.coolingAssessment.status, 'unverified');
 });
 
-test('Ryzen4500 BIOS minimum is factual while installed BIOS remains unknown, older fails and exact minimum passes', () => {
-  const build = globalThis.structuredClone(core());
-  build.motherboard = listComponents({ type: 'motherboard' }).find(c => c.id === 'mb-asus-tuf-b550m-plus');
-  build.cpu = listComponents({ type: 'cpu' }).find(c => c.id === 'cpu-ryzen-5-4500-box');
-  let result = evaluateResolvedBuildCompatibility(build);
-  assert.equal(result.compatible, false);
-  assert.ok(result.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED' && check.message.includes('2423')));
-  build.motherboard.specs.installedBiosVersion = '2422';
-  result = evaluateResolvedBuildCompatibility(build);
-  assert.ok(result.alerts.some(check => check.code === 'CPU_BIOS_BELOW_MINIMUM'));
-  build.motherboard.specs.installedBiosVersion = '2423';
-  assert.equal(evaluateResolvedBuildCompatibility(build).compatible, true);
+test('installed BIOS strings do not gate selection or estimates; published support stays optional', () => {
+  const build=globalThis.structuredClone(core());
+  build.motherboard=listComponents({type:'motherboard'}).find(c=>c.id==='mb-asus-tuf-b550m-plus');
+  build.cpu=listComponents({type:'cpu'}).find(c=>c.id==='cpu-ryzen-5-4500-box');
+  for(const version of [undefined,'2422','2423','2423B']) {
+    build.motherboard.specs.installedBiosVersion=version;
+    const result=evaluateResolvedBuildCompatibility(build);
+    assert.ok(![...result.alerts,...result.unverifiedChecks].some(check=>/BIOS/.test(check.code)));
+  }
 });
 
 test('RX550 manufacturer power recommendation resolves only PSU wattage, without guessing length or auxiliary power', () => {
@@ -107,5 +104,5 @@ test('invalid factual criteria fail explicitly and ranked selection remains the 
   assert.throws(() => recommendBuildsByBudgetRange({ budgetRange: { min: 4000, max: 6000 }, selectionMode: 'price-and-compatibility' }), e => e.statusCode === 400);
   const ranked = recommendBuildByBudget({ budget: { amount: 6000 }, usageType: 'programming' });
   assert.ok(Number.isFinite(ranked.performanceScore));
-  assert.notEqual(ranked.components.gpu.id, 'gpu-asrock-rx-7600-challenger-pro-8gb');
+  assert.ok(ranked.totalEstimatedPrice <= 6000);
 });

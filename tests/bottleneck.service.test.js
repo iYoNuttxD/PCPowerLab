@@ -99,7 +99,7 @@ test('deve aceitar selecao aninhada em components com campos de ID', () => {
   assert.equal(result.overallBalance, 'balanced');
 });
 
-test('deve retornar indisponibilidade estruturada quando faltar parametro de desempenho', () => {
+test('deve estimar com hipóteses explícitas quando faltar parametro de desempenho', () => {
   createAdminComponent({
     id: 'cpu-test-no-performance-score',
     name: 'CPU Test Sem Score',
@@ -122,8 +122,8 @@ test('deve retornar indisponibilidade estruturada quando faltar parametro de des
       psuId: 'psu-corsair-650w',
       caseId: 'case-mid-tower-airflow'
     });
-  assert.equal(result.available, false);
-  assert.equal(result.reason, 'performance_model_unavailable');
-  assert.deepEqual(result.componentsWithoutPerformanceModel, ['cpu-test-no-performance-score']);
-  assert.equal(result.performanceSummary, null);
+  assert.equal(result.available, true);
+  assert.equal(result.estimation.measuredBenchmark, false);
+  assert.equal(result.estimation.confidence, 'low');
+  assert.ok(result.performanceSummary);
 });

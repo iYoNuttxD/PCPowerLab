@@ -1,0 +1,74 @@
+import { test, expect } from '@playwright/test';
+const key='pcpowerlab-build-state';
+const slots=['cpu','gpu','motherboard','ram','storage','psu','case'];
+const ids={cpu:'cpu-ryzen-5-4500-box',motherboard:'mb-asrock-b450m-hdv-r4',gpu:'gpu-pcyes-rx-550-edge-4gb',ram:'ram-kf436c17bbk2-16',storage:'ssd-kingston-a400-240gb',psu:'psu-coolermaster-mwe-gold650-v3',case:'case-deepcool-cc310-black'};
+async function seed(page,request,overrides={}) {
+ const response=await request.get('/api/v1/components');expect(response.ok()).toBe(true);
+ const catalog=(await response.json()).data;
+ const selectedComponents=Object.fromEntries(slots.map(slot=>[slot,catalog.find(c=>c.id===(overrides[slot]||ids[slot]))]));
+ expect(Object.values(selectedComponents).every(Boolean)).toBe(true);
+ await page.addInitScript(({key,selectedComponents})=>localStorage.setItem(key,JSON.stringify({selectedComponents,budget:{amount:6000,currency:'BRL',priority:'cost-benefit'},usageType:'study',wizardStep:'review',game:{gameId:'game-valorant',targetResolution:'1080p',qualityPreset:'high'}})),{key,selectedComponents});
+ await page.goto('/summary');
+}
+test('real unknown-data build reaches useful ranges, default cooling popup and independent shop links',async({page,request},testInfo)=>{
+ await seed(page,request);
+ const pending=page.waitForResponse(r=>r.url().endsWith('/api/v1/build-summary')&&r.request().method()==='POST');
+ await page.getByRole('button',{name:'Gerar resumo final',exact:true}).click();
+ const body=(await (await pending).json()).data;
+ expect(body.selectionStatus).toBe('complete');expect(body.gamePerformance.estimatedFpsRange.low).toBeGreaterThan(0);
+ expect(body.compatibility.unverifiedChecks.some(v=>v.code==='CASE_GPU_LENGTH_UNVERIFIED')).toBe(true);
+ await expect(page.locator('.summary-result-first')).toContainText(/FPS estimados/);
+ const open=page.getByRole('button',{name:'Explorar temperatura e ruído',exact:true});
+ await open.click();const dialog=page.getByRole('dialog');await expect(dialog).toContainText('Faixas aproximadas');
+ await expect(dialog.locator('.cooling-temperature-chart li')).toHaveCount(3);
+ await expect(dialog.locator('.cooling-noise-result')).toContainText(/dBA/);
+ const close=dialog.getByRole('button',{name:'Fechar',exact:true});
+ await expect(close).toBeFocused();await page.keyboard.press('Shift+Tab');
+ await expect(dialog.locator('summary').filter({hasText:'Refrigeração desta montagem'})).toBeFocused();
+ const closeBox=await close.boundingBox();expect(closeBox.y).toBeGreaterThanOrEqual(0);expect(closeBox.y+closeBox.height).toBeLessThanOrEqual(page.viewportSize().height);
+ await page.screenshot({path:testInfo.outputPath('nonblocking-cooling-focus.png')});
+ await page.keyboard.press('Tab');await expect(close).toBeFocused();
+ await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);await expect(open).toBeFocused();
+ await expect(page.getByRole('heading',{name:'Links de compra',exact:true})).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+test('real known socket conflict allows manual analysis and preserves a factual warning',async({page,request})=>{
+ await seed(page,request,{cpu:'cpu-intel-i3-12100f'});
+ const pending=page.waitForResponse(r=>r.url().endsWith('/api/v1/build-summary')&&r.request().method()==='POST');
+ await page.getByRole('button',{name:'Gerar resumo final',exact:true}).click();const body=(await (await pending).json()).data;
+ expect(body.compatibility.status).toBe('incompatible');expect(body.gamePerformance.available).toBe(true);expect(body.gamePerformance.estimation.scenarioOnly).toBe(true);
+ await expect(page.locator('.summary-result-first')).toContainText(/FPS estimados/);
+ await expect(page.getByRole('heading',{name:'Confira um conflito entre as peças',exact:true})).toBeVisible();
+});
+test('real uncalibrated GPU returns labeled estimated ranges and compact filters have no duplicates',async({page,request},testInfo)=>{
+ await seed(page,request,{gpu:'gpu-msi-rtx-5060-ventus-2x-oc-8g'});
+ await page.getByRole('button',{name:'Gerar resumo final',exact:true}).click();await expect(page.locator('.summary-result-first')).toContainText(/FPS estimados/);
+ await page.goto('/components');
+ await expect(page.getByRole('searchbox',{name:'Buscar componente'})).toBeVisible();
+ await expect(page.getByRole('combobox',{name:'Categoria',exact:true})).toHaveCount(1);
+ await expect(page.getByRole('spinbutton',{name:'Preço mínimo (R$)',exact:true})).toHaveCount(0);
+ await expect(page.getByRole('combobox',{name:'Compatibilidade',exact:true})).toHaveCount(0);
+ await expect(page.locator('.catalog-advanced-filters')).not.toHaveAttribute('open','');
+ const visible=await page.locator('.catalog-filters input,.catalog-filters select').evaluateAll(nodes=>nodes.filter(n=>n.checkVisibility()).length);
+ expect(visible).toBe(3);
+ await page.screenshot({path:testInfo.outputPath('nonblocking-catalog-essential.png')});
+ await page.getByRole('searchbox').fill('Wi-Fi 6E');await expect(page.locator('.component-card')).not.toHaveCount(0);
+});
+test('beginner can request an integrated proposal directly after setting the initial budget',async({page},testInfo)=>{
+ await page.goto('/build');
+ await page.getByRole('spinbutton',{name:'Orçamento',exact:true}).fill('3000');
+ await page.getByRole('combobox',{name:'Tipo de uso',exact:true}).selectOption('study');
+ await page.getByRole('combobox',{name:'Tipo de vídeo da montagem',exact:true}).selectOption('integrated');
+ await page.getByRole('button',{name:'Sugerir peças para este orçamento',exact:true}).click();
+ await expect(page.locator('#wizard-step-heading')).toHaveText('Revisão');
+ await expect(page.locator('.recommendation-card')).toContainText('2.489,94');
+ await expect(page.getByRole('button',{name:'Ir para resumo',exact:true})).toBeDisabled();
+ await expect(page.getByText('Montagem incompleta.',{exact:true})).toHaveCount(0);
+ await page.screenshot({path:testInfo.outputPath('nonblocking-beginner-proposal.png')});
+ await page.getByRole('button',{name:'Usar recomendação inteira',exact:true}).click();
+ await page.getByRole('button',{name:'Ir para resumo',exact:true}).click();
+ await page.getByRole('button',{name:'Gerar resumo final',exact:true}).click();
+ await expect(page.locator('.summary-result-first')).toContainText(/FPS estimados/);
+ const state=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),key);
+ expect(state.selectedComponents.graphicsMode).toBe('integrated');expect(state.selectedComponents.gpu).toBeUndefined();
+});

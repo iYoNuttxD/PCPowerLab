@@ -1,5 +1,5 @@
-import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { integratedCpuEvidence } from '../../../src/data/integratedGraphicsEvidence.js';
+import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { describeBuildObjective } from '../utils/buildObjectives.js';
 import { stepSelectionConflicts } from '../utils/selectionConflicts.js';
@@ -52,7 +52,8 @@ export default function BuildWizard() {
   const [stepFilters, setStepFilters] = useState({});
   const [budgetReturnStep, setBudgetReturnStep] = useState(null);
   const currentStep = build.wizardStep;
-  const initialPlanning = currentStep === 'budget' && !Object.entries(build.selectedComponents).some(([slot, value]) => slot === 'fans' ? value?.length > 0 : Boolean(value?.id));
+  const hasSelectedParts = Object.entries(build.selectedComponents).some(([slot, value]) => slot === 'fans' ? value?.length > 0 : Boolean(value?.id));
+  const initialPlanning = currentStep === 'budget' && !hasSelectedParts;
   const stepIndex = wizardSteps.indexOf(currentStep);
   const nextStep = currentStep === 'budget' && budgetReturnStep ? budgetReturnStep : wizardSteps[stepIndex + 1];
   const layoutRef = useRef(null);
@@ -66,19 +67,20 @@ export default function BuildWizard() {
   latestConfiguration.current = configurationKey;
 
   const missingSlots = getMissingBuildSlots(build.selectedComponents);
+  const proposalOnly = currentStep === 'review' && missingSlots.length > 0 && Boolean(build.recommendation);
   const budgetCurrency = String(build.budget.currency || 'BRL').trim().toUpperCase();
   const budgetCurrencyError = budgetCurrency !== 'BRL' ? 'Informe um orçamento em reais (BRL). Não há conversão automática.' : '';
   const budgetError = validateBudgetAmount(build.budget.amount) || budgetCurrencyError;
   const integrated = usesIntegratedGraphics(build.selectedComponents);
   const isComponentStep = componentTypes.includes(currentStep) && !(currentStep === 'gpu' && integrated);
   const immediateConflicts = stepSelectionConflicts(build.selectedComponents, currentStep);
-  const canAdvance = currentStep === 'gpu' && integrated ? Boolean(integratedCpuEvidence(build.selectedComponents.cpu)) : isComponentStep
-    ? Boolean(build.selectedComponents[currentStep]) && immediateConflicts.length === 0
+  const canAdvance = currentStep === 'gpu' && integrated ? Boolean(build.selectedComponents.cpu) : isComponentStep
+    ? Boolean(build.selectedComponents[currentStep])
     : currentStep === 'cooling' ? true : currentStep === 'budget'
       ? !budgetError
       : missingSlots.length === 0;
 
-  const stepComponents = useMemo(() => (byType[currentStep] || []).filter(c => currentStep !== 'cpu' || !integrated || integratedCpuEvidence(c)), [byType, currentStep, integrated]);
+  const stepComponents = useMemo(() => byType[currentStep] || [], [byType, currentStep]);
   const filters = useMemo(() => ({ ...emptyCatalogFilters, ...stepFilters[currentStep], category: currentStep }), [stepFilters, currentStep]);
   const filteredComponents = useMemo(() => filterComponents(stepComponents, filters), [stepComponents, filters]);
   const filterError = priceRangeError(filters) || performanceRangeError(filters);
@@ -87,13 +89,13 @@ export default function BuildWizard() {
   const bottlenecksComplete = (build.bottlenecks?.status === 'success' && build.bottlenecks?.data?.available !== false && !build.bottlenecks?.data?.unavailable)
     || (!build.bottlenecks?.status && typeof build.bottlenecks?.hasBottleneck === 'boolean' && build.bottlenecks?.available !== false);
   const completedSteps = requiredWizardSteps.filter((step) => componentTypes.includes(step)
-    ? (step === 'gpu' && integrated && Boolean(integratedCpuEvidence(build.selectedComponents.cpu))) || Boolean(build.selectedComponents[step]) && stepSelectionConflicts(build.selectedComponents, step).length === 0
+    ? (step === 'gpu' && integrated && Boolean(build.selectedComponents.cpu)) || Boolean(build.selectedComponents[step])
     : step === 'budget' ? !budgetError
       : !missingSlots.length && !budgetError && bottlenecksComplete
         && !hasWizardCompatibilityBlockers(build.compatibility, build.alerts));
 
   const guidance = isComponentStep
-    ? immediateConflicts.length ? 'Estas peças não funcionam juntas. Confira o alerta e troque uma das peças indicadas antes de avançar.'
+    ? immediateConflicts.length ? 'Há um conflito conhecido. Você pode continuar e ver um cenário teórico, ou trocar a peça.'
       : canAdvance ? `Peça selecionada. Avance para ${wizardLabels[nextStep]}.`
       : loading ? 'Aguarde o catálogo carregar para escolher uma peça.'
         : error ? 'Não foi possível carregar as peças. Use Tentar novamente abaixo.'
@@ -101,7 +103,7 @@ export default function BuildWizard() {
             : `Selecione uma peça de ${componentLabels[currentStep]} para avançar.`
     : currentStep === 'cooling' ? 'Opcional. Continue para revisar as peças e analisar a montagem.' : currentStep === 'budget'
       ? budgetError || `Orçamento definido. Avance para ${wizardLabels[nextStep]}.`
-      : missingSlots.length ? `${missingSlots.length === 1 ? 'Falta 1 peça' : `Faltam ${missingSlots.length} peças`}. Use Ver etapas para completar antes de analisar ou salvar.`
+      : proposalOnly ? 'Confira a sugestão e use a recomendação inteira para começar.' : missingSlots.length ? `${missingSlots.length === 1 ? 'Falta 1 peça' : `Faltam ${missingSlots.length} peças`}. Use Ver etapas para completar antes de analisar ou salvar.`
         : budgetError ? `${budgetError} Volte à etapa Orçamento antes de analisar.`
           : completedSteps.includes('review') ? 'Análises concluídas. Você pode salvar a build ou abrir o resumo.'
             : 'Use Analisar build para verificar compatibilidade, orçamento e desempenho.';
@@ -205,18 +207,6 @@ export default function BuildWizard() {
         build.actions.setResult('bottlenecks', bottlenecks);
       }
 
-      if (hasWizardCompatibilityBlockers(compatibility, alerts)) {
-        const unverified = compatibility.status === 'unverified' || alerts?.status === 'unverified';
-        finishAnalysis({
-          status: 'unavailable',
-          reason: unverified ? 'unverified_compatibility' : 'incompatible_build',
-          message: unverified ? 'Há dados técnicos insuficientes para confirmar a compatibilidade. Revise as verificações pendentes antes de analisar desempenho.' : 'A análise de gargalos não foi executada porque a configuração possui incompatibilidades técnicas. Corrija os problemas de compatibilidade antes de analisar desempenho.',
-          data: null
-        });
-        setFeedback({ type: 'warning', message: 'A compatibilidade não foi confirmada. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.' });
-        return;
-      }
-
       pendingBottlenecks.current = configurationKey;
       build.actions.setResult('bottlenecks', {
         status: 'loading',
@@ -269,7 +259,7 @@ export default function BuildWizard() {
     });
   }
 
-  async function generateRecommendation() {
+  async function generateRecommendation(options = {}) {
     clearMessages();
     const budgetError = validateBudgetAmount(build.budget.amount) || budgetCurrencyError;
     if (budgetError) {
@@ -293,6 +283,7 @@ export default function BuildWizard() {
       }
       if (!isCurrent()) return;
       build.actions.setResult('recommendation', recommendation);
+      if (options.showReview) changeStep('review');
       setFeedback({ type: 'success', message: 'Recomendação gerada. Confira as peças antes de aplicá-la à sua montagem.' });
     });
   }
@@ -315,7 +306,7 @@ export default function BuildWizard() {
   }
 
   return (
-    <div className={`wizard-layout journey-wizard${initialPlanning ? ' is-planning' : ''}`} ref={layoutRef}>
+    <div className={`wizard-layout journey-wizard${initialPlanning || !hasSelectedParts ? ' is-planning' : ''}`} ref={layoutRef}>
       <section className="wizard-main">
         {build.catalogNotice && <Alert type="info">{build.catalogNotice}</Alert>}
         <div className="page-hero compact-hero">
@@ -324,7 +315,7 @@ export default function BuildWizard() {
         </div>
 
         <WizardNavigation currentStep={currentStep} completedSteps={completedSteps}
-          canAdvance={canAdvance} guidance={guidance} onStepChange={changeStep} nextStep={nextStep}
+          canAdvance={canAdvance} summaryReady={missingSlots.length === 0} guidance={guidance} onStepChange={changeStep} nextStep={nextStep}
           budget={build.budget} totalPrice={build.totalPrice} selectedComponents={build.selectedComponents}
           onEditBudget={() => { setBudgetReturnStep(currentStep); changeStep('budget'); }}
           onSummary={() => navigate('/summary')} controlsRef={controlsRef} />
@@ -340,7 +331,7 @@ export default function BuildWizard() {
           {request.error && recommendationDiagnostics.length > 0 && <details className="task-disclosure"><summary>Entender o limite e as peças pendentes</summary><ul>{recommendationDiagnostics.map((message, index) => <li key={index}>{message}</li>)}</ul></details>}
           {feedback && <Alert type={feedback.type}>{feedback.message}</Alert>}
 
-        {currentStep === 'gpu' && integrated && <Card><h3>Vídeo integrado, sem placa dedicada</h3><p>{integratedCpuEvidence(build.selectedComponents.cpu)?.model || 'Escolha uma CPU com vídeo integrado verificado.'} usa parte da memória RAM do sistema. Não há compra separada de GPU.</p><p>Conecte o monitor na saída da placa-mãe. A compatibilidade depende da CPU, da placa e da BIOS; não há FPS calibrado para este caminho.</p><Button variant="secondary" onClick={() => build.actions.setGraphicsMode('dedicated')}>Usar placa de vídeo dedicada</Button></Card>}
+        {currentStep === 'gpu' && integrated && <Card><h3>Vídeo integrado, sem placa dedicada</h3><p>{integratedCpuEvidence(build.selectedComponents.cpu)?.model || 'O cenário gráfico integrado'} usa parte da memória RAM do sistema. Não há compra separada de GPU.</p><p>Conecte o monitor na saída da placa-mãe. A CPU precisa oferecer vídeo integrado e a placa-mãe, uma saída de imagem. Os resultados de desempenho são aproximações.</p><Button variant="secondary" onClick={() => build.actions.setGraphicsMode('dedicated')}>Usar placa de vídeo dedicada</Button></Card>}
         {isComponentStep && (
           <>
             {build.selectedComponents[currentStep] && (
@@ -402,12 +393,7 @@ export default function BuildWizard() {
                 hint={budgetCurrencyError ? `Valor salvo em ${budgetCurrency}; escolha Definir orçamento em reais para informar um novo limite.` : "Valor total disponível em reais. Suas peças não serão alteradas ao editar o orçamento."}
                 error={validateBudgetAmount(build.budget.amount)}
               />
-              {!integrated && selectionMode === 'performance-ranked' && <Select
-                label="Prioridade"
-                value={build.budget.priority}
-                onChange={(event) => { clearMessages(); build.actions.setBudget({ priority: event.target.value }); }}
-                options={priorityOptions.map((priority) => ({ value: priority, label: priorityLabels[priority] }))}
-              />}
+
               <Select
                 label="Tipo de uso"
                 aria-describedby="wizard-objective-description"
@@ -417,14 +403,15 @@ export default function BuildWizard() {
               />
             </div>
             <Select label="Tipo de vídeo da montagem" value={integrated ? 'integrated' : 'dedicated'} onChange={event => { clearMessages(); build.actions.setGraphicsMode(event.target.value); if (event.target.value === 'integrated') { setSelectionMode('price-and-compatibility'); setMinimumVram('0'); } }} options={[{ value: 'dedicated', label: 'Placa de vídeo dedicada' }, { value: 'integrated', label: 'Vídeo integrado à CPU — sem comprar GPU separada' }]} />
-            {integrated && <p className="hint-text">Esse caminho remove somente a GPU dedicada da montagem. A CPU precisa ter vídeo integrado e a placa-mãe precisa de saída de imagem. A sugestão usa preço e encaixes; memória padrão de 16 GB por ser compartilhada. Confira os requisitos dos programas.</p>}
-            <Select label="Critério da sugestão" disabled={integrated} value={integrated ? 'price-and-compatibility' : selectionMode} onChange={event => { setSelectionMode(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'performance-ranked', label: 'Índices do perfil e orçamento' }, { value: 'price-and-compatibility', label: 'Preço e encaixes — conferir BIOS antes da compra' }]} />
-            {(integrated || selectionMode === 'price-and-compatibility') && <p className="hint-text">Busca o menor total pelas regras de encaixe e energia do catálogo com os requisitos abaixo. A BIOS instalada e a refrigeração continuam sujeitas a confirmação. O perfil orienta a RAM mínima. Confirme requisitos de cada programa; não há promessa de FPS ou de ausência de gargalos.</p>}
-            <details className="task-disclosure"><summary>Ajustar requisitos da recomendação</summary>
+            {integrated && <p className="hint-text">Sem GPU separada: o vídeo da CPU compartilha a memória RAM. Confira se CPU e placa-mãe oferecem vídeo.</p>}
+            <details className="task-disclosure"><summary>Ajustar sugestão</summary>
+              <Select label="Critério da sugestão" disabled={integrated} value={integrated ? 'price-and-compatibility' : selectionMode} onChange={event => { setSelectionMode(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'performance-ranked', label: 'Equilíbrio entre uso e orçamento' }, { value: 'price-and-compatibility', label: 'Menor custo estimado' }]} />
+              {!integrated && selectionMode === 'performance-ranked' && <Select label="Prioridade" value={build.budget.priority} onChange={event => { clearMessages(); build.actions.setBudget({ priority: event.target.value }); }} options={priorityOptions.map(priority => ({ value: priority, label: priorityLabels[priority] }))} />}
               <Select label="Memória mínima da sugestão" value={minimumMemory} onChange={event => { setMinimumMemory(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: 'auto', label: 'Pelo perfil: 8 GB estudo/geral; 16 GB demais ou vídeo integrado' }, ...[8, 16, 32, 64].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
               <Select label="VRAM mínima da sugestão" disabled={integrated} value={minimumVram} onChange={event => { setMinimumVram(event.target.value); clearMessages(); build.actions.setResult('recommendation', null); }} options={[{ value: '0', label: 'Sem requisito adicional de VRAM' }, ...[4, 6, 8, 12, 16].map(value => ({ value: String(value), label: `${value} GB ou mais` }))]} />
               <p className="hint-text">Capacidade de VRAM não é velocidade da GPU. É um ponto de partida editável. Confira os requisitos específicos dos seus aplicativos; mais memória não garante mais FPS.</p>
             </details>
+            <Button variant="secondary" disabled={request.loading || Boolean(budgetError)} onClick={() => generateRecommendation({ showReview:true })}>Sugerir peças para este orçamento</Button>
             <p id="wizard-objective-description" className="hint-text" role="status"><strong>Seu objetivo: </strong>{describeBuildObjective(build.usageType)}</p>
             <p className="hint-text">Os preços são referências, sem frete e montagem. A compatibilidade será verificada na revisão.</p>
           </Card>
@@ -432,7 +419,7 @@ export default function BuildWizard() {
 
         {currentStep === 'review' && (
           <div className="page-stack">
-            <Card>
+            {!proposalOnly && <><Card>
               <h3>Revisão e análises</h3>
               <div className="cooling-review-row"><span>{build.selectedComponents.cooler?.name || 'Nenhum cooler adicional'}{build.selectedComponents.fans?.length > 0 ? ' · Ventoinhas extras selecionadas' : ''}</span><Button variant="ghost" onClick={() => changeStep('cooling')}>Alterar refrigeração</Button><Link to="/summary#cooling-simulation">Ver temperatura e ruído</Link></div>
               {!build.compatibility && <p>Análise pendente. Analise novamente após alterar peças ou orçamento.</p>}
@@ -451,8 +438,8 @@ export default function BuildWizard() {
               </div>
             </Card>
             <CompatibilityStatus result={build.alerts || build.compatibility} />
-            <BottleneckPanel result={build.bottlenecks} />
-            {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0) && <p className="hint-text">A sugestão mantém sua refrigeração. Verificações pendentes continuam em destaque; conflitos confirmados não são aceitos.</p>}
+            <BottleneckPanel compact result={build.bottlenecks} /></>}
+            {(build.selectedComponents.cooler || build.selectedComponents.fans?.length > 0) && <p className="hint-text">A sugestão mantém sua refrigeração e evita conflitos conhecidos. Dados ausentes não impedem a análise.</p>}
             <RecommendationCard currentComponents={build.selectedComponents} recommendation={build.recommendation} disabled={request.loading}
               onPreview={(type, component) => setReplacement({ type, component, revision: build.revision, configurationKey })} onApply={(recommendation) => {
               clearMessages();
@@ -465,14 +452,14 @@ export default function BuildWizard() {
         </section>
       </section>
 
-      {!initialPlanning && <aside className="wizard-sidebar">
+      {hasSelectedParts && <aside className="wizard-sidebar"><details className="task-disclosure"><summary>Peças escolhidas · ver ou editar</summary>
         <BuildSummaryCard
           selectedComponents={build.selectedComponents}
           totalPrice={build.totalPrice}
           onEdit={type => changeStep(['cooler', 'fans'].includes(type) ? 'cooling' : type, type === 'fans' ? 'fans' : 'cooler')}
           onRemove={(type) => { clearMessages(); build.actions.removeComponent(type); }}
         />
-      </aside>}
+      </details></aside>}
       {replacement && replacement.revision === build.revision && <ComponentReplacement
         key={`${replacement.revision}:${replacement.type}:${replacement.component.id}`}
         type={replacement.type} build={build} initialComponent={replacement.component}

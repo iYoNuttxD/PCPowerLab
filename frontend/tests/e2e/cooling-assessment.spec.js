@@ -32,9 +32,10 @@ test('ready build cooling uncertainty is visible before use and does not block t
 
 test('shared core-compatible build has a visible partial verdict rather than an unqualified OK', async ({ page }) => {
   await page.goto('/shared/cooling-scope');
-  await expect(page.getByRole('heading', { name: 'Peças principais compatíveis', exact: true })).toBeVisible();
-  await expect(page.getByText('Refrigeração não verificada', { exact: true })).toBeVisible();
-  await expect(page.getByText('Parcial', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Nenhum conflito nos dados disponíveis', exact: true })).toBeVisible();
+  await page.locator('summary').filter({ hasText: 'Detalhes da conferência' }).click();
+  await expect(page.getByText('Encaixe do cooler não verificado.', { exact: true })).toBeVisible();
+  await expect(page.getByText(/Dados ausentes não significam incompatibilidade/)).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Build compatível', exact: true })).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

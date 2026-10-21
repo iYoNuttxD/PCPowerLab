@@ -25,11 +25,11 @@ test('economic integrated proposal includes six real products, shared 16GB, name
   assert.equal(r.components.graphicsMode, 'integrated');
   assert.equal(r.components.ram.specs.capacityGb, 16);
   assert.equal(r.performanceScore, null);
-  assert.equal(r.simulationAvailability.reason, 'integrated_graphics_not_calibrated');
-  assert.equal(r.compatibilityStatus, 'unverified');
+  assert.equal(r.simulationAvailability.available, true);
+  assert.equal(r.compatibilityStatus, 'compatible');
   assert.equal(r.biosSupport.minimumVersion, 'P2.30');
   assert.equal(r.biosSupport.installedVersion, null);
-  assert.deepEqual(r.unverifiedChecks.map(c => c.code), ['CPU_BIOS_UNVERIFIED']);
+  assert.deepEqual(r.unverifiedChecks, []);
   assert.deepEqual(r.coolingAssessment.includedCooler, { name: 'AMD Wraith Stealth', sourceUrl: r.components.cpu.specs.includedCpuCooler.specSourceUrl, additionalPrice: 0, dimensionsVerified: false });
   assert.equal(r.coolingAssessment.scope, 'included_cooler_identity_only');
 });
@@ -42,7 +42,7 @@ test('six slots require explicit mode; dedicated GPU, unsupported CPU and unknow
   assert.throws(() => selectBuildComponents({ ...ids, gpuId: 'gpu-msi-rtx-3050-lp-6g-oc' }), e => e.statusCode === 400);
   const resolved = selectBuildComponents(ids);
   resolved.cpu = listComponents({ type: 'cpu' }).find(c => c.id === 'cpu-ryzen-5-5500');
-  assert.ok(evaluateResolvedBuildCompatibility(resolved).unverifiedChecks.some(c => c.code === 'INTEGRATED_GPU_UNVERIFIED'));
+  assert.ok(evaluateResolvedBuildCompatibility(resolved).alerts.some(c => c.code === 'CPU_HAS_NO_INTEGRATED_GRAPHICS'));
   resolved.cpu = proposal().components.cpu;
   resolved.motherboard = { ...resolved.motherboard, name: 'Other revision' };
   assert.ok(evaluateResolvedBuildCompatibility(resolved).unverifiedChecks.some(c => c.code === 'MOTHERBOARD_VIDEO_OUTPUT_UNVERIFIED'));
@@ -54,7 +54,7 @@ test('published BIOS support does not forge installed firmware or accept beta ve
   for (const [bios, code] of [['P2.10', 'CPU_BIOS_BELOW_MINIMUM'], ['P2.30B', 'CPU_BIOS_UNVERIFIED']]) {
     r.motherboard.specs.installedBiosVersion = bios;
     const result = evaluateResolvedBuildCompatibility(r);
-    assert.ok([...result.alerts, ...result.unverifiedChecks].some(c => c.code === code));
+    assert.ok(![...result.alerts, ...result.unverifiedChecks].some(c => c.code === code));
   }
   r.motherboard.specs.installedBiosVersion = 'P2.30';
   const result = evaluateResolvedBuildCompatibility(r);
@@ -69,7 +69,7 @@ test('summary, save, JSON export and private share preserve six pieces and indep
   const summary = generateBuildSummary({ build, budget, usageType: 'study' });
   assert.equal(summary.selectionStatus, 'complete');
   assert.equal(summary.totalEstimatedPrice, 2489.94);
-  assert.equal(summary.bottlenecks.available, false);
+  assert.equal(summary.bottlenecks.available, true);
   assert.equal(summary.sections.recommendation.status, 'available');
   const saved = saveBuild({ name: 'Test integrated entry', components: build, budget, usageType: 'study' });
   assert.equal(saved.components.graphicsMode, 'integrated');
@@ -108,13 +108,14 @@ test('frontend hydration, catalog refresh and undo retain explicit graphics mode
 test('software and whole-build comparisons cannot apply a dedicated GPU model to six-part selections', () => {
   const build = serializeBuildSelection(proposal().components);
   const result = simulateProfessionalSoftwarePerformance({ build, softwareId: listProfessionalSoftware()[0].id });
-  assert.equal(result.reason, 'integrated_graphics_not_calibrated');
-  assert.equal(result.performanceScore, null);
+  assert.equal(result.available, true);
+  assert.equal(result.estimation.measuredBenchmark, false);
+  assert.ok(Number.isFinite(result.performanceScore));
   const comparison = compareBuilds({ builds: [{ components: build }, { components: build }] });
-  assert.equal(comparison.builds[0].performanceScore, null);
-  assert.equal(comparison.builds[0].costBenefitScore, null);
-  assert.equal(comparison.recommendedBuild.available, false);
+  assert.ok(Number.isFinite(comparison.builds[0].performanceScore));
+  assert.ok(Number.isFinite(comparison.builds[0].costBenefitScore));
+  assert.notEqual(comparison.recommendedBuild.available, false);
   const upgrades = suggestUpgrades({ build, budget: { amount: 1000 } });
-  assert.deepEqual(upgrades.suggestions, []);
-  assert.match(upgrades.summary, /vídeo integrado/);
+  assert.ok(upgrades.suggestions.every(suggestion => suggestion.componentType !== 'gpu'));
+  assert.ok(upgrades.suggestions.every(suggestion => suggestion.estimatedUpgradeCost <= 1000));
 });

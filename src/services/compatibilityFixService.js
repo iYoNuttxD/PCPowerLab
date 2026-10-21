@@ -28,7 +28,7 @@ export function suggestCompatibilityFixes(selectedComponents) {
   const originalAlertCodes = new Set(compatibilityResult.alerts.map((alert) => alert.code));
 
   return {
-    methodology: buildDecisionMethodology({ performanceUsed: false, fallbackScore: null, ranking: 'Ate tres alternativas do catalogo por problema; remove o alerta alvo sem adicionar codigos de alerta e rejeita verificacoes pendentes. Nao ordena por menor preco nem garante resolver outros alertas existentes.' }),
+    methodology: buildDecisionMethodology({ performanceUsed: false, fallbackScore: null, ranking: 'Ate tres alternativas do catalogo por problema; remove o alerta alvo sem adicionar codigos de alerta e mantém dados pendentes como avisos. Nao ordena por menor preco nem garante resolver outros alertas existentes.' }),
     compatible: compatibilityResult.compatible,
     status: compatibilityResult.status,
     coolingAssessment: compatibilityResult.coolingAssessment,
@@ -196,8 +196,7 @@ function isValidFixCandidate({
   const candidateResult = checkBuildCompatibility(mapBuildToIds(candidateBuild));
   const candidateAlertCodes = candidateResult.alerts.map((candidateAlert) => candidateAlert.code);
 
-  return !(candidateResult.unverifiedChecks?.length)
-    && !candidateAlertCodes.includes(alertCode)
+  return !candidateAlertCodes.includes(alertCode)
     && candidateAlertCodes.every((candidateAlertCode) => originalAlertCodes.has(candidateAlertCode));
 }
 

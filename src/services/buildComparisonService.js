@@ -114,7 +114,7 @@ function analyzeBuildForComparison({
     costBenefitScore,
     hasBottleneck: bottleneckVerdict(summary.bottlenecks),
     bottleneckSummary,
-    bottleneckStatus: summary.compatibility.compatible === true && summary.compatibility.status !== 'unverified' && typeof summary.bottlenecks?.hasBottleneck === 'boolean' && summary.bottlenecks?.available !== false ? 'analyzed' : 'unavailable',
+    bottleneckStatus: typeof summary.bottlenecks?.hasBottleneck === 'boolean' && summary.bottlenecks?.available !== false ? 'analyzed' : 'unavailable',
     budgetStatus,
     gamePerformance: summary.gamePerformance,
     summary: buildComparisonSummary({

@@ -37,7 +37,7 @@ test('summary failure preserves independently received store links and complete 
   const selected = await seed(page);
   await page.route('**/build-summary', route => fail(route, 'Resumo temporariamente indisponível.'));
   await page.goto('/summary');
-  await expect(page.getByText('Montagem completa: 7 de 7 peças principais selecionadas', { exact: true })).toBeVisible();
+  await expect(page.getByText('Peças escolhidas. Veja o desempenho aproximado e salve quando quiser.', { exact: true })).toBeVisible();
   await expect(shops(page).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
   await expect(page.getByText('Resumo temporariamente indisponível.', { exact: true })).toBeVisible();
@@ -87,21 +87,21 @@ test('store failure has its own retry and cannot erase summary or budget', async
   expect((await stored(page)).budget).toEqual(budget);
 });
 
-test('pending BIOS stays specific and does not hide bottlenecks, alternatives or shops', async ({ page }) => {
+test('unknown installed BIOS does not block FPS, bottlenecks, alternatives or shops', async ({ page }) => {
   const build = { ...currentBuild, cpuId: 'cpu-intel-i5-12400f', motherboardId: 'mb-msi-pro-h610m-s-ddr4' };
   await seed(page, build);
   await page.goto('/summary');
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
-  await expect(page.getByText('Montagem completa: 7 de 7 peças principais selecionadas', { exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Verificações pendentes', exact: true })).toBeVisible();
-  await expect(page.getByRole('article').getByText(/BIOS instalado ou versão mínima/)).toBeVisible();
+  await expect(page.getByText('Peças escolhidas. Veja o desempenho aproximado e salve quando quiser.', { exact: true })).toBeVisible();
+  await expect(page.getByText(/BIOS instalado ou versão mínima/)).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Análise de gargalos', exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Simulação indisponível', exact: true })).toBeVisible();
-  await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Simulação indisponível', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toBeVisible();
   await expect(page.locator('summary').filter({ hasText: 'Comparar alternativa no orçamento' })).toBeVisible();
   await expect(shops(page).getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()).toBeVisible();
   const state = await stored(page);
-  expect(state.summary.gamePerformance.estimatedFps).toBeUndefined();
+  expect(state.summary.gamePerformance.estimatedFps).toBeGreaterThan(0);
+  expect(state.summary.gamePerformance.estimatedFpsRange.high).toBeGreaterThan(state.summary.gamePerformance.estimatedFpsRange.low);
   expect(state.selectedComponents.motherboard.id).toBe(build.motherboardId);
   expect(state.budget).toEqual(budget);
 });

@@ -46,46 +46,23 @@ test('all nine ready presets retain explicit verified compatibility and the arra
   assert.equal(warning.mock.calls.length, 0);
 });
 
-test('one preset with missing board limits is excluded without breaking the HTTP list or marking it compatible', async t => {
-  const preset = removeOnePresetsBoardLimits(t);
-  const warning = t.mock.method(console, 'warn', () => {});
-  const server = app.listen(0, '127.0.0.1');
-  await new Promise((resolve, reject) => { server.once('listening', resolve); server.once('error', reject); });
-  t.after(() => new Promise(resolve => { server.close(resolve); server.closeAllConnections(); }));
-  const base = `http://127.0.0.1:${server.address().port}/api/v1/ready-builds`;
-
-  const response = await globalThis.fetch(base);
-  assert.equal(response.status, 200);
-  const payload = await response.json();
-  assert.equal(payload.success, true);
-  assertVerifiedRemainder(payload.data, preset.id);
-  assert.equal(payload.data.length, 8);
-  assert.equal(warning.mock.calls.length, 1);
-  const diagnostic = warning.mock.calls[0].arguments[1];
-  assert.equal(diagnostic.code, 'READY_BUILD_EXCLUDED');
-  assert.equal(diagnostic.readyBuildId, preset.id);
-  assert.equal(diagnostic.reason, 'READY_BUILD_UNVERIFIED');
-  assert.equal(diagnostic.status, 'unverified');
-  assert.deepEqual(diagnostic.componentIds, preset.components);
-  assert.deepEqual(diagnostic.alerts, []);
-  assert.deepEqual(diagnostic.unverifiedChecks.map(check => check.code), ['RAM_SLOT_COUNT_UNVERIFIED', 'RAM_CAPACITY_LIMIT_UNVERIFIED']);
-  assert.ok(diagnostic.unverifiedChecks.every(check => check.verification === 'unverified' && check.message));
-  assert.deepEqual(diagnostic.errors, diagnostic.unverifiedChecks.map(check => check.message));
-
-  const filtered = await globalThis.fetch(`${base}?profile=${preset.usageProfile}`);
-  assert.equal(filtered.status, 200);
-  assert.deepEqual((await filtered.json()).data, []);
-  assert.equal(warning.mock.calls.length, 2);
-  assert.equal(warning.mock.calls[1].arguments[1].readyBuildId, preset.id);
-
-  assert.throws(() => getReadyBuildById(preset.id), error => {
-    assert.equal(error.statusCode, 500);
-    assert.equal(error.compatibility.compatible, false);
-    assert.equal(error.compatibility.status, 'unverified');
-    assert.deepEqual(error.errors, diagnostic.errors);
-    return true;
-  });
-  assert.equal(warning.mock.calls.length, 2);
+test('one preset with unknown board limits remains usable without being labeled verified', async t => {
+  const preset=removeOnePresetsBoardLimits(t);
+  const warning=t.mock.method(console,'warn',()=>{});
+  const server=app.listen(0,'127.0.0.1');
+  await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
+  t.after(()=>new Promise(resolve=>{server.close(resolve);server.closeAllConnections();}));
+  const base=`http://127.0.0.1:${server.address().port}/api/v1/ready-builds`;
+  const response=await globalThis.fetch(base), payload=await response.json();
+  assert.equal(response.status,200);assert.equal(payload.data.length,9);
+  const item=payload.data.find(row=>row.id===preset.id);
+  assert.equal(item.compatibility.status,'unverified');
+  assert.deepEqual(item.compatibility.alerts,[]);
+  assert.deepEqual(item.compatibility.unverifiedChecks.map(check=>check.code),['RAM_SLOT_COUNT_UNVERIFIED','RAM_CAPACITY_LIMIT_UNVERIFIED']);
+  assert.equal(warning.mock.calls.length,0);
+  assert.equal(getReadyBuildById(preset.id).compatibility.status,'unverified');
+  const filtered=await globalThis.fetch(`${base}?profile=${preset.usageProfile}`);
+  assert.ok((await filtered.json()).data.some(row=>row.id===preset.id));
 });
 
 test('known invalid and incompatible presets are isolated only in listings', async t => {

@@ -1,8 +1,30 @@
 # V3: matriz de aceite do plano integral
 
+> **Contrato atual — 21/10/2026:** [V3-NONBLOCKING-VALIDATION.md](V3-NONBLOCKING-VALIDATION.md) substitui os antigos bloqueios por BIOS desconhecida, medidas ausentes e falta de calibração. Dados desconhecidos são avisos opcionais; há estimativas aproximadas, não medições. Conflitos conhecidos não impedem o fluxo manual. Registros anteriores abaixo são históricos e não descrevem esses bloqueios como requisitos atuais.
+
+
 > **Atualização de fechamento integral:** o estado atual é descrito em [V3-INTEGRAL-COMPLETION.md](V3-INTEGRAL-COMPLETION.md). Os valores e limites abaixo conservam a cronologia da etapa anterior. A arquitetura integrada foi implementada; há proposta factual de seis peças por R$ 2.489,94, além de opção dedicada por R$ 3.799,84. Isso não certifica BIOS instalada, desempenho nem satisfação humana.
 
 Esta matriz separa implementação, validação automatizada e evidência que depende de pessoas ou de navegador. Código implementado não equivale a validação observada. Não há merge ou deploy nesta entrega.
+
+## Aceite técnico atual — estimativas não bloqueantes
+
+| Pedido do proprietário / clientes | Comportamento implementado | Evidência específica |
+|---|---|---|
+| Dados ausentes nunca impedem o core | Seleção manual, recomendação, salvar, resumo, comparação, gargalos, FPS e lojas usam saídas independentes. Ausência de dado permanece desconhecida, sem exclusão automática. | `tests/nonblocking-core.test.js`; `frontend/tests/integration/nonblocking.spec.js`; `tests/v3-summary-resilience.test.js` |
+| Conflito comprovado não impede montar manualmente | Alerta conciso; avanço e análise disponíveis como cenário teórico. Sugestão automática evita conflitos publicados de socket/RAM/formato/energia. | Integração real com CPU Intel + placa AM4; teste de compartilhamento legado somente com status incompatível |
+| Novos CPU/GPU e vídeo integrado têm estimativas | Faixas por modelo/classe/família, uso/jogo/resolução; reserva gráfica de 2 GB somente uma vez. Nenhum número é atribuído a benchmark inexistente. | 21 testes específicos; faixas de FPS e score de software; cenários JSON e fluxo integrado real |
+| Temperatura e ruído sem medição física | Pop-up com faixas por classe ou perfil já registrado, cooler padrão e fontes acústicas estimadas quando necessário. Ruído é da refrigeração, não do PC completo. | Integração real de pop-up/teclado; `cooling-simulation.test.js`; inspeção anterior N02/N03 |
+| UI enxuta e ações visíveis | Busca + categoria + preço máximo, até um específico por categoria. Extras recolhidos; sem mínimo, atalho redundante, filtro de compatibilidade ou faixa de score. Resultado e ação principal antes dos detalhes. | Verificador catálogo; E2E catálogo; integração exige três controles visíveis em Todas as peças |
+| Orçamento realmente primeiro e sugestão utilizável | Orçamento/uso/tipo de vídeo visíveis na etapa 01; botão direto de sugestão; revisão sem mural de peças faltantes antes de aplicar proposta. | Jornada iniciante real R$ 3.000 → proposta R$ 2.489,94 → resumo com FPS e refrigeração |
+
+A matriz completa de 67 sinais permanece em [V3-FEEDBACK-FOLLOWUP.md](V3-FEEDBACK-FOLLOWUP.md). Estados PARCIAL/NÃO COMPROVADO de opinião ou autonomia humana não representam bloqueios funcionais do produto. Inspeções de versões anteriores, inclusive zoom nativo 200%, são identificadas como históricas; os últimos ajustes não herdam essa certificação.
+
+### Resultado final do contrato atual
+
+1.084 Node, 309 E2E + 1 skip esperado e 39 integrações reais passaram com código funcional congelado; 17 verificadores, lints, build e 95 imagens aprovados. [Resultados/logs e limites de inspeção](V3-NONBLOCKING-VALIDATION.md#evidências-regressão-e-limites). Não se somam execuções intermediárias.
+
+## Histórico anterior ao novo contrato
 
 ## P0 — Resumo resiliente
 

@@ -151,7 +151,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
     expect(result.totalEstimatedPrice).toBe(expectedTotal);
     expect(result.budgetStatus.remaining).toBe(Number((5500 - expectedTotal).toFixed(2)));
     expect(result.compatibility.compatible).toBe(true);
-    await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toContainText(`${result.gamePerformance.estimatedFps.toLocaleString('pt-BR')} FPS`);
+    await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toContainText(`${result.gamePerformance.estimatedFpsRange.low}–${result.gamePerformance.estimatedFpsRange.high} FPS`);
     await expect(page.getByRole('link', { name: 'Pesquisar na loja', exact: true }).first()).toBeVisible();
     const shopLinks = await page.getByRole('link', { name: 'Pesquisar na loja', exact: true }).evaluateAll(links => links.map(link => ({ href: link.href, rel: link.rel, target: link.target })));
     expect(shopLinks.length).toBeGreaterThanOrEqual(7);
@@ -177,7 +177,7 @@ test('montagem manual, orçamento, análises, salvamento, recuperação e lojas 
   }
 });
 
-test('incompatibilidade bloqueia o assistente, a correção preserva as peças e a recomendação respeita orçamento', async ({ page, request }, testInfo) => {
+test('incompatibilidade alerta no assistente, a correção preserva as peças e a recomendação respeita orçamento', async ({ page, request }, testInfo) => {
   const original = await applyReady(page, request);
   const catalog = await api(request, '/components');
   const intel = currentPart(catalog, 'cpu-intel-i5-12400f', 'cpu');
@@ -186,11 +186,14 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   await page.getByRole('button', { name: `Selecionar: ${intel.name}`, exact: true }).click();
   await step(page, 'Revisão');
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
-  await expect(page.getByText('A compatibilidade não foi confirmada. Confira os alertas abaixo e use Ver etapas para substituir as peças indicadas antes de analisar o desempenho.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Confira um conflito entre as peças',exact:true})).toBeVisible();
+  await expect.poll(async () => (await state(page)).bottlenecks?.status).toBe('success');
   const incompatible = await state(page);
   expect(incompatible.compatibility.compatible).toBe(false);
-  expect(incompatible.bottlenecks.reason).toBe('incompatible_build');
-  await capture(page, testInfo, 'incompatible', page.getByRole('heading', { name: 'Atenção: incompatibilidades encontradas', exact: true }));
+  expect(incompatible.bottlenecks.status).toBe('success');
+  expect(incompatible.bottlenecks.data.estimation.scenarioOnly).toBe(true);
+  await capture(page, testInfo, 'incompatible', page.getByRole('heading', { name: 'Confira um conflito entre as peças', exact: true }));
+  await page.locator('.wizard-sidebar > details > summary').click();
   await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
   await page.getByRole('button', { name: `Selecionar: ${original.selectedComponents.cpu.name}`, exact: true }).click();
   expect((await state(page)).selectedComponents).toEqual(original.selectedComponents);
@@ -218,7 +221,7 @@ test('incompatibilidade bloqueia o assistente, a correção preserva as peças e
   expect(applied).toEqual({ ...expectedRecommended, fans: recommendation.components.fans || [] });
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
-  expect((await state(page)).compatibility.compatible).toBe(true);
+  expect((await state(page)).compatibility.alerts).toEqual([]);
 });
 
 test('simulação individual, comparação de jogos, substituição e upgrades com resultados reais da API', async ({ page, request }, testInfo) => {
@@ -239,7 +242,7 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   await navigation(page, 'analyze', '/performance-lab');
   const first = await action(page, '/performance/simulate-game', () => page.getByRole('button', { name: 'Simular jogo', exact: true }).click());
   expect(first.estimatedFps).toBeGreaterThan(0);
-  await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toContainText(`${first.estimatedFps.toLocaleString('pt-BR')} FPS`);
+  await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toContainText(`${first.estimatedFpsRange.low}–${first.estimatedFpsRange.high} FPS`);
   await page.getByRole('combobox', { name: 'Resolução', exact: true }).selectOption('4k');
   await expect(page.getByRole('region', { name: 'Resultado da simulação individual' })).toHaveCount(0);
   const second = await action(page, '/performance/simulate-game', () => page.getByRole('button', { name: 'Simular jogo', exact: true }).click());
@@ -248,10 +251,10 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   const compared = await action(page, '/performance/compare-games', () => page.getByRole('button', { name: 'Comparar jogos', exact: true }).click());
   expect(compared.results).toHaveLength(2);
   const comparison = page.getByRole('region', { name: 'Resultado da comparação de jogos' });
-  await comparison.locator('summary').filter({ hasText: 'Ver resultados e requisitos por jogo' }).click();
+  await comparison.locator('summary').filter({ hasText: 'Ver faixas estimadas e requisitos por jogo' }).click();
   for (const game of compared.results) {
     const row = comparison.getByRole('row').filter({ hasText: game.gameName });
-    await expect(row).toContainText(game.estimatedFps.toLocaleString('pt-BR'));
+    await expect(row).toContainText(`${game.estimatedFpsRange.low}–${game.estimatedFpsRange.high}`);
   }
   await capture(page, testInfo, 'games-comparison', comparison);
   await page.getByRole('tab', { name: 'Software', exact: true }).click();
@@ -263,7 +266,7 @@ test('simulação individual, comparação de jogos, substituição e upgrades c
   expect(upgrades.suggestions.length).toBeGreaterThan(0);
   for (const suggestion of upgrades.suggestions) {
     expect(suggestion.estimatedUpgradeCost).toBeLessThanOrEqual(1500);
-    expect(suggestion.compatibilityStatus).toBe('compatible');
+    expect(['compatible','unverified']).toContain(suggestion.compatibilityStatus);
     expect(suggestion.suggestedComponent.id).not.toBe(suggestion.currentComponent.id);
     currentPart(catalog, suggestion.suggestedComponent.id, suggestion.suggestedComponent.category);
     await expect(page.locator('.upgrade-card').filter({ hasText: suggestion.suggestedComponent.name })).toBeVisible();
@@ -389,6 +392,7 @@ async function seedEconomyBuild(page, request, amount) {
     localStorage.setItem(key, JSON.stringify({ selectedComponents, budget: { amount, currency: 'BRL', priority: 'cost-benefit' }, usageType: 'study', wizardStep: 'budget' }));
   }, { key, selectedComponents, amount });
   await page.goto('/build');
+  await page.getByText('Ajustar sugestão', { exact:true }).click();
   await page.getByRole('combobox', { name: 'Critério da sugestão', exact: true }).selectOption('price-and-compatibility');
 }
 
@@ -400,9 +404,9 @@ test('API real explica orçamento econômico inviável e preserva peças e limit
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
   expect((await response).status()).toBe(422);
   const alert = page.getByRole('alert').filter({ hasText: 'Menor total encontrado' });
-  await expect(alert).toContainText('3.799,84');
+  await expect(alert).toContainText('3.019,75');
   await page.getByText('Entender o limite e as peças pendentes', { exact: true }).click();
-  await expect(page.locator('main')).toContainText('3.019,75 não aprovado');
+  await expect(page.locator('main')).toContainText('dados opcionais a conferir');
   await expect(page.locator('main')).toContainText('Conectores de alimentação');
   const after = await state(page);
   expect(after.selectedComponents).toEqual(before.selectedComponents);
@@ -413,21 +417,22 @@ test('API real explica orçamento econômico inviável e preserva peças e limit
 test('API real gera e aplica sugestão factual de 16GB e RX7600 sem índice nem FPS fabricado', async ({ page, request }, testInfo) => {
   await seedEconomyBuild(page, request, 5500);
   await page.getByRole('combobox', { name: 'Tipo de uso', exact: true }).selectOption('programming');
-  await page.getByText('Ajustar requisitos da recomendação', { exact: true }).click();
+
   await page.getByRole('combobox', { name: 'VRAM mínima da sugestão', exact: true }).selectOption('8');
   await step(page, 'Revisão');
   const result = await action(page, '/recommendations/budget', () => page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click());
   expect(result.selectionMode).toBe('price-and-compatibility');
   expect(result.totalEstimatedPrice).toBe(4469.84);
   expect(result.performanceScore).toBe(null);
-  expect(result.compatibilityStatus).toBe('unverified');
+  expect(result.compatibilityStatus).toBe('compatible');
   expect(result.biosSupport.minimumVersion).toBe('P2.30');
   expect(result.components.gpu.id).toBe('gpu-asrock-rx-7600-challenger-pro-8gb');
   const card = page.locator('.recommendation-card');
-  await expect(card).toContainText('Seleção por preço e compatibilidade');
-  await expect(card).toContainText('FPS e gargalos indisponíveis');
-  await expect(card).toContainText('Memória selecionada: 16 GB');
-  await expect(card).toContainText('versão instalada não foi inspecionada');
+  await expect(card).toContainText('Opção de menor custo estimado');
+  await expect(card).not.toContainText('FPS e gargalos indisponíveis');
+  expect(result.simulationAvailability.available).toBe(true);
+  await expect(card).toContainText('RAM: 16 GB');
+  await expect(card).not.toContainText('versão instalada não foi inspecionada');
   await capture(page, testInfo, 'economy-intermediate-real', card);
   await card.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
   const current = await state(page);
@@ -441,6 +446,7 @@ test('montagem integrada real cabe em 3000, preserva seis peças ao salvar/recar
   await page.getByRole('spinbutton', { name: 'Orçamento', exact: true }).fill('3000');
   await page.getByRole('combobox', { name: 'Tipo de uso', exact: true }).selectOption('study');
   await page.getByRole('combobox', { name: 'Tipo de vídeo da montagem', exact: true }).selectOption('integrated');
+  await page.getByText('Ajustar sugestão',{exact:true}).click();
   await expect(page.getByRole('combobox', { name: 'Critério da sugestão', exact: true })).toHaveValue('price-and-compatibility');
   await step(page, 'Revisão');
   const result = await action(page, '/recommendations/budget', () => page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click());
@@ -449,7 +455,7 @@ test('montagem integrada real cabe em 3000, preserva seis peças ao salvar/recar
   expect(result.components.gpu).toBeUndefined();
   const card = page.locator('.recommendation-card');
   await expect(card).toContainText('Wraith Stealth');
-  await expect(card).toContainText('P2.30');
+  await expect(card).not.toContainText('P2.30');
   await card.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
   const before = await state(page);
   expect(before.selectedComponents.graphicsMode).toBe('integrated');
@@ -476,13 +482,16 @@ test('montagem integrada real cabe em 3000, preserva seis peças ao salvar/recar
     expect(summary.selectionStatus).toBe('complete');
     expect(summary.totalEstimatedPrice).toBe(2489.94);
     expect(summary.sections.recommendation.status).toBe('available');
-    expect(summary.bottlenecks.available).toBe(false);
+    expect(summary.bottlenecks.available).toBe(true);
+    expect(summary.gamePerformance.estimatedFpsRange.high).toBeGreaterThan(summary.gamePerformance.estimatedFpsRange.low);
     await expect(page.locator('main')).toContainText('Vídeo integrado à CPU');
     const opener = page.getByRole('button', { name: 'Explorar temperatura e ruído', exact: true });
     await opener.click();
     const dialog = page.getByRole('dialog', { name: 'Temperatura e ruído', exact: true });
     await expect(dialog).toContainText('Wraith Stealth');
-    await expect(dialog).toContainText('sem custo adicional');
+    await expect(dialog).toContainText('Estimativas aproximadas');
+    await expect(dialog.locator('.cooling-temperature-chart li')).toHaveCount(3);
+    await expect(dialog.locator('.cooling-noise-result')).toContainText('dBA');
     const close = dialog.getByRole('button', { name: 'Fechar', exact: true });
     await close.focus();
     await page.keyboard.press('Shift+Tab');

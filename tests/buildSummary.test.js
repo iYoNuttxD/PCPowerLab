@@ -91,10 +91,10 @@ test('deve informar quando analise opcional nao tiver dados suficientes', () => 
   });
 
   assert.equal(summary.compatibility.compatible, true);
-  assert.equal(summary.bottlenecks.available, false);
-  assert.equal(summary.bottlenecks.reason, 'performance_model_unavailable');
-  assert.deepEqual(summary.bottlenecks.componentsWithoutPerformanceModel, ['cpu-build-summary-no-performance-score']);
-  assert.equal(summary.bottlenecks.performanceSummary, null);
+  assert.equal(summary.bottlenecks.available, true);
+  assert.equal(summary.bottlenecks.estimation.measuredBenchmark, false);
+
+  assert.ok(summary.bottlenecks.performanceSummary);
 });
 
 test('deve retornar erro controlado quando build nao for informada', () => {
@@ -109,7 +109,7 @@ test('deve retornar erro controlado quando build nao for informada', () => {
 });
 
 
-test('current exact models have dated totals and evidence-backed fit while unknown BIOS stays pending', () => {
+test('current exact models have dated totals and evidence-backed fit while unknown BIOS stays outside the eligibility verdict', () => {
   const summary = generateBuildSummary({ build: currentBuild, budget: { amount: currentBuildTotal() },
     gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' });
   assert.equal(summary.totalEstimatedPrice, currentBuildTotal());
@@ -123,11 +123,11 @@ test('current exact models have dated totals and evidence-backed fit while unkno
   assert.ok(summary.gamePerformance.estimatedFps > 0);
   const biosPending = generateBuildSummary({ build: { ...currentBuild,
     cpuId: 'cpu-intel-i5-12400f', motherboardId: 'mb-msi-pro-h610m-s-ddr4' }, gameId: 'game-valorant' });
-  assert.equal(biosPending.compatibility.compatible, false);
-  assert.equal(biosPending.compatibility.status, 'unverified');
-  assert.deepEqual(biosPending.compatibility.unverifiedChecks.map(check => check.code), ['CPU_BIOS_UNVERIFIED']);
-  assert.equal(biosPending.gamePerformance.available, false);
-  assert.equal(biosPending.gamePerformance.reason, 'unverified_build');
-  assert.equal('estimatedFps' in biosPending.gamePerformance, false);
+  assert.equal(biosPending.compatibility.compatible, true);
+  assert.equal(biosPending.compatibility.status, 'compatible');
+  assert.deepEqual(biosPending.compatibility.unverifiedChecks.map(check => check.code), []);
+  assert.equal(biosPending.gamePerformance.available, true);
+  assert.ok(biosPending.gamePerformance.estimatedFpsRange);
+  assert.ok(Number.isFinite(biosPending.gamePerformance.estimatedFps));
   for (const [field, id] of Object.entries(currentBuild)) assert.equal(summary.components[field.slice(0, -2)].id, id);
 });

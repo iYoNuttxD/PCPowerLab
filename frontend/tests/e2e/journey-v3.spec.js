@@ -64,6 +64,7 @@ test('search, keyboard details and step changes preserve completed analysis', as
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
   const before = await readState(page);
+  await page.locator('.wizard-sidebar > details > summary').click();
   await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
   await page.getByRole('searchbox', { name: 'Buscar componente', exact: true }).fill('does-not-exist');
   await expect(page.getByText('Nenhuma peça com estes filtros', { exact: true })).toBeVisible();
@@ -98,7 +99,6 @@ test('catalog exposes all search and price chips while preserving comparison', a
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('cpu');
   await page.getByRole('button', { name: `Comparar: ${selected.cpu.name}`, exact: true }).click();
   await page.getByRole('searchbox').fill(selected.cpu.name);
-  await page.getByRole('spinbutton', { name: 'Preço mínimo (R$)', exact: true }).fill('1');
   await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill('10000');
   const applied = page.getByRole('region', { name: 'Filtros aplicados', exact: true });
   await expect(applied.getByRole('button')).toHaveCount(4);

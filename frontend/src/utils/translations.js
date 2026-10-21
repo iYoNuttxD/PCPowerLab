@@ -154,6 +154,8 @@ export const bottleneckTypeLabels = {
   cpu_bottleneck: 'Gargalo de processador',
   gpu_bottleneck: 'Gargalo de placa de vídeo',
   ram_limitation: 'Limitação de memória RAM',
+  ram_capacity_limitation: 'Capacidade de memória RAM',
+  storage_speed_limitation: 'Velocidade do armazenamento',
   storage_limitation: 'Limitação de armazenamento',
   psu_headroom_warning: 'Atenção na fonte'
 };

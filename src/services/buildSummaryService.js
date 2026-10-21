@@ -49,16 +49,7 @@ export function createBuildSummaryGenerator(analyses = {}) {
       'Não foi possível analisar os gargalos agora. As outras análises continuam disponíveis.'
     );
     const gamePerformance = input.gameId
-      ? compatibility.compatible !== true
-        ? {
-          available: false, status: 'unavailable',
-          reason: compatibility.available === false ? 'compatibility_analysis_unavailable'
-            : compatibility.status === 'unverified' ? 'unverified_build' : 'incompatible_build',
-          message: compatibility.available === false
-            ? 'Simulação pendente: tente verificar a compatibilidade novamente.'
-            : 'Simulação indisponível: a compatibilidade da configuração não foi confirmada. Revise os alertas e os dados técnicos pendentes.'
-        }
-        : runOptionalAnalysis(() => services.gamePerformance({
+      ? runOptionalAnalysis(() => services.gamePerformance({
           gameId: input.gameId,
           targetResolution: input.targetResolution,
           qualityPreset: input.qualityPreset,
@@ -329,7 +320,7 @@ function buildFinalRecommendation({
     return 'A montagem foi preservada. Tente verificar a compatibilidade novamente antes de comprar; consulte as análises que já estão disponíveis.';
   }
   if (compatibility.status === 'unverified') {
-    return 'Confirme as verificações técnicas pendentes listadas em Compatibilidade antes da compra. As peças selecionadas foram mantidas.';
+    return 'As estimativas estão disponíveis com dados técnicos parciais. Confira os detalhes opcionais da montagem antes de comprar.';
   }
   if (!compatibility.compatible) {
     return 'Revise as incompatibilidades antes de seguir com a compra.';
@@ -399,7 +390,7 @@ function buildRecommendationObservation({ input, buildInput, budgetStatus, compo
         ...(recommendation.components ? { comparison: compareRecommendedSelection(components, recommendation.components,
           performanceByComponentId, input.usageType || defaultUsageType) } : {}),
         available: true,
-        message: 'Alternativa compatível pelas regras verificadas, dentro do orçamento e para o uso informado. Compare antes de substituir peças.',
+        message: recommendation.totalEstimatedPrice === null ? 'Alternativa com custo parcial: confira os preços pendentes para avaliar o orçamento.' : 'Alternativa para seu uso e orçamento, evitando conflitos conhecidos. Compare as peças antes de aplicar.',
         totalEstimatedPrice: recommendation.totalEstimatedPrice,
         remainingBudget: recommendation.remainingBudget,
         performanceScore: recommendation.performanceScore

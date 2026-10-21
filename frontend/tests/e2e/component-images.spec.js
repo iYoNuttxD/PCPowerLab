@@ -54,6 +54,7 @@ test('shows exact local images in summary, wizard, recommendations and ID-only s
   for (const path of ['/summary', '/build', '/saved-builds', '/shared/photo-build']) {
     await page.goto(path);
     if (path === '/summary') await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
+    if (path === '/build') await page.locator('summary').filter({ hasText: 'Peças escolhidas · ver ou editar' }).click();
     if (path === '/saved-builds') await page.locator('.saved-build-components summary').first().click();
     await verifyPhoto(page);
     await expect(page.locator('body')).toHaveJSProperty('scrollWidth', await page.evaluate(() => document.body.clientWidth));
@@ -68,6 +69,7 @@ test('retired Samsung storage keeps its exact image and identity in existing sav
   for (const path of ['/summary', '/build', '/saved-builds', '/shared/photo-build']) {
     await page.goto(path);
     if (path === '/summary') await page.locator('summary').filter({ hasText: 'Ver ou trocar peças' }).click();
+    if (path === '/build') await page.locator('summary').filter({ hasText: 'Peças escolhidas · ver ou editar' }).click();
     if (path === '/saved-builds') await page.locator('.saved-build-components summary').first().click();
     await verifyPhoto(page, page.locator(`.component-media[data-component-id="${legacyPhoto.id}"]`).first(), legacyPhoto);
   }

@@ -1,6 +1,12 @@
 # Fechamento técnico integral da V3 — 21/10/2026
 
+> **Contrato atual — 21/10/2026:** [V3-NONBLOCKING-VALIDATION.md](V3-NONBLOCKING-VALIDATION.md) substitui os antigos bloqueios por BIOS desconhecida, medidas ausentes e falta de calibração. Dados desconhecidos são avisos opcionais; há estimativas aproximadas, não medições. Conflitos conhecidos não impedem o fluxo manual. Registros anteriores abaixo são históricos e não descrevem esses bloqueios como requisitos atuais.
+
+
 Esta revisão sucede `22e082d4e9833867c5c46577bfec26009d453cf3`. Mantém a PR #47 em rascunho, sem merge ou deploy. A [matriz completa de 67 sinais](V3-FEEDBACK-FOLLOWUP.md#matriz-completa) continua sendo o registro célula a célula. Este documento atualiza o comportamento técnico atual e substitui os limites econômicos descritos como atuais no relatório anterior. Não afirma homologação dos participantes, execução do ciclo 3 nem reprodução da montagem desconhecida de R09.
+
+## Registro histórico — anterior ao contrato não bloqueante
+
 
 ## Resultado econômico utilizável
 

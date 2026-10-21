@@ -30,6 +30,7 @@ test('gráficos têm títulos, unidades e categorias legíveis sem depender da c
   await mockWizardAnalysis(page, { bottlenecks: { hasBottleneck: false, performanceSummary: powerSummary } });
   await page.goto('/build');
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
+  await page.locator('summary').filter({ hasText: 'Ver equilíbrio das peças e consumo' }).click();
   await expect(page.getByRole('heading', { name: 'Pontuação de desempenho por componente' })).toBeVisible();
   const energy = page.getByRole('group', { name: 'Gráfico de consumo energético da build' });
   for (const label of ['Consumo', 'Referência', 'Fonte']) await expect(energy.getByText(label, { exact: true })).toBeVisible();
@@ -48,6 +49,7 @@ test('consumo parcial não apresenta referência da fonte nem diferença como c�
   await mockWizardAnalysis(page, { bottlenecks: { hasBottleneck: false, performanceSummary: { ...powerSummary, powerEstimateComplete: false, unknownPowerComponents: ['cooler-unknown'] } } });
   await page.goto('/build');
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
+  await page.locator('summary').filter({ hasText: 'Ver equilíbrio das peças e consumo' }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Consumo parcial' })).toBeVisible();
   const legend = page.getByRole('group', { name: 'Legenda do consumo energético' });
   await expect(legend).toContainText('Consumo parcial conhecido: 300 W');
@@ -92,7 +94,7 @@ test('tabela FPS recupera nomes completos e valores sem depender de hover', asyn
   await page.getByRole('button', { name: 'Comparar jogos', exact: true }).click();
   const results = page.getByRole('region', { name: 'Resultado da comparação de jogos' });
   await expect(results.getByRole('heading', { name: 'FPS estimado por jogo' })).toBeVisible();
-  const summary = results.locator('summary').filter({ hasText: 'Ver resultados e requisitos por jogo' });
+  const summary = results.locator('summary').filter({ hasText: 'Ver faixas estimadas e requisitos por jogo' });
   await summary.focus();
   await page.keyboard.press('Enter');
   const table = results.getByRole('region', { name: 'Tabela dos resultados por jogo' });

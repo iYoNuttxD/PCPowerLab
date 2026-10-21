@@ -12,14 +12,16 @@ export default function CoolingExplorer({ build, open: controlledOpen, onOpen, o
     <span className="eyebrow">Conforto da montagem</span>
     <h3>Explore o conforto da montagem</h3>
     <p>Explore o efeito do cooler, das ventoinhas e do ambiente quando precisar, sem sair da sua montagem.</p>
-    <Button aria-haspopup="dialog" onClick={() => onOpen ? onOpen() : setLocalOpen(true)}>Explorar temperatura e ruído</Button>
-    <Modal open={open} title="Temperatura e ruído" onClose={close}>
-      <p className="hint-text">Estimativa ilustrativa do modelo. Dados ausentes continuam indicados; não é uma medição deste computador.</p>
-      {!build.selectedComponents.cooler && build.selectedComponents.cpu?.specs?.includedCpuCooler?.name && <p>Esta CPU inclui {build.selectedComponents.cpu.specs.includedCpuCooler.name}, sem custo adicional. Não há medidas nem curva térmica/acústica verificadas para esse cooler; nenhum resultado é inventado. Você pode conferir ou escolher outra refrigeração abaixo.</p>}
-      {!build.selectedComponents.cooler && <p>Para explorar um cenário ilustrativo, selecione um cooler com dados de simulação. Isso não exige comprar outro cooler quando a CPU já inclui um adequado. <Link to="/build" onClick={() => { build.actions.setWizardStep('cooling'); close(); }}>Escolher refrigeração</Link></p>}
+    <Button variant="secondary" aria-haspopup="dialog" onClick={() => onOpen ? onOpen() : setLocalOpen(true)}>Explorar temperatura e ruído</Button>
+    <Modal className="cooling-dialog" open={open} title="Temperatura e ruído" onClose={close}>
+      <p className="hint-text">Estimativas aproximadas com seu cooler ou uma hipótese padrão.</p>
       <CoolingSimulationPanel heading="Resultados do cenário" cpu={build.selectedComponents.cpu} cooler={build.selectedComponents.cooler}
         fans={build.selectedComponents.fans || []} caseComponent={build.selectedComponents.case}
         conditions={build.coolingConditions} onConditionsChange={build.actions.setCoolingConditions} />
+      <details className="task-disclosure"><summary>Refrigeração desta montagem</summary>
+        <p>{build.selectedComponents.cooler?.name || build.selectedComponents.cpu?.specs?.includedCpuCooler?.name || 'Cooler padrão aproximado; confira se a CPU inclui refrigeração.'}</p>
+        <Link to="/build" onClick={() => { build.actions.setWizardStep('cooling'); close(); }}>Escolher refrigeração</Link>
+      </details>
     </Modal>
   </section>;
 }

@@ -4,6 +4,7 @@ import { canApplyReplacement, compareReplacementSummaries } from '../src/utils/r
 
 const settings = { gameId: 'game-example', targetResolution: '1080p', qualityPreset: 'high' };
 const summary = (overrides = {}) => ({
+  components: { cpu: { id: 'test-cpu' } },
   totalEstimatedPrice: 4000.1,
   compatibility: { compatible: true, status: 'compatible', alerts: [] },
   bottlenecks: { performanceSummary: { estimatedConsumptionWatts: 320 } },
@@ -126,13 +127,13 @@ test('unverified optional cooling permits an explicit apply but never implies ve
     alerts: [{ code: 'AIR_COOLER_CLEARANCE_UNVERIFIED', severity: 'medium', blocking: false }]
   } });
   assert.equal(canApplyReplacement(pending), true);
-  assert.equal(compareReplacementSummaries(pending, pending, settings).performance.comparable, false);
-  assert.equal(compareReplacementSummaries(pending, pending, settings).performance.reason, 'unverified-compatibility');
+  assert.equal(compareReplacementSummaries(pending, pending, settings).performance.comparable, true);
+  assert.equal(compareReplacementSummaries(pending, pending, settings).performance.reason, null);
   assert.equal(pending.compatibility.compatible, false);
   assert.equal(pending.compatibility.status, 'unverified');
 });
 
-test('known incompatibilities block apply and suppress performance comparisons even with conflicting success flags', () => {
+test('known incompatibilities remain advisory for manual apply and paired theoretical comparisons', () => {
   const incompatible = [
     { compatible: false, status: 'incompatible', alerts: [] },
     { compatible: true, status: 'incompatible', alerts: [] },
@@ -143,8 +144,8 @@ test('known incompatibilities block apply and suppress performance comparisons e
   ];
   for (const compatibility of incompatible) {
     const blocked = summary({ compatibility });
-    assert.equal(canApplyReplacement(blocked), false);
-    assert.equal(compareReplacementSummaries(summary(), blocked, settings).performance.reason, 'incompatible-build');
+    assert.equal(canApplyReplacement(blocked), true);
+    assert.equal(compareReplacementSummaries(summary(), blocked, settings).performance.reason, null);
   }
   assert.equal(canApplyReplacement(null), false);
   assert.equal(canApplyReplacement({}), false);

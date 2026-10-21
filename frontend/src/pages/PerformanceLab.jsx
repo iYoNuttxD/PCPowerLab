@@ -240,7 +240,7 @@ export function SoftwareResult({ result }) {
     <CoolingAssessmentNotice result={result} />
     <p className="analysis-note">Avaliação estimada a partir dos requisitos cadastrados, em uma escala normalizada de 0 a 100 pontos. Pontos não são FPS nem porcentagem de velocidade. Nenhum teste foi executado no seu computador.</p>
     <div className="metric-grid">
-      <div><span>{numericValue(result.performanceScore) === null ? 'Pontuação estimada' : performanceScoreLabel(result)} (0–100 pontos)</span><strong>{formatPerformanceNumber(result.performanceScore)}</strong></div>
+      <div><span>{numericValue(result.performanceScore) === null ? 'Pontuação estimada' : performanceScoreLabel(result)} (0–100 pontos)</span><strong>{result.performanceScoreRange ? `${result.performanceScoreRange.low}–${result.performanceScoreRange.high}` : formatPerformanceNumber(result.performanceScore)}</strong></div>
       <div><span>Atende requisitos mínimos</span><strong>{formatRequirement(result.meetsMinimumRequirements)}</strong></div>
       <div><span>Atende requisitos recomendados</span><strong>{formatRequirement(result.meetsRecommendedRequirements)}</strong></div>
     </div>

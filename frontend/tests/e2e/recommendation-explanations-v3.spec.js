@@ -24,6 +24,7 @@ test.beforeEach(async ({ page }) => {
 test('explanations open by keyboard and preserve readable per-part facts and exclusions', async ({ page }) => {
   await page.goto('/build');
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
+  await page.locator('summary').filter({ hasText: 'Como escolhemos estas peças' }).click();
   const disclosure = page.locator('.recommendation-explanation');
   await expect(disclosure).not.toHaveAttribute('open', '');
   await disclosure.locator(':scope > summary').focus();
@@ -39,8 +40,9 @@ test('explanations open by keyboard and preserve readable per-part facts and exc
   const exclusions = cpu.locator('.recommendation-excluded-alternatives');
   await exclusions.locator(':scope > summary').click();
   await expect(exclusions).toContainText('AMD Ryzen 7 7800X3D');
-  await expect(exclusions).toContainText('BIOS instalado ou versão mínima');
-  await expect(exclusions).toContainText('Índice de desempenho indisponível');
+  await expect(exclusions).not.toContainText('BIOS instalado ou versão mínima');
+  await expect(exclusions).not.toContainText('Índice de desempenho indisponível');
+  await expect(exclusions).toContainText(/socket|Soquete|soquete|RAM/);
   await expect(exclusions).toContainText('Preço de referência');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 });
@@ -55,6 +57,7 @@ test('budget and profile edits discard old explanations and request fresh ground
   await page.getByRole('button', { name: 'Avançar', exact: true }).click();
   await expect(page.locator('.recommendation-component-reason')).toHaveCount(0);
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
+  await page.locator('summary').filter({ hasText: 'Como escolhemos estas peças' }).click();
   const disclosure = page.locator('.recommendation-explanation');
   await disclosure.locator(':scope > summary').click();
   await expect(disclosure).toContainText('Limite: R$');

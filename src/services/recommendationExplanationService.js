@@ -65,7 +65,7 @@ export function explainBuildSelection({ components, usageType = 'general', prior
     return {
       slot, componentId: component.id, name: component.name, quantity, facts,
       role: roles[slot],
-      selectionReason: auxiliary ? roles[slot] : factual ? 'Integra o conjunto de menor total pelas regras de encaixe e energia do catálogo, com os requisitos de capacidade informados. A BIOS instalada não foi inspecionada. Nenhum índice de desempenho participou da escolha.' : selectionSource === 'recommendation'
+      selectionReason: auxiliary ? roles[slot] : factual ? 'Integra o conjunto de menor total pelas regras de encaixe e energia do catálogo, com os requisitos de capacidade informados. Nenhum índice de desempenho participou da escolha.' : selectionSource === 'recommendation'
         ? `${component.recommendationMeta?.categoryRank ? `Esta peça ficou em ${component.recommendationMeta.categoryRank}º entre ${component.recommendationMeta.rankedCandidatesCount} opções elegíveis da categoria (preço e índice válidos, antes de verificar o encaixe do conjunto), ordenadas por ${orderingLabels[priority] || orderingLabels['cost-benefit']}; ${component.recommendationMeta.shortlistedCandidatesCount} entraram na busca de conjuntos.`
           : `Integra o conjunto classificado para ${labels[usageType] || usageType}.`}
           ${priority === 'lowest-price' ? 'A pontuação do conjunto favorece economia no orçamento, índice simulado e equilíbrio CPU/GPU.' : priority === 'performance'
@@ -75,10 +75,10 @@ export function explainBuildSelection({ components, usageType = 'general', prior
       profile: { usageType, label: labels[usageType] || usageType, weight,
         message: factual ? 'O perfil orienta a memória mínima; requisitos específicos do programa e periféricos devem ser conferidos separadamente.' : auxiliary ? 'Refrigeração entra no custo e nas verificações, não na pontuação de desempenho.'
           : `Perfil ${labels[usageType] || usageType}${priority === 'lowest-price' ? ': usa o índice deste perfil; a prioridade menor preço não usa a parcela de custo-benefício ponderada' : known(weight) ? `: peso ${weight} na parcela de custo-benefício do algoritmo` : ''}. Isso não comprova desempenho em uma aplicação específica.` },
-      performance: { score, basis: auxiliary || factual ? 'not_scored' : !known(score) ? 'unavailable' : parameter ? 'simulated' : 'neutral_heuristic',
+      performance: { score, basis: auxiliary || factual ? 'not_scored' : !known(score) ? 'unavailable' : parameter ? 'simulated' : ['cpu','gpu','ram','storage'].includes(component.category) ? 'class_scenario' : 'neutral_heuristic',
         provisional: parameter?.scoreKind === 'synthetic-provisional',
         message: factual ? 'Desempenho não utilizado nesta seleção: não há promessa de FPS, ganho ou ausência de gargalos.' : auxiliary ? 'Sem estimativa de ganho de FPS ou temperatura.' : !known(score) ? 'Sem índice de desempenho utilizável; não é possível estimar o impacto no desempenho.'
-          : parameter ? `Índice simulado ${score}/100${parameter.scoreKind === 'synthetic-provisional' ? ', provisório' : ''}; não é benchmark medido nem garantia de FPS.`
+          : parameter || ['cpu','gpu','ram','storage'].includes(component.category) ? `Índice simulado ${score}/100${parameter?.scoreKind === 'synthetic-provisional' ? ', provisório' : ''}; não é benchmark medido nem garantia de FPS.`
             : `Peso neutro ${score}/100 usado no algoritmo; não mede qualidade ou desempenho desta peça.` },
       budget: { unitPrice: reference?.price ?? null, quantity, lineTotal,
         shareOfTotalPercent: known(total) && total > 0 && known(lineTotal) ? round(lineTotal / total * 100) : null,
@@ -100,7 +100,7 @@ export function explainBuildSelection({ components, usageType = 'general', prior
   });
   return { version: 'selection-explanation-v1', selectionSource, selectionMode, usageType, priority,
     scope: factual ? 'all_active_catalog_price_and_compatibility' : selectionSource === 'recommendation' ? 'shortlisted_catalog_builds_and_single_part_catalog_comparisons' : 'current_selection',
-    selectionRule: factual ? 'Escolha pelo menor total de referência entre conjuntos que passam pelas regras de encaixe e energia do catálogo, com mínimos de RAM e VRAM. BIOS instalada não inspecionada. Índices e FPS não participam da seleção; capacidade não garante desempenho em um programa.' : `A classificação combina índices simulados, preços de referência${priority === 'lowest-price' ? ' e economia no orçamento' : ', pesos do perfil e uso do orçamento'} e equilíbrio CPU/GPU em um subconjunto do catálogo. Não garante ótimo global nem a melhor oferta de mercado.`,
+    selectionRule: factual ? 'Escolha pelo menor total de referência entre conjuntos que passam pelas regras de encaixe e energia do catálogo, com mínimos de RAM e VRAM. Índices e FPS não participam da seleção; capacidade não garante desempenho em um programa.' : `A classificação combina índices simulados, preços de referência${priority === 'lowest-price' ? ' e economia no orçamento' : ', pesos do perfil e uso do orçamento'} e equilíbrio CPU/GPU em um subconjunto do catálogo. Não garante ótimo global nem a melhor oferta de mercado.`,
     budget: { currency: 'BRL', limit: validBudget ? budgetAmount : null, min: budgetMin, total, coolingSubtotal: coolingTotal,
       knownReferenceSubtotal: pricing.knownReferenceSubtotal, remaining: validBudget && known(total) ? round(budgetAmount - total) : null,
       status: !validBudget || !known(total) ? 'unavailable' : total > budgetAmount ? 'over_budget' : known(budgetMin) && total < budgetMin ? 'below_range' : 'within_budget' },
@@ -121,13 +121,13 @@ function compareSinglePartAlternatives({ slot, component, components, candidates
     const pricing = summarizeBuildPricing(replacement);
     const price = pricing.estimatedTotal;
     const score = getPerformanceScore(candidate, performanceByComponentId.get(candidate.id), usageType);
-    const reasons = [...compatibility.alerts, ...compatibility.unverifiedChecks].map(check => ({ code: check.code, message: check.message }));
+    const reasons = compatibility.alerts.map(check => ({ code: check.code, message: check.message }));
     if (!known(price)) reasons.push({ code: 'MISSING_REFERENCE_PRICE', message: 'Preço de referência incompleto.' });
     if (!known(score)) reasons.push({ code: 'PERFORMANCE_MODEL_UNAVAILABLE', message: 'Índice de desempenho indisponível; não entra na comparação por desempenho.' });
     return { componentId: candidate.id, name: candidate.name, compatibilityStatus: compatibility.status,
       referencePrice: pricing.referenceComponents.find(reference => reference.productId === candidate.id)?.price ?? null,
       facts: catalogFacts(slot, candidate),
-      status: reasons.length ? 'excluded' : 'verified', reasons, total: price, score,
+      status: reasons.length ? 'excluded' : 'verified', reasons, advisoryChecks: compatibility.unverifiedChecks, total: price, score,
       priceDelta: known(price) && known(total) ? round(price - total) : null,
       scoreDelta: known(score) && known(originalScore) ? round(score - originalScore) : null,
       remainingBudget: known(budgetAmount) && known(price) ? round(budgetAmount - price) : null,
@@ -143,7 +143,7 @@ function compareSinglePartAlternatives({ slot, component, components, candidates
     const cost = alternative.priceDelta < 0 ? `economiza ${money(-alternative.priceDelta)}` : alternative.priceDelta > 0
       ? `acrescenta ${money(alternative.priceDelta)}` : 'mantém o custo de referência';
     const score = known(alternative.scoreDelta) ? ` O índice de seleção desta peça muda ${alternative.scoreDelta >= 0 ? '+' : ''}${alternative.scoreDelta} ponto(s), não um percentual de desempenho real.` : '';
-    alternative.message = `${alternative.name}: ${cost}; total ${money(alternative.total)}.${score}${alternative.withinBudget === false ? ' Ultrapassa o limite informado.' : alternative.withinRange === false ? ' Fica abaixo do mínimo da faixa informada.' : ''} Compatível somente pelas regras verificadas para esta troca.`;
+    alternative.message = `${alternative.name}: ${cost}; total ${money(alternative.total)}.${score}${alternative.withinBudget === false ? ' Ultrapassa o limite informado.' : alternative.withinRange === false ? ' Fica abaixo do mínimo da faixa informada.' : ''} Sem conflito conhecido nas regras desta troca; detalhes ausentes continuam opcionais.`;
   }
   return { alternative: alternative || null, alternativeScope: 'single_part_replacement_preserving_other_parts_and_cooling',
     comparedCandidates: checked.length, excludedAlternatives: checked.filter(candidate => candidate.status === 'excluded') };
@@ -161,7 +161,7 @@ function fitFacts(slot, components) {
   const specs = name => components[name]?.specs || {};
   const cpu = specs('cpu'), board = specs('motherboard'), gpu = specs('gpu'), chassis = specs('case');
   const facts = [];
-  if (['cpu', 'motherboard'].includes(slot) && cpu.socket && board.socket) facts.push(`Socket da CPU: ${cpu.socket}; da placa-mãe: ${board.socket}. BIOS e revisão precisam de evidência própria.`);
+  if (['cpu', 'motherboard'].includes(slot) && cpu.socket && board.socket) facts.push(`Socket da CPU: ${cpu.socket}; da placa-mãe: ${board.socket}. Chipset e memória também precisam corresponder ao uso.`);
   if (['ram', 'motherboard'].includes(slot) && specs('ram').memoryType && board.memoryType) facts.push(`Memória ${specs('ram').memoryType}; placa-mãe declara ${board.memoryType}.`);
   if (slot === 'storage' && specs('storage').interface && board.storageInterfaces?.length) facts.push(`Interface ${specs('storage').interface}; placa-mãe declara ${board.storageInterfaces.join(', ')}.`);
   if (['gpu', 'case'].includes(slot) && known(gpu.lengthMm) && known(chassis.maxGpuLengthMm)) facts.push(`GPU de ${gpu.lengthMm} mm; limite do gabinete ${chassis.maxGpuLengthMm} mm.`);

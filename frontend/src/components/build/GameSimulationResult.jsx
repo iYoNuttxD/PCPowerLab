@@ -28,20 +28,17 @@ export default function GameSimulationResult({ result }) {
         <Badge tone={belowMinimum ? 'red' : 'cyan'}>Estimativa</Badge>
       </div>
       <div className="metric-grid">
-        <div><span>FPS estimado</span><strong>{formatPerformanceNumber(result.estimatedFps)}{numericValue(result.estimatedFps) !== null && ' FPS'}</strong></div>
+        <div><span>FPS estimado</span><strong>{result.estimatedFpsRange ? `${result.estimatedFpsRange.low}–${result.estimatedFpsRange.high} FPS` : <>{formatPerformanceNumber(result.estimatedFps)}{numericValue(result.estimatedFps) !== null && ' FPS'}</>}</strong></div>
         <div><span>Classificação de desempenho</span><strong>{translateValue(result.performanceLevel)}</strong></div>
-        <div><span>Atende requisitos mínimos</span><strong>{formatRequirement(result.meetsMinimumRequirements)}</strong></div>
-        <div><span>Atende requisitos recomendados</span><strong>{formatRequirement(result.meetsRecommendedRequirements)}</strong></div>
       </div>
-      <CoolingAssessmentNotice result={result} />
-      <EstimateNotice />
-      {belowMinimum ? <Alert type="warning">A configuração está abaixo dos requisitos mínimos cadastrados. Pode haver limitações mesmo que o FPS estimado pareça alto.</Alert>
-        : result.meetsRecommendedRequirements === false && <Alert type="warning">A configuração não atende a todos os requisitos recomendados cadastrados. Confira as limitações por componente nos detalhes.</Alert>}
-      {bottlenecks.length > 0 && <Alert type="warning">A simulação identificou possíveis gargalos e considerou seu impacto na estimativa. Veja quais peças nos detalhes técnicos.</Alert>}
-      {Array.isArray(result.warnings) && result.warnings.map((warning, index) => <Alert key={index} type="warning">{warning}</Alert>)}
-      <AnalysisHelp topics={['fps', 'bottleneck']} />
+      <p className="hint-text">Cenário aproximado das peças, mesmo com dados técnicos incompletos.</p>
       <details className="analysis-help">
         <summary>Ver requisitos e detalhes técnicos da simulação</summary>
+        <p>Confiança {result.estimation?.confidence === 'low' ? 'baixa, com aproximações de chip ou família.' : 'moderada no modelo, sem precisão garantida.'}</p>
+        <p>Mínimos: {formatRequirement(result.meetsMinimumRequirements)} · Recomendados: {formatRequirement(result.meetsRecommendedRequirements)}</p>
+        {(result.estimation?.assumptions || []).map((note, index) => <p key={index}>{note}</p>)}
+        <EstimateNotice />
+        <AnalysisHelp topics={['fps', 'bottleneck']} />
         {result.summary && <p>{result.summary}</p>}
         <dl className="technical-details">
           {Object.entries(result.details || {}).map(([key, value]) => (

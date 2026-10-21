@@ -56,7 +56,7 @@ test('SSR: excluded new CPUs have a readable pending-BIOS explanation, not hidde
   const html = render('RecommendationExplanation', { explanation: recommendation.selectionExplanation });
   assert.match(html, /Por que outras peças não servem como troca direta/);
   assert.match(html, /AMD Ryzen 7 7800X3D/);
-  assert.match(html, /BIOS instalado ou versão mínima/);
+  assert.doesNotMatch(html, /BIOS instalado ou versão mínima/);
   assert.match(html, /Não significa que estes modelos sejam incompatíveis com todas as montagens/);
 });
 

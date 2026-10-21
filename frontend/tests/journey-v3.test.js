@@ -67,12 +67,12 @@ test('editing a budget can resume review while the selected-step identity stays 
 test('all applied filter categories are named and removable outside the collapsed advanced disclosure', () => {
   const filters = { ...emptyCatalogFilters, search: 'Ryzen', category: 'cpu', brand: 'AMD', minPrice: '100', maxPrice: '900', specs: { socket: 'AM4' } };
   const html = render(ui.ComponentFilters, { components: [], filters, onChange() {} });
-  assert.match(html, /6 filtros ativos/);
+  assert.match(html, /5 filtros ativos/);
   const active = html.slice(html.indexOf('class="active-filters"'));
-  for (const text of ['Busca: Ryzen', 'Categoria: Processador', 'AMD', 'Encaixe (socket): AM4', 'Preço mínimo:', 'Preço máximo:']) {
+  for (const text of ['Busca: Ryzen', 'Processador', 'AMD', 'Encaixe (socket): AM4', 'Até R$']) {
     assert.ok(active.includes(`aria-label="Remover filtro ${text}`));
   }
-  assert.match(html, /<summary>Mais filtros \(2\)<\/summary>/);
+  assert.match(html, /<summary>Mais filtros e exibição<\/summary>/);
   assert.doesNotMatch(html, /catalog-advanced-filters" open/);
   const fixed = render(ui.ComponentFilters, { components: [], filters, fixedCategory: 'cpu', onChange() {} });
   assert.doesNotMatch(fixed, /Remover filtro Categoria/);

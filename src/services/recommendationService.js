@@ -1,5 +1,6 @@
+import { summarizeBuildPricing } from './marketPriceService.js';
 import { requiredSlotsFor, usesIntegratedGraphics } from '../utils/graphicsSelection.js';
-import { integratedCpuEvidence } from '../data/integratedGraphicsEvidence.js';
+import { integratedGraphicsCapability } from '../data/integratedGraphicsEvidence.js';
 import { publishedCpuBiosSupport } from '../data/cpuBiosSupport.js';
 import { unavailablePerformance } from '../utils/performanceAvailability.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
@@ -8,7 +9,7 @@ import { isNonEmptyTextArray } from '../models/component.model.js';
 import { listComponents } from './component.service.js';
 import { evaluateResolvedBuildCompatibility } from './compatibility.service.js';
 import { listPerformanceParameters } from './performanceParametersService.js';
-import { requiredBuildSlots, selectOptionalBuildComponents, calculateBuildPrice } from './build.service.js';
+import { requiredBuildSlots, selectOptionalBuildComponents, calculateBuildPrice, allBuildComponents } from './build.service.js';
 import { explainBuildSelection } from './recommendationExplanationService.js';
 import {
   calculateBuildPerformanceScore,
@@ -34,7 +35,6 @@ export function recommendBuildsByBudgetRange(input) {
     const error = new Error('Seleção factual disponível na recomendação por orçamento único.'); error.statusCode = 400; throw error;
   }
   const optionalComponents = selectOptionalBuildComponents(input);
-  validateOptionalPrices(optionalComponents);
 
   const budgetRange = normalizeBudgetRange(input.budgetRange);
   const usageType = normalizeUsageType(input.usageType);
@@ -70,16 +70,15 @@ export function recommendBuildsByBudgetRange(input) {
     throw error;
   }
 
-  return recommendations;
+  return recommendations.map(withRecommendationPriceCoverage);
 }
 
 export function recommendBuildByBudget(input) {
   validateRecommendationPayload(input);
-  const factual = input.selectionMode === 'price-and-compatibility';
-  if (usesIntegratedGraphics(input) && !factual) { const error = new Error('Vídeo integrado usa o critério factual por preço e encaixes, sem ranking de desempenho.'); error.statusCode = 400; throw error; }
+  const factual = input.selectionMode === 'price-and-compatibility' || usesIntegratedGraphics(input);
+
   const minimumVramGb = minimumVramFor(input);
   const optionalComponents = selectOptionalBuildComponents(input);
-  validateOptionalPrices(optionalComponents);
   if (usesIntegratedGraphics(input)) optionalComponents.graphicsMode = 'integrated';
 
   const budget = normalizeBudget(input.budget);
@@ -115,7 +114,7 @@ export function recommendBuildByBudget(input) {
     throw error;
   }
 
-  return recommendation;
+  return withRecommendationPriceCoverage(recommendation);
 }
 
 function buildCandidatesBySlot({ usageType, priority, performanceByComponentId, minimumMemoryGb, minimumVramGb = 0, factual = false, graphicsMode = 'dedicated' }) {
@@ -128,11 +127,10 @@ function buildCandidatesBySlot({ usageType, priority, performanceByComponentId, 
         slot
       }))
       .filter((candidate) => candidate.estimatedPrice !== null)
-      .filter((candidate) => graphicsMode !== 'integrated' || slot !== 'cpu' || integratedCpuEvidence(candidate))
-      .filter((candidate) => slot !== 'ram' || candidate.specs?.capacityGb >= minimumMemoryGb)
-      .filter((candidate) => slot !== 'gpu' || (candidate.specs?.vramGb ?? 0) >= minimumVramGb)
-      .filter((candidate) => factual || Number.isFinite(candidate.performanceScore)
-        && candidate.performanceScore >= (['study', 'general'].includes(usageType) ? 0 : 40))
+      .filter((candidate) => graphicsMode !== 'integrated' || slot !== 'cpu' || integratedGraphicsCapability(candidate) !== 'absent')
+      .filter((candidate) => slot !== 'ram' || !Number.isFinite(candidate.specs?.capacityGb) || candidate.specs.capacityGb >= minimumMemoryGb)
+      .filter((candidate) => slot !== 'gpu' || !Number.isFinite(candidate.specs?.vramGb) || candidate.specs.vramGb >= minimumVramGb)
+      .filter((candidate) => factual || Number.isFinite(candidate.performanceScore))
       .sort(factual ? (a, b) => a.estimatedPrice - b.estimatedPrice || a.id.localeCompare(b.id) : compareCandidates(priority));
 
     const balancedCandidates = factual ? components : selectBalancedCandidatePool(components, priority);
@@ -212,7 +210,7 @@ function findCompatibleBuildsByBudgetRange({
 
       const compatibilityResult = evaluateResolvedBuildCompatibility(components);
 
-      if (!compatibilityResult.compatible) {
+      if (compatibilityResult.alerts.length > 0) {
         return;
       }
 
@@ -314,21 +312,10 @@ function findBestCompatibleBuild({
 }
 
 // A pending accessory check may coexist with a useful core proposal. Never
-// promote it to compatible or relax CPU/BIOS, electrical or physical conflicts.
-function canPresentRecommendation(components, result, allowPendingCooling, factual = false) {
-  if (factual && result.status === 'unverified' && !result.alerts.length) {
-    const support = publishedCpuBiosSupport(components.cpu, components.motherboard);
-    const coolingCodes = new Set(result.coolingAssessment?.unverifiedChecks?.map(check => check.code));
-    return result.unverifiedChecks.every(check => check.code === 'CPU_BIOS_UNVERIFIED' ? Boolean(support?.minimumVersion)
-      : coolingCodes.has(check.code) && Boolean(allowPendingCooling || components.cpu.specs?.includedCpuCooler?.specSourceUrl));
-  }
-  if (result.compatible) return true;
-  if (!allowPendingCooling || result.status !== 'unverified' || result.alerts.length
-    || result.coolingAssessment?.status !== 'unverified' || !result.unverifiedChecks.length) return false;
-  const pendingCoolingCodes = new Set(result.coolingAssessment.unverifiedChecks.map(check => check.code));
-  if (!result.unverifiedChecks.every(check => pendingCoolingCodes.has(check.code))) return false;
-  const core = { ...Object.fromEntries(requiredSlotsFor(components).map(slot => [slot, components[slot]])), ...(usesIntegratedGraphics(components) ? { graphicsMode: 'integrated' } : {}) };
-  return evaluateResolvedBuildCompatibility(core).compatible;
+// promote unknown facts to compatible or ignore known electrical or physical conflicts.
+function canPresentRecommendation(_components, result) {
+  // Automatic suggestions avoid known conflicts. Missing evidence is advisory.
+  return result.alerts.length === 0;
 }
 
 function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponents, onCombination, maxBudget = null }) {
@@ -373,39 +360,18 @@ function visitBuildCombinations({ candidatesBySlot, slotIndex, selectedComponent
 
 
 function isPartialSelectionViable(components) {
-  if (components.cpu && components.motherboard && components.cpu.specs.socket !== components.motherboard.specs.socket) {
-    return false;
-  }
-
-  if (components.ram && components.motherboard && components.ram.specs.memoryType !== components.motherboard.specs.memoryType) {
-    return false;
-  }
-
-  if (components.storage && components.motherboard && (!isNonEmptyTextArray(components.motherboard.specs.storageInterfaces)
-    || !components.motherboard.specs.storageInterfaces.includes(components.storage.specs.interface))) {
-    return false;
-  }
-
-  if (components.psu && components.cpu && components.gpu) {
-    const minimumRecommended = Math.max(
-      components.gpu.specs.recommendedPsuWatts || 0,
-      (components.cpu.specs.tdpWatts || 0) + 350
-    );
-
-    if (components.psu.specs.watts < minimumRecommended) {
-      return false;
-    }
-  }
-
-  if (components.case && components.motherboard && (!isNonEmptyTextArray(components.case.specs.supportedFormFactors)
-    || !components.case.specs.supportedFormFactors.includes(components.motherboard.specs.formFactor))) {
-    return false;
-  }
-
-  if (components.case && components.gpu && components.gpu.specs.lengthMm > components.case.specs.maxGpuLengthMm) {
-    return false;
-  }
-
+  const { cpu, motherboard: board, ram, storage, gpu, psu, case: box } = components;
+  if (board?.specs.chipset === 'B550' && /(?:3200G|3400G)/i.test(cpu?.name || '')) return false;
+  if (cpu?.specs.socket && board?.specs.socket && cpu.specs.socket !== board.specs.socket) return false;
+  if (ram?.specs.memoryType && board?.specs.memoryType && ram.specs.memoryType !== board.specs.memoryType) return false;
+  if (storage?.specs.interface && isNonEmptyTextArray(board?.specs.storageInterfaces)
+    && !board.specs.storageInterfaces.includes(storage.specs.interface)) return false;
+  if (Number.isFinite(psu?.specs.watts) && Number.isFinite(gpu?.specs.recommendedPsuWatts)
+    && psu.specs.watts < gpu.specs.recommendedPsuWatts) return false;
+  if (board?.specs.formFactor && isNonEmptyTextArray(box?.specs.supportedFormFactors)
+    && !box.specs.supportedFormFactors.includes(board.specs.formFactor)) return false;
+  if (Number.isFinite(gpu?.specs.lengthMm) && Number.isFinite(box?.specs.maxGpuLengthMm)
+    && gpu.specs.lengthMm > box.specs.maxGpuLengthMm) return false;
   return true;
 }
 
@@ -481,7 +447,8 @@ function formatBudgetRangeRecommendation({
     totalEstimatedPrice: Number(recommendation.totalEstimatedPrice.toFixed(2)),
     budgetStatus: getBudgetStatus(recommendation.totalEstimatedPrice, budgetRange),
     requestedBudgetRange: { ...budgetRange, currency: 'BRL' },
-    compatibilityStatus: recommendation.compatibilityResult.compatible ? 'compatible' : 'incompatible',
+    compatibilityStatus: recommendation.compatibilityResult.status,
+    unverifiedChecks: recommendation.compatibilityResult.unverifiedChecks,
     estimatedPerformanceLevel: getEstimatedPerformanceLevel(performanceScore),
     performanceScore,
     costBenefitScore: Number((recommendation.score / 100).toFixed(2)),
@@ -671,7 +638,8 @@ function compareCandidates(priority) {
 }
 
 function calculateTotalEstimatedPrice(components) {
-  return calculateBuildPrice(components);
+  // Search uses only known costs. Final formatting independently marks incomplete totals.
+  return Number(allBuildComponents(components).reduce((total, component) => total + (Number.isFinite(component.price) && component.price >= 0 ? component.price : 0), 0).toFixed(2));
 }
 
 function validateCandidateAvailability(candidatesBySlot) {
@@ -807,13 +775,11 @@ function normalizeText(value) {
   return value.trim().toLowerCase();
 }
 
-function validateOptionalPrices(components) {
-  const accessories = [components.cooler, ...(components.fans ?? [])].filter(Boolean);
-  if (accessories.some((component) => getEstimatedPrice(component) === null)) {
-    const error = new Error('Preco indisponivel para um acessorio de refrigeracao selecionado.');
-    error.statusCode = 422;
-    throw error;
-  }
+function withRecommendationPriceCoverage(result) {
+  const pricing = summarizeBuildPricing(result.components);
+  if (pricing.referenceTotalComplete) return result;
+  return { ...result, totalEstimatedPrice:null, remainingBudget:null, budgetStatus:'unavailable', pricing,
+    warnings:[...(result.warnings || []), 'Há preço de refrigeração pendente. O subtotal conhecido orienta a busca, mas não confirma que o conjunto inteiro cabe no orçamento.'] };
 }
 
 function recommendationMethodology(usageType, priority) {
@@ -866,10 +832,10 @@ function formatFactualRecommendation({ recommendation, budgetAmount, usageType }
     selectionMode: 'price-and-compatibility', priority: 'lowest-price', usageType,
     requestedBudget: { amount: budgetAmount, currency: 'BRL' }, totalEstimatedPrice: Number(totalEstimatedPrice.toFixed(2)),
     remainingBudget: Number((budgetAmount - totalEstimatedPrice).toFixed(2)), components,
-    compatibilityStatus: 'unverified', coreCatalogRulesStatus: compatibilityResult.status,
-    unverifiedChecks: [...compatibilityResult.unverifiedChecks.filter(check => check.code !== 'CPU_BIOS_UNVERIFIED'), { code: 'CPU_BIOS_UNVERIFIED', verification: 'unverified',
-      message: biosMessage }], biosSupport,
-    verificationScope: 'Catalog core fit/power rules; installed BIOS and included cooler are not certified.',
+    compatibilityStatus: compatibilityResult.status, coreCatalogRulesStatus: compatibilityResult.status,
+    unverifiedChecks: compatibilityResult.unverifiedChecks, biosSupport,
+    verificationScope: 'Regras verificáveis do catálogo; dados ausentes são detalhes opcionais.',
+    optionalBiosNote: biosMessage,
     coolingAssessment: compatibilityResult.coolingAssessment,
     memoryRequirement: { minimumGb: recommendation.components.ram.recommendationMeta.minimumMemoryGb,
       policy: 'Requisito de capacidade editável; não confirma requisitos de um aplicativo.' },
@@ -881,7 +847,7 @@ function formatFactualRecommendation({ recommendation, budgetAmount, usageType }
       scope: 'active_catalog_with_reference_prices_and_explicit_capacity_requirements', excludes: ['frete', 'montagem', 'periféricos'] },
     warnings: ['Seleção por preço e compatibilidade, sem ranking de desempenho, FPS ou promessa de ausência de gargalos. Preços são referências datadas.'],
     selectionExplanation: explainBuildSelection({ components: recommendation.components, usageType, priority: 'lowest-price',
-      budgetAmount, compatibility: { ...compatibilityResult, status: 'unverified', unverifiedChecks: [...compatibilityResult.unverifiedChecks.filter(check => check.code !== 'CPU_BIOS_UNVERIFIED'), { code: 'CPU_BIOS_UNVERIFIED', message: biosMessage }] }, selectionMode: 'price-and-compatibility' })
+      budgetAmount, compatibility: compatibilityResult, selectionMode: 'price-and-compatibility' })
   };
 }
 
@@ -896,16 +862,16 @@ function budgetFailure({ input, optionalComponents, budget, usageType, performan
   const money = amount => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(amount);
   const error = new Error(minimum
     ? minimum.totalEstimatedPrice > budget.amount
-      ? `Não há proposta confirmada até ${money(budget.amount)}. Menor total encontrado pelas regras de encaixe e energia do catálogo: ${money(minimum.totalEstimatedPrice)}; faltam ${money(minimum.totalEstimatedPrice - budget.amount)}. BIOS instalada e refrigeração ainda precisam de confirmação.`
+      ? `Não há proposta confirmada até ${money(budget.amount)}. Menor total encontrado pelas regras de encaixe e energia do catálogo: ${money(minimum.totalEstimatedPrice)}; faltam ${money(minimum.totalEstimatedPrice - budget.amount)}. Custos de referência; confira montagem e preços antes da compra.`
       : `Há opção factual por ${money(minimum.totalEstimatedPrice)}, mas ela não atende ao filtro de índices do modo atual. Escolha “Preço e encaixes” para examiná-la, sem garantia de desempenho.`
-    : 'Nenhum conjunto atende às verificações e aos requisitos atuais; aumentar o orçamento não resolve dados técnicos ausentes.');
+    : 'Nenhum conjunto atende aos requisitos escolhidos sem conflito conhecido. Revise a memória mínima, o tipo de vídeo ou as peças disponíveis.');
   error.statusCode = 422;
   error.errors = [`Requisito: pelo menos ${minimumMemoryFor(input, usageType)} GB de RAM${minimumVramFor(input) ? ` e ${minimumVramFor(input)} GB de VRAM` : ', sem requisito adicional de VRAM'}. Preços de referência, sem frete, montagem ou periféricos; refrigeração selecionada preservada.`,
     `Limite inferior por preços isolados: ${money(lowerBound)}. Essa soma pode misturar peças incompatíveis e não é uma montagem aprovada.`];
   const pending = findBestCompatibleBuild({ ...common, diagnosticOnly: true,
     budgetAmount: minimum?.totalEstimatedPrice ?? Infinity });
   if (pending?.compatibilityResult.unverifiedChecks.length) error.errors.push(
-    `Caminho mais barato de ${money(pending.totalEstimatedPrice)} não aprovado: ${[...new Set(pending.compatibilityResult.unverifiedChecks.map(check => check.message))].join(' ')}`);
+    `Caminho mais barato de ${money(pending.totalEstimatedPrice)} com dados opcionais a conferir: ${[...new Set(pending.compatibilityResult.unverifiedChecks.map(check => check.message))].join(' ')}`);
   error.budgetFeasibility = { minimumVerifiedTotal: null, minimumCatalogRulesTotal: minimum?.totalEstimatedPrice ?? null,
     scope: 'Core catalog fit/power rules; installed BIOS and included cooler not inspected.', lowerBound,
     minimumCatalogRulesComponents: minimum ? Object.fromEntries(requiredSlotsFor(minimum.components).map(slot => [slot, minimum.components[slot].id])) : null,

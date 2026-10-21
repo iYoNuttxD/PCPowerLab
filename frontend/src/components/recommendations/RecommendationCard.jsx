@@ -1,11 +1,8 @@
 import { usesIntegratedGraphics } from '../../../../src/utils/graphicsSelection.js';
-import CoolingAssessmentNotice from '../compatibility/CoolingAssessmentNotice.jsx';
-import { hasSimulatedPerformance } from '../../utils/performanceMethodology.js';
 import { useState } from 'react';
 import ComponentIdentity from '../componentsCatalog/ComponentIdentity.jsx';
 import Button from '../ui/Button.jsx';
 import Card from '../ui/Card.jsx';
-import Alert from '../ui/Alert.jsx';
 import Select from '../ui/Select.jsx';
 import { componentLabels, componentTypes, usageLabels, priorityLabels } from '../../utils/componentLabels.js';
 import { calculateBuildPrice, recommendationSelection } from '../../utils/buildHelpers.js';
@@ -23,7 +20,7 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
   }
 
   const suggested = recommendation.components || {};
-  const retainsCooling = ((!Object.hasOwn(suggested, 'cooler') && !Object.hasOwn(suggested, 'coolerId') && currentComponents.cooler)
+  const retainsCooling = Boolean((!Object.hasOwn(suggested, 'cooler') && !Object.hasOwn(suggested, 'coolerId') && currentComponents.cooler)
     || (!Object.hasOwn(suggested, 'fans') && currentComponents.fans?.length));
   const displayedTotal = retainsCooling ? calculateBuildPrice(recommendationSelection(currentComponents, suggested)) : recommendation.totalEstimatedPrice;
   return (
@@ -32,21 +29,9 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         <h3>Configuração recomendada</h3>
         <strong><small className="estimated-price-label">Total estimado de referência</small>{formatCurrency(displayedTotal)}</strong>
       </div>
-      {recommendation.selectionMode === 'price-and-compatibility' && <Alert type="info" title="Seleção por preço e compatibilidade"><p>Menor total pelas regras de encaixe e energia do catálogo, sem ranking de desempenho. Confira as pendências abaixo. {recommendation.minimumVramGb > 0 && `Requisito de VRAM: ${recommendation.minimumVramGb} GB ou mais.`} Confira os requisitos específicos dos seus programas.</p></Alert>}
-      {retainsCooling ? <p>Inclui sua refrigeração atual. Confira a compatibilidade após aplicar.</p> : recommendation.selectionMode !== 'price-and-compatibility' && <p>{recommendation.summary || recommendation.strategy}</p>}
-      <p className="hint-text">{recommendation.usageType && `Perfil: ${usageLabels[recommendation.usageType] || recommendation.usageType}. `}{recommendation.priority && `Prioridade: ${priorityLabels[recommendation.priority] || recommendation.priority}. `}{recommendation.requestedBudget && `Limite informado: ${formatCurrency(recommendation.requestedBudget.amount)}.`}</p>
-      {recommendation.compatibilityStatus === 'compatible' && <p className="hint-text">Compatibilidade verificada pelas regras do catálogo. Confirme os detalhes de montagem e os preços antes de comprar.</p>}
-      {recommendation.selectionMode !== 'price-and-compatibility' && Array.isArray(recommendation.warnings) && recommendation.warnings.length > 0 && <Alert type="warning" title="Pontos de atenção"><ul>{recommendation.warnings.map((warning, index) => <li key={index}>{warning}</li>)}</ul></Alert>}
-      {recommendation.simulationAvailability?.available === false && <Alert type="warning" title="FPS e gargalos indisponíveis nesta sugestão">
-        <p>Uma ou mais peças ainda não têm modelo calibrado para simulação. Você pode consultar especificações, compatibilidade e lojas. Aplicar esta sugestão não habilita estimativas de desempenho.</p>
-      </Alert>}
-      {recommendation.memoryRequirement && <p className="hint-text">Memória selecionada: {suggested.ram?.specs?.capacityGb} GB. {recommendation.memoryRequirement.policy} Confira os requisitos dos seus jogos e programas no resumo.</p>}
-      {recommendation.compatibilityStatus === 'unverified' && <Alert type="warning" title="Verificações técnicas pendentes">
-        <p>A montagem completa ainda não está confirmada. Confira estes pontos antes de comprar.</p>
-        <ul>{recommendation.unverifiedChecks?.map((check, index) => <li key={`${check.code}-${index}`}>{check.message}</li>)}</ul>
-      </Alert>}
-      <CoolingAssessmentNotice result={recommendation} />
-      {hasSimulatedPerformance(recommendation) && <p className="hint-text">Sugestão com pontuações simuladas</p>}
+      {recommendation.pricing?.referenceTotalComplete === false && <p>Subtotal conhecido: {formatCurrency(recommendation.pricing.knownReferenceSubtotal)} · custo de refrigeração pendente.</p>}
+      <p>{recommendation.selectionMode === 'price-and-compatibility' ? 'Opção de menor custo estimado, evitando conflitos conhecidos no catálogo.' : 'Peças escolhidas para seu uso e orçamento, com desempenho aproximado.'} {recommendation.usageType && `Perfil: ${usageLabels[recommendation.usageType] || recommendation.usageType}.`}</p>
+      {onApply && <Button disabled={disabled} onClick={() => onApply(recommendation)}>Usar recomendação inteira</Button>}
       <ul className="build-parts-list">
         {[...componentTypes, ...(recommendation.components?.cooler ? ['cooler'] : [])].map((type) => {
           const component = recommendation.components?.[type];
@@ -60,15 +45,17 @@ export default function RecommendationCard({ recommendation, onApply, onPreview,
         })}
         {(recommendation.components?.fans || []).map((fan, index) => <li key={fan.id || index}><span>Ventoinhas</span><ComponentIdentity component={fan} category="fan"><small>{fan.quantity} pacote(s)</small></ComponentIdentity></li>)}
       </ul>
-      {!suggested.cooler && suggested.cpu?.specs?.includedCpuCooler?.name && <p className="hint-text">Inclui {suggested.cpu.specs.includedCpuCooler.name} no preço da CPU. Identidade confirmada; medidas e simulação térmica desse cooler continuam pendentes.</p>}
-      <RecommendationExplanation explanation={recommendation.selectionExplanation} comparison={recommendation.comparison} needsRecalculation={Boolean(retainsCooling)} />
-      <SuggestedPiecePicker components={suggested} currentComponents={currentComponents} onPreview={onPreview} disabled={disabled} />
-      {onApply && <p className="hint-text">A recomendação troca as peças principais e mantém sua refrigeração, salvo quando indicar outra.</p>}
-      {onApply && (
-        <Button variant="secondary" disabled={disabled} onClick={() => onApply(recommendation)}>
-          Usar recomendação inteira
-        </Button>
-      )}
+      <details className="task-disclosure"><summary>Como escolhemos estas peças</summary>
+        {retainsCooling && <p>O total inclui sua refrigeração atual.</p>}
+        {suggested.cpu?.specs?.includedCpuCooler?.name && !suggested.cooler && <p>{suggested.cpu.specs.includedCpuCooler.name} incluso no preço da CPU. Temperatura e ruído são estimativas.</p>}
+        <p>{recommendation.priority && `Prioridade: ${priorityLabels[recommendation.priority] || recommendation.priority}. `}{recommendation.requestedBudget && `Limite informado: ${formatCurrency(recommendation.requestedBudget.amount)}.`}</p>
+        <p>Dados ausentes não significam incompatibilidade. As simulações usam aproximações; confira detalhes de montagem e preços antes da compra.</p>
+        {recommendation.memoryRequirement && <p>RAM: {suggested.ram?.specs?.capacityGb} GB. {recommendation.memoryRequirement.policy}</p>}
+        <ul>{[...(recommendation.warnings || []), ...(recommendation.unverifiedChecks || []).filter(v => !String(v.code).includes('BIOS')).map(v => v.message)].map((warning, index) => <li key={index}>{warning}</li>)}</ul>
+        <RecommendationExplanation explanation={recommendation.selectionExplanation} comparison={recommendation.comparison} needsRecalculation={Boolean(retainsCooling)} />
+      </details>
+      {onPreview && <details className="task-disclosure"><summary>Trocar só uma peça</summary><SuggestedPiecePicker components={suggested} currentComponents={currentComponents} onPreview={onPreview} disabled={disabled} /></details>}
+
     </Card>
   );
 }

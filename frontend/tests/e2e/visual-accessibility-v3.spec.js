@@ -33,9 +33,11 @@ test('skip link and labelled controls follow normal DOM order without positive t
   const budget = page.getByRole('spinbutton', { name: 'Orçamento', exact: true });
   await budget.focus();
   await page.keyboard.press('Tab');
-  await expect(page.getByRole('combobox', { name: 'Prioridade', exact: true })).toBeFocused();
-  await page.keyboard.press('Tab');
   await expect(page.getByRole('combobox', { name: 'Tipo de uso', exact: true })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('combobox', { name: 'Tipo de vídeo da montagem', exact: true })).toBeFocused();
+  await page.locator('summary').filter({ hasText: 'Ajustar sugestão' }).click();
+  await expect(page.getByRole('combobox', { name: 'Prioridade', exact: true })).toBeVisible();
 });
 
 test('real focus ring is visible with AA contrast on the adjacent dark task surface', async ({ page }) => {

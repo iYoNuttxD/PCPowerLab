@@ -1,8 +1,14 @@
 # PCPowerLab V3 — fechamento de recomendações econômicas
 
+> **Contrato atual — 21/10/2026:** [V3-NONBLOCKING-VALIDATION.md](V3-NONBLOCKING-VALIDATION.md) substitui os antigos bloqueios por BIOS desconhecida, medidas ausentes e falta de calibração. Dados desconhecidos são avisos opcionais; há estimativas aproximadas, não medições. Conflitos conhecidos não impedem o fluxo manual. Registros anteriores abaixo são históricos e não descrevem esses bloqueios como requisitos atuais.
+
+
 > **Atualização de fechamento integral:** o estado atual é descrito em [V3-INTEGRAL-COMPLETION.md](V3-INTEGRAL-COMPLETION.md). Os valores e limites abaixo conservam a cronologia da etapa anterior. A arquitetura integrada foi implementada; há proposta factual de seis peças por R$ 2.489,94, além de opção dedicada por R$ 3.799,84. Isso não certifica BIOS instalada, desempenho nem satisfação humana.
 
 21/10/2026. Continuação de `9487ff14e559f4b15dc4ed7b05684772c502f329`, mesma branch/PR #47, sem merge/deploy. Escopo: escolhas econômicas úteis, diagnóstico de viabilidade e dados técnicos verificáveis. Não houve nova calibração nem teste humano.
+
+## Registro histórico — anterior ao contrato não bloqueante
+
 
 ## O que era corrigível e foi alterado
 

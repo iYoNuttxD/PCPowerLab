@@ -66,31 +66,31 @@ test('duplicate requirements are summed rather than reusing the same connector',
   assert.ok(has(evaluate(build), 'PSU_GPU_CONNECTORS_INCOMPATIBLE'));
 });
 
-test('a new motherboard with unknown installed BIOS is not socket-only compatible', () => {
+test('a new motherboard with unknown installed BIOS does not use BIOS as a selection gate', () => {
   const build = fixture();
   build.motherboard.catalogRevision = revision;
   build.motherboard.specs.minimumBiosByCpu = { 'cpu-test': '2423' };
-  assert.equal(evaluate(build).status, 'unverified');
-  assert.ok(has(evaluate(build), 'CPU_BIOS_UNVERIFIED'));
+  assert.equal(evaluate(build).status, 'compatible');
+  assert.ok(!has(evaluate(build), 'CPU_BIOS_UNVERIFIED'));
   build.motherboard.specs.installedBiosVersion = '2400';
-  assert.ok(has(evaluate(build), 'CPU_BIOS_BELOW_MINIMUM'));
+  assert.ok(!has(evaluate(build), 'CPU_BIOS_BELOW_MINIMUM'));
   build.motherboard.specs.installedBiosVersion = '2423';
   assert.equal(evaluate(build).status, 'compatible');
   build.motherboard.specs.installedBiosVersion = '3000';
   assert.equal(evaluate(build).status, 'compatible');
 });
 
-test('BIOS family fallback works but unknown CPU support and beta versions stay unverified', () => {
+test('BIOS strings and beta markers do not enter the main compatibility verdict', () => {
   const build = fixture();
   Object.assign(build.motherboard.specs, { minimumBiosByCpu: { Ryzen5000: 'F20' }, installedBiosVersion: 'F21' });
   assert.equal(evaluate(build).status, 'compatible');
   for (const version of ['F21a', '2423', null]) {
     build.motherboard.specs.installedBiosVersion = version;
-    assert.ok(has(evaluate(build), 'CPU_BIOS_UNVERIFIED'));
+    assert.ok(!has(evaluate(build), 'CPU_BIOS_UNVERIFIED'));
   }
   build.motherboard.specs.installedBiosVersion = 'F21';
   build.motherboard.specs.minimumBiosByCpu = {};
-  assert.ok(has(evaluate(build), 'CPU_BIOS_UNVERIFIED'));
+  assert.ok(!has(evaluate(build), 'CPU_BIOS_UNVERIFIED'));
 });
 
 test('known PSU length or form-factor violations are incompatible', () => {

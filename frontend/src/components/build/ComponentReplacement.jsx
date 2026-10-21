@@ -121,9 +121,9 @@ export default function ComponentReplacement({ type, build, initialComponent, on
           <p role="status">{check.status === 'loading' ? 'Verificando a montagem atual e a alternativa com o mesmo jogo, resolução e qualidade...'
           : !candidate ? 'Selecione uma alternativa para verificar.'
             : !complete ? 'Complete as outras categorias no assistente antes de verificar a substituição.'
-              : check.status === 'success' ? canApply ? validated ? 'Verificação concluída. Revise os avisos antes de aplicar.' : 'Verificação concluída com dados pendentes. Leia os avisos de compatibilidade antes de aplicar.' : result?.compatibility ? 'Há incompatibilidades. Escolha outra peça e verifique novamente.' : 'Não foi possível confirmar a compatibilidade. Verifique novamente.'
+              : check.status === 'success' ? canApply ? validated ? 'Verificação concluída. Revise os avisos antes de aplicar.' : 'Conferência concluída. Você pode aplicar e ver o cenário estimado.' : result?.compatibility ? 'Há incompatibilidades. Escolha outra peça e verifique novamente.' : 'Não foi possível confirmar a compatibilidade. Verifique novamente.'
                 : 'A alteração ainda não foi aplicada. Verifique esta combinação.'}</p>
-          {canApply && !validated && <Alert type="warning">Compatibilidade não confirmada: há dados técnicos pendentes. Você pode aplicar a troca mantendo esses avisos, mas confirme encaixes, folgas e ligações nos manuais antes de comprar ou montar.</Alert>}
+          {canApply && !validated && <Alert type="warning">A troca é permitida. Dados técnicos incompletos ou conflitos conhecidos permanecem no resumo; o desempenho é um cenário teórico.</Alert>}
           {result && <p>Total estimado após a troca: <strong>{formatCurrency(comparison.cost.after)}</strong></p>}
           {overBudget && <Alert type="warning">O novo total excede o orçamento em {formatCurrency(comparison.cost.after - Number(budgetStatus.amount))}. Aplicar mantém o orçamento informado.</Alert>}
           <div className="button-row">

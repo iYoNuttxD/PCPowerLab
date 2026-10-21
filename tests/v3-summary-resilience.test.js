@@ -37,10 +37,10 @@ for (const section of ['bottlenecks', 'gamePerformance', 'recommendation', 'sele
   });
 }
 
-test('v3: compatibility outage preserves parts, prices, bottlenecks and alternative-build research, without unlocking FPS', () => {
+test('v3: compatibility outage preserves parts, prices, bottlenecks and alternative-build research, without gating independent FPS', () => {
   let simulations = 0;
-  const result = createBuildSummaryGenerator({ compatibility: fail, gamePerformance: () => { simulations += 1; } })(input());
-  assert.equal(simulations, 0);
+  const result = createBuildSummaryGenerator({ compatibility: fail, gamePerformance: () => { simulations += 1; return { available:true, estimatedFps:60, estimatedFpsRange:{low:40,high:80} }; } })(input());
+  assert.equal(simulations, 1);
   assert.equal(result.compatibility.available, false);
   assert.equal(result.compatibility.compatible, null);
   assert.equal(result.compatibility.status, 'unavailable');
@@ -48,8 +48,7 @@ test('v3: compatibility outage preserves parts, prices, bottlenecks and alternat
   assert.equal(result.totalEstimatedPrice, currentBuildTotal());
   assert.equal(result.budgetStatus.status, 'within_budget');
   assert.equal(typeof result.bottlenecks.hasBottleneck, 'boolean');
-  assert.equal(result.gamePerformance.reason, 'compatibility_analysis_unavailable');
-  assert.equal(result.gamePerformance.estimatedFps, undefined);
+  assert.equal(result.gamePerformance.estimatedFps, 60);
   assert.equal(result.recommendationObservation.available, true);
   assert.match(result.summary, /temporariamente indisponível/);
   assert.doesNotMatch(result.summary, /possui incompatibilidades/);
@@ -73,13 +72,14 @@ test('v3: complete build with pending BIOS keeps independent analyses and shop l
   const build = { ...currentBuild, cpuId: 'cpu-intel-i5-12400f', motherboardId: 'mb-msi-pro-h610m-s-ddr4' };
   const result = generateBuildSummary({ ...input(), build });
   assert.equal(result.selectionStatus, 'complete');
-  assert.equal(result.compatibility.status, 'unverified');
-  assert.ok(result.compatibility.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
-  assert.equal(result.gamePerformance.reason, 'unverified_build');
-  assert.equal(result.gamePerformance.estimatedFps, undefined);
+  assert.equal(result.compatibility.status, 'compatible');
+  assert.ok(!result.compatibility.unverifiedChecks.some(check => /BIOS/.test(check.code)));
+  assert.ok(result.gamePerformance.estimatedFpsRange);
+  assert.ok(Number.isFinite(result.gamePerformance.estimatedFps));
   assert.equal(typeof result.bottlenecks.hasBottleneck, 'boolean');
   assert.equal(result.recommendationObservation.available, true);
-  assert.equal(result.recommendationObservation.compatibilityStatus, 'compatible');
+  assert.ok(result.recommendationObservation.unverifiedChecks);
+  assert.deepEqual(result.recommendationObservation.selectionExplanation.compatibility.checks.filter(check => check.severity === 'high'), []);
   assert.ok(Object.values(getPurchaseLinksByBuild(build)).every(links => links.length > 0));
   assert.equal(result.components.motherboard.id, build.motherboardId);
 });
@@ -116,8 +116,7 @@ test('v3: recommendations disclose the bounded budget and usage and pass all kno
     assert.equal(recommendation.usageType, usageType);
     assert.equal(recommendation.priority, 'lowest-price');
     assert.deepEqual(recommendation.requestedBudget, { amount: 10000, currency: 'BRL' });
-    assert.equal(recommendation.compatibilityStatus, 'compatible');
-    assert.equal(checkBuildCompatibility(serializeBuildSelection(recommendation.components)).compatible, true);
+    assert.deepEqual(checkBuildCompatibility(serializeBuildSelection(recommendation.components)).alerts, []);
     assert.ok(recommendation.totalEstimatedPrice <= recommendation.requestedBudget.amount);
     assert.equal(recommendation.remainingBudget, Number((10000 - recommendation.totalEstimatedPrice).toFixed(2)));
     assert.equal(recommendation.methodology.performance.measuredBenchmark, false);
@@ -137,21 +136,22 @@ test('v3: replacement may preserve partial performance, but never commits when c
   assert.deepEqual(next.budget, state.budget);
   for (const slot of Object.keys(selectedComponents).filter(slot => slot !== 'ram')) assert.equal(next.selectedComponents[slot], selectedComponents[slot]);
   const unverified = createBuildSummaryGenerator({ compatibility: fail })({ ...input(), build: replacementBuild });
-  assert.equal(replaceBuildComponent(state, 'ram', candidate, unverified, 3), state);
+  const applied=replaceBuildComponent(state, 'ram', candidate, unverified, 3);
+  assert.equal(applied.selectedComponents.ram.id, candidate.id);
+  assert.equal(applied.summary.compatibility.available, false);
 });
 
 for (const cpuId of ['cpu-ryzen-7-7800x3d-box', 'cpu-ryzen-9-9900x-box']) {
-  test(`v3: new ${cpuId} cannot inherit a socket-only BIOS verdict from the existing B650 board`, () => {
+  test(`v3: new ${cpuId} keeps the selected identity and estimates without a BIOS gate`, () => {
     const result = generateBuildSummary({ ...input(), build: {
       ...currentBuild, cpuId, motherboardId: 'mb-gigabyte-b650m-d3hp', ramId: 'ram-cmk16gx5m1b5200c40'
     } });
     assert.equal(result.selectionStatus, 'complete');
-    assert.equal(result.compatibility.compatible, false);
-    assert.equal(result.compatibility.status, 'unverified');
-    assert.ok(result.compatibility.unverifiedChecks.some(check => check.code === 'CPU_BIOS_UNVERIFIED'));
-    assert.equal(result.gamePerformance.reason, 'unverified_build');
-    assert.equal(result.gamePerformance.estimatedFps, undefined);
-    assert.equal(result.bottlenecks.available, false);
+    assert.equal(result.compatibility.compatible, true);
+    assert.ok(!result.compatibility.unverifiedChecks.some(check => /BIOS/.test(check.code)));
+    assert.ok(result.gamePerformance.estimatedFpsRange);
+    assert.equal(result.gamePerformance.estimation.measuredBenchmark, false);
+    assert.equal(result.bottlenecks.available, true);
     assert.equal(result.components.cpu.id, cpuId);
     assert.equal(checkBuildCompatibility(currentBuild).compatible, true, 'Existing baseline remains unchanged');
   });

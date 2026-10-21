@@ -1,5 +1,4 @@
 import { suggestedReplacement } from '../utils/catalogAvailability.js';
-import { datedReference } from '../utils/referencePricing.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
 import { useEffect, useMemo, useState } from 'react';
 import ComponentCard from '../components/componentsCatalog/ComponentCard.jsx';
@@ -108,7 +107,6 @@ export default function ComponentsCatalog() {
       <section className="catalog-toolbar panel-card" aria-labelledby="catalog-search-heading">
         <h2 id="catalog-search-heading">Buscar e filtrar</h2>
         <ComponentFilters components={components} filters={filters} onChange={setFilters} hasBuild={hasBuild} />
-        {!loading && !error && <p className="hint-text">{components.filter(datedReference).length}/{components.length} referências datadas · confirme preço e estoque na loja</p>}
       </section>
 
       {selectionNotice && <p role="status">{selectionNotice}</p>}

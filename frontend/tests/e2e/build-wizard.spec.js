@@ -51,6 +51,11 @@ async function analyze(page) {
   await page.getByRole('button', { name: 'Analisar build', exact: true }).click();
 }
 
+async function openParts(page) {
+  const details=page.locator('.wizard-sidebar > details');
+  if(await details.count() && await details.getAttribute('open')===null) await details.locator(':scope > summary').click();
+}
+
 test.beforeEach(async ({ page }) => {
   const errors = [];
   pageErrors.set(page, errors);
@@ -122,6 +127,7 @@ test('substitui e remove uma peça sem apagar as outras; invalida análises anti
   await page.goto('/build');
   await analyze(page);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
+  await openParts(page);
   await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
   await expectPositionedHeading(page);
   await expect(page.getByRole('button', { name: `Selecionado: ${selection.cpu.name}`, exact: true })).toHaveAttribute('aria-pressed', 'true');
@@ -131,15 +137,18 @@ test('substitui e remove uma peça sem apagar as outras; invalida análises anti
   expect(state.selectedComponents).toEqual({ ...selection, cpu: replacement });
   for (const key of ['compatibility', 'alerts', 'bottlenecks', 'summary', 'gamePerformance']) expect(state[key]).toBeNull();
   await step(page, 'Revisão');
-  await expect(page.getByRole('heading', { name: 'Compatibilidade ainda não verificada' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Conferência das peças' })).toBeVisible();
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
+  await openParts(page);
   await page.getByRole('button', { name: 'Alterar Processador', exact: true }).click();
+  await openParts(page);
   await page.getByRole('button', { name: 'Remover Processador', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Avançar', exact: true })).toBeDisabled();
   await expect(page.locator('#wizard-guidance')).toContainText('Selecione uma peça');
   state = await stored(page);
   expect(state.selectedComponents.cpu).toBeUndefined();
   for (const type of types.slice(1)) expect(state.selectedComponents[type]).toEqual(selection[type]);
+  await openParts(page);
   await page.getByRole('button', { name: 'Escolher Processador', exact: true }).click();
   await expectPositionedHeading(page);
 });
@@ -162,6 +171,7 @@ test('explica campos inválidos, peças faltantes e rejeição do orçamento pel
   await analyze(page);
   await expect(page.getByRole('alert')).toContainText('Informe um orçamento maior que zero.');
   expect(checks).toBe(0);
+  await openParts(page);
   await page.getByRole('button', { name: 'Remover Processador', exact: true }).click();
   await analyze(page);
   await expect(page.getByRole('alert')).toContainText('Selecione as peças que faltam: Processador');
@@ -223,7 +233,7 @@ test('catálogo apresenta carregamento, falha, recuperação e ausência de peç
   await expect(page.getByRole('button', { name: /^Selecionar:/ }).first()).toBeVisible();
 });
 
-test('incompatibilidade continua bloqueando gargalos e não aparece como sucesso', async ({ page }) => {
+test('incompatibilidade preserva alerta factual e permite gargalos teóricos', async ({ page }) => {
   let bottlenecks = 0;
   await seed(page, { wizardStep: 'review', selectedComponents: selection });
   const incompatible = { compatible: false, alerts: [{ severity: 'high', title: 'Socket incompatível', message: 'Troque o processador ou a placa-mãe.' }] };
@@ -232,12 +242,11 @@ test('incompatibilidade continua bloqueando gargalos e não aparece como sucesso
   await page.route('**/bottlenecks/analyze', route => { bottlenecks += 1; return respond(route, {}); });
   await page.goto('/build');
   await analyze(page);
-  await expect(page.locator('.alert-warning').filter({ hasText: 'A compatibilidade não foi confirmada.' })).toBeVisible();
-  await expect(page.locator('.alert-success')).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'Análise de gargalos indisponível' })).toBeVisible();
-  expect(bottlenecks).toBe(0);
-  expect((await stored(page)).bottlenecks.reason).toBe('incompatible_build');
-  await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
+  await expect(page.getByRole('heading',{name:'Confira um conflito entre as peças',exact:true})).toBeVisible();
+  await expect(page.getByText(/Você pode continuar; os resultados serão um cenário teórico/)).toBeVisible();
+  expect(bottlenecks).toBe(1);
+  expect((await stored(page)).bottlenecks.status).toBe('success');
+  await expect(page.getByRole('progressbar')).toHaveAttribute('value','9');
 });
 
 test('trata erros de análise, recomendação e salvamento sem rejeições não capturadas', async ({ page }) => {
@@ -275,6 +284,7 @@ test('resposta tardia não restaura análises após remover uma peça', async ({
   await analyze(page);
   await expect(page.getByText('Aguarde, processando sua montagem...')).toBeVisible();
   await expect.poll(() => Boolean(release)).toBe(true);
+  await openParts(page);
   await page.getByRole('button', { name: 'Remover Processador', exact: true }).click();
   release();
   await expect(page.getByRole('button', { name: 'Analisar build', exact: true })).toBeEnabled();
@@ -357,7 +367,7 @@ test('aplica recomendação, permite reanalisar e salva as peças substituídas'
   await page.getByRole('button', { name: 'Gerar recomendação', exact: true }).click();
   await page.getByRole('button', { name: 'Usar recomendação inteira', exact: true }).click();
   expect((await stored(page)).selectedComponents).toEqual(recommended);
-  await expect(page.getByRole('heading', { name: 'Compatibilidade ainda não verificada' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Conferência das peças' })).toBeVisible();
   await analyze(page);
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
   const saveRequest = page.waitForRequest(request => request.url().endsWith('/saved-builds') && request.method() === 'POST');
@@ -390,6 +400,7 @@ test('editar refrigeração limpa sucesso antigo e mantém revisão pendente', a
   await page.goto('/build');
   await analyze(page);
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toBeVisible();
+  await openParts(page);
   await page.getByRole('button', { name: 'Alterar refrigeração', exact: true }).click();
   await page.getByRole('button', { name: `Selecionar: ${activePart(components, 'cooler-noctua-nh-l9a-am4-chromax-black').name}`, exact: true }).click();
   await expect(page.getByText('Build analisada com sucesso.', { exact: false })).toHaveCount(0);
@@ -404,16 +415,15 @@ for (const result of [
   { compatible: true, violations: [{ severity: 'low', blocking: true }] },
   { compatible: true, issues: [{ severity: 'critical' }] }
 ]) {
-  test(`não conclui revisão nem simula gargalos com bloqueio ${JSON.stringify(result)}`, async ({ page }) => {
+  test(`conclui revisão e simula gargalos com aviso ${JSON.stringify(result)}`, async ({ page }) => {
     let calls = 0;
     await seed(page, { wizardStep: 'review', selectedComponents: selection });
     await page.route('**/compatibility/check', route => respond(route, result));
     await page.route('**/bottlenecks/analyze', route => { calls += 1; return respond(route, {}); });
     await page.goto('/build');
     await analyze(page);
-    await expect(page.getByRole('heading', { name: 'Análise de gargalos indisponível', exact: true })).toBeVisible();
-    await expect(page.getByRole('progressbar')).toHaveAttribute('value', '8');
-    expect(calls).toBe(0);
-    expect((await stored(page)).bottlenecks.reason).toBe(result.status === 'unverified' ? 'unverified_compatibility' : 'incompatible_build');
+    await expect.poll(() => calls).toBe(1);
+    await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
+    expect((await stored(page)).bottlenecks.status).toBe('success');
   });
 }

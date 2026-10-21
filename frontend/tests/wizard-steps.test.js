@@ -13,23 +13,23 @@ test('wizard starts with budget and use, preserves nine required steps and optio
   for (const invalid of ['', null, 'cooler', 'fans', 'missing']) assert.equal(normalizeWizardStep(invalid), 'budget');
 });
 
-test('wizard requires a confirmed compatibility result before marking review complete', () => {
+test('wizard allows manual review with unknown compatibility', () => {
   for (const pending of [undefined, null, {}, { compatible: false }, { compatible: true, status: 'unverified' }, { compatible: true, status: 'incompatible' }]) {
-    assert.equal(hasWizardCompatibilityBlockers(pending, { compatible: true }), true);
+    assert.equal(hasWizardCompatibilityBlockers(pending, { compatible: true }), false);
   }
   assert.equal(hasWizardCompatibilityBlockers({ compatible: true }, { compatible: true }), false);
 });
 
-test('wizard does not let a success flag override critical issues from either endpoint', () => {
+test('wizard never turns factual alerts into manual progression gates', () => {
   for (const key of ['alerts', 'violations', 'issues']) {
     for (const issue of [{ severity: 'high' }, { severity: 'critical' }, { severity: 'low', blocking: true }]) {
       const result = { compatible: true, [key]: [issue] };
-      assert.equal(hasWizardCompatibilityBlockers(result, { compatible: true }), true);
-      assert.equal(hasWizardCompatibilityBlockers({ compatible: true }, result), true);
+      assert.equal(hasWizardCompatibilityBlockers(result, { compatible: true }), false);
+      assert.equal(hasWizardCompatibilityBlockers({ compatible: true }, result), false);
     }
   }
   for (const result of [{ compatible: false }, { compatible: true, status: 'unverified' }, { compatible: true, status: 'incompatible' }]) {
-    assert.equal(hasWizardCompatibilityBlockers({ compatible: true }, result), true);
+    assert.equal(hasWizardCompatibilityBlockers({ compatible: true }, result), false);
   }
 });
 

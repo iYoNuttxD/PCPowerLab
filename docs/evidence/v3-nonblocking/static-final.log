@@ -1,0 +1,19 @@
+run lint: PASS
+run lint --prefix frontend: PASS
+scripts/check-analysis-navigation.mjs: PASS
+scripts/check-async-regressions.mjs: PASS
+scripts/check-catalog-render.mjs: PASS
+scripts/check-chart-render.mjs: PASS
+scripts/check-commercial-disclosures.mjs: PASS
+scripts/check-insights-ranking.mjs: PASS
+scripts/check-navigation-wizard.mjs: PASS
+scripts/check-page-audit.mjs: PASS
+scripts/check-public-admin-ux.mjs: PASS
+scripts/check-recommendation-entrypoints.mjs: PASS
+scripts/check-recommendation-feedback-access.mjs: PASS
+scripts/check-saved-build-interactions.mjs: PASS
+scripts/check-saved-comparison-ux.mjs: PASS
+scripts/check-saved-upgrade-source.mjs: PASS
+scripts/check-simulation-states.mjs: PASS
+scripts/check-storage-regressions.mjs: PASS
+scripts/check-visual-contrast.mjs: PASS

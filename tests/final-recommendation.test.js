@@ -44,14 +44,14 @@ test('omitting a game keeps compatibility separate from game performance approva
   assert.doesNotMatch(result.finalRecommendation, /configuração recomendada/i);
 });
 
-test('missing performance parameters remain unavailable in final guidance', () => {
+test('missing performance parameters produce an explicit theoretical analysis', () => {
   createAdminComponent({ id: 'cpu-final-guidance-no-parameters', name: 'CPU without performance data',
     type: 'cpu', brand: 'Test', price: 500, socket: 'AM4', cores: 4, threads: 8,
     baseClock: 3.2, boostClock: 4, tdp: 65 });
   const result = generateBuildSummary({ build: { ...build, cpuId: 'cpu-final-guidance-no-parameters' } });
   assert.equal(result.compatibility.status, 'compatible');
-  assert.equal(result.bottlenecks.available, false);
-  assert.match(result.finalRecommendation, /dados de desempenho insuficientes/i);
+  assert.equal(result.bottlenecks.available, true);
+  assert.equal(result.bottlenecks.estimation.measuredBenchmark, false);
 });
 
 test('compatibility and budget retain precedence over game guidance', () => {

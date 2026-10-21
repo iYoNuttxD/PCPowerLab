@@ -29,8 +29,9 @@ for (const component of additions) {
     const summary = generateBuildSummary({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming', gameId: 'game-cyberpunk-2077', targetResolution: '1080p', qualityPreset: 'high' });
     assert.equal(summary.compatibility.compatible, true);
     const performanceUnavailable = ['ram-ax5u6000c4816g-slabrbk', 'hdd-st2000dm008'].includes(component.id);
-    assert.equal(summary.bottlenecks.available, performanceUnavailable ? false : undefined);
-    assert.equal(Number.isFinite(summary.gamePerformance.estimatedFps), !performanceUnavailable);
+    assert.equal(summary.bottlenecks.available, true);
+    assert.ok(Number.isFinite(summary.gamePerformance.estimatedFps));
+    assert.equal(summary.gamePerformance.estimation.measuredBenchmark, false);
     const selectedIds = Object.values(selection);
     const missingIds = selectedIds.filter(id => !Object.hasOwn(priceFacts, id));
     const knownSubtotal = selectedIds.filter(id => Object.hasOwn(priceFacts, id))
@@ -46,7 +47,7 @@ for (const component of additions) {
     const score = calculateBuildScore({ build: selection, budget: { amount: 1000, priority: 'cost-benefit' }, usageType: 'gaming' });
     assert.equal(score.criteria.compatibilityScore, 100);
     assert.ok(score.criteria.performanceScore > 0);
-    if (performanceUnavailable) assert.equal(score.criteria.balanceScore, null);
+    assert.ok(Number.isFinite(score.criteria.balanceScore));
     assert.equal(score.available, missingIds.length === 0);
     if (missingIds.length) {
       assert.equal(score.overallScore, null);

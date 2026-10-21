@@ -1,0 +1,83 @@
+{
+  "at": "2026-10-21T08:35:47.682162+00:00",
+  "branch": "max/pcpowerlab-v3-cycle2",
+  "pullRequest": 47,
+  "publicationStatus": "awaiting commit/push verification",
+  "codeFreeze": {
+    "at": "2026-10-21T08:26:42.904Z",
+    "sourceSha256": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4",
+    "files": 299
+  },
+  "sourceHashAfterTests": "fb3df73b5ec7467da022479a68a5ecef625b0040ca1efb6d8463878804e39df4",
+  "node": {
+    "passed": 1084,
+    "failed": 0,
+    "skipped": 0,
+    "log": "node-final.log"
+  },
+  "e2e": {
+    "passed": 309,
+    "failed": 0,
+    "skipped": 1,
+    "projects": [
+      "desktop",
+      "mobile"
+    ],
+    "skip": "mobile-specific geometry case does not apply to desktop",
+    "log": "e2e-final.log"
+  },
+  "integration": {
+    "passed": 39,
+    "failed": 0,
+    "projects": [
+      "desktop",
+      "tablet",
+      "mobile"
+    ],
+    "realApi": true,
+    "log": "integration-final.log"
+  },
+  "additionalScreenshotChecks": {
+    "passed": 6,
+    "overlapsWithIntegration": true,
+    "notAdditionalUniqueCases": true,
+    "log": "screenshot-cases.log"
+  },
+  "static": {
+    "backendLint": "passed",
+    "frontendLint": "passed",
+    "frontendCheckScripts": 17,
+    "status": "passed",
+    "log": "static-final.log"
+  },
+  "build": {
+    "status": "passed",
+    "warning": "bundle above 500 kB; no bundle budget defined"
+  },
+  "images": {
+    "verified": 95,
+    "active": 95,
+    "blocked": 0,
+    "orphan": 0,
+    "log": "images-final.log"
+  },
+  "manualInspection": {
+    "earlierThisChange": [
+      "notebook 1366x900",
+      "mobile 390x844",
+      "proposal 2489.94 to summary",
+      "FPS and cooling ranges",
+      "keyboard cycling"
+    ],
+    "latestPixels": "automated Chrome screenshots reviewed; further live inspection blocked by locked Mac",
+    "nativeZoom200Final": "not observed; older native zoom evidence is historical",
+    "userCycle3": false,
+    "participantOriginalBuildReproduced": false
+  },
+  "estimates": {
+    "measuredBenchmark": false,
+    "performanceModel": "component-scenario-v2",
+    "coolingModel": "cooling-class-v1",
+    "unknownDataBlocksCore": false
+  }
+}

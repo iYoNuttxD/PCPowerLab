@@ -70,13 +70,12 @@ test('combina marca, categoria, nome e limites inclusivos de preço; explica fai
   await page.getByRole('combobox', { name: 'Categoria', exact: true }).selectOption('ram');
   await page.locator('.catalog-advanced-filters > summary').click();
   await page.getByRole('combobox', { name: 'Marca', exact: true }).selectOption('Kingston');
-  await page.getByRole('spinbutton', { name: 'Preço mínimo (R$)', exact: true }).fill(String(ram16.price));
   await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill(String(activePart(components, 'ram-kf436c18bb2a-16').price));
   await page.getByRole('searchbox').fill('  FuRy  ');
-  await expect(page.locator('.component-card')).toHaveCount(2);
+  await expect(page.locator('.component-card')).toHaveCount(activeComponents.filter(c => c.category === 'ram' && c.brand === 'Kingston' && /fury/i.test(c.name) && c.price <= activePart(components, 'ram-kf436c18bb2a-16').price).length);
   await expect(page.getByRole('heading', { name: ram16.name, exact: true })).toBeVisible();
-  await page.getByRole('spinbutton', { name: 'Preço mínimo (R$)', exact: true }).fill('2000');
-  await expect(page.getByText('O preço mínimo deve ser menor ou igual ao máximo.', { exact: true })).toBeVisible();
+  await page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true }).fill('-1');
+  await expect(page.getByText('Informe preços iguais ou maiores que zero.', { exact: true })).toBeVisible();
   await expect(page.getByRole('spinbutton', { name: 'Preço máximo (R$)', exact: true })).toHaveAttribute('aria-invalid', 'true');
   await expect(page.getByText('Nenhum componente encontrado', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'Limpar filtros', exact: true }).click();
@@ -252,15 +251,15 @@ test('substitui uma peça recomendada no resumo após verificar e preserva a mon
   await expect(page.getByRole('progressbar')).toHaveAttribute('value', '9');
 });
 
-test('incompatibilidade impede aplicar; fechar a prévia mantém as escolhas e análises anteriores', async ({ page }) => {
+test('incompatibilidade alerta sem impedir aplicar; fechar a prévia mantém as escolhas e análises anteriores', async ({ page }) => {
   await seed(page);
   await page.route('**/build-summary', route => ok(route, summary(route.request().postDataJSON(), { compatibility: { compatible: false, alerts: [{ message: 'A memória DDR5 não corresponde à placa-mãe DDR4.', severity: 'high' }] } })));
   const dialog = await openReplacement(page);
   const before = await getState(page);
   await dialog.getByRole('radio', { name: literalName(ramDdr5.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
-  await expect(dialog.getByText('A memória DDR5 não corresponde à placa-mãe DDR4.', { exact: true })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeDisabled();
+  await expect(dialog.getByText(/A memória DDR5 não corresponde à placa-mãe DDR4/)).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeEnabled();
   await page.keyboard.press('Escape');
   expect(await getState(page)).toEqual(before);
   await expect(page.getByRole('button', { name: 'Alterar Memória RAM', exact: true })).toBeFocused();
@@ -321,7 +320,7 @@ test('sugestão técnica no resumo reutiliza a mesma prévia e revalida antes de
   await page.route('**/compatibility/fix-suggestions', route => ok(route, { suggestions: [{ componentType: 'ram', currentComponent: ramDdr5, suggestedComponent: ram32, reason: 'Usar DDR4.' }] }));
   await page.goto('/summary');
   await page.getByRole('button', { name: 'Gerar resumo final', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Atenção: incompatibilidades encontradas', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Confira um conflito entre as peças', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Ver correções', exact: true }).first().click();
   await page.getByRole('button', { name: 'Revisar substituição', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Substituir Memória RAM' });
@@ -358,7 +357,7 @@ test('v2.4 pending technical data allow explicit single replacement without clai
   const dialog = await openReplacement(page);
   await dialog.getByRole('radio', { name: literalName(ram32.name) }).check();
   await dialog.getByRole('button', { name: 'Verificar substituição' }).click();
-  await expect(dialog.getByText('Compatibilidade não verificada', { exact: true })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name:'Nenhum conflito nos dados disponíveis', exact:true })).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Aplicar substituição' })).toBeEnabled();
   await dialog.getByRole('button', { name: 'Aplicar substituição' }).click();
   expect((await getState(page)).selectedComponents).toEqual({ ...original, ram: ram32 });

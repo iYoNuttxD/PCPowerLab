@@ -152,7 +152,7 @@ test('thermal-only invalid inputs do not suppress acoustic sources and unknown k
   assert.equal(badCoolerSpeed.acoustics.coverage, 'partial');
 });
 
-test('all 43 active compatible pairs have three bands and seven mismatches stay incompatible', () => {
+test('all 43 registered pairs keep their profiles and seven socket conflicts use explicitly generic theory', () => {
   let compatible = 0;
   let incompatible = 0;
   assert.equal(allCpus.length, 10);
@@ -169,10 +169,10 @@ test('all 43 active compatible pairs have three bands and seven mismatches stay 
       result.thermal.scenarioBands.forEach(row => ordered(row.temperatureCelsius));
     } else {
       incompatible++;
-      assert.equal(result.thermal.status, 'incompatible');
-      assert.equal(result.thermal.available, false);
-      assert.deepEqual(result.thermal.scenarioBands, []);
-      assert.ok(result.thermal.message.includes('soquete'));
+      assert.equal(result.thermal.available, true);
+      assert.equal(result.thermal.heuristicFallback, true);
+      assert.equal(result.thermal.basis, 'generic-engineering-scenario');
+      assert.equal(result.thermal.scenarioBands.length, 3);
     }
     assert.equal(result.acoustics.available, true); // Standalone assembly noise remains modelled.
   }
@@ -257,57 +257,36 @@ test('a new inlet shifts all algebraic temperatures by the inlet difference, wit
   assert.deepEqual(first.acoustics.bandDba, last.acoustics.bandDba);
 });
 
-test('missing cooler never infers a boxed CPU cooler and missing/invalid inputs remain distinct', () => {
-  const boxed = component('cpu-intel-i5-14600k-box');
-  const result = simulateCooling({ cpu: boxed });
-  assert.equal(result.thermal.status, 'missing');
-  assert.deepEqual(result.thermal.missingInputs, ['cooler']);
-  assert.equal(result.acoustics.bandDba, null);
-  assert.equal(result.acoustics.status, 'no-sources');
-  for (const bad of [false, 0, [], {}, 'cpu-intel-i7-13700k']) assert.equal(simulate({ cpu: bad }).thermal.status, 'invalid');
-  for (const bad of [false, 0, [], {}, 'cooler-bequiet-pure-rock-3-black']) assert.equal(simulate({ cooler: bad }).thermal.status, 'invalid');
-  for (const bad of [null, [], false, 42, 'input']) assert.doesNotThrow(() => simulateCooling(bad));
+test('missing cooler uses a standard scenario while malformed selections remain invalid', () => {
+  const result=simulateCooling({cpu:component('cpu-intel-i5-14600k-box')});
+  assert.equal(result.thermal.available,true);
+  assert.equal(result.thermal.heuristicFallback,true);
+  assert.ok(result.acoustics.bandDba);
+  for(const bad of [false,0,[],{},'cpu-intel-i7-13700k']) assert.equal(simulate({cpu:bad}).thermal.status,'invalid');
+  for(const bad of [false,0,[],{},'cooler-bequiet-pure-rock-3-black']) assert.equal(simulate({cooler:bad}).thermal.status,'invalid');
+  for(const bad of [null,[],false,42,'input']) assert.doesNotThrow(()=>simulateCooling(bad));
 });
-
-test('bare IDs, edited names/categories/MPNs, and reused identifiers cannot borrow profiles', () => {
-  for (const changed of [
-    { id: cpu.id }, { ...cpu, id: 'unknown' }, { ...cpu, id: cpu.id.toUpperCase() },
-    { ...cpu, name: 'Intel Core i7-13700KF' }, { ...cpu, category: 'gpu' },
-    { ...cpu, brand: 'AMD' }, { ...cpu, partNumber: 'unverified' }, { ...cpu, model: 'another-model' },
-    { ...cpu, specs: undefined }, { ...cpu, specs: { ...cpu.specs, tdpWatts: 253 } },
-    { ...cpu, specs: { ...cpu.specs, cores: 999 } }, { ...cpu, specs: { ...cpu.specs, socket: 'AM5' } }
-  ]) {
-    const result = simulate({ cpu: changed });
-    assert.equal(result.thermal.available, false);
-    assert.ok(['invalid', 'unavailable'].includes(result.thermal.status));
-    assert.equal(result.thermal.scenarioBands.length, 0);
+test('changed valid identities use broad scenarios and cannot borrow exact registered priors', () => {
+  for(const changed of [{...cpu,id:'unknown'},{...cpu,name:'Another CPU'},{...cpu,brand:'Another'},{...cpu,partNumber:'unverified'},{...cpu,specs:{...cpu.specs,tdpWatts:253}}]) {
+    const result=simulate({cpu:changed});
+    assert.equal(result.thermal.available,true);
+    assert.equal(result.thermal.heuristicFallback,true);
+    assert.equal(result.provenance.thermal.cpu,null);
   }
-  for (const changed of [
-    { ...cooler, name: 'be quiet! Pure Rock 3 LX' }, { ...cooler, partNumber: 'BK040' },
-    { ...cooler, partNumber: undefined }, { ...cooler, category: 'fan' },
-    { ...cooler, specs: { ...cooler.specs, includedFanCount: 2 } },
-    { ...cooler, specs: { ...cooler.specs, supportedSockets: ['AM4'] } },
-    { ...cooler, specs: { ...cooler.specs, partNumber: 'BK040' } }
-  ]) {
-    const result = simulate({ cooler: changed });
-    assert.equal(result.thermal.available, false);
-    assert.equal(result.acoustics.coverage, 'partial');
-    assert.equal(result.acoustics.bandDba, null);
+  for(const changed of [{id:cpu.id},{...cpu,category:'gpu'},{...cpu,specs:undefined}]) assert.equal(simulate({cpu:changed}).thermal.available,false);
+  for(const changed of [{...cooler,name:'Another cooler'},{...cooler,partNumber:'unverified'},{...cooler,specs:{...cooler.specs,heightMm:999}}]) {
+    const result=simulate({cooler:changed});
+    assert.equal(result.thermal.heuristicFallback,true);
+    assert.equal(result.provenance.thermal.cooler,null);
   }
 });
-
-test('all CPUs bind frozen relevant specs, including CPUs without an MPN', () => {
-  for (const selectedCpu of allCpus) {
-    for (const key of Object.keys(selectedCpu.specs).filter(key => !['includesCpuCooler', 'includedCpuCooler'].includes(key))) {
-      const changed = clone(selectedCpu);
-      delete changed.specs[key];
-      assert.equal(simulate({ cpu: changed }).thermal.available, false, `${selectedCpu.id}/${key}`);
-    }
-  }
-  for (const selectedCooler of allCoolers) {
-    const changed = clone(selectedCooler);
-    changed.specs.heightMm = 999;
-    assert.equal(simulate({ cooler: changed }).thermal.available, false);
+test('missing relevant specifications widen the scenario rather than borrowing frozen coefficients', () => {
+  for(const selectedCpu of allCpus) for(const key of Object.keys(selectedCpu.specs).filter(key=>!['includesCpuCooler','includedCpuCooler'].includes(key))) {
+    const changed=clone(selectedCpu);delete changed.specs[key];
+    const result=simulate({cpu:changed});
+    assert.equal(result.thermal.available,true);
+    assert.equal(result.thermal.heuristicFallback,true);
+    assert.equal(result.provenance.thermal.cpu,null);
   }
 });
 
@@ -327,7 +306,7 @@ test('BK042 binds canonical be quiet! identity; the frozen Cooler Master typo is
   assert.equal(frozenScope.find(row => row.id === id).brand, 'Cooler Master');
   assert.equal(component(id).brand, 'be quiet!');
   assert.equal(simulate({ cooler: component(id) }).thermal.available, true);
-  assert.equal(simulate({ cooler: clone(frozenScope.find(row => row.id === id)) }).thermal.status, 'unavailable');
+  assert.equal(simulate({ cooler: clone(frozenScope.find(row => row.id === id)) }).thermal.heuristicFallback, true);
   assert.equal(manifest.identityCorrections[0].sourceUrl, 'https://www.bequiet.com/en/cpucooler/5600');
 });
 
@@ -462,25 +441,18 @@ test('explicit installed fan count is physical units; malformed counts are exclu
   assert.equal(simulate({ fans: [{ ...kit, quantity: Number.MAX_SAFE_INTEGER }] }).acoustics.coverage, 'partial');
 });
 
-test('unknown imported coolers/fans return honest known-source subtotals and name omissions', () => {
-  const imported = { id: 'imported-fan', name: 'Imported fan', category: 'fan', brand: 'Other', specs: { unitsPerPack: 1 } };
-  const result = simulate({ fans: [imported] });
-  assert.equal(result.thermal.available, true);
-  assert.equal(result.acoustics.coverage, 'partial');
-  assert.deepEqual(result.acoustics.bandDba, simulate().acoustics.bandDba);
-  const excluded = result.acoustics.excludedSources.find(source => source.id === imported.id);
-  assert.equal(excluded.label, 'Imported fan');
-  assert.equal(excluded.selected, true);
-  assert.equal(excluded.reason, 'unregistered-profile');
-  const unknownCooler = { ...cooler, id: 'unknown-cooler', name: 'Unknown cooler' };
-  const knownFanSubtotal = simulate({ cooler: unknownCooler, fans: [fan] });
-  assert.equal(knownFanSubtotal.thermal.status, 'unavailable');
-  assert.equal(knownFanSubtotal.acoustics.coverage, 'partial');
-  near(knownFanSubtotal.acoustics.bandDba.central, 32);
-  const unknownOnly = simulateCooling({ fans: [imported] });
-  assert.equal(unknownOnly.acoustics.bandDba, null);
-  assert.equal(unknownOnly.acoustics.status, 'unavailable');
-  assert.equal(unknownOnly.acoustics.coverage, 'partial');
+test('unknown coolers and fans use labeled class approximations without borrowing another model', () => {
+  const imported={id:'imported-fan',name:'Imported fan',category:'fan',brand:'Other',specs:{unitsPerPack:1}};
+  const result=simulate({fans:[imported]});
+  assert.equal(result.thermal.available,true);
+  assert.equal(result.acoustics.heuristicFallback,true);
+  assert.ok(result.acoustics.includedSources.some(source=>source.componentId===imported.id && source.provenance.genericFallback));
+  assert.ok(result.acoustics.bandDba.central>simulate().acoustics.bandDba.central);
+  const unknownCooler={...cooler,id:'unknown-cooler',name:'Unknown cooler'};
+  const pair=simulate({cooler:unknownCooler,fans:[fan]});
+  assert.equal(pair.thermal.heuristicFallback,true);
+  assert.ok(pair.acoustics.includedSources.some(source=>source.componentId===unknownCooler.id && source.provenance.genericFallback));
+  assert.ok(simulateCooling({fans:[imported]}).acoustics.bandDba);
 });
 
 test('malformed fans and stale kit-size identities cannot silently disappear or reuse priors', () => {
@@ -491,29 +463,22 @@ test('malformed fans and stale kit-size identities cannot silently disappear or 
     assert.equal(result.thermal.available, true);
   }
   const changedKit = { ...kit, specs: { ...kit.specs, unitsPerPack: 1 } };
-  assert.equal(simulate({ fans: [changedKit] }).acoustics.coverage, 'partial');
+  const changed=simulate({fans:[changedKit]});
+  assert.equal(changed.acoustics.heuristicFallback,true);
+  assert.ok(changed.acoustics.includedSources.some(source=>source.componentId===kit.id && source.physicalUnits===1 && source.provenance.genericFallback));
 });
 
-test('unmodelled or unknown case-included fans make noise partial without affecting temperatures', () => {
-  const baseline = simulate();
-  for (const includedFanCount of [undefined, null, -1, '2', 2.5, 2]) {
-    const caseComponent = { id: 'case-test', name: 'Test Case', category: 'case', specs: { includedFanCount } };
-    const result = simulate({ caseComponent });
-    assert.equal(result.acoustics.coverage, 'partial');
-    assert.deepEqual(result.thermal, baseline.thermal);
-    assert.deepEqual(result.acoustics.bandDba, baseline.acoustics.bandDba);
-    const omission = result.acoustics.excludedSources.find(source => source.id === 'case-included-fans');
-    assert.equal(omission.selected, false);
-    assert.equal(omission.affectsCoverage, true);
-    assert.ok(omission.message);
-    if (includedFanCount === 2) {
-      assert.equal(omission.physicalUnits, 2);
-      assert.equal(omission.caseName, 'Test Case');
-      assert.ok(omission.label.includes('Test Case'));
-    }
+test('unknown case fan counts use an explicit two-fan hypothesis without affecting CPU temperature', () => {
+  const baseline=simulate();
+  for(const includedFanCount of [undefined,null,2]) {
+    const caseComponent={id:'case-test',name:'Test Case',category:'case',specs:{includedFanCount}};
+    const result=simulate({caseComponent});
+    assert.deepEqual(result.thermal,baseline.thermal);
+    assert.equal(result.acoustics.heuristicFallback,true);
+    assert.ok(result.acoustics.includedSources.some(source=>source.componentId==='case-included-fans' && source.physicalUnits===2));
   }
-  assert.equal(simulate({ caseComponent: { category: 'case', specs: { includedFanCount: 0 } } }).acoustics.coverage, 'complete');
-  assert.equal(simulate({ caseComponent: {} }).acoustics.coverage, 'partial');
+  assert.equal(simulate({caseComponent:{category:'case',specs:{includedFanCount:0}}}).acoustics.coverage,'complete');
+  assert.equal(simulate({caseComponent:{}}).acoustics.coverage,'partial');
 });
 
 test('complete means selected cooling coverage only; whole-PC omissions are always explicit', () => {
@@ -599,8 +564,8 @@ test('stock-cooler fit metadata does not change an explicit aftermarket thermal 
   assert.deepEqual(result.thermal, expected.thermal);
   assert.equal(result.signatures.thermal, expected.signatures.thermal);
   const noSelectedCooler = simulateCooling({ cpu: updatedCpu });
-  assert.equal(noSelectedCooler.thermal.available, false);
-  assert.equal(noSelectedCooler.acoustics.bandDba, null);
+  assert.equal(noSelectedCooler.thermal.heuristicFallback, true);
+  assert.ok(noSelectedCooler.acoustics.bandDba);
 });
 
 test('malformed case metadata cannot collide with an unknown valid case-fan count', () => {

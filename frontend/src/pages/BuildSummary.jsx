@@ -1,7 +1,7 @@
+import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
 import { usesIntegratedGraphics } from '../../../src/utils/graphicsSelection.js';
 import CoolingExplorer from '../components/build/CoolingExplorer.jsx';
 import CoolingAssessmentNotice from '../components/compatibility/CoolingAssessmentNotice.jsx';
-import { hasUnverifiedCooling } from '../utils/coolingAssessment.js';
 import { hasSimulatedPerformance } from '../utils/performanceMethodology.js';
 import { summarySimulationHint } from '../utils/summarySimulationHint.js';
 import ComponentIdentity from '../components/componentsCatalog/ComponentIdentity.jsx';
@@ -354,14 +354,21 @@ export default function BuildSummary() {
         <p>Revise as peças e a compatibilidade antes de salvar ou comprar.</p>
       </section>
 
+      {request.error && <ErrorState message={request.error} onRetry={lastRequestAction === 'save' ? saveBuild : lastRequestAction === 'share' ? shareBuild : generateSummary} />}
+      <Card className="summary-result-first">
+        <div className="section-heading compact"><div><h2>Sua montagem</h2><p>{completeBuild ? 'Peças escolhidas. Veja o desempenho aproximado e salve quando quiser.' : 'Escolha as peças para estimar o desempenho.'}</p></div><strong>{formatCurrency(build.totalPrice)}</strong></div>
+        {build.gamePerformance?.estimatedFpsRange && <p className="metric-value">{build.gamePerformance.estimatedFpsRange.low}–{build.gamePerformance.estimatedFpsRange.high} FPS estimados · {build.gamePerformance.game}</p>}
+        <div className="button-row"><Button disabled={request.loading || !completeBuild} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button><Link className="btn btn-ghost btn-md" to="/build">Voltar e editar</Link></div>
+      </Card>
+
+      <CoolingExplorer build={build} open={coolingOpen}
+        onOpen={() => navigate({ pathname: location.pathname, search: location.search, hash: '#cooling-simulation' })}
+        onClose={closeCooling} />
+
       {build.canUndo && <Card>
         <p>Voltar à configuração anterior preserva o orçamento. A análise será recalculada; se falhar, use Simular desempenho para tentar novamente.</p>
         <Button variant="secondary" onClick={undoReplacement}>Desfazer última troca</Button>
       </Card>}
-      {request.error && <ErrorState message={request.error} onRetry={lastRequestAction === 'save' ? saveBuild : lastRequestAction === 'share' ? shareBuild : generateSummary} />}
-      {completeBuild && <Alert type="info" title={`Montagem completa: ${usesIntegratedGraphics(build.selectedComponents) ? '6 de 6' : '7 de 7'} peças principais selecionadas`}>{build.summary?.analysisStatus === 'partial'
-        ? 'Algumas análises estão pendentes ou indisponíveis. Isso não significa que faltam peças; veja o motivo em cada seção. O orçamento e as escolhas foram preservados.'
-        : 'As peças foram mantidas. Gere ou atualize o resumo para conferir compatibilidade e desempenho. Os links das lojas são consultados separadamente.'}</Alert>}
 
       <SummarySection eyebrow="Painel da build" title="Visão geral">
         <div className="summary-overview">
@@ -401,10 +408,8 @@ export default function BuildSummary() {
       <SummarySection eyebrow="Próximos passos" title="Ações">
         <Card className="summary-actions-card">
           <div className="button-row summary-action-row">
-            <Button disabled={request.loading} loading={request.loading} onClick={generateSummary}>Gerar resumo final</Button>
             <Button variant="secondary" disabled={request.loading} onClick={saveBuild}><Save size={18} /> Salvar como nova configuração</Button>
             <Button variant="secondary" disabled={request.loading} onClick={shareBuild}><Share2 size={18} /> Compartilhar</Button>
-            <Link className="btn btn-ghost btn-md" to="/build">Voltar e editar</Link>
             <Link className="btn btn-secondary btn-md" to="/compare">Comparar build</Link>
             <Link className="btn btn-ghost btn-md" to="/upgrades">Sugerir upgrade</Link>
           </div>
@@ -460,7 +465,7 @@ export default function BuildSummary() {
               }}
             />
           )}
-          <BottleneckPanel result={build.summary?.bottlenecks || build.bottlenecks} />
+          <BottleneckPanel compact result={build.summary?.bottlenecks || build.bottlenecks} />
         </div>
       </SummarySection>
 
@@ -536,9 +541,7 @@ export default function BuildSummary() {
         )}
       </SummarySection>
 
-      <CoolingExplorer build={build} open={coolingOpen}
-        onOpen={() => navigate({ pathname: location.pathname, search: location.search, hash: '#cooling-simulation' })}
-        onClose={closeCooling} />
+
 
       <SummarySection eyebrow="Compra" title="Links de compra">
         {!completeBuild && <p>Complete as peças principais para pesquisar esta configuração nas lojas.</p>}
@@ -582,34 +585,11 @@ function SummarySection({ eyebrow, title, children }) {
 }
 
 function BuildStatusCard({ compatibility, incompatible, verified, loading = false, disabled = false, onFixes }) {
-  const coolingPending = hasUnverifiedCooling(compatibility);
-  const unavailable = compatibility?.available === false || compatibility?.status === 'unavailable';
-  const pendingChecks = compatibility?.status === 'unverified';
-  const unresolved = unavailable || pendingChecks || !verified;
-  return (
-    <Card className="build-status-card">
-      <div className="section-heading compact">
-        <div>
-          <h3>Status da build</h3>
-          <p>{unavailable ? compatibility.message : pendingChecks ? 'As peças estão selecionadas, mas algumas especificações precisam ser confirmadas. Veja as verificações pendentes abaixo.' : !verified ? 'Gere o resumo ou analise a montagem para verificar as peças.' : incompatible ? 'Há incompatibilidades técnicas que precisam de atenção.' : 'Nenhuma incompatibilidade crítica identificada nos dados analisados.'}</p>
-        </div>
-        <Badge tone={unavailable || pendingChecks ? 'yellow' : !verified ? 'cyan' : incompatible || coolingPending ? 'yellow' : 'green'}>
-          {unavailable ? 'Tentar novamente' : pendingChecks ? 'Verificações pendentes' : !verified ? 'Pendente' : incompatible ? 'Atenção' : coolingPending ? 'Parcial' : 'Verificado'}
-        </Badge>
-      </div>
-      <strong className={unresolved ? 'status-text warning' : incompatible || coolingPending ? 'status-text warning' : 'status-text success'}>
-        {unavailable ? 'Verificação temporariamente indisponível' : unresolved ? 'Compatibilidade não verificada' : incompatible ? 'Incompatível' : coolingPending ? 'Peças principais compatíveis' : 'Compatível'}
-      </strong>
-      <CoolingAssessmentNotice result={compatibility} />
-      {!unresolved && incompatible && (
-        <div className="button-row">
-          <Button variant="secondary" disabled={disabled} loading={loading} onClick={onFixes}>
-            <Wrench size={18} /> Ver correções
-          </Button>
-        </div>
-      )}
-    </Card>
-  );
+  return <Card className="build-status-card">
+    <h3>Conferência da montagem</h3>
+    <p>{incompatible ? 'Há um conflito conhecido. Você pode ajustar as peças ou continuar com um cenário teórico.' : compatibility?.available === false ? 'Consulta técnica indisponível. Você ainda pode ver as estimativas.' : verified ? 'Nenhum conflito identificado nos dados analisados.' : 'Dados incompletos não impedem continuar e estimar o desempenho.'}</p>
+    {incompatible && <Button variant="secondary" disabled={disabled} loading={loading} onClick={onFixes}><Wrench size={18} /> Ver correções</Button>}
+  </Card>;
 }
 
 function BuildScorePanel({ score, onCalculate, loading = false, disabled = false }) {

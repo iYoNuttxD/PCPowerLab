@@ -1,11 +1,11 @@
 import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { performanceMetadata } from '../utils/performanceMethodology.js';
-import { unavailablePerformance } from '../utils/performanceAvailability.js';
+import { estimateBuildParameters } from './estimatedParametersService.js';
+import { estimationDetails, estimatedRange } from '../utils/estimatedPerformance.js';
 import { selectBuildComponents, normalizeSelectedComponentIds } from './build.service.js';
 import { validateSimulationCompatibility } from './simulationCompatibilityService.js';
 import { games } from '../data/games.js';
 import { findComponentById } from './component.service.js';
-import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
 import { analyzeBuildBottlenecks } from './bottleneck.service.js';
 import {
   buildPerformanceSummaryMessage,
@@ -45,16 +45,14 @@ export function simulateGamePerformance(simulationInput) {
     throw error;
   }
 
-  if (usesIntegratedGraphics(simulationInput.build)) { selectBuildComponents(simulationInput.build); return { available: false, reason: 'integrated_graphics_not_calibrated', estimatedFps: null, game: game.name, gameId: game.id,
-    summary: 'Vídeo integrado sem perfil calibrado para este jogo. Não se usa o modelo de uma GPU dedicada.' }; }
   const targetResolution = normalizeTargetResolution(simulationInput.targetResolution ?? game.targetResolution);
   const qualityPreset = normalizeQualityPreset(simulationInput.qualityPreset);
   const compatibility = validateSimulationCompatibility(simulationInput.build);
   const buildInput = normalizeSelectedComponentIds(simulationInput.build);
-  const components = mapSimulationComponents(buildInput);
-  const unavailable = unavailablePerformance(components);
-  if (unavailable) return { ...performanceMetadata(components), ...unavailable, game: game.name, gameId: game.id, targetResolution, qualityPreset, estimatedFps: null, performanceLevel: 'unavailable', meetsMinimumRequirements: null, meetsRecommendedRequirements: null, summary: unavailable.message, technicalDetails: { compatibility, weightedPerformanceIndex: null } };
+  const components = usesIntegratedGraphics(buildInput) ? selectBuildComponents(buildInput) : mapSimulationComponents(buildInput);
   const performanceParameters = mapPerformanceParameters(components);
+  const integrated = usesIntegratedGraphics(components);
+  const estimation = estimationDetails(performanceParameters, { integrated, compatibility });
   const details = buildRequirementDetails({ game, performanceParameters });
   const meetsMinimumRequirements = Object.values(details).every((status) => status !== 'belowMinimum');
   const meetsRecommendedRequirements = Object.values(details).every((status) => status === 'recommended');
@@ -68,13 +66,18 @@ export function simulateGamePerformance(simulationInput) {
     storageScore: performanceParameters.storage.performanceScore,
     game
   });
-  const estimatedFps = estimateFps({
+  let estimatedFps = estimateFps({
     baseFpsReference: game.baseFpsReference,
     weightedPerformanceIndex,
     targetResolution,
     qualityPreset,
     bottleneckPenalty
   });
+  if (estimation.confidence === 'low') {
+    const gpuCeiling = game.baseFpsReference * getGamingScore(performanceParameters.gpu) / game.recommendedGpuScore
+      * 1.35 * getResolutionMultiplier(targetResolution) * getQualityPresetMultiplier(qualityPreset);
+    estimatedFps = Math.max(1, Math.round(Math.min(estimatedFps, gpuCeiling)));
+  }
   const performanceLevel = getPerformanceLevel({
     estimatedFps,
     meetsMinimumRequirements,
@@ -87,7 +90,7 @@ export function simulateGamePerformance(simulationInput) {
     gameId: game.id,
     targetResolution,
     qualityPreset,
-    estimatedFps,
+    available: true, estimatedFps, estimatedFpsRange: estimatedRange(estimatedFps, estimation), estimation,
     performanceLevel,
     meetsMinimumRequirements,
     meetsRecommendedRequirements,
@@ -167,14 +170,9 @@ function mapSimulationComponents(buildInput) {
 }
 
 function mapPerformanceParameters(components) {
-  const parametersBySlot = requiredSimulationSlots.reduce((parameters, slot) => ({
-    ...parameters,
-    [slot]: findPerformanceParametersByComponentId(components[slot].id)
-  }), {});
-
-  validatePerformanceParameters(parametersBySlot);
-
-  return parametersBySlot;
+  const parameters = estimateBuildParameters(components, requiredSimulationSlots);
+  validatePerformanceParameters(parameters);
+  return parameters;
 }
 
 function buildRequirementDetails({ game, performanceParameters }) {
@@ -269,10 +267,13 @@ function formatGameComparisonResult(simulation) {
   return {
     performanceBasis: simulation.performanceBasis,
     performanceMethodology: simulation.performanceMethodology,
-    ...(simulation.available === false ? { available: false, reason: simulation.reason } : {}),
+    available: simulation.available !== false,
+    ...(simulation.available === false ? { reason: simulation.reason } : {}),
     gameId: simulation.gameId,
     gameName: simulation.game,
     estimatedFps: simulation.estimatedFps,
+    estimatedFpsRange: simulation.estimatedFpsRange,
+    estimation: simulation.estimation,
     performanceLevel: simulation.performanceLevel,
     meetsMinimumRequirements: simulation.meetsMinimumRequirements,
     meetsRecommendedRequirements: simulation.meetsRecommendedRequirements

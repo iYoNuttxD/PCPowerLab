@@ -4,7 +4,7 @@ import { formatCurrency } from '../../utils/formatCurrency.js';
 import { knownPriceSubtotal } from '../../utils/referencePricing.js';
 import { optionalWizardSteps, requiredWizardSteps, wizardLabels, wizardSteps } from '../../utils/wizardSteps.js';
 
-export default function WizardNavigation({ currentStep, completedSteps, canAdvance, guidance, onStepChange, onSummary, controlsRef, nextStep, budget, totalPrice, selectedComponents, onEditBudget }) {
+export default function WizardNavigation({ currentStep, completedSteps, canAdvance, summaryReady = true, guidance, onStepChange, onSummary, controlsRef, nextStep, budget, totalPrice, selectedComponents, onEditBudget }) {
   const stepIndex = wizardSteps.indexOf(currentStep);
   const optional = optionalWizardSteps.includes(currentStep);
   const budgetAmount = Number(budget?.amount);
@@ -79,7 +79,7 @@ export default function WizardNavigation({ currentStep, completedSteps, canAdvan
                 {optional ? 'Continuar' : 'Avançar'} <ArrowRight size={18} aria-hidden="true" />
               </Button>
             ) : (
-              <Button onClick={onSummary} aria-describedby="wizard-guidance">Ir para resumo <ArrowRight size={18} aria-hidden="true" /></Button>
+              <Button disabled={!summaryReady} onClick={onSummary} aria-describedby="wizard-guidance">Ir para resumo <ArrowRight size={18} aria-hidden="true" /></Button>
             )}
           </div>
         </div>

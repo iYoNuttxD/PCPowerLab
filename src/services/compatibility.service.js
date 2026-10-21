@@ -1,6 +1,5 @@
 import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
-import { integratedCpuEvidence, integratedDisplayEvidence } from '../data/integratedGraphicsEvidence.js';
-import { publishedCpuBiosSupport } from '../data/cpuBiosSupport.js';
+import { integratedCpuEvidence, integratedDisplayEvidence, integratedGraphicsCapability } from '../data/integratedGraphicsEvidence.js';
 import { selectBuildComponents } from './build.service.js';
 import { summarizeBuildPricing } from './marketPriceService.js';
 import { checkCoolingCompatibility, getCoolingPower } from './cooling.service.js';
@@ -98,7 +97,7 @@ function validatePsu(build, alerts, unverifiedChecks) {
   }
   const cpuTdp = build.cpu.specs.tdpWatts || 0;
   const gpuRecommendedPsu = build.gpu.specs.recommendedPsuWatts || 0;
-  const minimumRecommended = Math.max(gpuRecommendedPsu, cpuTdp + 350) + getCoolingPower(build).knownWatts;
+  const minimumRecommended = Math.max(gpuRecommendedPsu, cpuTdp) + getCoolingPower(build).knownWatts;
 
   if (build.psu.specs.watts < minimumRecommended) {
     alerts.push({
@@ -165,7 +164,6 @@ function validateReplacementDependencies(build, alerts, unverifiedChecks) {
 
 
 const MARKET_REVALIDATION = '2026-10-08-market-revalidation';
-const V3_TARGETED_EXPANSION = '2026-10-20-v3-targeted-expansion';
 const revalidated = (component) => component.catalogRevision === MARKET_REVALIDATION;
 const hasField = (specs, field) => Object.hasOwn(specs, field);
 const positiveNumber = (value) => Number.isFinite(value) && value > 0;
@@ -233,41 +231,22 @@ function validateReplacementPowerAndFit(build, alerts, unverifiedChecks) {
       conflict('CASE_PSU_LENGTH_INCOMPATIBLE', 'O comprimento da fonte excede o espaço declarado do gabinete.');
     }
   }
-  // Newly admitted CPU generations must not inherit an old board's unchecked
-  // socket-only verdict. Their minimum/installed BIOS evidence stays pending.
-  if (revalidated(build.motherboard) || build.cpu.catalogRevision === V3_TARGETED_EXPANSION
-    || build.cpu.catalogRevision === '2026-10-21-feedback-followup'
-    || hasField(board, 'minimumBiosByCpu') || hasField(board, 'installedBiosVersion')) {
-    const minimums = board.minimumBiosByCpu;
-    const published = publishedCpuBiosSupport(build.cpu, build.motherboard);
-    const minimum = minimums?.[build.cpu.id] ?? minimums?.[build.cpu.specs.family] ?? published?.minimumVersion;
-    const comparison = compareBiosVersions(board.installedBiosVersion, minimum);
-    if (comparison === null) {
-      unknown('CPU_BIOS_UNVERIFIED', minimum ? `Este processador exige BIOS ${minimum} ou posterior nesta placa; a versão instalada não foi confirmada.` : 'BIOS instalado ou versão mínima para este processador não confirmados; socket igual não confirma suporte.');
-    } else if (comparison < 0) {
-      conflict('CPU_BIOS_BELOW_MINIMUM', `A BIOS instalada é anterior à versão mínima ${minimum} para este processador.`);
-    }
+  // BIOS of a future purchased unit is not a comparison criterion. Known
+  // chipset exclusions remain factual alerts; incomplete data stays advisory.
+  if (board.chipset === 'B550' && /(?:3200G|3400G)/i.test(build.cpu.name || '')) {
+    conflict('CPU_CHIPSET_INCOMPATIBLE', 'O chipset B550 não suporta Ryzen 3200G/3400G. Você pode continuar com um cenário teórico ou trocar a placa-mãe.');
   }
-}
-
-function compareBiosVersions(installed, minimum) {
-  if (typeof installed !== 'string' || typeof minimum !== 'string' || !installed.trim() || !minimum.trim()) return null;
-  // Only stable, same-scheme numeric releases have an ordering here. Beta labels,
-  // different prefixes and arbitrary vendor labels cannot establish support.
-  const actual = /^(F|P)?(\d+)(?:\.(\d+))?$/i.exec(installed.trim());
-  const required = /^(F|P)?(\d+)(?:\.(\d+))?$/i.exec(minimum.trim());
-  if (!actual || !required || (actual[1] || '').toUpperCase() !== (required[1] || '').toUpperCase()) return null;
-  return Number(actual[2]) - Number(required[2]) || Number(actual[3] || 0) - Number(required[3] || 0);
 }
 
 function validateGraphicsPath(build, alerts, unverifiedChecks) {
   if (!usesIntegratedGraphics(build)) return;
   const cpu = integratedCpuEvidence(build.cpu);
   const board = integratedDisplayEvidence(build.motherboard);
-  if (!cpu) unverifiedChecks.push({ code: 'INTEGRATED_GPU_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Vídeo integrado não confirmado para esta CPU exata. Uma saída na placa-mãe não cria uma GPU.' });
+  if (integratedGraphicsCapability(build.cpu) === 'absent') alerts.push({ code: 'CPU_HAS_NO_INTEGRATED_GRAPHICS', severity: 'high', message: 'Esta CPU não oferece vídeo integrado. Sem uma GPU dedicada não haverá imagem; a estimativa é apenas teórica.' });
+  else if (!cpu) unverifiedChecks.push({ code: 'INTEGRATED_GPU_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Vídeo integrado não confirmado para esta CPU exata. Uma saída na placa-mãe não cria uma GPU.' });
   if (!board?.outputs.length) unverifiedChecks.push({ code: 'MOTHERBOARD_VIDEO_OUTPUT_UNVERIFIED', severity: 'medium', verification: 'unverified', message: 'Saída de vídeo da placa-mãe não confirmada para esta montagem sem GPU dedicada.' });
   if (cpu && board) {
-    // BIOS is checked separately. Published ports do not prove installed firmware.
+    // Published display capabilities are independent of installed firmware.
     build.graphicsAssessment = { model: cpu.model, outputs: board.outputs, sourceUrls: [cpu.sourceUrl, board.sourceUrl], memory: 'shared-system-ram' };
   }
 }

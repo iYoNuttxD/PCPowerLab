@@ -17,3 +17,11 @@ export function integratedDisplayEvidence(board) {
     note: 'Conecte o monitor na placa-mãe; capacidade de resolução depende da saída, CPU e monitor. Não é desempenho de jogo.' };
   return null;
 }
+
+// Absence of a capability record is unknown, not a reason to exclude a CPU.
+// Explicit model suffixes below describe families sold without integrated video.
+export function integratedGraphicsCapability(cpu) {
+  if (integratedCpuEvidence(cpu) || (typeof cpu?.specs?.integratedGraphics === 'string' && cpu.specs.integratedGraphics.trim() && !/^(none|no|não|sem)$/i.test(cpu.specs.integratedGraphics.trim()))) return 'supported';
+  if (cpu?.specs?.integratedGraphics === false || /^(none|no|não|sem)$/i.test(String(cpu?.specs?.integratedGraphics || '')) || /Intel.*\b\d{4,5}(?:K?F)\b/i.test(cpu?.name || '') || /Ryzen\s+[3579]\s+(?:3600|4500|5500|5600X?|5700X?|5800X(?:3D)?|5900X|5950X)\b/i.test(cpu?.name || '')) return 'absent';
+  return 'unknown';
+}

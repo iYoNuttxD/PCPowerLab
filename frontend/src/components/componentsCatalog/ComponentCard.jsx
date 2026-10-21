@@ -117,12 +117,12 @@ export default function ComponentCard({ component, onSelect, onLinks, onCompare,
 }
 
 export function PerformanceModelNotice({ component }) {
-  if (component?.performanceModelStatus !== 'unavailable') return null;
+  if (!['unavailable', 'estimated'].includes(component?.performanceModelStatus)) return null;
   const research = performanceResearchFor(component);
   return <section aria-label="Limites do modelo de desempenho">
-    <h3>Desempenho não estimado</h3>
+    <h3>Desempenho aproximado</h3>
     <p>{typeof component.performanceModelNotes === 'string' && component.performanceModelNotes.trim()
-      ? component.performanceModelNotes : 'Não há modelo de desempenho disponível para este componente.'}</p>
-    {research && <details><summary>Consultar testes externos deste modelo</summary><p>{research.scope}</p><a href={research.url} target="_blank" rel="noopener noreferrer">{research.source} (abre outra aba)</a><p className="hint-text">Referência para leitura. Esses testes não calibram a simulação do PCPowerLab.</p></details>}
+      ? component.performanceModelNotes : 'A simulação usa uma aproximação de família ou classe, com faixa ampliada de resultados.'}</p>
+    {research && <details><summary>Consultar testes externos deste modelo</summary><p>{research.scope}</p><a href={research.url} target="_blank" rel="noopener noreferrer">{research.source} (abre outra aba)</a><p className="hint-text">Referência para leitura. Não representam medições realizadas pelo PCPowerLab.</p></details>}
   </section>;
 }

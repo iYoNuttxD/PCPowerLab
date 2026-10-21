@@ -1,8 +1,9 @@
 import { performanceMetadata } from '../utils/performanceMethodology.js';
-import { unavailablePerformance } from '../utils/performanceAvailability.js';
+import { estimateBuildParameters } from './estimatedParametersService.js';
+import { estimationDetails } from '../utils/estimatedPerformance.js';
+import { usesIntegratedGraphics } from '../utils/graphicsSelection.js';
 import { getCoolingPower } from './cooling.service.js';
 import { selectBuildComponents } from './build.service.js';
-import { findPerformanceParametersByComponentId } from './performanceParametersService.js';
 import {
   bottleneckThresholds,
   calculateEstimatedConsumptionWatts,
@@ -16,8 +17,6 @@ const componentsWithRequiredPerformanceScore = ['cpu', 'gpu', 'ram', 'storage'];
 
 export function analyzeBuildBottlenecks(selectionInput) {
   const build = selectBuildComponents(selectionInput);
-  const unavailable = unavailablePerformance(build);
-  if (unavailable) return { ...performanceMetadata(build), ...unavailable, hasBottleneck: null, overallBalance: 'unavailable', bottlenecks: [], performanceSummary: null };
   const performanceParameters = mapPerformanceParameters(build);
   const coolingPower = getCoolingPower(build);
 
@@ -32,6 +31,7 @@ export function analyzeBuildBottlenecks(selectionInput) {
 
   return {
     ...performanceMetadata(build),
+    available: true, estimation: estimationDetails(performanceParameters, { integrated: usesIntegratedGraphics(build) }),
     hasBottleneck: bottlenecks.length > 0,
     overallBalance: getOverallBalance(bottlenecks),
     bottlenecks,
@@ -40,12 +40,7 @@ export function analyzeBuildBottlenecks(selectionInput) {
 }
 
 function mapPerformanceParameters(build) {
-  return requiredPerformanceParameterSlots.reduce((parametersBySlot, slot) => ({
-    ...parametersBySlot,
-    [slot]: slot === 'psu' && build[slot].catalogRevision === '2026-10-08-market-revalidation'
-      ? { type: 'psu', wattage: build[slot].specs.watts, capacityOnly: true }
-      : findPerformanceParametersByComponentId(build[slot].id)
-  }), {});
+  return estimateBuildParameters(build, requiredPerformanceParameterSlots);
 }
 
 function analyzeCpuGpuBalance(performanceParameters) {

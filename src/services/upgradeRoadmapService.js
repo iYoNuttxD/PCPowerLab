@@ -116,7 +116,7 @@ function buildRoadmapSteps({ suggestions, initialBuildIds, totalBudget, maxSteps
     };
     const compatibilityAfterStep = runOptionalAnalysis(() => checkBuildCompatibility(buildIdsAfterStep), null);
 
-    if (!compatibilityAfterStep?.compatible) {
+    if (!compatibilityAfterStep || compatibilityAfterStep.alerts?.length > 0) {
       continue;
     }
 

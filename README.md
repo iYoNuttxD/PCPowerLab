@@ -1,6 +1,6 @@
 # PCPowerLab
 
-> V3 em revisão: [correções do ciclo 2 e limites de validação](docs/RA2-V3-CICLO2.md). [Validação no Mac](docs/V3-MAC-BROWSER-VALIDATION.md): 305 E2E aprovados, 1 skip esperado e 18 integrações aprovadas, com inspeção no Chrome e zoom nativo de 200%. O ciclo 3 com participantes e a calibração de novos modelos continuam pendentes.
+> V3 em revisão na PR #47: [contrato atual de estimativas não bloqueantes e UI enxuta](docs/V3-NONBLOCKING-VALIDATION.md) e [matriz completa dos 67 sinais](docs/V3-FEEDBACK-FOLLOWUP.md). Dados ausentes não impedem montar, recomendar ou estimar; conflitos conhecidos permitem fluxo manual com alerta. FPS/temperatura/ruído são cenários aproximados, não medições. O [registro anterior no Mac](docs/V3-MAC-BROWSER-VALIDATION.md) é histórico, inclusive o zoom nativo de 200%; não certifica os últimos ajustes. Sem merge/deploy ou homologação humana do ciclo 3.
 
 > [Consolidação técnica da base V2](docs/RA2-CONSOLIDACAO-FINAL.md): catálogo, pontuações, refrigeração, revisão de interface e evidências por fonte. Na base V2, navegador ef7f: 267 E2E aprovados, 1 skip e 18 integrações aprovadas; revisão focal ac27 em cinco larguras aprovada. Consolidação visual/cores/zoom pendente; **NÃO HOMOLOGADA integralmente**.
 

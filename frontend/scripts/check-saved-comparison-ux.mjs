@@ -107,7 +107,7 @@ try {
   fixture.services.sharingService.get = async () => ({ name: 'Recuperada', buildSummary: { components, totalEstimatedPrice: 700, compatibility: { status: 'compatible', compatible: true, alerts: [] } } });
   named(tree, 'ErrorState')[0].props.onRetry(); shared.render(); await tick(); tree = shared.render();
   sharedMarkup = render(tree);
-  assert(sharedMarkup.includes('Recuperada')); assert(sharedMarkup.includes('Build compatível')); assert(sharedMarkup.includes('share-retry'));
+  assert(sharedMarkup.includes('Recuperada')); assert(sharedMarkup.includes('Nenhum conflito nos dados disponíveis')); assert(sharedMarkup.includes('share-retry'));
   shared.close();
   for (const compatibility of [null, {}, [], 'compatible', { status: 'unknown' }, { compatible: 'true' }]) {
     fixture.services.sharingService.get = async () => ({ buildSummary: { components, compatibility } });
@@ -116,7 +116,7 @@ try {
     assert(!absentMarkup.includes('incompatibilidades encontradas')); assert(!absentMarkup.includes('Build compatível'));
     absent.close();
   }
-  for (const [status, expected] of [['compatible', 'Build compatível'], ['unverified', 'Compatibilidade não verificada'], ['incompatible', 'incompatibilidades encontradas']]) {
+  for (const [status, expected] of [['compatible', 'Nenhum conflito nos dados disponíveis'], ['unverified', 'Nenhum conflito nos dados disponíveis'], ['incompatible', 'Confira um conflito entre as peças']]) {
     fixture.services.sharingService.get = async () => ({ buildSummary: { components, compatibility: { status } } });
     const recognized = runtime(SharedBuild); recognized.render(); await tick(); const recognizedMarkup = render(recognized.render());
     assert(recognizedMarkup.includes(expected), status); assert(!recognizedMarkup.includes('não inclui uma análise'));

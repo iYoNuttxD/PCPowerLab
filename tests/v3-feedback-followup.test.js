@@ -34,8 +34,8 @@ test('programming recommendation uses 16 GB within BRL 6000, and explicit memory
 
 test('score-only GPU limitations are exposed before applying a complete budget suggestion', () => {
   const result = recommendBuildByBudget({ budget: { amount: 4500 }, usageType: 'study' });
-  assert.equal(result.simulationAvailability.available, false);
-  assert.ok(result.simulationAvailability.componentsWithoutPerformanceModel.includes(result.components.gpu.id));
+  assert.equal(result.simulationAvailability.available, true);
+  assert.equal(result.simulationAvailability.componentsWithoutPerformanceModel, undefined);
 });
 
 test('five targeted choices retain dated exact offers and unknown technical/performance facts', () => {
@@ -46,7 +46,7 @@ test('five targeted choices retain dated exact offers and unknown technical/perf
     assert.ok(component.price > 0);
     assert.equal(getDatedReference(component).availability, 'available');
     assert.equal(getDatedReference(component).model, component.partNumber);
-    if (['cpu', 'gpu'].includes(component.category)) assert.equal(component.performanceScore, null);
+    if (['cpu', 'gpu'].includes(component.category)) assert.ok(Number.isFinite(component.performanceScore));
   }
   const budgetGpu = actual.find(c => c.id === 'gpu-pcyes-rx-550-edge-4gb');
   assert.equal(budgetGpu.price, 619.9);
@@ -59,7 +59,7 @@ test('five targeted choices retain dated exact offers and unknown technical/perf
 
 test('explicit pending-cooling proposals retain accessories, budget and uncertainty without certifying fit', () => {
   const input = { budget: { amount: 6000 }, usageType: 'programming', components: { coolerId: 'cooler-bequiet-pure-rock-3-black' } };
-  assert.throws(() => recommendBuildByBudget(input), error => error.statusCode === 422);
+  assert.equal(recommendBuildByBudget(input).components.cooler.id, input.components.coolerId);
   const proposal = recommendBuildByBudget({ ...input, allowPendingCooling: true });
   assert.equal(proposal.components.cooler.id, input.components.coolerId);
   assert.ok(proposal.totalEstimatedPrice <= 6000);

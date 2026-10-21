@@ -37,8 +37,8 @@ test('summary compatibility distinguishes a failed check from a failed PC', () =
   const html = render('CompatibilityStatus', { result: {
     available: false, status: 'unavailable', compatible: null, alerts: [], message: 'Falha temporária na verificação.'
   } });
-  assert.match(html, /Compatibilidade temporariamente indisponível/);
-  assert.match(html, /Isso não confirma incompatibilidade nem falta de peças/);
+  assert.match(html, /Conferência temporariamente indisponível/);
+  assert.match(html, /As estimativas e as peças continuam disponíveis/);
   assert.doesNotMatch(html, /incompatibilidades encontradas|0 alerta/);
 });
 
@@ -47,9 +47,9 @@ test('summary compatibility pending technical data does not imply incomplete sel
     compatible: false, status: 'unverified', alerts: [],
     unverifiedChecks: [{ code: 'CPU_BIOS_UNVERIFIED', message: 'Confirme a versão da BIOS.' }]
   } });
-  assert.match(html, /Verificações pendentes/);
-  assert.match(html, /não necessariamente peças na montagem/);
-  assert.match(html, /Confirme a versão da BIOS/);
+  assert.match(html, /Nenhum conflito nos dados disponíveis/);
+  assert.match(html, /Você pode continuar/);
+  assert.doesNotMatch(html, /Confirme a versão da BIOS/);
   assert.doesNotMatch(html, /Dados insuficientes/);
 });
 
